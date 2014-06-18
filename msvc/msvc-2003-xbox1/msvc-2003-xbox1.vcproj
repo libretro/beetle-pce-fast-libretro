@@ -242,9 +242,6 @@
 					RelativePath="..\..\..\mednafen\okiadpcm.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\player.cpp">
-				</File>
-				<File
 					RelativePath="..\..\..\mednafen\settings.cpp">
 				</File>
 				<File

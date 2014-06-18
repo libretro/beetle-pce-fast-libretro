@@ -230,9 +230,6 @@
     <ClCompile Include="..\..\..\mednafen\cputest\cputest.c">
       <Filter>Source Files\mednafen\cputest</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\player.cpp">
-      <Filter>Source Files\mednafen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\pce_fast\hes.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>

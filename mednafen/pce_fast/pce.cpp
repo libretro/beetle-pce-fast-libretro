@@ -22,7 +22,6 @@
 #include "huc.h"
 #include "pcecd.h"
 #include "pcecd_drive.h"
-#include "hes.h"
 #include "../hw_misc/arcade_card/arcade_card.h"
 #include "../mempatcher.h"
 #include "../cdrom/cdromif.h"
@@ -220,15 +219,6 @@ static int Load(const char *name, MDFNFILE *fp)
 
  uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
-
-#ifdef HAVE_HES
- if(IsHES)
- {
-  if(!PCE_HESLoad(GET_FDATA_PTR(fp), GET_FSIZE_PTR(fp)))
-   return(0);
- }
- else
-#endif
   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
 
  if(!strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
@@ -454,11 +444,6 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 
 static void CloseGame(void)
 {
-#ifdef HAVE_HES
- if(IsHES)
-  HES_Close();
- else
-#endif
  {
   HuCClose();
  }
@@ -560,11 +545,6 @@ static void Emulate(EmulateSpecStruct *espec)
 
  if(PCE_IsCD)
   PCECD_ResetTS();
-
-#ifdef HAVE_HES
- if(IsHES && !espec->skip)
-  HES_Draw(espec->surface, &espec->DisplayRect, espec->SoundBuf, espec->SoundBufSize);
-#endif
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
@@ -605,11 +585,6 @@ void PCE_Power(void)
    BaseRAM[i] = 0xFF;
 
  PCEIODataBuffer = 0xFF;
-
-#ifdef HAVE_HES
- if(IsHES)
-  HES_Reset();
-#endif
 
  HuC6280_Power();
  VDC_Power();
