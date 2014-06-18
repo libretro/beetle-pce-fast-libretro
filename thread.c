@@ -1,130 +1,29 @@
-#include "mednafen/mednafen-types.h"
-#include "mednafen/mednafen.h"
-#include "mednafen/md5.h"
-#include "mednafen/git.h"
-#include "mednafen/general.h"
-#include "mednafen/mednafen-driver.h"
-
-#include "libretro.h"
-
-extern retro_log_printf_t log_cb;
-
-#if defined(__CELLOS_LV2__)
-#include <sys/timer.h>
-#include <ppu_intrinsics.h>
-#endif
-
-#ifdef _WIN32
-#include <io.h>
-#ifdef _XBOX
-#include <xtl.h>
-#else
-#include <windows.h>
-#endif
-#else
-#include <unistd.h>
-#endif
-
-#include <iostream>
-
-// Stubs
-
-extern std::string retro_base_directory;
-extern std::string retro_base_name;
-extern std::string retro_save_directory;
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
-
-// Use a simpler approach to make sure that things go right for libretro.
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
-{
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
-   std::string ret;
-   switch (type)
-   {
-      case MDFNMKF_SAV:
-         ret = retro_save_directory +slash + retro_base_name +
-            std::string(".") +
-#ifndef _XBOX
-	    md5_context::asciistr(MDFNGameInfo->MD5, 0) + std::string(".") +
-#endif
-            std::string(cd1);
-         break;
-      case MDFNMKF_FIRMWARE:
-         ret = retro_base_directory + slash + std::string(cd1);
-#ifdef _WIN32
-   sanitize_path(ret); // Because Windows path handling is mongoloid.
-#endif
-         break;
-      default:	  
-         break;
-   }
-
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "MDFN_MakeFName: %s\n", ret.c_str());
-   return ret;
-}
-
-void MDFND_DispMessage(unsigned char *str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
-void MDFND_Message(const char *str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
-void MDFND_MidSync(const EmulateSpecStruct *)
-{}
-
-void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
-{
- //MDFND_MidLineUpdate(espec, y);
-}
-
-void MDFND_PrintError(const char* err)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_ERROR, "%s\n", err);
-}
-
-void MDFND_Sleep(unsigned int time)
-{
-#if defined(_WIN32)
-   Sleep(time);
-#elif defined(__CELLOS_LV2__)
-   sys_timer_usleep(time * 1000);
-#else
-   usleep(time * 1000);
-#endif
-}
-
-#ifdef WANT_THREADING
+/*  RetroArch - A frontend for libretro.
+ *  Copyright (C) 2010-2014 - Hans-Kristian Arntzen
+ *  Copyright (C) 2011-2014 - Daniel De Matteis
+ * 
+ *  RetroArch is free software: you can redistribute it and/or modify it under the terms
+ *  of the GNU General Public License as published by the Free Software Found-
+ *  ation, either version 3 of the License, or (at your option) any later version.
+ *
+ *  RetroArch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ *  PURPOSE.  See the GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along with RetroArch.
+ *  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include "thread.h"
 #include <stdlib.h>
 
-#if defined(_WIN32) && !defined(_XBOX)
+#if defined(_WIN32)
+#ifdef _XBOX
+#include <xtl.h>
+#else
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#elif defined(_XBOX)
-#include <xtl.h>
+#endif
 #elif defined(GEKKO)
 #include "thread/gx_pthread.h"
 #else
@@ -185,6 +84,13 @@ sthread_t *sthread_create(void (*thread_func)(void*), void *userdata)
    return thread;
 }
 
+int sthread_detach(sthread_t *thread)
+{
+   CloseHandle(thread->thread);
+   free(thread);
+   return 0;
+}
+
 void sthread_join(sthread_t *thread)
 {
    WaitForSingleObject(thread->thread, INFINITE);
@@ -194,7 +100,7 @@ void sthread_join(sthread_t *thread)
 
 struct slock
 {
-   CRITICAL_SECTION lock;
+   HANDLE lock;
 };
 
 slock_t *slock_new(void)
@@ -203,24 +109,29 @@ slock_t *slock_new(void)
    if (!lock)
       return NULL;
 
-   InitializeCriticalSection(&lock->lock);
+   lock->lock = CreateMutex(NULL, FALSE, "");
+   if (!lock->lock)
+   {
+      free(lock);
+      return NULL;
+   }
    return lock;
 }
 
 void slock_free(slock_t *lock)
 {
-   DeleteCriticalSection(&lock->lock);
+   CloseHandle(lock->lock);
    free(lock);
 }
 
 void slock_lock(slock_t *lock)
 {
-   EnterCriticalSection(&lock->lock);
+   WaitForSingleObject(lock->lock, INFINITE);
 }
 
 void slock_unlock(slock_t *lock)
 {
-   LeaveCriticalSection(&lock->lock);
+   ReleaseMutex(lock->lock);
 }
 
 struct scond
@@ -247,19 +158,17 @@ scond_t *scond_new(void)
 void scond_wait(scond_t *cond, slock_t *lock)
 {
    WaitForSingleObject(cond->event, 0);
-   slock_unlock(lock);
 
-   WaitForSingleObject(cond->event, INFINITE);
+   SignalObjectAndWait(lock->lock, cond->event, INFINITE, FALSE);
 
    slock_lock(lock);
 }
 
-int scond_wait_timeout(scond_t *cond, slock_t *lock, unsigned timeout_ms)
+bool scond_wait_timeout(scond_t *cond, slock_t *lock, int64_t timeout_us)
 {
    WaitForSingleObject(cond->event, 0);
-   slock_unlock(lock);
 
-   DWORD res = WaitForSingleObject(cond->event, timeout_ms);
+   DWORD res = SignalObjectAndWait(lock->lock, cond->event, (DWORD)(timeout_us) / 1000, FALSE);
 
    slock_lock(lock);
    return res == WAIT_OBJECT_0;
@@ -268,6 +177,13 @@ int scond_wait_timeout(scond_t *cond, slock_t *lock, unsigned timeout_ms)
 void scond_signal(scond_t *cond)
 {
    SetEvent(cond->event);
+}
+
+/* FIXME - check how this function should differ from scond_signal implementation */
+int scond_broadcast(scond_t *cond)
+{
+   SetEvent(cond->event);
+   return 0;
 }
 
 void scond_free(scond_t *cond)
@@ -315,6 +231,11 @@ sthread_t *sthread_create(void (*thread_func)(void*), void *userdata)
    }
 
    return thr;
+}
+
+int sthread_detach(sthread_t *thread)
+{
+   return pthread_detach(thread->id);
 }
 
 void sthread_join(sthread_t *thread)
@@ -390,6 +311,48 @@ void scond_wait(scond_t *cond, slock_t *lock)
    pthread_cond_wait(&cond->cond, &lock->lock);
 }
 
+int scond_broadcast(scond_t *cond)
+{
+   return pthread_cond_broadcast(&cond->cond);
+}
+
+bool scond_wait_timeout(scond_t *cond, slock_t *lock, int64_t timeout_us)
+{
+   struct timespec now = {0};
+
+#ifdef __MACH__ // OSX doesn't have clock_gettime ... :(
+   clock_serv_t cclock;
+   mach_timespec_t mts;
+   host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+   clock_get_time(cclock, &mts);
+   mach_port_deallocate(mach_task_self(), cclock);
+   now.tv_sec = mts.tv_sec;
+   now.tv_nsec = mts.tv_nsec;
+#elif defined(__CELLOS_LV2__)
+   sys_time_sec_t s;
+   sys_time_nsec_t n;
+   sys_time_get_current_time(&s, &n);
+   now.tv_sec  = s;
+   now.tv_nsec = n;
+#elif defined(__mips__)
+   struct timeval tm;
+   gettimeofday(&tm, NULL);
+   now.tv_sec = tm.tv_sec;
+   now.tv_nsec = tm.tv_usec * 1000;
+#elif !defined(GEKKO) // timeout on libogc is duration, not end time
+   clock_gettime(CLOCK_REALTIME, &now);
+#endif
+
+   now.tv_sec += timeout_us / 1000000LL;
+   now.tv_nsec += timeout_us * 1000LL;
+
+   now.tv_sec += now.tv_nsec / 1000000000LL;
+   now.tv_nsec = now.tv_nsec % 1000000000LL;
+
+   int ret = pthread_cond_timedwait(&cond->cond, &lock->lock, &now);
+   return ret == 0;
+}
+
 void scond_signal(scond_t *cond)
 {
    pthread_cond_signal(&cond->cond);
@@ -397,47 +360,3 @@ void scond_signal(scond_t *cond)
 
 #endif
 
-MDFN_Thread *MDFND_CreateThread(int (*fn)(void *), void *data)
-{
-   return (MDFN_Thread*)sthread_create((void (*)(void*))fn, data);
-}
-
-void MDFND_WaitThread(MDFN_Thread *thr, int *val)
-{
-   sthread_join((sthread_t*)thr);
-
-   if (val)
-   {
-      *val = 0;
-      fprintf(stderr, "WaitThread relies on return value.\n");
-   }
-}
-
-void MDFND_KillThread(MDFN_Thread *)
-{
-   fprintf(stderr, "Killing a thread is a BAD IDEA!\n");
-}
-
-MDFN_Mutex *MDFND_CreateMutex()
-{
-   return (MDFN_Mutex*)slock_new();
-}
-
-void MDFND_DestroyMutex(MDFN_Mutex *lock)
-{
-   slock_free((slock_t*)lock);
-}
-
-int MDFND_LockMutex(MDFN_Mutex *lock)
-{
-   slock_lock((slock_t*)lock);
-   return 0;
-}
-
-int MDFND_UnlockMutex(MDFN_Mutex *lock)
-{
-   slock_unlock((slock_t*)lock);
-   return 0;
-}
-
-#endif

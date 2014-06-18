@@ -107,7 +107,7 @@
     <ClCompile Include="..\..\..\mednafen\sound\Blip_Buffer.cpp">
       <Filter>Source Files\mednafen\sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\stubs.cpp">
+    <ClCompile Include="..\..\..\thread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\libretro.cpp">

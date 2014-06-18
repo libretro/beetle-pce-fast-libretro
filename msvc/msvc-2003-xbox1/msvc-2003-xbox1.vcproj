@@ -200,7 +200,7 @@
 				RelativePath="..\..\..\scrc32.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\stubs.cpp">
+				RelativePath="..\..\..\thread.c">
 			</File>
 			<Filter
 				Name="mednafen"
