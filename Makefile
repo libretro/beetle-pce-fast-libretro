@@ -297,8 +297,7 @@ MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/mednafen.cpp \
 
 LIBRETRO_SOURCES += libretro.cpp 
 
-TRIO_SOURCES += $(MEDNAFEN_DIR)/trio/trio.c \
-	$(MEDNAFEN_DIR)/trio/triostr.c $(MEDNAFEN_DIR)/cputest/cputest.c
+TRIO_SOURCES += $(MEDNAFEN_DIR)/trio/trio.c $(MEDNAFEN_DIR)/trio/triostr.c
 
 SOURCES_C := 	$(TREMOR_SRC) $(LIBRETRO_SOURCES_C) $(TRIO_SOURCES) $(THREAD_SOURCES)
 

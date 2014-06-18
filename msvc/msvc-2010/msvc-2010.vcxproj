@@ -25,10 +25,6 @@
     <ClCompile Include="..\..\..\mednafen\cdrom\recover-raw.cpp" />
     <ClCompile Include="..\..\..\mednafen\cdrom\scsicd.cpp" />
     <ClCompile Include="..\..\..\mednafen\cdrom\SimpleFIFO.cpp" />
-    <ClCompile Include="..\..\..\mednafen\cputest\cputest.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\endian.cpp" />
     <ClCompile Include="..\..\..\mednafen\error.cpp" />
     <ClCompile Include="..\..\..\mednafen\file.cpp" />

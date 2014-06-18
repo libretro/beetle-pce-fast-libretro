@@ -54,9 +54,6 @@
     <Filter Include="Source Files\mednafen\tremor">
       <UniqueIdentifier>{6e70f6f2-5174-46d4-9bd6-33725139e84c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mednafen\cputest">
-      <UniqueIdentifier>{f70d6936-5cd9-4fba-9309-a48fe85d6517}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\mednafen\Stream.cpp">
@@ -226,9 +223,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\tremor\vorbisfile.c">
       <Filter>Source Files\mednafen\tremor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\cputest\cputest.c">
-      <Filter>Source Files\mednafen\cputest</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\pce_fast\hes.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>

@@ -30,7 +30,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "vdc.h"
 #include "huc.h"
 #include "pcecd.h"
-#include "../cputest/cputest.h"
 #include "../FileStream.h"
 #include <trio/trio.h>
 #include <math.h>
