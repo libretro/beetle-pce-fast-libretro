@@ -339,9 +339,6 @@
 					<File
 						RelativePath="..\..\..\mednafen\sound\Blip_Buffer.cpp">
 					</File>
-					<File
-						RelativePath="..\..\..\mednafen\sound\Stereo_Buffer.cpp">
-					</File>
 				</Filter>
 				<Filter
 					Name="pce_fast"

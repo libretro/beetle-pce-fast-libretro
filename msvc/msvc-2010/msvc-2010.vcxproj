@@ -51,7 +51,6 @@
     <ClCompile Include="..\..\..\mednafen\pce_fast\vdc.cpp" />
     <ClCompile Include="..\..\..\mednafen\settings.cpp" />
     <ClCompile Include="..\..\..\mednafen\sound\Blip_Buffer.cpp" />
-    <ClCompile Include="..\..\..\mednafen\sound\Stereo_Buffer.cpp" />
     <ClCompile Include="..\..\..\mednafen\state.cpp" />
     <ClCompile Include="..\..\..\mednafen\Stream.cpp" />
     <ClCompile Include="..\..\..\mednafen\tremor\bitwise.c">

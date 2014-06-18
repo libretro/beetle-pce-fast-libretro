@@ -32,7 +32,6 @@ endif
    NEED_TREMOR = 1
    NEED_BLIP = 1
    NEED_CD = 1
-   NEED_STEREO_SOUND = 1
    NEED_SCSI_CD = 1
    NEED_THREADING = 1
    NEED_CRC32 = 1
@@ -67,10 +66,6 @@ OKIADPCM_SOURCES += $(MEDNAFEN_DIR)/okiadpcm.cpp
 
 ifeq ($(NEED_BLIP), 1)
 RESAMPLER_SOURCES += $(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp
-endif
-
-ifeq ($(NEED_STEREO_SOUND), 1)
-SOUND_DEFINE := -DWANT_STEREO_SOUND
 endif
 
 CORE_INCDIR := -I$(CORE_DIR)
@@ -289,7 +284,6 @@ MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/mednafen.cpp \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
 	$(MEDNAFEN_DIR)/video/surface.cpp \
 	$(RESAMPLER_SOURCES) \
-	$(MEDNAFEN_DIR)/sound/Stereo_Buffer.cpp \
 	$(MEDNAFEN_DIR)/file.cpp \
 	$(OKIADPCM_SOURCES) \
 	$(MEDNAFEN_DIR)/md5.cpp
