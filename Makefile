@@ -248,10 +248,6 @@ ifeq ($(NEED_CRC32), 1)
 	LIBRETRO_SOURCES += scrc32.cpp
 endif
 
-ifeq ($(NEED_DEINTERLACER), 1)
-   FLAGS += -DNEED_DEINTERLACER
-endif
-
 ifeq ($(NEED_SCSI_CD), 1)
    CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/scsicd.cpp
 endif
@@ -291,7 +287,6 @@ MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/mednafen.cpp \
 	$(MEDNAFEN_DIR)/endian.cpp \
 	$(CDROM_SOURCES) \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/video/Deinterlacer.cpp \
 	$(MEDNAFEN_DIR)/video/surface.cpp \
 	$(RESAMPLER_SOURCES) \
 	$(MEDNAFEN_DIR)/sound/Stereo_Buffer.cpp \

@@ -119,9 +119,6 @@
     <ClCompile Include="..\..\..\mednafen\video\surface.cpp">
       <Filter>Source Files\mednafen\video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\video\Deinterlacer.cpp">
-      <Filter>Source Files\mednafen\video</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\trio\triostr.c">
       <Filter>Source Files\mednafen\trio</Filter>
     </ClCompile>
