@@ -28,11 +28,6 @@ int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 uint32_t setting_pce_keepaspect = 1;
-#elif defined(WANT_PSX_EMU)
-uint32_t setting_psx_multitap_port_1 = 0;
-uint32_t setting_psx_multitap_port_2 = 0;
-uint32_t setting_psx_analog_toggle = 0;
-uint32_t setting_psx_fastboot = 1;
 #elif defined(WANT_NGP_EMU)
 uint32_t setting_ngp_language = 0;
 #elif defined(WANT_GBA_EMU)
@@ -97,9 +92,6 @@ uint64 MDFN_GetSettingUI(const char *name)
       return 4;
    if (!strcmp("wswan.slend", name))
       return 235;
-#elif defined(WANT_PSX_EMU)
-   if (!strcmp("psx.spu.resamp_quality", name)) /* make configurable */
-      return 4;
 #endif
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
@@ -114,17 +106,6 @@ int64 MDFN_GetSettingI(const char *name)
 #elif defined(WANT_PCFX_EMU)
    if (!strcmp("pcfx.cpu_emulation", name))
       return 2;
-#elif defined(WANT_PSX_EMU)
-   if (!strcmp("psx.region_default", name)) /* make configurable */
-      return 1; /* REGION_JP = 0, REGION_NA = 1, REGION_EU = 2 */
-   if (!strcmp("psx.slstart", name))
-      return 0;
-   if (!strcmp("psx.slstartp", name))
-      return 0;
-   if (!strcmp("psx.slend", name))
-      return 239;
-   if (!strcmp("psx.slendp", name))
-      return 287;
 #elif defined(WANT_WSWAN_EMU)
    if (!strcmp("wswan.sex", name))
       return 0;
@@ -137,10 +118,7 @@ int64 MDFN_GetSettingI(const char *name)
 
 double MDFN_GetSettingF(const char *name)
 {
-#if defined(WANT_PSX_EMU)
-   if (!strcmp("psx.input.mouse_sensitivity", name))
-      return 1.00; /* TODO - make configurable */
-#elif defined(WANT_PCFX_EMU)
+#if defined(WANT_PCFX_EMU)
    if (!strcmp("pcfx.resamp_rate_error", name))
       return 0.0000009;
    if (!strcmp("pcfx.mouse_sensitivity", name))
@@ -209,33 +187,6 @@ bool MDFN_GetSettingB(const char *name)
       return 0;
    if (!strcmp("pce_fast.correct_aspect", name))
       return setting_pce_keepaspect;
-#elif defined(WANT_PSX_EMU)
-   if (!strcmp("psx.input.port1.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port2.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port3.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port4.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port5.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port6.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port7.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.port8.memcard", name))
-      return 1;
-   if (!strcmp("psx.input.pport1.multitap", name)) /* make configurable */
-      return setting_psx_multitap_port_1;
-   if (!strcmp("psx.input.pport2.multitap", name)) /* make configurable */
-      return setting_psx_multitap_port_2;
-   if (!strcmp("psx.region_autodetect", name)) /* make configurable */
-      return 1;
-   if (!strcmp("psx.input.analog_mode_ct", name)) /* make configurable */
-      return setting_psx_analog_toggle;
-   if (!strcmp("psx.fastboot", name))
-      return setting_psx_fastboot;
 #elif defined(WANT_NGP_EMU)
    if (!strcmp("ngp.language", name))
       return setting_ngp_language;
@@ -275,15 +226,6 @@ std::string MDFN_GetSettingS(const char *name)
       return std::string("pcfx.bios");
    if (!strcmp("pcfx.fxscsi", name))
       return std::string("pcfx.fxscsi");
-#elif defined(WANT_PSX_EMU)
-   if (!strcmp("psx.bios_eu", name))
-      return std::string("scph5502.bin");
-   if (!strcmp("psx.bios_jp", name))
-      return std::string("scph5500.bin");
-   if (!strcmp("psx.bios_na", name))
-      return std::string("scph5501.bin");
-   if (!strcmp("psx.region_default", name)) /* make configurable */
-      return "na";
 #elif defined(WANT_WSWAN_EMU)
    if (!strcmp("wswan.name", name))
       return std::string("Mednafen");

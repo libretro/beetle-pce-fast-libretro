@@ -31,49 +31,7 @@ LOCAL_MODULE    := libretro
 # CD for CD-based systems in order to prevent file access delays/hiccups
 CACHE_CD = 0
 
-#if no core specified, just pick psx for now
-ifeq ($(core),)
-   core = psx
-endif
-
-ifeq ($(core), psx)
-   core = psx
-   PTHREAD_FLAGS = -pthread
-   NEED_CD = 1
-   NEED_BPP = 32
-	WANT_NEW_API = 1
-   NEED_BLIP = 1
-   NEED_DEINTERLACER = 1
-	NEED_STEREO_SOUND = 1
-	NEED_SCSI_CD = 1
-	NEED_THREADING = 1
-	NEED_TREMOR = 1
-   CORE_DEFINE := -DWANT_PSX_EMU
-   CORE_DIR := $(MEDNAFEN_DIR)/psx-09333
-   CORE_SOURCES := $(CORE_DIR)/psx.cpp \
-	$(CORE_DIR)/irq.cpp \
-	$(CORE_DIR)/timer.cpp \
-	$(CORE_DIR)/dma.cpp \
-	$(CORE_DIR)/frontio.cpp \
-	$(CORE_DIR)/sio.cpp \
-	$(CORE_DIR)/cpu.cpp \
-	$(CORE_DIR)/gte.cpp \
-	$(CORE_DIR)/dis.cpp \
-	$(CORE_DIR)/cdc.cpp \
-	$(CORE_DIR)/spu.cpp \
-	$(CORE_DIR)/gpu.cpp \
-	$(CORE_DIR)/mdec.cpp \
-	$(CORE_DIR)/input/gamepad.cpp \
-	$(CORE_DIR)/input/dualanalog.cpp \
-	$(CORE_DIR)/input/dualshock.cpp \
-	$(CORE_DIR)/input/justifier.cpp \
-	$(CORE_DIR)/input/guncon.cpp \
-	$(CORE_DIR)/input/negcon.cpp \
-	$(CORE_DIR)/input/memcard.cpp \
-	$(CORE_DIR)/input/multitap.cpp \
-	$(CORE_DIR)/input/mouse.cpp
-TARGET_NAME := mednafen_psx_libretro
-else ifeq ($(core), lynx)
+ifeq ($(core), lynx)
    core = lynx
    NEED_BPP = 32
    NEED_BLIP = 1

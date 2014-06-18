@@ -34,16 +34,6 @@ static void hookup_ports(bool force);
 
 static bool initial_ports_hookup = false;
 
-char *psx_analog_type;
-
-#ifdef WANT_PSX_EMU
-#define RETRO_DEVICE_PS1PAD       RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_JOYPAD, 0)
-#define RETRO_DEVICE_DUALANALOG   RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 0)
-#define RETRO_DEVICE_DUALSHOCK    RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 1)
-#define RETRO_DEVICE_FLIGHTSTICK  RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 2)
-#endif
-
-
 std::string retro_base_directory;
 std::string retro_base_name;
 std::string retro_save_directory;
@@ -67,22 +57,7 @@ static bool PrevInterlaced;
 static Deinterlacer deint;
 #endif
 
-#if defined(WANT_PSX_EMU)
-#define MEDNAFEN_CORE_NAME_MODULE "psx"
-#define MEDNAFEN_CORE_NAME "Mednafen PSX"
-#define MEDNAFEN_CORE_VERSION "v0.9.33.3"
-#define MEDNAFEN_CORE_EXTENSIONS "cue|toc|m3u|ccd"
-static double mednafen_psx_fps = 59.82704; // Hardcoded for NTSC atm.
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 320
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H 240
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 700
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 480
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
-#define FB_WIDTH 700
-static int mednafen_psx_fb_height;
-static bool is_pal = false;
-
-#elif defined(WANT_LYNX_EMU)
+#if defined(WANT_LYNX_EMU)
 #define MEDNAFEN_CORE_NAME_MODULE "lynx"
 #define MEDNAFEN_CORE_NAME "Mednafen Lynx"
 #define MEDNAFEN_CORE_VERSION "v0.9.32"
@@ -198,11 +173,7 @@ static bool is_pal = false;
 #endif
 
 
-#if defined(WANT_PSX_EMU)
-#define FB_MAX_HEIGHT 576
-#else
 #define FB_MAX_HEIGHT FB_HEIGHT
-#endif
 
 // Wastes a little space for NTSC PSX, but better than dynamically allocating.
 #ifdef WANT_16BPP
@@ -215,162 +186,8 @@ const char *mednafen_core_str = MEDNAFEN_CORE_NAME;
 static void check_system_specs(void)
 {
    unsigned level = 0;
-#if defined(WANT_PSX_EMU)
-   // Hints that we need a fairly powerful system to run this.
-   level = 3;
-#endif
    environ_cb(RETRO_ENVIRONMENT_SET_PERFORMANCE_LEVEL, &level);
 }
-
-#if defined(WANT_PSX_EMU)
-
-// Ugly poking. There's no public interface for this.
-#include "mednafen/psx/psx.h"
-namespace MDFN_IEN_PSX
-{
-   extern int CD_SelectedDisc;
-   extern std::vector<CDIF*> *cdifs;
-}
-
-// Poke into psx.cpp
-unsigned CalcDiscSCEx();
-using MDFN_IEN_PSX::CD_SelectedDisc;
-using MDFN_IEN_PSX::cdifs;
-
-enum
-{
- REGION_JP = 0,
- REGION_NA = 1,
- REGION_EU = 2,
-};
-
-static unsigned disk_get_num_images(void)
-{
-   return cdifs ? cdifs->size() : 0;
-}
-
-static bool eject_state;
-static bool disk_set_eject_state(bool ejected)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "[Mednafen]: Ejected: %u.\n", ejected);
-   if (ejected == eject_state)
-      return false;
-
-   game->DoSimpleCommand(ejected ? MDFN_MSC_EJECT_DISK : MDFN_MSC_INSERT_DISK);
-   eject_state = ejected;
-   return true;
-}
-
-static bool disk_get_eject_state(void)
-{
-   return eject_state;
-}
-
-static unsigned disk_get_image_index(void)
-{
-   // PSX global. Hacky.
-   return CD_SelectedDisc;
-}
-
-static bool disk_set_image_index(unsigned index)
-{
-   CD_SelectedDisc = index;
-   if (CD_SelectedDisc > disk_get_num_images())
-      CD_SelectedDisc = disk_get_num_images();
-
-   // Very hacky. CDSelect command will increment first.
-   CD_SelectedDisc--;
-
-   game->DoSimpleCommand(MDFN_MSC_SELECT_DISK);
-   return true;
-}
-
-// Mednafen PSX really doesn't support adding disk images on the fly ...
-// Hack around this.
-static void update_md5_checksum(CDIF *iface)
-{
-   uint8 LayoutMD5[16];
-   md5_context layout_md5;
-
-   layout_md5.starts();
-
-   CD_TOC toc;
-
-   iface->ReadTOC(&toc);
-
-   layout_md5.update_u32_as_lsb(toc.first_track);
-   layout_md5.update_u32_as_lsb(toc.last_track);
-   layout_md5.update_u32_as_lsb(toc.tracks[100].lba);
-
-   for (uint32 track = toc.first_track; track <= toc.last_track; track++)
-   {
-      layout_md5.update_u32_as_lsb(toc.tracks[track].lba);
-      layout_md5.update_u32_as_lsb(toc.tracks[track].control & 0x4);
-   }
-
-   layout_md5.finish(LayoutMD5);
-   memcpy(MDFNGameInfo->MD5, LayoutMD5, 16);
-   
-   std::string md5 = md5_context::asciistr(MDFNGameInfo->MD5, 0);
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "[Mednafen]: Updated md5 checksum: %s.\n", md5.c_str());
-}
-
-// Untested ...
-static bool disk_replace_image_index(unsigned index, const struct retro_game_info *info)
-{
-   if (index >= disk_get_num_images())
-      return false;
-
-   if (!eject_state)
-      return false;
-
-   if (!info)
-   {
-      delete cdifs->at(index);
-      cdifs->erase(cdifs->begin() + index);
-      if (index < CD_SelectedDisc)
-         CD_SelectedDisc--;
-      
-      // Poke into psx.cpp
-      CalcDiscSCEx();
-      return true;
-   }
-
-   try
-   {
-      CDIF *iface = CDIF_Open(info->path, false, false);
-      delete cdifs->at(index);
-      cdifs->at(index) = iface;
-      CalcDiscSCEx();
-      set_basename(info->path); // If we replace, we want the "swap disk manually effect".
-      update_md5_checksum(iface); // Ugly, but needed to get proper disk swapping effect.
-      return true;
-   }
-   catch (const std::exception &e)
-   {
-      return false;
-   }
-}
-
-static bool disk_add_image_index(void)
-{
-   cdifs->push_back(NULL);
-   return true;
-}
-///////
-
-static struct retro_disk_control_callback disk_interface = {
-   disk_set_eject_state,
-   disk_get_eject_state,
-   disk_get_image_index,
-   disk_set_image_index,
-   disk_get_num_images,
-   disk_replace_image_index,
-   disk_add_image_index,
-};
-#endif
 
 void retro_init(void)
 {
@@ -381,9 +198,6 @@ void retro_init(void)
       log_cb = NULL;
 
    MDFNI_InitializeModule();
-#if defined(WANT_PSX_EMU)
-   eject_state = false;
-#endif
 
    const char *dir = NULL;
 
@@ -430,10 +244,6 @@ void retro_init(void)
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
       log_cb(RETRO_LOG_INFO, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
-#endif
-
-#if defined(WANT_PSX_EMU)
-   environ_cb(RETRO_ENVIRONMENT_SET_DISK_CONTROL_INTERFACE, &disk_interface);
 #endif
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_PERF_INTERFACE, &perf_cb))
@@ -542,55 +352,6 @@ static void check_variables(void)
       if (PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
-#elif defined(WANT_PSX_EMU)
-   extern void PSXDitherApply(bool);
-
-   var.key = "psx_dithering";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
-   {
-      static bool old_apply_dither = false;
-      bool apply_dither = true;
-      if (strcmp(var.value, "enabled") == 0)
-         apply_dither = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         apply_dither = false;
-      if (apply_dither != old_apply_dither)
-      {
-         PSXDitherApply(apply_dither);
-         old_apply_dither = apply_dither;
-      }
-   }
-   
-   var.key = "psx_enable_analog_toggle";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
-   {
-      if (strcmp(var.value, "enabled") == 0)
-         setting_psx_analog_toggle = 1;
-      else if (strcmp(var.value, "disabled") == 0)
-         setting_psx_analog_toggle = 0;
-   }  
-   
-   var.key = "psx_enable_multitap_port1";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
-   {
-      if (strcmp(var.value, "enabled") == 0)
-         setting_psx_multitap_port_1 = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         setting_psx_multitap_port_1 = false;
-   }   
-
-   var.key = "psx_enable_multitap_port2";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
-   {
-      if (strcmp(var.value, "enabled") == 0)
-         setting_psx_multitap_port_2 = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         setting_psx_multitap_port_2 = false;
-   }
 #elif defined(WANT_NGP_EMU)
    var.key = "ngp_language";
 
@@ -656,18 +417,7 @@ static void check_variables(void)
 #endif
 }
 
-#if defined(WANT_PSX_EMU)
-#define MAX_PLAYERS 2
-#define MAX_BUTTONS 16
-union
-{
-   uint32_t u32[MAX_PLAYERS][1 + 8 + 1]; // Buttons + Axes + Rumble
-   uint8_t u8[MAX_PLAYERS][(1 + 8 + 1) * sizeof(uint32_t)];
-} static buf;
-
-static uint16_t input_buf[MAX_PLAYERS] = {0};
-
-#elif defined(WANT_PCE_FAST_EMU)
+#if defined(WANT_PCE_FAST_EMU)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 13
@@ -782,12 +532,6 @@ bool retro_load_game(const struct retro_game_info *info)
    check_variables();
 #endif
 
-#if defined(WANT_PSX_EMU)
-   check_variables();
-   if (environ_cb(RETRO_ENVIRONMENT_GET_RUMBLE_INTERFACE, &rumble) && log_cb)
-      log_cb(RETRO_LOG_INFO, "Rumble interface supported!\n");
-#endif
-
 #if defined(WANT_VB_EMU)
    check_variables();
 #endif
@@ -799,27 +543,18 @@ bool retro_load_game(const struct retro_game_info *info)
    MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
    memset(&last_pixel_format, 0, sizeof(MDFN_PixelFormat));
    
-#if defined(WANT_PSX_EMU)
-   is_pal = (CalcDiscSCEx() == REGION_EU);
-   mednafen_psx_fb_height = is_pal ? 576  : 480;
-   mednafen_psx_fps       = is_pal ? 50.0 : 59.82704;
-   surf = new MDFN_Surface(mednafen_buf, FB_WIDTH, mednafen_psx_fb_height, FB_WIDTH, pix_fmt);
-#else
    surf = new MDFN_Surface(mednafen_buf, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
-#endif
 
 #ifdef NEED_DEINTERLACER
 	PrevInterlaced = false;
 	deint.ClearState();
 #endif
 
-#if !defined(WANT_PSX_EMU) || !defined(WANT_PCE_FAST_EMU) || !defined(WANT_PCFX_EMU)
+#if !defined(WANT_PCE_FAST_EMU) || !defined(WANT_PCFX_EMU)
    hookup_ports(true);
 #endif
 
-#if !defined(WANT_PSX_EMU)
    check_variables();
-#endif
 
    return game;
 }
@@ -839,87 +574,7 @@ void retro_unload_game()
 static void update_input(void)
 {
    MDFNGI *currgame = (MDFNGI*)game;
-#if defined(WANT_PSX_EMU)
-   input_buf[0] = 0;
-   input_buf[1] = 0;
-   	
-   static unsigned map[] = {
-      RETRO_DEVICE_ID_JOYPAD_SELECT,
-      RETRO_DEVICE_ID_JOYPAD_L3,
-      RETRO_DEVICE_ID_JOYPAD_R3,
-      RETRO_DEVICE_ID_JOYPAD_START,
-      RETRO_DEVICE_ID_JOYPAD_UP,
-      RETRO_DEVICE_ID_JOYPAD_RIGHT,
-      RETRO_DEVICE_ID_JOYPAD_DOWN,
-      RETRO_DEVICE_ID_JOYPAD_LEFT,
-      RETRO_DEVICE_ID_JOYPAD_L2,
-      RETRO_DEVICE_ID_JOYPAD_R2,
-      RETRO_DEVICE_ID_JOYPAD_L,
-      RETRO_DEVICE_ID_JOYPAD_R,
-      RETRO_DEVICE_ID_JOYPAD_X,
-      RETRO_DEVICE_ID_JOYPAD_A,
-      RETRO_DEVICE_ID_JOYPAD_B,
-      RETRO_DEVICE_ID_JOYPAD_Y,
-   };
-
-   for (unsigned j = 0; j < MAX_PLAYERS; j++)
-   {
-      for (unsigned i = 0; i < MAX_BUTTONS; i++)
-         input_buf[j] |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-   }
-
-   // Buttons.
-   buf.u8[0][0] = (input_buf[0] >> 0) & 0xff;
-   buf.u8[0][1] = (input_buf[0] >> 8) & 0xff;
-   buf.u8[1][0] = (input_buf[1] >> 0) & 0xff;
-   buf.u8[1][1] = (input_buf[1] >> 8) & 0xff;
-
-   // Analogs
-   for (unsigned j = 0; j < 2; j++)
-   {
-      int analog_left_x = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_X);
-
-      int analog_left_y = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_Y);
-
-      int analog_right_x = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT,
-            RETRO_DEVICE_ID_ANALOG_X);
-
-      int analog_right_y = input_state_cb(j, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT,
-            RETRO_DEVICE_ID_ANALOG_Y);
-
-      uint32_t r_right = analog_right_x > 0 ?  analog_right_x : 0;
-      uint32_t r_left  = analog_right_x < 0 ? -analog_right_x : 0;
-      uint32_t r_down  = analog_right_y > 0 ?  analog_right_y : 0;
-      uint32_t r_up    = analog_right_y < 0 ? -analog_right_y : 0;
-
-      uint32_t l_right = analog_left_x > 0 ?  analog_left_x : 0;
-      uint32_t l_left  = analog_left_x < 0 ? -analog_left_x : 0;
-      uint32_t l_down  = analog_left_y > 0 ?  analog_left_y : 0;
-      uint32_t l_up    = analog_left_y < 0 ? -analog_left_y : 0;
-
-      buf.u32[j][1] = r_right;
-      buf.u32[j][2] = r_left;
-      buf.u32[j][3] = r_down;
-      buf.u32[j][4] = r_up;
-
-      buf.u32[j][5] = l_right;
-      buf.u32[j][6] = l_left;
-      buf.u32[j][7] = l_down;
-      buf.u32[j][8] = l_up;
-   }
-
-   //fprintf(stderr, "Rumble strong: %u, weak: %u.\n", buf.u8[0][9 * 4 + 1], buf.u8[0][9 * 4]);
-   if (rumble.set_rumble_state)
-   {
-      // Appears to be correct.
-      rumble.set_rumble_state(0, RETRO_RUMBLE_WEAK, buf.u8[0][9 * 4] * 0x101);
-      rumble.set_rumble_state(0, RETRO_RUMBLE_STRONG, buf.u8[0][9 * 4 + 1] * 0x101);
-      rumble.set_rumble_state(1, RETRO_RUMBLE_WEAK, buf.u8[1][9 * 4] * 0x101);
-      rumble.set_rumble_state(1, RETRO_RUMBLE_STRONG, buf.u8[1][9 * 4 + 1] * 0x101);
-   }
-#elif defined(WANT_LYNX_EMU)
+#if defined(WANT_LYNX_EMU)
    static unsigned map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1245,66 +900,6 @@ void retro_run()
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   // PSX is rather special, and needs specific handling ...
-#if defined(WANT_PSX_EMU)
-   unsigned width = rects[0].w; // spec.DisplayRect.w is 0. Only rects[0].w seems to return something sane.
-   unsigned height = spec.DisplayRect.h;
-   //fprintf(stderr, "(%u x %u)\n", width, height);
-   // PSX core inserts padding on left and right (overscan). Optionally crop this.
-
-   const uint32_t *pix = surf->pixels;
-   if (!overscan)
-   {
-      // 320 width -> 350 width.
-      // 364 width -> 400 width.
-      // 256 width -> 280 width.
-      // 560 width -> 512 width.
-      // 640 width -> 700 width.
-      // Rectify this.
-      switch (width)
-      {
-         // The shifts are not simply (padded_width - real_width) / 2.
-         case 350:
-            pix += 14;
-            width = 320;
-            break;
-
-         case 700:
-            pix += 33;
-            width = 640;
-            break;
-
-         case 400:
-            pix += 15;
-            width = 364;
-            break;
-
-         case 280:
-            pix += 10;
-            width = 256;
-            break;
-
-         case 560:
-            pix += 26;
-            width = 512;
-            break;
-
-         default:
-            // This shouldn't happen.
-            break;
-      }
-      
-      if (is_pal)
-      {
-         // Attempt to remove black bars.
-         // These numbers are arbitrary since the bars differ some by game.
-         // Changes aspect ratio in the process.
-         height -= 36;
-         pix += 5*(FB_WIDTH << 2);
-      }
-   }
-   video_cb(pix, width, height, FB_WIDTH << 2);
-#else
    unsigned width  = spec.DisplayRect.w;
    unsigned height = spec.DisplayRect.h;
 
@@ -1314,7 +909,6 @@ void retro_run()
 #elif defined(WANT_16BPP)
    const uint16_t *pix = surf->pixels16;
    video_cb(pix, width, height, FB_WIDTH << 1);
-#endif
 #endif
 
    video_frames++;
@@ -1340,11 +934,7 @@ void retro_get_system_info(struct retro_system_info *info)
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
    memset(info, 0, sizeof(*info));
-#ifdef WANT_PSX_EMU
-   info->timing.fps            = mednafen_psx_fps; // Determined for NTSC from empirical testing.
-#else
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
-#endif
    info->timing.sample_rate    = 44100;
    info->geometry.base_width   = MEDNAFEN_CORE_GEOMETRY_BASE_W;
    info->geometry.base_height  = MEDNAFEN_CORE_GEOMETRY_BASE_H;
@@ -1369,11 +959,7 @@ void retro_deinit()
 
 unsigned retro_get_region(void)
 {
-#ifdef WANT_PSX_EMU
-   return is_pal ? RETRO_REGION_PAL : RETRO_REGION_NTSC;
-#else
    return RETRO_REGION_NTSC; // FIXME: Regions for other cores.
-#endif
 }
 
 unsigned retro_api_version(void)
@@ -1411,45 +997,6 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
          if (currgame->SetInput)
             currgame->SetInput(in_port, "mouse", &input_buf[in_port]);
          break;
-   }
-#elif defined(WANT_PSX_EMU)
-   switch (device)
-   {
-      case RETRO_DEVICE_JOYPAD:
-      case RETRO_DEVICE_PS1PAD:
-         if (log_cb)
-            log_cb(RETRO_LOG_INFO, "[%s]: Selected controller type standard gamepad.\n", mednafen_core_str);
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "gamepad", &buf.u8[in_port]);    
-         break;
-      case RETRO_DEVICE_DUALANALOG:
-         if (log_cb)
-            log_cb(RETRO_LOG_INFO, "[%s]: Selected controller type Dual Analog.\n", mednafen_core_str);
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "dualanalog", &buf.u8[in_port]);    
-         break;
-      case RETRO_DEVICE_DUALSHOCK:
-         if (log_cb)
-            log_cb(RETRO_LOG_INFO, "[%s]: Selected controller type DualShock.\n", mednafen_core_str);
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "dualshock", &buf.u8[in_port]);    
-         break;
-      case RETRO_DEVICE_FLIGHTSTICK:
-         if (log_cb)
-            log_cb(RETRO_LOG_INFO, "[%s]: Selected controller type FlightStick.\n", mednafen_core_str);
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "flightstick", &buf.u8[in_port]);    
-         break;
-      default:
-         if (log_cb)
-            log_cb(RETRO_LOG_WARN, "[%s]: Unsupported controller device %u, falling back to gamepad.\n", mednafen_core_str,device);
-   }
-
-   if (rumble.set_rumble_state)
-   {
-      rumble.set_rumble_state(in_port, RETRO_RUMBLE_STRONG, 0);
-      rumble.set_rumble_state(in_port, RETRO_RUMBLE_WEAK, 0);
-      buf.u32[in_port][9] = 0;
    }
 #endif
 }
@@ -1494,31 +1041,6 @@ void retro_set_environment(retro_environment_t cb)
       { 0 },
    };
 
-   environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
-#elif defined(WANT_PSX_EMU)
-   static const struct retro_variable vars[] = {
-      { "psx_dithering", "Dithering; enabled|disabled" },
-      { "psx_enable_analog_toggle", "Dualshock analog button; disabled|enabled" },
-      { "psx_enable_multitap_port1", "Port 1: Multitap enable; disabled|enabled" },
-      { "psx_enable_multitap_port2", "Port 2: Multitap enable; disabled|enabled" },
-	  
-
-      { NULL, NULL },
-   };
-   static const struct retro_controller_description pads[] = {
-      { "PS1 Joypad", RETRO_DEVICE_JOYPAD },
-      { "DualAnalog", RETRO_DEVICE_DUALANALOG },
-      { "DualShock", RETRO_DEVICE_DUALSHOCK },
-      { "FlightStick", RETRO_DEVICE_FLIGHTSTICK },
-   };
-
-   static const struct retro_controller_info ports[] = {
-      { pads, 4 },
-      { pads, 4 },
-      { 0 },
-   };
-
-   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
 #elif defined(WANT_GBA_EMU)
    static const struct retro_variable vars[] = {
