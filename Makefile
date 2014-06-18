@@ -39,7 +39,7 @@ endif
    NEED_CRC32 = 1
 	WANT_NEW_API = 1
    CORE_DEFINE := -DWANT_PCE_FAST_EMU
-   CORE_DIR := $(MEDNAFEN_DIR)/pce_fast-09333
+   CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
 
 CORE_SOURCES := \
    $(CORE_DIR)/huc.cpp \

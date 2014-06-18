@@ -57,7 +57,7 @@ static bool PrevInterlaced;
 static Deinterlacer deint;
 #endif
 
-#include "mednafen/pce_fast-09333/pcecd.h"
+#include "mednafen/pce_fast/pcecd.h"
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"

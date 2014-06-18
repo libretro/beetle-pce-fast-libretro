@@ -350,31 +350,31 @@
 					Name="pce_fast"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\hes.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\hes.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\huc.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\huc.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\huc6280.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\huc6280.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\input.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\input.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\pce.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\pce.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\pcecd.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\pcecd.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\pcecd_drive.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\pcecd_drive.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\psg.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\psg.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast-09333\vdc.cpp">
+						RelativePath="..\..\..\mednafen\pce_fast\vdc.cpp">
 					</File>
 				</Filter>
 				<Filter

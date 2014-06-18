@@ -230,31 +230,31 @@
     <ClCompile Include="..\..\..\mednafen\tremor\vorbisfile.c">
       <Filter>Source Files\mednafen\tremor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\hes.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\hes.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\huc.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\huc.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\huc6280.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\huc6280.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\input.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\input.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\pce.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\pce.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\pcecd.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\pcecd.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\pcecd_drive.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\pcecd_drive.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\psg.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\psg.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast-09333\vdc.cpp">
+    <ClCompile Include="..\..\..\mednafen\pce_fast\vdc.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\cputest\cputest.c">
