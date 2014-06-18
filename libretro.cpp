@@ -28,10 +28,6 @@ static MDFN_Surface *surf;
 
 static bool failed_init;
 
-static void hookup_ports(bool force);
-
-static bool initial_ports_hookup = false;
-
 std::string retro_base_directory;
 std::string retro_base_name;
 std::string retro_save_directory;
@@ -249,20 +245,6 @@ static void check_variables(void)
 #define MAX_BUTTONS 13
 static uint8_t input_buf[MAX_PLAYERS][2] = {0};
 
-static void hookup_ports(bool force)
-{
-   MDFNGI *currgame = game;
-
-   if (initial_ports_hookup && !force)
-      return;
-
-   // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++)
-      currgame->SetInput(i, "gamepad", &input_buf[i][0]);
-
-   initial_ports_hookup = true;
-}
-
 bool retro_load_game(const struct retro_game_info *info)
 {
    if (failed_init)
@@ -293,6 +275,10 @@ bool retro_load_game(const struct retro_game_info *info)
    surf = new MDFN_Surface(mednafen_buf, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
    check_variables();
+
+   // Possible endian bug ...
+   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+      game->SetInput(i, "gamepad", &input_buf[i][0]);
 
    return game;
 }
