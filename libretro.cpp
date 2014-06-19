@@ -1078,9 +1078,6 @@ static void set_basename(const char *path)
 
 #define FB_MAX_HEIGHT FB_HEIGHT
 
-// Wastes a little space for NTSC PSX, but better than dynamically allocating.
-const char *mednafen_core_str = MEDNAFEN_CORE_NAME;
-
 static void check_system_specs(void)
 {
    unsigned level = 0;
@@ -1288,14 +1285,14 @@ bool retro_load_game(const struct retro_game_info *info)
 
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
-      game->SetInput(i, "gamepad", &input_buf[i][0]);
+      PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
 
    return game;
 }
 
 void retro_unload_game(void)
 {
-   if (!game)
+   if(!MDFNGameInfo)
       return;
 
    MDFN_FlushGameCheats(0);
@@ -1321,8 +1318,6 @@ void retro_unload_game(void)
 // See mednafen/psx/input/gamepad.cpp
 static void update_input(void)
 {
-   MDFNGI *currgame = (MDFNGI*)game;
-
    static unsigned map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1390,7 +1385,7 @@ void retro_run(void)
       last_sound_rate = spec.SoundRate;
    }
 
-   curgame->Emulate(&spec);
+   Emulate(&spec);
 
    int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * curgame->soundchan;
    int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
@@ -1449,9 +1444,9 @@ void retro_deinit()
    if (log_cb)
    {
       log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
-            mednafen_core_str, (double)audio_frames / video_frames);
+            MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
       log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
-            mednafen_core_str, (double)video_frames * 44100 / audio_frames);
+            MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
 }
 
@@ -1475,12 +1470,10 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
    switch(device)
    {
       case RETRO_DEVICE_JOYPAD:
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
          break;
       case RETRO_DEVICE_MOUSE:
-         if (currgame->SetInput)
-            currgame->SetInput(in_port, "mouse", &input_buf[in_port][0]);
+         PCEINPUT_SetInput(in_port, "mouse", &input_buf[in_port][0]);
          break;
    }
 }
@@ -1680,7 +1673,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
       case MDFNMKF_FIRMWARE:
          ret = retro_base_directory + slash + std::string(cd1);
 #ifdef _WIN32
-   sanitize_path(ret); // Because Windows path handling is mongoloid.
+         sanitize_path(ret); // Because Windows path handling is mongoloid.
 #endif
          break;
       default:	  
