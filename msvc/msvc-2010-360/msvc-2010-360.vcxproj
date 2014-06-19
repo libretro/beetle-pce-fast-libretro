@@ -52,7 +52,6 @@
     <ClCompile Include="..\..\..\mednafen\hw_video\huc6270\vdc_video.cpp" />
     <ClCompile Include="..\..\..\mednafen\math_ops.cpp" />
     <ClCompile Include="..\..\..\mednafen\md5.cpp" />
-    <ClCompile Include="..\..\..\mednafen\mednafen.cpp" />
     <ClCompile Include="..\..\..\mednafen\MemoryStream.cpp" />
     <ClCompile Include="..\..\..\mednafen\mempatcher.cpp" />
     <ClCompile Include="..\..\..\mednafen\okiadpcm.cpp" />

@@ -230,9 +230,6 @@
 					RelativePath="..\..\..\mednafen\md5.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\mednafen.cpp">
-				</File>
-				<File
 					RelativePath="..\..\..\mednafen\MemoryStream.cpp">
 				</File>
 				<File

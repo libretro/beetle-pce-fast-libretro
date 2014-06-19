@@ -1,9 +1,13 @@
+#include	<stdarg.h>
+#include	<trio/trio.h>
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
 #include "mednafen/md5.h"
 #include "libretro.h"
 #include "thread.h"
+
+#include	"mednafen/FileWrapper.h"
 
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
@@ -15,6 +19,14 @@
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mempatcher.h"
 #include "mednafen/cdrom/cdromif.h"
+#include "mednafen/cdrom/CDUtility.h"
+
+#ifdef _MSC_VER
+#include "msvc_compat.h"
+#endif
+
+MDFNGI *MDFNGameInfo = NULL;
+extern MDFNGI EmulatedPCE_Fast;
 
 /* Mednafen - Multi-system Emulator
  *
@@ -695,6 +707,320 @@ MDFNGI EmulatedPCE_Fast =
  2,     // Number of output sound channels
 };
 
+#ifdef NEED_CD
+static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
+{
+ std::vector<std::string> ret;
+ FileWrapper m3u_file(path.c_str(), FileWrapper::MODE_READ, _("M3U CD Set"));
+ std::string dir_path;
+ char linebuf[2048];
+
+ MDFN_GetFilePathComponents(path, &dir_path);
+
+ while(m3u_file.get_line(linebuf, sizeof(linebuf)))
+ {
+  std::string efp;
+
+  if(linebuf[0] == '#') continue;
+  MDFN_rtrim(linebuf);
+  if(linebuf[0] == 0) continue;
+
+  efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
+
+  if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
+  {
+   if(efp == path)
+    throw(MDFN_Error(0, _("M3U at \"%s\" references self."), efp.c_str()));
+
+   if(depth == 99)
+    throw(MDFN_Error(0, _("M3U load recursion too deep!")));
+
+   ReadM3U(file_list, efp, depth++);
+  }
+  else
+   file_list.push_back(efp);
+ }
+}
+
+#ifdef NEED_CD
+ static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
+#endif
+// TODO: LoadCommon()
+
+MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
+{
+ uint8 LayoutMD5[16];
+
+ MDFN_printf(_("Loading %s...\n\n"), devicename ? devicename : _("PHYSICAL CD"));
+
+ try
+ {
+  if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+  {
+   std::vector<std::string> file_list;
+
+   ReadM3U(file_list, devicename);
+
+   for(unsigned i = 0; i < file_list.size(); i++)
+   {
+    CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, false /* cdimage_memcache */));
+   }
+  }
+  else
+  {
+   CDInterfaces.push_back(CDIF_Open(devicename, false, false /* cdimage_memcache */));
+  }
+ }
+ catch(std::exception &e)
+ {
+  MDFND_PrintError(e.what());
+  MDFN_PrintError(_("Error opening CD."));
+  return(0);
+ }
+
+ //
+ // Print out a track list for all discs.
+ //
+ MDFN_indent(1);
+ for(unsigned i = 0; i < CDInterfaces.size(); i++)
+ {
+  CDUtility::TOC toc;
+
+  CDInterfaces[i]->ReadTOC(&toc);
+
+  MDFN_printf(_("CD %d Layout:\n"), i + 1);
+  MDFN_indent(1);
+
+  for(int32 track = toc.first_track; track <= toc.last_track; track++)
+  {
+   MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+  }
+
+  MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
+  MDFN_indent(-1);
+  MDFN_printf("\n");
+ }
+ MDFN_indent(-1);
+
+ // Calculate layout MD5.  The system emulation LoadCD() code is free to ignore this value and calculate
+ // its own, or to use it to look up a game in its database.
+ {
+  md5_context layout_md5;
+
+  layout_md5.starts();
+
+  for(unsigned i = 0; i < CDInterfaces.size(); i++)
+  {
+   CD_TOC toc;
+
+   CDInterfaces[i]->ReadTOC(&toc);
+
+   layout_md5.update_u32_as_lsb(toc.first_track);
+   layout_md5.update_u32_as_lsb(toc.last_track);
+   layout_md5.update_u32_as_lsb(toc.tracks[100].lba);
+
+   for(uint32 track = toc.first_track; track <= toc.last_track; track++)
+   {
+    layout_md5.update_u32_as_lsb(toc.tracks[track].lba);
+    layout_md5.update_u32_as_lsb(toc.tracks[track].control & 0x4);
+   }
+  }
+
+  layout_md5.finish(LayoutMD5);
+ }
+
+ // This if statement will be true if force_module references a system without CDROM support.
+ if(!MDFNGameInfo->LoadCD)
+ {
+    MDFN_PrintError(_("Specified system \"%s\" doesn't support CDs!"), force_module);
+    return(0);
+ }
+
+ MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+
+ // TODO: include module name in hash
+ memcpy(MDFNGameInfo->MD5, LayoutMD5, 16);
+
+ if(!(MDFNGameInfo->LoadCD(&CDInterfaces)))
+ {
+  for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   delete CDInterfaces[i];
+  CDInterfaces.clear();
+
+  MDFNGameInfo = NULL;
+  return(0);
+ }
+
+ //MDFNI_SetLayerEnableMask(~0ULL);
+
+ MDFN_LoadGameCheats(NULL);
+ MDFNMP_InstallReadPatches();
+
+ return(MDFNGameInfo);
+}
+#endif
+
+MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
+{
+   MDFNFILE GameFile;
+	std::vector<FileExtensionSpecStruct> valid_iae;
+   MDFNGameInfo = &EmulatedPCE_Fast;
+
+#ifdef NEED_CD
+	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+	 return(MDFNI_LoadCD(force_module, name));
+#endif
+
+	MDFN_printf(_("Loading %s...\n"),name);
+
+	MDFN_indent(1);
+
+	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
+   const FileExtensionSpecStruct *curexts = MDFNGameInfo->FileExtensions;
+
+   while(curexts->extension && curexts->description)
+   {
+      valid_iae.push_back(*curexts);
+      curexts++;
+   }
+
+	if(!GameFile.Open(name, &valid_iae[0], _("game")))
+   {
+      MDFNGameInfo = NULL;
+      return 0;
+   }
+
+	MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+	MDFN_indent(1);
+
+	//
+	// Load per-game settings
+	//
+	// Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
+	// End load per-game settings
+	//
+
+   if(MDFNGameInfo->Load(name, &GameFile) <= 0)
+   {
+      GameFile.Close();
+      MDFN_indent(-2);
+      MDFNGameInfo = NULL;
+      return(0);
+   }
+
+	MDFN_LoadGameCheats(NULL);
+	MDFNMP_InstallReadPatches();
+
+	MDFN_indent(-2);
+
+	if(!MDFNGameInfo->name)
+   {
+      unsigned int x;
+      char *tmp;
+
+      MDFNGameInfo->name = (UTF8 *)strdup(GetFNComponent(name));
+
+      for(x=0;x<strlen((char *)MDFNGameInfo->name);x++)
+      {
+         if(MDFNGameInfo->name[x] == '_')
+            MDFNGameInfo->name[x] = ' ';
+      }
+      if((tmp = strrchr((char *)MDFNGameInfo->name, '.')))
+         *tmp = 0;
+   }
+
+   return(MDFNGameInfo);
+}
+
+static int curindent = 0;
+
+void MDFN_indent(int indent)
+{
+ curindent += indent;
+}
+
+static uint8 lastchar = 0;
+
+void MDFN_printf(const char *format, ...)
+{
+   char *format_temp;
+   char *temp;
+   unsigned int x, newlen;
+
+   va_list ap;
+   va_start(ap,format);
+
+
+   // First, determine how large our format_temp buffer needs to be.
+   uint8 lastchar_backup = lastchar; // Save lastchar!
+   for(newlen=x=0;x<strlen(format);x++)
+   {
+      if(lastchar == '\n' && format[x] != '\n')
+      {
+         int y;
+         for(y=0;y<curindent;y++)
+            newlen++;
+      }
+      newlen++;
+      lastchar = format[x];
+   }
+
+   format_temp = (char *)malloc(newlen + 1); // Length + NULL character, duh
+
+   // Now, construct our format_temp string
+   lastchar = lastchar_backup; // Restore lastchar
+   for(newlen=x=0;x<strlen(format);x++)
+   {
+      if(lastchar == '\n' && format[x] != '\n')
+      {
+         int y;
+         for(y=0;y<curindent;y++)
+            format_temp[newlen++] = ' ';
+      }
+      format_temp[newlen++] = format[x];
+      lastchar = format[x];
+   }
+
+   format_temp[newlen] = 0;
+
+   temp = trio_vaprintf(format_temp, ap);
+   free(format_temp);
+
+   MDFND_Message(temp);
+   free(temp);
+
+   va_end(ap);
+}
+
+void MDFN_PrintError(const char *format, ...)
+{
+ char *temp;
+
+ va_list ap;
+
+ va_start(ap, format);
+
+ temp = trio_vaprintf(format, ap);
+ MDFND_PrintError(temp);
+ free(temp);
+
+ va_end(ap);
+}
+
+void MDFN_DebugPrintReal(const char *file, const int line, const char *format, ...)
+{
+ char *temp;
+
+ va_list ap;
+
+ va_start(ap, format);
+
+ temp = trio_vaprintf(format, ap);
+ fprintf(stderr, "%s:%d  %s\n", file, line, temp);
+ free(temp);
+
+ va_end(ap);
+}
 
 
 static MDFNGI *game;
@@ -769,7 +1095,9 @@ void retro_init(void)
    else 
       log_cb = NULL;
 
-   MDFNI_InitializeModule();
+#ifdef NEED_CD
+   CDUtility::CDUtility_Init();
+#endif
 
    const char *dir = NULL;
 
@@ -782,8 +1110,6 @@ void retro_init(void)
          last++;
 
       retro_base_directory = retro_base_directory.substr(0, last);
-
-      MDFNI_Initialize(retro_base_directory.c_str());
    }
    else
    {
@@ -967,15 +1293,29 @@ bool retro_load_game(const struct retro_game_info *info)
    return game;
 }
 
-void retro_unload_game()
+void retro_unload_game(void)
 {
    if (!game)
       return;
 
-   MDFNI_CloseGame();
+   MDFN_FlushGameCheats(0);
+
+   MDFNGameInfo->CloseGame();
+
+   if(MDFNGameInfo->name)
+      free(MDFNGameInfo->name);
+   MDFNGameInfo->name = NULL;
+
+   MDFNMP_Kill();
+
+   MDFNGameInfo = NULL;
+
+#ifdef NEED_CD
+   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+      delete CDInterfaces[i];
+   CDInterfaces.clear();
+#endif
 }
-
-
 
 // Hardcoded for PSX. No reason to parse lots of structures ...
 // See mednafen/psx/input/gamepad.cpp
@@ -1352,12 +1692,6 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
    return ret;
 }
 
-void MDFND_DispMessage(unsigned char *str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
 void MDFND_Message(const char *str)
 {
    if (log_cb)
@@ -1381,4 +1715,41 @@ void MDFND_PrintError(const char* err)
 void MDFND_Sleep(unsigned int time)
 {
    retro_sleep(time);
+}
+
+/* forward declarations */
+extern void MDFND_DispMessage(unsigned char *str);
+
+void MDFND_DispMessage(unsigned char *str)
+{
+   const char *strc = (const char*)str;
+   struct retro_message msg =
+   {
+      strc,
+      180
+   };
+
+   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
+}
+
+void MDFN_DispMessage(const char *format, ...)
+{
+   struct retro_message msg;
+   va_list ap;
+   va_start(ap,format);
+   char *str = NULL;
+   const char *strc = NULL;
+
+   trio_vasprintf(&str, format,ap);
+   va_end(ap);
+   strc = str;
+
+   msg.frames = 180;
+   msg.msg = strc;
+
+   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
+}
+
+void MDFN_ResetMessages(void)
+{
 }
