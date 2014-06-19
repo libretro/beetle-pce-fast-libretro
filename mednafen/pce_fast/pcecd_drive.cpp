@@ -18,7 +18,6 @@
 #include "../mednafen.h"
 #include "../clamp.h"
 #include <math.h>
-#include <trio/trio.h>
 #include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
@@ -1123,10 +1122,10 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
 
        log_buffer[0] = 0;
        
-       lb_pos = trio_snprintf(log_buffer, 1024, "Command: %02x, %s  ", cd.command_buffer[0], cmd_info_ptr->pretty_name ? cmd_info_ptr->pretty_name : "!!BAD COMMAND!!");
+       lb_pos = snprintf(log_buffer, 1024, "Command: %02x, %s  ", cd.command_buffer[0], cmd_info_ptr->pretty_name ? cmd_info_ptr->pretty_name : "!!BAD COMMAND!!");
 
        for(int i = 0; i < RequiredCDBLen[cd.command_buffer[0] >> 4]; i++)
-        lb_pos += trio_snprintf(log_buffer + lb_pos, 1024 - lb_pos, "%02x ", cd.command_buffer[i]);
+        lb_pos += snprintf(log_buffer + lb_pos, 1024 - lb_pos, "%02x ", cd.command_buffer[i]);
 
        SCSILog("SCSI", "%s", log_buffer);
        //puts(log_buffer);

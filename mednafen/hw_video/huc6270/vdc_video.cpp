@@ -21,7 +21,6 @@
 #include "mednafen/video.h"
 #include "mednafen/lepacker.h"
 
-#include <trio/trio.h>
 #include <math.h>
 #include "vdc.h"
 
@@ -119,7 +118,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "Sprite Hit IRQ: %s, Sprite Overflow IRQ: %s, RCR IRQ: %s, VBlank IRQ: %s, Sprites: %s, Background: %s", (value & 1) ? "On" : "Off", (value & 2) ? "On" : "Off",
+	 snprintf(special, special_len, "Sprite Hit IRQ: %s, Sprite Overflow IRQ: %s, RCR IRQ: %s, VBlank IRQ: %s, Sprites: %s, Background: %s", (value & 1) ? "On" : "Off", (value & 2) ? "On" : "Off",
 	        (value & 4) ? "On" : "Off", (value & 8) ? "On" : "Off", (value & 0x40) ? "On" : "Off", (value & 0x80) ? "On" : "Off");
 	}
 	break;
@@ -141,7 +140,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "CG Mode: %d, BAT Width: %d(tiles), BAT Height: %d(tiles)", (int)(bool)(value & 0x80), 
+	 snprintf(special, special_len, "CG Mode: %d, BAT Width: %d(tiles), BAT Height: %d(tiles)", (int)(bool)(value & 0x80), 
 											     bat_width_tab[(value >> 4) & 0x3],
 											     bat_height_tab[(value >> 6) & 0x1]);
 	}
@@ -151,7 +150,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 	value = HSR;
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "HSW: %02x, HDS: %02x", value & 0x1F, (value >> 8) & 0x7F);
+	 snprintf(special, special_len, "HSW: %02x, HDS: %02x", value & 0x1F, (value >> 8) & 0x7F);
 	}
 	break;
 
@@ -159,7 +158,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 	value = HDR;
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "HDW: %02x, HDE: %02x", value & 0x7F, (value >> 8) & 0x7F);
+	 snprintf(special, special_len, "HDW: %02x, HDE: %02x", value & 0x7F, (value >> 8) & 0x7F);
 	}
 	break;
 
@@ -168,7 +167,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 	value = VSR;
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "VSW: %02x, VDS: %02x", value & 0x1F, (value >> 8) & 0xFF);
+	 snprintf(special, special_len, "VSW: %02x, VDS: %02x", value & 0x1F, (value >> 8) & 0xFF);
 	}
 	break;
 
@@ -184,7 +183,7 @@ uint32 VDC::GetRegister(const unsigned int id, char *special, const uint32 speci
 	value = DCR;
 	if(special)
 	{
-	 trio_snprintf(special, special_len, "SATB DMA IRQ: %s, VRAM DMA IRQ: %s, DMA Source Address: %s, DMA Dest Address: %s, Auto SATB DMA: %s",
+	 snprintf(special, special_len, "SATB DMA IRQ: %s, VRAM DMA IRQ: %s, DMA Source Address: %s, DMA Dest Address: %s, Auto SATB DMA: %s",
         	(DCR & 0x1) ? "On" : "Off", (DCR & 0x2) ? "On" : "Off", (DCR & 0x4) ? "Decrement" : "Increment", (DCR & 0x8) ? "Decrement" : "Increment", 
 	        (DCR & 0x10) ? "On" : "Off");
 	}

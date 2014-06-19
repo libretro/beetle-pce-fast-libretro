@@ -19,7 +19,6 @@
 
 #include <string.h>
 
-#include <trio/trio.h>
 #include "driver.h"
 #include "general.h"
 #include "state.h"
@@ -170,7 +169,7 @@ static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix = NULL)
    char nameo[1 + 256];
    int slen;
 
-   slen = trio_snprintf(nameo + 1, 256, "%s%s", name_prefix ? name_prefix : "", sf->name);
+   slen = snprintf(nameo + 1, 256, "%s%s", name_prefix ? name_prefix : "", sf->name);
    nameo[0] = slen;
 
    if(slen >= 255)

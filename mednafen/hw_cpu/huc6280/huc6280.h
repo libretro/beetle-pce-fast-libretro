@@ -1,8 +1,6 @@
 #ifndef __MDFN_HUC6280_H
 #define __MDFN_HUC6280_H
 
-#include        <trio/trio.h>
-
 class HuC6280_Support
 {
 	public:
@@ -236,7 +234,7 @@ class HuC6280
 		value = P;	
 		if(special)
 		{
-	 	trio_snprintf(special, special_len, "N: %d, V: %d, T: %d, D: %d, I: %d, Z: %d, C: %d", (int)(bool)(value & N_FLAG),
+	 	snprintf(special, special_len, "N: %d, V: %d, T: %d, D: %d, I: %d, Z: %d, C: %d", (int)(bool)(value & N_FLAG),
 	        	(int)(bool)(value & V_FLAG),
 		        (int)(bool)(value & T_FLAG),
 			(int)(bool)(value & D_FLAG),
@@ -250,7 +248,7 @@ class HuC6280
 		value = speed;
 		if(special)
 		{
-		 trio_snprintf(special, special_len, "%s(%s)", speed ? "High" : "Low", speed ? "7.16MHz" : "1.79MHz");
+		 snprintf(special, special_len, "%s(%s)", speed ? "High" : "Low", speed ? "7.16MHz" : "1.79MHz");
 		}
 		break;
 
@@ -266,7 +264,7 @@ class HuC6280
 
 		if(special)
 		{
-		 trio_snprintf(special, special_len, "0x%02X * 0x2000 = 0x%06X", value, (uint32)value * 0x2000);
+		 snprintf(special, special_len, "0x%02X * 0x2000 = 0x%06X", value, (uint32)value * 0x2000);
 		}
 		break;
 
@@ -275,7 +273,7 @@ class HuC6280
 
 		if(special)
 		{
-		 trio_snprintf(special, special_len, "IRQ2: %s, IRQ1: %s, Timer: %s", (value & IQIRQ2) ? "Disabled" : "Enabled",
+		 snprintf(special, special_len, "IRQ2: %s, IRQ1: %s, Timer: %s", (value & IQIRQ2) ? "Disabled" : "Enabled",
 				(value & IQIRQ1) ? "Disabled" : "Enabled", (value & IQTIMER) ? "Disabled" : "Enabled");
 		}
 		break;
@@ -285,7 +283,7 @@ class HuC6280
 
 		if(special)
 		{
-		 trio_snprintf(special, special_len, "%s", (value & 1) ? "Enabled" : "Disabled");
+		 snprintf(special, special_len, "%s", (value & 1) ? "Enabled" : "Disabled");
 		}
 		break;
 
@@ -298,7 +296,7 @@ class HuC6280
 		if(special)
 		{
 		 uint32 meowval = (value + 1) * 1024;
-	  	 trio_snprintf(special, special_len, "(%d + 1) * 1024 = %d; 7,159,090.90... Hz / %d = %f Hz", value, meowval, meowval, (double)7159090.909090909091 / meowval);
+	  	 snprintf(special, special_len, "(%d + 1) * 1024 = %d; 7,159,090.90... Hz / %d = %f Hz", value, meowval, meowval, (double)7159090.909090909091 / meowval);
 		}
 		break;
 
