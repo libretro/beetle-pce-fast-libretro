@@ -1837,15 +1837,7 @@ void VDC_Init(int sgx)
  MixBGSPR = MixBGSPR_Generic<uint32>;
 
 #ifdef ARCH_X86
- #ifndef __x86_64__
- if(cputest_get_flags() & CPUTEST_FLAG_CMOV)
- {
-  puts("CMOV");
-  MixBGSPR = MixBGSPR_x86_CMOV;
- }
- else
- #endif
-  MixBGSPR = MixBGSPR_x86;
+ MixBGSPR = MixBGSPR_x86;
 #endif
 
 }
