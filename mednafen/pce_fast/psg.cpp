@@ -20,7 +20,6 @@
 
 #include <math.h>
 #include <string.h>
-#include <trio/trio.h>
 
 namespace PCE_Fast
 {

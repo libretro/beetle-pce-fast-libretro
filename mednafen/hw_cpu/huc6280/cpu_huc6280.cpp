@@ -35,10 +35,6 @@
 
 #include <string.h>
 
-#ifdef WANT_DEBUGGER
- #include        <trio/trio.h>
-#endif
-
 //#define IncPC()	{ PC++; if(!(PC & 0x1FFF)) printf("Crossing: %04x %02x\n", PC - 1, lastop); }
 
 #define LASTCYCLE /*assert(((P & I_FLAG) ? 0 : (uint32)~0) == PIMaskCache);*/ IRQSample = (IRQlow & IRQMask) & PIMaskCache; IFlagSample = P & I_FLAG; ADDCYC(1);

@@ -20,7 +20,6 @@
 
 #include <math.h>
 #include <string.h>
-#include <trio/trio.h>
 
 // Frequency cache cutoff optimization threshold (<= FREQC7M_COT)
 #define FREQC7M_COT	0x7 //0xA
