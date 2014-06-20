@@ -870,9 +870,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  }
 }
 
-void (*MixBGSPR)(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint16_t *target) = NULL;
-
-void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
+static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
  {
@@ -1203,17 +1201,18 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
        {
         switch(vdc->CR & 0xC0)
         {
-         case 0xC0: MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
- 		    break;
-
-         case 0x80: MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-		    break;
-
-         case 0x40: MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-		    break;
-
-         case 0x00: MixNone(width, target_ptr16 + target_offset);
-		    break;
+           case 0xC0:
+              MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+              break;
+           case 0x80:
+              MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
+              break;
+           case 0x40:
+              MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+              break;
+           case 0x00:
+              MixNone(width, target_ptr16 + target_offset);
+              break;
         }
        }
       }
@@ -1395,8 +1394,6 @@ void VDC_Init(int sgx)
  }
 
  LoadCustomPalette(MDFN_MakeFName(MDFNMKF_PALETTE, 0, NULL).c_str());
-
- MixBGSPR = MixBGSPR_Generic;
 }
 
 void VDC_Close(void)
