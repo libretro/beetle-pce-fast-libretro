@@ -66,34 +66,4 @@ class MDFNFILE
 	bool MakeMemWrapAndClose(void *tz);
 };
 
-class PtrLengthPair
-{
- public:
-
- inline PtrLengthPair(const void *new_data, const uint64 new_length)
- {
-  data = new_data;
-  length = new_length;
- }
-
- ~PtrLengthPair() 
- { 
-
- } 
-
- INLINE const void *GetData(void) const
- {
-  return(data);
- }
-
- INLINE uint64 GetLength(void) const
- {
-  return(length);
- }
-
- private:
- const void *data;
- uint64 length;
-};
-
 #endif
