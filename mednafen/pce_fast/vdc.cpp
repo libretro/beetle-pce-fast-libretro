@@ -220,9 +220,8 @@ vpc_t vpc;
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
 {
- amask = 1 << format.Ashift;
- amask_shift = format.Ashift;
-
+ amask = 1 << 24;
+ amask_shift = 24;
 
  for(int x = 0; x < 512; x++)
  {
@@ -264,8 +263,8 @@ void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
   }
 
   {
-   systemColorMap32[x] = format.MakeColor(r, g, b);
-   bw_systemColorMap32[x] = format.MakeColor(sc_r, sc_g, sc_b);
+   systemColorMap32[x] = MAKECOLOR(r, g, b, 0);
+   bw_systemColorMap32[x] = MAKECOLOR(sc_r, sc_g, sc_b, 0);
   }
  }
 #if 0
@@ -291,7 +290,7 @@ void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
  for(int x = 0; x < 512; x++)
   FixPCache(x);
 
- disabled_layer_color = format.MakeColor(0x00, 0xFE, 0x00);
+ disabled_layer_color = MAKECOLOR(0x00, 0xFE, 0x00, 0);
 }
 
 DECLFR(VCE_Read)
