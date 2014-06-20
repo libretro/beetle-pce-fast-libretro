@@ -1125,7 +1125,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
  int max_dc = 0;
  MDFN_Surface *surface = espec->surface;
  MDFN_Rect *DisplayRect = &espec->DisplayRect;
- MDFN_Rect *LineWidths = espec->LineWidths;
+ int32 *LineWidths = espec->LineWidths;
  bool skip = espec->skip || IsHES;
 
  // x and w should be overwritten in the big loop
@@ -1140,7 +1140,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   // Hack for the input latency-reduction hack, part 1.
   for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
-   LineWidths[y].w = 0;
+   LineWidths[y] = 0;
  }
 
  do
@@ -1219,7 +1219,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 				{ 256, 341, 512 }
 			       };
 
-   DisplayRect->x = 0;	//128 + 8 + xs[correct_aspect][vce.dot_clock];
+   DisplayRect->x = 0;
    DisplayRect->w = ws[correct_aspect][vce.dot_clock];
   }
 
@@ -1296,7 +1296,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    }
 
    if(fc_vrm && !skip)
-    LineWidths[frame_counter - 14] = *DisplayRect;
+    LineWidths[frame_counter - 14] = DisplayRect->w;
 
    if(vdc->burst_mode)
    {
@@ -1500,7 +1500,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
  {
   for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
   {
-   if(!LineWidths[y].w)
+   if(!LineWidths[y])
    {
     uint32 *target_ptr = NULL;
     uint16 *target_ptr16 = NULL;
@@ -1514,7 +1514,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
      target_ptr = surface->pixels + y * surface->pitchinpix;
 #endif
 
-    LineWidths[y] = *DisplayRect;
+    LineWidths[y] = DisplayRect->w;
 
     if(target_ptr8)
      DrawOverscan(vdc_chips[0], target_ptr8, DisplayRect);

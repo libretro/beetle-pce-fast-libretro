@@ -60,7 +60,6 @@ static Blip_Buffer sbuf[2];
 bool PCE_ACEnabled;
 
 static bool IsSGX;
-static bool IsHES;
 int pce_overclocked;
 
 // Statically allocated for speed...or something.
@@ -215,15 +214,10 @@ static int Load(const char *name, MDFNFILE *fp)
  uint32 headerlen = 0;
  uint32 r_size;
 
- IsHES = 0;
  IsSGX = 0;
-
- if(!memcmp(GET_FDATA_PTR(fp), "HESM", 4))
-  IsHES = 1;
 
  LoadCommonPre();
 
- if(!IsHES)
  {
   if(GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
    headerlen = 512;
@@ -307,8 +301,6 @@ static int LoadCommon(void)
 { 
  IsSGX |= MDFN_GetSettingB("pce_fast.forcesgx") ? 1 : 0;
 
- if(IsHES)
-  IsSGX = 1;
  // Don't modify IsSGX past this point.
  
  VDC_Init(IsSGX);
@@ -372,14 +364,11 @@ static int LoadCommon(void)
  if(!MDFN_GetSettingB("pce_fast.correct_aspect"))
   MDFNGameInfo->fb_width = 682;
 
- if(!IsHES)
- {
-  MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 288 : 341;
-  MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce_fast.slend") - MDFN_GetSettingUI("pce_fast.slstart") + 1;
+ MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 288 : 341;
+ MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce_fast.slend") - MDFN_GetSettingUI("pce_fast.slstart") + 1;
 
-  MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 : 341;
-  MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
- }
+ MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 : 341;
+ MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
 
  return(1);
 }
@@ -448,7 +437,6 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
  std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("pce_fast.cdbios").c_str() );
 
- IsHES = 0;
  IsSGX = 0;
 
  LoadCommonPre();
@@ -462,18 +450,20 @@ static int LoadCD(std::vector<CDIF *> *CDInterfaces)
  return(LoadCommon());
 }
 
+static void Cleanup_PCE(void)
+{
+   HuC_Close();
+
+   VDC_Close();
+
+   if(psg)
+      delete psg;
+   psg = NULL;
+}
 
 static void CloseGame(void)
 {
- {
-  HuCClose();
- }
- VDC_Close();
- if(psg)
- {
-  delete psg;
-  psg = NULL;
- }
+   Cleanup_PCE();
 }
 
 static void Emulate(EmulateSpecStruct *espec)
@@ -540,7 +530,7 @@ static void Emulate(EmulateSpecStruct *espec)
    sbuf[y].bass_freq(10);
   }
  }
- VDC_RunFrame(espec, IsHES);
+ VDC_RunFrame(espec, false);
 
  if(PCE_IsCD)
  {
@@ -726,6 +716,20 @@ static DECLFW(HuCSF2Write)
  {
   HuCSF2Latch = (A & 0x3);
  }
+}
+
+static void Cleanup(void)
+{
+   if(arcade_card)
+      delete arcade_card;
+   arcade_card = NULL;
+
+   if(PCE_IsCD)
+      PCECD_Close();
+
+   if(HuCROM)
+      MDFN_free(HuCROM);
+   HuCROM = NULL;
 }
 
 int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
@@ -927,23 +931,19 @@ int HuCLoadCD(const char *bios_path)
 
  if(PCE_ACEnabled)
  {
-   try
-   {
-    arcade_card = new ArcadeCard();
-   }
-   catch(std::exception &e)
-   {
-    MDFN_PrintError(_("Error creating %s object: %s"), "ArcadeCard", e.what());
-    //Cleanup();	// TODO
-    return(0);
-   }
+    if (!(arcade_card = new ArcadeCard()))
+    {
+       MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
+       Cleanup();
+       return(0);
+    }
 
-  for(int x = 0x40; x < 0x44; x++)
-  {
-   HuCPUFastMap[x] = NULL;
-   PCERead[x] = ACPhysRead;
-   PCEWrite[x] = ACPhysWrite;
-  }
+    for(int x = 0x40; x < 0x44; x++)
+    {
+       HuCPUFastMap[x] = NULL;
+       PCERead[x] = ACPhysRead;
+       PCEWrite[x] = ACPhysWrite;
+    }
  }
 
  memset(SaveRAM, 0x00, 2048);
@@ -981,24 +981,9 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
-void HuCClose(void)
+void HuC_Close(void)
 {
- if(arcade_card)
- {
-  delete arcade_card;
-  arcade_card = NULL;
- }
-
- if(PCE_IsCD)
- {
-  PCECD_Close();
- }
-
- if(HuCROM)
- {
-  MDFN_free(HuCROM);
-  HuCROM = NULL;
- }
+   Cleanup();
 }
 
 void HuC_Power(void)
@@ -1415,7 +1400,7 @@ static void set_basename(const char *path)
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.33.3"
+#define MEDNAFEN_CORE_VERSION "v0.9.36"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W (EmulatedPCE_Fast.nominal_width)
@@ -1722,8 +1707,8 @@ void retro_run(void)
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static MDFN_Rect rects[FB_MAX_HEIGHT];
-   rects[0].w = ~0;
+   static int32_t rects[FB_MAX_HEIGHT];
+   rects[0] = ~0;
 
    EmulateSpecStruct spec = {0};
    spec.surface = surf;

@@ -202,7 +202,7 @@ typedef struct
 	// to by system emulation code.  If the emulated system doesn't support multiple screen widths per frame, or if you handle
 	// such a situation by outputting at a constant width-per-frame that is the least-common-multiple of the screen widths, then
 	// you can ignore this.  If you do wish to use this, you must set all elements every frame.
-	MDFN_Rect *LineWidths;
+	int32_t *LineWidths;
 
 	// TODO
 	bool *IsFMV;
