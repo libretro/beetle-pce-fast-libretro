@@ -25,8 +25,10 @@
 #include "msvc_compat.h"
 #endif
 
-MDFNGI *MDFNGameInfo = NULL;
+static bool old_cdimagecache = false;
+
 extern MDFNGI EmulatedPCE_Fast;
+MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
 
 /* Mednafen - Multi-system Emulator
  *
@@ -1111,12 +1113,12 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    for(unsigned i = 0; i < file_list.size(); i++)
    {
-    CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, false /* cdimage_memcache */));
+    CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, old_cdimagecache));
    }
   }
   else
   {
-   CDInterfaces.push_back(CDIF_Open(devicename, false, false /* cdimage_memcache */));
+   CDInterfaces.push_back(CDIF_Open(devicename, false, old_cdimagecache));
   }
  }
  catch(std::exception &e)
@@ -1416,8 +1418,8 @@ static void set_basename(const char *path)
 #define MEDNAFEN_CORE_VERSION "v0.9.33.3"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W (game->nominal_width)
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H (game->nominal_height)
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W (EmulatedPCE_Fast.nominal_width)
+#define MEDNAFEN_CORE_GEOMETRY_BASE_H (EmulatedPCE_Fast.nominal_height)
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
 #define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
@@ -1499,7 +1501,7 @@ void retro_init(void)
 
 void retro_reset(void)
 {
-   game->DoSimpleCommand(MDFN_MSC_RESET);
+   DoSimpleCommand(MDFN_MSC_RESET);
 }
 
 bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
@@ -1517,13 +1519,29 @@ static void set_volume (uint32_t *ptr, unsigned number)
    }
 }
 
+
 static void check_variables(void)
 {
    struct retro_variable var = {0};
 
+   var.key = "pce_fast_cdimagecache";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool cdimage_cache = true;
+
+      if (strcmp(var.value, "enabled") == 0)
+         cdimage_cache = true;
+      else if (strcmp(var.value, "disabled") == 0)
+         cdimage_cache = false;
+
+      if (cdimage_cache != old_cdimagecache)
+         old_cdimagecache = cdimage_cache;
+   }
+
    var.key = "pce_nospritelimit";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "disabled") == 0)
          setting_pce_fast_nospritelimit = 0;
@@ -1533,28 +1551,28 @@ static void check_variables(void)
 
    var.key = "pce_keepaspect";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "disabled") == 0)
       {
          setting_pce_keepaspect = 0;
-         game->fb_width = 512;
-         game->nominal_width = 341;
-         game->lcm_width = 341;
+         EmulatedPCE_Fast.fb_width = 512;
+         EmulatedPCE_Fast.nominal_width = 341;
+         EmulatedPCE_Fast.lcm_width = 341;
       }
       else if (strcmp(var.value, "enabled") == 0)
       {
          setting_pce_keepaspect = 1;
-         game->fb_width = 682;
-         game->nominal_width = 288;
-         game->lcm_width = 1024;
+         EmulatedPCE_Fast.fb_width = 682;
+         EmulatedPCE_Fast.nominal_width = 288;
+         EmulatedPCE_Fast.lcm_width = 1024;
       }
    }
 
    bool do_cdsettings = false;
    var.key = "pce_cddavolume";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       do_cdsettings = true;
       setting_pce_fast_cddavolume = atoi(var.value);
@@ -1562,7 +1580,7 @@ static void check_variables(void)
 
    var.key = "pce_adpcmvolume";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       do_cdsettings = true;
       setting_pce_fast_adpcmvolume = atoi(var.value);
@@ -1570,7 +1588,7 @@ static void check_variables(void)
 
    var.key = "pce_cdpsgvolume";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       do_cdsettings = true;
       setting_pce_fast_cdpsgvolume = atoi(var.value);
@@ -1578,7 +1596,7 @@ static void check_variables(void)
 
    var.key = "pce_cdspeed";
 
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       do_cdsettings = true;
       setting_pce_fast_cdspeed = atoi(var.value);
@@ -1620,6 +1638,8 @@ bool retro_load_game(const struct retro_game_info *info)
 
    set_basename(info->path);
 
+   check_variables();
+
    game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
    if (!game)
       return false;
@@ -1629,7 +1649,6 @@ bool retro_load_game(const struct retro_game_info *info)
    
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
 
-   check_variables();
 
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
@@ -1662,8 +1681,6 @@ void retro_unload_game(void)
 #endif
 }
 
-// Hardcoded for PSX. No reason to parse lots of structures ...
-// See mednafen/psx/input/gamepad.cpp
 static void update_input(void)
 {
    static unsigned map[] = {
@@ -1831,6 +1848,7 @@ void retro_set_environment(retro_environment_t cb)
    environ_cb = cb;
 
    static const struct retro_variable vars[] = {
+      { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
       { "pce_keepaspect", "Keep Aspect; enabled|disabled" },
       { "pce_cddavolume", "(CD) CDDA Volume; 0|10|20|30|40|50|60|70|80|90|100" },
@@ -1888,10 +1906,10 @@ size_t retro_serialize_size(void)
    //if (serialize_size)
    //   return serialize_size;
 
-   if (!curgame->StateAction)
+   if (!StateAction)
    {
       if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", curgame->shortname);
+         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", EmulatedPCE_Fast.shortname);
       return 0;
    }
 
@@ -1901,7 +1919,7 @@ size_t retro_serialize_size(void)
    if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
    {
       if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", curgame->shortname);
+         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", EmulatedPCE_Fast.shortname);
       return 0;
    }
 
