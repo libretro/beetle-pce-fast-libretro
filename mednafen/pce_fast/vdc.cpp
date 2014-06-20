@@ -1276,24 +1276,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
    MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
    
-   uint32 *target_ptr = NULL;
-   uint16 *target_ptr16 = NULL;
-   uint8 *target_ptr8 = NULL;
+   uint16 *target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
 
    vdc = vdc_chips[chip];
-
-   if(VDC_TotalChips == 2)
-    target_ptr = line_buffer[chip];
-   else
-   {
-#if defined(WANT_16BPP)
-    //if(surface->format.bpp == 16)
-     target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
-#elif defined(WANT_32BPP)
-    //else
-     target_ptr = surface->pixels + (frame_counter - 14) * surface->pitchinpix;
-#endif
-   }
 
    if(fc_vrm && !skip)
     LineWidths[frame_counter - 14] = DisplayRect->w;
@@ -1302,13 +1287,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    {
     if(fc_vrm && SHOULD_DRAW)
     {
-#if defined(WANT_16BPP)
-     //else if(target_ptr16)
-      DrawOverscan(vdc, target_ptr16, DisplayRect);
-#elif defined(WANT_32BPP)
-     //else
-      DrawOverscan(vdc, target_ptr, DisplayRect);
-#endif
+       DrawOverscan(vdc, target_ptr16, DisplayRect);
     }
    }
    else if(vdc->display_counter >= (VDS + VSW) && vdc->display_counter < (VDS + VSW + VDW + 1))
@@ -1368,7 +1347,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(width > 0)
       {
-#if defined(WANT_16BPP)
        //else if(target_ptr16)
        {
         switch(vdc->CR & 0xC0)
@@ -1386,56 +1364,24 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 		    break;
         }
        }
-#elif defined(WANT_32BPP)
-       //else
-       switch(vdc->CR & 0xC0)
-       {
-        case 0xC0: MixBGSPR(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr + target_offset);
- 		   break;
-
-        case 0x80: MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr + target_offset);
-		   break;
-
-        case 0x40: MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr + target_offset);
-		   break;
-
-        case 0x00: MixNone(width, target_ptr + target_offset);
-		   break;
-       }
-#endif
       }
 
-#if defined(WANT_16BPP)
       //else if(target_ptr16)
        DrawOverscan(vdc, target_ptr16, DisplayRect, false, target_offset, target_offset + width);
-#elif defined(WANT_32BPP)
-      //else
-       DrawOverscan(vdc, target_ptr, DisplayRect, false, target_offset, target_offset + width);
-#endif
      } // end if(SHOULD_DRAW)
     }
    }
    else if(SHOULD_DRAW && fc_vrm) // Hmm, overscan...
    {
-#if defined(WANT_16BPP)
     //else if(target_ptr16)
      DrawOverscan(vdc, target_ptr16, DisplayRect);
-#elif defined(WANT_32BPP)
-    //else
-     DrawOverscan(vdc, target_ptr, DisplayRect);
-#endif
    }
   }
 
   if(VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm)
   {
-#if defined(WANT_16BPP)
    //else if(surface->format.bpp == 16)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
-#elif defined(WANT_32BPP)
-   //else
-    MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
-#endif
   } 
 
   if(SHOULD_DRAW && fc_vrm)
@@ -1502,26 +1448,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   {
    if(!LineWidths[y])
    {
-    uint32 *target_ptr = NULL;
-    uint16 *target_ptr16 = NULL;
-    uint8  *target_ptr8 = NULL;
-
-#if defined(WANT_16BPP)
-    //if(surface->format.bpp == 16)
-     target_ptr16 = surface->pixels16 + y * surface->pitchinpix;
-#elif defined(WANT_32BPP)
-    //else
-     target_ptr = surface->pixels + y * surface->pitchinpix;
-#endif
+    uint16 *target_ptr16 = surface->pixels16 + y * surface->pitchinpix;
 
     LineWidths[y] = DisplayRect->w;
 
-    if(target_ptr8)
-     DrawOverscan(vdc_chips[0], target_ptr8, DisplayRect);
-    else if(target_ptr16)
-     DrawOverscan(vdc_chips[0], target_ptr16, DisplayRect);
-    else
-     DrawOverscan(vdc_chips[0], target_ptr, DisplayRect);
+    DrawOverscan(vdc_chips[0], target_ptr16, DisplayRect);
 
     MDFN_MidLineUpdate(espec, y);
    }

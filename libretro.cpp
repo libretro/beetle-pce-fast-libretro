@@ -1470,11 +1470,9 @@ void retro_init(void)
 	  retro_save_directory = retro_base_directory;
    }      
 
-#if defined(WANT_16BPP) && defined(FRONTEND_SUPPORTS_RGB565)
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
       log_cb(RETRO_LOG_INFO, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
-#endif
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_PERF_INTERFACE, &perf_cb))
       perf_get_cpu_features_cb = perf_cb.get_cpu_features;
@@ -1608,16 +1606,6 @@ bool retro_load_game(const struct retro_game_info *info)
    if (failed_init)
       return false;
 
-#ifdef WANT_32BPP
-   enum retro_pixel_format fmt = RETRO_PIXEL_FORMAT_XRGB8888;
-   if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &fmt))
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_ERROR, "Pixel format XRGB8888 not supported by platform, cannot use %s.\n", MEDNAFEN_CORE_NAME);
-      return false;
-   }
-#endif
-
    overscan = false;
    environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &overscan);
 
@@ -1746,13 +1734,8 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w;
    unsigned height = spec.DisplayRect.h;
 
-#if defined(WANT_32BPP)
-   const uint32_t *pix = surf->pixels;
-   video_cb(pix, width, height, FB_WIDTH << 2);
-#elif defined(WANT_16BPP)
    const uint16_t *pix = surf->pixels16;
    video_cb(pix, width, height, FB_WIDTH << 1);
-#endif
 
    video_frames++;
    audio_frames += spec.SoundBufSize;
