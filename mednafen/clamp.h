@@ -24,8 +24,4 @@ static INLINE void clamp(int32_t *val, size_t, size_t)
       *val = (*val >> 31) ^ 0x7FFF;
 }
 
-#define clamp_simple(val) \
-   if ( (int16_t)val != val ) \
-      val = (val >> 31) ^ 0x7FFF;
-
 #endif
