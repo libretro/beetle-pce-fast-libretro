@@ -660,6 +660,354 @@ static const FileExtensionSpecStruct KnownExtensions[] =
  { NULL, NULL }
 };
 
+static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
+
+ArcadeCard *arcade_card = NULL;
+
+static uint8 *HuCROM = NULL;
+
+static bool IsPopulous;
+bool PCE_IsCD;
+
+uint8 SaveRAM[2048];
+
+static DECLFW(ACPhysWrite)
+{
+ arcade_card->PhysWrite(A, V);
+}
+
+static DECLFR(ACPhysRead)
+{
+ return(arcade_card->PhysRead(A));
+}
+
+static DECLFR(SaveRAMRead)
+{
+ if((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
+  return(SaveRAM[A & 2047]);
+ else
+  return(0xFF);
+}
+
+static DECLFW(SaveRAMWrite)
+{
+ if((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
+  SaveRAM[A & 2047] = V;
+}
+
+static DECLFR(HuCRead)
+{
+ return ROMSpace[A];
+}
+
+static DECLFW(HuCRAMWrite)
+{
+ ROMSpace[A] = V;
+}
+
+static DECLFW(HuCRAMWriteCDSpecial) // Hyper Dyne Special hack
+{
+ BaseRAM[0x2000 | (A & 0x1FFF)] = V;
+ ROMSpace[A] = V;
+}
+
+static uint8 HuCSF2Latch = 0;
+
+static DECLFR(HuCSF2Read)
+{
+ return(HuCROM[(A & 0x7FFFF) + 0x80000 + HuCSF2Latch * 0x80000 ]); // | (HuCSF2Latch << 19) ]);
+}
+
+static DECLFW(HuCSF2Write)
+{
+ if((A & 0x1FFC) == 0x1FF0)
+ {
+  HuCSF2Latch = (A & 0x3);
+ }
+}
+
+int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
+{
+ uint32 sf2_threshold = 2048 * 1024;
+ uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
+ uint32 m_len = (len + 8191)&~8191;
+ bool sf2_mapper = FALSE;
+
+ if(m_len >= sf2_threshold)
+ {
+  sf2_mapper = TRUE;
+
+  if(m_len != sf2_required_size)
+   m_len = sf2_required_size;
+ }
+
+ IsPopulous = 0;
+ PCE_IsCD = 0;
+
+ md5_context md5;
+ md5.starts();
+ md5.update(data, len);
+ md5.finish(MDFNGameInfo->MD5);
+
+ MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
+ MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
+ MDFN_printf(_("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
+
+ if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
+ {
+  return(0);
+ }
+
+ memset(HuCROM, 0xFF, m_len);
+ memcpy(HuCROM, data, (m_len < len) ? m_len : len);
+
+ memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
+
+ if(m_len == 0x60000)
+ {
+  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
+  memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
+  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+  memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+  memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+ }
+ else if(m_len == 0x80000)
+ {
+  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
+  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+ }
+ else
+ {
+  memcpy(ROMSpace + 0x00 * 8192, HuCROM, (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
+ }
+
+ for(int x = 0x00; x < 0x80; x++)
+ {
+  HuCPUFastMap[x] = ROMSpace;
+  PCERead[x] = HuCRead;
+ }
+
+ if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
+ {
+  uint8 *PopRAM = ROMSpace + 0x40 * 8192;
+  
+  memset(PopRAM, 0xFF, 32768);
+
+  IsPopulous = 1;
+
+  MDFN_printf("Populous\n");
+
+  for(int x = 0x40; x < 0x44; x++)
+  {
+   HuCPUFastMap[x] = &PopRAM[(x & 3) * 8192] - x * 8192;
+   PCERead[x] = HuCRead;
+   PCEWrite[x] = HuCRAMWrite;
+  }
+  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
+ }
+ else
+ {
+  memset(SaveRAM, 0x00, 2048);
+  memcpy(SaveRAM, BRAM_Init_String, 8);    // So users don't have to manually intialize the file cabinet
+                                                // in the CD BIOS screen.
+  PCEWrite[0xF7] = SaveRAMWrite;
+  PCERead[0xF7] = SaveRAMRead;
+  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+ }
+
+ // 0x1A558
+ //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
+ if(sf2_mapper)
+ {
+  for(int x = 0x40; x < 0x80; x++)
+  {
+   // FIXME: PCE_FAST
+   HuCPUFastMap[x] = NULL; // Make sure our reads go through our read function, and not a table lookup
+   PCERead[x] = HuCSF2Read;
+  }
+  PCEWrite[0] = HuCSF2Write;
+  MDFN_printf("Street Fighter 2 Mapper\n");
+  HuCSF2Latch = 0;
+ }
+
+ return(1);
+}
+ 
+bool IsBRAMUsed(void)
+{
+ if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
+  return(1);
+
+ for(int x = 8; x < 2048; x++)
+  if(SaveRAM[x]) return(1);
+
+ return(0);
+}
+
+int HuCLoadCD(const char *bios_path)
+{
+ static const FileExtensionSpecStruct KnownBIOSExtensions[] =
+ {
+  { ".pce", gettext_noop("PC Engine ROM Image") },
+  { ".bin", gettext_noop("PC Engine ROM Image") },
+  { ".bios", gettext_noop("BIOS Image") },
+  { NULL, NULL }
+ };
+
+ MDFNFILE fp;
+
+ if(!fp.Open(bios_path, KnownBIOSExtensions, _("CD BIOS")))
+ {
+  return(0);
+ }
+
+ memset(ROMSpace, 0xFF, 262144);
+
+ memcpy(ROMSpace, GET_FDATA(fp) + (GET_FSIZE(fp) & 512), ((GET_FSIZE(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE(fp) &~ 512) );
+
+ fp.Close();
+
+ PCE_IsCD = 1;
+ PCE_InitCD();
+
+ md5_context md5;
+ md5.starts();
+// md5_update(&md5, HuCROM, 262144);
+
+#if 0
+ int32 track = CDIF_GetFirstTrack();
+ int32 last_track = CDIF_GetLastTrack();
+ bool DTFound = 0;
+ for(; track <= last_track; track++)
+ {
+  CDIF_Track_Format format;
+
+  if(CDIF_GetTrackFormat(track, format) && format == CDIF_FORMAT_MODE1)
+  {
+   DTFound = 1;
+   break;
+  }
+ }
+ 
+ if(DTFound) // Only add the MD5 hash if we were able to find a data track.
+ {
+  uint32 start_sector = CDIF_GetTrackStartPositionLBA(track);
+  uint8 sector_buffer[2048];
+
+  for(int x = 0; x < 128; x++)
+  {
+   memset(sector_buffer, 0, 2048);
+   CDIF_ReadSector(sector_buffer, NULL, start_sector + x, 1);
+   md5.update(sector_buffer, 2048);
+  }
+ }
+ md5.finish(MDFNGameInfo->MD5);
+ MDFN_printf(_("CD MD5(first 256KiB):   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
+ #endif
+
+ MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled")); 
+ for(int x = 0; x < 0x40; x++)
+ {
+  HuCPUFastMap[x] = ROMSpace;
+  PCERead[x] = HuCRead;
+ }
+
+ for(int x = 0x68; x < 0x88; x++)
+ {
+  HuCPUFastMap[x] = ROMSpace;
+  PCERead[x] = HuCRead;
+  PCEWrite[x] = HuCRAMWrite;
+ }
+ PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
+ MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
+
+ if(PCE_ACEnabled)
+ {
+   try
+   {
+    arcade_card = new ArcadeCard();
+   }
+   catch(std::exception &e)
+   {
+    MDFN_PrintError(_("Error creating %s object: %s"), "ArcadeCard", e.what());
+    //Cleanup();	// TODO
+    return(0);
+   }
+
+  for(int x = 0x40; x < 0x44; x++)
+  {
+   HuCPUFastMap[x] = NULL;
+   PCERead[x] = ACPhysRead;
+   PCEWrite[x] = ACPhysWrite;
+  }
+ }
+
+ memset(SaveRAM, 0x00, 2048);
+ memcpy(SaveRAM, BRAM_Init_String, 8);	// So users don't have to manually intialize the file cabinet
+						// in the CD BIOS screen.
+
+ PCEWrite[0xF7] = SaveRAMWrite;
+ PCERead[0xF7] = SaveRAMRead;
+ MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+ return(1);
+}
+
+int HuC_StateAction(StateMem *sm, int load, int data_only)
+{
+ SFORMAT StateRegs[] = 
+ {
+  SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
+  SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
+  SFARRAY(ROMSpace + 0x68 * 8192, PCE_IsCD ? 262144 : 0),
+  SFVAR(HuCSF2Latch),
+  SFEND
+ };
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC");
+
+ if(load)
+  HuCSF2Latch &= 0x3;
+
+ if(PCE_IsCD)
+ {
+  ret &= PCECD_StateAction(sm, load, data_only);
+
+  if(arcade_card)
+   ret &= arcade_card->StateAction(sm, load, data_only);
+ }
+ return(ret);
+}
+
+void HuCClose(void)
+{
+ if(arcade_card)
+ {
+  delete arcade_card;
+  arcade_card = NULL;
+ }
+
+ if(PCE_IsCD)
+ {
+  PCECD_Close();
+ }
+
+ if(HuCROM)
+ {
+  MDFN_free(HuCROM);
+  HuCROM = NULL;
+ }
+}
+
+void HuC_Power(void)
+{
+ if(PCE_IsCD)
+  memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
+
+ if(arcade_card)
+  arcade_card->Power();
+}
+
 };
 
 MDFNGI EmulatedPCE_Fast =
@@ -1581,14 +1929,43 @@ bool retro_unserialize(const void *data, size_t size)
    return MDFNSS_LoadSM(&st, 0, 0);
 }
 
-void *retro_get_memory_data(unsigned)
+void *retro_get_memory_data(unsigned type)
 {
-   return NULL;
+   uint8_t *data;
+
+   switch (type)
+   {
+      case RETRO_MEMORY_SAVE_RAM:
+         if (IsPopulous)
+            data = (uint8_t*)(ROMSpace + 0x40 * 8192);
+         else
+            data = (uint8_t*)SaveRAM;
+         break;
+      default:
+         data = NULL;
+         break;
+   }
+   return data;
 }
 
-size_t retro_get_memory_size(unsigned)
+size_t retro_get_memory_size(unsigned type)
 {
-   return 0;
+   unsigned size;
+
+   switch (type)
+   {
+      case RETRO_MEMORY_SAVE_RAM:
+         if (IsPopulous)
+            size = 32768;
+         else
+            size = 2048;
+         break;
+      default:
+         size = 0;
+         break;
+   }
+
+   return size;
 }
 
 void retro_cheat_reset(void)
