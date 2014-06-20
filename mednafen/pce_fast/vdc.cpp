@@ -218,151 +218,11 @@ vpc_t vpc;
 #define VDCS_VD		0x20 // Vertical blank interrupt occurred
 #define VDCS_BSY	0x40 // VDC is waiting for a CPU access slot during the active display area??
 
-#if defined(WANT_8BPP)
-static MDFN_PaletteEntry PalTest[256];
-
-static uint8 FindClose(uint8 r, uint8 g, uint8 b) MDFN_COLD;
-static uint8 FindClose(uint8 r, uint8 g, uint8 b)
-{
- double rl, gl, bl;
- int closest = -1;
- double closest_cs = 1000;
-
- rl = pow((double)r / 255, 2.2 / 1.0);
- gl = pow((double)g / 255, 2.2 / 1.0);
- bl = pow((double)b / 255, 2.2 / 1.0);
-
- for(unsigned x = 0; x < 256; x++)
- {
-  double rcl, gcl, bcl;
-  double cs;
-
-  rcl = pow((double)PalTest[x].r / 255, 2.2 / 1.0);
-  gcl = pow((double)PalTest[x].g / 255, 2.2 / 1.0);
-  bcl = pow((double)PalTest[x].b / 255, 2.2 / 1.0);
-
-  cs = fabs(rcl - rl) * 0.2126 + fabs(gcl - gl) * 0.7152 + fabs(bcl - bl) * 0.0722;
-  if(cs < closest_cs)
-  {
-   closest_cs = cs;
-   closest = x;
-  }
- }
-
- return(closest);
-}
-
-bool FindMatch(uint8 r, uint8 g, uint8 b)
-{
- for(unsigned x = 0; x < 256; x++)
- {
-  if(PalTest[x].r == r && PalTest[x].g == g && PalTest[x].b == b)
-   return(true);
- }
- return(false);
-}
-#endif
-
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
 {
  amask = 1 << format.Ashift;
  amask_shift = format.Ashift;
 
-
-#if defined(WANT_8BPP)
- if(format.bpp == 8)
- {
-  unsigned pti = 0;
-
-  memset(PalTest, 0, sizeof(PalTest));
-
-  for(int i = 0; i < 8; i++)
-  {
-   PalTest[pti].r = i * 36;
-   PalTest[pti].g = i * 36;
-   PalTest[pti].b = i * 36;
-   pti++;
-
-   if(i)
-   {
-    PalTest[pti].r = i * 36;
-    PalTest[pti].g = 0;
-    PalTest[pti].b = 0;
-    pti++;
-
-    PalTest[pti].r = 0;
-    PalTest[pti].g = i * 36;
-    PalTest[pti].b = 0;
-    pti++;
-
-    PalTest[pti].r = 0;
-    PalTest[pti].g = 0;
-    PalTest[pti].b = i * 36;
-    pti++;
-
-    PalTest[pti].r = i * 36;
-    PalTest[pti].g = i * 36;
-    PalTest[pti].b = 0;
-    pti++;
-
-    PalTest[pti].r = i * 36;
-    PalTest[pti].g = 0;
-    PalTest[pti].b = i * 36;
-    pti++;
-
-    PalTest[pti].r = 0;
-    PalTest[pti].g = i * 36;
-    PalTest[pti].b = i * 36;
-    pti++;
-   }
-  }
-
-  for(int r = 0; r < 8; r++)
-  {
-   for(int g = 0; g < 8; g++)
-   {
-    for(int b = 0; b < 8; b++)
-    {
-     if(FindMatch(r * 36, g * 36, b * 36))
-      continue;
-
-     if(g == 6 && b == 6 && r == 5)
-      goto SkipStuff;
-
-     if(g == 6 && b == 3 && r == 5)
-      goto SkipStuff;
-
-     if(g == 4 && b == 5 && r == 3)
-      goto SkipStuff;
-
-     if(!(b & 1))
-      continue;
-
-     if(g == (r + 1))
-      continue;
-
-     //if(g == 7 && r >= 4 && b < 4)
-     // continue;
-
-     if(g == (r + 3) && b >= 5)
-      continue;
-
-     SkipStuff:;
-
-     PalTest[pti].r = r * 36;
-     PalTest[pti].g = g * 36;
-     PalTest[pti].b = b * 36;
-     pti++;
-
-     if(pti == 256) goto EndThingy;
-    }
-   }
-  }
-  EndThingy:;
-  //printf("ZOOMBA: %u\n", pti);
-  //exit(1);
- }
-#endif
 
  for(int x = 0; x < 512; x++)
  {
@@ -403,14 +263,6 @@ void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
    sc_r = sc_g = sc_b = y;
   }
 
-#if defined(WANT_8BPP)
-  if(format.bpp == 8)
-  {
-   systemColorMap32[x] = FindClose(r, g, b);
-   bw_systemColorMap32[x] = FindClose(sc_r, sc_g, sc_b);
-  }
-  else
-#endif
   {
    systemColorMap32[x] = format.MakeColor(r, g, b);
    bw_systemColorMap32[x] = format.MakeColor(sc_r, sc_g, sc_b);
@@ -1280,11 +1132,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
  if(!skip)
  {
-#if defined(WANT_8BPP)
-  if(surface->palette)
-   memcpy(surface->palette, PalTest, sizeof(PalTest));
-#endif
-
   DisplayRect->x = 0;
   DisplayRect->w = 256;
 
@@ -1439,10 +1286,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     target_ptr = line_buffer[chip];
    else
    {
-#if defined(WANT_8BPP)
-    //if(surface->format.bpp == 8)
-     target_ptr8 = surface->pixels8 + (frame_counter - 14) * surface->pitchinpix;
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
     //if(surface->format.bpp == 16)
      target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
 #elif defined(WANT_32BPP)
@@ -1458,10 +1302,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    {
     if(fc_vrm && SHOULD_DRAW)
     {
-#if defined(WANT_8BPP)
-     //if(target_ptr8)
-      DrawOverscan(vdc, target_ptr8, DisplayRect);
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
      //else if(target_ptr16)
       DrawOverscan(vdc, target_ptr16, DisplayRect);
 #elif defined(WANT_32BPP)
@@ -1527,25 +1368,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(width > 0)
       {
-#if defined(WANT_8BPP)
-       //if(target_ptr8)
-       {
-        switch(vdc->CR & 0xC0)
-        {
-         case 0xC0: MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr8 + target_offset);
- 		    break;
-
-         case 0x80: MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr8 + target_offset);
-		    break;
-
-         case 0x40: MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr8 + target_offset);
-		    break;
-
-         case 0x00: MixNone(width, target_ptr8 + target_offset);
-		    break;
-        }
-       }
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
        //else if(target_ptr16)
        {
         switch(vdc->CR & 0xC0)
@@ -1582,10 +1405,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 #endif
       }
 
-#if defined(WANT_8BPP)
-      //if(target_ptr8)
-       DrawOverscan(vdc, target_ptr8, DisplayRect, false, target_offset, target_offset + width);
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
       //else if(target_ptr16)
        DrawOverscan(vdc, target_ptr16, DisplayRect, false, target_offset, target_offset + width);
 #elif defined(WANT_32BPP)
@@ -1597,10 +1417,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    }
    else if(SHOULD_DRAW && fc_vrm) // Hmm, overscan...
    {
-#if defined(WANT_8BPP)
-    //if(target_ptr8)
-     DrawOverscan(vdc, target_ptr8, DisplayRect);
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
     //else if(target_ptr16)
      DrawOverscan(vdc, target_ptr16, DisplayRect);
 #elif defined(WANT_32BPP)
@@ -1612,10 +1429,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   if(VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm)
   {
-#if defined(WANT_8BPP)
-   //if(surface->format.bpp == 8)
-    MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels8 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
    //else if(surface->format.bpp == 16)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
 #elif defined(WANT_32BPP)
@@ -1692,10 +1506,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     uint16 *target_ptr16 = NULL;
     uint8  *target_ptr8 = NULL;
 
-#if defined(WANT_8BPP)
-    //if(surface->format.bpp == 8)
-     target_ptr8 = surface->pixels8 + y * surface->pitchinpix;
-#elif defined(WANT_16BPP)
+#if defined(WANT_16BPP)
     //if(surface->format.bpp == 16)
      target_ptr16 = surface->pixels16 + y * surface->pitchinpix;
 #elif defined(WANT_32BPP)

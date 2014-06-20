@@ -337,10 +337,6 @@ ifeq ($(CACHE_CD), 1)
 FLAGS += -D__LIBRETRO_CACHE_CD__
 endif
 
-ifeq ($(NEED_BPP), 8)
-FLAGS += -DWANT_8BPP
-endif
-
 ifeq ($(NEED_BPP), 16)
 FLAGS += -DWANT_16BPP
 endif
