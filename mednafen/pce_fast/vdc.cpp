@@ -1212,44 +1212,10 @@ static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, T *
 	{
 	 const uint8 pb = (vpc.priority[prio_select[0]] >> prio_shift[0]) & 0xF;
 
-	 switch(pb)
-	 {
-	  default:
-	  	  //printf("%02x\n", pb);
-		  for(int x = 0; x < (int)count; x++)
-		  {	 
-		   #include "vpc_mix_inner.inc"
-		  }
-		  break;
-
-	  case 0x3:
-		  for(int x = 0; x < (int)count; x++)
-		  {	 
-		   #include "vpc_mix_inner.inc"
-		  }
-		  break;
-
-	  case 0x7:
-		  for(int x = 0; x < (int)count; x++)
-		  {	 
-		   #include "vpc_mix_inner.inc"
-		  }
-		  break;
-
-	  case 0xB:
-		  for(int x = 0; x < (int)count; x++)
-		  {	 
-		   #include "vpc_mix_inner.inc"
-		  }
-		  break;
-
-	  case 0xF:
-		  for(int x = 0; x < (int)count; x++)
-		  {	 
-		   #include "vpc_mix_inner.inc"
-		  }
-		  break;
-	 }
+    for(int x = 0; x < (int)count; x++)
+    {	 
+#include "vpc_mix_inner.inc"
+    }
 
 	 //switch(pb & 0xF)
 	 //{
