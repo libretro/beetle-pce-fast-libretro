@@ -220,8 +220,8 @@ vpc_t vpc;
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
 {
- amask = 1 << 24;
- amask_shift = 24;
+   amask = 1 << format.Ashift;
+   amask_shift = format.Ashift;
 
  for(int x = 0; x < 512; x++)
  {
@@ -904,7 +904,7 @@ void MixNone(const uint32 count, uint16_t *target)
   target[x] = bg_color;
 }
 
-static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, uint16_t *target)
+static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uint16_t *target)
 {
 	static const int prio_select[4] = { 1, 1, 0, 0 };
 	static const int prio_shift[4] = { 4, 0, 4, 0 };
@@ -1010,7 +1010,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     VBlankFL = 261;
   }
 
-  uint32 line_buffer[2][1024];	// For super grafx emulation
+  uint16 line_buffer[2][1024];	// For super grafx emulation
 
   need_vbi[0] = need_vbi[1] = 0;
 
@@ -1128,6 +1128,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    uint16 *target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
 
    vdc = vdc_chips[chip];
+
+   if (VDC_TotalChips == 2)
+      target_ptr16 = line_buffer[chip];
 
    if(fc_vrm && !skip)
     LineWidths[frame_counter - 14] = DisplayRect->w;
