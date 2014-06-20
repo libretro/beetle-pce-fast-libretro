@@ -218,12 +218,6 @@
     <ClCompile Include="..\..\..\mednafen\tremor\vorbisfile.c">
       <Filter>Source Files\mednafen\tremor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast\hes.cpp">
-      <Filter>Source Files\mednafen\pce_fast</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\pce_fast\huc.cpp">
-      <Filter>Source Files\mednafen\pce_fast</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\pce_fast\huc6280.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>

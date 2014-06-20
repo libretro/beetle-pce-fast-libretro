@@ -39,9 +39,7 @@ endif
    CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
    CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
 
-CORE_SOURCES := \
-   $(CORE_DIR)/huc.cpp \
-	$(CORE_DIR)/huc6280.cpp \
+CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
 	$(CORE_DIR)/input.cpp \
 	$(CORE_DIR)/pcecd.cpp \
 	$(CORE_DIR)/pcecd_drive.cpp \

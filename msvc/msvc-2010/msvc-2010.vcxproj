@@ -39,8 +39,6 @@
     <ClCompile Include="..\..\..\mednafen\MemoryStream.cpp" />
     <ClCompile Include="..\..\..\mednafen\mempatcher.cpp" />
     <ClCompile Include="..\..\..\mednafen\okiadpcm.cpp" />
-    <ClCompile Include="..\..\..\mednafen\pce_fast\hes.cpp" />
-    <ClCompile Include="..\..\..\mednafen\pce_fast\huc.cpp" />
     <ClCompile Include="..\..\..\mednafen\pce_fast\huc6280.cpp" />
     <ClCompile Include="..\..\..\mednafen\pce_fast\input.cpp" />
     <ClCompile Include="..\..\..\mednafen\pce_fast\pce.cpp" />

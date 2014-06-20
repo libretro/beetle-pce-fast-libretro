@@ -341,12 +341,6 @@
 					Name="pce_fast"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\hes.cpp">
-					</File>
-					<File
-						RelativePath="..\..\..\mednafen\pce_fast\huc.cpp">
-					</File>
-					<File
 						RelativePath="..\..\..\mednafen\pce_fast\huc6280.cpp">
 					</File>
 					<File

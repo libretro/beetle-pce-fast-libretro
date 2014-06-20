@@ -1557,6 +1557,8 @@ void VDC_Power(void)
 static bool LoadCustomPalette(const char *path) MDFN_COLD;
 static bool LoadCustomPalette(const char *path)
 {
+   if (path[0] == '\0')
+         return false;
  MDFN_printf(_("Loading custom palette from \"%s\"...\n"),  path);
  MDFN_indent(1);
 
