@@ -232,6 +232,10 @@ void MDFN_LoadGameCheats(void *override_ptr)
  else
  {
   std::string fn = MDFN_MakeFName(MDFNMKF_CHEAT,0,0).c_str();
+  const char *fnc = fn.c_str();
+
+  if (fnc[0] == '\0')
+     return;
 
   MDFN_printf("\n");
   MDFN_printf(_("Loading cheats from %s...\n"), fn.c_str());
