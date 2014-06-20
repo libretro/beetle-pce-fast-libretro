@@ -1403,8 +1403,8 @@ static void set_basename(const char *path)
 #define MEDNAFEN_CORE_VERSION "v0.9.36"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W (EmulatedPCE_Fast.nominal_width)
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H (EmulatedPCE_Fast.nominal_height)
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
+#define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
 #define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
