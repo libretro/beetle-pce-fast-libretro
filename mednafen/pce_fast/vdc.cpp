@@ -870,10 +870,9 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  }
 }
 
-void (*MixBGSPR)(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint32 *target) = NULL;
+void (*MixBGSPR)(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint16_t *target) = NULL;
 
-template<typename T>
-void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, T *target_in)
+void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
  {
@@ -888,162 +887,19 @@ void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const u
  }
 }
 
-#ifdef ARCH_X86
-
-#ifdef __x86_64__
-
-void MixBGSPR_x86(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint32 *target)
-{
- // rdx: bg_linebuf
- // rsi: spr_linebuf
- // rbp: vce.color_table_cache
- // rdi: target
- // rcx: count
-
- // eax: bg pixel
- // ebx: spr pixel
- int dummy;
-
- asm volatile(
-	"push %%rbx\n\t"
-
-	"movq %%rax, %%rbp\n\t"
-	"negq %%rcx\n\t"
-	"xorq %%rax, %%rax\n\t"
-	"xorq %%rbx, %%rbx\n\t"
-
-	"BoomBuggy:\n\t"
-        "movzbl (%%rdx, %%rcx, 1), %%eax\n\t"
-        "movswl (%%rsi, %%rcx, 2), %%ebx\n\t"
-
-	"testl $15, %%eax\n\t"
-	"bt $15, %%ebx\n\t"
-
-	"cmovbe %%ebx, %%eax\n\t"
-        "andl $511, %%eax\n\t"
-
-	"movl (%%rbp, %%rax, 4), %%ebx\n\t"
-	"movl %%ebx, (%%rdi, %%rcx, 4)\n\t"
-
-        "addq $1, %%rcx\n\t"	
-	"jnz BoomBuggy\n\t"
-
-	"pop %%rbx\n\t"
- : "=c" (dummy), "=a" (dummy)
- : "d" (bg_linebuf + count), "S" (spr_linebuf + count), "D" (target + count), "c" (count), "a" (vce.color_table_cache)
- : "memory", "cc", "rbp"
- );
-}
-
-#else // else to __x86_64__
-void MixBGSPR_x86(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint32 *target)
-{
- // edx: bg_linebuf
- // esi: spr_linebuf
- // ebp: vce.color_table_cache
- // edi: target
- // ecx: count
-
- // eax: bg pixel
- // ebx: spr pixel
- int dummy;
-
- asm volatile(
-        "push %%ebx\n\t"
-
-        "movl %%eax, %%ebp\n\t"
-        "negl %%ecx\n\t"
-        "xorl %%eax, %%eax\n\t"
-        "xorl %%ebx, %%ebx\n\t"
-
-        "BoomBuggy:\n\t"
-        "movzbl (%%edx, %%ecx, 1), %%eax\n\t"
-        "movswl (%%esi, %%ecx, 2), %%ebx\n\t"
-
-        "testl $15, %%eax\n\t"
-        "bt $15, %%ebx\n\t"
-
-        "jnbe SkipMove\n\t"
-        "movl %%ebx, %%eax\n\t"
-        "andl $511, %%eax\n\t"
-        "SkipMove:\n\t"
-
-        "movl (%%ebp, %%eax, 4), %%ebx\n\t"
-        "movl %%ebx, (%%edi, %%ecx, 4)\n\t"
-
-        "addl $1, %%ecx\n\t"
-        "jnz BoomBuggy\n\t"
-
-	"pop %%ebx\n\t"
- : "=c" (dummy), "=a" (dummy)
- : "d" (bg_linebuf + count), "S" (spr_linebuf + count), "D" (target + count), "c" (count), "a" (vce.color_table_cache)
- : "memory", "cc", "ebp"
- );
-}
-
-void MixBGSPR_x86_CMOV(const uint32 count, const uint8 *bg_linebuf, const uint16 *spr_linebuf, uint32 *target)
-{
- // edx: bg_linebuf
- // esi: spr_linebuf
- // ebp: vce.color_table_cache
- // edi: target
- // ecx: count
-
- // eax: bg pixel
- // ebx: spr pixel
- int dummy;
-
- asm volatile(
-        "push %%ebx\n\t"
-
-        "movl %%eax, %%ebp\n\t"
-        "negl %%ecx\n\t"
-        "xorl %%eax, %%eax\n\t"
-        "xorl %%ebx, %%ebx\n\t"
-
-        "BoomBuggyCMOV:\n\t"
-        "movzbl (%%edx, %%ecx, 1), %%eax\n\t"
-        "movswl (%%esi, %%ecx, 2), %%ebx\n\t"
-
-        "testl $15, %%eax\n\t"
-        "bt $15, %%ebx\n\t"
-
-        "cmovbe %%ebx, %%eax\n\t"
-        "andl $511, %%eax\n\t"
-
-        "movl (%%ebp, %%eax, 4), %%ebx\n\t"
-        "movl %%ebx, (%%edi, %%ecx, 4)\n\t"
-
-        "addl $1, %%ecx\n\t"
-        "jnz BoomBuggyCMOV\n\t"
-
-	"pop %%ebx\n\t"
- : "=c" (dummy), "=a" (dummy)
- : "d" (bg_linebuf + count), "S" (spr_linebuf + count), "D" (target + count), "c" (count), "a" (vce.color_table_cache)
- : "memory", "cc", "ebp"
- );
-}
-
-#endif
-
-#endif // ARCH_X86
-
-template<typename T>
-void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, T *target)
+void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = vce.color_table_cache[bg_linebuf[x]];
 }
 
-template<typename T>
-void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, T *target)
+void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
 }
 
-template<typename T>
-void MixNone(const uint32 count, T *target)
+void MixNone(const uint32 count, uint16_t *target)
 {
  uint32 bg_color = vce.color_table_cache[0x000];
 
@@ -1051,10 +907,7 @@ void MixNone(const uint32 count, T *target)
   target[x] = bg_color;
 }
 
-//static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, uint32 *target) NO_INLINE;
-
-template<typename T>
-static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, T *target)
+static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, uint16_t *target)
 {
 	static const int prio_select[4] = { 1, 1, 0, 0 };
 	static const int prio_shift[4] = { 4, 0, 4, 0 };
@@ -1094,8 +947,7 @@ static void MixVPC(const uint32 count, const uint32 *lb0, const uint32 *lb1, T *
 	}
 }
 
-template<typename T>
-void DrawOverscan(const vdc_t *vdc, T *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
+void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
  uint32 os_color = vce.color_table_cache[0x100];
 
@@ -1544,12 +1396,7 @@ void VDC_Init(int sgx)
 
  LoadCustomPalette(MDFN_MakeFName(MDFNMKF_PALETTE, 0, NULL).c_str());
 
- MixBGSPR = MixBGSPR_Generic<uint32>;
-
-#ifdef ARCH_X86
- MixBGSPR = MixBGSPR_x86;
-#endif
-
+ MixBGSPR = MixBGSPR_Generic;
 }
 
 void VDC_Close(void)
