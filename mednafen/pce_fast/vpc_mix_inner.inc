@@ -1,5 +1,5 @@
 
-	 uint32 vdc2_pixel, vdc1_pixel;
+	 uint16 vdc2_pixel, vdc1_pixel;
 
 	 vdc2_pixel = vdc1_pixel = vce.color_table_cache[0];
 
@@ -26,7 +26,7 @@
 		puts("MOO");
 		// TODO: Verify that this is correct logic.
 		{
-		 const uint32 intermediate = ((vdc1_pixel ^ vdc2_pixel) & vdc1_pixel) >> 2;
+		 const uint16 intermediate = ((vdc1_pixel ^ vdc2_pixel) & vdc1_pixel) >> 2;
 		 vdc1_pixel |= (intermediate ^ vdc2_pixel) & intermediate & ALPHA_MASK;
 		}
                 break;
