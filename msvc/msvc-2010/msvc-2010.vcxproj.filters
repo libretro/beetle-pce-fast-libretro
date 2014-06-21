@@ -33,12 +33,6 @@
     <Filter Include="Source Files\mednafen\hw_misc\arcade_card">
       <UniqueIdentifier>{691cb3fc-62c8-4ac6-9c02-9f23e66368f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mednafen\hw_sound">
-      <UniqueIdentifier>{105e8413-1815-4b73-b6e5-61453de5430f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\mednafen\hw_sound\pce_psg">
-      <UniqueIdentifier>{13127bdc-2df4-4f65-9e00-4e8d9dcd221d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mednafen\tremor">
       <UniqueIdentifier>{6e70f6f2-5174-46d4-9bd6-33725139e84c}</UniqueIdentifier>
     </Filter>
@@ -142,9 +136,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\hw_misc\arcade_card\arcade_card.cpp">
       <Filter>Source Files\mednafen\hw_misc\arcade_card</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\hw_sound\pce_psg\pce_psg.cpp">
-      <Filter>Source Files\mednafen\hw_sound\pce_psg</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\cdrom\CDAccess_CCD.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>

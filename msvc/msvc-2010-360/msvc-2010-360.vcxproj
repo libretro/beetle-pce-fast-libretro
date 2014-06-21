@@ -360,7 +360,7 @@
       <PrecompiledHeaderOutputFile>$(OutDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NDEBUG;_XBOX;PROFILE;FASTCAP;_LIB;MSB_FIRST;WANT_PCE_FAST_EMU;WANT_16BPP;SIZEOF_DOUBLE=8;MEDNAFEN_VERSION=0.9.26;MPC_FIXED_POINT;__LIBRETRO__;_LOW_ACCURACY;WANT_STEREO_SOUND;FRONTEND_SUPPORTS_RGB565;PSS_STYLE=2;MEDNAFEN_VERSION_NUMERIC=926;BYTE_ORDER=1;NEED_CD;WANT_CRC32;%(PreprocessorDefinitions);WANT_THREADING;WANT_NEW_API</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_misc;$(SolutionDir)\..\..\mednafen\hw_sound;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -382,7 +382,7 @@
       <PrecompiledHeaderOutputFile>$(OutDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NDEBUG;_XBOX;_LIB;MSB_FIRST;WANT_PCE_FAST_EMU;WANT_16BPP;SIZEOF_DOUBLE=8;MEDNAFEN_VERSION=0.9.26;MPC_FIXED_POINT;__LIBRETRO__;_LOW_ACCURACY;WANT_STEREO_SOUND;FRONTEND_SUPPORTS_RGB565;PSS_STYLE=2;MEDNAFEN_VERSION_NUMERIC=926;BYTE_ORDER=1;NEED_CD;WANT_CRC32;%(PreprocessorDefinitions);WANT_THREADING;WANT_NEW_API</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_sound;$(SolutionDir)\..\..\mednafen\hw_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -404,7 +404,7 @@
       <PrecompiledHeaderOutputFile>$(OutDir)$(ProjectName).pch</PrecompiledHeaderOutputFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NDEBUG;_XBOX;LTCG;_LIB;MSB_FIRST;WANT_PCE_FAST_EMU;WANT_16BPP;SIZEOF_DOUBLE=8;MEDNAFEN_VERSION=0.9.26;MPC_FIXED_POINT;__LIBRETRO__;_LOW_ACCURACY;WANT_STEREO_SOUND;FRONTEND_SUPPORTS_RGB565;PSS_STYLE=2;MEDNAFEN_VERSION_NUMERIC=926;BYTE_ORDER=1;NEED_CD;WANT_CRC32;%(PreprocessorDefinitions);WANT_THREADING;WANT_NEW_API</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_sound;$(SolutionDir)\..\..\mednafen\hw_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\mednafen;$(SolutionDir)\..\..\mednafen\cdrom;$(SolutionDir)\..\..\mednafen\include;$(SolutionDir)\..\..\mednafen\sound;$(SolutionDir)\..\..\mednafen\ngp;$(SolutionDir)\..\..\mednafen\hw_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
