@@ -915,10 +915,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
   DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
-
-  // Hack for the input latency-reduction hack, part 1.
-  for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
-   LineWidths[y] = 0;
  }
 
  do
@@ -1223,23 +1219,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   //printf("%d\n", vce.lc263);
  } while(frame_counter != VBlankFL); // big frame loop!
 
- // Hack for the input latency-reduction hack, part 2. 
- if(!skip)
- {
-  for(int y = DisplayRect->y; y < DisplayRect->y + DisplayRect->h; y++)
-  {
-   if(!LineWidths[y])
-   {
-    uint16 *target_ptr16 = surface->pixels16 + y * surface->pitchinpix;
-
-    LineWidths[y] = DisplayRect->w;
-
-    DrawOverscan(vdc_chips[0], target_ptr16, DisplayRect);
-
-    MDFN_MidLineUpdate(espec, y);
-   }
-  }
- }
 }
 
 void VDC_Reset(void)
