@@ -23,7 +23,6 @@
     <ClCompile Include="..\..\..\mednafen\cdrom\l-ec.cpp" />
     <ClCompile Include="..\..\..\mednafen\cdrom\lec.cpp" />
     <ClCompile Include="..\..\..\mednafen\cdrom\recover-raw.cpp" />
-    <ClCompile Include="..\..\..\mednafen\cdrom\scsicd.cpp" />
     <ClCompile Include="..\..\..\mednafen\cdrom\SimpleFIFO.cpp" />
     <ClCompile Include="..\..\..\mednafen\endian.cpp" />
     <ClCompile Include="..\..\..\mednafen\error.cpp" />

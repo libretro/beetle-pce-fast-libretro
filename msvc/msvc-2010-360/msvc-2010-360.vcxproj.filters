@@ -101,9 +101,6 @@
     <ClCompile Include="..\..\..\mednafen\trio\trio.c">
       <Filter>Source Files\mednafen\trio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\cdrom\scsicd.cpp">
-      <Filter>Source Files\mednafen\cdrom</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\mednafen\cdrom\CDAccess.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>
     </ClCompile>

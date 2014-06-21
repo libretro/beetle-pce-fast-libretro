@@ -32,7 +32,6 @@ endif
    NEED_TREMOR = 1
    NEED_BLIP = 1
    NEED_CD = 1
-   NEED_SCSI_CD = 1
    NEED_THREADING = 1
    NEED_CRC32 = 1
 	WANT_NEW_API = 1
@@ -236,10 +235,6 @@ endif
 ifeq ($(NEED_CRC32), 1)
    FLAGS += -DWANT_CRC32
 	LIBRETRO_SOURCES += scrc32.cpp
-endif
-
-ifeq ($(NEED_SCSI_CD), 1)
-   CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/scsicd.cpp
 endif
 
 ifeq ($(NEED_CD), 1)
