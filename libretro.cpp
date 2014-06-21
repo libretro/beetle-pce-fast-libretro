@@ -51,8 +51,6 @@ extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsi
 
 namespace PCE_Fast
 {
-extern uint16 systemColorMap32[512], bw_systemColorMap32[512];
-
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
