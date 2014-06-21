@@ -51,6 +51,7 @@ extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsi
 
 namespace PCE_Fast
 {
+extern uint16 systemColorMap32[512], bw_systemColorMap32[512];
 
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
@@ -1617,7 +1618,7 @@ bool retro_load_game(const struct retro_game_info *info)
    if (!game)
       return false;
 
-   MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 24);
+   MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 13);
    memset(&last_pixel_format, 0, sizeof(MDFN_PixelFormat));
    
    surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
@@ -1734,7 +1735,18 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w;
    unsigned height = spec.DisplayRect.h;
 
-   const uint16_t *pix = surf->pixels16;
+   uint16 *cm32 = vce.bw ? PCE_Fast::bw_systemColorMap32 : PCE_Fast::systemColorMap32;
+
+   static uint16_t pix[FB_WIDTH * FB_HEIGHT];
+   for (int y=0; y<height ; y++)
+   {
+      for (int x=0; x<width ; x++)
+      {
+         pix[x + y * FB_WIDTH]=cm32[surf->pixels16[x + y * FB_WIDTH] & 0x1FF];
+      }
+
+   }
+
    video_cb(pix, width, height, FB_WIDTH << 1);
 
    video_frames++;
