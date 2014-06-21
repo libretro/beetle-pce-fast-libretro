@@ -1730,7 +1730,7 @@ void retro_run(void)
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   unsigned width  = spec.DisplayRect.w;
+   unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
 
    static uint16_t pix[FB_WIDTH * FB_HEIGHT];
