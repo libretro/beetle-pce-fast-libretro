@@ -38,7 +38,7 @@ namespace PCE_Fast
 
 static uint8 *CustomColorMap = NULL; // 1024 * 3
 static uint32 CustomColorMapLen;      // 512 or 1024
-static uint32 systemColorMap32[512], bw_systemColorMap32[512];
+uint16 systemColorMap32[512], bw_systemColorMap32[512];
 static uint32 amask;    // Alpha channel maskaroo
 static uint32 amask_shift;
 static uint32 userle; // User layer enable.
@@ -69,17 +69,16 @@ vdc_t *vdc_chips[2] = { NULL, NULL };
 
 static INLINE void FixPCache(int entry)
 {
- uint32 *cm32 = vce.bw ? bw_systemColorMap32 : systemColorMap32;
 
  if(!(entry & 0xFF))
  {
   for(int x = 0; x < 16; x++)
-   vce.color_table_cache[(entry & 0x100) + (x << 4)] = cm32[vce.color_table[entry & 0x100]] | amask;
+   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | amask;
  }
 
  if(entry & 0xF)
  {
-  uint32 color = cm32[vce.color_table[entry]];
+   uint32 color = vce.color_table[entry];
 
   // For SuperGrafx VPCsprite handling to work
   if(entry & 0x100)
@@ -915,7 +914,7 @@ static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uin
 	 const uint8 pb = (vpc.priority[prio_select[0]] >> prio_shift[0]) & 0xF;
 
     for(int x = 0; x < (int)count; x++)
-    {	 
+    {
 #include "vpc_mix_inner.inc"
     }
 
