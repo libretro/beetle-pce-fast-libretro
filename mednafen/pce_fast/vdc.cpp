@@ -36,9 +36,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 namespace PCE_Fast
 {
 
-static uint8 *CustomColorMap = NULL; // 1024 * 3
-static uint32 CustomColorMapLen;      // 512 or 1024
-uint16 systemColorMap32[512], bw_systemColorMap32[512];
 static uint32 amask;    // Alpha channel maskaroo
 static uint32 amask_shift;
 static uint32 userle; // User layer enable.
@@ -222,68 +219,6 @@ void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
    amask = 1 << format.Ashift;
    amask_shift = format.Ashift;
 
- for(int x = 0; x < 512; x++)
- {
-  int r, g, b;
-  int sc_r, sc_g, sc_b;
-
-  if(CustomColorMap)
-  {
-   r = CustomColorMap[x * 3 + 0];
-   g = CustomColorMap[x * 3 + 1];
-   b = CustomColorMap[x * 3 + 2];
-  }
-  else
-  {
-   b = 36 * (x & 0x007);
-   r = 36 * ((x & 0x038) >> 3);
-   g = 36 * ((x & 0x1c0) >> 6);
-  }
-
-  if(CustomColorMap && CustomColorMapLen == 1024)
-  {
-   sc_r = CustomColorMap[(512 + x) * 3 + 0];
-   sc_g = CustomColorMap[(512 + x) * 3 + 1];
-   sc_b = CustomColorMap[(512 + x) * 3 + 2];
-  }
-  else
-  {
-   double y;
-
-   y = floor(0.5 + (0.300 * r + 0.589 * g + 0.111 * b));
-
-   if(y < 0)
-    y = 0;
-
-   if(y > 255)
-    y = 255;
-
-   sc_r = sc_g = sc_b = y;
-  }
-
-  {
-   systemColorMap32[x] = MAKECOLOR(r, g, b, 0);
-   bw_systemColorMap32[x] = MAKECOLOR(sc_r, sc_g, sc_b, 0);
-  }
- }
-#if 0
- {
-  bool usedo[256] = { 0 };
-
-  for(int x = 0; x < 512; x++)
-  {
-   usedo[systemColorMap32[x]] = true;
-  }
-
-  for(int x = 0; x < 256; x++)
-  {
-   if(!usedo[x])
-   {
-    printf("Monkey: %d %d %d\n", PalTest[x].r / 36, PalTest[x].g / 36, PalTest[x].b / 36);
-   }
-  }
- }
-#endif
  // I know the temptation is there, but don't combine these two loops just
  // because they loop 512 times ;)
  for(int x = 0; x < 512; x++)
@@ -1335,52 +1270,6 @@ void VDC_Power(void)
  VDC_Reset();
 }
 
-// Warning:  As of 0.8.x, this custom colormap function will only work if it's called from VDC_Init(), in the Load()
-// game load path.
-static bool LoadCustomPalette(const char *path) MDFN_COLD;
-static bool LoadCustomPalette(const char *path)
-{
-   if (path[0] == '\0')
-         return false;
- MDFN_printf(_("Loading custom palette from \"%s\"...\n"),  path);
- MDFN_indent(1);
-
- CustomColorMap = NULL;
-
- try
- {
-  FileStream fp(path, FileStream::MODE_READ);
-
-  CustomColorMap = new uint8[1024 * 3];
-
-  fp.read(CustomColorMap, 512 * 3, true);
-  if(fp.read(CustomColorMap, 512 * 3, false) == 512 * 3)
-   CustomColorMapLen = 1024;
-  else
-  {
-   MDFN_printf(_("Palette is missing the full set of 512 greyscale entries.  Strip-colorburst entries will be calculated.\n"));
-   CustomColorMapLen = 512;
-  }
- }
- catch(std::exception &e)
- {
-  if(CustomColorMap)
-  {
-   MDFN_free(CustomColorMap);
-   CustomColorMap = NULL;
-  }
-
-  MDFN_printf("%s\n", e.what());
-  MDFN_indent(-1);
-  return(false);
- }
-
- MDFN_indent(-1);
-
- return(true);
-}
-
-
 void VDC_Init(int sgx)
 {
  unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
@@ -1393,8 +1282,6 @@ void VDC_Init(int sgx)
  {
   vdc_chips[chip] = (vdc_t *)MDFN_malloc(sizeof(vdc_t), "VDC");
  }
-
- LoadCustomPalette(MDFN_MakeFName(MDFNMKF_PALETTE, 0, NULL).c_str());
 }
 
 void VDC_Close(void)
