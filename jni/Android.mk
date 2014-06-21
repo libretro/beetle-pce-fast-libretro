@@ -54,7 +54,6 @@ TARGET_NAME := mednafen_pce_fast_libretro
 
 HW_CPU_SOURCES := $(MEDNAFEN_DIR)/hw_cpu/huc6280/cpu_huc6280.cpp
 HW_MISC_SOURCES := $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
-HW_VIDEO_SOURCES := $(MEDNAFEN_DIR)/hw_video/huc6270/vdc_video.cpp
 OKIADPCM_SOURCES := $(MEDNAFEN_DIR)/okiadpcm.cpp
 
 ifeq ($(NEED_STEREO_SOUND), 1)
@@ -147,7 +146,7 @@ endif
 
 LDFLAGS += $(fpic) $(SHARED)
 FLAGS += $(fpic) $(NEW_GCC_FLAGS)
-LOCAL_C_INCLUDES += .. ../mednafen ../mednafen/include ../mednafen/intl ../mednafen/hw_cpu ../mednafen/hw_sound ../mednafen/hw_misc ../mednafen/hw_video $(CORE_INCDIR) $(EXTRA_CORE_INCDIR)
+LOCAL_C_INCLUDES += .. ../mednafen ../mednafen/include ../mednafen/intl ../mednafen/hw_cpu ../mednafen/hw_sound ../mednafen/hw_misc $(CORE_INCDIR) $(EXTRA_CORE_INCDIR)
 
 FLAGS += $(ENDIANNESS_DEFINES) -DSIZEOF_DOUBLE=8 $(WARNINGS) -DMEDNAFEN_VERSION=\"0.9.26\" -DPACKAGE=\"mednafen\" -DMEDNAFEN_VERSION_NUMERIC=926 -DPSS_STYLE=1 -DMPC_FIXED_POINT $(CORE_DEFINE) -DSTDC_HEADERS -D__STDC_LIMIT_MACROS -D__LIBRETRO__ -DNDEBUG -D_LOW_ACCURACY_ $(SOUND_DEFINE) -DLSB_FIRST
 

@@ -374,13 +374,6 @@
 					</Filter>
 				</Filter>
 				<Filter
-					Name="hw_video"
-					Filter="">
-					<File
-						RelativePath="..\..\..\mednafen\hw_video\huc6270\vdc_video.cpp">
-					</File>
-				</Filter>
-				<Filter
 					Name="hw_cpu"
 					Filter="">
 					<Filter

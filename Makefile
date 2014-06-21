@@ -58,7 +58,6 @@ endif
 
 HW_CPU_SOURCES += $(MEDNAFEN_DIR)/hw_cpu/huc6280/cpu_huc6280.cpp
 HW_MISC_SOURCES += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
-HW_VIDEO_SOURCES += $(MEDNAFEN_DIR)/hw_video/huc6270/vdc_video.cpp
 OKIADPCM_SOURCES += $(MEDNAFEN_DIR)/okiadpcm.cpp
 
 ifeq ($(NEED_BLIP), 1)

@@ -45,12 +45,6 @@
     <Filter Include="Source Files\mednafen\hw_sound\pce_psg">
       <UniqueIdentifier>{13127bdc-2df4-4f65-9e00-4e8d9dcd221d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mednafen\hw_video">
-      <UniqueIdentifier>{133c040c-990b-4144-a7ee-71edd49e3d86}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\mednafen\hw_video\huc6270">
-      <UniqueIdentifier>{384ba939-89be-4acd-b3ff-5f6460b0fcf1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mednafen\tremor">
       <UniqueIdentifier>{6e70f6f2-5174-46d4-9bd6-33725139e84c}</UniqueIdentifier>
     </Filter>
@@ -157,9 +151,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\hw_sound\pce_psg\pce_psg.cpp">
       <Filter>Source Files\mednafen\hw_sound\pce_psg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\hw_video\huc6270\vdc_video.cpp">
-      <Filter>Source Files\mednafen\hw_video\huc6270</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\hw_cpu\huc6280\cpu_huc6280.cpp">
       <Filter>Source Files\mednafen\hw_cpu\huc6280</Filter>
