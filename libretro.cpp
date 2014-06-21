@@ -1735,14 +1735,16 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w;
    unsigned height = spec.DisplayRect.h;
 
-   uint16 *cm32 = vce.bw ? PCE_Fast::bw_systemColorMap32 : PCE_Fast::systemColorMap32;
-
    static uint16_t pix[FB_WIDTH * FB_HEIGHT];
    for (int y=0; y<height ; y++)
    {
       for (int x=0; x<width ; x++)
       {
-         pix[x + y * FB_WIDTH]=cm32[surf->pixels16[x + y * FB_WIDTH] & 0x1FF];
+         uint16_t val=surf->pixels16[x + y * FB_WIDTH];
+         int b = (val & 0x007);
+         int r = ((val & 0x038) >> 3);
+         int g = ((val & 0x1c0) >> 6);
+         pix[x + y * FB_WIDTH]= (r<<13)|((r&0x6)<<10)|(g<<8)|(g<<5)|(b<<2)|(b>>1);
       }
 
    }
