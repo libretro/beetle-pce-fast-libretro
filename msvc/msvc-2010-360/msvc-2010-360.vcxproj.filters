@@ -12,9 +12,6 @@
     <Filter Include="Source Files\mednafen">
       <UniqueIdentifier>{7e2d28e1-7dea-4830-b6d9-eda0e7a17ecd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mednafen\hw_cpu">
-      <UniqueIdentifier>{861b7018-2e33-4135-85a7-7c4a0c4a3b07}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mednafen\sound">
       <UniqueIdentifier>{1e91b900-1745-439d-9376-bc26074e1010}</UniqueIdentifier>
     </Filter>
@@ -29,9 +26,6 @@
     </Filter>
     <Filter Include="Source Files\mednafen\cdrom">
       <UniqueIdentifier>{84c0bb6f-44c5-45dd-8bd0-80caa8076b21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\mednafen\hw_cpu\huc6280">
-      <UniqueIdentifier>{585fa68d-736e-4485-95f8-065fb31a5cc4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\mednafen\hw_misc">
       <UniqueIdentifier>{8daa3df8-836e-4061-b2b1-2dc7da46390f}</UniqueIdentifier>
@@ -151,9 +145,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\hw_sound\pce_psg\pce_psg.cpp">
       <Filter>Source Files\mednafen\hw_sound\pce_psg</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\mednafen\hw_cpu\huc6280\cpu_huc6280.cpp">
-      <Filter>Source Files\mednafen\hw_cpu\huc6280</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\mednafen\cdrom\CDAccess_CCD.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>
