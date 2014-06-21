@@ -36,8 +36,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 namespace PCE_Fast
 {
 
-static uint32 amask;    // Alpha channel maskaroo
-static uint32 amask_shift;
 static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
@@ -70,7 +68,7 @@ static INLINE void FixPCache(int entry)
  if(!(entry & 0xFF))
  {
   for(int x = 0; x < 16; x++)
-   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | amask;
+   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | ALPHA_MASK;
  }
 
  if(entry & 0xF)
@@ -79,7 +77,7 @@ static INLINE void FixPCache(int entry)
 
   // For SuperGrafx VPCsprite handling to work
   if(entry & 0x100)
-   color |= amask << 2;
+   color |= ALPHA_MASK << 2;
 
   vce.color_table_cache[entry] = color;
  }
@@ -216,9 +214,6 @@ vpc_t vpc;
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
 {
-   amask = 1 << format.Ashift;
-   amask_shift = format.Ashift;
-
  // I know the temptation is there, but don't combine these two loops just
  // because they loop 512 times ;)
  for(int x = 0; x < 512; x++)

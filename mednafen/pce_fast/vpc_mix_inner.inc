@@ -15,21 +15,21 @@
 	 switch(pb >> 2)
 	 {    
 	  case 1:
-                //if((vdc2_pixel & (amask << 2)) && !(vdc1_pixel & (amask << 2)))
-                //        vdc1_pixel |= amask;
-		vdc1_pixel |= (((vdc2_pixel ^ vdc1_pixel) & vdc2_pixel) >> 2) & amask;
+                //if((vdc2_pixel & (ALPHA_MASK << 2)) && !(vdc1_pixel & (ALPHA_MASK << 2)))
+                //        vdc1_pixel |= ALPHA_MASK;
+		vdc1_pixel |= (((vdc2_pixel ^ vdc1_pixel) & vdc2_pixel) >> 2) & ALPHA_MASK;
                 break;
 
 	  case 2:
-                //if((vdc1_pixel & (amask << 2)) && !(vdc2_pixel & (amask << 2)) && !(vdc2_pixel & amask))
-                //        vdc1_pixel |= amask;
+                //if((vdc1_pixel & (ALPHA_MASK << 2)) && !(vdc2_pixel & (ALPHA_MASK << 2)) && !(vdc2_pixel & ALPHA_MASK))
+                //        vdc1_pixel |= ALPHA_MASK;
 		puts("MOO");
 		// TODO: Verify that this is correct logic.
 		{
 		 const uint32 intermediate = ((vdc1_pixel ^ vdc2_pixel) & vdc1_pixel) >> 2;
-		 vdc1_pixel |= (intermediate ^ vdc2_pixel) & intermediate & amask;
+		 vdc1_pixel |= (intermediate ^ vdc2_pixel) & intermediate & ALPHA_MASK;
 		}
                 break;
 	 }
-	 target[x] = (vdc1_pixel & amask) ? vdc2_pixel : vdc1_pixel;
+	 target[x] = (vdc1_pixel & ALPHA_MASK) ? vdc2_pixel : vdc1_pixel;
 
