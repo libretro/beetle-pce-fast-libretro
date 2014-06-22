@@ -490,9 +490,10 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
   const uint16 *BAT_Base = &vdc->VRAM[bat_y];
   const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
 
+  uint64 cg_mask = 0xFFFFFFFFFFFFFFFFFFF;
+
   if((vdc->MWR & 0x3) == 0x3)
-  {
-   const uint64 cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
+   cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
 
    for(int x = count - 1; x >= 0; x -= 8)
    {
@@ -504,20 +505,6 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
     bat_boom = (bat_boom + 1) & bat_width_mask;
     target64++;
    }
-  } // End 2-bit CG rendering
-  else
-  {
-   for(int x = count - 1; x >= 0; x -= 8)
-   {
-    const uint16 bat = BAT_Base[bat_boom];
-    const uint64 color_or = cblock_exlut[bat >> 12];
-
-    *target64 = CG_Base[(bat & 0xFFF) * 8] | color_or;
-
-    bat_boom = (bat_boom + 1) & bat_width_mask;
-    target64++;
-   }
-  } // End normal CG rendering
  }
 }
 
@@ -753,7 +740,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
 
-static inline void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
+static void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
  {
@@ -768,19 +755,19 @@ static inline void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *b
  }
 }
 
-static inline void MixBGOnly_Preset(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
+static void MixBGOnly_Preset(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
 }
 
-static inline void MixSPROnly_Preset(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
+static void MixSPROnly_Preset(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
 }
 
-static inline void MixNone_Preset(const uint32 count, uint16_t *target)
+static void MixNone_Preset(const uint32 count, uint16_t *target)
 {
  uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
 
