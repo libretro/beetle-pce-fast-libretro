@@ -750,16 +750,15 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
  uint32 os_color = MAKECOLOR_PCE(vce.color_table[0x100]);
 
  //printf("%d %d\n", lw->x, lw->w);
- int x = vpr;
+ int x = lw->x;
 
- if(full)
-    x = lw->x;
- else
+ if(!full)
  {
-  // Fill in viewport to the left of HDW with overscan color.
-  for(int x = lw->x; x < vpl; x++)
-   target[x] = os_color;
+    // Fill in viewport to the left of HDW with overscan color.
+    for(x = lw->x; x < vpl; x++)
+       target[x] = os_color;
 
+    x = vpr;
  }
 
  for(; x < lw->x + lw->w; x++)
