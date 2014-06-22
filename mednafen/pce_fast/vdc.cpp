@@ -705,8 +705,8 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
    int32 x_second = 15;
    if(SpriteList[i].flags & SPRF_HFLIP)
    {
-      int increment = 1;
-      int32 x_second = 0;
+      increment = 1;
+      x_second = 0;
    }
 
    for(int32 x = 0; x < 16; x++, x_second += increment)
