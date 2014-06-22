@@ -35,7 +35,6 @@ typedef struct
         bool bw;       // Black and White
         uint8 dot_clock; // Dot Clock(5, 7, or 10 MHz = 0, 1, 2)
         uint16 color_table[0x200];
-        uint32 color_table_cache[0x200];
         uint16 ctaddress;
 } vce_t;
 
