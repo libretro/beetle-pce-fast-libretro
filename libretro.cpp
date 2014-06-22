@@ -182,9 +182,6 @@ static void LoadCommonPre(void);
 
 static bool TestMagic(const char *name, MDFNFILE *fp)
 {
- if(memcmp(GET_FDATA_PTR(fp), "HESM", 4) && strcasecmp(GET_FEXTS_PTR(fp), "pce") && strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
-  return(FALSE);
-
  return(TRUE);
 }
 
@@ -546,7 +543,6 @@ static MDFNSetting PCESettings[] =
   { "pce_fast.slend", MDFNSF_NOFLAGS, gettext_noop("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
   { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, gettext_noop("Mouse sensitivity."), NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
   { "pce_fast.disable_softreset", MDFNSF_NOFLAGS, gettext_noop("If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily."), NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce_fast.forcesgx", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Force SuperGrafx emulation."), NULL, MDFNST_BOOL, "0" },
   { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable Arcade Card emulation."), NULL, MDFNST_BOOL, "1" },
   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("CPU overclock multiplier."), NULL, MDFNST_UINT, "1", "1", "100"},
   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("CD-ROM data transfer speed multiplier."), NULL, MDFNST_UINT, "1", "1", "100" },
@@ -569,8 +565,6 @@ static uint8 MemRead(uint32 addr)
 static const FileExtensionSpecStruct KnownExtensions[] =
 {
  { ".pce", gettext_noop("PC Engine ROM Image") },
- { ".hes", gettext_noop("PC Engine Music Rip") },
- { ".sgx", gettext_noop("SuperGrafx ROM Image") },
  { NULL, NULL }
 };
 
@@ -1323,7 +1317,7 @@ static void set_basename(const char *path)
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
 #define MEDNAFEN_CORE_VERSION "v0.9.36"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|sgx|cue|ccd"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
