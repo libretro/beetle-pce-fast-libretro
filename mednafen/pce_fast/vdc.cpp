@@ -754,8 +754,7 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
 
  if(!full)
  {
-    // Fill in viewport to the left of HDW with overscan color.
-    for(x = lw->x; x < vpl; x++)
+    for(; x < vpl; x++)
        target[x] = os_color;
 
     x = vpr;
