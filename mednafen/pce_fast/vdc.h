@@ -107,8 +107,7 @@ typedef struct
         uint8 spr_tile_clean[1024];     //VRAM_Size / 64];
 } vdc_t;
 
-extern vdc_t *vdc_chips[2];
-extern int VDC_TotalChips;
+extern vdc_t *vdc;
 
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format) MDFN_COLD;
@@ -125,29 +124,8 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
  uint8 ret = 0;
  int msb = A & 1;
  int chip = 0;
- vdc_t *vdc;
 
- if(SGX)
  {
-  A &= 0x1F;
-  switch(A)
-  {
-   case 0x8: return(vpc.priority[0]);
-   case 0x9: return(vpc.priority[1]);
-   case 0xA: return(vpc.winwidths[0]);
-   case 0xB: return(vpc.winwidths[0] >> 8);
-   case 0xC: return(vpc.winwidths[1]);
-   case 0xD: return(vpc.winwidths[1] >> 8);
-   case 0xE: return(0);
-  }
-  if(A & 0x8) return(0);
-  chip = (A & 0x10) >> 4;
-  vdc = vdc_chips[chip];
-  A &= 0x3;
- }
- else
- {
-  vdc = vdc_chips[0];
   A &= 0x3;
  }
 
@@ -157,13 +135,7 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
 
             vdc->status &= ~0x3F;
 
-            if(SGX)
-            {
-             if(!(vdc_chips[0]->status & 0x3F) && !(vdc_chips[1]->status & 0x3F))
-              HuC6280_IRQEnd(MDFN_IQIRQ1);
-            }
-            else
-              HuC6280_IRQEnd(MDFN_IQIRQ1); // Clear VDC IRQ line
+            HuC6280_IRQEnd(MDFN_IQIRQ1); // Clear VDC IRQ line
 
             break;
 
@@ -177,8 +149,7 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
              vdc->MARR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
 
              if(vdc->MARR >= VRAM_Size)
-              VDC_UNDEFINED("Unmapped VRAM VRR read");
-
+              VDC_UNDEFINED("Unmapped VRAM VRR read"); 
              vdc->read_buffer = vdc->VRAM[vdc->MARR & VRAM_SizeMask];
             }
            }

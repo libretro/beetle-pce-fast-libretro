@@ -58,9 +58,7 @@ static unsigned int VBlankFL;
 
 vce_t vce;
 
-int VDC_TotalChips = 0;
-
-vdc_t *vdc_chips[2] = { NULL, NULL };
+vdc_t *vdc = NULL;
 
 static INLINE void FixPCache(int entry)
 {
@@ -266,9 +264,6 @@ void VDC_SetLayerEnableMask(uint64 mask)
 
 DECLFW(VDC_Write_ST)
 {
- if(VDC_TotalChips == 2)
-  A |= vpc.st_mode ? 0x10 : 0;
-
  //printf("WriteST: %04x %02x\n", A, V);
  VDC_Write(A, V);
 }
@@ -320,31 +315,8 @@ DECLFW(VDC_Write)
 {
  int msb = A & 1;
  int chip = 0;
- vdc_t *vdc;
 
- //printf("VDC Write: %04x %02x\n", A, V);
- if(VDC_TotalChips == 2)
  {
-  A &= 0x1F;
-  switch(A)
-  {
-   case 0x8: vpc.priority[0] = V; break;
-   case 0x9: vpc.priority[1] = V; break;
-   case 0xA: vpc.winwidths[0] &= 0x300; vpc.winwidths[0] |= V; break;
-   case 0xB: vpc.winwidths[0] &= 0x0FF; vpc.winwidths[0] |= (V & 3) << 8; break;
-   case 0xC: vpc.winwidths[1] &= 0x300; vpc.winwidths[1] |= V; break;
-   case 0xD: vpc.winwidths[1] &= 0x0FF; vpc.winwidths[1] |= (V & 3) << 8; break;
-   case 0xE: vpc.st_mode = V & 1; break;
-  }
-  if(A & 0x8) return;
-
-  chip = (A & 0x10) >> 4;
-  vdc = vdc_chips[chip];
-  A &= 0x3;
- }
- else
- {
-  vdc = vdc_chips[0];
   A &= 0x3;
  }
  //if((A == 0x2 || A == 0x3) && ((vdc->select & 0x1f) >= 0x09) && ((vdc->select & 0x1f) <= 0x13))
@@ -870,46 +842,6 @@ static inline void MixNone(const uint32 count, uint16_t *target)
   target[x] = bg_color;
 }
 
-static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uint16_t *target)
-{
-	static const int prio_select[4] = { 1, 1, 0, 0 };
-	static const int prio_shift[4] = { 4, 0, 4, 0 };
-
-	// Windowing disabled.
-	if(vpc.winwidths[0] <= 0x40 && vpc.winwidths[1] <= 0x40)
-	{
-	 const uint8 pb = (vpc.priority[prio_select[0]] >> prio_shift[0]) & 0xF;
-
-    for(int x = 0; x < (int)count; x++)
-    {
-#include "vpc_mix_inner.inc"
-    }
-
-	 //switch(pb & 0xF)
-	 //{
-	 // case 0x0: for(int x = 0; x < (int)count; x++)
-	 //	    { 
-	 //	     #include "vpc_mix_inner.inc"
-	 //	    }
-	 //	    break;
-         //}
-	}
-	else for(int x = 0; x < (int)count; x++)
-	{    
-	 int in_window = 0;
-
-	 if(x < (vpc.winwidths[0] - 0x40))
-	  in_window |= 1;
-
-	 if(x < (vpc.winwidths[1] - 0x40))
-	  in_window |= 2;
-
-	 uint8 pb = (vpc.priority[prio_select[in_window]] >> prio_shift[in_window]) & 0xF;
-
-	 #include "vpc_mix_inner.inc"
-	}
-}
-
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
  uint32 os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
@@ -936,7 +868,6 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
 
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 {
- vdc_t *vdc = vdc_chips[0];
  int max_dc = 0;
  MDFN_Surface *surface = espec->surface;
  MDFN_Rect *DisplayRect = &espec->DisplayRect;
@@ -957,8 +888,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
  do
  {
   const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
-
-  vdc = vdc_chips[0];
 
   if(frame_counter == 0)
   {
@@ -1034,9 +963,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    DisplayRect->w = ws[correct_aspect][vce.dot_clock];
   }
 
-  for(int chip = 0; chip < VDC_TotalChips; chip++)
+  int chip = 0;
   {
-   vdc = vdc_chips[chip];
    if(frame_counter == 0)
    {
     vdc->display_counter = 0;
@@ -1061,7 +989,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
    if(vdc->display_counter == VBlankFL)
    {
-    need_vbi[chip] = 1;
+    need_vbi[0] = 1;
     if(vdc->SATBPending || (vdc->DCR & 0x10))
     {
      vdc->SATBPending = 0;
@@ -1082,19 +1010,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
   const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242));
   
-  bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
-
-  for(int chip = 0; chip < VDC_TotalChips; chip++)
+  chip = 0;
   {
    MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
    MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
    
    uint16 *target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
-
-   vdc = vdc_chips[chip];
-
-   if (VDC_TotalChips == 2)
-      target_ptr16 = line_buffer[chip];
 
    if(fc_vrm && !skip)
     LineWidths[frame_counter - 14] = DisplayRect->w;
@@ -1122,7 +1043,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
      if((vdc->CR & 0x80) && SHOULD_DRAW)
      {
-      if(userle & (chip ? ULE_BG1 : ULE_BG0))
+      if(userle & (ULE_BG0))
        DrawBG(vdc, end - start + (vdc->BG_XOffset & 7), bg_linebuf);
       else
        memset(bg_linebuf, 0, end - start + (vdc->BG_XOffset & 7));
@@ -1130,10 +1051,10 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
      if((vdc->CR & 0x40) && (SHOULD_DRAW || (vdc->CR & 0x03)))	// Don't skip sprite drawing if we can generate sprite #0 or sprite overflow IRQs.
      {
-      if((userle & (chip ? ULE_SPR1 : ULE_SPR0)) || (vdc->CR & 0x03))
+      if((userle & (ULE_SPR0)) || (vdc->CR & 0x03))
        DrawSprites(vdc, end - start, spr_linebuf + 0x20);
 
-      if(!(userle & (chip ? ULE_SPR1 : ULE_SPR0)))
+      if(!(userle & (ULE_SPR0)))
        memset(spr_linebuf + 0x20, 0, sizeof(uint16) * (end - start));
      }
 
@@ -1164,45 +1085,23 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       if(width > 0)
       {
        //else if(target_ptr16)
-       {
-          if (mixvpc_enable)
-          {
-             /* Hack - for Supergrafx MixVPC mode - target layers can't be preset with the correct output colors before MixVPC invocation */
-             switch(vdc->CR & 0xC0)
-             {
-                case 0xC0:
-                   MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x80:
-                   MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x40:
-                   MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x00:
-                   MixNone(width, target_ptr16 + target_offset);
-                   break;
-             }
-          }
-          else
-          {
-             switch(vdc->CR & 0xC0)
-             {
-                case 0xC0:
-                   MixBGSPR_Generic_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x80:
-                   MixBGOnly_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x40:
-                   MixSPROnly_Preset(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-                   break;
-                case 0x00:
-                   MixNone_Preset(width, target_ptr16 + target_offset);
-                   break;
-             }
-          }
-       }
+         {
+            switch(vdc->CR & 0xC0)
+            {
+               case 0xC0:
+                  MixBGSPR_Generic_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                  break;
+               case 0x80:
+                  MixBGOnly_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
+                  break;
+               case 0x40:
+                  MixSPROnly_Preset(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                  break;
+               case 0x00:
+                  MixNone_Preset(width, target_ptr16 + target_offset);
+                  break;
+            }
+         }
       }
 
       //else if(target_ptr16)
@@ -1217,29 +1116,21 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    }
   }
 
-  if(mixvpc_enable)
-  {
-   //else if(surface->format.bpp == 16)
-    MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
-  } 
-
   if(SHOULD_DRAW && fc_vrm)
   {
    MDFN_MidLineUpdate(espec, frame_counter - 14);
   }
 
-  for(int chip = 0; chip < VDC_TotalChips; chip++)
-   if((vdc_chips[chip]->CR & 0x08) && need_vbi[chip])
-    vdc_chips[chip]->status |= VDCS_VD;
+  if((vdc->CR & 0x08) && need_vbi[0])
+     vdc->status |= VDCS_VD;
 
   HuC6280_Run(2);
 
-  for(int chip = 0; chip < VDC_TotalChips; chip++)
-   if(vdc_chips[chip]->status & VDCS_VD)
-   {
-    VDC_DEBUG("VBlank IRQ");
-    HuC6280_IRQBegin(MDFN_IQIRQ1);   
-   }
+  if(vdc->status & VDCS_VD)
+  {
+     VDC_DEBUG("VBlank IRQ");
+     HuC6280_IRQBegin(MDFN_IQIRQ1);   
+  }
 
   HuC6280_Run(455 - line_leadin1 - 2);
 
@@ -1248,9 +1139,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    PCECD_Run(HuCPU.timestamp * 3);
   }
 
-  for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
-   vdc = vdc_chips[chip];
    vdc->RCRCount++;
 
    //vdc->BG_YOffset = (vdc->BG_YOffset + 1);
@@ -1284,25 +1173,19 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
 void VDC_Reset(void)
 {
- vdc_chips[0]->read_buffer = 0xFFFF;
+ vdc->read_buffer = 0xFFFF;
 
  vpc.priority[0] = vpc.priority[1] = 0x11;
 
- vdc_chips[0]->HSR = vdc_chips[0]->HDR = vdc_chips[0]->VSR = vdc_chips[0]->VDR = vdc_chips[0]->VCR = 0xFF; // Needed for Body Conquest 2
+ vdc->HSR = vdc->HDR = vdc->VSR = vdc->VDR = vdc->VCR = 0xFF; // Needed for Body Conquest 2
 
- if(vdc_chips[1])
- {
-  vdc_chips[1]->read_buffer = 0xFFFF;
-  vdc_chips[1]->HSR = vdc_chips[1]->HDR = vdc_chips[1]->VSR = vdc_chips[1]->VDR = vdc_chips[1]->VCR = 0xFF; // and for HES playback to not go bonkers
- }
  frame_counter = 0;
 }
 
 void VDC_Power(void)
 {
- for(int chip = 0; chip < VDC_TotalChips; chip++)
-  memset(vdc_chips[chip], 0, sizeof(vdc_t));
- VDC_Reset();
+   memset(vdc, 0, sizeof(vdc_t));
+   VDC_Reset();
 }
 
 void VDC_Init(int sgx)
@@ -1311,23 +1194,16 @@ void VDC_Init(int sgx)
  correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
  userle = ~0;
 
- VDC_TotalChips = sgx ? 2 : 1;
-
- for(int chip = 0; chip < VDC_TotalChips; chip++)
- {
-  vdc_chips[chip] = (vdc_t *)MDFN_malloc(sizeof(vdc_t), "VDC");
- }
+ vdc = (vdc_t *)MDFN_malloc(sizeof(vdc_t), "VDC");
 }
 
 void VDC_Close(void)
 {
- for(int chip = 0; chip < VDC_TotalChips; chip++)
  {
-  if(vdc_chips[chip])
-   MDFN_free(vdc_chips[chip]);
-  vdc_chips[chip] = NULL;
+  if(vdc)
+   MDFN_free(vdc);
+  vdc = NULL;
  }
- VDC_TotalChips = 0;
 }
 
 int VDC_StateAction(StateMem *sm, int load, int data_only)
@@ -1346,23 +1222,8 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
  int ret = MDFNSS_StateAction(sm, load, data_only, VCE_StateRegs, "VCE");
 
- int max_chips = VDC_TotalChips;
-
- if(VDC_TotalChips == 2)
+ int chip = 0;
  {
-  SFORMAT VPC_StateRegs[] =
-  {
-   SFVARN(vpc.st_mode, "st_mode"),
-   SFARRAYN(vpc.priority, 2, "priority"),
-   SFARRAY16N(vpc.winwidths, 2, "winwidths"),
-   SFEND
-  };
-  ret &= MDFNSS_StateAction(sm, load, data_only, VPC_StateRegs, "VPC");
- }
-
- for(int chip = 0; chip < max_chips; chip++)
- {
-  vdc_t *vdc = vdc_chips[chip];
   SFORMAT VDC_StateRegs[] = 
   {
 	SFVARN(vdc->display_counter, "display_counter"),
@@ -1421,7 +1282,7 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 	SFEND
   };
 
-  ret &= MDFNSS_StateAction(sm, load, data_only, VDC_StateRegs, chip ? "VDC1" : "VDC0");
+  ret &= MDFNSS_StateAction(sm, load, data_only, VDC_StateRegs, "VDC0");
 
   if(load)
   {

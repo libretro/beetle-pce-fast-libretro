@@ -26,14 +26,6 @@
 //
 //
 
-#if IOREAD_SGX==1
-  PCEF_CASEL(VDC_00, 0x00):
-  PCEF_CASEL(VDC_01, 0x01):
-  PCEF_CASEL(VDC_02, 0x02):
-  PCEF_CASEL(VDC_03, 0x03):
-	  HuC6280_StealCycle();
-	  return(VDC_Read(A & 0x1F, TRUE));
-#else
 
  PCEF_CASEL(VDC_00, 0x00):
         HuC6280_StealCycle();
@@ -50,7 +42,6 @@
  PCEF_CASEL(VDC_03, 0x03):
         HuC6280_StealCycle();
         return(VDC_Read(3, FALSE));
-#endif
 
  PCEF_CASEL(VCE_00, 0x04):
  PCEF_CASEL(VCE_01, 0x05):
