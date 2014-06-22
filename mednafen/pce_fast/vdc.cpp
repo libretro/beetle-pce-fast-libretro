@@ -729,26 +729,22 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
   } // End sprite0 handling
   else // No sprite0 hit:
   {
-   const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
-
    // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
+   //
+   const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
+   int increment = -1;
+   int32 x_second = 15;
    if(SpriteList[i].flags & SPRF_HFLIP)
    {
-    for(int32 x = 0; x < 16; x++)
-    {
-     const uint32 raw_pixel = pix_source[x];
-     if(raw_pixel)
-      dest_pix[x] = raw_pixel | prio_or;
-    }
+      increment = 1;
+      x_second = 0;
    }
-   else
+
+   for(int32 x = 0; x < 16; x++, x_second += increment)
    {
-    for(int32 x = 0; x < 16; x++)
-    {
-     const uint32 raw_pixel = pix_source[15 - x];
+     const uint32 raw_pixel = pix_source[x_second];
      if(raw_pixel)
       dest_pix[x] = raw_pixel | prio_or;
-    }
    }
 
   } // End no sprite0 hit
