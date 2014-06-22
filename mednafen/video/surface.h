@@ -6,7 +6,6 @@
 #define RED_MASK  0xf800
 #define GREEN_MASK 0x7e0
 #define BLUE_MASK 0x1f
-#define ALPHA_MASK 0x2000
 #define RED_EXPAND 3
 #define GREEN_EXPAND 2
 #define BLUE_EXPAND 3

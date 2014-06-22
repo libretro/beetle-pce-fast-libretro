@@ -62,23 +62,15 @@ vdc_t *vdc = NULL;
 
 static INLINE void FixPCache(int entry)
 {
+   if(!(entry & 0xFF))
+   {
+   for(int x = 0; x < 16; x++)
+      vce.color_table_cache[entry + (x << 4)] = vce.color_table[entry & 0x100];
+   return;
+   }
 
- if(!(entry & 0xFF))
- {
-  for(int x = 0; x < 16; x++)
-   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | ALPHA_MASK;
- }
-
- if(entry & 0xF)
- {
-   uint32 color = vce.color_table[entry];
-
-  // For SuperGrafx VPCsprite handling to work
-  if(entry & 0x100)
-   color |= ALPHA_MASK << 2;
-
-  vce.color_table_cache[entry] = color;
- }
+   if(entry & 0xF)
+      vce.color_table_cache[entry] = vce.color_table[entry];
 }
 
 static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
@@ -598,7 +590,7 @@ typedef struct
 	uint16 sub_y;
 } SPRLE;
 
-static const unsigned int spr_hpmask = 0x8000;	// High priority bit mask
+#define SPR_HPMASK  0x8000	// High priority bit mask
 
 // DrawSprites will write up to 0x20 units before the start of the pointer it's passed.
 static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf) NO_INLINE;
@@ -682,7 +674,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
   prio_or = 0x100 | SpriteList[i].palette_index;
 
   if(SpriteList[i].flags & SPRF_PRIORITY)
-   prio_or |= spr_hpmask;
+   prio_or |= SPR_HPMASK;
 
   if((SpriteList[i].flags & SPRF_SPRITE0) && (vdc->CR & 0x01))
   {
@@ -738,18 +730,23 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  }
 }
 
+#ifdef PSP
+#define MAKECOLOR_PCE(val) val
+#else
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
+#endif
 
-static void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
-{
+
+static inline void MixBGSPR(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
+{   
  for(unsigned int x = 0; x < count_in; x++)
  {
   const uint32 bg_pixel = bg_linebuf_in[x];
   const uint32 spr_pixel = spr_linebuf_in[x];
   uint32 pixel = bg_pixel;
 
-  if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
-   pixel = spr_pixel;
+  if ((spr_pixel & SPR_HPMASK) || !(bg_pixel & 0x0F))
+     pixel = spr_pixel;
 
   target_in[x] = MAKECOLOR_PCE(vce.color_table_cache[pixel & 0x1FF]);
  }
@@ -1015,7 +1012,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
             switch(vdc->CR & 0xC0)
             {
                case 0xC0:
-                  MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                  MixBGSPR(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
                   break;
                case 0x80:
                   MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
