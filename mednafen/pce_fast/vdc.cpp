@@ -787,31 +787,10 @@ static inline void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *b
  }
 }
 
-static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
-{
- for(unsigned int x = 0; x < count_in; x++)
- {
-  const uint32 bg_pixel = bg_linebuf_in[x];
-  const uint32 spr_pixel = spr_linebuf_in[x];
-  uint32 pixel = bg_pixel;
-
-  if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
-   pixel = spr_pixel;
-
-  target_in[x] = vce.color_table_cache[pixel & 0x1FF];
- }
-}
-
 static inline void MixBGOnly_Preset(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
-}
-
-static inline void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
-{
- for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[bg_linebuf[x]];
 }
 
 static inline void MixSPROnly_Preset(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
@@ -820,23 +799,9 @@ static inline void MixSPROnly_Preset(const uint32 count, const uint16 *spr_lineb
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
 }
 
-static inline void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
-{
- for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
-}
-
 static inline void MixNone_Preset(const uint32 count, uint16_t *target)
 {
  uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
-
- for(unsigned int x = 0; x < count; x++)
-  target[x] = bg_color;
-}
-
-static inline void MixNone(const uint32 count, uint16_t *target)
-{
- uint32 bg_color = vce.color_table_cache[0x000];
 
  for(unsigned int x = 0; x < count; x++)
   target[x] = bg_color;
