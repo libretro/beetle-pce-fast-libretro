@@ -831,8 +831,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
     VBlankFL = 261;
   }
 
-  uint16 line_buffer[2][1024];	// For super grafx emulation
-
   need_vbi[0] = need_vbi[1] = 0;
 
   #if 1
