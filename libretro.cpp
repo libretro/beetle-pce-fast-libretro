@@ -1733,21 +1733,7 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
 
-   static uint16_t pix[FB_WIDTH * FB_HEIGHT];
-   for (int y=0; y<height ; y++)
-   {
-      for (int x=0; x<width ; x++)
-      {
-         uint16_t val=surf->pixels16[x + y * FB_WIDTH];
-         int b = (val & 0x007);
-         int r = ((val & 0x038) >> 3);
-         int g = ((val & 0x1c0) >> 6);
-         pix[x + y * FB_WIDTH]= (r<<13)|((r&0x6)<<10)|(g<<8)|(g<<5)|(b<<2)|(b>>1);
-      }
-
-   }
-
-   video_cb(pix, width, height, FB_WIDTH << 1);
+   video_cb(surf->pixels16, width, height, FB_WIDTH << 1);
 
    video_frames++;
    audio_frames += spec.SoundBufSize;

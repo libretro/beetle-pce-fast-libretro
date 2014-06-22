@@ -798,6 +798,8 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  }
 }
 
+#define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
+
 static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
@@ -809,25 +811,25 @@ static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_lineb
   if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
    pixel = spr_pixel;
 
-  target_in[x] = vce.color_table_cache[pixel & 0x1FF];
+  target_in[x] = MAKECOLOR_PCE(vce.color_table_cache[pixel & 0x1FF]);
  }
 }
 
 void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[bg_linebuf[x]];
+  target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
 }
 
 void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
+  target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
 }
 
 void MixNone(const uint32 count, uint16_t *target)
 {
- uint32 bg_color = vce.color_table_cache[0x000];
+ uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
 
  for(unsigned int x = 0; x < count; x++)
   target[x] = bg_color;
@@ -875,7 +877,7 @@ static void MixVPC(const uint32 count, const uint16 *lb0, const uint16 *lb1, uin
 
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
- uint32 os_color = vce.color_table_cache[0x100];
+ uint32 os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
 
  //printf("%d %d\n", lw->x, lw->w);
 

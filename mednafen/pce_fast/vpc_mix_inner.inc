@@ -31,5 +31,9 @@
 		}
                 break;
 	 }
-	 target[x] = (vdc1_pixel & ALPHA_MASK) ? vdc2_pixel : vdc1_pixel;
+
+    if (vdc1_pixel & ALPHA_MASK)
+    target[x] = MAKECOLOR_PCE(vdc2_pixel);
+    else
+    target[x] = MAKECOLOR_PCE(vdc1_pixel);
 
