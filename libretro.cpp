@@ -58,7 +58,6 @@ static Blip_Buffer sbuf[2];
 
 bool PCE_ACEnabled;
 
-static bool IsSGX;
 int pce_overclocked;
 
 // Statically allocated for speed...or something.
@@ -79,16 +78,6 @@ static DECLFR(PCEBusRead)
 static DECLFW(PCENullWrite)
 {
  //printf("Null Write: %02x, %08x %02x\n", A >> 13, A, V);
-}
-
-static DECLFR(BaseRAMReadSGX)
-{
- return((BaseRAM - (0xF8 * 8192))[A]);
-}
-
-static DECLFW(BaseRAMWriteSGX)
-{
- (BaseRAM - (0xF8 * 8192))[A] = V;
 }
 
 static DECLFR(BaseRAMRead)
@@ -113,16 +102,7 @@ static DECLFW(BaseRAMWrite_Mirrored)
 
 static DECLFR(IORead)
 {
- #define IOREAD_SGX 0
  #include "mednafen/pce_fast/ioread.inc"
- #undef IOREAD_SGX
-}
-
-static DECLFR(IOReadSGX)
-{
- #define IOREAD_SGX 1
- #include "mednafen/pce_fast/ioread.inc"
- #undef IOREAD_SGX
 }
 
 static DECLFW(IOWrite)
@@ -213,8 +193,6 @@ static int Load(const char *name, MDFNFILE *fp)
  uint32 headerlen = 0;
  uint32 r_size;
 
- IsSGX = 0;
-
  LoadCommonPre();
 
  {
@@ -234,42 +212,6 @@ static int Load(const char *name, MDFNFILE *fp)
  uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
-
- if(!strcasecmp(GET_FEXTS_PTR(fp), "sgx"))
-  IsSGX = TRUE;
-
- if(GET_FSIZE_PTR(fp) >= 8192 && !memcmp(GET_FDATA_PTR(fp) + headerlen, "DARIUS Version 1.11b", strlen("DARIUS VERSION 1.11b")))
- {
-  MDFN_printf("SuperGfx:  Darius Plus\n");
-  IsSGX = 1;
- }
-
- if(crc == 0x4c2126b0)
- {
-  MDFN_printf("SuperGfx:  Aldynes\n");
-  IsSGX = 1;
- }
-
- if(crc == 0x8c4588e2)
- {
-  MDFN_printf("SuperGfx:  1941 - Counter Attack\n");
-  IsSGX = 1;
- }
- if(crc == 0x1f041166)
- {
-  MDFN_printf("SuperGfx:  Madouou Granzort\n");
-  IsSGX = 1;
- }
- if(crc == 0xb486a8ed)
- {
-  MDFN_printf("SuperGfx:  Daimakaimura\n");
-  IsSGX = 1;
- }
- if(crc == 0x3b13af61)
- {
-  MDFN_printf("SuperGfx:  Battle Ace\n");
-  IsSGX = 1;
- }
 
  return(LoadCommon());
 }
@@ -298,24 +240,8 @@ static void LoadCommonPre(void)
 
 static int LoadCommon(void)
 { 
- IsSGX |= MDFN_GetSettingB("pce_fast.forcesgx") ? 1 : 0;
+ VDC_Init(false);
 
- // Don't modify IsSGX past this point.
- 
- VDC_Init(IsSGX);
-
- if(IsSGX)
- {
-  MDFN_printf("SuperGrafx Emulation Enabled.\n");
-  PCERead[0xF8] = PCERead[0xF9] = PCERead[0xFA] = PCERead[0xFB] = BaseRAMReadSGX;
-  PCEWrite[0xF8] = PCEWrite[0xF9] = PCEWrite[0xFA] = PCEWrite[0xFB] = BaseRAMWriteSGX;
-
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPUFastMap[x] = BaseRAM - 0xf8 * 8192;
-
-  PCERead[0xFF] = IOReadSGX;
- }
- else
  {
   PCERead[0xF8] = BaseRAMRead;
   PCERead[0xF9] = PCERead[0xFA] = PCERead[0xFB] = BaseRAMRead_Mirrored;
@@ -329,7 +255,7 @@ static int LoadCommon(void)
   PCERead[0xFF] = IORead;
  }
 
- MDFNMP_AddRAM(IsSGX ? 32768 : 8192, 0xf8 * 8192, BaseRAM);
+ MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
 
  PCEWrite[0xFF] = IOWrite;
 
@@ -356,7 +282,7 @@ static int LoadCommon(void)
 
  PCE_Power();
 
- MDFNGameInfo->LayerNames = IsSGX ? "BG0\0SPR0\0BG1\0SPR1\0" : "Background\0Sprites\0";
+ MDFNGameInfo->LayerNames = "Background\0Sprites\0";
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
 
  // Clean this up:
@@ -435,8 +361,6 @@ static bool TestMagicCD(std::vector<CDIF *> *CDInterfaces)
 static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
  std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("pce_fast.cdbios").c_str() );
-
- IsSGX = 0;
 
  LoadCommonPre();
 
@@ -561,7 +485,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
-  SFARRAY(BaseRAM, IsSGX? 32768 : 8192),
+  SFARRAY(BaseRAM, 8192),
   SFVAR(PCEIODataBuffer),
   SFEND
  };
@@ -590,9 +514,8 @@ void PCE_Power(void)
 {
  memset(BaseRAM, 0x00, sizeof(BaseRAM));
 
- if(!IsSGX)
-  for(int i = 8192; i < 32768; i++)
-   BaseRAM[i] = 0xFF;
+ for(int i = 8192; i < 32768; i++)
+    BaseRAM[i] = 0xFF;
 
  PCEIODataBuffer = 0xFF;
 
