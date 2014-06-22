@@ -800,7 +800,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
 
-static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
+static inline void MixBGSPR_Generic_Preset(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {
  for(unsigned int x = 0; x < count_in; x++)
  {
@@ -815,21 +815,56 @@ static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_lineb
  }
 }
 
-void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
+static inline void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
+{
+ for(unsigned int x = 0; x < count_in; x++)
+ {
+  const uint32 bg_pixel = bg_linebuf_in[x];
+  const uint32 spr_pixel = spr_linebuf_in[x];
+  uint32 pixel = bg_pixel;
+
+  if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
+   pixel = spr_pixel;
+
+  target_in[x] = vce.color_table_cache[pixel & 0x1FF];
+ }
+}
+
+static void MixBGOnly_Preset(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
 }
 
-void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
+static void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
+{
+ for(unsigned int x = 0; x < count; x++)
+  target[x] = vce.color_table_cache[bg_linebuf[x]];
+}
+
+static void MixSPROnly_Preset(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
   target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
 }
 
-void MixNone(const uint32 count, uint16_t *target)
+void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
+{
+ for(unsigned int x = 0; x < count; x++)
+  target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
+}
+
+static void MixNone_Preset(const uint32 count, uint16_t *target)
 {
  uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
+
+ for(unsigned int x = 0; x < count; x++)
+  target[x] = bg_color;
+}
+
+void MixNone(const uint32 count, uint16_t *target)
+{
+ uint32 bg_color = vce.color_table_cache[0x000];
 
  for(unsigned int x = 0; x < count; x++)
   target[x] = bg_color;
@@ -1046,6 +1081,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   HuC6280_Run(line_leadin1);
 
   const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242));
+  
+  bool mixvpc_enable = (VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm);
 
   for(int chip = 0; chip < VDC_TotalChips; chip++)
   {
@@ -1128,21 +1165,43 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       {
        //else if(target_ptr16)
        {
-        switch(vdc->CR & 0xC0)
-        {
-           case 0xC0:
-              MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-              break;
-           case 0x80:
-              MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
-              break;
-           case 0x40:
-              MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
-              break;
-           case 0x00:
-              MixNone(width, target_ptr16 + target_offset);
-              break;
-        }
+          if (mixvpc_enable)
+          {
+             /* Hack - for Supergrafx MixVPC mode - target layers can't be preset with the correct output colors before MixVPC invocation */
+             switch(vdc->CR & 0xC0)
+             {
+                case 0xC0:
+                   MixBGSPR_Generic(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x80:
+                   MixBGOnly(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x40:
+                   MixSPROnly(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x00:
+                   MixNone(width, target_ptr16 + target_offset);
+                   break;
+             }
+          }
+          else
+          {
+             switch(vdc->CR & 0xC0)
+             {
+                case 0xC0:
+                   MixBGSPR_Generic_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x80:
+                   MixBGOnly_Preset(width, bg_linebuf + (vdc->BG_XOffset & 7) + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x40:
+                   MixSPROnly_Preset(width, spr_linebuf + 0x20 + source_offset, target_ptr16 + target_offset);
+                   break;
+                case 0x00:
+                   MixNone_Preset(width, target_ptr16 + target_offset);
+                   break;
+             }
+          }
        }
       }
 
@@ -1158,7 +1217,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    }
   }
 
-  if(VDC_TotalChips == 2 && SHOULD_DRAW && fc_vrm)
+  if(mixvpc_enable)
   {
    //else if(surface->format.bpp == 16)
     MixVPC(DisplayRect->w, line_buffer[0] + DisplayRect->x, line_buffer[1] + DisplayRect->x, surface->pixels16 + (frame_counter - 14) * surface->pitchinpix + DisplayRect->x);
