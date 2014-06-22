@@ -60,27 +60,6 @@ vce_t vce;
 
 vdc_t *vdc = NULL;
 
-static INLINE void FixPCache(int entry)
-{
-
- if(!(entry & 0xFF))
- {
-  for(int x = 0; x < 16; x++)
-   vce.color_table_cache[(entry & 0x100) + (x << 4)] = vce.color_table[entry & 0x100] | ALPHA_MASK;
- }
-
- if(entry & 0xF)
- {
-   uint32 color = vce.color_table[entry];
-
-  // For SuperGrafx VPCsprite handling to work
-  if(entry & 0x100)
-   color |= ALPHA_MASK << 2;
-
-  vce.color_table_cache[entry] = color;
- }
-}
-
 static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
 {
  uint32 charname = (A >> 4);
@@ -173,8 +152,6 @@ static INLINE void SetVCECR(uint8 V)
  if(((V & 0x80) >> 7) != vce.bw)
  {
   vce.bw = V & 0x80;
-  for(int x = 0; x < 512; x++)
-   FixPCache(x);
  }
 
  vce.lc263 = (V & 0x04);
@@ -212,11 +189,6 @@ vpc_t vpc;
 
 void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
 {
- // I know the temptation is there, but don't combine these two loops just
- // because they loop 512 times ;)
- for(int x = 0; x < 512; x++)
-  FixPCache(x);
-
  disabled_layer_color = MAKECOLOR(0x00, 0xFE, 0x00, 0);
 }
 
@@ -246,11 +218,9 @@ DECLFW(VCE_Write)
   case 3: vce.ctaddress &= 0x0FF; vce.ctaddress |= (V & 1) << 8; break;
   case 4: vce.color_table[vce.ctaddress & 0x1FF] &= 0x100;
 	  vce.color_table[vce.ctaddress & 0x1FF] |= V;
-	  FixPCache(vce.ctaddress & 0x1FF);
           break;
   case 5: vce.color_table[vce.ctaddress & 0x1FF] &= 0xFF;
 	  vce.color_table[vce.ctaddress & 0x1FF] |= (V & 1) << 8;
-	  FixPCache(vce.ctaddress & 0x1FF);
 	  vce.ctaddress++;
 	  break;
  }
@@ -751,25 +721,25 @@ static void MixBGSPR_Generic(const uint32 count_in, const uint8 *bg_linebuf_in, 
   if(((int16)(spr_pixel | ((bg_pixel & 0x0F) - 1))) < 0)
    pixel = spr_pixel;
 
-  target_in[x] = MAKECOLOR_PCE(vce.color_table_cache[pixel & 0x1FF]);
+  target_in[x] = MAKECOLOR_PCE(vce.color_table[pixel & 0x1FF]);
  }
 }
 
 static void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
-  target[x] = MAKECOLOR_PCE(vce.color_table_cache[bg_linebuf[x]]);
+  target[x] = MAKECOLOR_PCE(vce.color_table[bg_linebuf[x]]);
 }
 
 static void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
  for(unsigned int x = 0; x < count; x++)
-  target[x] = MAKECOLOR_PCE(vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF]);
+  target[x] = MAKECOLOR_PCE(vce.color_table[(spr_linebuf[x] | 0x100) & 0x1FF]);
 }
 
 static void MixNone(const uint32 count, uint16_t *target)
 {
- uint32 bg_color = MAKECOLOR_PCE(vce.color_table_cache[0x000]);
+ uint32 bg_color = MAKECOLOR_PCE(vce.color_table[0x000]);
 
  for(unsigned int x = 0; x < count; x++)
   target[x] = bg_color;
@@ -777,7 +747,7 @@ static void MixNone(const uint32 count, uint16_t *target)
 
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
 {
- uint32 os_color = MAKECOLOR_PCE(vce.color_table_cache[0x100]);
+ uint32 os_color = MAKECOLOR_PCE(vce.color_table[0x100]);
 
  //printf("%d %d\n", lw->x, lw->w);
  int x = vpr;
@@ -1219,8 +1189,6 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
     FixTileCache(vdc, x);
     vdc->spr_tile_clean[x >> 6] = 0;
    }
-   for(int x = 0; x < 512; x++)
-    FixPCache(x);
    RebuildSATCache(vdc);
   }
 
