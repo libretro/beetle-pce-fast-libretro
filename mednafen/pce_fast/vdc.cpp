@@ -485,7 +485,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
   const uint16 *BAT_Base = &vdc->VRAM[bat_y];
   const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
 
-  uint64_t cg_mask = 0xFFFFFFF;
+  uint64_t cg_mask = 0xFFFFFFFFFFFFFFFFFFFULL;
 
   if((vdc->MWR & 0x3) == 0x3)
    cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
