@@ -34,6 +34,8 @@ bool MDFNFILE::ApplyIPS(void *unused)
 // even if it errors out.
 bool MDFNFILE::MakeMemWrapAndClose(void *fp)
 {
+   bool ret = FALSE;
+
    location = 0;
 
    ::fseek((FILE *)fp, 0, SEEK_END);
@@ -44,10 +46,10 @@ bool MDFNFILE::MakeMemWrapAndClose(void *fp)
       goto fail;
    ::fread(f_data, 1, f_size, (FILE *)fp);
 
-   return TRUE;
+   ret = TRUE;
 fail:
    fclose((FILE*)fp);
-   return FALSE;
+   return ret;
 }
 
 MDFNFILE::MDFNFILE()
