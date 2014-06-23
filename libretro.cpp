@@ -1331,7 +1331,7 @@ static void set_basename(const char *path)
 
 static void check_system_specs(void)
 {
-   unsigned level = 0;
+   unsigned level = 5;
    environ_cb(RETRO_ENVIRONMENT_SET_PERFORMANCE_LEVEL, &level);
 }
 
