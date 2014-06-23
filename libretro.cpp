@@ -1316,7 +1316,7 @@ static void set_basename(const char *path)
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.36"
+#define MEDNAFEN_CORE_VERSION "v0.9.36.1"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
