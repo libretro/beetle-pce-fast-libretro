@@ -1,5 +1,5 @@
 #include	<stdarg.h>
-#include	<trio/trio.h>
+#include	"mednafen/include/trio/trio.h"
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
@@ -22,7 +22,7 @@
 #include "mednafen/cdrom/CDUtility.h"
 
 #ifdef _MSC_VER
-#include "msvc_compat.h"
+#include "mednafen/msvc_compat.h"
 #endif
 
 static bool old_cdimagecache = false;

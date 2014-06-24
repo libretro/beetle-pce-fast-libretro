@@ -64,7 +64,7 @@
 #  define TRIO_FUNC_ISINF
 # endif
 #endif
-#include <trio/trionan.h>
+#include "../include/trio/trionan.h"
 
 #if defined(TRIO_EMBED_STRING)
 # define TRIO_PUBLIC_STRING static
@@ -117,7 +117,7 @@
 #  define TRIO_FUNC_XSTRING_APPEND_CHAR
 # endif
 #endif
-#include <trio/triostr.h>
+#include "../include/trio/triostr.h"
 
 /**************************************************************************
  *

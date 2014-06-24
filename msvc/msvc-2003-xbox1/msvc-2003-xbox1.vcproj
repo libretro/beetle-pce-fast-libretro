@@ -194,13 +194,43 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\..\..\libretro.cpp">
+				RelativePath="..\..\libretro.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\scrc32.cpp">
+				RelativePath="..\..\scrc32.cpp">
 			</File>
 			<File
-				RelativePath="..\..\..\thread.c">
+				RelativePath="..\..\thread.c">
+				<FileConfiguration
+					Name="Debug|Xbox">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Profile|Xbox">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Profile_FastCap|Xbox">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Xbox">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release_LTCG|Xbox">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
 			</File>
 			<Filter
 				Name="mednafen"
@@ -252,9 +282,6 @@
 					Filter="">
 					<File
 						RelativePath="..\..\mednafen\cdrom\audioreader.cpp">
-					</File>
-					<File
-						RelativePath="..\..\mednafen\cdrom\audioreader_opus.cpp">
 					</File>
 					<File
 						RelativePath="..\..\mednafen\cdrom\CDAccess.cpp">
