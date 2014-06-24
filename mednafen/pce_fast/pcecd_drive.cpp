@@ -20,6 +20,7 @@
 #include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
+#include "../msvc_compat.h"
 
 namespace PCE_Fast
 {

@@ -206,157 +206,127 @@
 				Name="mednafen"
 				Filter="">
 				<File
-					RelativePath="..\..\..\mednafen\endian.cpp">
+					RelativePath="..\..\mednafen\endian.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\error.cpp">
+					RelativePath="..\..\mednafen\error.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\file.cpp">
+					RelativePath="..\..\mednafen\file.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\FileStream.cpp">
+					RelativePath="..\..\mednafen\FileStream.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\FileWrapper.cpp">
+					RelativePath="..\..\mednafen\FileWrapper.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\general.cpp">
+					RelativePath="..\..\mednafen\general.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\math_ops.cpp">
+					RelativePath="..\..\mednafen\math_ops.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\md5.cpp">
+					RelativePath="..\..\mednafen\md5.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\MemoryStream.cpp">
+					RelativePath="..\..\mednafen\MemoryStream.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\mempatcher.cpp">
+					RelativePath="..\..\mednafen\mempatcher.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\okiadpcm.cpp">
+					RelativePath="..\..\mednafen\okiadpcm.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\settings.cpp">
+					RelativePath="..\..\mednafen\settings.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\state.cpp">
+					RelativePath="..\..\mednafen\state.cpp">
 				</File>
 				<File
-					RelativePath="..\..\..\mednafen\Stream.cpp">
+					RelativePath="..\..\mednafen\Stream.cpp">
 				</File>
 				<Filter
 					Name="cdrom"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\audioreader.cpp">
+						RelativePath="..\..\mednafen\cdrom\audioreader.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\CDAccess.cpp">
+						RelativePath="..\..\mednafen\cdrom\audioreader_opus.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\CDAccess_CCD.cpp">
+						RelativePath="..\..\mednafen\cdrom\CDAccess.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\CDAccess_Image.cpp">
+						RelativePath="..\..\mednafen\cdrom\CDAccess_CCD.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\cdromif.cpp">
+						RelativePath="..\..\mednafen\cdrom\CDAccess_Image.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\CDUtility.cpp">
+						RelativePath="..\..\mednafen\cdrom\cdromif.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\crc32.cpp">
+						RelativePath="..\..\mednafen\cdrom\CDUtility.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\galois.cpp">
+						RelativePath="..\..\mednafen\cdrom\crc32.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\l-ec.cpp">
+						RelativePath="..\..\mednafen\cdrom\galois.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\lec.cpp">
+						RelativePath="..\..\mednafen\cdrom\l-ec.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\recover-raw.cpp">
+						RelativePath="..\..\mednafen\cdrom\lec.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\cdrom\SimpleFIFO.cpp">
+						RelativePath="..\..\mednafen\cdrom\recover-raw.cpp">
+					</File>
+					<File
+						RelativePath="..\..\mednafen\cdrom\SimpleFIFO.cpp">
 					</File>
 				</Filter>
 				<Filter
 					Name="trio"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\trio\trio.c">
-						<FileConfiguration
-							Name="Debug|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Profile|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Profile_FastCap|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release_LTCG|Xbox">
-							<Tool
-								Name="VCCLCompilerTool"
-								CompileAs="1"/>
-						</FileConfiguration>
+						RelativePath="..\..\mednafen\trio\trio.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\trio\triostr.c">
+						RelativePath="..\..\mednafen\trio\triostr.c">
 					</File>
 				</Filter>
 				<Filter
 					Name="sound"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\sound\Blip_Buffer.cpp">
+						RelativePath="..\..\mednafen\sound\Blip_Buffer.cpp">
 					</File>
 				</Filter>
 				<Filter
 					Name="pce_fast"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\huc6280.cpp">
+						RelativePath="..\..\mednafen\pce_fast\huc6280.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\input.cpp">
+						RelativePath="..\..\mednafen\pce_fast\input.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\pce.cpp">
+						RelativePath="..\..\mednafen\pce_fast\pcecd.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\pcecd.cpp">
+						RelativePath="..\..\mednafen\pce_fast\pcecd_drive.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\pcecd_drive.cpp">
+						RelativePath="..\..\mednafen\pce_fast\psg.cpp">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\pce_fast\psg.cpp">
-					</File>
-					<File
-						RelativePath="..\..\..\mednafen\pce_fast\vdc.cpp">
+						RelativePath="..\..\mednafen\pce_fast\vdc.cpp">
 					</File>
 				</Filter>
 				<Filter
@@ -366,18 +336,7 @@
 						Name="arcade_card"
 						Filter="">
 						<File
-							RelativePath="..\..\..\mednafen\hw_misc\arcade_card\arcade_card.cpp">
-						</File>
-					</Filter>
-				</Filter>
-				<Filter
-					Name="hw_cpu"
-					Filter="">
-					<Filter
-						Name="huc6280"
-						Filter="">
-						<File
-							RelativePath="..\..\..\mednafen\hw_cpu\huc6280\cpu_huc6280.cpp">
+							RelativePath="..\..\mednafen\hw_misc\arcade_card\arcade_card.cpp">
 						</File>
 					</Filter>
 				</Filter>
@@ -385,59 +344,59 @@
 					Name="video"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\video\surface.cpp">
+						RelativePath="..\..\mednafen\video\surface.cpp">
 					</File>
 				</Filter>
 				<Filter
 					Name="tremor"
 					Filter="">
 					<File
-						RelativePath="..\..\..\mednafen\tremor\bitwise.c">
+						RelativePath="..\..\mednafen\tremor\bitwise.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\block.c">
+						RelativePath="..\..\mednafen\tremor\block.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\codebook.c">
+						RelativePath="..\..\mednafen\tremor\codebook.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\floor0.c">
+						RelativePath="..\..\mednafen\tremor\floor0.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\floor1.c">
+						RelativePath="..\..\mednafen\tremor\floor1.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\framing.c">
+						RelativePath="..\..\mednafen\tremor\framing.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\info.c">
+						RelativePath="..\..\mednafen\tremor\info.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\ivorbisfile_example.c">
+						RelativePath="..\..\mednafen\tremor\ivorbisfile_example.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\mapping0.c">
+						RelativePath="..\..\mednafen\tremor\mapping0.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\mdct.c">
+						RelativePath="..\..\mednafen\tremor\mdct.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\registry.c">
+						RelativePath="..\..\mednafen\tremor\registry.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\res012.c">
+						RelativePath="..\..\mednafen\tremor\res012.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\sharedbook.c">
+						RelativePath="..\..\mednafen\tremor\sharedbook.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\synthesis.c">
+						RelativePath="..\..\mednafen\tremor\synthesis.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\vorbisfile.c">
+						RelativePath="..\..\mednafen\tremor\vorbisfile.c">
 					</File>
 					<File
-						RelativePath="..\..\..\mednafen\tremor\window.c">
+						RelativePath="..\..\mednafen\tremor\window.c">
 					</File>
 				</Filter>
 			</Filter>

@@ -44,9 +44,9 @@
 /*************************************************************************
  * Trio include files
  */
-#include <trio/triodef.h>
-#include <trio/trio.h>
-#include <trio/triop.h>
+#include "../include/trio/triodef.h"
+#include "../include/trio/trio.h"
+#include "../include/trio/triop.h"
 
 #ifdef _WIN32
 #include <direct.h>
