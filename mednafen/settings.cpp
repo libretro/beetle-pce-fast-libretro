@@ -46,9 +46,9 @@ uint64 MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce_fast.ocmultiplier", name)) /* make configurable */
       return 1;
    if (!strcmp("pce_fast.slstart", name))
-      return 4;
+      return 0;
    if (!strcmp("pce_fast.slend", name))
-      return 235;
+      return 242;
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;
