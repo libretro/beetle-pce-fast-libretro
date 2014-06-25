@@ -21,8 +21,8 @@
 #include <string>
 #include "settings.h"
 
-int setting_pce_fast_initial_scanline = 0;
-int setting_pce_fast_last_scanline = 242;
+int setting_initial_scanline = 0;
+int setting_last_scanline = 242;
 int setting_pce_fast_nospritelimit = 0;
 int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
@@ -48,9 +48,9 @@ uint64 MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce_fast.ocmultiplier", name)) /* make configurable */
       return 1;
    if (!strcmp("pce_fast.slstart", name))
-      return setting_pce_fast_initial_scanline;
+      return setting_initial_scanline;
    if (!strcmp("pce_fast.slend", name))
-      return setting_pce_fast_last_scanline; 
+      return setting_last_scanline; 
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;

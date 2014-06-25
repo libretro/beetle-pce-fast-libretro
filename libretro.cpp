@@ -26,8 +26,6 @@
 #endif
 
 static bool old_cdimagecache = false;
-extern int setting_pce_fast_initial_scanline;
-extern int setting_pce_fast_last_scanline;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
@@ -1397,8 +1395,8 @@ void retro_init(void)
    else
       perf_get_cpu_features_cb = NULL;
    
-   setting_pce_fast_initial_scanline = 0;
-   setting_pce_fast_last_scanline = 242;
+   setting_initial_scanline = 0;
+   setting_last_scanline = 242;
 
    check_system_specs();
 }
@@ -1477,14 +1475,14 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      setting_pce_fast_initial_scanline = atoi(var.value);
+      setting_initial_scanline = atoi(var.value);
    }
 
    var.key = "pce_last_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      setting_pce_fast_last_scanline = atoi(var.value);
+      setting_last_scanline = atoi(var.value);
    }
 
    bool do_cdsettings = false;
