@@ -20,6 +20,10 @@
 #include "boolean.h"
 #include <stdint.h>
 
+#if defined(__cplusplus) && !defined(MSC_VER)
+extern "C" {
+#endif
+
 // Implements the bare minimum needed for RetroArch. :)
 
 typedef struct sthread sthread_t;
@@ -45,9 +49,8 @@ scond_t *scond_new(void);
 void scond_free(scond_t *cond);
 
 void scond_wait(scond_t *cond, slock_t *lock);
-#ifndef RARCH_CONSOLE
+bool scond_wait_timeout(scond_t *cond, slock_t *lock, int64_t timeout_us);
 int scond_broadcast(scond_t *cond);
-#endif
 void scond_signal(scond_t *cond);
 
 #ifndef RARCH_INTERNAL
@@ -89,5 +92,8 @@ static inline void retro_sleep(unsigned msec)
 }
 #endif
 
+#if defined(__cplusplus) && !defined(MSC_VER)
+}
 #endif
 
+#endif
