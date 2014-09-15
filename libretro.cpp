@@ -1667,7 +1667,7 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
 
-   video_cb(surf->pixels16, width, height, FB_WIDTH << 1);
+   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
    video_frames++;
    audio_frames += spec.SoundBufSize;
