@@ -513,74 +513,71 @@ static const unsigned int sprite_height_no_mask[4] = { ~0U, ~2U, ~6U, ~6U };
 
 static INLINE void RebuildSATCache(vdc_t *vdc)
 {
- SAT_Cache_t *sat_ptr = vdc->SAT_Cache;
+   unsigned i;
+   SAT_Cache_t *sat_ptr = (SAT_Cache_t*)vdc->SAT_Cache;
 
- vdc->SAT_Cache_Valid = 0;
+   vdc->SAT_Cache_Valid = 0;
 
- for(int i = 0; i < 64; i++)
- {
-  const uint16 SATR0 = vdc->SAT[i * 4 + 0x0];
-  const uint16 SATR1 = vdc->SAT[i * 4 + 0x1];
-  const uint16 SATR2 = vdc->SAT[i * 4 + 0x2];
-  const uint16 SATR3 = vdc->SAT[i * 4 + 0x3];
+   for(i = 0; i < 64; i++)
+   {
+      uint16 height;
 
-  int16 y;
-  uint16 height;
-  uint16 x;
-  uint16 no;
-  uint16 flags;
-  bool cgmode;
-  uint32 width;
+      const uint16 SATR0 = vdc->SAT[i * 4 + 0x0];
+      const uint16 SATR1 = vdc->SAT[i * 4 + 0x1];
+      const uint16 SATR2 = vdc->SAT[i * 4 + 0x2];
+      const uint16 SATR3 = vdc->SAT[i * 4 + 0x3];
 
-  y = (int16)(SATR0 & 0x3FF) - 0x40;
-  x = SATR1 & 0x3FF;
-  no = (SATR2 >> 1) & 0x3FF;
-  flags = (SATR3);
-  cgmode = SATR2 & 0x1;
 
-  width = ((flags >> 8) & 1);
-  flags &= ~0x100;
+      int16 y = (int16)(SATR0 & 0x3FF) - 0x40;
+      uint16 x = SATR1 & 0x3FF;
+      uint16 no = (SATR2 >> 1) & 0x3FF;
+      uint16 flags = (SATR3);
+      bool cgmode = SATR2 & 0x1;
 
-  height = sprite_height_tab[(flags >> 12) & 3];
-  no &= sprite_height_no_mask[(flags >> 12) & 3];
+      uint32 width = ((flags >> 8) & 1);
+      flags &= ~0x100;
 
-  no = ((no & ~width) | 0) ^ ((flags & SPRF_HFLIP) ? width : 0);
+      height = sprite_height_tab[(flags >> 12) & 3];
+      no &= sprite_height_no_mask[(flags >> 12) & 3];
 
-  sat_ptr->y = y;
-  sat_ptr->height = height;
-  sat_ptr->x = x;
-  sat_ptr->no = no;
-  sat_ptr->flags = flags;
-  sat_ptr->cgmode = cgmode;
+      no = ((no & ~width) | 0) ^ ((flags & SPRF_HFLIP) ? width : 0);
 
-  sat_ptr++;
-  vdc->SAT_Cache_Valid++;
+      sat_ptr->y = y;
+      sat_ptr->height = height;
+      sat_ptr->x = x;
+      sat_ptr->no = no;
+      sat_ptr->flags = flags;
+      sat_ptr->cgmode = cgmode;
 
-  if(width)
-  {
-   no = ((no & ~width) | 1) ^ ((flags & SPRF_HFLIP) ? width : 0);
-   x += 16;
+      sat_ptr++;
+      vdc->SAT_Cache_Valid++;
 
-   *sat_ptr = *(sat_ptr - 1);
+      if(width)
+      {
+         no = ((no & ~width) | 1) ^ ((flags & SPRF_HFLIP) ? width : 0);
+         x += 16;
 
-   sat_ptr->no = no;
-   sat_ptr->x = x;
+         *sat_ptr = *(sat_ptr - 1);
 
-   sat_ptr++;
-   vdc->SAT_Cache_Valid++;
-  }
- }
+         sat_ptr->no = no;
+         sat_ptr->x = x;
+
+         sat_ptr++;
+         vdc->SAT_Cache_Valid++;
+      }
+   }
 }
 
 static INLINE void DoSATDMA(vdc_t *vdc)
 {
- if(vdc->SATB > (VRAM_Size - 0x100))
-  VDC_UNDEFINED("Unmapped VRAM SATB DMA read");
+   unsigned i;
+   if(vdc->SATB > (VRAM_Size - 0x100))
+      VDC_UNDEFINED("Unmapped VRAM SATB DMA read");
 
- for(int i = 0; i < 256; i++)
-  vdc->SAT[i] = vdc->VRAM[(vdc->SATB + i) & 0xFFFF];
+   for(i = 0; i < 256; i++)
+      vdc->SAT[i] = vdc->VRAM[(vdc->SATB + i) & 0xFFFF];
 
- RebuildSATCache(vdc);
+   RebuildSATCache(vdc);
 }
 
 
@@ -750,22 +747,27 @@ static INLINE void MixBGSPR(const uint32 count_in, const uint8 *bg_linebuf_in, c
 
 static void MixBGOnly(const uint32 count, const uint8 *bg_linebuf, uint16_t *target)
 {
- for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[bg_linebuf[x]];
+   unsigned x;
+
+   for(x = 0; x < count; x++)
+      target[x] = vce.color_table_cache[bg_linebuf[x]];
 }
 
 static void MixSPROnly(const uint32 count, const uint16 *spr_linebuf, uint16_t *target)
 {
- for(unsigned int x = 0; x < count; x++)
-  target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
+   unsigned x;
+
+   for(x = 0; x < count; x++)
+      target[x] = vce.color_table_cache[(spr_linebuf[x] | 0x100) & 0x1FF];
 }
 
 static void MixNone(const uint32 count, uint16_t *target)
 {
- uint32 bg_color = vce.color_table_cache[0x000];
+   unsigned x;
+   uint32 bg_color = vce.color_table_cache[0x000];
 
- for(unsigned int x = 0; x < count; x++)
-  target[x] = bg_color;
+   for(x = 0; x < count; x++)
+      target[x] = bg_color;
 }
 
 void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
