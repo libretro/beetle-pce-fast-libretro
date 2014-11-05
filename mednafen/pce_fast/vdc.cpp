@@ -60,8 +60,11 @@ vce_t vce;
 
 vdc_t *vdc = NULL;
 
+//#ifdef PSP
+//#define MAKECOLOR_PCE(val) (((val & 0x038) >> 1)|((val & 0x038) >> 3) | ((val & 0x1c0) <<4) | ((val & 0x0c0)>>1) | ((val & 0x007) << 11) | ((val & 0x006) <<8))
+//#else
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
-
+//#endif
 static INLINE void FixPCache(int entry)
 {
    if(!(entry & 0xFF))

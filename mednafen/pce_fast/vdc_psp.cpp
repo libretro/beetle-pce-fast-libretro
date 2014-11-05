@@ -79,7 +79,7 @@ void fix_tile_cache_sprites(uint16 A)
    src_line.val = vdc->VRAM[A];
    dst_line.val = *line_ge;
 
-   switch ((A>>4)&0x3)
+   switch ((A >> 4) & 0x3)
    {
    case 0:
       dst_line.p0_b0 = src_line.p0;
@@ -252,8 +252,8 @@ void pce_draw_tilemap(void)
 {
 
    sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
-//   sceGuTexImage(0, 256, 256, 256, PCE_VRAMTEXTURE_BG);
-   sceGuTexImage(0, 256, 256, 256, PCE_VRAMTEXTURE_SPRITE+16*1024);
+   //   sceGuTexImage(0, 256, 256, 256, PCE_VRAMTEXTURE_BG);
+   sceGuTexImage(0, 256, 256, 256, PCE_VRAMTEXTURE_SPRITE + 16 * 1024);
    //   sceGuTexImage(0, 256, 256, 256, vdc->bg_tile_cache[0]);
 
    sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
@@ -282,7 +282,62 @@ void pce_draw_tilemap(void)
 
 void pce_draw_bg(void)
 {
-   pce_draw_tilemap();
+   //   pce_draw_tilemap();
+   int width_lut[4] = {32, 64, 128, 128};
+   int height_lut[2] = {32, 64};
+   int width = width_lut[(vdc->MWR >> 4) & 3];
+   int height = height_lut[(vdc->MWR >> 6) & 1];
+
+   sceGuOffset_(vdc->BXR, vdc->BYR);
+
+   psp1_sprite_t* bg_tiles = (psp1_sprite_t*)sceGuGetMemory(sizeof(
+                                psp1_sprite_t) * width * height);
+
+   sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
+   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
+
+   sceGuTexScale_8bit(4.0, 1.0);
+   sceGuClutLoad(32, pce_palette_cache);
+
+   int i, j;
+
+   typedef struct __attribute((packed))
+   {
+      unsigned tile_id_l    : 2;
+      unsigned tile_id_h    : 10;
+      unsigned palette_id : 4;
+   }
+   pce_bat_t;
+
+   pce_bat_t* bat = (pce_bat_t*)vdc->VRAM;
+
+   for (j = 0; j < height ; j++)
+   {
+      for (i = 0; i < width ; i++)
+      {
+         bg_tiles->v0.x = i << 3;
+         bg_tiles->v0.y = j << 3;
+         bg_tiles->v0.u = bat->tile_id_l;
+         bg_tiles->v0.v = 0;
+
+         bg_tiles->v1.x = (i + 1) << 3;
+         bg_tiles->v1.y = (j + 1) << 3;
+         bg_tiles->v1.u = bat->tile_id_l + 1;
+         bg_tiles->v1.v = 1;
+
+         sceGuTexImage(0, 32, 8, 32,
+                       PCE_VRAMTEXTURE_BG + (bat->tile_id_h << 6));
+         sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
+         sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
+                        GU_TRANSFORM_3D, 2, NULL, (void*)(bg_tiles++));
+         bat++;
+      }
+
+   }
+
+
+
+
 }
 
 void update_scanline_ge(void)
@@ -291,6 +346,7 @@ void update_scanline_ge(void)
 }
 
 
+#define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>10))
 
 void update_frame_ge(void)
 {
@@ -307,7 +363,7 @@ void update_frame_ge(void)
 
    int i;
    for (i = 0; i < 512; i++)
-      pce_palette_cache[i] = vce.color_table_cache[i];
+      pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i]);
 
    //   for (i = 0; i < 512; i++)
    //      PCE_PALETTE_CACHE[i] = 0xFFFF;
