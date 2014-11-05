@@ -1656,6 +1656,11 @@ void retro_run(void)
       last_sound_rate = spec.SoundRate;
    }
 
+#ifdef PSP
+   pce_soft_renderer_active = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
+   setting_last_scanline = 241;
+#endif
+
    Emulate(&spec);
 
    int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * curgame->soundchan;
@@ -1667,7 +1672,16 @@ void retro_run(void)
    unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
 
+
+#ifdef PSP
+   if(!pce_soft_renderer_active)
+      video_cb(RETRO_HW_FRAME_BUFFER_VALID, MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
+   else
+      video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
+
+#else
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
+#endif
 
    video_frames++;
    audio_frames += spec.SoundBufSize;

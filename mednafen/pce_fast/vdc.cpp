@@ -810,7 +810,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
  do
  {
-  const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
+  const bool SHOULD_DRAW = pce_soft_renderer_active && (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
+
 
   if(frame_counter == 0)
   {
@@ -1090,6 +1091,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
   //printf("%d\n", vce.lc263);
  } while(frame_counter != VBlankFL); // big frame loop!
 
+ update_frame_ge();
 }
 
 void VDC_Reset(void)
@@ -1223,3 +1225,7 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 }
 
 };
+
+#ifdef PSP
+#include "vdc_psp.cpp"
+#endif

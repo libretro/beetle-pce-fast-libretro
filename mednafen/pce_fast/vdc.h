@@ -179,4 +179,8 @@ int VDC_StateAction(StateMem *sm, int load, int data_only);
 
 };
 
+#ifdef PSP
+#include "vdc_psp.h"
+#endif
+
 #endif
