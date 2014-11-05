@@ -1,20 +1,26 @@
-/*  RetroArch - A frontend for libretro.
- *  Copyright (C) 2010-2014 - Hans-Kristian Arntzen
- *  Copyright (C) 2011-2014 - Daniel De Matteis
- * 
- *  RetroArch is free software: you can redistribute it and/or modify it under the terms
- *  of the GNU General Public License as published by the Free Software Found-
- *  ation, either version 3 of the License, or (at your option) any later version.
+/* Copyright  (C) 2010-2014 The RetroArch team
  *
- *  RetroArch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
- *  PURPOSE.  See the GNU General Public License for more details.
+ * ---------------------------------------------------------------------------------------
+ * The following license statement only applies to this file (rthreads.c).
+ * ---------------------------------------------------------------------------------------
  *
- *  You should have received a copy of the GNU General Public License along with RetroArch.
- *  If not, see <http://www.gnu.org/licenses/>.
+ * Permission is hereby granted, free of charge,
+ * to any person obtaining a copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "thread.h"
+#include <thread.h>
 #include <stdlib.h>
 
 #if defined(_WIN32)
@@ -26,6 +32,8 @@
 #endif
 #elif defined(GEKKO)
 #include "thread/gx_pthread.h"
+#elif defined(PSP)
+#include "thread/psp_pthread.h"
 #else
 #include <pthread.h>
 #include <time.h>
@@ -120,6 +128,9 @@ slock_t *slock_new(void)
 
 void slock_free(slock_t *lock)
 {
+   if (!lock)
+      return;
+
    CloseHandle(lock->lock);
    free(lock);
 }
@@ -159,9 +170,29 @@ void scond_wait(scond_t *cond, slock_t *lock)
 {
    WaitForSingleObject(cond->event, 0);
 
+#if MSC_VER <= 1310
+   slock_unlock(lock);
+   WaitForSingleObject(cond->event, INFINITE);
+#else
    SignalObjectAndWait(lock->lock, cond->event, INFINITE, FALSE);
+#endif
 
    slock_lock(lock);
+}
+
+bool scond_wait_timeout(scond_t *cond, slock_t *lock, int64_t timeout_us)
+{
+   WaitForSingleObject(cond->event, 0);
+#if MSC_VER <= 1310
+   slock_unlock(lock);
+   DWORD res = WaitForSingleObject(cond->event, (DWORD)(timeout_us) / 1000);
+#else
+   DWORD res = SignalObjectAndWait(lock->lock, cond->event,
+         (DWORD)(timeout_us) / 1000, FALSE);
+#endif
+
+   slock_lock(lock);
+   return res == WAIT_OBJECT_0;
 }
 
 void scond_signal(scond_t *cond)
@@ -169,7 +200,8 @@ void scond_signal(scond_t *cond)
    SetEvent(cond->event);
 }
 
-/* FIXME - check how this function should differ from scond_signal implementation */
+/* FIXME - check how this function should differ
+ * from scond_signal implementation. */
 int scond_broadcast(scond_t *cond)
 {
    SetEvent(cond->event);
@@ -178,6 +210,9 @@ int scond_broadcast(scond_t *cond)
 
 void scond_free(scond_t *cond)
 {
+   if (!cond)
+      return;
+
    CloseHandle(cond->event);
    free(cond);
 }
@@ -256,6 +291,9 @@ slock_t *slock_new(void)
 
 void slock_free(slock_t *lock)
 {
+   if (!lock)
+      return;
+
    pthread_mutex_destroy(&lock->lock);
    free(lock);
 }
@@ -292,6 +330,9 @@ scond_t *scond_new(void)
 
 void scond_free(scond_t *cond)
 {
+   if (!cond)
+      return;
+
    pthread_cond_destroy(&cond->cond);
    free(cond);
 }
@@ -304,6 +345,45 @@ void scond_wait(scond_t *cond, slock_t *lock)
 int scond_broadcast(scond_t *cond)
 {
    return pthread_cond_broadcast(&cond->cond);
+}
+
+bool scond_wait_timeout(scond_t *cond, slock_t *lock, int64_t timeout_us)
+{
+   struct timespec now = {0};
+
+#ifdef __MACH__
+   /* OSX doesn't have clock_gettime. */
+   clock_serv_t cclock;
+   mach_timespec_t mts;
+   host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+   clock_get_time(cclock, &mts);
+   mach_port_deallocate(mach_task_self(), cclock);
+   now.tv_sec = mts.tv_sec;
+   now.tv_nsec = mts.tv_nsec;
+#elif defined(__CELLOS_LV2__)
+   sys_time_sec_t s;
+   sys_time_nsec_t n;
+   sys_time_get_current_time(&s, &n);
+   now.tv_sec  = s;
+   now.tv_nsec = n;
+#elif defined(__mips__)
+   struct timeval tm;
+   gettimeofday(&tm, NULL);
+   now.tv_sec = tm.tv_sec;
+   now.tv_nsec = tm.tv_usec * 1000;
+#elif !defined(GEKKO)
+   /* timeout on libogc is duration, not end time. */
+   clock_gettime(CLOCK_REALTIME, &now);
+#endif
+
+   now.tv_sec += timeout_us / 1000000LL;
+   now.tv_nsec += timeout_us * 1000LL;
+
+   now.tv_sec += now.tv_nsec / 1000000000LL;
+   now.tv_nsec = now.tv_nsec % 1000000000LL;
+
+   int ret = pthread_cond_timedwait(&cond->cond, &lock->lock, &now);
+   return ret == 0;
 }
 
 void scond_signal(scond_t *cond)

@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2014 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (gx_pthread.h).
+ * The following license statement only applies to this file (psp_pthread.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,161 +20,147 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _GX_PTHREAD_WRAP_GX_
-#define _GX_PTHREAD_WRAP_GX_
+// FIXME: unfinished, mutexes and condvars basically a stub.
+#ifndef _PSP_PTHREAD_WRAP__
+#define _PSP_PTHREAD_WRAP__
 
-#include <ogcsys.h>
-#include <gccore.h>
-#include <ogc/cond.h>
+#include <pspkernel.h>
+#include <pspthreadman.h>
+#include <pspthreadman_kernel.h>
+#include <stdio.h>
 
-#ifndef OSThread
-#define OSThread lwp_t
-#endif
+#define STACKSIZE (64 * 1024)
 
-#ifndef OSCond
-#define OSCond lwpq_t
-#endif
-
-#ifndef OSThreadQueue
-#define OSThreadQueue lwpq_t
-#endif
-
-#ifndef OSInitMutex
-#define OSInitMutex(mutex) LWP_MutexInit(mutex, 0)
-#endif
-
-#ifndef OSLockMutex
-#define OSLockMutex(mutex) LWP_MutexLock(mutex)
-#endif
-
-#ifndef OSUnlockMutex
-#define OSUnlockMutex(mutex) LWP_MutexUnlock(mutex)
-#endif
-
-#ifndef OSTryLockMutex
-#define OSTryLockMutex(mutex) LWP_MutexTryLock(mutex)
-#endif
-
-#ifndef OSInitCond
-#define OSInitCond(cond) LWP_CondInit(cond)
-#endif
-
-#ifndef OSSignalCond
-#define OSSignalCond(cond) LWP_ThreadSignal(cond)
-#endif
-
-#ifndef OSWaitCond
-#define OSWaitCond(cond, mutex) LWP_CondWait(cond, mutex)
-#endif
-
-#ifndef OSInitThreadQueue
-#define OSInitThreadQueue(queue) LWP_InitQueue(queue)
-#endif
-
-#ifndef OSSleepThread
-#define OSSleepThread(queue) LWP_ThreadSleep(queue)
-#endif
-
-#ifndef OSJoinThread
-#define OSJoinThread(thread, val) LWP_JoinThread(thread, val)
-#endif
-
-#ifndef OSCreateThread
-#define OSCreateThread(thread, func, intarg, ptrarg, stackbase, stacksize, priority, attrs) LWP_CreateThread(thread, func, ptrarg, stackbase, stacksize, priority)
-#endif
-
-#define STACKSIZE (8 * 1024)
-
-typedef OSThread pthread_t;
-typedef mutex_t pthread_mutex_t;
+typedef SceUID pthread_t;
+typedef SceUID pthread_mutex_t;
 typedef void* pthread_mutexattr_t;
 typedef int pthread_attr_t;
-typedef cond_t pthread_cond_t;
-typedef cond_t pthread_condattr_t;
+typedef SceUID pthread_cond_t;
+typedef SceUID pthread_condattr_t;
+
+/* Use pointer values to create unique names for threads/mutexes */
+char name_buffer[256];
+
+typedef void* (*sthreadEntry)(void *argp);
+
+typedef struct
+{
+   void* arg;
+   sthreadEntry start_routine;
+} sthread_args_struct;
+
+
+static int psp_thread_wrap(SceSize args, void *argp)
+{
+   sthread_args_struct* sthread_args = (sthread_args_struct*)argp;
+
+   return (int)sthread_args->start_routine(sthread_args->arg);
+}
 
 static inline int pthread_create(pthread_t *thread,
       const pthread_attr_t *attr, void *(*start_routine)(void*), void *arg)
 {
-   *thread = 0;
-   return OSCreateThread(thread, start_routine, 0 /* unused */, arg,
-         0, STACKSIZE, 64, 0 /* unused */);
+   sprintf(name_buffer, "0x%08X", (uint32_t) thread);
+
+   *thread = sceKernelCreateThread(name_buffer,
+         psp_thread_wrap, 0x20, STACKSIZE, 0, NULL);
+
+   sthread_args_struct sthread_args;
+   sthread_args.arg = arg;
+   sthread_args.start_routine = start_routine;
+
+   return sceKernelStartThread(*thread, sizeof(sthread_args), &sthread_args);
 }
 
 static inline int pthread_mutex_init(pthread_mutex_t *mutex,
       const pthread_mutexattr_t *attr)
 {
-   return OSInitMutex(mutex);
+   sprintf(name_buffer, "0x%08X", (uint32_t) mutex);
+
+   return *mutex = sceKernelCreateSema(name_buffer, 0, 1, 1, NULL);
 }
 
 static inline int pthread_mutex_destroy(pthread_mutex_t *mutex)
 {
-   return LWP_MutexDestroy(*mutex);
+   return sceKernelDeleteSema(*mutex);
 }
 
 static inline int pthread_mutex_lock(pthread_mutex_t *mutex)
 {
-   return OSLockMutex(*mutex);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_mutex_unlock(pthread_mutex_t *mutex)
 {
-   return OSUnlockMutex(*mutex);
+   //FIXME: stub
+   return 1;
 }
 
-static inline void pthread_exit(void *retval)
-{
-   /* FIXME: No LWP equivalent for this? */
-   (void)retval;
-}
-
-static inline int pthread_detach(pthread_t thread)
-{
-   /* FIXME: pthread_detach equivalent missing? */
-   (void)thread;
-   return 0;
-}
 
 static inline int pthread_join(pthread_t thread, void **retval)
 {
-   return OSJoinThread(thread, retval);
+   SceUInt timeout = (SceUInt)-1;
+   sceKernelWaitThreadEnd(thread, &timeout);
+   int exit_status = sceKernelGetThreadExitStatus(thread);
+   sceKernelDeleteThread(thread);
+   return exit_status;
 }
 
 static inline int pthread_mutex_trylock(pthread_mutex_t *mutex)
 {
-   return OSTryLockMutex(*mutex);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_cond_wait(pthread_cond_t *cond,
       pthread_mutex_t *mutex)
 {
-   return OSWaitCond(*cond, *mutex);
+   sceKernelDelayThread(10000);
+   return 1;
 }
 
 static inline int pthread_cond_timedwait(pthread_cond_t *cond,
       pthread_mutex_t *mutex, const struct timespec *abstime)
 {
-   return LWP_CondTimedWait(*cond, *mutex, abstime);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_cond_init(pthread_cond_t *cond,
       const pthread_condattr_t *attr)
 {
-   return OSInitCond(cond);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_cond_signal(pthread_cond_t *cond)
 {
-   return LWP_CondSignal(*cond);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_cond_broadcast(pthread_cond_t *cond)
 {
-   return LWP_CondBroadcast(*cond);
+   //FIXME: stub
+   return 1;
 }
 
 static inline int pthread_cond_destroy(pthread_cond_t *cond)
 {
-   return LWP_CondDestroy(*cond);
+   //FIXME: stub
+   return 1;
 }
 
-#endif
+
+static inline int pthread_detach(pthread_t thread)
+{
+   return 1;
+}
+
+static inline void pthread_exit(void *retval)
+{
+   (void)retval;
+}
+
+#endif //_PSP_PTHREAD_WRAP__
