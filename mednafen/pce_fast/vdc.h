@@ -1,6 +1,8 @@
 #ifndef _PCE_VDC_H
 #define _PCE_VDC_H
 
+#include "pce.h"
+
 namespace PCE_Fast
 {
 

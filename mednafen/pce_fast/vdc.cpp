@@ -100,6 +100,10 @@ static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
   *tc |= (uint64)raw_pixel << ((7 - x) * 8);
   #endif
  }
+
+#ifdef PSP
+ fix_tile_cache_ge(A);
+#endif
 }
 
 static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 special)

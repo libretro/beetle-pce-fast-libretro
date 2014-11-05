@@ -24,8 +24,8 @@
 #define PSP_VRAM_MAX             ((u16*)0x44200000)
 #define PCE_VRAMTEXTURE_BG       (PSP_VRAM_MAX           - (32*1024))
 #define PCE_VRAMTEXTURE_SPRITE   (PCE_VRAMTEXTURE_BG     - (32*1024))
-#define PCE_FRAME_TEXTURE        (PCE_VRAMTEXTURE_BG     - (PCE_LINE_SIZE * PCE_FRAME_HEIGHT))
-
+#define PCE_FRAME_TEXTURE        (PCE_VRAMTEXTURE_SPRITE     - (PCE_LINE_SIZE * PCE_FRAME_HEIGHT))
+#define PCE_PALETTE_CACHE        (PCE_FRAME_TEXTURE     - 512)
 
 typedef struct __attribute__((packed)) psp1_vertex
 {
