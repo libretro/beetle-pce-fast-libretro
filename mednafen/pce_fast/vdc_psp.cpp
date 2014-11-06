@@ -353,9 +353,12 @@ static inline void pce_draw_bg(void)
 
 }
 #define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>10))
+
+static int current_scanline = 0;
 static inline void pce_start_frame_ge(void)
 {
    frame_count ++;
+   current_scanline = 0;
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
    RETRO_PERFORMANCE_START(gu_sync_time);
@@ -402,16 +405,76 @@ static inline void pce_start_frame_ge(void)
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
-   RETRO_PERFORMANCE_INIT(gba_draw_bg_mode0_proc);
-   RETRO_PERFORMANCE_START(gba_draw_bg_mode0_proc);
-   pce_draw_bg();
-   RETRO_PERFORMANCE_STOP(gba_draw_bg_mode0_proc);
-   update_stall_addr();
+   //   RETRO_PERFORMANCE_INIT(gba_draw_bg_mode0_proc);
+   //   RETRO_PERFORMANCE_START(gba_draw_bg_mode0_proc);
+   //   pce_draw_bg();
+   //   RETRO_PERFORMANCE_STOP(gba_draw_bg_mode0_proc);
+   //   update_stall_addr();
+
+   sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
+   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
+
+   sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_BG);
+   sceGuTexScale_8bit(64.0, 32.0);
+   sceGuClutLoad(32, pce_palette_cache);
 
 }
 
 static inline void pce_draw_scanline_ge(void)
 {
+
+   int width_lut[4] = {32, 64, 128, 128};
+   int height_lut[2] = {32, 64};
+   int width = width_lut[(vdc->MWR >> 4) & 3];
+   int height = height_lut[(vdc->MWR >> 6) & 1];
+
+
+   if (current_scanline >= PCE_FRAME_HEIGHT)
+      return;
+
+//   RETRO_PERFORMANCE_INIT(pce_draw_scanline_ge_func);
+//   RETRO_PERFORMANCE_START(pce_draw_scanline_ge_func);
+
+   sceGuScissor(0, current_scanline, PCE_FRAME_WIDTH, current_scanline + 1);
+
+   int start_x = vdc->BXR & ((width << 3) - 1);
+   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
+
+
+   typedef struct __attribute((packed))
+   {
+      unsigned tile_id    : 11;
+      unsigned unused     : 1;
+      unsigned palette_id : 4;
+   }
+   pce_bat_t;
+
+   pce_bat_t* bat_base = (pce_bat_t*)vdc->VRAM + ((start_y>>3) * width);
+
+   pce_bat_t* bat = bat_base + (start_x >>3);
+   int x = -(start_x&0x7);
+   while (x < PCE_FRAME_WIDTH)
+   {
+//      sceGuOffset(-x, start_y);
+//      sceGuOffset(-(x&~0x7), -(((vdc->BYR + current_scanline)&0x7)+(current_scanline&~0x7)));
+      sceGuOffset(-(x), -((current_scanline-(start_y&0x7))) );
+
+      sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
+      sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
+                     GU_TRANSFORM_3D, 2, NULL, tile_coords_bg + bat->tile_id);
+      x += 8;
+      bat++;
+      if (bat == (bat_base + width))
+         bat = bat_base;
+//      printf("x :%i\n",x);
+   }
+
+   update_stall_addr();
+   current_scanline ++;
+//   printf("current_scanline :%i\n",current_scanline);
+
+//   RETRO_PERFORMANCE_STOP(pce_draw_scanline_ge_func);
+
 
 }
 
