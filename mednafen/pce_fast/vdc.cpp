@@ -1139,6 +1139,11 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
             DrawOverscan(vdc, target_ptr16, DisplayRect);
          }
       }
+#ifdef PSP
+      if(pce_do_hw_render)
+         pce_draw_scanline_ge(frame_counter);
+#endif
+
 
       if (SHOULD_DRAW && fc_vrm)
          MDFN_MidLineUpdate(espec, frame_counter - 14);
@@ -1185,11 +1190,6 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
 
       frame_counter = (frame_counter + 1) % (vce.lc263 ? 263 : 262);
       //printf("%d\n", vce.lc263);
-#ifdef PSP
-      if(pce_do_hw_render)
-         pce_draw_scanline_ge();
-#endif
-
    }
    while (frame_counter != VBlankFL);  // big frame loop!
 #ifdef PSP

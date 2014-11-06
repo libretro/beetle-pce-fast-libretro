@@ -352,13 +352,13 @@ static inline void pce_draw_bg(void)
 
 
 }
-#define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>10))
+#define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>11))
 
 static int current_scanline = 0;
 static inline void pce_start_frame_ge(void)
 {
    frame_count ++;
-   current_scanline = 0;
+   current_scanline = -19;
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
    RETRO_PERFORMANCE_START(gu_sync_time);
@@ -420,7 +420,7 @@ static inline void pce_start_frame_ge(void)
 
 }
 
-static inline void pce_draw_scanline_ge(void)
+static inline void pce_draw_scanline_ge(int scanline)
 {
 
    int width_lut[4] = {32, 64, 128, 128};
@@ -428,6 +428,7 @@ static inline void pce_draw_scanline_ge(void)
    int width = width_lut[(vdc->MWR >> 4) & 3];
    int height = height_lut[(vdc->MWR >> 6) & 1];
 
+//   current_scanline=scanline;
 
    if (current_scanline >= PCE_FRAME_HEIGHT)
       return;
@@ -437,9 +438,15 @@ static inline void pce_draw_scanline_ge(void)
 
    sceGuScissor(0, current_scanline, PCE_FRAME_WIDTH, current_scanline + 1);
 
-   int start_x = vdc->BXR & ((width << 3) - 1);
-   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
 
+
+//   int start_x = vdc->BXR & ((width << 3) - 1);
+//   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
+
+   int start_x = vdc->BG_XOffset & ((width << 3) - 1);
+   int start_y = (vdc->BG_YOffset) & ((height << 3) - 1);
+
+//   sceGuScissor(0, start_y, PCE_FRAME_WIDTH, start_y + 1);
 
    typedef struct __attribute((packed))
    {
@@ -458,6 +465,7 @@ static inline void pce_draw_scanline_ge(void)
 //      sceGuOffset(-x, start_y);
 //      sceGuOffset(-(x&~0x7), -(((vdc->BYR + current_scanline)&0x7)+(current_scanline&~0x7)));
       sceGuOffset(-(x), -((current_scanline-(start_y&0x7))) );
+//      sceGuOffset(-(x), -(start_y) );
 
       sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
       sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
