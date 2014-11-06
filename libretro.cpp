@@ -1657,7 +1657,7 @@ void retro_run(void)
    }
 
 #ifdef PSP
-   pce_soft_renderer_active = input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
+   pce_do_hw_render = !input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
    setting_last_scanline = 241;
 #endif
 
@@ -1674,7 +1674,7 @@ void retro_run(void)
 
 
 #ifdef PSP
-   if(!pce_soft_renderer_active)
+   if(pce_do_hw_render)
       video_cb(RETRO_HW_FRAME_BUFFER_VALID, MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
    else
       video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
@@ -1727,6 +1727,11 @@ void retro_deinit()
       log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
             MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
+
+#ifdef PSP
+   perf_cb.perf_log();
+#endif
+
 }
 
 unsigned retro_get_region(void)

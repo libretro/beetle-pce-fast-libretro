@@ -27,12 +27,17 @@
 #define PCE_FRAME_TEXTURE        (PCE_VRAMTEXTURE_SPRITE     - (PCE_LINE_SIZE * PCE_FRAME_HEIGHT))
 #define PCE_PALETTE_CACHE        (PCE_FRAME_TEXTURE     - 512)
 
-typedef struct __attribute__((packed)) psp1_vertex
+typedef union psp1_vertex
 {
-   s8 u,v;
-   s16 x,y,z;
-} psp1_vertex_t;
-typedef struct __attribute__((packed)) psp1_sprite
+   struct
+   {
+      s8 u,v;
+      s16 x,y,z;
+   };
+   u64 val;
+}psp1_vertex_t;
+
+typedef struct psp1_sprite
 {
    psp1_vertex_t v0;
    psp1_vertex_t v1;
@@ -59,8 +64,6 @@ static inline void sceGuTexScale_16bit(float u, float v)
 {
    sceGuTexScale(32768.0 * u,32768.0 * v);
 }
-
-#define sceGuOffset_(X,Y) sceGuOffset(2048+(X),2048+(Y))
 
 static inline void init_3Dprojection(void)
 {
@@ -128,6 +131,7 @@ typedef struct
    int parent_context;
 } GuDisplayList;
 extern GuDisplayList* gu_list;
+extern int ge_list_executed[2];
 
 #if 1
 #define sendCommandi sendCommandi_
@@ -197,6 +201,19 @@ void inline sceGuTexImage_(int mipmap, int width, int height, int tbw, const voi
 
    //sceGuTexFlush
    sendCommandf(203,0.0f);
+}
+
+#define sceGuOffset(X,Y) sceGuOffset_(2048+(X),2048+(Y))
+
+static inline void sceGuOffset_(unsigned int x, unsigned int y)
+{
+   sendCommandi(76,x << 4);
+   sendCommandi(77,y << 4);
+}
+
+static inline void update_stall_addr(void)
+{
+   sceGeListUpdateStallAddr(ge_list_executed[0],gu_list->current);
 }
 
 extern u8 msx[];

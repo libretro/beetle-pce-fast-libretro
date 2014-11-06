@@ -2,12 +2,13 @@
 #include "vdc_psp_utils.h"
 
 
-bool pce_soft_renderer_active;
-
+bool pce_do_hw_render;
+static int cache_update_count = 0;
 
 
 
 static unsigned int __attribute__((aligned(64))) d_list[4 * 1024 * 1024];
+static psp1_sprite_t __attribute__((aligned(64))) tile_coords_bg[2 * 1024];
 
 static PspGeContext main_context_buffer;
 
@@ -16,7 +17,7 @@ static u16* const pce_palette_cache = PCE_PALETTE_CACHE;
 #define PCE_DISPLAY_LIST_ID   0x3C00
 
 static int frame_count = 0;
-void list_finish_callback(int id)
+static inline void list_finish_callback(int id)
 {
    if (id != PCE_DISPLAY_LIST_ID)
       return;
@@ -24,19 +25,40 @@ void list_finish_callback(int id)
    SceCtrlData pad;
    sceCtrlPeekBufferPositive(&pad, 1);
    debug_setpos(0, 0);
-   debug_printf("debug test\n");
+   debug_printf("cache_update_count : %i", cache_update_count);
+   //   debug_printf("debug test\n");
    if (pad.Ly > 200)
       debug_printf("frame :%u\n", frame_count);
 
    sceGeRestoreContext(&main_context_buffer);
 
 }
-void init_video_ge(void)
+static inline void init_video_ge(void)
 {
+   psp1_sprite_t* tile = (psp1_sprite_t*)(((u32)tile_coords_bg) | 0x40000000);
+   int i, j;
+   for (j = 0; j < 32; j++)
+   {
+      for (i = 0; i < 64; i++)
+      {
+         tile->v0.x = 0;
+         tile->v0.y = 0;
+         tile->v0.u = i;
+         tile->v0.v = j;
+
+         tile->v1.x = 8;
+         tile->v1.y = 8;
+         tile->v1.u = i + 1;
+         tile->v1.v = j + 1;
+
+         tile++;
+      }
+   }
+
 
 }
 
-void fix_tile_cache_sprites(uint16 A)
+static inline  void fix_tile_cache_sprites(uint16 A)
 {
    u64* line_ge = ((u64*)PCE_VRAMTEXTURE_SPRITE) + ((A >> 6) << 4) +
                   ((A & 0x7) << 1) + ((A >> 3) & 0x1);
@@ -160,7 +182,7 @@ void fix_tile_cache_sprites(uint16 A)
    *line_ge = dst_line.val;
 }
 
-void fix_tile_cache_bg(uint16 A)
+static inline  void fix_tile_cache_bg(uint16 A)
 {
    u32* line_ge = ((u32*)PCE_VRAMTEXTURE_BG) + ((A >> 6) << 5) +
                   ((A & 0x7) << 2) + ((A >> 4) & 0x3);
@@ -242,13 +264,14 @@ void fix_tile_cache_bg(uint16 A)
 
 }
 
-void fix_tile_cache_ge(uint16 A)
+static inline  void pce_fix_tile_cache_ge(uint16 A)
 {
+   cache_update_count++;
    fix_tile_cache_bg(A);
    fix_tile_cache_sprites(A);
 }
 
-void pce_draw_tilemap(void)
+static inline void pce_draw_tilemap(void)
 {
 
    sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
@@ -280,31 +303,31 @@ void pce_draw_tilemap(void)
 
 }
 
-void pce_draw_bg(void)
+static inline void pce_draw_bg(void)
 {
-   //   pce_draw_tilemap();
+   //      pce_draw_tilemap();
    int width_lut[4] = {32, 64, 128, 128};
    int height_lut[2] = {32, 64};
    int width = width_lut[(vdc->MWR >> 4) & 3];
    int height = height_lut[(vdc->MWR >> 6) & 1];
 
-   sceGuOffset_(vdc->BXR, vdc->BYR);
 
-   psp1_sprite_t* bg_tiles = (psp1_sprite_t*)sceGuGetMemory(sizeof(
-                                psp1_sprite_t) * width * height);
+   int start_x = vdc->BXR % ((width << 3) - 1);
+   int start_y = vdc->BYR % ((height << 3) - 1);
 
    sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
    sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
 
-   sceGuTexScale_8bit(4.0, 1.0);
+   sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_BG);
+   sceGuTexScale_8bit(64.0, 32.0);
    sceGuClutLoad(32, pce_palette_cache);
 
    int i, j;
 
    typedef struct __attribute((packed))
    {
-      unsigned tile_id_l    : 2;
-      unsigned tile_id_h    : 10;
+      unsigned tile_id    : 11;
+      unsigned unused     : 1;
       unsigned palette_id : 4;
    }
    pce_bat_t;
@@ -315,21 +338,11 @@ void pce_draw_bg(void)
    {
       for (i = 0; i < width ; i++)
       {
-         bg_tiles->v0.x = i << 3;
-         bg_tiles->v0.y = j << 3;
-         bg_tiles->v0.u = bat->tile_id_l;
-         bg_tiles->v0.v = 0;
+         sceGuOffset(start_x - (i << 3), start_y - (j << 3));
 
-         bg_tiles->v1.x = (i + 1) << 3;
-         bg_tiles->v1.y = (j + 1) << 3;
-         bg_tiles->v1.u = bat->tile_id_l + 1;
-         bg_tiles->v1.v = 1;
-
-         sceGuTexImage(0, 32, 8, 32,
-                       PCE_VRAMTEXTURE_BG + (bat->tile_id_h << 6));
          sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
          sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
-                        GU_TRANSFORM_3D, 2, NULL, (void*)(bg_tiles++));
+                        GU_TRANSFORM_3D, 2, NULL, tile_coords_bg + bat->tile_id);
          bat++;
       }
 
@@ -339,16 +352,8 @@ void pce_draw_bg(void)
 
 
 }
-
-void update_scanline_ge(void)
-{
-
-}
-
-
 #define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>10))
-
-void update_frame_ge(void)
+static inline void pce_start_frame_ge(void)
 {
    frame_count ++;
 
@@ -384,6 +389,7 @@ void update_frame_ge(void)
    sceGuDrawBufferList(GU_PSM_5551, PCE_FRAME_TEXTURE, PCE_LINE_SIZE);
 
    sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
+   //   sceGuScissor(0, 100, 256, 101);
    //   sceGuScissor(0,0,256,242);
    sceGuEnable(GU_SCISSOR_TEST);
 
@@ -400,6 +406,20 @@ void update_frame_ge(void)
    RETRO_PERFORMANCE_START(gba_draw_bg_mode0_proc);
    pce_draw_bg();
    RETRO_PERFORMANCE_STOP(gba_draw_bg_mode0_proc);
+   update_stall_addr();
+
+}
+
+static inline void pce_draw_scanline_ge(void)
+{
+
+}
+
+
+
+
+static inline void pce_end_frame_ge(void)
+{
 
    //   sceGuFinish();
    sceGuFinishId(PCE_DISPLAY_LIST_ID);
