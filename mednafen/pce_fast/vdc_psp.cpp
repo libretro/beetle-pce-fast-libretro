@@ -64,7 +64,7 @@ static inline psp1_sprite_t* pce_create_tile_coords_sprite(
    int max_x   = width;
    int max_y   = height;
    int inc_x = 16;
-   int inc_y = 8;
+   int inc_y = 16;
 
    if (shape.flip_x)
    {
@@ -77,10 +77,19 @@ static inline psp1_sprite_t* pce_create_tile_coords_sprite(
    {
       max_y   = 0;
       start_y = height;
-      inc_y   = -8;
+      inc_y   = -16;
    }
 
-   //   printf("tile_id : %u\n", tile_id);
+   bool printf_cond = (shape.val == 0b00001) && (tile_id < 1024);
+   printf_cond = false;
+   if (printf_cond)
+   {
+      printf("tile_id : %i , i: %i, j: %i\n", tile_id, i, j);
+      printf("width : %i, height: %i\n", width, height);
+      printf("start_x : %i, max_x: %i, inc_x: %i\n", start_x, max_x, inc_x);
+      printf("start_y : %i, max_y: %i, inc_y: %i\n", start_y, max_y, inc_y);
+   }
+
 
    for (y = start_y; y != max_y; y += inc_y)
    {
@@ -88,22 +97,48 @@ static inline psp1_sprite_t* pce_create_tile_coords_sprite(
       {
          tile->v0.x = x;
          tile->v0.y = y;
-         tile->v0.u = ((y >> 3) <<  1) + (x >> 3) + i;
-         tile->v0.v = ((x >> 3) & 0x1)            + j;
+         tile->v0.u = i;
+         tile->v0.v = j;
 
          tile->v1.x = x + inc_x;
-         tile->v1.y = y + inc_y;
-         tile->v1.u = ((y >> 3) <<  1) + (x >> 3)    + (inc_x / 8) + i;
-         tile->v1.v = ((x >> 3) & 0x1) + (inc_y / 8)               + j;
+         tile->v1.y = y + (inc_y / 2);
+         tile->v1.u = i + 2;
+         tile->v1.v = j + 1;
 
-         if ((shape.val == 0) && (tile_id < 64))
+
+
+         if (printf_cond)
          {
-            printf("(%u,%u,%u,%u)->(%u,%u,%u,%u)\n",
+            printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
                    (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
                    (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
          }
 
+         i += 2;
          tile++;
+
+         tile->v0.x = x;
+         tile->v0.y = y + (inc_y / 2);
+         tile->v0.u = i;
+         tile->v0.v = j;
+
+         tile->v1.x = x + inc_x;
+         tile->v1.y = y + inc_y;
+         tile->v1.u = i + 2;
+         tile->v1.v = j + 1;
+
+
+
+         if (printf_cond)
+         {
+            printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
+                   (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
+                   (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+         }
+
+         i += 2;
+         tile++;
+
 
 
       }
@@ -633,6 +668,9 @@ static inline void pce_draw_sprites(void)
       shape.CGY = sprite->height;
       shape.flip_x = sprite->h_flip;
       shape.flip_y = sprite->v_flip;
+
+//      if (shape.val != 0x00001)
+//         continue;
 
       int vertex_count = (shape.CGX ? 2 : 1) * (shape.CGY ? shape.CGY & 0x2 ? 8 : 4 :
                          2) * 2;
