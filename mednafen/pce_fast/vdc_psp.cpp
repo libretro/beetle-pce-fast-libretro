@@ -9,6 +9,7 @@ static int cache_update_count = 0;
 
 static unsigned int __attribute__((aligned(64))) d_list[4 * 1024 * 1024];
 static psp1_sprite_t __attribute__((aligned(64))) tile_coords_bg[2 * 1024];
+static psp1_sprite_t __attribute__((aligned(64))) tile_coords_sprites[32][1024];
 
 static PspGeContext main_context_buffer;
 
@@ -33,6 +34,86 @@ static inline void list_finish_callback(int id)
    sceGeRestoreContext(&main_context_buffer);
 
 }
+
+typedef union
+{
+   struct
+   {
+      unsigned CGX : 1;
+      unsigned CGY : 2;
+      unsigned flip_x : 1;
+      unsigned flip_y : 1;
+   };
+   unsigned val;
+
+} pce_sprite_shape_t;
+
+static inline psp1_sprite_t* pce_create_tile_coords_sprite(
+   psp1_sprite_t* tile, int tile_id, pce_sprite_shape_t shape)
+{
+   int x, y;
+
+   int i = (tile_id & 31) << 1;
+   int j = tile_id >> 5;
+
+   int width = shape.CGX ? 32 : 16;
+   int height = shape.CGY ? shape.CGY & 0x2 ? 64 : 32 : 16;
+
+   int start_x = 0;
+   int start_y = 0;
+   int max_x   = width;
+   int max_y   = height;
+   int inc_x = 16;
+   int inc_y = 8;
+
+   if (shape.flip_x)
+   {
+      max_x   = 0;
+      start_x = width;
+      inc_x   = -16;
+   }
+
+   if (shape.flip_y)
+   {
+      max_y   = 0;
+      start_y = height;
+      inc_y   = -8;
+   }
+
+   //   printf("tile_id : %u\n", tile_id);
+
+   for (y = start_y; y != max_y; y += inc_y)
+   {
+      for (x = start_x; x != max_x; x += inc_x)
+      {
+         tile->v0.x = x;
+         tile->v0.y = y;
+         tile->v0.u = ((y >> 3) <<  1) + (x >> 3) + i;
+         tile->v0.v = ((x >> 3) & 0x1)            + j;
+
+         tile->v1.x = x + inc_x;
+         tile->v1.y = y + inc_y;
+         tile->v1.u = ((y >> 3) <<  1) + (x >> 3)    + (inc_x / 8) + i;
+         tile->v1.v = ((x >> 3) & 0x1) + (inc_y / 8)               + j;
+
+         if ((shape.val == 0) && (tile_id < 64))
+         {
+            printf("(%u,%u,%u,%u)->(%u,%u,%u,%u)\n",
+                   (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
+                   (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+         }
+
+         tile++;
+
+
+      }
+
+   }
+
+
+   return tile;
+}
+
 static inline void init_video_ge(void)
 {
    psp1_sprite_t* tile = (psp1_sprite_t*)(((u32)tile_coords_bg) | 0x40000000);
@@ -55,6 +136,21 @@ static inline void init_video_ge(void)
       }
    }
 
+
+
+   pce_sprite_shape_t shape;
+
+   for (shape.val = 0; shape.val < 32; shape.val++)
+   {
+      psp1_sprite_t* first_tile = (psp1_sprite_t*)(((u32)
+                                  tile_coords_sprites[shape.val]) | 0x40000000);
+      tile = first_tile;
+
+      while ((tile - first_tile) < 1024)
+         tile = pce_create_tile_coords_sprite(tile,
+                                              tile - first_tile, shape);
+
+   }
 
 }
 
@@ -428,25 +524,25 @@ static inline void pce_draw_scanline_ge(int scanline)
    int width = width_lut[(vdc->MWR >> 4) & 3];
    int height = height_lut[(vdc->MWR >> 6) & 1];
 
-//   current_scanline=scanline;
+   //   current_scanline=scanline;
 
    if (current_scanline >= PCE_FRAME_HEIGHT)
       return;
 
-//   RETRO_PERFORMANCE_INIT(pce_draw_scanline_ge_func);
-//   RETRO_PERFORMANCE_START(pce_draw_scanline_ge_func);
+   //   RETRO_PERFORMANCE_INIT(pce_draw_scanline_ge_func);
+   //   RETRO_PERFORMANCE_START(pce_draw_scanline_ge_func);
 
    sceGuScissor(0, current_scanline, PCE_FRAME_WIDTH, current_scanline + 1);
 
 
 
-//   int start_x = vdc->BXR & ((width << 3) - 1);
-//   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
+   //   int start_x = vdc->BXR & ((width << 3) - 1);
+   //   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
 
    int start_x = vdc->BG_XOffset & ((width << 3) - 1);
    int start_y = (vdc->BG_YOffset) & ((height << 3) - 1);
 
-//   sceGuScissor(0, start_y, PCE_FRAME_WIDTH, start_y + 1);
+   //   sceGuScissor(0, start_y, PCE_FRAME_WIDTH, start_y + 1);
 
    typedef struct __attribute((packed))
    {
@@ -456,16 +552,16 @@ static inline void pce_draw_scanline_ge(int scanline)
    }
    pce_bat_t;
 
-   pce_bat_t* bat_base = (pce_bat_t*)vdc->VRAM + ((start_y>>3) * width);
+   pce_bat_t* bat_base = (pce_bat_t*)vdc->VRAM + ((start_y >> 3) * width);
 
-   pce_bat_t* bat = bat_base + (start_x >>3);
-   int x = -(start_x&0x7);
+   pce_bat_t* bat = bat_base + (start_x >> 3);
+   int x = -(start_x & 0x7);
    while (x < PCE_FRAME_WIDTH)
    {
-//      sceGuOffset(-x, start_y);
-//      sceGuOffset(-(x&~0x7), -(((vdc->BYR + current_scanline)&0x7)+(current_scanline&~0x7)));
-      sceGuOffset(-(x), -((current_scanline-(start_y&0x7))) );
-//      sceGuOffset(-(x), -(start_y) );
+      //      sceGuOffset(-x, start_y);
+      //      sceGuOffset(-(x&~0x7), -(((vdc->BYR + current_scanline)&0x7)+(current_scanline&~0x7)));
+      sceGuOffset(-(x), -((current_scanline - (start_y & 0x7))));
+      //      sceGuOffset(-(x), -(start_y) );
 
       sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
       sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
@@ -474,23 +570,100 @@ static inline void pce_draw_scanline_ge(int scanline)
       bat++;
       if (bat == (bat_base + width))
          bat = bat_base;
-//      printf("x :%i\n",x);
+      //      printf("x :%i\n",x);
    }
 
    update_stall_addr();
    current_scanline ++;
-//   printf("current_scanline :%i\n",current_scanline);
+   //   printf("current_scanline :%i\n",current_scanline);
 
-//   RETRO_PERFORMANCE_STOP(pce_draw_scanline_ge_func);
+   //   RETRO_PERFORMANCE_STOP(pce_draw_scanline_ge_func);
+
+
+}
+
+static inline void pce_draw_sprites(void)
+{
+   sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
+   //   sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
+   //   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
+   sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_SPRITE);
+   sceGuTexScale_8bit(64.0, 32.0);
+   sceGuClutLoad(32, pce_palette_cache + 256);
+
+   typedef struct
+   {
+      unsigned y           : 10;
+      unsigned             :  6;
+
+      unsigned x           : 10;
+      unsigned             :  6;
+
+      unsigned cg_mode     :  1;
+      unsigned tile_id     :  9;
+      unsigned id_invalid  :  1;
+      unsigned             :  5;
+
+      unsigned palette_id  :  4;
+      unsigned             :  3;
+      unsigned prio        :  1;
+      unsigned width       :  1;
+      unsigned             :  2;
+      unsigned h_flip      :  1;
+      unsigned height      :  2;
+      unsigned             :  1;
+      unsigned v_flip      :  1;
+
+   } pce_sat_attr_t;
+
+   pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
+
+   int i;
+
+   for (i = 0; i < 64; i++)
+   {
+      pce_sat_attr_t* sprite = &sprites[i];
+      sceGuOffset(32 - sprite->x, 64 - sprite->y);
+
+      sceGuClutMode(GU_PSM_5551, 0, 0x0F, sprite->palette_id);
+
+      pce_sprite_shape_t shape;
+      shape.val = 0;
+      shape.CGX = sprite->width;
+      shape.CGY = sprite->height;
+      shape.flip_x = sprite->h_flip;
+      shape.flip_y = sprite->v_flip;
+
+      int vertex_count = (shape.CGX ? 2 : 1) * (shape.CGY ? shape.CGY & 0x2 ? 8 : 4 :
+                         2) * 2;
+
+      int tile_id = sprite->tile_id & ~(((sprite->width ? 2 : 1) *
+                                         (sprite->height ? sprite->height & 0x2 ? 4 : 2 : 1)) - 1);
+      tile_id <<= 1;
+
+
+      sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
+                     GU_TRANSFORM_3D, vertex_count, NULL,
+                     &tile_coords_sprites[shape.val][tile_id]);
+      //      printf("shape.val : %u\n", shape.val);
+      //      printf("tile_id : %u\n", tile_id);
+      //      printf("sprite->tile_id : %u\n", sprite->tile_id);
+
+
+   }
+
+
+
 
 
 }
 
 
-
-
 static inline void pce_end_frame_ge(void)
 {
+
+   pce_draw_sprites();
+
 
    //   sceGuFinish();
    sceGuFinishId(PCE_DISPLAY_LIST_ID);
