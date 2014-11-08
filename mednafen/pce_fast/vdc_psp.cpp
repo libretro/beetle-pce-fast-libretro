@@ -59,88 +59,187 @@ static inline psp1_sprite_t* pce_create_tile_coords_sprite(
    int width = shape.CGX ? 32 : 16;
    int height = shape.CGY ? shape.CGY & 0x2 ? 64 : 32 : 16;
 
-   int start_x = 0;
-   int start_y = 0;
-   int max_x   = width;
-   int max_y   = height;
-   int inc_x = 16;
-   int inc_y = 16;
 
-   if (shape.flip_x)
-   {
-      max_x   = 0;
-      start_x = width;
-      inc_x   = -16;
-   }
-
-   if (shape.flip_y)
-   {
-      max_y   = 0;
-      start_y = height;
-      inc_y   = -16;
-   }
-
-   bool printf_cond = (shape.val == 0b00001) && (tile_id < 1024);
-   printf_cond = false;
+   bool printf_cond = (shape.val == 0b00010) && (tile_id < 8);
+   //      printf_cond = false;
    if (printf_cond)
    {
       printf("tile_id : %i , i: %i, j: %i\n", tile_id, i, j);
       printf("width : %i, height: %i\n", width, height);
-      printf("start_x : %i, max_x: %i, inc_x: %i\n", start_x, max_x, inc_x);
-      printf("start_y : %i, max_y: %i, inc_y: %i\n", start_y, max_y, inc_y);
+      //         printf("start_x : %i, max_x: %i, inc_x: %i\n", start_x, max_x, inc_x);
+      //         printf("start_y : %i, max_y: %i, inc_y: %i\n", start_y, max_y, inc_y);
    }
 
+   //   if (printf_cond)
+   //   {
+   //      printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
+   //             (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
+   //             (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+   //   }
 
-   for (y = start_y; y != max_y; y += inc_y)
+
+
+   if (shape.flip_x)
    {
-      for (x = start_x; x != max_x; x += inc_x)
+      if (shape.flip_y)
       {
-         tile->v0.x = x;
-         tile->v0.y = y;
-         tile->v0.u = i;
-         tile->v0.v = j;
-
-         tile->v1.x = x + inc_x;
-         tile->v1.y = y + (inc_y / 2);
-         tile->v1.u = i + 2;
-         tile->v1.v = j + 1;
-
-
-
-         if (printf_cond)
+         for (y = height; y > 0; y -= 16)
          {
-            printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
-                   (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
-                   (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+            for (x = width; x > 0; x -= 16)
+            {
+               tile->v0.x = x - 16;
+               tile->v0.y = y - 8;
+               tile->v0.u = i + 2;
+               tile->v0.v = j + 1;
+
+               tile->v1.x = x;
+               tile->v1.y = y;
+               tile->v1.u = i;
+               tile->v1.v = j;
+
+               if (printf_cond)
+               {
+                  printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
+                         (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
+                         (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+               }
+               i += 2;
+               tile++;
+
+               tile->v0.x = x - 16;
+               tile->v0.y = y - 16;
+               tile->v0.u = i + 2;
+               tile->v0.v = j + 1;
+
+               tile->v1.x = x;
+               tile->v1.y = y - 8;
+               tile->v1.u = i;
+               tile->v1.v = j;
+
+               if (printf_cond)
+               {
+                  printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
+                         (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
+                         (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+               }
+               i += 2;
+               tile++;
+
+            }
+
          }
 
-         i += 2;
-         tile++;
-
-         tile->v0.x = x;
-         tile->v0.y = y + (inc_y / 2);
-         tile->v0.u = i;
-         tile->v0.v = j;
-
-         tile->v1.x = x + inc_x;
-         tile->v1.y = y + inc_y;
-         tile->v1.u = i + 2;
-         tile->v1.v = j + 1;
-
-
-
-         if (printf_cond)
+      }
+      else
+      {
+         for (y = 0; y < height; y += 16)
          {
-            printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
-                   (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
-                   (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
+            for (x = width; x > 0; x -= 16)
+            {
+               tile->v0.x = x - 16;
+               tile->v0.y = y;
+               tile->v0.u = i + 2;
+               tile->v0.v = j;
+
+               tile->v1.x = x;
+               tile->v1.y = y + 8;
+               tile->v1.u = i;
+               tile->v1.v = j + 1;
+
+
+               i += 2;
+               tile++;
+
+               tile->v0.x = x - 16;
+               tile->v0.y = y + 8;
+               tile->v0.u = i + 2;
+               tile->v0.v = j;
+
+               tile->v1.x = x;
+               tile->v1.y = y + 16;
+               tile->v1.u = i;
+               tile->v1.v = j + 1;
+
+               i += 2;
+               tile++;
+
+            }
          }
+      }
+   }
+   else
+   {
+      if (shape.flip_y)
+      {
+         for (y = height; y > 0; y -= 16)
+         {
+            for (x = 0; x < width; x += 16)
+            {
+               tile->v0.x = x;
+               tile->v0.y = y - 8;
+               tile->v0.u = i;
+               tile->v0.v = j + 1;
 
-         i += 2;
-         tile++;
+               tile->v1.x = x + 16;
+               tile->v1.y = y;
+               tile->v1.u = i + 2;
+               tile->v1.v = j;
 
+               i += 2;
+               tile++;
 
+               tile->v0.x = x;
+               tile->v0.y = y - 16;
+               tile->v0.u = i;
+               tile->v0.v = j + 1;
 
+               tile->v1.x = x + 16;
+               tile->v1.y = y - 8;
+               tile->v1.u = i + 2;
+               tile->v1.v = j;
+
+               i += 2;
+               tile++;
+
+            }
+
+         }
+      }
+      else
+      {
+         for (y = 0; y < height; y += 16)
+         {
+            for (x = 0; x < width; x += 16)
+            {
+               tile->v0.x = x;
+               tile->v0.y = y;
+               tile->v0.u = i;
+               tile->v0.v = j;
+
+               tile->v1.x = x + 16;
+               tile->v1.y = y + 8;
+               tile->v1.u = i + 2;
+               tile->v1.v = j + 1;
+
+               i += 2;
+               tile++;
+
+               tile->v0.x = x;
+               tile->v0.y = y + 8;
+               tile->v0.u = i;
+               tile->v0.v = j;
+
+               tile->v1.x = x + 16;
+               tile->v1.y = y + 16;
+               tile->v1.u = i + 2;
+               tile->v1.v = j + 1;
+
+               i += 2;
+               tile++;
+
+            }
+
+         }
       }
 
    }
@@ -669,14 +768,20 @@ static inline void pce_draw_sprites(void)
       shape.flip_x = sprite->h_flip;
       shape.flip_y = sprite->v_flip;
 
-//      if (shape.val != 0x00001)
-//         continue;
+      if (shape.val != 0b00010)
+//      if (!(shape.val & 0b00010))
+         continue;
 
       int vertex_count = (shape.CGX ? 2 : 1) * (shape.CGY ? shape.CGY & 0x2 ? 8 : 4 :
                          2) * 2;
 
+//      printf("vertex_count : %i\n", vertex_count);
+
       int tile_id = sprite->tile_id & ~(((sprite->width ? 2 : 1) *
                                          (sprite->height ? sprite->height & 0x2 ? 4 : 2 : 1)) - 1);
+
+//      int tile_id = sprite->tile_id & ~((vertex_count>>1) -1);
+
       tile_id <<= 1;
 
 
