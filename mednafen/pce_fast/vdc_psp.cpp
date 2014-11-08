@@ -806,11 +806,13 @@ static inline void pce_start_frame_ge(void)
    sceGuAlphaFunc(GU_EQUAL, 0xFF, 0xFF);
 
 
-   sceGuClearColor(0x000000FF);
-   //   sceGuClearColor(GU_COLOR(((palette_ram[0]>> 0) & 31) / 31.0f,
-   //                            ((palette_ram[0]>> 5) & 31) / 31.0f,
-   //                            ((palette_ram[0]>>10) & 31) / 31.0f,
-   //                            1.0));
+//   sceGuClearColor(0x000000FF);
+
+   int bgcolor = TO_PSP_5551(vce.color_table_cache[0]);
+   sceGuClearColor(GU_COLOR(((bgcolor>> 0) & 31) / 31.0f,
+                            ((bgcolor>> 5) & 31) / 31.0f,
+                            ((bgcolor>>10) & 31) / 31.0f,
+                            1.0));
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
