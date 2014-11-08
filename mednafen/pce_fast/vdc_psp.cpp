@@ -774,7 +774,10 @@ static inline void pce_start_frame_ge(void)
 
    int i;
    for (i = 0; i < 512; i++)
-      pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i]);
+      if (i&0xF)
+         pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i])|0x8000;
+      else
+         pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i]);
 
    //   for (i = 0; i < 512; i++)
    //      PCE_PALETTE_CACHE[i] = 0xFFFF;
@@ -798,6 +801,9 @@ static inline void pce_start_frame_ge(void)
    //   sceGuScissor(0, 100, 256, 101);
    //   sceGuScissor(0,0,256,242);
    sceGuEnable(GU_SCISSOR_TEST);
+
+   sceGuEnable(GU_ALPHA_TEST);
+   sceGuAlphaFunc(GU_EQUAL, 0xFF, 0xFF);
 
 
    sceGuClearColor(0x000000FF);
