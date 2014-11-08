@@ -129,8 +129,8 @@ static inline void pce_create_sprite_tile_coords(
 
    int i, j, x, y, u, id;
 
-   //   if((shape.val != 0b10001))
-   //         return;
+   //   if ((shape.val != 0b00010))
+   //      return;
 
    u = 0;
    id = 0;
@@ -210,36 +210,132 @@ static inline void pce_create_sprite_tile_coords(
    {
       if (shape.CGX == 0)
       {
-         //         for (i = 0; i < 8; i++)
-         //         {
-         //            for (j = 0; j < 2; j++)
-         //            {
-         //               block->sprite[i].part[j].v0.x = 0;
-         //               block->sprite[i].part[j].v0.y = j << 3;
-         //               block->sprite[i].part[j].v0.u = i<<1;
-         //               block->sprite[i].part[j].v0.v = 0;
+         for (i = 0; i < 4; i++)
+         {
+            for (y = 0; y < 32; y += 16)
+            {
+               for (j = 0; j < 2; j++)
+               {
+                  block->sprite[id].part[j].v0.x = 0;
+                  block->sprite[id].part[j].v0.y = y + (j << 3);
+                  block->sprite[id].part[j].v0.u = u;
+                  block->sprite[id].part[j].v0.v = 0;
 
-         //               block->sprite[i].part[j].v1.x = 16;
-         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
-         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
-         //               block->sprite[i].part[j].v1.v = 1;
-         //            }
-         //         }
-         //         if(shape.flip_x)
-         //         {
+                  u += 2;
 
-         //         }
+                  block->sprite[id].part[j].v1.x = 16;
+                  block->sprite[id].part[j].v1.y = y + ((j + 1) << 3);
+                  block->sprite[id].part[j].v1.u = u;
+                  block->sprite[id].part[j].v1.v = 1;
+               }
+               u += 4;
 
-         //         if(shape.flip_y)
-         //         {
+               if (shape.flip_x)
+                  pce_sprite_flip_x(&block->sprite[id]);
 
-         //         }
+               if (shape.flip_y)
+                  pce_sprite_flip_y(&block->sprite[id]);
+
+               id++;
+
+            }
+            if (i & 0x1)
+               u -= 4;
+            else
+               u -= 12;
+            if (shape.flip_y)
+               pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 2]);
+         }
+      }
+      else
+      {
+         for (i = 0; i < 2; i++)
+         {
+            for (y = 0; y < 32; y += 16)
+            {
+               for (x = 0; x < 32; x += 16)
+               {
+                  for (j = 0; j < 2; j++)
+                  {
+                     block->sprite[id].part[j].v0.x = x;
+                     block->sprite[id].part[j].v0.y = y + (j << 3);
+                     block->sprite[id].part[j].v0.u = u;
+                     block->sprite[id].part[j].v0.v = 0;
+
+                     u += 2;
+
+                     block->sprite[id].part[j].v1.x = x + 16;
+                     block->sprite[id].part[j].v1.y = y + ((j + 1) << 3);
+                     block->sprite[id].part[j].v1.u = u;
+                     block->sprite[id].part[j].v1.v = 1;
+
+                  }
+
+                  if (shape.flip_x)
+                     pce_sprite_flip_x(&block->sprite[id]);
+
+                  if (shape.flip_y)
+                     pce_sprite_flip_y(&block->sprite[id]);
+
+                  id++;
+               }
+
+               if (shape.flip_x)
+                  pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 2]);
+            }
+            if (shape.flip_y)
+            {
+               pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 3]);
+               pce_sprite_swap(&block->sprite[id - 2], &block->sprite[id - 4]);
+            }
+         }
+      }
+   }
+   else
+   {
+      if (shape.CGX == 0)
+      {
+         for (i = 0; i < 2; i++)
+         {
+            for (y = 0; y < 64; y += 16)
+            {
+               for (j = 0; j < 2; j++)
+               {
+                  block->sprite[id].part[j].v0.x = 0;
+                  block->sprite[id].part[j].v0.y = y + (j << 3);
+                  block->sprite[id].part[j].v0.u = u;
+                  block->sprite[id].part[j].v0.v = 0;
+
+                  u += 2;
+
+                  block->sprite[id].part[j].v1.x = 16;
+                  block->sprite[id].part[j].v1.y = y + ((j + 1) << 3);
+                  block->sprite[id].part[j].v1.u = u;
+                  block->sprite[id].part[j].v1.v = 1;
+               }
+               u += 4;
+
+               if (shape.flip_x)
+                  pce_sprite_flip_x(&block->sprite[id]);
+
+               if (shape.flip_y)
+                  pce_sprite_flip_y(&block->sprite[id]);
+
+               id++;
+
+            }
+            u -= 28;
+            if (shape.flip_y)
+            {
+               pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 4]);
+               pce_sprite_swap(&block->sprite[id - 2], &block->sprite[id - 3]);
+            }
+         }
 
       }
       else
       {
-
-         for (y = 0; y < 32; y += 16)
+         for (y = 0; y < 64; y += 16)
          {
             for (x = 0; x < 32; x += 16)
             {
@@ -275,69 +371,11 @@ static inline void pce_create_sprite_tile_coords(
          }
          if (shape.flip_y)
          {
-            pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 3]);
-            pce_sprite_swap(&block->sprite[id - 2], &block->sprite[id - 4]);
+            pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 7]);
+            pce_sprite_swap(&block->sprite[id - 2], &block->sprite[id - 8]);
+            pce_sprite_swap(&block->sprite[id - 3], &block->sprite[id - 5]);
+            pce_sprite_swap(&block->sprite[id - 4], &block->sprite[id - 6]);
          }
-
-
-      }
-   }
-   else
-   {
-      if (shape.CGX == 0)
-      {
-         //         for (i = 0; i < 8; i++)
-         //         {
-         //            for (j = 0; j < 2; j++)
-         //            {
-         //               block->sprite[i].part[j].v0.x = 0;
-         //               block->sprite[i].part[j].v0.y = j << 3;
-         //               block->sprite[i].part[j].v0.u = i<<1;
-         //               block->sprite[i].part[j].v0.v = 0;
-
-         //               block->sprite[i].part[j].v1.x = 16;
-         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
-         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
-         //               block->sprite[i].part[j].v1.v = 1;
-         //            }
-         //         }
-         //         if(shape.flip_x)
-         //         {
-
-         //         }
-
-         //         if(shape.flip_y)
-         //         {
-
-         //         }
-
-      }
-      else
-      {
-         //         for (i = 0; i < 8; i++)
-         //         {
-         //            for (j = 0; j < 2; j++)
-         //            {
-         //               block->sprite[i].part[j].v0.x = 0;
-         //               block->sprite[i].part[j].v0.y = j << 3;
-         //               block->sprite[i].part[j].v0.u = i<<1;
-         //               block->sprite[i].part[j].v0.v = 0;
-
-         //               block->sprite[i].part[j].v1.x = 16;
-         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
-         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
-         //               block->sprite[i].part[j].v1.v = 1;
-         //            }
-         //         }
-         //         if(shape.flip_x)
-         //         {
-
-         //         }
-
-         //         if(shape.flip_y)
-         //         {
-
-         //         }
 
       }
    }
@@ -349,7 +387,7 @@ static inline void pce_create_sprite_tile_coords(
    //   printf("tile_id : %i, origin_u : %i, origin_v : %i\n", tile_id, origin_u,
    //          origin_v);
 
-   if ((shape.val == 0b10000) && (tile_id == 0))
+   if ((shape.val == 0b00010) && (tile_id == 0))
    {
       for (i = 0; i < 8; i++)
       {
@@ -912,12 +950,32 @@ static inline void pce_draw_sprites(void)
 
       //      printf("vertex_count : %i\n", vertex_count);
 
-      int tile_id = sprite->tile_id & ~(((sprite->width ? 2 : 1) *
-                                         (sprite->height ? sprite->height & 0x2 ? 4 : 2 : 1)) - 1);
+      int tile_id = sprite->tile_id & ~0x7;
 
-      //      int tile_id = sprite->tile_id & ~((vertex_count>>1) -1);
-
+      int offset;
+      if (sprite->width == 0)
+      {
+         if (sprite->height == 0)
+            offset = sprite->tile_id & 0b111;
+         else if (sprite->height == 1)
+            offset = (sprite->tile_id & 0b100) | ((sprite->tile_id & 0b001) << 1);
+         else
+            offset = ((sprite->tile_id & 0b001) << 2);
+      }
+      else
+      {
+         if (sprite->height == 0)
+            offset = sprite->tile_id & 0b110;
+         else if (sprite->height == 1)
+            offset = sprite->tile_id & 0b100;
+         else
+            offset = 0;
+      }
+      tile_id += offset;
       tile_id <<= 1;
+
+//      if ((shape.CGX == 0) && (shape.CGY & 0b10) && (shape.flip_x || shape.flip_y))
+//         printf("tall sprite found !!!\n");
 
 
       sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
