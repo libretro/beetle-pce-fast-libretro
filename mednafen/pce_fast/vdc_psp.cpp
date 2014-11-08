@@ -48,204 +48,338 @@ typedef union
 
 } pce_sprite_shape_t;
 
-static inline psp1_sprite_t* pce_create_tile_coords_sprite(
-   psp1_sprite_t* tile, int tile_id, pce_sprite_shape_t shape)
+typedef struct
 {
-   int x, y;
+   psp1_sprite_t part[2];
+} pce_sprite_t;
 
-   int i = (tile_id & 31) << 1;
-   int j = tile_id >> 5;
+typedef struct
+{
+   pce_sprite_t sprite[8];
+} pce_sprite_block_t;
 
-   int width = shape.CGX ? 32 : 16;
-   int height = shape.CGY ? shape.CGY & 0x2 ? 64 : 32 : 16;
+static inline void pce_sprite_flip_x_coords(psp1_sprite_t* coords)
+{
+   int temp;
+   temp = coords->v0.u;
+   coords->v0.u = coords->v1.u;
+   coords->v1.u = temp;
+}
+
+static inline void pce_sprite_flip_y_coords(psp1_sprite_t* coords)
+{
+   int temp;
+   temp = coords->v0.v;
+   coords->v0.v = coords->v1.v;
+   coords->v1.v = temp;
+}
+
+static inline void pce_sprite_swap_parts(pce_sprite_t* sprite)
+{
+   psp1_sprite_t temp = sprite->part[0];
+   sprite->part[0].v0.u = sprite->part[1].v0.u;
+   sprite->part[0].v0.v = sprite->part[1].v0.v;
+   sprite->part[0].v1.u = sprite->part[1].v1.u;
+   sprite->part[0].v1.v = sprite->part[1].v1.v;
+   sprite->part[1].v0.u = temp.v0.u;
+   sprite->part[1].v0.v = temp.v0.v;
+   sprite->part[1].v1.u = temp.v1.u;
+   sprite->part[1].v1.v = temp.v1.v;
+}
+static inline void pce_sprite_flip_x(pce_sprite_t* sprite)
+{
+   pce_sprite_flip_x_coords(&sprite->part[0]);
+   pce_sprite_flip_x_coords(&sprite->part[1]);
+}
+static inline void pce_sprite_flip_y(pce_sprite_t* sprite)
+{
+   pce_sprite_swap_parts(sprite);
+   pce_sprite_flip_y_coords(&sprite->part[0]);
+   pce_sprite_flip_y_coords(&sprite->part[1]);
+}
+
+static inline void pce_sprite_swap(pce_sprite_t* sprite1, pce_sprite_t* sprite2)
+{
+   pce_sprite_t temp = *sprite1;
+
+   sprite1->part[0].v0.u = sprite2->part[0].v0.u;
+   sprite1->part[0].v0.v = sprite2->part[0].v0.v;
+   sprite1->part[0].v1.u = sprite2->part[0].v1.u;
+   sprite1->part[0].v1.v = sprite2->part[0].v1.v;
+   sprite1->part[1].v0.u = sprite2->part[1].v0.u;
+   sprite1->part[1].v0.v = sprite2->part[1].v0.v;
+   sprite1->part[1].v1.u = sprite2->part[1].v1.u;
+   sprite1->part[1].v1.v = sprite2->part[1].v1.v;
+
+   sprite2->part[0].v0.u = temp.part[0].v0.u;
+   sprite2->part[0].v0.v = temp.part[0].v0.v;
+   sprite2->part[0].v1.u = temp.part[0].v1.u;
+   sprite2->part[0].v1.v = temp.part[0].v1.v;
+   sprite2->part[1].v0.u = temp.part[1].v0.u;
+   sprite2->part[1].v0.v = temp.part[1].v0.v;
+   sprite2->part[1].v1.u = temp.part[1].v1.u;
+   sprite2->part[1].v1.v = temp.part[1].v1.v;
+
+}
 
 
-   bool printf_cond = (shape.val == 0b00010) && (tile_id < 8);
-   //      printf_cond = false;
-   if (printf_cond)
+static inline void pce_create_sprite_tile_coords(
+   pce_sprite_block_t* block, int tile_id, pce_sprite_shape_t shape)
+{
+
+   int i, j, x, y, u, id;
+
+   //   if((shape.val != 0b10001))
+   //         return;
+
+   u = 0;
+   id = 0;
+   if (shape.CGY == 0)
    {
-      printf("tile_id : %i , i: %i, j: %i\n", tile_id, i, j);
-      printf("width : %i, height: %i\n", width, height);
-      //         printf("start_x : %i, max_x: %i, inc_x: %i\n", start_x, max_x, inc_x);
-      //         printf("start_y : %i, max_y: %i, inc_y: %i\n", start_y, max_y, inc_y);
-   }
-
-   //   if (printf_cond)
-   //   {
-   //      printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
-   //             (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
-   //             (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
-   //   }
-
-
-
-   if (shape.flip_x)
-   {
-      if (shape.flip_y)
+      if (shape.CGX == 0)
       {
-         for (y = height; y > 0; y -= 16)
+         for (i = 0; i < 8; i++)
          {
-            for (x = width; x > 0; x -= 16)
+            for (j = 0; j < 2; j++)
             {
-               tile->v0.x = x - 16;
-               tile->v0.y = y - 8;
-               tile->v0.u = i + 2;
-               tile->v0.v = j + 1;
+               block->sprite[id].part[j].v0.x = 0;
+               block->sprite[id].part[j].v0.y = j << 3;
+               block->sprite[id].part[j].v0.u = u;
+               block->sprite[id].part[j].v0.v = 0;
+               u += 2;
 
-               tile->v1.x = x;
-               tile->v1.y = y;
-               tile->v1.u = i;
-               tile->v1.v = j;
-
-               if (printf_cond)
-               {
-                  printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
-                         (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
-                         (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
-               }
-               i += 2;
-               tile++;
-
-               tile->v0.x = x - 16;
-               tile->v0.y = y - 16;
-               tile->v0.u = i + 2;
-               tile->v0.v = j + 1;
-
-               tile->v1.x = x;
-               tile->v1.y = y - 8;
-               tile->v1.u = i;
-               tile->v1.v = j;
-
-               if (printf_cond)
-               {
-                  printf("(x=%i,y=%i):(%u,%u,%u,%u)->(%u,%u,%u,%u)\n", x, y,
-                         (u32)tile->v0.x, (u32)tile->v0.y, (u32)tile->v0.u, (u32)tile->v0.v,
-                         (u32)tile->v1.x, (u32)tile->v1.y, (u32)tile->v1.u, (u32)tile->v1.v);
-               }
-               i += 2;
-               tile++;
+               block->sprite[id].part[j].v1.x = 16;
+               block->sprite[id].part[j].v1.y = (j + 1) << 3;
+               block->sprite[id].part[j].v1.u = u;
+               block->sprite[id].part[j].v1.v = 1;
 
             }
 
+            if (shape.flip_x)
+               pce_sprite_flip_x(&block->sprite[id]);
+
+            if (shape.flip_y)
+               pce_sprite_flip_y(&block->sprite[id]);
+
+            id++;
          }
 
       }
       else
       {
-         for (y = 0; y < height; y += 16)
+
+         for (i = 0; i < 4; i++)
          {
-            for (x = width; x > 0; x -= 16)
+            for (x = 0; x < 32; x += 16)
             {
-               tile->v0.x = x - 16;
-               tile->v0.y = y;
-               tile->v0.u = i + 2;
-               tile->v0.v = j;
+               for (j = 0; j < 2; j++)
+               {
+                  block->sprite[id].part[j].v0.x = x;
+                  block->sprite[id].part[j].v0.y = j << 3;
+                  block->sprite[id].part[j].v0.u = u;
+                  block->sprite[id].part[j].v0.v = 0;
 
-               tile->v1.x = x;
-               tile->v1.y = y + 8;
-               tile->v1.u = i;
-               tile->v1.v = j + 1;
+                  u += 2;
 
+                  block->sprite[id].part[j].v1.x = x + 16;
+                  block->sprite[id].part[j].v1.y = (j + 1) << 3;
+                  block->sprite[id].part[j].v1.u = u;
+                  block->sprite[id].part[j].v1.v = 1;
 
-               i += 2;
-               tile++;
+               }
 
-               tile->v0.x = x - 16;
-               tile->v0.y = y + 8;
-               tile->v0.u = i + 2;
-               tile->v0.v = j;
+               if (shape.flip_x)
+                  pce_sprite_flip_x(&block->sprite[id]);
 
-               tile->v1.x = x;
-               tile->v1.y = y + 16;
-               tile->v1.u = i;
-               tile->v1.v = j + 1;
+               if (shape.flip_y)
+                  pce_sprite_flip_y(&block->sprite[id]);
 
-               i += 2;
-               tile++;
+               id++;
 
             }
+
+            if (shape.flip_x)
+               pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 2]);
+
          }
+
+      }
+
+   }
+   else if (shape.CGY == 1)
+   {
+      if (shape.CGX == 0)
+      {
+         //         for (i = 0; i < 8; i++)
+         //         {
+         //            for (j = 0; j < 2; j++)
+         //            {
+         //               block->sprite[i].part[j].v0.x = 0;
+         //               block->sprite[i].part[j].v0.y = j << 3;
+         //               block->sprite[i].part[j].v0.u = i<<1;
+         //               block->sprite[i].part[j].v0.v = 0;
+
+         //               block->sprite[i].part[j].v1.x = 16;
+         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
+         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
+         //               block->sprite[i].part[j].v1.v = 1;
+         //            }
+         //         }
+         //         if(shape.flip_x)
+         //         {
+
+         //         }
+
+         //         if(shape.flip_y)
+         //         {
+
+         //         }
+
+      }
+      else
+      {
+
+         for (y = 0; y < 32; y += 16)
+         {
+            for (x = 0; x < 32; x += 16)
+            {
+               for (j = 0; j < 2; j++)
+               {
+                  block->sprite[id].part[j].v0.x = x;
+                  block->sprite[id].part[j].v0.y = y + (j << 3);
+                  block->sprite[id].part[j].v0.u = u;
+                  block->sprite[id].part[j].v0.v = 0;
+
+                  u += 2;
+
+                  block->sprite[id].part[j].v1.x = x + 16;
+                  block->sprite[id].part[j].v1.y = y + ((j + 1) << 3);
+                  block->sprite[id].part[j].v1.u = u;
+                  block->sprite[id].part[j].v1.v = 1;
+
+               }
+
+               if (shape.flip_x)
+                  pce_sprite_flip_x(&block->sprite[id]);
+
+               if (shape.flip_y)
+                  pce_sprite_flip_y(&block->sprite[id]);
+
+               id++;
+
+            }
+
+            if (shape.flip_x)
+               pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 2]);
+
+         }
+         if (shape.flip_y)
+         {
+            pce_sprite_swap(&block->sprite[id - 1], &block->sprite[id - 3]);
+            pce_sprite_swap(&block->sprite[id - 2], &block->sprite[id - 4]);
+         }
+
+
       }
    }
    else
    {
-      if (shape.flip_y)
+      if (shape.CGX == 0)
       {
-         for (y = height; y > 0; y -= 16)
-         {
-            for (x = 0; x < width; x += 16)
-            {
-               tile->v0.x = x;
-               tile->v0.y = y - 8;
-               tile->v0.u = i;
-               tile->v0.v = j + 1;
+         //         for (i = 0; i < 8; i++)
+         //         {
+         //            for (j = 0; j < 2; j++)
+         //            {
+         //               block->sprite[i].part[j].v0.x = 0;
+         //               block->sprite[i].part[j].v0.y = j << 3;
+         //               block->sprite[i].part[j].v0.u = i<<1;
+         //               block->sprite[i].part[j].v0.v = 0;
 
-               tile->v1.x = x + 16;
-               tile->v1.y = y;
-               tile->v1.u = i + 2;
-               tile->v1.v = j;
+         //               block->sprite[i].part[j].v1.x = 16;
+         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
+         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
+         //               block->sprite[i].part[j].v1.v = 1;
+         //            }
+         //         }
+         //         if(shape.flip_x)
+         //         {
 
-               i += 2;
-               tile++;
+         //         }
 
-               tile->v0.x = x;
-               tile->v0.y = y - 16;
-               tile->v0.u = i;
-               tile->v0.v = j + 1;
+         //         if(shape.flip_y)
+         //         {
 
-               tile->v1.x = x + 16;
-               tile->v1.y = y - 8;
-               tile->v1.u = i + 2;
-               tile->v1.v = j;
+         //         }
 
-               i += 2;
-               tile++;
-
-            }
-
-         }
       }
       else
       {
-         for (y = 0; y < height; y += 16)
-         {
-            for (x = 0; x < width; x += 16)
-            {
-               tile->v0.x = x;
-               tile->v0.y = y;
-               tile->v0.u = i;
-               tile->v0.v = j;
+         //         for (i = 0; i < 8; i++)
+         //         {
+         //            for (j = 0; j < 2; j++)
+         //            {
+         //               block->sprite[i].part[j].v0.x = 0;
+         //               block->sprite[i].part[j].v0.y = j << 3;
+         //               block->sprite[i].part[j].v0.u = i<<1;
+         //               block->sprite[i].part[j].v0.v = 0;
 
-               tile->v1.x = x + 16;
-               tile->v1.y = y + 8;
-               tile->v1.u = i + 2;
-               tile->v1.v = j + 1;
+         //               block->sprite[i].part[j].v1.x = 16;
+         //               block->sprite[i].part[j].v1.y = (j + 1) << 3;
+         //               block->sprite[i].part[j].v1.u = (i+1)<<1;
+         //               block->sprite[i].part[j].v1.v = 1;
+         //            }
+         //         }
+         //         if(shape.flip_x)
+         //         {
 
-               i += 2;
-               tile++;
+         //         }
 
-               tile->v0.x = x;
-               tile->v0.y = y + 8;
-               tile->v0.u = i;
-               tile->v0.v = j;
+         //         if(shape.flip_y)
+         //         {
 
-               tile->v1.x = x + 16;
-               tile->v1.y = y + 16;
-               tile->v1.u = i + 2;
-               tile->v1.v = j + 1;
+         //         }
 
-               i += 2;
-               tile++;
+      }
+   }
 
-            }
 
-         }
+   int origin_u = ((tile_id) & 15) << 2;
+   int origin_v = (tile_id >> 4);
+
+   //   printf("tile_id : %i, origin_u : %i, origin_v : %i\n", tile_id, origin_u,
+   //          origin_v);
+
+   if ((shape.val == 0b10000) && (tile_id == 0))
+   {
+      for (i = 0; i < 8; i++)
+      {
+         printf("%i: (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i) + (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i)\n",
+                i,
+                (s32)block->sprite[i].part[0].v0.x, (s32)block->sprite[i].part[0].v0.y,
+                (s32)block->sprite[i].part[0].v0.u, (s32)block->sprite[i].part[0].v0.v,
+                (s32)block->sprite[i].part[0].v1.x, (s32)block->sprite[i].part[0].v1.y,
+                (s32)block->sprite[i].part[0].v1.u, (s32)block->sprite[i].part[0].v1.v,
+
+                (s32)block->sprite[i].part[1].v0.x, (s32)block->sprite[i].part[1].v0.y,
+                (s32)block->sprite[i].part[1].v0.u, (s32)block->sprite[i].part[1].v0.v,
+                (s32)block->sprite[i].part[1].v1.x, (s32)block->sprite[i].part[1].v1.y,
+                (s32)block->sprite[i].part[1].v1.u, (s32)block->sprite[i].part[1].v1.v);
       }
 
    }
 
+   for (i = 0; i < 8; i++)
+   {
+      for (j = 0; j < 2; j++)
+      {
+         block->sprite[i].part[j].v0.u += origin_u;
+         block->sprite[i].part[j].v0.v += origin_v;
 
-   return tile;
+         block->sprite[i].part[j].v1.u += origin_u;
+         block->sprite[i].part[j].v1.v += origin_v;
+      }
+   }
+
 }
 
 static inline void init_video_ge(void)
@@ -273,18 +407,19 @@ static inline void init_video_ge(void)
 
 
    pce_sprite_shape_t shape;
+   pce_sprite_block_t* block;
 
    for (shape.val = 0; shape.val < 32; shape.val++)
    {
-      psp1_sprite_t* first_tile = (psp1_sprite_t*)(((u32)
-                                  tile_coords_sprites[shape.val]) | 0x40000000);
-      tile = first_tile;
-
-      while ((tile - first_tile) < 1024)
-         tile = pce_create_tile_coords_sprite(tile,
-                                              tile - first_tile, shape);
-
+      block = (pce_sprite_block_t*)tile_coords_sprites[shape.val];
+      for (i = 0; i < 64; i++)
+      {
+         pce_create_sprite_tile_coords(block, i << 3, shape);
+         block++;
+      }
    }
+
+   sceKernelDcacheWritebackInvalidateAll();
 
 }
 
@@ -768,19 +903,19 @@ static inline void pce_draw_sprites(void)
       shape.flip_x = sprite->h_flip;
       shape.flip_y = sprite->v_flip;
 
-      if (shape.val != 0b00010)
-//      if (!(shape.val & 0b00010))
-         continue;
+      //      if (shape.val != 0b00010)
+      //      if (!(shape.val & 0b00010))
+      //         continue;
 
       int vertex_count = (shape.CGX ? 2 : 1) * (shape.CGY ? shape.CGY & 0x2 ? 8 : 4 :
                          2) * 2;
 
-//      printf("vertex_count : %i\n", vertex_count);
+      //      printf("vertex_count : %i\n", vertex_count);
 
       int tile_id = sprite->tile_id & ~(((sprite->width ? 2 : 1) *
                                          (sprite->height ? sprite->height & 0x2 ? 4 : 2 : 1)) - 1);
 
-//      int tile_id = sprite->tile_id & ~((vertex_count>>1) -1);
+      //      int tile_id = sprite->tile_id & ~((vertex_count>>1) -1);
 
       tile_id <<= 1;
 

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <pspthreadman.h>
+#include <pspkernel.h>
 #include <pspgu.h>
 #include <pspdisplay.h>
 #include <stddef.h>
