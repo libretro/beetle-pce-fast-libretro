@@ -15,6 +15,8 @@ static PspGeContext main_context_buffer;
 
 static u16* const pce_palette_cache = PCE_PALETTE_CACHE;
 
+static vdc_flags_t* vdc_flags = NULL;
+
 #define PCE_DISPLAY_LIST_ID   0x3C00
 
 #define PCE_RED(val)                (((val)>>3)&0x7)
@@ -61,10 +63,10 @@ typedef union
 {
    struct
    {
-      unsigned CGX : 1;
-      unsigned CGY : 2;
-      unsigned flip_x : 1;
-      unsigned flip_y : 1;
+      unsigned CGX      : 1;
+      unsigned CGY      : 2;
+      unsigned flip_x   : 1;
+      unsigned flip_y   : 1;
    };
    unsigned val;
 
@@ -481,6 +483,8 @@ static inline void init_video_ge(void)
 
    sceKernelDcacheWritebackInvalidateAll();
 
+   vdc_flags = (vdc_flags_t*)vdc;
+
 }
 
 static inline  void fix_tile_cache_sprites(uint16 A)
@@ -779,10 +783,15 @@ static inline void pce_draw_bg(void)
 }
 
 static int current_scanline = 0;
+static bool burst_mode = false;
+
+
 static inline void pce_start_frame_ge(void)
 {
    frame_count ++;
-   current_scanline = -19;
+   current_scanline = 0;
+   burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
+
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
    RETRO_PERFORMANCE_START(gu_sync_time);
@@ -848,6 +857,8 @@ static inline void pce_start_frame_ge(void)
 
 static inline void pce_draw_scanline_ge(int scanline)
 {
+   if(burst_mode)
+      return;
 
    int width_lut[4] = {32, 64, 128, 128};
    int height_lut[2] = {32, 64};
@@ -914,6 +925,9 @@ static inline void pce_draw_scanline_ge(int scanline)
 
 static inline void pce_draw_sprites(void)
 {
+   if(burst_mode)
+      return;
+
    sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
    //   sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
    //   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
