@@ -17,6 +17,28 @@ static u16* const pce_palette_cache = PCE_PALETTE_CACHE;
 
 #define PCE_DISPLAY_LIST_ID   0x3C00
 
+#define PCE_RED(val)                (((val)>>3)&0x7)
+#define PCE_GREEN(val)              (((val)>>6)&0x7)
+#define PCE_BLUE(val)               (((val)>>0)&0x7)
+
+#define PCE_TO_4bit_COLOR(val)      (((val)<<1)|((val)>>2))
+#define PCE_TO_8bit_COLOR(val)      (((val)<<5)|((val)<<2)|((val)>>1))
+
+#define PCE_RED4(val)               PCE_TO_4bit_COLOR(PCE_RED(val))
+#define PCE_GREEN4(val)             PCE_TO_4bit_COLOR(PCE_GREEN(val))
+#define PCE_BLUE4(val)              PCE_TO_4bit_COLOR(PCE_BLUE(val))
+#define PCE_RED8(val)               PCE_TO_8bit_COLOR(PCE_RED(val))
+#define PCE_GREEN8(val)             PCE_TO_8bit_COLOR(PCE_GREEN(val))
+#define PCE_BLUE8(val)              PCE_TO_8bit_COLOR(PCE_BLUE(val))
+
+#define PSP_BUILD_4444(R,G,B)       ((R)|((G)<<4)|((B)<<8))
+#define PSP_BUILD_8888(R,G,B)       ((R)|((G)<<8)|((B)<<16))
+
+#define PCE_TO_PSP4444(val, alpha)  (PSP_BUILD_4444(PCE_RED4(val),PCE_GREEN4(val),PCE_BLUE4(val))|(((alpha)&0x0F)<<12))
+#define PCE_TO_PSP8888(val, alpha)  (PSP_BUILD_8888(PCE_RED8(val),PCE_GREEN8(val),PCE_BLUE8(val))|(((alpha)&0xFF)<<24))
+
+
+
 static int frame_count = 0;
 static inline void list_finish_callback(int id)
 {
@@ -683,8 +705,8 @@ static inline void pce_draw_tilemap(void)
    //   sceGuTexImage(0, 256, 256, 256, vdc->bg_tile_cache[0]);
 
    sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
-   //   sceGuTexMode(GU_PSM_5551, 0, 0, GU_TRUE);
-   sceGuClutMode(GU_PSM_5551, 0, 0xF, 0);
+   //   sceGuTexMode(GU_PSM_4444, 0, 0, GU_TRUE);
+   sceGuClutMode(GU_PSM_4444, 0, 0xF, 0);
    sceGuClutLoad(32, pce_palette_cache);
 
    psp1_sprite_uv16bit_t* tilemap_coords =
@@ -743,7 +765,7 @@ static inline void pce_draw_bg(void)
       {
          sceGuOffset(start_x - (i << 3), start_y - (j << 3));
 
-         sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
+         sceGuClutMode(GU_PSM_4444, 0, 0x0F, bat->palette_id);
          sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
                         GU_TRANSFORM_3D, 2, NULL, tile_coords_bg + bat->tile_id);
          bat++;
@@ -755,7 +777,6 @@ static inline void pce_draw_bg(void)
 
 
 }
-#define TO_PSP_5551(val) (((val&0x001F)<<10)|((val&0x07C0)>>1)|((val&0xF800)>>11))
 
 static int current_scanline = 0;
 static inline void pce_start_frame_ge(void)
@@ -774,13 +795,11 @@ static inline void pce_start_frame_ge(void)
 
    int i;
    for (i = 0; i < 512; i++)
-      if (i&0xF)
-         pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i])|0x8000;
+      if (i & 0xF)
+         pce_palette_cache[i] = PCE_TO_PSP4444(vce.color_table[i], 0xF);
       else
-         pce_palette_cache[i] = TO_PSP_5551(vce.color_table_cache[i]);
+         pce_palette_cache[i] = PCE_TO_PSP4444(vce.color_table[i], 0x0);
 
-   //   for (i = 0; i < 512; i++)
-   //      PCE_PALETTE_CACHE[i] = 0xFFFF;
 
    sceGuStart(GU_DIRECT, d_list);
 
@@ -794,8 +813,7 @@ static inline void pce_start_frame_ge(void)
    //   sceGuTexFilter(GU_NEAREST,GU_NEAREST);
 
 
-   //   sceGuDrawBufferList(GU_PSM_5551, GBA_FRAME_TEXTURE_GU, GBA_LINE_SIZE);
-   sceGuDrawBufferList(GU_PSM_5551, PCE_FRAME_TEXTURE, PCE_LINE_SIZE);
+   sceGuDrawBufferList(GU_PSM_4444, PCE_FRAME_TEXTURE, PCE_LINE_SIZE);
 
    sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
    //   sceGuScissor(0, 100, 256, 101);
@@ -806,13 +824,10 @@ static inline void pce_start_frame_ge(void)
    sceGuAlphaFunc(GU_EQUAL, 0xFF, 0xFF);
 
 
-//   sceGuClearColor(0x000000FF);
+   //   sceGuClearColor(0x000000FF);
 
-   int bgcolor = TO_PSP_5551(vce.color_table_cache[0]);
-   sceGuClearColor(GU_COLOR(((bgcolor>> 0) & 31) / 31.0f,
-                            ((bgcolor>> 5) & 31) / 31.0f,
-                            ((bgcolor>>10) & 31) / 31.0f,
-                            1.0));
+
+   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
@@ -878,7 +893,7 @@ static inline void pce_draw_scanline_ge(int scanline)
       sceGuOffset(-(x), -((current_scanline - (start_y & 0x7))));
       //      sceGuOffset(-(x), -(start_y) );
 
-      sceGuClutMode(GU_PSM_5551, 0, 0x0F, bat->palette_id);
+      sceGuClutMode(GU_PSM_4444, 0, 0x0F, bat->palette_id);
       sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
                      GU_TRANSFORM_3D, 2, NULL, tile_coords_bg + bat->tile_id);
       x += 8;
@@ -940,7 +955,7 @@ static inline void pce_draw_sprites(void)
       pce_sat_attr_t* sprite = &sprites[i];
       sceGuOffset(32 - sprite->x, 64 - sprite->y);
 
-      sceGuClutMode(GU_PSM_5551, 0, 0x0F, sprite->palette_id);
+      sceGuClutMode(GU_PSM_4444, 0, 0x0F, sprite->palette_id);
 
       pce_sprite_shape_t shape;
       shape.val = 0;
@@ -982,8 +997,8 @@ static inline void pce_draw_sprites(void)
       tile_id += offset;
       tile_id <<= 1;
 
-//      if ((shape.CGX == 0) && (shape.CGY & 0b10) && (shape.flip_x || shape.flip_y))
-//         printf("tall sprite found !!!\n");
+      //      if ((shape.CGX == 0) && (shape.CGY & 0b10) && (shape.flip_x || shape.flip_y))
+      //         printf("tall sprite found !!!\n");
 
 
       sceGuDrawArray(GU_SPRITES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
@@ -1026,10 +1041,10 @@ static inline void pce_end_frame_ge(void)
    sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGB);
    sceGuTexImage(0, PCE_LINE_SIZE, 256, PCE_LINE_SIZE, PCE_FRAME_TEXTURE);
 
-   sceGuTexMode(GU_PSM_5551, 0, 0, GU_FALSE);
+   sceGuTexMode(GU_PSM_4444, 0, 0, GU_FALSE);
 
    //   sceGuTexMode(GU_PSM_T16, 0, 0, GU_FALSE);
-   //   sceGuClutMode(GU_PSM_5551,0,0xFF,0);
+   //   sceGuClutMode(GU_PSM_4444,0,0xFF,0);
    //   sceGuClutLoad(32, palette_ram+256);
    sceGuClearColor(0x00000000);
    sceGuDisable(GU_BLEND);
