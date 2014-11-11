@@ -138,4 +138,31 @@ typedef struct
         uint16 DCR;
 } vdc_flags_t;
 
+
+typedef struct
+{
+   unsigned y           : 10;
+   unsigned             :  6;
+
+   unsigned x           : 10;
+   unsigned             :  6;
+
+   unsigned cg_mode     :  1;
+   unsigned tile_id     :  9;
+   unsigned id_invalid  :  1;
+   unsigned             :  5;
+
+   unsigned palette_id  :  4;
+   unsigned             :  3;
+   unsigned prio        :  1;
+   unsigned width       :  1;
+   unsigned             :  2;
+   unsigned h_flip      :  1;
+   unsigned height      :  2;
+   unsigned             :  1;
+   unsigned v_flip      :  1;
+
+} pce_sat_attr_t;
+
+
 #endif // VDC_PSP_H
