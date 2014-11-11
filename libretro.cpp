@@ -1675,7 +1675,7 @@ void retro_run(void)
 
 #ifdef PSP
    if(pce_do_hw_render)
-      video_cb(RETRO_HW_FRAME_BUFFER_VALID, MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
+      video_cb(RETRO_HW_FRAME_BUFFER_VALID, width, 224, 1024);
    else
       video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
 

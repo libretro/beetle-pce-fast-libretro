@@ -785,12 +785,20 @@ static inline void pce_draw_bg(void)
 static int current_scanline = 0;
 static bool burst_mode = false;
 
+static int scroll_y = 0;
+
+
 
 static inline void pce_start_frame_ge(void)
 {
    frame_count ++;
-   current_scanline = 0;
+   current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 1;
+   current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 22;
+   current_scanline = -1;
+
    burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
+   //   if (burst_mode)
+   //      printf("burst mode !!\n");
 
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
@@ -824,20 +832,26 @@ static inline void pce_start_frame_ge(void)
 
    sceGuDrawBufferList(GU_PSM_4444, PCE_FRAME_TEXTURE, PCE_LINE_SIZE);
 
+   sceGuClearStencil(0);
+
    sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
-   //   sceGuScissor(0, 100, 256, 101);
-   //   sceGuScissor(0,0,256,242);
    sceGuEnable(GU_SCISSOR_TEST);
+
+   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[256], 0xFF));
+   sceGuClear(GU_COLOR_BUFFER_BIT);
+
+
+
+   if (burst_mode)
+      return;
+
+   sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
+   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
+   sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
 
    sceGuEnable(GU_ALPHA_TEST);
    sceGuAlphaFunc(GU_EQUAL, 0xFF, 0xFF);
 
-
-   //   sceGuClearColor(0x000000FF);
-
-
-   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
-   sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
    //   RETRO_PERFORMANCE_INIT(gba_draw_bg_mode0_proc);
@@ -853,32 +867,71 @@ static inline void pce_start_frame_ge(void)
    sceGuTexScale_8bit(64.0, 32.0);
    sceGuClutLoad(32, pce_palette_cache);
 
+   //   scroll_y = vdc_flags->BYR.scroll_y;
+   //   printf("vdc_flags->BYR.scroll_y: %u\n", (u32)vdc_flags->BYR.scroll_y);
+//   display_start_y = vdc_flags->VSR.VDS + vdc_flags->VSR.VSW;
+//   display_end_y   = vdc_flags->VSR.VDS + vdc_flags->VSR.VSW + vdc_flags->VDR.VDW;
+
 }
 
-static inline void pce_draw_scanline_ge(int scanline)
+static inline void pce_draw_scanline_ge(int line_width)
 {
-   if(burst_mode)
+   current_scanline++;
+
+   if (burst_mode)
       return;
 
-   int width_lut[4] = {32, 64, 128, 128};
-   int height_lut[2] = {32, 64};
-   int width = width_lut[(vdc->MWR >> 4) & 3];
-   int height = height_lut[(vdc->MWR >> 6) & 1];
+   if (!vdc_flags->CR.bg_enable)
+      return;
 
-   //   current_scanline=scanline;
+
+   if (current_scanline < 0)
+      return;
 
    if (current_scanline >= PCE_FRAME_HEIGHT)
       return;
 
+   if (current_scanline > vdc_flags->VDR.VDW)
+      return;
+
+
+   int width_lut[4] = {32, 64, 128, 128};
+   int height_lut[2] = {32, 64};
+   int width = width_lut[vdc_flags->MWR.virtual_screen_width];
+   int height = height_lut[vdc_flags->MWR.virtual_screen_height];
+
+   if (current_scanline == 0)
+   {
+      //      printf("vdc_flags->BYR.scroll_y: %u\n", (u32)vdc_flags->BYR.scroll_y);
+      scroll_y = vdc_flags->BYR.scroll_y;
+   }
+
+   //   current_scanline=scanline;
+
+
    //   RETRO_PERFORMANCE_INIT(pce_draw_scanline_ge_func);
    //   RETRO_PERFORMANCE_START(pce_draw_scanline_ge_func);
 
-   sceGuScissor(0, current_scanline, PCE_FRAME_WIDTH, current_scanline + 1);
+   sceGuScissor(0, current_scanline, line_width, current_scanline + 1);
+
+
+   //   printf("vdc->BG_YOffset: %u\n", vdc->BG_YOffset);
+   //   printf("vdc->BYR: %u\n", (u32)vdc->BYR);
+   //   printf("vdc_flags->BYR.scroll_y: %u\n", (u32)vdc_flags->BYR.scroll_y);
+
 
 
 
    //   int start_x = vdc->BXR & ((width << 3) - 1);
    //   int start_y = (vdc->BYR + current_scanline) & ((height << 3) - 1);
+
+   //   int start_x = vdc->BG_XOffset & ((width << 3) - 1);
+   //   int start_y = (vdc->BG_YOffset) & ((height << 3) - 1);
+//   int start_x = vdc_flags->BXR.scroll_x & ((width << 3) - 1);
+//   int start_y = (current_scanline +vdc_flags->BYR.scroll_y) & ((height << 3) - 1);
+//   int start_y = (current_scanline +vdc->BG_YOffset) & ((height << 3) - 1);
+//   int start_y = (current_scanline + scroll_y) & ((height << 3) - 1);
+//   start_y &= ~0x7;
 
    int start_x = vdc->BG_XOffset & ((width << 3) - 1);
    int start_y = (vdc->BG_YOffset) & ((height << 3) - 1);
@@ -901,6 +954,7 @@ static inline void pce_draw_scanline_ge(int scanline)
    {
       //      sceGuOffset(-x, start_y);
       //      sceGuOffset(-(x&~0x7), -(((vdc->BYR + current_scanline)&0x7)+(current_scanline&~0x7)));
+      //      sceGuOffset(-(x), -((current_scanline - (start_y & 0x7))));
       sceGuOffset(-(x), -((current_scanline - (start_y & 0x7))));
       //      sceGuOffset(-(x), -(start_y) );
 
@@ -915,7 +969,6 @@ static inline void pce_draw_scanline_ge(int scanline)
    }
 
    update_stall_addr();
-   current_scanline ++;
    //   printf("current_scanline :%i\n",current_scanline);
 
    //   RETRO_PERFORMANCE_STOP(pce_draw_scanline_ge_func);
@@ -925,10 +978,13 @@ static inline void pce_draw_scanline_ge(int scanline)
 
 static inline void pce_draw_sprites(void)
 {
-   if(burst_mode)
+   if (burst_mode)
       return;
 
-   sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
+   if (!vdc_flags->CR.sprite_enable)
+      return;
+
+//   sceGuScissor(0, 0, PCE_FRAME_WIDTH, PCE_FRAME_HEIGHT);
    //   sceGuTexMode(GU_PSM_T4, 0, 0, GU_TRUE);
    //   sceGuTexFunc(GU_TFX_REPLACE, GU_TCC_RGBA);
    sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_SPRITE);
@@ -1032,9 +1088,9 @@ static inline void pce_draw_sprites(void)
 }
 
 
-static inline void pce_end_frame_ge(void)
+static inline void pce_end_frame_ge(int width, int height)
 {
-
+   sceGuScissor(0, 0, width, height);
    pce_draw_sprites();
 
 

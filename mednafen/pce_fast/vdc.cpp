@@ -1077,6 +1077,12 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
                      memset(spr_linebuf + 0x20, 0, sizeof(uint16) * (end - start));
                }
 
+#ifdef PSP
+               if(pce_do_hw_render)
+                  pce_draw_scanline_ge(end-start);
+#endif
+
+
                if (SHOULD_DRAW)
                {
                   static const int xs[2][3] =
@@ -1139,10 +1145,6 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
             DrawOverscan(vdc, target_ptr16, DisplayRect);
          }
       }
-#ifdef PSP
-      if(pce_do_hw_render)
-         pce_draw_scanline_ge(frame_counter);
-#endif
 
 
       if (SHOULD_DRAW && fc_vrm)
@@ -1194,7 +1196,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
    while (frame_counter != VBlankFL);  // big frame loop!
 #ifdef PSP
    if(pce_do_hw_render)
-      pce_end_frame_ge();
+      pce_end_frame_ge(DisplayRect->w, DisplayRect->h);
 #endif
 }
 
