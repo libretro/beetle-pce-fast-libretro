@@ -798,7 +798,7 @@ static inline void pce_start_frame_ge(void)
    frame_count ++;
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 1;
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 22;
-   current_scanline = -2;
+   current_scanline = -1;
 
    burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
 
