@@ -798,7 +798,7 @@ static inline void pce_start_frame_ge(void)
    frame_count ++;
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 1;
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 22;
-   current_scanline = -1;
+   current_scanline = -2;
 
    burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
 
@@ -941,6 +941,15 @@ static inline void pce_draw_scanline_ge(int line_width)
    sceGuDrawArray(GU_LINES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
                   GU_TRANSFORM_3D, 2, NULL, &scanline_coords);
 
+
+
+//   if (current_scanline == 20)
+//   {
+
+//      printf("sprite %10s  ",vdc_flags->CR.sprite_enable?"enable":"disable");
+//      printf("bg     %10s\n",vdc_flags->CR.bg_enable?"enable":"disable");
+//   }
+
    if (!vdc_flags->CR.bg_enable)
       return;
 
@@ -1030,7 +1039,8 @@ static inline void pce_draw_scanline_ge(int line_width)
 static inline void pce_draw_sprites(void)
 {
    //   printf("\n");
-   if (burst_mode)
+//   if (burst_mode)
+   if (vdc->burst_mode)
       return;
 
    //   if (!vdc_flags->CR.sprite_enable)
