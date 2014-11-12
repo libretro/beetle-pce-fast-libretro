@@ -40,6 +40,8 @@ static vdc_flags_t* vdc_flags = NULL;
 #define PCE_TO_PSP8888(val, alpha)  (PSP_BUILD_8888(PCE_RED8(val),PCE_GREEN8(val),PCE_BLUE8(val))|(((alpha)&0xFF)<<24))
 
 
+psp1_sprite_t scanline_coords = { {{0, 0, 0, 0, 0}}, {{0, 0, 512, 0, 0}}};
+
 
 static int frame_count = 0;
 static inline void list_finish_callback(int id)
@@ -51,8 +53,8 @@ static inline void list_finish_callback(int id)
    sceCtrlPeekBufferPositive(&pad, 1);
    debug_setpos(0, 0);
    //   debug_printf("cache_update_count : %i\n", cache_update_count);
-//   debug_printf("\n\n\n\n\nVRAM[100+100*512] = 0x%08X\n",
-//                (u32)(PCE_FRAME_TEXTURE[100 + 100 * 512]));
+   //   debug_printf("\n\n\n\n\nVRAM[100+100*512] = 0x%08X\n",
+   //                (u32)(PCE_FRAME_TEXTURE[100 + 100 * 512]));
    //   debug_printf("debug test\n");
    if (pad.Ly > 200)
       debug_printf("frame :%u\n", frame_count);
@@ -786,7 +788,6 @@ static inline void pce_draw_bg(void)
 
 static int current_scanline = 0;
 static bool burst_mode = false;
-static bool sprite_enable = true;
 
 static int scroll_y = 0;
 
@@ -800,7 +801,7 @@ static inline void pce_start_frame_ge(void)
    current_scanline = -1;
 
    burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
-//   sprite_enable = vdc_flags->CR.sprite_enable;
+
    //   if (burst_mode)
    //      printf("burst mode !!\n");
 
@@ -845,13 +846,14 @@ static inline void pce_start_frame_ge(void)
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
-
    if (burst_mode)
       return;
 
    sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
    sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
    sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
+
+   sceGuColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
 
    sceGuEnable(GU_ALPHA_TEST);
    sceGuAlphaFunc(GU_NOTEQUAL, 0x0, 0xFF);
@@ -886,8 +888,8 @@ static inline void pce_start_frame_ge(void)
    //      printf("%i   ", sprites[i].prio);
    //   printf("\n");
 
-//   printf("\n");
-//   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
+   //   printf("\n");
+   //   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
 
 }
 
@@ -899,10 +901,6 @@ static inline void pce_draw_scanline_ge(int line_width)
 
    if (burst_mode)
       return;
-
-   if (!vdc_flags->CR.bg_enable)
-      return;
-
 
    if (current_scanline < 0)
       return;
@@ -933,6 +931,24 @@ static inline void pce_draw_scanline_ge(int line_width)
 
    sceGuScissor(0, current_scanline, line_width, current_scanline + 1);
 
+   sceGuStencilFunc(GU_ALWAYS, (0x10 >> vdc_flags->CR.sprite_enable), 0xFF);
+   sceGuDisable(GU_TEXTURE_2D);
+
+//   sceGuColor(0xFF000000);
+
+   sceGuOffset(0, -current_scanline);
+
+   sceGuDrawArray(GU_LINES, GU_TEXTURE_8BIT | GU_VERTEX_16BIT |
+                  GU_TRANSFORM_3D, 2, NULL, &scanline_coords);
+
+   if (!vdc_flags->CR.bg_enable)
+      return;
+
+   sceGuEnable(GU_TEXTURE_2D);
+   sceGuStencilFunc(GU_ALWAYS, 0x80 | (0x10 >> vdc_flags->CR.sprite_enable), 0xFF);
+
+
+
 
    //   printf("vdc->BG_YOffset: %u\n", vdc->BG_YOffset);
    //   printf("vdc->BYR: %u\n", (u32)vdc->BYR);
@@ -955,7 +971,7 @@ static inline void pce_draw_scanline_ge(int line_width)
    int start_x = vdc->BG_XOffset & ((width << 3) - 1);
    int start_y = (vdc->BG_YOffset) & ((height << 3) - 1);
 
-   //   sceGuScissor(0, start_y, PCE_FRAME_WIDTH, start_y + 1);
+   //      sceGuScissor(0, start_y, PCE_FRAME_WIDTH, start_y + 1);
 
    typedef struct __attribute((packed))
    {
@@ -969,6 +985,8 @@ static inline void pce_draw_scanline_ge(int line_width)
 
    pce_bat_t* bat = bat_base + (start_x >> 3);
    int x = -(start_x & 0x7);
+
+
    while (x < line_width)
    {
       //      sceGuOffset(-x, start_y);
@@ -1004,22 +1022,18 @@ static inline void pce_draw_scanline_ge(int line_width)
    //      printf("\n");
    //   }
 
-//   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
+   //   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
 
-   if(current_scanline < 1)
-      sprite_enable = vdc_flags->CR.sprite_enable;
 
 }
 
 static inline void pce_draw_sprites(void)
 {
-//   printf("\n");
+   //   printf("\n");
    if (burst_mode)
       return;
 
-//   if (!vdc_flags->CR.sprite_enable)
-   if (!sprite_enable)
-      return;
+   //   if (!vdc_flags->CR.sprite_enable)
 
    sceGuEnable(GU_STENCIL_TEST);
    //   sceGuStencilOp(GU_INCR, GU_INCR, GU_INCR);
@@ -1116,15 +1130,15 @@ static inline void pce_end_frame_ge(int width, int height)
    sceGuScissor(0, 0, width, height);
    pce_draw_sprites();
 
-//      pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
-//      int i;
-//      printf("end :\n");
+   //      pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
+   //      int i;
+   //      printf("end :\n");
 
-//      for (i=0; i<64; i++)
-//      {
-//         printf("%i-", sprites[i].prio);
-//      }
-//      printf("\n");
+   //      for (i=0; i<64; i++)
+   //      {
+   //         printf("%i-", sprites[i].prio);
+   //      }
+   //      printf("\n");
 
 
    //   sceGuFinish();
