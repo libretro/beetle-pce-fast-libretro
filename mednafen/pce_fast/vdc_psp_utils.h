@@ -143,11 +143,6 @@ void sendCommandiStall(int cmd, int argument);
 void sendCommandf(int cmd, float argument);
 #endif
 
-#define sceGuDrawArray  sceGuDrawArray_
-#define sceGuClutLoad   sceGuClutLoad_
-#define sceGuClutMode   sceGuClutMode_
-#define sceGuTexImage   sceGuTexImage_
-
 static inline void sendCommandi_(int cmd, int argument)
 {
    *(gu_list->current++) = (cmd << 24) | (argument & 0xffffff);
@@ -163,6 +158,26 @@ static inline void sendCommandf_(int cmd, float argument)
    t.f = argument;
 
    sendCommandi_(cmd,t.i >> 8);
+}
+
+
+#define sceGuDrawArray  sceGuDrawArray_
+#define sceGuClutLoad   sceGuClutLoad_
+#define sceGuClutMode   sceGuClutMode_
+#define sceGuTexImage   sceGuTexImage_
+#define sceGuStencilFunc sceGuStencilFunc_
+#define sceGuStencilOp sceGuStencilOp_
+
+#define sceGu_enable_stencil_test() sendCommandi(36,1)
+#define sceGu_disable_stencil_test() sendCommandi(36,0)
+
+static inline void sceGuStencilFunc_(int func, int ref, int mask)
+{
+   sendCommandi(220,func | ((ref & 0xff) << 8) | ((mask & 0xff) << 16));
+}
+static inline void sceGuStencilOp(int fail, int zfail, int zpass)
+{
+   sendCommandi(221,fail | (zfail << 8) | (zpass << 16));
 }
 
 static inline void sceGuDrawArray_(int prim, int vtype, int count, const void* indices, const void* vertices)
@@ -252,7 +267,7 @@ static void debug_put_char(int x, int y, u8 ch)
 static int debug_X=0;
 static int debug_Y=0;
 
-void debug_printf(const char *format, ...)
+static void debug_printf(const char *format, ...)
 {
    va_list	opt;
    char     buff[2048], c;
@@ -295,7 +310,7 @@ void debug_printf(const char *format, ...)
    }
 }
 
-void debug_setpos(int X, int Y)
+static void debug_setpos(int X, int Y)
 {
    debug_X = X;
    debug_Y = Y;
@@ -304,7 +319,7 @@ void debug_setpos(int X, int Y)
 
 unsigned int read_system_buttons(void);
 
-#define PERF_TEST
+//#define PERF_TEST
 #ifdef PERF_TEST
 
 extern struct retro_perf_callback perf_cb;
@@ -324,5 +339,9 @@ extern struct retro_perf_callback perf_cb;
 #define RETRO_PERFORMANCE_STOP(X)
 
 #endif
+
+//#define DISABLE_HW_RENDER
+//#define DISABLE_SW_RENDER
+//#define RUN_FOR_X_FRAMES 200
 
 #endif // VDC_PSP_UTILS_H

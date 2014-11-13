@@ -372,3 +372,4 @@ clean:
 .PHONY: clean
 
 $(CORE_DIR)/vdc.o: $(CORE_DIR)/vdc_psp.cpp $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h
+libretro.o: $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h

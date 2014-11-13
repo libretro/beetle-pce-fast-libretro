@@ -2,6 +2,7 @@
 #define VDC_PSP_H
 
 #include "vdc.h"
+#include "vdc_psp_utils.h"
 extern bool pce_do_hw_render;
 
 //void init_video_ge(void);

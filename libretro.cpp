@@ -450,7 +450,12 @@ static void Emulate(EmulateSpecStruct *espec)
    sbuf[y].bass_freq(10);
   }
  }
+ RETRO_PERFORMANCE_INIT(VDC_RunFrame_time);
+ RETRO_PERFORMANCE_START(VDC_RunFrame_time);
  VDC_RunFrame(espec, false);
+ RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
+
+
 
  if(PCE_IsCD)
  {
@@ -1691,6 +1696,11 @@ void retro_run(void)
    bool updated = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
       check_variables();
+
+#ifdef RUN_FOR_X_FRAMES
+   if (video_frames == RUN_FOR_X_FRAMES)
+      environ_cb(RETRO_ENVIRONMENT_SHUTDOWN, NULL);
+#endif
 }
 
 void retro_get_system_info(struct retro_system_info *info)

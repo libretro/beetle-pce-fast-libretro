@@ -86,6 +86,7 @@ static INLINE void FixPCache(int entry)
 
 static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
 {
+#ifndef DISABLE_SW_RENDER
    uint32 charname = (A >> 4);
    uint32 y = (A & 0x7);
    uint64* tc = &which_vdc->bg_tile_cache[charname][y];
@@ -108,10 +109,13 @@ static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
       *tc |= (uint64)raw_pixel << ((7 - x) * 8);
 #endif
    }
+#endif
 
+//#ifndef DISABLE_HW_RENDER
 #ifdef PSP
    pce_fix_tile_cache_ge(A);
 #endif
+//#endif
 }
 
 static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
