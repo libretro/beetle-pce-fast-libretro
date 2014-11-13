@@ -11,6 +11,15 @@ static unsigned int __attribute__((aligned(64))) d_list[4 * 1024 * 1024];
 static psp1_sprite_t __attribute__((aligned(64))) tile_coords_bg[2 * 1024];
 static psp1_sprite_t __attribute__((aligned(64))) tile_coords_sprites[32][1024];
 
+static u32 bg_bitplane_lut_01[64 * 1024];
+static u32 bg_bitplane_lut_23[64 * 1024];
+
+static u32 bitplane_lut[256];
+static u32 bitplane1_lut[256];
+static u32 bitplane2_lut[256];
+static u32 bitplane3_lut[256];
+
+
 static PspGeContext main_context_buffer;
 
 static u16* const pce_palette_cache = PCE_PALETTE_CACHE;
@@ -52,7 +61,7 @@ static inline void list_finish_callback(int id)
    SceCtrlData pad;
    sceCtrlPeekBufferPositive(&pad, 1);
    debug_setpos(0, 0);
-   //   debug_printf("cache_update_count : %i\n", cache_update_count);
+   debug_printf("cache_update_count : %i\n", cache_update_count);
    //   debug_printf("\n\n\n\n\nVRAM[100+100*512] = 0x%08X\n",
    //                (u32)(PCE_FRAME_TEXTURE[100 + 100 * 512]));
    //   debug_printf("debug test\n");
@@ -487,12 +496,109 @@ static inline void init_video_ge(void)
 
    sceKernelDcacheWritebackInvalidateAll();
 
+   for (i = 0; i < (64 * 1024); i++)
+   {
+      bg_bitplane_lut_01[i] = (((i >> 0x7) & 0x1) << (0 + 0)) |
+                              (((i >> 0x6) & 0x1) << (0 + 4)) |
+                              (((i >> 0x5) & 0x1) << (0 + 8)) |
+                              (((i >> 0x4) & 0x1) << (0 + 12)) |
+                              (((i >> 0x3) & 0x1) << (0 + 16)) |
+                              (((i >> 0x2) & 0x1) << (0 + 20)) |
+                              (((i >> 0x1) & 0x1) << (0 + 24)) |
+                              (((i >> 0x0) & 0x1) << (0 + 28)) |
+
+                              (((i >> 0xF) & 0x1) << (1 + 0)) |
+                              (((i >> 0xE) & 0x1) << (1 + 4)) |
+                              (((i >> 0xD) & 0x1) << (1 + 8)) |
+                              (((i >> 0xC) & 0x1) << (1 + 12)) |
+                              (((i >> 0xB) & 0x1) << (1 + 16)) |
+                              (((i >> 0xA) & 0x1) << (1 + 20)) |
+                              (((i >> 0x9) & 0x1) << (1 + 24)) |
+                              (((i >> 0x8) & 0x1) << (1 + 28));
+
+      bg_bitplane_lut_23[i] = (((i >> 0x7) & 0x1) << (2 + 0)) |
+                              (((i >> 0x6) & 0x1) << (2 + 4)) |
+                              (((i >> 0x5) & 0x1) << (2 + 8)) |
+                              (((i >> 0x4) & 0x1) << (2 + 12)) |
+                              (((i >> 0x3) & 0x1) << (2 + 16)) |
+                              (((i >> 0x2) & 0x1) << (2 + 20)) |
+                              (((i >> 0x1) & 0x1) << (2 + 24)) |
+                              (((i >> 0x0) & 0x1) << (2 + 28)) |
+
+                              (((i >> 0xF) & 0x1) << (3 + 0)) |
+                              (((i >> 0xE) & 0x1) << (3 + 4)) |
+                              (((i >> 0xD) & 0x1) << (3 + 8)) |
+                              (((i >> 0xC) & 0x1) << (3 + 12)) |
+                              (((i >> 0xB) & 0x1) << (3 + 16)) |
+                              (((i >> 0xA) & 0x1) << (3 + 20)) |
+                              (((i >> 0x9) & 0x1) << (3 + 24)) |
+                              (((i >> 0x8) & 0x1) << (3 + 28));
+
+   }
+
+   for (i = 0; i < 256; i++)
+   {
+      bitplane_lut[i] = (((i >> 0x7) & 0x1) << (0 + 0)) |
+                         (((i >> 0x6) & 0x1) << (0 + 4)) |
+                         (((i >> 0x5) & 0x1) << (0 + 8)) |
+                         (((i >> 0x4) & 0x1) << (0 + 12)) |
+                         (((i >> 0x3) & 0x1) << (0 + 16)) |
+                         (((i >> 0x2) & 0x1) << (0 + 20)) |
+                         (((i >> 0x1) & 0x1) << (0 + 24)) |
+                         (((i >> 0x0) & 0x1) << (0 + 28));
+
+      bitplane1_lut[i] = (((i >> 0x7) & 0x1) << (1 + 0)) |
+                         (((i >> 0x6) & 0x1) << (1 + 4)) |
+                         (((i >> 0x5) & 0x1) << (1 + 8)) |
+                         (((i >> 0x4) & 0x1) << (1 + 12)) |
+                         (((i >> 0x3) & 0x1) << (1 + 16)) |
+                         (((i >> 0x2) & 0x1) << (1 + 20)) |
+                         (((i >> 0x1) & 0x1) << (1 + 24)) |
+                         (((i >> 0x0) & 0x1) << (1 + 28));
+
+      bitplane2_lut[i] = (((i >> 0x7) & 0x1) << (2 + 0)) |
+                         (((i >> 0x6) & 0x1) << (2 + 4)) |
+                         (((i >> 0x5) & 0x1) << (2 + 8)) |
+                         (((i >> 0x4) & 0x1) << (2 + 12)) |
+                         (((i >> 0x3) & 0x1) << (2 + 16)) |
+                         (((i >> 0x2) & 0x1) << (2 + 20)) |
+                         (((i >> 0x1) & 0x1) << (2 + 24)) |
+                         (((i >> 0x0) & 0x1) << (2 + 28));
+
+      bitplane3_lut[i] = (((i >> 0x7) & 0x1) << (3 + 0)) |
+                         (((i >> 0x6) & 0x1) << (3 + 4)) |
+                         (((i >> 0x5) & 0x1) << (3 + 8)) |
+                         (((i >> 0x4) & 0x1) << (3 + 12)) |
+                         (((i >> 0x3) & 0x1) << (3 + 16)) |
+                         (((i >> 0x2) & 0x1) << (3 + 20)) |
+                         (((i >> 0x1) & 0x1) << (3 + 24)) |
+                         (((i >> 0x0) & 0x1) << (3 + 28));
+
+   }
+
+
+
+
    vdc_flags = (vdc_flags_t*)vdc;
 
 }
 
 static inline  void fix_tile_cache_sprites(uint16 A)
 {
+#ifdef LUT_VRAM_DECODING
+   u64* line_ge = ((u64*)PCE_VRAMTEXTURE_SPRITE) + ((A >> 6) << 4) +
+                  ((A & 0x7) << 1) + ((A >> 3) & 0x1);
+   u16 src_line = vdc->VRAM[A];
+
+   u64  dst_line = *line_ge;
+
+   dst_line &= ~(0x1111111111111111ULL << ((A >> 4) & 0x3));
+   dst_line |= bitplane_lut[src_line >> 8] << ((A >> 4) & 0x3);
+   dst_line |= (u64)bitplane_lut[src_line & 0xFF] << (((A >> 4) & 0x3) + 32);
+   *line_ge = dst_line;
+
+
+#else
    u64* line_ge = ((u64*)PCE_VRAMTEXTURE_SPRITE) + ((A >> 6) << 4) +
                   ((A & 0x7) << 1) + ((A >> 3) & 0x1);
 
@@ -613,10 +719,42 @@ static inline  void fix_tile_cache_sprites(uint16 A)
    }
 
    *line_ge = dst_line.val;
+#endif
 }
 
 static inline  void fix_tile_cache_bg(uint16 A)
 {
+
+#ifdef LUT_VRAM_DECODING
+   u32* line_ge = ((u32*)PCE_VRAMTEXTURE_BG) + ((A >> 6) << 5) +
+                  ((A & 0x7) << 2) + ((A >> 4) & 0x3);
+   u16 src_line = vdc->VRAM[A];
+   u32 dst_line = *line_ge;
+
+
+   if (A & 0x8) //bp 23
+   {
+      dst_line &= 0x33333333;
+      //      dst_line |= bg_bitplane_lut_23[src_line];
+      dst_line |= bitplane_lut[src_line & 0xFF] << 2;
+      dst_line |= bitplane_lut[src_line >> 8] << 3;
+
+
+   }
+   else // bp 01
+   {
+      dst_line &= 0xCCCCCCCC;
+      //      dst_line |= bg_bitplane_lut_01[src_line];
+      dst_line |= bitplane_lut[src_line & 0xFF];
+      dst_line |= bitplane_lut[src_line >> 8] << 1;
+   }
+
+
+
+   *line_ge = dst_line;
+
+
+#else
    u32* line_ge = ((u32*)PCE_VRAMTEXTURE_BG) + ((A >> 6) << 5) +
                   ((A & 0x7) << 2) + ((A >> 4) & 0x3);
    union
@@ -695,6 +833,7 @@ static inline  void fix_tile_cache_bg(uint16 A)
 
    *line_ge = dst_line.val;
 
+#endif
 }
 
 static inline  void pce_fix_tile_cache_ge(uint16 A)
@@ -1161,10 +1300,10 @@ static inline void pce_end_frame_ge(int width, int height)
 #ifndef DISABLE_HW_RENDER
    sceGuScissor(0, 0, width, height);
 
-//   RETRO_PERFORMANCE_INIT(draw_sprites_time);
-//   RETRO_PERFORMANCE_START(draw_sprites_time);
+   //   RETRO_PERFORMANCE_INIT(draw_sprites_time);
+   //   RETRO_PERFORMANCE_START(draw_sprites_time);
    pce_draw_sprites();
-//   RETRO_PERFORMANCE_STOP(draw_sprites_time);
+   //   RETRO_PERFORMANCE_STOP(draw_sprites_time);
 
    //      pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
    //      int i;

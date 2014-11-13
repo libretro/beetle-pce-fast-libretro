@@ -1682,7 +1682,8 @@ void retro_run(void)
    if(pce_do_hw_render)
       video_cb(RETRO_HW_FRAME_BUFFER_VALID, width, 224, 1024);
    else
-      video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
+//      video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
+      video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 
 #else
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);

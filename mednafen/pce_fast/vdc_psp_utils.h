@@ -319,7 +319,7 @@ static void debug_setpos(int X, int Y)
 
 unsigned int read_system_buttons(void);
 
-//#define PERF_TEST
+#define PERF_TEST
 #ifdef PERF_TEST
 
 extern struct retro_perf_callback perf_cb;
@@ -340,7 +340,9 @@ extern struct retro_perf_callback perf_cb;
 
 #endif
 
+#define LUT_VRAM_DECODING
 //#define DISABLE_HW_RENDER
+//#define DISABLE_HW_RENDER_VRAM_CACHING
 //#define DISABLE_SW_RENDER
 //#define RUN_FOR_X_FRAMES 200
 
