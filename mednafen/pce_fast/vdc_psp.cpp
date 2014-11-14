@@ -673,7 +673,7 @@ static inline void pce_draw_bg(void)
 }
 
 static int current_scanline = 0;
-//static bool burst_mode = false;
+static bool burst_mode = false;
 
 static int scroll_y = 0;
 
@@ -726,7 +726,7 @@ static inline void pce_start_frame_ge(void)
 
    sceGuClearStencil(0);
 
-   sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
+   sceGuScissor(0, 0, 512, 256);
    sceGuEnable(GU_SCISSOR_TEST);
 
    sceGuClearColor(PCE_TO_PSP8888(vce.color_table[256], 0xFF));
@@ -736,9 +736,9 @@ static inline void pce_start_frame_ge(void)
 //   if (burst_mode)
 //      return;
 
-   sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
-   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
-   sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
+//   sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
+//   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
+//   sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
 
    sceGuColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
 
@@ -777,6 +777,17 @@ static inline void pce_start_frame_ge(void)
 
    //   printf("\n");
    //   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
+
+//   printf("burstmode frame %i: before : %3s", frame_count, vdc->burst_mode?"yes":"no");
+
+   burst_mode = vdc->burst_mode;
+
+
+//   for (i=0; i<512; i++)
+//   {
+//      pce_palette_cache[i]=0xFFFF;
+//   }
+
 #endif
 }
 
@@ -788,7 +799,10 @@ static inline void pce_draw_scanline_ge(int line_width)
    //   return;
 
    if (vdc->burst_mode)
+   {
+      burst_mode = true;
       return;
+   }
 
    if (current_scanline < 0)
       return;
@@ -940,7 +954,11 @@ static inline void pce_draw_sprites(void)
 {
    //   printf("\n");
    //   if (burst_mode)
-   if (vdc->burst_mode)
+
+//   printf("   after : %3s", vdc->burst_mode?"yes":"no");
+//   printf("   local_burst_mode : %3s\n", burst_mode?"yes":"no");
+
+   if (burst_mode)
       return;
 
    //   if (!vdc_flags->CR.sprite_enable)
@@ -957,8 +975,11 @@ static inline void pce_draw_sprites(void)
    sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_SPRITE);
    sceGuTexScale_8bit(64.0, 32.0);
    sceGuClutLoad(32, pce_palette_cache + 256);
+//   sceGuClutLoad(32, pce_palette_cache);
 
    pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
+
+   sceGuEnableTexture2D();
 
    int i;
 

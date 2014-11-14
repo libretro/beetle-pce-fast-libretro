@@ -327,7 +327,15 @@ static void debug_setpos(int X, int Y)
 
 unsigned int read_system_buttons(void);
 
-#define PERF_TEST
+
+
+//#define DISABLE_HW_RENDER
+//#define DISABLE_HW_RENDER_VRAM_CACHING
+#define DISABLE_SW_RENDER
+//#define RUN_FOR_X_FRAMES 200
+//#define PERF_TEST
+
+
 #ifdef PERF_TEST
 
 extern struct retro_perf_callback perf_cb;
@@ -347,10 +355,5 @@ extern struct retro_perf_callback perf_cb;
 #define RETRO_PERFORMANCE_STOP(X)
 
 #endif
-
-//#define DISABLE_HW_RENDER
-//#define DISABLE_HW_RENDER_VRAM_CACHING
-//#define DISABLE_SW_RENDER
-#define RUN_FOR_X_FRAMES 200
 
 #endif // VDC_PSP_UTILS_H
