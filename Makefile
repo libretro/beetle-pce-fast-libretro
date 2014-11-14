@@ -319,9 +319,9 @@ OBJECTS := $(SOURCES:.cpp=.o) $(SOURCES_C:.c=.o)
 all: $(TARGET)
 
 ifeq ($(DEBUG),0)
-   FLAGS += -O2 $(EXTRA_GCC_FLAGS)
+   FLAGS += -O3
 else
-   FLAGS += -O0
+   FLAGS += -O0 -g
 endif
 
 LDFLAGS += $(fpic) $(SHARED)

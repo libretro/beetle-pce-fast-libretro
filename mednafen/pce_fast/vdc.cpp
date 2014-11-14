@@ -112,7 +112,7 @@ static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
 #endif
 
 #ifdef PSP
-#if !defined(DISABLE_HW_RENDER) && !defined(DISABLE_HW_RENDER_VRAM_CACHING)
+#ifndef DISABLE_HW_RENDER_VRAM_CACHING
    pce_fix_tile_cache_ge(A);
 #endif
 #endif

@@ -470,24 +470,24 @@ static inline void pce_create_sprite_tile_coords(
    //   printf("tile_id : %i, origin_u : %i, origin_v : %i\n", tile_id, origin_u,
    //          origin_v);
 
-//   if ((shape.val == 0b00010) && (tile_id == 0))
-//   {
-//      for (i = 0; i < 8; i++)
-//      {
-//         printf("%i: (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i) + (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i)\n",
-//                i,
-//                (s32)block->sprite[i].part[0].v0.x, (s32)block->sprite[i].part[0].v0.y,
-//                (s32)block->sprite[i].part[0].v0.u, (s32)block->sprite[i].part[0].v0.v,
-//                (s32)block->sprite[i].part[0].v1.x, (s32)block->sprite[i].part[0].v1.y,
-//                (s32)block->sprite[i].part[0].v1.u, (s32)block->sprite[i].part[0].v1.v,
+   //   if ((shape.val == 0b00010) && (tile_id == 0))
+   //   {
+   //      for (i = 0; i < 8; i++)
+   //      {
+   //         printf("%i: (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i) + (%2i,%2i,%2i,%2i) , (%2i,%2i,%2i,%2i)\n",
+   //                i,
+   //                (s32)block->sprite[i].part[0].v0.x, (s32)block->sprite[i].part[0].v0.y,
+   //                (s32)block->sprite[i].part[0].v0.u, (s32)block->sprite[i].part[0].v0.v,
+   //                (s32)block->sprite[i].part[0].v1.x, (s32)block->sprite[i].part[0].v1.y,
+   //                (s32)block->sprite[i].part[0].v1.u, (s32)block->sprite[i].part[0].v1.v,
 
-//                (s32)block->sprite[i].part[1].v0.x, (s32)block->sprite[i].part[1].v0.y,
-//                (s32)block->sprite[i].part[1].v0.u, (s32)block->sprite[i].part[1].v0.v,
-//                (s32)block->sprite[i].part[1].v1.x, (s32)block->sprite[i].part[1].v1.y,
-//                (s32)block->sprite[i].part[1].v1.u, (s32)block->sprite[i].part[1].v1.v);
-//      }
+   //                (s32)block->sprite[i].part[1].v0.x, (s32)block->sprite[i].part[1].v0.y,
+   //                (s32)block->sprite[i].part[1].v0.u, (s32)block->sprite[i].part[1].v0.v,
+   //                (s32)block->sprite[i].part[1].v1.x, (s32)block->sprite[i].part[1].v1.y,
+   //                (s32)block->sprite[i].part[1].v1.u, (s32)block->sprite[i].part[1].v1.v);
+   //      }
 
-//   }
+   //   }
 
    for (i = 0; i < 8; i++)
    {
@@ -673,7 +673,7 @@ static inline void pce_draw_bg(void)
 }
 
 static int current_scanline = 0;
-static bool burst_mode = false;
+//static bool burst_mode = false;
 
 static int scroll_y = 0;
 
@@ -687,10 +687,10 @@ static inline void pce_start_frame_ge(void)
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 22;
    current_scanline = -1;
 
-   burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
+//   burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
 
-   //   if (burst_mode)
-   //      printf("burst mode !!\n");
+//   if (burst_mode)
+//      printf("burst mode !!\n");
 
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
@@ -733,8 +733,8 @@ static inline void pce_start_frame_ge(void)
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
-   if (burst_mode)
-      return;
+//   if (burst_mode)
+//      return;
 
    sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
    sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
@@ -787,7 +787,7 @@ static inline void pce_draw_scanline_ge(int line_width)
 
    //   return;
 
-   if (burst_mode)
+   if (vdc->burst_mode)
       return;
 
    if (current_scanline < 0)
@@ -817,10 +817,10 @@ static inline void pce_draw_scanline_ge(int line_width)
    //   RETRO_PERFORMANCE_INIT(pce_draw_scanline_ge_func);
    //   RETRO_PERFORMANCE_START(pce_draw_scanline_ge_func);
 
-   sceGuScissor(0, current_scanline, line_width, current_scanline + 1);
+   sceGuScissor_fast(0, current_scanline, line_width, current_scanline + 1);
 
    sceGuStencilFunc(GU_ALWAYS, (0x10 >> vdc_flags->CR.sprite_enable), 0xFF);
-   sceGuDisable(GU_TEXTURE_2D);
+   sceGuDisableTexture2D();
 
    //   sceGuColor(0xFF000000);
 
@@ -841,7 +841,7 @@ static inline void pce_draw_scanline_ge(int line_width)
    if (!vdc_flags->CR.bg_enable)
       return;
 
-   sceGuEnable(GU_TEXTURE_2D);
+   sceGuEnableTexture2D();
    sceGuStencilFunc(GU_ALWAYS, 0x80 | (0x10 >> vdc_flags->CR.sprite_enable), 0xFF);
 
 
@@ -945,7 +945,7 @@ static inline void pce_draw_sprites(void)
 
    //   if (!vdc_flags->CR.sprite_enable)
 
-   sceGu_enable_stencil_test();
+   sceGuEnableStencilTest();
 
    //   sceGuStencilOp(GU_INCR, GU_INCR, GU_INCR);
    sceGuStencilOp(GU_INCR, GU_INCR, GU_INCR);
@@ -1045,7 +1045,7 @@ static inline void pce_draw_sprites(void)
 static inline void pce_end_frame_ge(int width, int height)
 {
 #ifndef DISABLE_HW_RENDER
-   sceGuScissor(0, 0, width, height);
+   sceGuScissor_fast(0, 0, width, height);
 
    //   RETRO_PERFORMANCE_INIT(draw_sprites_time);
    //   RETRO_PERFORMANCE_START(draw_sprites_time);

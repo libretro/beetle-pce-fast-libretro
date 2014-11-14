@@ -18,8 +18,8 @@
 #define TO_GU_POINTER(ptr)       ((void *)((u32)(ptr)&~0x44000000))
 
 
-#define PCE_FRAME_WIDTH    288
-#define PCE_FRAME_HEIGHT   232
+#define PCE_FRAME_WIDTH    512
+#define PCE_FRAME_HEIGHT   256
 #define PCE_LINE_SIZE      512
 
 #define PSP_VRAM_MAX             ((u16*)0x44200000)
@@ -168,8 +168,16 @@ static inline void sendCommandf_(int cmd, float argument)
 #define sceGuStencilFunc sceGuStencilFunc_
 #define sceGuStencilOp sceGuStencilOp_
 
-#define sceGu_enable_stencil_test() sendCommandi(36,1)
-#define sceGu_disable_stencil_test() sendCommandi(36,0)
+#define sceGuEnableStencilTest() sendCommandi(36,1)
+#define sceGuDisableStencilTest() sendCommandi(36,0)
+#define sceGuEnableTexture2D() sendCommandi(30,1)
+#define sceGuDisableTexture2D() sendCommandi(30,0)
+
+static inline void sceGuScissor_fast(int x, int y, int w, int h)
+{
+   sendCommandi(212,(y << 10)|x);
+   sendCommandi(213,((h-1) << 10)|(w-1));
+}
 
 static inline void sceGuStencilFunc_(int func, int ref, int mask)
 {
@@ -343,6 +351,6 @@ extern struct retro_perf_callback perf_cb;
 //#define DISABLE_HW_RENDER
 //#define DISABLE_HW_RENDER_VRAM_CACHING
 //#define DISABLE_SW_RENDER
-//#define RUN_FOR_X_FRAMES 2000
+#define RUN_FOR_X_FRAMES 200
 
 #endif // VDC_PSP_UTILS_H
