@@ -1662,7 +1662,9 @@ void retro_run(void)
    }
 
 #ifdef PSP
+#ifndef DISABLE_SW_RENDER
    pce_do_hw_render = !input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
+#endif
    setting_last_scanline = 241;
 #endif
 
@@ -1679,12 +1681,15 @@ void retro_run(void)
 
 
 #ifdef PSP
+#ifndef DISABLE_SW_RENDER
    if(pce_do_hw_render)
+#endif
       video_cb(RETRO_HW_FRAME_BUFFER_VALID, width, height, 1024);
+#ifndef DISABLE_SW_RENDER
    else
 //      video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
       video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
-
+#endif
 #else
    video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 #endif

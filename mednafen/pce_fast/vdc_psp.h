@@ -3,7 +3,9 @@
 
 #include "vdc.h"
 #include "vdc_psp_utils.h"
+#ifndef DISABLE_SW_RENDER
 extern bool pce_do_hw_render;
+#endif
 
 //void init_video_ge(void);
 

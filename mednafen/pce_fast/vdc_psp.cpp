@@ -1,8 +1,9 @@
 #include "vdc.h"
 #include "vdc_psp_utils.h"
 
-
+#ifndef DISABLE_SW_RENDER
 bool pce_do_hw_render;
+#endif
 static int cache_update_count = 0;
 
 
@@ -104,15 +105,15 @@ static inline void list_finish_callback(int id)
    if (id != PCE_DISPLAY_LIST_ID)
       return;
 
-   SceCtrlData pad;
-   sceCtrlPeekBufferPositive(&pad, 1);
-   debug_setpos(0, 0);
-   debug_printf("cache_update_count : %i\n", cache_update_count);
+//   SceCtrlData pad;
+//   sceCtrlPeekBufferPositive(&pad, 1);
+//   debug_setpos(0, 0);
+//   debug_printf("cache_update_count : %i\n", cache_update_count);
    //   debug_printf("\n\n\n\n\nVRAM[100+100*512] = 0x%08X\n",
    //                (u32)(PCE_FRAME_TEXTURE[100 + 100 * 512]));
    //   debug_printf("debug test\n");
-   if (pad.Ly > 200)
-      debug_printf("frame :%u\n", frame_count);
+//   if (pad.Ly > 200)
+//      debug_printf("frame :%u\n", frame_count);
 
    sceGeRestoreContext(&main_context_buffer);
 

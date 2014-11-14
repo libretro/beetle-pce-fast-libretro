@@ -72,6 +72,7 @@ vdc_t* vdc = NULL;
 //#endif
 static INLINE void FixPCache(int entry)
 {
+#ifndef DISABLE_SW_RENDER
    if (!(entry & 0xFF))
    {
       uint16_t color0 = MAKECOLOR_PCE(vce.color_table[entry & 0x100]);
@@ -82,6 +83,7 @@ static INLINE void FixPCache(int entry)
 
    if (entry & 0xF)
       vce.color_table_cache[entry] = MAKECOLOR_PCE(vce.color_table[entry]);
+#endif
 }
 
 static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
@@ -895,15 +897,21 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
    }
 
 #ifdef PSP
+#ifndef DISABLE_SW_RENDER
    if(pce_do_hw_render)
+#endif
       pce_start_frame_ge();
 #endif
 
    do
    {
+#ifndef DISABLE_SW_RENDER
       const bool SHOULD_DRAW = (!pce_do_hw_render) && (!skip
                                && (int)frame_counter >= (DisplayRect->y + 14)
                                && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
+#else
+#define SHOULD_DRAW false
+#endif
 
 
       if (frame_counter == 0)
@@ -1082,7 +1090,9 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
                }
 
 #ifdef PSP
+#ifndef DISABLE_SW_RENDER
                if(pce_do_hw_render)
+#endif
                   pce_draw_scanline_ge(end-start);
 #endif
 
@@ -1199,7 +1209,9 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
    }
    while (frame_counter != VBlankFL);  // big frame loop!
 #ifdef PSP
+#ifndef DISABLE_SW_RENDER
    if(pce_do_hw_render)
+#endif
       pce_end_frame_ge(DisplayRect->w, DisplayRect->h);
 #endif
 }
