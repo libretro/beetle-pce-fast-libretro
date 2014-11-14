@@ -340,10 +340,9 @@ extern struct retro_perf_callback perf_cb;
 
 #endif
 
-#define LUT_VRAM_DECODING
 //#define DISABLE_HW_RENDER
 //#define DISABLE_HW_RENDER_VRAM_CACHING
 //#define DISABLE_SW_RENDER
-//#define RUN_FOR_X_FRAMES 200
+//#define RUN_FOR_X_FRAMES 2000
 
 #endif // VDC_PSP_UTILS_H
