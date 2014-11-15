@@ -8,7 +8,7 @@ static int cache_update_count = 0;
 
 
 
-static unsigned int __attribute__((aligned(64))) d_list[4 * 1024 * 1024];
+static unsigned int __attribute__((aligned(64))) d_list[128 * 1024];
 static psp1_sprite_t __attribute__((aligned(64))) tile_coords_bg[2 * 1024];
 static psp1_sprite_t __attribute__((aligned(64))) tile_coords_sprites[32][1024];
 

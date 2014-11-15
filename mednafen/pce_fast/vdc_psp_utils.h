@@ -11,6 +11,8 @@
 #include <stddef.h>
 #include <libretro.h>
 
+#include "pce.h"
+
 #define TO_UNCACHED_PTR(ptr)     ((void *)((u32)(ptr)|0x40000000))
 #define TO_CACHED_PTR(ptr)       ((void *)((u32)(ptr)&~0x40000000))
 
@@ -326,14 +328,6 @@ static void debug_setpos(int X, int Y)
 #include <pspctrl.h>
 
 unsigned int read_system_buttons(void);
-
-
-
-//#define DISABLE_HW_RENDER
-//#define DISABLE_HW_RENDER_VRAM_CACHING
-#define DISABLE_SW_RENDER
-//#define RUN_FOR_X_FRAMES 2000
-//#define PERF_TEST
 
 
 #ifdef PERF_TEST

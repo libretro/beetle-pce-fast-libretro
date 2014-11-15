@@ -104,7 +104,9 @@ typedef struct
 	uint16 SAT[0x100];
 
         uint16 VRAM[65536];	//VRAM_Size];
+#ifndef DISABLE_SW_RENDER
         uint64 bg_tile_cache[65536][8]; 	// Tile, y, x
+#endif
         uint8 spr_tile_cache[1024][16][16];	// Tile, y, x
         uint8 spr_tile_clean[1024];     //VRAM_Size / 64];
 } vdc_t;

@@ -550,6 +550,7 @@ static void DrawBG(const vdc_t* vdc, const uint32 count,
                    uint8* target) NO_INLINE;
 static void DrawBG(const vdc_t* vdc, const uint32 count, uint8* target)
 {
+#ifndef DISABLE_SW_RENDER
    int bat_width_shift = bat_width_shift_tab[(vdc->MWR >> 4) & 3];
    int bat_width_mask = (1U << bat_width_shift) - 1;
    int bat_height_mask = bat_height_mask_tab[(vdc->MWR >> 6) & 1];
@@ -580,6 +581,7 @@ static void DrawBG(const vdc_t* vdc, const uint32 count, uint8* target)
          target64++;
       }
    }
+#endif
 }
 
 #define SPRF_PRIORITY   0x00080
