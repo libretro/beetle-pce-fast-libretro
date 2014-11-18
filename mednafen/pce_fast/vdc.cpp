@@ -903,6 +903,8 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
    if(pce_do_hw_render)
 #endif
       pce_start_frame_ge();
+#else
+#define pce_do_hw_render false
 #endif
 
    do
