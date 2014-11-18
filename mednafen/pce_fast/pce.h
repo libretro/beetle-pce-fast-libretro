@@ -43,7 +43,7 @@ using namespace PCE_Fast;
 //#define DISABLE_HW_RENDER
 //#define DISABLE_HW_RENDER_VRAM_CACHING
 #define DISABLE_SW_RENDER
-//#define RUN_FOR_X_FRAMES 2000
+//#define RUN_FOR_X_FRAMES 100
 //#define PERF_TEST
 
 #endif

@@ -25,6 +25,88 @@
 #include <stdarg.h>
 #include <string.h>
 
+#ifdef PSP
+#include <pspiofilemgr.h>
+
+FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
+{
+ if(mode == FileStream::MODE_WRITE)
+  fp = (FILE*)sceIoOpen(path, PSP_O_WRONLY|PSP_O_CREAT, 0777);
+ else
+  fp = (FILE*)sceIoOpen(path, PSP_O_RDONLY, 0777);
+
+ if(!fp)
+ {
+  ErrnoHolder ene(errno);
+
+  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
+ }
+
+}
+
+FileStream::~FileStream()
+{
+   if (fp)
+      sceIoClose((SceUID)fp);
+}
+
+uint64 FileStream::attributes(void)
+{
+   uint64 ret = ATTRIBUTE_SEEKABLE;
+
+   switch(OpenedMode)
+   {
+      case FileStream::MODE_READ:
+         ret |= ATTRIBUTE_READABLE;
+         break;
+      case FileStream::MODE_WRITE_SAFE:
+      case FileStream::MODE_WRITE:
+         ret |= ATTRIBUTE_WRITEABLE;
+         break;
+   }
+
+   return ret;
+}
+
+uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
+{
+   return sceIoRead((SceUID)fp,data,count);
+}
+
+void FileStream::write(const void *data, uint64 count)
+{
+   sceIoWrite((SceUID)fp, data, count);
+}
+
+void FileStream::seek(int64 offset, int whence)
+{
+   sceIoLseek32((SceUID)fp, offset, whence);
+}
+
+int64 FileStream::tell(void)
+{
+
+   return sceIoLseek32((SceUID)fp, 0, SEEK_CUR);
+}
+
+int64 FileStream::size(void)
+{
+   int current_pos = sceIoLseek32((SceUID)fp, 0, SEEK_CUR);
+   int size = sceIoLseek32((SceUID)fp, 0, SEEK_END);
+
+   sceIoLseek32((SceUID)fp, current_pos, SEEK_SET);
+
+   return(size);
+}
+
+void FileStream::close(void)
+{
+   if (fp)
+      sceIoClose((SceUID)fp);
+   fp = NULL;
+}
+
+#else
 #ifdef _WIN32
 #include <io.h>
 #else
@@ -109,3 +191,4 @@ void FileStream::close(void)
    fp = NULL;
    fclose(tmp);
 }
+#endif
