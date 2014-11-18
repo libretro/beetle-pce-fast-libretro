@@ -6,6 +6,9 @@ bool pce_do_hw_render;
 #endif
 static int cache_update_count = 0;
 
+#ifdef PSP_PROFILER
+unsigned int threadProfilerCallCount;
+#endif
 
 
 static unsigned int __attribute__((aligned(64))) d_list[128 * 1024];

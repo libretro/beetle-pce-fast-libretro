@@ -46,4 +46,6 @@ using namespace PCE_Fast;
 //#define RUN_FOR_X_FRAMES 100
 //#define PERF_TEST
 
+//#define PSP_PROFILER
+
 #endif

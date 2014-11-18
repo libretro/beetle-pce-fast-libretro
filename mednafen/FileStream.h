@@ -23,6 +23,10 @@
 #include "Stream.h"
 #include "FileWrapper.h"
 
+#ifdef PSP
+#include <pspiofilemgr.h>
+#endif
+
 class FileStream : public Stream
 {
  public:
@@ -47,7 +51,11 @@ class FileStream : public Stream
  virtual void close(void);
 
  private:
+#ifdef PSP
+ SceUID fp;
+#else
  FILE *fp;
+#endif
  const int OpenedMode;
 };
 

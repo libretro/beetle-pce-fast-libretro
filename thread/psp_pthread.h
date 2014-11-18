@@ -116,7 +116,7 @@ static inline int pthread_mutex_trylock(pthread_mutex_t *mutex)
 static inline int pthread_cond_wait(pthread_cond_t *cond,
       pthread_mutex_t *mutex)
 {
-   sceKernelDelayThread(10000);
+   sceKernelDelayThread(1);
    return 1;
 }
 

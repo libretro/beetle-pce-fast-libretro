@@ -872,6 +872,7 @@ void PCECD_Drive_GetCDDAValues(int16 &left, int16 &right)
 
 static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
 {
+//   return;
  if(cdda.CDDAStatus == CDDASTATUS_PLAYING)
  {
   int32 sample[2];
@@ -988,6 +989,7 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
 
 static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 {
+//   return;
  if(CDReadTimer > 0)
  {
   CDReadTimer -= run_time;

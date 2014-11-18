@@ -452,7 +452,9 @@ static void Emulate(EmulateSpecStruct *espec)
  }
  RETRO_PERFORMANCE_INIT(VDC_RunFrame_time);
  RETRO_PERFORMANCE_START(VDC_RunFrame_time);
+ PSPPROF_START;
  VDC_RunFrame(espec, false);
+ PSPPROF_STOP;
  RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
 
 
@@ -1404,6 +1406,9 @@ void retro_init(void)
    setting_last_scanline = 242;
 
    check_system_specs();
+#ifdef PSP
+   PSPPROF_INIT;
+#endif
 }
 
 void retro_reset(void)
@@ -1746,6 +1751,7 @@ void retro_deinit()
 
 #ifdef PSP
    perf_cb.perf_log();
+   PSPPROF_DUMP;
 #endif
 
 }
