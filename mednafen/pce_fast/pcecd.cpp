@@ -396,7 +396,10 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
  }
  else
  {
-  PCECD_Run(timestamp);
+#ifdef PCE_FAST_CD_SPEEDHACK
+//   if (timestamp > 0x7FFF)
+#endif
+   PCECD_Run(timestamp);
 
   switch(A & 0xf)
   {
@@ -512,8 +515,10 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 	#ifdef PCECD_DEBUG
 	printf("Write: (PC=%04x, t=%6d) %04x %02x; MSG: %d, REQ: %d, ACK: %d, CD: %d, IO: %d, BSY: %d, SEL: %d\n", HuCPU.PC, timestamp, physAddr, data, PCECD_Drive_GetMSG(), PCECD_Drive_GetREQ(), PCECD_Drive_GetACK(), PCECD_Drive_GetCD(), PCECD_Drive_GetIO(), PCECD_Drive_GetBSY(), PCECD_Drive_GetSEL());
 	#endif
-
-	PCECD_Run(timestamp);
+#ifdef PCE_FAST_CD_SPEEDHACK
+//   if (timestamp > 0x7FFF)
+#endif
+   PCECD_Run(timestamp);
 
 	switch (physAddr & 0xf)
 	{
