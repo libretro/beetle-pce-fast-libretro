@@ -2,7 +2,6 @@
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
-#include "mednafen/md5.h"
 #include "libretro.h"
 #include "thread.h"
 
@@ -682,14 +681,8 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  IsPopulous = 0;
  PCE_IsCD = 0;
 
- md5_context md5;
- md5.starts();
- md5.update(data, len);
- md5.finish(MDFNGameInfo->MD5);
-
  MDFN_printf(("ROM:       %dKiB\n"), (len + 1023) / 1024);
  MDFN_printf(("ROM CRC32: 0x%04x\n"), crc32);
- MDFN_printf(("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
 
  if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, ("HuCard ROM"))))
  {
@@ -809,41 +802,6 @@ int HuCLoadCD(const char *bios_path)
 
  PCE_IsCD = 1;
  PCE_InitCD();
-
- md5_context md5;
- md5.starts();
-// md5_update(&md5, HuCROM, 262144);
-
-#if 0
- int32 track = CDIF_GetFirstTrack();
- int32 last_track = CDIF_GetLastTrack();
- bool DTFound = 0;
- for(; track <= last_track; track++)
- {
-  CDIF_Track_Format format;
-
-  if(CDIF_GetTrackFormat(track, format) && format == CDIF_FORMAT_MODE1)
-  {
-   DTFound = 1;
-   break;
-  }
- }
- 
- if(DTFound) // Only add the MD5 hash if we were able to find a data track.
- {
-  uint32 start_sector = CDIF_GetTrackStartPositionLBA(track);
-  uint8 sector_buffer[2048];
-
-  for(int x = 0; x < 128; x++)
-  {
-   memset(sector_buffer, 0, 2048);
-   CDIF_ReadSector(sector_buffer, NULL, start_sector + x, 1);
-   md5.update(sector_buffer, 2048);
-  }
- }
- md5.finish(MDFNGameInfo->MD5);
- MDFN_printf(("CD MD5(first 256KiB):   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
- #endif
 
  MDFN_printf(("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? ("Enabled") : ("Disabled"));
  for(int x = 0; x < 0x40; x++)
@@ -1064,33 +1022,6 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
   MDFN_printf("\n");
  }
  MDFN_indent(-1);
-
- // Calculate layout MD5.  The system emulation LoadCD() code is free to ignore this value and calculate
- // its own, or to use it to look up a game in its database.
- {
-  md5_context layout_md5;
-
-  layout_md5.starts();
-
-  for(unsigned i = 0; i < CDInterfaces.size(); i++)
-  {
-   CD_TOC toc;
-
-   CDInterfaces[i]->ReadTOC(&toc);
-
-   layout_md5.update_u32_as_lsb(toc.first_track);
-   layout_md5.update_u32_as_lsb(toc.last_track);
-   layout_md5.update_u32_as_lsb(toc.tracks[100].lba);
-
-   for(uint32 track = toc.first_track; track <= toc.last_track; track++)
-   {
-    layout_md5.update_u32_as_lsb(toc.tracks[track].lba);
-    layout_md5.update_u32_as_lsb(toc.tracks[track].control & 0x4);
-   }
-  }
-
-  layout_md5.finish(LayoutMD5);
- }
 
  // This if statement will be true if force_module references a system without CDROM support.
  if(!MDFNGameInfo->LoadCD)
@@ -1945,9 +1876,6 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
       case MDFNMKF_SAV:
          ret = retro_save_directory +slash + retro_base_name +
             std::string(".") +
-#ifndef _XBOX
-	    md5_context::asciistr(MDFNGameInfo->MD5, 0) + std::string(".") +
-#endif
             std::string(cd1);
          break;
       case MDFNMKF_FIRMWARE:
