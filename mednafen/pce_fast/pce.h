@@ -47,8 +47,6 @@ using namespace PCE_Fast;
 #define PERF_TEST
 #define DUMP_FRAME_TIMES
 //#define PSP_PROFILER
-#include <psptypes.h>
-#include <psprtc.h>
 
 #ifdef PERF_TEST
 

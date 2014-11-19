@@ -318,10 +318,10 @@ OBJECTS := $(SOURCES:.cpp=.o) $(SOURCES_C:.c=.o)
 
 all: $(TARGET)
 
-ifeq ($(DEBUG),0)
-   FLAGS += -O3
-else
+ifeq ($(DEBUG),1)
    FLAGS += -O0 -g
+else
+   FLAGS += -O3 -g
 endif
 
 LDFLAGS += $(fpic) $(SHARED)
