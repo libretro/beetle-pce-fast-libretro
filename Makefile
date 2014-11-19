@@ -196,53 +196,62 @@ endif
 MEDNAFEN_DIR := mednafen
 LIBRETRO_SOURCES :=
 CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
-CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
-	$(CORE_DIR)/input.cpp \
-	$(CORE_DIR)/pcecd.cpp \
-	$(CORE_DIR)/pcecd_drive.cpp \
-	$(CORE_DIR)/psg.cpp \
-	$(CORE_DIR)/vdc.cpp
+
+CORE_SOURCES := $(CORE_DIR)/huc6280.cpp
+CORE_SOURCES += $(CORE_DIR)/input.cpp
+CORE_SOURCES += $(CORE_DIR)/pcecd.cpp
+CORE_SOURCES += $(CORE_DIR)/pcecd_drive.cpp
+CORE_SOURCES += $(CORE_DIR)/psg.cpp
+CORE_SOURCES += $(CORE_DIR)/vdc.cpp
+
 HW_MISC_SOURCES += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
+
 OKIADPCM_SOURCES += $(MEDNAFEN_DIR)/okiadpcm.cpp
+
 RESAMPLER_SOURCES += $(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp
+
 THREAD_SOURCES += thread.c
+
 LIBRETRO_SOURCES += scrc32.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp \
-	$(MEDNAFEN_DIR)/cdrom/CDAccess_Image.cpp \
-	$(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.cpp \
-	$(MEDNAFEN_DIR)/cdrom/CDUtility.cpp \
-	$(MEDNAFEN_DIR)/cdrom/lec.cpp \
-	$(MEDNAFEN_DIR)/cdrom/SimpleFIFO.cpp \
-	$(MEDNAFEN_DIR)/cdrom/audioreader.cpp \
-	$(MEDNAFEN_DIR)/cdrom/galois.cpp \
-	$(MEDNAFEN_DIR)/cdrom/recover-raw.cpp \
-	$(MEDNAFEN_DIR)/cdrom/l-ec.cpp \
-	$(MEDNAFEN_DIR)/cdrom/crc32.cpp \
-	$(MEDNAFEN_DIR)/cdrom/cdromif.cpp
+
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess_Image.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDUtility.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/lec.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/SimpleFIFO.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/audioreader.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/galois.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/recover-raw.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/l-ec.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/crc32.cpp
+CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/cdromif.cpp
+
 TREMOR_SRC := $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
-MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/error.cpp \
-	$(MEDNAFEN_DIR)/math_ops.cpp \
-	$(MEDNAFEN_DIR)/settings.cpp \
-	$(MEDNAFEN_DIR)/general.cpp \
-	$(MEDNAFEN_DIR)/FileWrapper.cpp \
-	$(MEDNAFEN_DIR)/FileStream.cpp \
-	$(MEDNAFEN_DIR)/MemoryStream.cpp \
-	$(MEDNAFEN_DIR)/Stream.cpp \
-	$(MEDNAFEN_DIR)/state.cpp \
-	$(MEDNAFEN_DIR)/endian.cpp \
-	$(CDROM_SOURCES) \
-	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/video/surface.cpp \
-	$(RESAMPLER_SOURCES) \
-	$(MEDNAFEN_DIR)/file.cpp \
-	$(OKIADPCM_SOURCES) \
-	$(MEDNAFEN_DIR)/md5.cpp
+
+MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/error.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/math_ops.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/settings.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/general.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/FileWrapper.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/FileStream.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/MemoryStream.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/Stream.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/state.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/endian.cpp
+MEDNAFEN_SOURCES += $(CDROM_SOURCES)
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/mempatcher.cpp
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/video/surface.cpp
+MEDNAFEN_SOURCES += $(RESAMPLER_SOURCES)
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/file.cpp
+MEDNAFEN_SOURCES += $(OKIADPCM_SOURCES)
+MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/md5.cpp
+
 LIBRETRO_SOURCES += libretro.cpp 
 TRIO_SOURCES += $(MEDNAFEN_DIR)/trio/trio.c $(MEDNAFEN_DIR)/trio/triostr.c
 
 SOURCES_C := 	$(TREMOR_SRC) $(LIBRETRO_SOURCES_C) $(TRIO_SOURCES) $(THREAD_SOURCES)
 SOURCES := $(LIBRETRO_SOURCES) $(CORE_SOURCES) $(MEDNAFEN_SOURCES) $(HW_CPU_SOURCES) $(HW_MISC_SOURCES) $(HW_VIDEO_SOURCES)
-
 
 FLAGS += -DNEED_TREMOR
 FLAGS += -DNEED_CD
@@ -250,13 +259,13 @@ FLAGS += -DWANT_THREADING
 FLAGS += -DWANT_CRC32
 
 ifneq ($(NO_GCC),1)
-WARNINGS := -Wall \
-	-Wno-sign-compare \
-	-Wno-unused-variable \
-	-Wno-unused-function \
-	-Wno-uninitialized \
-	$(NEW_GCC_WARNING_FLAGS) \
-	-Wno-strict-aliasing
+WARNINGS := -Wall
+WARNINGS += -Wno-sign-compare
+WARNINGS += -Wno-unused-variable
+WARNINGS += -Wno-unused-function
+WARNINGS += -Wno-uninitialized
+WARNINGS += $(NEW_GCC_WARNING_FLAGS)
+WARNINGS += -Wno-strict-aliasing
 
 EXTRA_GCC_FLAGS := -funroll-loops
 endif
