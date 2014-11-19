@@ -39,7 +39,7 @@ FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
  {
   ErrnoHolder ene(errno);
 
-  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
+  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
  }
 
 }
@@ -169,12 +169,8 @@ FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
  else
   fp = fopen(path, "rb");
 
- if(!fp)
- {
-  ErrnoHolder ene(errno);
-
-  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
- }
+ assert(fp);
+//  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
 }
 
 FileStream::~FileStream()

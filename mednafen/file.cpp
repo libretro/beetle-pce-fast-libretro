@@ -42,7 +42,7 @@ bool MDFNFILE::MakeMemWrapAndClose(void *fp)
    f_size = ::ftell((FILE *)fp);
    ::fseek((FILE *)fp, 0, SEEK_SET);
 
-   if (!(f_data = (uint8*)MDFN_malloc(f_size, _("file read buffer"))))
+   if (!(f_data = (uint8*)MDFN_malloc(f_size, ("file read buffer"))))
       goto fail;
    ::fread(f_data, 1, f_size, (FILE *)fp);
 
@@ -65,7 +65,8 @@ MDFNFILE::MDFNFILE(const char *path, const void *known_ext, const char *purpose)
 {
    (void)known_ext;
    if (!Open(path, known_ext, purpose, false))
-      throw(MDFN_Error(0, "TODO ERROR"));
+      assert(false);
+//      throw(MDFN_Error(0, "TODO ERROR"));
 }
 
 

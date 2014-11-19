@@ -236,8 +236,9 @@ bool CDIF_Queue::Read(CDIF_Message *message, bool blocking)
    //
    //
 
-   if(ret && message->message == CDIF_MSG_FATAL_ERROR)
-      throw MDFN_Error(0, "%s", message->str_message.c_str());
+   assert(!ret || message->message != CDIF_MSG_FATAL_ERROR);
+//   if(ret && message->message == CDIF_MSG_FATAL_ERROR)
+//      throw MDFN_Error(0, "%s", message->str_message.c_str());
 
    return(ret);
 }
@@ -269,10 +270,8 @@ void CDIF_MT::RT_EjectDisc(bool eject_status, bool skip_actual_eject)
   {
    disc_cdaccess->Read_TOC(&disc_toc);
 
-   if(disc_toc.first_track < 1 || disc_toc.last_track > 99 || disc_toc.first_track > disc_toc.last_track)
-   {
-    throw(MDFN_Error(0, _("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
-   }
+   assert(disc_toc.first_track > 0 && disc_toc.last_track < 100 && disc_toc.first_track <= disc_toc.last_track);
+//    throw(MDFN_Error(0, ("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
   }
 
   SBWritePos = 0;
@@ -657,10 +656,8 @@ CDIF_ST::CDIF_ST(CDAccess *cda) : disc_cdaccess(cda)
 
  disc_cdaccess->Read_TOC(&disc_toc);
 
- if(disc_toc.first_track < 1 || disc_toc.last_track > 99 || disc_toc.first_track > disc_toc.last_track)
- {
-  throw(MDFN_Error(0, _("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
- }
+ assert(disc_toc.first_track > 0 && disc_toc.last_track < 100 && disc_toc.first_track <= disc_toc.last_track);
+//  throw(MDFN_Error(0, ("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
 }
 
 CDIF_ST::~CDIF_ST()
@@ -719,10 +716,8 @@ bool CDIF_ST::Eject(bool eject_status)
    {
     disc_cdaccess->Read_TOC(&disc_toc);
 
-    if(disc_toc.first_track < 1 || disc_toc.last_track > 99 || disc_toc.first_track > disc_toc.last_track)
-    {
-     throw(MDFN_Error(0, _("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
-    }
+    assert(disc_toc.first_track > 0 && disc_toc.last_track < 100 && disc_toc.first_track <= disc_toc.last_track);
+//     throw(MDFN_Error(0, ("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
    }
   }
  }
@@ -792,10 +787,8 @@ uint64 CDIF_Stream_Thing::read(void *data, uint64 count, bool error_on_eos)
 {
  if(count > (((uint64)sector_count * 2048) - position))
  {
-  if(error_on_eos)
-  {
-   throw MDFN_Error(0, "EOF");
-  }
+  assert(!error_on_eos);
+//   throw MDFN_Error(0, "EOF");
 
   count = ((uint64)sector_count * 2048) - position;
  }
@@ -809,7 +802,8 @@ uint64 CDIF_Stream_Thing::read(void *data, uint64 count, bool error_on_eos)
 
   if(!cdintf->ReadSector(buf, start_lba + (rp / 2048), 1))
   {
-   throw MDFN_Error(ErrnoHolder(EIO));
+     assert(false);
+//   throw MDFN_Error(ErrnoHolder(EIO));
   }
   
   //::printf("Meow: %08llx -- %08llx\n", count, (rp - position) + std::min<uint64>(2048 - (rp & 2047), count - (rp - position)));
@@ -823,7 +817,8 @@ uint64 CDIF_Stream_Thing::read(void *data, uint64 count, bool error_on_eos)
 
 void CDIF_Stream_Thing::write(const void *data, uint64 count)
 {
- throw MDFN_Error(ErrnoHolder(EBADF));
+   assert(false);
+// throw MDFN_Error(ErrnoHolder(EBADF));
 }
 
 void CDIF_Stream_Thing::seek(int64 offset, int whence)
@@ -833,7 +828,8 @@ void CDIF_Stream_Thing::seek(int64 offset, int whence)
  switch(whence)
  {
   default:
-	throw MDFN_Error(ErrnoHolder(EINVAL));
+    assert(false);
+//	throw MDFN_Error(ErrnoHolder(EINVAL));
 	break;
 
   case SEEK_SET:
@@ -849,8 +845,8 @@ void CDIF_Stream_Thing::seek(int64 offset, int whence)
 	break;
  }
 
- if(new_position < 0 || new_position > ((int64)sector_count * 2048))
-  throw MDFN_Error(ErrnoHolder(EINVAL));
+ assert(new_position >= 0 && new_position <= ((int64)sector_count * 2048));
+//  throw MDFN_Error(ErrnoHolder(EINVAL));
 
  position = new_position;
 }

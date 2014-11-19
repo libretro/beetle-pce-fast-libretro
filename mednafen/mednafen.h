@@ -6,8 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define _(String) (String)
-
 #include "math_ops.h"
 #include "git.h"
 
@@ -47,11 +45,9 @@ extern MDFNGI *MDFNGameInfo;
 
 #include "settings.h"
 
-void MDFN_PrintError(const char *format, ...);
-void MDFN_printf(const char *format, ...);
-void MDFN_DispMessage(const char *format, ...);
-
-void MDFN_DebugPrintReal(const char *file, const int line, const char *format, ...);
+#define MDFN_PrintError printf
+#define MDFN_printf printf
+#define MDFN_DispMessage printf
 
 void MDFN_LoadGameCheats(void *override);
 void MDFN_FlushGameCheats(int nosave);
@@ -65,3 +61,4 @@ void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
 #include "mednafen-memory.h"
 
 #endif
+

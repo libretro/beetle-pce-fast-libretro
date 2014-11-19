@@ -167,7 +167,7 @@ void MDFNMP_RemoveReadPatches(void)
 
 static void CheatMemErr(void)
 {
- MDFN_PrintError(_("Error allocating memory for cheat data."));
+ MDFN_PrintError(("Error allocating memory for cheat data."));
 }
 
 /* This function doesn't allocate any memory for "name" */
@@ -238,15 +238,16 @@ void MDFN_LoadGameCheats(void *override_ptr)
      return;
 
   MDFN_printf("\n");
-  MDFN_printf(_("Loading cheats from %s...\n"), fn.c_str());
+  MDFN_printf(("Loading cheats from %s...\n"), fn.c_str());
   MDFN_indent(1);
 
   if(!(fp = fopen(fn.c_str(),"rb")))
   {
-   ErrnoHolder ene(errno);
+     assert(false);
+//   ErrnoHolder ene(errno);
 
-   MDFN_printf(_("Error opening file: %s\n"), ene.StrError());
-   MDFN_indent(-1);
+//   MDFN_printf(("Error opening file: %s\n"), ene.StrError());
+//   MDFN_indent(-1);
    return;
   }
  }
@@ -272,7 +273,7 @@ void MDFN_LoadGameCheats(void *override_ptr)
 
    if(tbuf[0] != 'R' && tbuf[0] != 'C' && tbuf[0] != 'S')
    {
-    MDFN_printf(_("Invalid cheat type: %c\n"), tbuf[0]);
+    MDFN_printf(("Invalid cheat type: %c\n"), tbuf[0]);
     break;
    }
    type = tbuf[0];
@@ -320,7 +321,7 @@ void MDFN_LoadGameCheats(void *override_ptr)
 
  if(!override)
  {
-  MDFN_printf(_("%lu cheats loaded.\n"), (unsigned long)cheats.size());
+  MDFN_printf(("%lu cheats loaded.\n"), (unsigned long)cheats.size());
   MDFN_indent(-1);
   fclose(fp);
  }

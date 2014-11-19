@@ -17,7 +17,6 @@
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
-#include "mednafen/mempatcher.h"
 #include "mednafen/cdrom/cdromif.h"
 #include "mednafen/cdrom/CDUtility.h"
 
@@ -168,10 +167,10 @@ bool PCE_InitCD(void)
  cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
 
  if(cd_settings.CDDA_Volume != 1.0)
-  MDFN_printf(_("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
+  MDFN_printf(("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
 
  if(cd_settings.ADPCM_Volume != 1.0)
-  MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
+  MDFN_printf(("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
 
  return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
 }
@@ -220,10 +219,10 @@ static void LoadCommonPre(void)
  PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
 
  if(pce_overclocked > 1)
-  MDFN_printf(_("CPU overclock: %dx\n"), pce_overclocked);
+  MDFN_printf(("CPU overclock: %dx\n"), pce_overclocked);
 
  if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-  MDFN_printf(_("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
+  MDFN_printf(("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
 
  memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
  for(int x = 0; x < 0x100; x++)
@@ -232,7 +231,7 @@ static void LoadCommonPre(void)
   PCEWrite[x] = PCENullWrite;
  }
 
- MDFNMP_Init(1024, (1 << 21) / 1024);
+// MDFNMP_Init(1024, (1 << 21) / 1024);
 }
 
 static int LoadCommon(void)
@@ -252,7 +251,7 @@ static int LoadCommon(void)
   PCERead[0xFF] = IORead;
  }
 
- MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
+// MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
 
  PCEWrite[0xFF] = IOWrite;
 
@@ -268,7 +267,7 @@ static int LoadCommon(void)
 
   if(cdpsgvolume != 100)
   {
-   MDFN_printf(_("CD PSG Volume: %d%%\n"), cdpsgvolume);
+   MDFN_printf(("CD PSG Volume: %d%%\n"), cdpsgvolume);
   }
 
   psg->SetVolume(0.678 * cdpsgvolume / 100);
@@ -390,7 +389,7 @@ static void Emulate(EmulateSpecStruct *espec)
 {
  INPUT_Frame();
 
- MDFNMP_ApplyPeriodicCheats();
+// MDFNMP_ApplyPeriodicCheats();
 
  #if 0
  {
@@ -689,11 +688,11 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  md5.update(data, len);
  md5.finish(MDFNGameInfo->MD5);
 
- MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
- MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
- MDFN_printf(_("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
+ MDFN_printf(("ROM:       %dKiB\n"), (len + 1023) / 1024);
+ MDFN_printf(("ROM CRC32: 0x%04x\n"), crc32);
+ MDFN_printf(("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
 
- if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
+ if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, ("HuCard ROM"))))
  {
   return(0);
  }
@@ -745,7 +744,7 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
    PCERead[x] = HuCRead;
    PCEWrite[x] = HuCRAMWrite;
   }
-  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
+//  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
  }
  else
  {
@@ -754,7 +753,7 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
                                                 // in the CD BIOS screen.
   PCEWrite[0xF7] = SaveRAMWrite;
   PCERead[0xF7] = SaveRAMRead;
-  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+//  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
  }
 
  // 0x1A558
@@ -798,7 +797,7 @@ int HuCLoadCD(const char *bios_path)
 
  MDFNFILE fp;
 
- if(!fp.Open(bios_path, KnownBIOSExtensions, _("CD BIOS")))
+ if(!fp.Open(bios_path, KnownBIOSExtensions, ("CD BIOS")))
  {
   return(0);
  }
@@ -844,10 +843,10 @@ int HuCLoadCD(const char *bios_path)
   }
  }
  md5.finish(MDFNGameInfo->MD5);
- MDFN_printf(_("CD MD5(first 256KiB):   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
+ MDFN_printf(("CD MD5(first 256KiB):   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
  #endif
 
- MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled")); 
+ MDFN_printf(("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? ("Enabled") : ("Disabled"));
  for(int x = 0; x < 0x40; x++)
  {
   HuCPUFastMap[x] = ROMSpace;
@@ -861,13 +860,13 @@ int HuCLoadCD(const char *bios_path)
   PCEWrite[x] = HuCRAMWrite;
  }
  PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
- MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
+// MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
 
  if(PCE_ACEnabled)
  {
     if (!(arcade_card = new ArcadeCard()))
     {
-       MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
+       MDFN_PrintError(("Error creating %s object.\n"), "ArcadeCard");
        Cleanup();
        return(0);
     }
@@ -886,7 +885,7 @@ int HuCLoadCD(const char *bios_path)
 
  PCEWrite[0xF7] = SaveRAMWrite;
  PCERead[0xF7] = SaveRAMRead;
- MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+// MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
  return(1);
 }
 
@@ -975,11 +974,10 @@ MDFNGI EmulatedPCE_Fast =
  2,     // Number of output sound channels
 };
 
-#ifdef NEED_CD
 static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
  std::vector<std::string> ret;
- FileWrapper m3u_file(path.c_str(), FileWrapper::MODE_READ, _("M3U CD Set"));
+ FileWrapper m3u_file(path.c_str(), FileWrapper::MODE_READ, ("M3U CD Set"));
  std::string dir_path;
  char linebuf[2048];
 
@@ -997,11 +995,11 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
 
   if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
   {
-   if(efp == path)
-    throw(MDFN_Error(0, _("M3U at \"%s\" references self."), efp.c_str()));
+   assert(efp != path);
+//    throw(MDFN_Error(0, ("M3U at \"%s\" references self."), efp.c_str()));
 
-   if(depth == 99)
-    throw(MDFN_Error(0, _("M3U load recursion too deep!")));
+   assert(depth != 99);
+//    throw(MDFN_Error(0, ("M3U load recursion too deep!")));
 
    ReadM3U(file_list, efp, depth++);
   }
@@ -1010,16 +1008,14 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
  }
 }
 
-#ifdef NEED_CD
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
-#endif
 // TODO: LoadCommon()
 
 MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 {
  uint8 LayoutMD5[16];
 
- MDFN_printf(_("Loading %s...\n\n"), devicename ? devicename : _("PHYSICAL CD"));
+ MDFN_printf(("Loading %s...\n\n"), devicename ? devicename : ("PHYSICAL CD"));
 
  try
  {
@@ -1042,7 +1038,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
  catch(std::exception &e)
  {
   MDFND_PrintError(e.what());
-  MDFN_PrintError(_("Error opening CD."));
+  MDFN_PrintError(("Error opening CD."));
   return(0);
  }
 
@@ -1056,12 +1052,12 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
   CDInterfaces[i]->ReadTOC(&toc);
 
-  MDFN_printf(_("CD %d Layout:\n"), i + 1);
+  MDFN_printf(("CD %d Layout:\n"), i + 1);
   MDFN_indent(1);
 
   for(int32 track = toc.first_track; track <= toc.last_track; track++)
   {
-   MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+   MDFN_printf(("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
   }
 
   MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
@@ -1100,11 +1096,11 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
  // This if statement will be true if force_module references a system without CDROM support.
  if(!MDFNGameInfo->LoadCD)
  {
-    MDFN_PrintError(_("Specified system \"%s\" doesn't support CDs!"), force_module);
+    MDFN_PrintError(("Specified system \"%s\" doesn't support CDs!"), force_module);
     return(0);
  }
 
- MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+ MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
 
  // TODO: include module name in hash
  memcpy(MDFNGameInfo->MD5, LayoutMD5, 16);
@@ -1121,12 +1117,11 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
  //MDFNI_SetLayerEnableMask(~0ULL);
 
- MDFN_LoadGameCheats(NULL);
- MDFNMP_InstallReadPatches();
+// MDFN_LoadGameCheats(NULL);
+// MDFNMP_InstallReadPatches();
 
  return(MDFNGameInfo);
 }
-#endif
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
@@ -1134,12 +1129,10 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 	std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
-#ifdef NEED_CD
 	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
 	 return(MDFNI_LoadCD(force_module, name));
-#endif
 
-	MDFN_printf(_("Loading %s...\n"),name);
+   MDFN_printf(("Loading %s...\n"),name);
 
 	MDFN_indent(1);
 
@@ -1152,13 +1145,13 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
       curexts++;
    }
 
-	if(!GameFile.Open(name, &valid_iae[0], _("game")))
+   if(!GameFile.Open(name, &valid_iae[0], ("game")))
    {
       MDFNGameInfo = NULL;
       return 0;
    }
 
-	MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+   MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
 	MDFN_indent(1);
 
 	//
@@ -1176,8 +1169,8 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
       return(0);
    }
 
-	MDFN_LoadGameCheats(NULL);
-	MDFNMP_InstallReadPatches();
+//	MDFN_LoadGameCheats(NULL);
+//	MDFNMP_InstallReadPatches();
 
 	MDFN_indent(-2);
 
@@ -1209,86 +1202,6 @@ void MDFN_indent(int indent)
 
 static uint8 lastchar = 0;
 
-void MDFN_printf(const char *format, ...)
-{
-   char *format_temp;
-   char *temp;
-   unsigned int x, newlen;
-
-   va_list ap;
-   va_start(ap,format);
-
-
-   // First, determine how large our format_temp buffer needs to be.
-   uint8 lastchar_backup = lastchar; // Save lastchar!
-   for(newlen=x=0;x<strlen(format);x++)
-   {
-      if(lastchar == '\n' && format[x] != '\n')
-      {
-         int y;
-         for(y=0;y<curindent;y++)
-            newlen++;
-      }
-      newlen++;
-      lastchar = format[x];
-   }
-
-   format_temp = (char *)malloc(newlen + 1); // Length + NULL character, duh
-
-   // Now, construct our format_temp string
-   lastchar = lastchar_backup; // Restore lastchar
-   for(newlen=x=0;x<strlen(format);x++)
-   {
-      if(lastchar == '\n' && format[x] != '\n')
-      {
-         int y;
-         for(y=0;y<curindent;y++)
-            format_temp[newlen++] = ' ';
-      }
-      format_temp[newlen++] = format[x];
-      lastchar = format[x];
-   }
-
-   format_temp[newlen] = 0;
-
-   temp = trio_vaprintf(format_temp, ap);
-   free(format_temp);
-
-   MDFND_Message(temp);
-   free(temp);
-
-   va_end(ap);
-}
-
-void MDFN_PrintError(const char *format, ...)
-{
- char *temp;
-
- va_list ap;
-
- va_start(ap, format);
-
- temp = trio_vaprintf(format, ap);
- MDFND_PrintError(temp);
- free(temp);
-
- va_end(ap);
-}
-
-void MDFN_DebugPrintReal(const char *file, const int line, const char *format, ...)
-{
- char *temp;
-
- va_list ap;
-
- va_start(ap, format);
-
- temp = trio_vaprintf(format, ap);
- fprintf(stderr, "%s:%d  %s\n", file, line, temp);
- free(temp);
-
- va_end(ap);
-}
 
 
 static MDFNGI *game;
@@ -1360,9 +1273,7 @@ void retro_init(void)
    else 
       log_cb = NULL;
 
-#ifdef NEED_CD
    CDUtility::CDUtility_Init();
-#endif
 
    const char *dir = NULL;
 
@@ -1588,7 +1499,7 @@ void retro_unload_game(void)
    if(!MDFNGameInfo)
       return;
 
-   MDFN_FlushGameCheats(0);
+//   MDFN_FlushGameCheats(0);
 
    MDFNGameInfo->CloseGame();
 
@@ -1596,15 +1507,13 @@ void retro_unload_game(void)
       free(MDFNGameInfo->name);
    MDFNGameInfo->name = NULL;
 
-   MDFNMP_Kill();
+//   MDFNMP_Kill();
 
    MDFNGameInfo = NULL;
 
-#ifdef NEED_CD
    for(unsigned i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
-#endif
 }
 
 static void update_input(void)
@@ -2097,23 +2006,6 @@ void MDFND_DispMessage(unsigned char *str)
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
 }
 
-void MDFN_DispMessage(const char *format, ...)
-{
-   struct retro_message msg;
-   va_list ap;
-   va_start(ap,format);
-   char *str = NULL;
-   const char *strc = NULL;
-
-   trio_vasprintf(&str, format,ap);
-   va_end(ap);
-   strc = str;
-
-   msg.frames = 180;
-   msg.msg = strc;
-
-   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
-}
 
 void MDFN_ResetMessages(void)
 {

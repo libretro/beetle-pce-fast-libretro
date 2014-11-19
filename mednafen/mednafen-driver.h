@@ -11,7 +11,6 @@ extern std::vector<MDFNGI *>MDFNSystems;
 
 /* Indent stdout newlines +- "indent" amount */
 void MDFN_indent(int indent);
-void MDFN_printf(const char *format, ...);
 
 #define MDFNI_printf MDFN_printf
 
@@ -56,8 +55,7 @@ MDFNGI *MDFNI_LoadCD(const char *sysname, const char *devicename);
    below this directory. */
 void MDFNI_SetBaseDirectory(const char *dir);
 
-void MDFN_DispMessage(const char *format, ...);
-#define MDFNI_DispMessage MDFN_DispMessage
+#define MDFNI_DispMessage printf
 
 uint32 MDFNI_CRC32(uint32 crc, uint8 *buf, uint32 len);
 

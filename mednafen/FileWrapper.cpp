@@ -45,12 +45,8 @@ FileWrapper::FileWrapper(const char *path, const int mode, const char *purpose) 
  else
   fp = fopen(path, "rb");
 
- if(!fp)
- {
-  ErrnoHolder ene(errno);
-
-  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
- }
+ assert(fp);
+//  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
 }
 
 FileWrapper::~FileWrapper()
@@ -83,19 +79,19 @@ void FileWrapper::write(const void *data, uint64 count)
    fwrite(data, 1, count, fp);
 }
 
-int FileWrapper::scanf(const char *format, ...)
-{
-   va_list ap;
-   int ret;
+//int FileWrapper::scanf(const char *format, ...)
+//{
+//   va_list ap;
+//   int ret;
 
-   va_start(ap, format);
+//   va_start(ap, format);
 
-   ret = trio_vfscanf(fp, format, ap);
+//   ret = trio_vfscanf(fp, format, ap);
 
-   va_end(ap);
+//   va_end(ap);
 
-   return ret;
-}
+//   return ret;
+//}
 
 void FileWrapper::put_char(int c)
 {

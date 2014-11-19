@@ -44,7 +44,7 @@ using namespace PCE_Fast;
 //#define DISABLE_HW_RENDER_VRAM_CACHING
 //#define DISABLE_SW_RENDER
 //#define RUN_FOR_X_FRAMES 100
-//#define PERF_TEST
+#define PERF_TEST
 //#define DUMP_FRAME_TIMES
 //#define PSP_PROFILER
 #define PCE_FAST_CD_SPEEDHACK
