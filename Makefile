@@ -220,14 +220,12 @@ CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDUtility.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/lec.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/SimpleFIFO.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/audioreader.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/galois.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/recover-raw.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/l-ec.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/crc32.cpp
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/cdromif.cpp
 
-TREMOR_SRC := $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
 
 MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/error.cpp
 MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/math_ops.cpp
