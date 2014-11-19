@@ -28,6 +28,7 @@
 #include "pcecd_drive.h"
 #include "../okiadpcm.h"
 
+#include "pce.h"
 #include "pcecd.h"
 #include "../cdrom/SimpleFIFO.h"
 
@@ -153,8 +154,12 @@ static void RedoLPF(int f)
 }
 
 static INLINE int32 ADPCM_ClocksToNextEvent(void)
-{
+{   
+#ifdef PCE_FAST_CD_SPEEDHACK
+ int32 ret = 0x7FFF;
+#else
  int32 ret = (ADPCM.bigdiv + 65535) >> 16;
+#endif
 
  if(ADPCM.WritePending && ret > ADPCM.WritePending)
   ret = ADPCM.WritePending;
@@ -178,10 +183,10 @@ static int32 CalcNextEvent(int32 base)
 
  if(next_event > pcecd_drive_ne)
   next_event = pcecd_drive_ne;
-
+#ifndef PCE_FAST_CD_SPEEDHACK
  if(Fader.Clocked && next_event > Fader.CycleCounter)
   next_event = Fader.CycleCounter;
-
+#endif
  return(next_event);
 }
 

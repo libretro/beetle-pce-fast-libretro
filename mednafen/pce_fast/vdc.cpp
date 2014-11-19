@@ -1180,10 +1180,10 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
       }
 
       HuC6280_Run(455 - line_leadin1 - 2);
-
+#ifndef PCE_FAST_CD_SPEEDHACK
       if (PCE_IsCD)
          PCECD_Run(HuCPU.timestamp * 3);
-
+#endif
       {
          vdc->RCRCount++;
 
@@ -1212,6 +1212,10 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    }
    while (frame_counter != VBlankFL);  // big frame loop!
+#ifdef PCE_FAST_CD_SPEEDHACK
+   if (PCE_IsCD)
+      PCECD_Run(HuCPU.timestamp * 3);
+#endif
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
    if(pce_do_hw_render)
