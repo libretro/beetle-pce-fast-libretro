@@ -45,8 +45,6 @@
 #include "CDAccess.h"
 #include "CDAccess_Image.h"
 
-#include "audioreader.h"
-
 #include <map>
 
 using namespace CDUtility;
@@ -171,10 +169,6 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO *track)
 {
  if(track->DIFormat == DI_FORMAT_AUDIO)
  {
-  if(track->AReader)
-   return(((track->AReader->FrameCount() * 4) - track->FileOffset) / 2352);
-  else
-  {
    const int64 size = track->fp->size();
 
    //printf("%d %d %d\n", (int)stat_buf.st_size, (int)track->FileOffset, (int)stat_buf.st_size - (int)track->FileOffset);
@@ -182,7 +176,6 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO *track)
     return((size - track->FileOffset) / (2352 + 96));
    else
     return((size - track->FileOffset) / 2352);
-  }
  }
  else
  {
@@ -225,14 +218,6 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int t
    track->fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
 
   toc_streamcache[filename] = track->fp;
- }
-
- if(filename.length() >= 4 && !strcasecmp(filename.c_str() + filename.length() - 4, ".wav"))
- {
-  track->AReader = AR_Open(track->fp);
-
-  if(!track->AReader)
-   throw MDFN_Error(0, "TODO ERROR");
  }
 
  sector_mult = DI_Size_Table[track->DIFormat];
@@ -608,15 +593,6 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
       //fstat(fileno(TmpTrack.fp), &stat_buf);
       //TmpTrack.sectors = stat_buf.st_size; // / 2048;
      }
-     else if(!strcasecmp(args[1].c_str(), "OGG") || !strcasecmp(args[1].c_str(), "VORBIS") || !strcasecmp(args[1].c_str(), "WAVE") || !strcasecmp(args[1].c_str(), "WAV") || !strcasecmp(args[1].c_str(), "PCM")
-	|| !strcasecmp(args[1].c_str(), "MPC") || !strcasecmp(args[1].c_str(), "MP+"))
-     {
-      TmpTrack.AReader = AR_Open(TmpTrack.fp);
-      if(!TmpTrack.AReader)
-      {
-       throw(MDFN_Error(0, _("Unsupported audio track file format: %s\n"), args[0].c_str()));
-      }
-     }
      else
      {
       throw(MDFN_Error(0, _("Unsupported track format: %s\n"), args[1].c_str()));
@@ -853,12 +829,6 @@ void CDAccess_Image::Cleanup(void)
 
   if(this_track->FirstFileInstance)
   {
-   if(Tracks[track].AReader)
-   {
-    delete Tracks[track].AReader;
-    Tracks[track].AReader = NULL;
-   }
-
    if(this_track->fp)
    {
     delete this_track->fp;
@@ -907,27 +877,6 @@ void CDAccess_Image::Read_Raw_Sector(uint8 *buf, int32 lba)
     }
     else
     {
-     if(ct->AReader)
-     {
-      int16 AudioBuf[588 * 2];
-      int frames_read = ct->AReader->Read((ct->FileOffset / 4) + (lba - ct->LBA) * 588, AudioBuf, 588);
-
-      ct->LastSamplePos += frames_read;
-
-      if(frames_read < 0 || frames_read > 588)	// This shouldn't happen.
-      {
-       printf("Error: frames_read out of range: %d\n", frames_read);
-       frames_read = 0;
-      }
-
-      if(frames_read < 588)
-       memset((uint8 *)AudioBuf + frames_read * 2 * sizeof(int16), 0, (588 - frames_read) * 2 * sizeof(int16));
-
-      for(int i = 0; i < 588 * 2; i++)
-       MDFN_en16lsb(buf + i * 2, AudioBuf[i]);
-     }
-     else	// Binary, woo.
-     {
       long SeekPos = ct->FileOffset;
       long LBARelPos = lba - ct->LBA;
 
@@ -979,7 +928,7 @@ void CDAccess_Image::Read_Raw_Sector(uint8 *buf, int32 lba)
 
       if(ct->SubchannelMode)
        ct->fp->read(buf + 2352, 96);
-     }
+
     } // end if audible part of audio track read.
     break;
    } // End if LBA is in range

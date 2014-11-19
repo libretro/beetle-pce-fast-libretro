@@ -4,7 +4,6 @@
 #include <map>
 
 class Stream;
-class AudioReader;
 
 struct CDRFILE_TRACK_INFO
 {
@@ -28,36 +27,7 @@ struct CDRFILE_TRACK_INFO
 	unsigned int SubchannelMode;
 
 	uint32 LastSamplePos;
-
-	AudioReader *AReader;
 };
-#if 0
-struct Medium_Chunk
-{
-	int64 Offset;		// Offset in [..TODO..]
-	uint32 DIFormat;
-
-        FILE *fp;
-        bool FirstFileInstance;
-        bool RawAudioMSBFirst;
-        unsigned int SubchannelMode;
-
-        uint32 LastSamplePos;
-        AudioReader *AReader;
-};
-
-struct CD_Chunk
-{
-	int32 LBA;
-	int32 Track;
-	int32 Index;
-	bool DataType;
-
-	Medium_Chunk Medium;
-};
-
-static std::vector<CD_Chunk> Chunks;
-#endif
 
 class CDAccess_Image : public CDAccess
 {
