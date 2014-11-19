@@ -45,9 +45,10 @@ using namespace PCE_Fast;
 //#define DISABLE_SW_RENDER
 //#define RUN_FOR_X_FRAMES 100
 #define PERF_TEST
-
+#define DUMP_FRAME_TIMES
 //#define PSP_PROFILER
-
+#include <psptypes.h>
+#include <psprtc.h>
 
 #ifdef PERF_TEST
 

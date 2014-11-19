@@ -450,13 +450,22 @@ static void Emulate(EmulateSpecStruct *espec)
    sbuf[y].bass_freq(10);
   }
  }
+
+
+
  RETRO_PERFORMANCE_INIT(VDC_RunFrame_time);
  RETRO_PERFORMANCE_START(VDC_RunFrame_time);
+#if defined(DUMP_FRAME_TIMES) && defined(PERF_TEST)
+ retro_perf_tick_t start_ticks = VDC_RunFrame_time.total;
+#endif
  PSPPROF_START;
  VDC_RunFrame(espec, false);
  PSPPROF_STOP;
  RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
-
+#if defined(DUMP_FRAME_TIMES) && defined(PERF_TEST)
+ printf("%u : %u ticks\n", (uint32_t)VDC_RunFrame_time.call_cnt, (uint32_t)(VDC_RunFrame_time.total - start_ticks));
+ fflush(stdout);
+#endif
 
 
  if(PCE_IsCD)
@@ -1749,8 +1758,10 @@ void retro_deinit()
             MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
 
-#ifdef PSP
+#ifdef PERF_TEST
    perf_cb.perf_log();
+#endif
+#ifdef PSP
    PSPPROF_DUMP;
 #endif
 
