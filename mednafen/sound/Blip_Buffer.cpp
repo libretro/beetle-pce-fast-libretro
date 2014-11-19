@@ -179,7 +179,7 @@ void Blip_Synth_Fast_::volume_unit( double new_unit )
 	delta_factor = int (new_unit * (1L << blip_sample_bits) + 0.5);
 }
 
-long Blip_Buffer::read_samples( blip_sample_t* BLIP_RESTRICT out, long max_samples, int stereo )
+long Blip_Buffer::read_samples(blip_sample_t* BLIP_RESTRICT out, long max_samples)
 {
 	long count = samples_avail();
 	if ( count > max_samples )
@@ -190,31 +190,16 @@ long Blip_Buffer::read_samples( blip_sample_t* BLIP_RESTRICT out, long max_sampl
 		int const bass = BLIP_READER_BASS( *this );
 		BLIP_READER_BEGIN( reader, *this );
 		
-#ifndef WANT_STEREO_SOUND
-		if ( !stereo )
-		{
-			for ( blip_long n = count; n; --n )
-			{
-				blip_long s = BLIP_READER_READ( reader );
-				if ( (blip_sample_t) s != s )
-					s = 0x7FFF - (s >> 24);
-				*out++ = (blip_sample_t) s;
-				BLIP_READER_NEXT( reader, bass );
-			}
-		}
-		else
-#endif
-		{
-			for ( blip_long n = count; n; --n )
-			{
-				blip_long s = BLIP_READER_READ( reader );
-				if ( (blip_sample_t) s != s )
-					s = 0x7FFF - (s >> 24);
-				*out = (blip_sample_t) s;
-				out += 2;
-				BLIP_READER_NEXT( reader, bass );
-			}
-		}
+      for ( blip_long n = count; n; --n )
+      {
+         blip_long s = BLIP_READER_READ( reader );
+         if ( (blip_sample_t) s != s )
+            s = 0x7FFF - (s >> 24);
+         *out = (blip_sample_t) s;
+         out += 2;
+         BLIP_READER_NEXT( reader, bass );
+      }
+
 		BLIP_READER_END( reader, *this );
 		
 		remove_samples( count );

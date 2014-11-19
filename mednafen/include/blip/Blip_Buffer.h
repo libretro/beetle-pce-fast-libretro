@@ -48,7 +48,7 @@ public:
 	// the buffer. Returns number of samples actually read and removed. If stereo is
 	// true, increments 'dest' one extra time after writing each sample, to allow
 	// easy interleving of two channels into a stereo output buffer.
-	long read_samples( blip_sample_t* dest, long max_samples, int stereo = 0 );
+   long read_samples( blip_sample_t* dest, long max_samples);
 	
 // Additional optional features
 

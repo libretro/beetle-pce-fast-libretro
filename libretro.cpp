@@ -482,7 +482,7 @@ static void Emulate(EmulateSpecStruct *espec)
   for(int y = 0; y < 2; y++)
   {
    sbuf[y].end_frame(HuCPU.timestamp / pce_overclocked);
-   espec->SoundBufSize = sbuf[y].read_samples(espec->SoundBuf + y, espec->SoundBufMaxSize, 1);
+   espec->SoundBufSize = sbuf[y].read_samples(espec->SoundBuf + y, espec->SoundBufMaxSize);
   }
  }
 
