@@ -459,8 +459,8 @@ static void Emulate(EmulateSpecStruct *espec)
  retro_perf_tick_t start_ticks = VDC_RunFrame_time.total;
 #endif
  PSPPROF_START;
- if (VDC_RunFrame_time.call_cnt == 44)
-    printf("baaaad");
+// if (VDC_RunFrame_time.call_cnt == 44)
+//    printf("halt\n");
  VDC_RunFrame(espec, false);
  PSPPROF_STOP;
  RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
@@ -951,7 +951,6 @@ MDFNGI EmulatedPCE_Fast =
  NULL,
  NULL,
  MemRead,
- NULL,
  false,
  StateAction,
  Emulate,

@@ -31,11 +31,8 @@ MDFN_PixelFormat::MDFN_PixelFormat()
 
 MDFN_PixelFormat::MDFN_PixelFormat(const unsigned int p_colorspace, const uint8 p_rs, const uint8 p_gs, const uint8 p_bs, const uint8 p_as)
 {
-#if defined(WANT_16BPP)
+
    bpp = 16;
-#else
-   bpp = 32;
-#endif
    colorspace = p_colorspace;
 
    Rshift = p_rs;

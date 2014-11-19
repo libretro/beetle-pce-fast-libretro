@@ -2,7 +2,6 @@ DEBUG = 0
 FRONTEND_SUPPORTS_RGB565 = 1
 
 MEDNAFEN_DIR := mednafen
-NEED_TREMOR = 0
 LIBRETRO_SOURCES :=
 
 ifeq ($(platform),)
@@ -20,23 +19,12 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
 endif
 endif
 
-# If you have a system with 1GB RAM or more - cache the whole 
-# CD for CD-based systems in order to prevent file access delays/hiccups
-CACHE_CD = 0
-
 ifneq ($(platform), osx)
    PTHREAD_FLAGS = -pthread
 endif
-   HAVE_HES = 0
-   NEED_BPP = 32
-   NEED_TREMOR = 1
-   NEED_BLIP = 1
-   NEED_CD = 1
-   NEED_THREADING = 1
-   NEED_CRC32 = 1
-	WANT_NEW_API = 1
-   CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
-   CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
+
+CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
+CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
 
 CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
 	$(CORE_DIR)/input.cpp \
@@ -45,9 +33,6 @@ CORE_SOURCES := $(CORE_DIR)/huc6280.cpp \
 	$(CORE_DIR)/psg.cpp \
 	$(CORE_DIR)/vdc.cpp
 
-ifeq ($(HAVE_HES),1)
-CORE_SOURCES += $(CORE_DIR)/hes.cpp
-endif
 TARGET_NAME := mednafen_pce_fast_libretro
 
 arch = intel
@@ -58,9 +43,9 @@ endif
 HW_MISC_SOURCES += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
 OKIADPCM_SOURCES += $(MEDNAFEN_DIR)/okiadpcm.cpp
 
-ifeq ($(NEED_BLIP), 1)
+
 RESAMPLER_SOURCES += $(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp
-endif
+
 
 CORE_INCDIR := -I$(CORE_DIR)
 
@@ -237,17 +222,15 @@ else
    FLAGS += -DHAVE__MKDIR
 endif
 
-ifeq ($(NEED_THREADING), 1)
    FLAGS += -DWANT_THREADING
 	THREAD_SOURCES += thread.c
-endif
 
-ifeq ($(NEED_CRC32), 1)
+
+
    FLAGS += -DWANT_CRC32
 	LIBRETRO_SOURCES += scrc32.cpp
-endif
 
-ifeq ($(NEED_CD), 1)
+
 CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp \
 	$(MEDNAFEN_DIR)/cdrom/CDAccess_Image.cpp \
 	$(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.cpp \
@@ -260,13 +243,11 @@ CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp \
 	$(MEDNAFEN_DIR)/cdrom/l-ec.cpp \
 	$(MEDNAFEN_DIR)/cdrom/crc32.cpp \
 	$(MEDNAFEN_DIR)/cdrom/cdromif.cpp
-   FLAGS += -DNEED_CD
-endif
+  FLAGS += -DNEED_CD
 
-ifeq ($(NEED_TREMOR), 1)
-   TREMOR_SRC := $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
-   FLAGS += -DNEED_TREMOR
-endif
+
+TREMOR_SRC := $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
+FLAGS += -DNEED_TREMOR
 
 
 MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/error.cpp \
@@ -334,20 +315,8 @@ ifeq ($(IS_X86), 1)
 FLAGS += -DARCH_X86
 endif
 
-ifeq ($(CACHE_CD), 1)
-FLAGS += -D__LIBRETRO_CACHE_CD__
-endif
-
-ifeq ($(NEED_BPP), 16)
-FLAGS += -DWANT_16BPP
-endif
-
 ifeq ($(FRONTEND_SUPPORTS_RGB565), 1)
 FLAGS += -DFRONTEND_SUPPORTS_RGB565
-endif
-
-ifeq ($(WANT_NEW_API), 1)
-FLAGS += -DWANT_NEW_API
 endif
 
 CXXFLAGS += $(FLAGS)
