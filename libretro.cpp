@@ -1,5 +1,4 @@
 #include	<stdarg.h>
-#include	"mednafen/include/trio/trio.h"
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
