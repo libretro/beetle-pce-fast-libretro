@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "video/surface.h"
+#include "surface.h"
 
 typedef struct
 {

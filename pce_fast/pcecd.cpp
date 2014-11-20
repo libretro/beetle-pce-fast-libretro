@@ -23,14 +23,14 @@
    PCE_FAST(less accurate, faster, etc.) fork from PCE module "pcecd.cpp".
 */
 
-#include "../mednafen.h"
-#include "../cdrom/cdromif.h"
+#include "mednafen.h"
+#include "cdrom/cdromif.h"
 #include "pcecd_drive.h"
-#include "../okiadpcm.h"
+#include "okiadpcm.h"
 
 #include "pce.h"
 #include "pcecd.h"
-#include "../cdrom/SimpleFIFO.h"
+#include "cdrom/SimpleFIFO.h"
 
 //#define PCECD_DEBUG
 

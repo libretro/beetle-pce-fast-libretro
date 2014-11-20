@@ -1,7 +1,7 @@
 #ifndef __PCE_CDROM_H
 #define __PCE_CDROM_H
 
-#include "../include/blip/Blip_Buffer.h"
+#include "blip/Blip_Buffer.h"
 
 typedef struct
 {

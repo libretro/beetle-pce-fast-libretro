@@ -1,7 +1,7 @@
 #ifndef _PCEFast_PSG_H
 #define _PCEFast_PSG_H
 
-#include "../include/blip/Blip_Buffer.h"
+#include "blip/Blip_Buffer.h"
 
 class PCEFast_PSG;
 

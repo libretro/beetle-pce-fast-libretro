@@ -15,9 +15,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "../mednafen.h"
-#include "../general.h"
-#include "../msvc_compat.h"
+#include "mednafen.h"
+#include "general.h"
+#include "msvc_compat.h"
 #include "CDAccess_CCD.h"
 
 #include <limits>

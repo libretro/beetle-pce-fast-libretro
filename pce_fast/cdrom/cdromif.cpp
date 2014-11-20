@@ -15,15 +15,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "../mednafen.h"
+#include "mednafen.h"
 #include <string.h>
 #include <sys/types.h>
 #include "cdromif.h"
 #include "CDAccess.h"
-#include "../general.h"
+#include "general.h"
 
 #include <algorithm>
-#include "../../libretro.h"
+#include "libretro.h"
 
 extern retro_log_printf_t log_cb;
 

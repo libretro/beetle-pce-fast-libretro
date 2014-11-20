@@ -23,7 +23,7 @@
 #include <unistd.h>
 #endif
 
-#include "../mednafen.h"
+#include "mednafen.h"
 
 #include "CDAccess.h"
 #include "CDAccess_Image.h"

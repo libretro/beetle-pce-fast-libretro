@@ -15,12 +15,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "../mednafen.h"
+#include "mednafen.h"
 #include <math.h>
 #include "pcecd_drive.h"
-#include "../cdrom/cdromif.h"
-#include "../cdrom/SimpleFIFO.h"
-#include "../msvc_compat.h"
+#include "cdrom/cdromif.h"
+#include "cdrom/SimpleFIFO.h"
+#include "msvc_compat.h"
 
 static inline void SCSIDBG(const char* format, ...)
 {

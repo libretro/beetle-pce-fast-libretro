@@ -30,7 +30,7 @@
    Trying to read sectors at an LBA of less than 0 is not supported.  TODO: support it(at least up to -150).
 */
 
-#include "../mednafen.h"
+#include "mednafen.h"
 
 #include <sys/types.h>
 
@@ -38,8 +38,8 @@
 #include <errno.h>
 #include <time.h>
 
-#include "../general.h"
-#include "../FileStream.h"
+#include "general.h"
+#include "FileStream.h"
 
 #include "CDAccess.h"
 #include "CDAccess_Image.h"

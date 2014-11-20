@@ -182,9 +182,9 @@ else
    FLAGS += -DHAVE__MKDIR
 endif
 
-MEDNAFEN_DIR := mednafen
-CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
 
+CORE_DIR := pce_fast
+MEDNAFEN_DIR := $(CORE_DIR)/mednafen
 
 OBJECTS :=
 
@@ -196,16 +196,16 @@ OBJECTS += $(CORE_DIR)/pcecd_drive.o
 OBJECTS += $(CORE_DIR)/psg.o
 OBJECTS += $(CORE_DIR)/vdc.o
 #cdrom
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_Image.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDUtility.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/lec.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/galois.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/recover-raw.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/l-ec.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/crc32.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/cdromif.o
+OBJECTS += $(CORE_DIR)/cdrom/CDAccess.o
+OBJECTS += $(CORE_DIR)/cdrom/CDAccess_Image.o
+OBJECTS += $(CORE_DIR)/cdrom/CDAccess_CCD.o
+OBJECTS += $(CORE_DIR)/cdrom/CDUtility.o
+OBJECTS += $(CORE_DIR)/cdrom/lec.o
+OBJECTS += $(CORE_DIR)/cdrom/galois.o
+OBJECTS += $(CORE_DIR)/cdrom/recover-raw.o
+OBJECTS += $(CORE_DIR)/cdrom/l-ec.o
+OBJECTS += $(CORE_DIR)/cdrom/crc32.o
+OBJECTS += $(CORE_DIR)/cdrom/cdromif.o
 #mednafen
 OBJECTS += $(MEDNAFEN_DIR)/settings.o
 OBJECTS += $(MEDNAFEN_DIR)/general.o
@@ -218,9 +218,9 @@ OBJECTS += $(MEDNAFEN_DIR)/file.o
 #okiadpcm
 OBJECTS += $(MEDNAFEN_DIR)/okiadpcm.o
 #misc
-OBJECTS += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.o
+OBJECTS += $(CORE_DIR)/arcade_card.o
 #resampler
-OBJECTS += $(MEDNAFEN_DIR)/sound/Blip_Buffer.o
+OBJECTS += $(CORE_DIR)/blip/Blip_Buffer.o
 #libretro
 OBJECTS += libretro.o
 OBJECTS += scrc32.o
@@ -254,7 +254,7 @@ endif
 
 LDFLAGS += $(fpic) $(SHARED)
 FLAGS += $(fpic) $(EXTRA_GCC_FLAGS)
-FLAGS += -I. -Imednafen -Imednafen/include -Imednafen/intl -Imednafen/hw_misc -Imednafen/hw_cpu -I$(CORE_DIR)
+FLAGS += -I. -I$(CORE_DIR) -I$(MEDNAFEN_DIR)
 
 FLAGS += $(ENDIANNESS_DEFINES) -DSIZEOF_DOUBLE=8 $(WARNINGS) -DMEDNAFEN_VERSION=\"0.9.31\" -DPACKAGE=\"mednafen\"
 FLAGS += -DMEDNAFEN_VERSION_NUMERIC=931 -DPSS_STYLE=1 -DMPC_FIXED_POINT -DSTDC_HEADERS -D__STDC_LIMIT_MACROS

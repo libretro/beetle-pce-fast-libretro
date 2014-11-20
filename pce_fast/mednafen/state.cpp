@@ -22,7 +22,7 @@
 #include "driver.h"
 #include "general.h"
 #include "state.h"
-#include "video/surface.h"
+#include "surface.h"
 #include "msvc_compat.h"
 
 #define RLSB 		MDFNSTATE_RLSB	//0x80000000

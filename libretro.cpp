@@ -1,22 +1,22 @@
 #include <stdarg.h>
-#include "mednafen/mednafen.h"
-#include "mednafen/git.h"
-#include "mednafen/general.h"
+#include "mednafen.h"
+#include "git.h"
+#include "general.h"
 #include "libretro.h"
 #include "scrc32.h"
 
-#include "mednafen/FileWrapper.h"
+#include "FileWrapper.h"
 
-#include "mednafen/pce_fast/pce.h"
-#include "mednafen/pce_fast/vdc.h"
-#include "mednafen/pce_fast/psg.h"
-#include "mednafen/pce_fast/input.h"
-#include "mednafen/pce_fast/huc.h"
-#include "mednafen/pce_fast/pcecd.h"
-#include "mednafen/pce_fast/pcecd_drive.h"
-#include "mednafen/hw_misc/arcade_card/arcade_card.h"
-#include "mednafen/cdrom/cdromif.h"
-#include "mednafen/cdrom/CDUtility.h"
+#include "pce.h"
+#include "vdc.h"
+#include "psg.h"
+#include "input.h"
+#include "huc.h"
+#include "pcecd.h"
+#include "pcecd_drive.h"
+#include "arcade_card.h"
+#include "cdrom/cdromif.h"
+#include "cdrom/CDUtility.h"
 
 #ifdef _MSC_VER
 #include "mednafen/msvc_compat.h"
@@ -1240,8 +1240,6 @@ static void set_basename(const char* path)
 
    retro_base_name = retro_base_name.substr(0, retro_base_name.find_last_of('.'));
 }
-
-#include "mednafen/pce_fast/pcecd.h"
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"

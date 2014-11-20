@@ -1,7 +1,7 @@
 #ifndef __PCEFAST_PCECD_Drive_H
 #define __PCEFAST_PCECD_Drive_H
 
-#include "../include/blip/Blip_Buffer.h"
+#include "blip/Blip_Buffer.h"
 
 typedef int32 pcecd_drive_timestamp_t;
 
