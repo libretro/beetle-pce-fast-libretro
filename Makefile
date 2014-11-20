@@ -244,7 +244,9 @@ FLAGS += -DNEED_TREMOR
 FLAGS += -DWANT_THREADING
 FLAGS += -DWANT_CRC32
 
-ifneq ($(NO_GCC),1)
+ifeq ($(NO_GCC),1)
+EXTRA_GCC_FLAGS :=
+else
 WARNINGS := -Wall
 WARNINGS += -Wno-sign-compare
 WARNINGS += -Wno-unused-variable
@@ -252,6 +254,7 @@ WARNINGS += -Wno-unused-function
 WARNINGS += -Wno-uninitialized
 WARNINGS += $(NEW_GCC_WARNING_FLAGS)
 WARNINGS += -Wno-strict-aliasing
+WARNINGS += -Wno-narrowing
 
 EXTRA_GCC_FLAGS := -funroll-loops
 endif
@@ -265,7 +268,7 @@ else
 endif
 
 LDFLAGS += $(fpic) $(SHARED)
-FLAGS += $(fpic)
+FLAGS += $(fpic) $(EXTRA_GCC_FLAGS)
 FLAGS += -I. -Imednafen -Imednafen/include -Imednafen/intl -Imednafen/hw_misc -Imednafen/hw_cpu -I$(CORE_DIR)
 
 FLAGS += $(ENDIANNESS_DEFINES) -DSIZEOF_DOUBLE=8 $(WARNINGS) -DMEDNAFEN_VERSION=\"0.9.31\" -DPACKAGE=\"mednafen\"

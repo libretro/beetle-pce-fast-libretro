@@ -1778,14 +1778,6 @@ size_t retro_serialize_size(void)
    //if (serialize_size)
    //   return serialize_size;
 
-   if (!StateAction)
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n",
-                EmulatedPCE_Fast.shortname);
-      return 0;
-   }
-
    StateMem st;
    memset(&st, 0, sizeof(st));
 

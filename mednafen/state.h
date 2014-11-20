@@ -1,7 +1,7 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-#include "state-common.h"
+#include "mednafen.h"
 
 typedef struct
 {

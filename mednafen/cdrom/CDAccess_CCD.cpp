@@ -402,7 +402,6 @@ void CDAccess_CCD::Load(const char* path, bool image_memcache)
 void CDAccess_CCD::CheckSubQSanity(void)
 {
    size_t checksum_pass_counter = 0;
-   int prev_lba = INT_MAX;
    uint8 prev_track = 0;
 
    for (size_t s = 0; s < img_numsectors; s++)
@@ -455,8 +454,6 @@ void CDAccess_CCD::CheckSubQSanity(void)
                int lba = ((BCD_to_U8(am_bcd) * 60 + BCD_to_U8(as_bcd)) * 75 + BCD_to_U8(
                              af_bcd)) - 150;
                uint8 track = BCD_to_U8(track_bcd);
-
-               prev_lba = lba;
 
                assert (track >= prev_track);
 //                  throw MDFN_Error(0, ("Garbage subchannel Q data detected(bad track number)"));
