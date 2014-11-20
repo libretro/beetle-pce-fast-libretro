@@ -873,12 +873,11 @@ Stream *CDIF::MakeStream(uint32 lba, uint32 sector_count)
 }
 
 
-CDIF *CDIF_Open(const char *path, const bool is_device, bool image_memcache)
+CDIF *CDIF_Open(const char *path, const bool is_device)
 {
-   CDAccess *cda = cdaccess_open_image(path, image_memcache);
+   CDAccess *cda = cdaccess_open_image(path);
 
-   if(!image_memcache)
-      return new CDIF_MT(cda);
-   else
-      return new CDIF_ST(cda); 
+   return new CDIF_MT(cda);
+   //single threaded reader :
+//   return new CDIF_ST(cda);
 }

@@ -16,7 +16,6 @@
  */
 
 #include "../FileStream.h"
-#include "../MemoryStream.h"
 #include "CDAccess.h"
 
 #include <vector>
@@ -25,7 +24,7 @@ class CDAccess_CCD : public CDAccess
 {
  public:
 
- CDAccess_CCD(const char *path, bool image_memcache);
+ CDAccess_CCD(const char *path);
  virtual ~CDAccess_CCD();
 
  virtual void Read_Raw_Sector(uint8 *buf, int32 lba);
@@ -38,7 +37,7 @@ class CDAccess_CCD : public CDAccess
 
  private:
 
- void Load(const char *path, bool image_memcache);
+ void Load(const char *path);
  void Cleanup(void);
 
  void CheckSubQSanity(void);

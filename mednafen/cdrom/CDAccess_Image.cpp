@@ -40,7 +40,6 @@
 
 #include "../general.h"
 #include "../FileStream.h"
-#include "../MemoryStream.h"
 
 #include "CDAccess.h"
 #include "CDAccess_Image.h"
@@ -187,7 +186,7 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO *track)
  return(0);
 }
 
-void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, const std::string &filename, const char *binoffset, const char *msfoffset, const char *length, bool image_memcache, std::map<std::string, Stream*> &toc_streamcache)
+void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, const std::string &filename, const char *binoffset, const char *msfoffset, const char *length, std::map<std::string, Stream*> &toc_streamcache)
 {
  long offset = 0; // In bytes!
  long tmp_long;
@@ -212,10 +211,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int t
 
   efn = MDFN_EvalFIP(base_dir, filename);
 
-  if(image_memcache)
-   track->fp = new MemoryStream(new FileStream(efn.c_str(), FileStream::MODE_READ));
-  else
-   track->fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
+  track->fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
 
   toc_streamcache[filename] = track->fp;
  }
@@ -317,9 +313,9 @@ std::string MDFN_toupper(const std::string &str)
 }
 #endif
 
-void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
+void CDAccess_Image::ImageOpen(const char *path)
 {
- MemoryStream fp(new FileStream(path, FileStream::MODE_READ));
+ FileStream fp(path, FileStream::MODE_READ);
  static const unsigned max_args = 4;
  std::string linebuf;
  std::string cmdbuf, args[max_args];
@@ -478,7 +474,7 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
       length = args[2].c_str();
      }
      //printf("%s, %s, %s, %s\n", args[0].c_str(), binoffset, msfoffset, length);
-     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, msfoffset, length, image_memcache, toc_streamcache);
+     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, msfoffset, length, toc_streamcache);
     }
     else if(cmdbuf == "DATAFILE")
     {
@@ -493,7 +489,7 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
      else
       length = args[1].c_str();
 
-     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, NULL, length, image_memcache, toc_streamcache);
+     ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, NULL, length, toc_streamcache);
     }
     else if(cmdbuf == "INDEX")
     {
@@ -580,9 +576,6 @@ void CDAccess_Image::ImageOpen(const char *path, bool image_memcache)
      std::string efn = MDFN_EvalFIP(base_dir, args[0]);
      TmpTrack.fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
      TmpTrack.FirstFileInstance = 1;
-
-     if(image_memcache)
-      TmpTrack.fp = new MemoryStream(TmpTrack.fp);
 
      assert(!strcasecmp(args[1].c_str(), "BINARY"));
 //      throw(MDFN_Error(0, ("Unsupported track format: %s\n"), args[1].c_str()));
@@ -825,11 +818,11 @@ void CDAccess_Image::Cleanup(void)
  }
 }
 
-CDAccess_Image::CDAccess_Image(const char *path, bool image_memcache) : NumTracks(0), FirstTrack(0), LastTrack(0), total_sectors(0)
+CDAccess_Image::CDAccess_Image(const char *path) : NumTracks(0), FirstTrack(0), LastTrack(0), total_sectors(0)
 {
  memset(Tracks, 0, sizeof(Tracks));
 
- ImageOpen(path, image_memcache);
+ ImageOpen(path);
 }
 
 CDAccess_Image::~CDAccess_Image()

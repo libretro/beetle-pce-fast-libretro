@@ -84,12 +84,11 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname,
 }
 
 
-CDAccess_CCD::CDAccess_CCD(const char* path,
-                           bool image_memcache) : img_stream(NULL), sub_stream(NULL), img_numsectors(0)
+CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL), sub_stream(NULL), img_numsectors(0)
 {
    try
    {
-      Load(path, image_memcache);
+      Load(path);
    }
    catch (...)
    {
@@ -98,7 +97,7 @@ CDAccess_CCD::CDAccess_CCD(const char* path,
    }
 }
 
-void CDAccess_CCD::Load(const char* path, bool image_memcache)
+void CDAccess_CCD::Load(const char* path)
 {
    FileStream cf(path, FileStream::MODE_READ);
    std::map<std::string, CCD_Section> Sections;
@@ -358,11 +357,7 @@ void CDAccess_CCD::Load(const char* path, bool image_memcache)
       std::string image_path = MDFN_EvalFIP(dir_path,
                                             file_base + std::string(".") + std::string(img_extsd), true);
 
-      if (image_memcache)
-         img_stream = new MemoryStream(new FileStream(image_path.c_str(),
-                                       FileStream::MODE_READ));
-      else
-         img_stream = new FileStream(image_path.c_str(), FileStream::MODE_READ);
+      img_stream = new FileStream(image_path.c_str(), FileStream::MODE_READ);
 
       int64 ss = img_stream->size();
 
@@ -378,11 +373,7 @@ void CDAccess_CCD::Load(const char* path, bool image_memcache)
       std::string sub_path = MDFN_EvalFIP(dir_path,
                                           file_base + std::string(".") + std::string(sub_extsd), true);
 
-      if (image_memcache)
-         sub_stream = new MemoryStream(new FileStream(sub_path.c_str(),
-                                       FileStream::MODE_READ));
-      else
-         sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
+      sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
 
       assert(sub_stream->size() == (int64)img_numsectors * 96);
 //         throw MDFN_Error(0, ("CCD SUB file size mismatch."));

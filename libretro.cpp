@@ -4,6 +4,7 @@
 #include "mednafen/general.h"
 #include "libretro.h"
 #include "thread.h"
+#include "scrc32.h"
 
 #include "mednafen/FileWrapper.h"
 
@@ -21,8 +22,6 @@
 #ifdef _MSC_VER
 #include "mednafen/msvc_compat.h"
 #endif
-
-static bool old_cdimagecache = false;
 
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI* MDFNGameInfo = &EmulatedPCE_Fast;
@@ -43,9 +42,6 @@ MDFNGI* MDFNGameInfo = &EmulatedPCE_Fast;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-extern "C" unsigned long crc32(unsigned long crc, const unsigned char* buf,
-                               unsigned int len);
 
 namespace PCE_Fast
 {
@@ -1060,11 +1056,10 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
          ReadM3U(file_list, devicename);
 
          for (unsigned i = 0; i < file_list.size(); i++)
-            CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false,
-                                             old_cdimagecache));
+            CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false));
       }
       else
-         CDInterfaces.push_back(CDIF_Open(devicename, false, old_cdimagecache));
+         CDInterfaces.push_back(CDIF_Open(devicename, false));
    }
    catch (std::exception &e)
    {
@@ -1366,21 +1361,6 @@ static void set_volume(uint32_t* ptr, unsigned number)
 static void check_variables(void)
 {
    struct retro_variable var = {0};
-
-   var.key = "pce_fast_cdimagecache";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      bool cdimage_cache = true;
-
-      if (strcmp(var.value, "enabled") == 0)
-         cdimage_cache = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         cdimage_cache = false;
-
-      if (cdimage_cache != old_cdimagecache)
-         old_cdimagecache = cdimage_cache;
-   }
 
    var.key = "pce_nospritelimit";
 
@@ -1716,7 +1696,6 @@ void retro_set_environment(retro_environment_t cb)
 
    static const struct retro_variable vars[] =
    {
-      { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
       { "pce_keepaspect", "Keep Aspect; enabled|disabled" },
       { "pce_initial_scanline", "Initial scanline; 0|1|2|3|4|5|6|7|8|9|10|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40" },
