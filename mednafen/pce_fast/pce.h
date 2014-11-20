@@ -12,39 +12,32 @@
 #define DECLFR(x) uint8 MDFN_FASTCALL x (uint32 A)
 #define DECLFW(x) void MDFN_FASTCALL x (uint32 A, uint8 V)
 
-namespace PCE_Fast
-{
-   extern uint8 ROMSpace[0x88 * 8192 + 8192];
+extern uint8 ROMSpace[0x88 * 8192 + 8192];
 
-   typedef void (MDFN_FASTCALL *writefunc)(uint32 A, uint8 V);
-   typedef uint8 (MDFN_FASTCALL *readfunc)(uint32 A);
+typedef void (MDFN_FASTCALL* writefunc)(uint32 A, uint8 V);
+typedef uint8(MDFN_FASTCALL* readfunc)(uint32 A);
 
-   extern uint8 PCEIODataBuffer;
+extern uint8 PCEIODataBuffer;
 
-   bool PCE_InitCD(void);
+bool PCE_InitCD(void);
 
-   extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
-   void PCE_Power(void);
+extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
+void PCE_Power(void);
 
-   extern readfunc PCERead[0x100];
-   extern writefunc PCEWrite[0x100];
-   extern int pce_overclocked;
+extern readfunc PCERead[0x100];
+extern writefunc PCEWrite[0x100];
+extern int pce_overclocked;
 
-   extern uint8 BaseRAM[32768 + 8192];
-};
+extern uint8 BaseRAM[32768 + 8192];
 
 #include "huc6280.h"
-
-using namespace PCE_Fast;
-
-
 
 
 //#define DISABLE_HW_RENDER
 //#define DISABLE_HW_RENDER_VRAM_CACHING
 //#define DISABLE_SW_RENDER
 //#define RUN_FOR_X_FRAMES 100
-#define PERF_TEST
+//#define PERF_TEST
 //#define DUMP_FRAME_TIMES
 //#define PSP_PROFILER
 #define PCE_FAST_CD_SPEEDHACK
@@ -78,8 +71,8 @@ extern struct retro_perf_callback perf_cb;
 extern unsigned int threadProfilerCallCount;
 
 
-//#define PROFILER_REGS sceKernelReferThreadProfiler()
-#define PROFILER_REGS sceKernelReferGlobalProfiler()
+#define PROFILER_REGS sceKernelReferThreadProfiler()
+//#define PROFILER_REGS sceKernelReferGlobalProfiler()
 
 #define PSPPROF_INIT \
    {\

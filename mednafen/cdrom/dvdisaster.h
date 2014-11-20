@@ -22,11 +22,11 @@
 #ifndef DVDISASTER_H
 #define DVDISASTER_H
 
-/* "Dare to be gorgeous and unique. 
+/* "Dare to be gorgeous and unique.
  *  But don't ever be cryptic or otherwise unfathomable.
  *  Make it unforgettably great."
  *
- *  From "A Final Note on Style", 
+ *  From "A Final Note on Style",
  *  Amiga Intuition Reference Manual, 1986, p. 231
  */
 
@@ -75,7 +75,7 @@ uint32 EDCCrc32(const unsigned char*, int);
  *
  * Note that some performance critical stuff needs to
  * be #included from galois-inlines.h
- */  
+ */
 
 /* Galois field parameters for 8bit symbol Reed-Solomon code */
 
@@ -87,17 +87,19 @@ uint32 EDCCrc32(const unsigned char*, int);
 /* Lookup tables for Galois field arithmetic */
 
 typedef struct _GaloisTables
-{  int32 gfGenerator;  /* GF generator polynomial */ 
-   int32 *indexOf;     /* log */
-   int32 *alphaTo;     /* inverse log */
-   int32 *encAlphaTo; /* inverse log optimized for encoder */
+{
+   int32 gfGenerator;  /* GF generator polynomial */
+   int32* indexOf;     /* log */
+   int32* alphaTo;     /* inverse log */
+   int32* encAlphaTo; /* inverse log optimized for encoder */
 } GaloisTables;
 
 /* Lookup and working tables for the ReedSolomon codecs */
 
 typedef struct _ReedSolomonTables
-{  GaloisTables *gfTables;/* from above */
-   int32 *gpoly;        /* RS code generator polynomial */
+{
+   GaloisTables* gfTables;/* from above */
+   int32* gpoly;        /* RS code generator polynomial */
    int32 fcr;           /* first consecutive root of RS generator polynomial */
    int32 primElem;      /* primitive field element */
    int32 nroots;        /* degree of RS generator polynomial */
@@ -107,10 +109,10 @@ typedef struct _ReedSolomonTables
 GaloisTables* CreateGaloisTables(int32);
 void FreeGaloisTables(GaloisTables*);
 
-ReedSolomonTables *CreateReedSolomonTables(GaloisTables*, int32, int32, int);
+ReedSolomonTables* CreateReedSolomonTables(GaloisTables*, int32, int32, int);
 void FreeReedSolomonTables(ReedSolomonTables*);
 
-/*** 
+/***
  *** l-ec.c
  ***/
 
@@ -145,7 +147,7 @@ int DecodePQ(ReedSolomonTables*, unsigned char*, int, int*, int);
 int CountC2Errors(unsigned char*);
 
 /***
- *** misc.c 
+ *** misc.c
  ***/
 
 char* sgettext(char*);
@@ -160,16 +162,16 @@ void CalcSectors(int64, int64*, int*);
  *** recover-raw.c
  ***/
 
-#define CD_RAW_SECTOR_SIZE 2352  
+#define CD_RAW_SECTOR_SIZE 2352
 #define CD_RAW_C2_SECTOR_SIZE (2352+294)  /* main channel plus C2 vector */
 
 int CheckEDC(const unsigned char*, bool);
 int CheckMSF(unsigned char*, int);
 
 
-int ValidateRawSector(unsigned char *frame, bool xaMode);
+int ValidateRawSector(unsigned char* frame, bool xaMode);
 bool Init_LEC_Correct(void);
 void Kill_LEC_Correct(void);
 
 
-#endif				/* DVDISASTER_H */
+#endif            /* DVDISASTER_H */

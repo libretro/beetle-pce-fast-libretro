@@ -42,8 +42,6 @@ MDFNGI* MDFNGameInfo = &EmulatedPCE_Fast;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-namespace PCE_Fast
-{
 static PCEFast_PSG* psg = NULL;
 
 static Blip_Buffer sbuf[2];
@@ -433,7 +431,7 @@ static bool TestMagicCD(std::vector<CDIF*>* CDInterfaces)
                                          };
    uint8 sector_buffer[2048];
    CDIF* cdiface = (*CDInterfaces)[0];
-   CDUtility::TOC toc;
+   CDUtility_TOC toc;
    bool ret = FALSE;
 
    memset(sector_buffer, 0, sizeof(sector_buffer));
@@ -956,7 +954,7 @@ void HuC_Power(void)
       ArcadeCard_Power();
 }
 
-};
+
 
 MDFNGI EmulatedPCE_Fast =
 {
@@ -1073,7 +1071,7 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
    MDFN_indent(1);
    for (unsigned i = 0; i < CDInterfaces.size(); i++)
    {
-      CDUtility::TOC toc;
+      CDUtility_TOC toc;
 
       CDInterfaces[i]->ReadTOC(&toc);
 
@@ -1274,7 +1272,7 @@ void retro_init(void)
    else
       log_cb = NULL;
 
-   CDUtility::CDUtility_Init();
+   CDUtility_Init();
 
    const char* dir = NULL;
 
@@ -1436,7 +1434,7 @@ static void check_variables(void)
 
    if (do_cdsettings)
    {
-      PCE_Fast::PCECD_Settings settings = {0};
+      PCECD_Settings settings = {0};
       settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;

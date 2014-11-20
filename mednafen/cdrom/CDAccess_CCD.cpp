@@ -24,8 +24,6 @@
 #include <limits.h>
 #include <map>
 
-using namespace CDUtility;
-
 static void MDFN_strtoupper(std::string &str)
 {
    const size_t len = str.length();
@@ -48,7 +46,7 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname,
    if (zit == s.end())
    {
       assert(have_defval);
-//      throw MDFN_Error(0, ("Missing property: %s"), propname.c_str());
+      //      throw MDFN_Error(0, ("Missing property: %s"), propname.c_str());
       return defval;
    }
 
@@ -72,8 +70,8 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname,
       ret = strtoul(vp, &ep, scan_base);
 
    assert(vp[0] && !ep[0]);
-//      throw MDFN_Error(0, ("Property %s: Malformed integer: %s"), propname.c_str(),
-//                       v.c_str());
+   //      throw MDFN_Error(0, ("Property %s: Malformed integer: %s"), propname.c_str(),
+   //                       v.c_str());
 
    //if(ret < minv || ret > maxv)
    //{
@@ -84,7 +82,8 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname,
 }
 
 
-CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL), sub_stream(NULL), img_numsectors(0)
+CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL),
+   sub_stream(NULL), img_numsectors(0)
 {
    try
    {
@@ -159,8 +158,8 @@ void CDAccess_CCD::Load(const char* path)
 
       if (linebuf[0] == '[')
       {
-         assert (linebuf.length() > 2 && linebuf[linebuf.length() - 1] == ']');
-//            throw MDFN_Error(0, ("Malformed section specifier: %s"), linebuf.c_str());
+         assert(linebuf.length() > 2 && linebuf[linebuf.length() - 1] == ']');
+         //            throw MDFN_Error(0, ("Malformed section specifier: %s"), linebuf.c_str());
 
          cur_section_name = linebuf.substr(1, linebuf.length() - 2);
          MDFN_strtoupper(cur_section_name);
@@ -171,8 +170,8 @@ void CDAccess_CCD::Load(const char* path)
          const size_t leqpos = linebuf.rfind('=');
          std::string k, v;
 
-         assert (feqpos != std::string::npos && feqpos == leqpos);
-//            throw MDFN_Error(0, ("Malformed value pair specifier: %s"), linebuf.c_str());
+         assert(feqpos != std::string::npos && feqpos == leqpos);
+         //            throw MDFN_Error(0, ("Malformed value pair specifier: %s"), linebuf.c_str());
 
          k = linebuf.substr(0, feqpos);
          v = linebuf.substr(feqpos + 1);
@@ -362,7 +361,7 @@ void CDAccess_CCD::Load(const char* path)
       int64 ss = img_stream->size();
 
       assert(!(ss % 2352));
-//         throw MDFN_Error(0, ("CCD image size is not evenly divisible by 2352."));
+      //         throw MDFN_Error(0, ("CCD image size is not evenly divisible by 2352."));
 
       img_numsectors = ss / 2352;
    }
@@ -376,7 +375,7 @@ void CDAccess_CCD::Load(const char* path)
       sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
 
       assert(sub_stream->size() == (int64)img_numsectors * 96);
-//         throw MDFN_Error(0, ("CCD SUB file size mismatch."));
+      //         throw MDFN_Error(0, ("CCD SUB file size mismatch."));
    }
 
    CheckSubQSanity();
@@ -428,30 +427,30 @@ void CDAccess_CCD::CheckSubQSanity(void)
             //printf("%2x %2x %2x\n", am_bcd, as_bcd, af_bcd);
 
             assert(BCD_is_valid(track_bcd) && BCD_is_valid(index_bcd)
-                  && BCD_is_valid(rm_bcd) && BCD_is_valid(rs_bcd) && BCD_is_valid(rf_bcd)
-                  && BCD_is_valid(am_bcd) && BCD_is_valid(as_bcd) && BCD_is_valid(af_bcd)
-                  && rs_bcd <= 0x59 && rf_bcd <= 0x74 && as_bcd <= 0x59 && af_bcd <= 0x74);
+                   && BCD_is_valid(rm_bcd) && BCD_is_valid(rs_bcd) && BCD_is_valid(rf_bcd)
+                   && BCD_is_valid(am_bcd) && BCD_is_valid(as_bcd) && BCD_is_valid(af_bcd)
+                   && rs_bcd <= 0x59 && rf_bcd <= 0x74 && as_bcd <= 0x59 && af_bcd <= 0x74);
 
-//            if (!BCD_is_valid(track_bcd) || !BCD_is_valid(index_bcd)
-//                  || !BCD_is_valid(rm_bcd) || !BCD_is_valid(rs_bcd) || !BCD_is_valid(rf_bcd) ||
-//                  !BCD_is_valid(am_bcd) || !BCD_is_valid(as_bcd) || !BCD_is_valid(af_bcd) ||
-//                  rs_bcd > 0x59 || rf_bcd > 0x74 || as_bcd > 0x59 || af_bcd > 0x74);
-//            throw MDFN_Error(0,
-//                             ("Garbage subchannel Q data detected(bad BCD/out of range): %02x:%02x:%02x %02x:%02x:%02x"),
-//                             rm_bcd, rs_bcd, rf_bcd, am_bcd, as_bcd, af_bcd);
+            //            if (!BCD_is_valid(track_bcd) || !BCD_is_valid(index_bcd)
+            //                  || !BCD_is_valid(rm_bcd) || !BCD_is_valid(rs_bcd) || !BCD_is_valid(rf_bcd) ||
+            //                  !BCD_is_valid(am_bcd) || !BCD_is_valid(as_bcd) || !BCD_is_valid(af_bcd) ||
+            //                  rs_bcd > 0x59 || rf_bcd > 0x74 || as_bcd > 0x59 || af_bcd > 0x74);
+            //            throw MDFN_Error(0,
+            //                             ("Garbage subchannel Q data detected(bad BCD/out of range): %02x:%02x:%02x %02x:%02x:%02x"),
+            //                             rm_bcd, rs_bcd, rf_bcd, am_bcd, as_bcd, af_bcd);
 
-//            else
-//            {
-               int lba = ((BCD_to_U8(am_bcd) * 60 + BCD_to_U8(as_bcd)) * 75 + BCD_to_U8(
-                             af_bcd)) - 150;
-               uint8 track = BCD_to_U8(track_bcd);
+            //            else
+            //            {
+            int lba = ((BCD_to_U8(am_bcd) * 60 + BCD_to_U8(as_bcd)) * 75 + BCD_to_U8(
+                          af_bcd)) - 150;
+            uint8 track = BCD_to_U8(track_bcd);
 
-               assert (track >= prev_track);
-//                  throw MDFN_Error(0, ("Garbage subchannel Q data detected(bad track number)"));
-               //else if(prev_track && track - pre
+            assert(track >= prev_track);
+            //                  throw MDFN_Error(0, ("Garbage subchannel Q data detected(bad track number)"));
+            //else if(prev_track && track - pre
 
-               prev_track = track;
-//            }
+            prev_track = track;
+            //            }
             checksum_pass_counter++;
          }
       }
@@ -482,8 +481,8 @@ CDAccess_CCD::~CDAccess_CCD()
 
 void CDAccess_CCD::Read_Raw_Sector(uint8* buf, int32 lba)
 {
-   assert (lba >= 0 && (size_t)lba < img_numsectors);
-//      throw(MDFN_Error(0, ("LBA out of range.")));
+   assert(lba >= 0 && (size_t)lba < img_numsectors);
+   //      throw(MDFN_Error(0, ("LBA out of range.")));
 
    uint8 sub_buf[96];
 
@@ -497,7 +496,7 @@ void CDAccess_CCD::Read_Raw_Sector(uint8* buf, int32 lba)
 }
 
 
-void CDAccess_CCD::Read_TOC(CDUtility::TOC* toc)
+void CDAccess_CCD::Read_TOC(CDUtility_TOC* toc)
 {
    *toc = tocd;
 }

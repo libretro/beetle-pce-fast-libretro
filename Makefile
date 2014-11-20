@@ -201,7 +201,6 @@ OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_Image.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDUtility.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/lec.o
-OBJECTS += $(MEDNAFEN_DIR)/cdrom/SimpleFIFO.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/galois.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/recover-raw.o
 OBJECTS += $(MEDNAFEN_DIR)/cdrom/l-ec.o

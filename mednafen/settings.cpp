@@ -30,12 +30,12 @@ int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 uint32_t setting_pce_keepaspect = 1;
 
-bool MDFN_SaveSettings(const char *path)
+bool MDFN_SaveSettings(const char* path)
 {
-   return(1);
+   return (1);
 }
 
-uint64 MDFN_GetSettingUI(const char *name)
+uint64 MDFN_GetSettingUI(const char* name)
 {
    if (!strcmp("pce_fast.cddavolume", name))
       return setting_pce_fast_cddavolume;
@@ -50,25 +50,25 @@ uint64 MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce_fast.slstart", name))
       return setting_initial_scanline;
    if (!strcmp("pce_fast.slend", name))
-      return setting_last_scanline; 
+      return setting_last_scanline;
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;
 }
 
-int64 MDFN_GetSettingI(const char *name)
+int64 MDFN_GetSettingI(const char* name)
 {
    fprintf(stderr, "unhandled setting I: %s\n", name);
    return 0;
 }
 
-double MDFN_GetSettingF(const char *name)
+double MDFN_GetSettingF(const char* name)
 {
    fprintf(stderr, "unhandled setting F: %s\n", name);
    return 0;
 }
 
-bool MDFN_GetSettingB(const char *name)
+bool MDFN_GetSettingB(const char* name)
 {
    if (!strcmp("cheats", name))
       return 0;
@@ -104,7 +104,7 @@ bool MDFN_GetSettingB(const char *name)
 extern std::string retro_base_directory;
 extern std::string retro_base_name;
 
-std::string MDFN_GetSettingS(const char *name)
+std::string MDFN_GetSettingS(const char* name)
 {
    if (!strcmp("pce_fast.cdbios", name))
       return std::string("syscard3.pce");
@@ -127,21 +127,21 @@ std::string MDFN_GetSettingS(const char *name)
    return 0;
 }
 
-bool MDFNI_SetSetting(const char *name, const char *value, bool NetplayOverride)
+bool MDFNI_SetSetting(const char* name, const char* value, bool NetplayOverride)
 {
    return false;
 }
 
-bool MDFNI_SetSettingB(const char *name, bool value)
+bool MDFNI_SetSettingB(const char* name, bool value)
 {
    return false;
 }
 
-bool MDFNI_SetSettingUI(const char *name, uint64 value)
+bool MDFNI_SetSettingUI(const char* name, uint64 value)
 {
    return false;
 }
 
-void MDFNI_DumpSettingsDef(const char *path)
+void MDFNI_DumpSettingsDef(const char* path)
 {
 }

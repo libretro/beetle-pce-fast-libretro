@@ -3,24 +3,23 @@
 
 #include "../include/blip/Blip_Buffer.h"
 
-namespace PCE_Fast
-{
-
 typedef struct
 {
-	float CDDA_Volume;	// Max 2.000...
-	float ADPCM_Volume;	// Max 2.000...
+   float CDDA_Volume;   // Max 2.000...
+   float ADPCM_Volume;  // Max 2.000...
 
-	unsigned int CD_Speed;
+   unsigned int CD_Speed;
 
-	bool ADPCM_LPF;
+   bool ADPCM_LPF;
 } PCECD_Settings;
 
 void PCECD_Run(uint32 in_timestamp);
 void PCECD_ResetTS(void);
 
-bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double master_clock, unsigned int ocm, Blip_Buffer *soundbuf_l, Blip_Buffer *soundbuf_r) ;
-bool PCECD_SetSettings(const PCECD_Settings *settings) ;
+bool PCECD_Init(const PCECD_Settings* settings, void (*irqcb)(bool),
+                double master_clock, unsigned int ocm, Blip_Buffer* soundbuf_l,
+                Blip_Buffer* soundbuf_r) ;
+bool PCECD_SetSettings(const PCECD_Settings* settings) ;
 void PCECD_Close(void) ;
 void PCECD_Power(uint32 timestamp) ;
 
@@ -30,8 +29,7 @@ void PCECD_Write(uint32 timestamp, uint32, uint8 data);
 
 bool PCECD_IsBRAMEnabled(void);
 
-int PCECD_StateAction(StateMem *sm, int load, int data_only);
+int PCECD_StateAction(StateMem* sm, int load, int data_only);
 
-}
 #endif
 

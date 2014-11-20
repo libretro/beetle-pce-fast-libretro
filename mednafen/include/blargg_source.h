@@ -17,7 +17,7 @@
 // Like printf() except output goes to debug log file. Might be defined to do
 // nothing (not even evaluate its arguments).
 // void dprintf( const char* format, ... );
-inline void blargg_dprintf_( const char*, ... ) { }
+inline void blargg_dprintf_(const char*, ...) { }
 #undef dprintf
 #define dprintf (1) ? (void) 0 : blargg_dprintf_
 
@@ -30,9 +30,9 @@ inline void blargg_dprintf_( const char*, ... ) { }
 // If expr yields error string, return it from current function, otherwise continue.
 #undef RETURN_ERR
 #define RETURN_ERR( expr ) do {                         \
-		blargg_err_t blargg_return_err_ = (expr);               \
-		if ( blargg_return_err_ ) return blargg_return_err_;    \
-	} while ( 0 )
+      blargg_err_t blargg_return_err_ = (expr);               \
+      if ( blargg_return_err_ ) return blargg_return_err_;    \
+   } while ( 0 )
 
 // If ptr is 0, return out of memory error string.
 #undef CHECK_ALLOC
@@ -46,19 +46,19 @@ inline void blargg_dprintf_( const char*, ... ) { }
 // for built-in types, so they take arguments by value
 
 template<class T>
-inline T min( T x, T y )
+inline T min(T x, T y)
 {
-	if ( x < y )
-		return x;
-	return y;
+   if (x < y)
+      return x;
+   return y;
 }
 
 template<class T>
-inline T max( T x, T y )
+inline T max(T x, T y)
 {
-	if ( x < y )
-		return y;
-	return x;
+   if (x < y)
+      return y;
+   return x;
 }
 
 // TODO: good idea? bad idea?
@@ -72,7 +72,7 @@ typedef unsigned char byte;
 
 // BLARGG_SOURCE_BEGIN: If defined, #included, allowing redefition of dprintf and check
 #ifdef BLARGG_SOURCE_BEGIN
-	#include BLARGG_SOURCE_BEGIN
+#include BLARGG_SOURCE_BEGIN
 #endif
 
 #endif

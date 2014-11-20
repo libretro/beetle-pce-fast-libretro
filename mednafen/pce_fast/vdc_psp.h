@@ -39,7 +39,8 @@ typedef union __attribute((packed))
       unsigned bg_sprite_enable_mask      : 2;
       unsigned                            : 8;
    };
-} PCE_CR_t;
+}
+PCE_CR_t;
 #else
 
 typedef union __attribute((packed))
@@ -72,19 +73,22 @@ typedef struct __attribute((packed))
    unsigned virtual_screen_height      : 1;
    unsigned CG_mode                    : 1;
    unsigned                            : 8;
-} PCE_MWR_t;
+}
+PCE_MWR_t;
 
 typedef struct __attribute((packed))
 {
    unsigned scroll_x                   : 10;
    unsigned                            : 6;
-} PCE_BXR_t;
+}
+PCE_BXR_t;
 
 typedef struct __attribute((packed))
 {
    unsigned scroll_y                   : 9;
    unsigned                            : 7;
-} PCE_BYR_t;
+}
+PCE_BYR_t;
 
 typedef struct __attribute((packed))
 {
@@ -92,7 +96,8 @@ typedef struct __attribute((packed))
    unsigned                            : 3;
    unsigned HDS                        : 7;
    unsigned                            : 1;
-} PCE_HSR_t;
+}
+PCE_HSR_t;
 
 typedef struct __attribute((packed))
 {
@@ -100,45 +105,49 @@ typedef struct __attribute((packed))
    unsigned                            : 1;
    unsigned HDE                        : 7;
    unsigned                            : 1;
-} PCE_HDR_t;
+}
+PCE_HDR_t;
 
 typedef struct __attribute((packed))
 {
    unsigned VSW                        : 5;
    unsigned                            : 3;
    unsigned VDS                        : 8;
-} PCE_VSR_t;
+}
+PCE_VSR_t;
 
 typedef struct __attribute((packed))
 {
-   unsigned VDW                        :9;
-   unsigned                            :7;
-}PCE_VDR_t;
+   unsigned VDW                        : 9;
+   unsigned                            : 7;
+}
+PCE_VDR_t;
 
 typedef struct __attribute((packed))
 {
-   unsigned VDE                        :8;
-   unsigned                            :8;
-}PCE_VCR_t;
+   unsigned VDE                        : 8;
+   unsigned                            : 8;
+}
+PCE_VCR_t;
 
 typedef struct
 {
-        uint32 display_counter;
-        int32 sat_dma_slcounter;
-        uint8 select;
-        uint16 MAWR;    // Memory Address Write Register
-        uint16 MARR;    // Memory Address Read Register
-        PCE_CR_t CR;      // Control Register
-        uint16 RCR;     // Raster Compare Register
-        PCE_BXR_t BXR;     // Background X-Scroll Register
-        PCE_BYR_t BYR;     // Background Y-Scroll Register
-        PCE_MWR_t MWR;     // Memory Width Register
-        PCE_HSR_t HSR;     // Horizontal Sync Register
-        PCE_HDR_t HDR;     // Horizontal Display Register
-        PCE_VSR_t VSR;
-        PCE_VDR_t VDR;
-        PCE_VCR_t VCR;
-        uint16 DCR;
+   uint32 display_counter;
+   int32 sat_dma_slcounter;
+   uint8 select;
+   uint16 MAWR;    // Memory Address Write Register
+   uint16 MARR;    // Memory Address Read Register
+   PCE_CR_t CR;      // Control Register
+   uint16 RCR;     // Raster Compare Register
+   PCE_BXR_t BXR;     // Background X-Scroll Register
+   PCE_BYR_t BYR;     // Background Y-Scroll Register
+   PCE_MWR_t MWR;     // Memory Width Register
+   PCE_HSR_t HSR;     // Horizontal Sync Register
+   PCE_HDR_t HDR;     // Horizontal Display Register
+   PCE_VSR_t VSR;
+   PCE_VDR_t VDR;
+   PCE_VCR_t VCR;
+   uint16 DCR;
 } vdc_flags_t;
 
 

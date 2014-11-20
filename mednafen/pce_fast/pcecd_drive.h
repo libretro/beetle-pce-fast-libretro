@@ -3,32 +3,30 @@
 
 #include "../include/blip/Blip_Buffer.h"
 
-namespace PCE_Fast
-{
-
 typedef int32 pcecd_drive_timestamp_t;
 
 struct pcecd_drive_bus_t
 {
- // Data bus(FIXME: we should have a variable for the target and the initiator, and OR them together to be truly accurate).
- uint8 DB;
+   // Data bus(FIXME: we should have a variable for the target and the initiator, and OR them together to be truly accurate).
+   uint8 DB;
 
- uint32 signals;
+   uint32 signals;
 };
 
-extern pcecd_drive_bus_t cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c, but use the macros below.
+extern pcecd_drive_bus_t
+cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c, but use the macros below.
 
 // Signals under our(the "target") control.
-#define PCECD_Drive_IO_mask	0x001
-#define PCECD_Drive_CD_mask	0x002
-#define PCECD_Drive_MSG_mask	0x004
-#define PCECD_Drive_REQ_mask	0x008
-#define PCECD_Drive_BSY_mask	0x010
+#define PCECD_Drive_IO_mask   0x001
+#define PCECD_Drive_CD_mask   0x002
+#define PCECD_Drive_MSG_mask  0x004
+#define PCECD_Drive_REQ_mask  0x008
+#define PCECD_Drive_BSY_mask  0x010
 
 // Signals under the control of the initiator(not us!)
-#define PCECD_Drive_kingRST_mask	0x020
-#define PCECD_Drive_kingACK_mask	0x040
-#define PCECD_Drive_kingSEL_mask	0x100
+#define PCECD_Drive_kingRST_mask 0x020
+#define PCECD_Drive_kingACK_mask 0x040
+#define PCECD_Drive_kingSEL_mask 0x100
 
 #define BSY_signal ((const bool)(cd_bus.signals & PCECD_Drive_BSY_mask))
 #define ACK_signal ((const bool)(cd_bus.signals & PCECD_Drive_kingACK_mask))
@@ -67,23 +65,25 @@ void PCECD_Drive_ResetTS(void);
 
 enum
 {
- PCECD_Drive_IRQ_DATA_TRANSFER_DONE = 1,
- PCECD_Drive_IRQ_DATA_TRANSFER_READY,
- PCECD_Drive_IRQ_MAGICAL_REQ,
+   PCECD_Drive_IRQ_DATA_TRANSFER_DONE = 1,
+   PCECD_Drive_IRQ_DATA_TRANSFER_READY,
+   PCECD_Drive_IRQ_MAGICAL_REQ,
 };
 
 void PCECD_Drive_GetCDDAValues(int16 &left, int16 &right);
 
-void PCECD_Drive_SetLog(void (*logfunc)(const char *, const char *, ...)) ;
-void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer *leftbuf, Blip_Buffer *rightbuf, uint32 TransferRate, uint32 SystemClock, void (*IRQFunc)(int), void (*SSCFunc)(uint8, int)) ;
+void PCECD_Drive_SetLog(void (*logfunc)(const char*, const char*, ...)) ;
+void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer* leftbuf,
+                      Blip_Buffer* rightbuf, uint32 TransferRate, uint32 SystemClock,
+                      void (*IRQFunc)(int), void (*SSCFunc)(uint8, int)) ;
 void PCECD_Drive_Close(void) ;
 
 void PCECD_Drive_SetTransferRate(uint32 TransferRate);
 void PCECD_Drive_SetCDDAVolume(unsigned vol); // vol of 65536 = 1.0 = maximum.
-int PCECD_Drive_StateAction(StateMem *sm, int load, int data_only, const char *sname);
+int PCECD_Drive_StateAction(StateMem* sm, int load, int data_only,
+                            const char* sname);
 
-void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects = false) ;
-
-}
+void PCECD_Drive_SetDisc(bool tray_open, CDIF* cdif,
+                         bool no_emu_side_effects = false) ;
 
 #endif

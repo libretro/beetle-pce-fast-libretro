@@ -108,15 +108,15 @@ static inline void list_finish_callback(int id)
    if (id != PCE_DISPLAY_LIST_ID)
       return;
 
-//   SceCtrlData pad;
-//   sceCtrlPeekBufferPositive(&pad, 1);
-//   debug_setpos(0, 0);
-//   debug_printf("cache_update_count : %i\n", cache_update_count);
+   //   SceCtrlData pad;
+   //   sceCtrlPeekBufferPositive(&pad, 1);
+   //   debug_setpos(0, 0);
+   //   debug_printf("cache_update_count : %i\n", cache_update_count);
    //   debug_printf("\n\n\n\n\nVRAM[100+100*512] = 0x%08X\n",
    //                (u32)(PCE_FRAME_TEXTURE[100 + 100 * 512]));
    //   debug_printf("debug test\n");
-//   if (pad.Ly > 200)
-//      debug_printf("frame :%u\n", frame_count);
+   //   if (pad.Ly > 200)
+   //      debug_printf("frame :%u\n", frame_count);
 
    sceGeRestoreContext(&main_context_buffer);
 
@@ -691,10 +691,10 @@ static inline void pce_start_frame_ge(void)
    current_scanline = -vdc_flags->VSR.VDS - vdc_flags->VSR.VSW - 22;
    current_scanline = -1;
 
-//   burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
+   //   burst_mode = !(vdc_flags->CR.bg_sprite_enable_mask);
 
-//   if (burst_mode)
-//      printf("burst mode !!\n");
+   //   if (burst_mode)
+   //      printf("burst mode !!\n");
 
 
    RETRO_PERFORMANCE_INIT(gu_sync_time);
@@ -737,12 +737,12 @@ static inline void pce_start_frame_ge(void)
    sceGuClear(GU_COLOR_BUFFER_BIT);
 
 
-//   if (burst_mode)
-//      return;
+   //   if (burst_mode)
+   //      return;
 
-//   sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
-//   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
-//   sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
+   //   sceGuScissor(0, 0, 512, PCE_FRAME_HEIGHT);
+   //   sceGuClearColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
+   //   sceGuClear(GU_COLOR_BUFFER_BIT | GU_STENCIL_BUFFER_BIT);
 
    sceGuColor(PCE_TO_PSP8888(vce.color_table[0], 0xFF));
 
@@ -782,15 +782,15 @@ static inline void pce_start_frame_ge(void)
    //   printf("\n");
    //   printf("%u-",(u32)vdc_flags->CR.sprite_enable);
 
-//   printf("burstmode frame %i: before : %3s", frame_count, vdc->burst_mode?"yes":"no");
+   //   printf("burstmode frame %i: before : %3s", frame_count, vdc->burst_mode?"yes":"no");
 
    burst_mode = vdc->burst_mode;
 
 
-//   for (i=0; i<512; i++)
-//   {
-//      pce_palette_cache[i]=0xFFFF;
-//   }
+   //   for (i=0; i<512; i++)
+   //   {
+   //      pce_palette_cache[i]=0xFFFF;
+   //   }
 
 #endif
 }
@@ -959,8 +959,8 @@ static inline void pce_draw_sprites(void)
    //   printf("\n");
    //   if (burst_mode)
 
-//   printf("   after : %3s", vdc->burst_mode?"yes":"no");
-//   printf("   local_burst_mode : %3s\n", burst_mode?"yes":"no");
+   //   printf("   after : %3s", vdc->burst_mode?"yes":"no");
+   //   printf("   local_burst_mode : %3s\n", burst_mode?"yes":"no");
 
    if (burst_mode)
       return;
@@ -979,7 +979,7 @@ static inline void pce_draw_sprites(void)
    sceGuTexImage(0, 512, 256, 512, PCE_VRAMTEXTURE_SPRITE);
    sceGuTexScale_8bit(64.0, 32.0);
    sceGuClutLoad(32, pce_palette_cache + 256);
-//   sceGuClutLoad(32, pce_palette_cache);
+   //   sceGuClutLoad(32, pce_palette_cache);
 
    pce_sat_attr_t* sprites = (pce_sat_attr_t*)(vdc->SAT);
 

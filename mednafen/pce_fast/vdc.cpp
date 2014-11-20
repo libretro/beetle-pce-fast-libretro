@@ -37,10 +37,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "vdc_psp.cpp"
 #endif
 
-
-namespace PCE_Fast
-{
-
 static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
@@ -890,7 +886,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
 
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
-   if(pce_do_hw_render)
+   if (pce_do_hw_render)
 #endif
       pce_start_frame_ge();
 #else
@@ -1072,7 +1068,8 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
                }
 
                if ((vdc->CR & 0x40) && (SHOULD_DRAW
-                                        || (vdc->CR & 0x03))) // Don't skip sprite drawing if we can generate sprite #0 or sprite overflow IRQs.
+                                        || (vdc->CR &
+                                            0x03))) // Don't skip sprite drawing if we can generate sprite #0 or sprite overflow IRQs.
                {
                   if ((userle & (ULE_SPR0)) || (vdc->CR & 0x03))
                      DrawSprites(vdc, end - start, spr_linebuf + 0x20);
@@ -1083,9 +1080,9 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
 
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
-               if(pce_do_hw_render)
+               if (pce_do_hw_render)
 #endif
-                  pce_draw_scanline_ge(end-start);
+                  pce_draw_scanline_ge(end - start);
 #endif
 
 
@@ -1200,13 +1197,13 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    }
    while (frame_counter != VBlankFL);  // big frame loop!
-//#ifdef PCE_FAST_CD_SPEEDHACK
-//   if (PCE_IsCD)
-//      PCECD_Run(HuCPU.timestamp * 3);
-//#endif
+   //#ifdef PCE_FAST_CD_SPEEDHACK
+   //   if (PCE_IsCD)
+   //      PCECD_Run(HuCPU.timestamp * 3);
+   //#endif
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
-   if(pce_do_hw_render)
+   if (pce_do_hw_render)
 #endif
       pce_end_frame_ge(DisplayRect->w, DisplayRect->h);
 #endif
@@ -1345,6 +1342,4 @@ int VDC_StateAction(StateMem* sm, int load, int data_only)
 
    return (ret);
 }
-
-};
 
