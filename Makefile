@@ -194,57 +194,51 @@ else
 endif
 
 MEDNAFEN_DIR := mednafen
-LIBRETRO_SOURCES :=
 CORE_DIR := $(MEDNAFEN_DIR)/pce_fast
 
-CORE_SOURCES := $(CORE_DIR)/huc6280.cpp
-CORE_SOURCES += $(CORE_DIR)/input.cpp
-CORE_SOURCES += $(CORE_DIR)/pcecd.cpp
-CORE_SOURCES += $(CORE_DIR)/pcecd_drive.cpp
-CORE_SOURCES += $(CORE_DIR)/psg.cpp
-CORE_SOURCES += $(CORE_DIR)/vdc.cpp
 
-HW_MISC_SOURCES += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
+OBJECTS :=
 
-OKIADPCM_SOURCES += $(MEDNAFEN_DIR)/okiadpcm.cpp
+#core
+OBJECTS += $(CORE_DIR)/huc6280.o
+OBJECTS += $(CORE_DIR)/input.o
+OBJECTS += $(CORE_DIR)/pcecd.o
+OBJECTS += $(CORE_DIR)/pcecd_drive.o
+OBJECTS += $(CORE_DIR)/psg.o
+OBJECTS += $(CORE_DIR)/vdc.o
+#cdrom
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_Image.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/CDUtility.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/lec.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/SimpleFIFO.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/galois.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/recover-raw.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/l-ec.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/crc32.o
+OBJECTS += $(MEDNAFEN_DIR)/cdrom/cdromif.o
+#mednafen
+OBJECTS += $(MEDNAFEN_DIR)/settings.o
+OBJECTS += $(MEDNAFEN_DIR)/general.o
+OBJECTS += $(MEDNAFEN_DIR)/FileWrapper.o
+OBJECTS += $(MEDNAFEN_DIR)/FileStream.o
+OBJECTS += $(MEDNAFEN_DIR)/MemoryStream.o
+OBJECTS += $(MEDNAFEN_DIR)/Stream.o
+OBJECTS += $(MEDNAFEN_DIR)/state.o
+OBJECTS += $(MEDNAFEN_DIR)/endian.o
+OBJECTS += $(MEDNAFEN_DIR)/file.o
+#okiadpcm
+OBJECTS += $(MEDNAFEN_DIR)/okiadpcm.o
+#misc
+OBJECTS += $(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.o
+#resampler
+OBJECTS += $(MEDNAFEN_DIR)/sound/Blip_Buffer.o
+#libretro
+OBJECTS += libretro.o
+OBJECTS += scrc32.o
+OBJECTS += thread.o
 
-RESAMPLER_SOURCES += $(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp
-
-THREAD_SOURCES += thread.c
-
-LIBRETRO_SOURCES += scrc32.cpp
-
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess_Image.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDAccess_CCD.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/CDUtility.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/lec.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/SimpleFIFO.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/galois.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/recover-raw.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/l-ec.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/crc32.cpp
-CDROM_SOURCES += $(MEDNAFEN_DIR)/cdrom/cdromif.cpp
-
-
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/settings.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/general.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/FileWrapper.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/FileStream.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/MemoryStream.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/Stream.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/state.cpp
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/endian.cpp
-MEDNAFEN_SOURCES += $(CDROM_SOURCES)
-#MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/video/surface.cpp
-MEDNAFEN_SOURCES += $(RESAMPLER_SOURCES)
-MEDNAFEN_SOURCES += $(MEDNAFEN_DIR)/file.cpp
-MEDNAFEN_SOURCES += $(OKIADPCM_SOURCES)
-
-LIBRETRO_SOURCES += libretro.cpp
-
-SOURCES_C := 	$(TREMOR_SRC) $(LIBRETRO_SOURCES_C) $(THREAD_SOURCES)
-SOURCES := $(LIBRETRO_SOURCES) $(CORE_SOURCES) $(MEDNAFEN_SOURCES) $(HW_CPU_SOURCES) $(HW_MISC_SOURCES) $(HW_VIDEO_SOURCES)
 
 FLAGS += -DNEED_TREMOR
 FLAGS += -DWANT_THREADING
@@ -261,9 +255,6 @@ WARNINGS += -Wno-strict-aliasing
 
 EXTRA_GCC_FLAGS := -funroll-loops
 endif
-
-
-OBJECTS := $(SOURCES:.cpp=.o) $(SOURCES_C:.c=.o)
 
 all: $(TARGET)
 
