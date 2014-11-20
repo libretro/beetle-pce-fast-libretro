@@ -35,12 +35,8 @@ FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
  else
   fp = sceIoOpen(path, PSP_O_RDONLY, 0777);
 
- if(fp < 0)
- {
-  ErrnoHolder ene(errno);
-
-  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
- }
+ assert(fp >= 0);
+//  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
 
 }
 
