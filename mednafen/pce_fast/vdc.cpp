@@ -26,11 +26,11 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 */
 
 #include "pce.h"
-#include "../video.h"
+#include "video/surface.h"
 #include "vdc.h"
 #include "huc.h"
 #include "pcecd.h"
-#include "../FileStream.h"
+#include "FileStream.h"
 #include <math.h>
 
 #ifdef PSP
@@ -223,16 +223,6 @@ vpc_t vpc;
 #define VDCS_DV      0x10 // VRAM to VRAM DMA completion interrupt occurred
 #define VDCS_VD      0x20 // Vertical blank interrupt occurred
 #define VDCS_BSY  0x40 // VDC is waiting for a CPU access slot during the active display area??
-
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
-{
-   // I know the temptation is there, but don't combine these two loops just
-   // because they loop 512 times ;)
-   for (int x = 0; x < 512; x++)
-      FixPCache(x);
-
-   disabled_layer_color = MAKECOLOR(0x00, 0xFE, 0x00, 0);
-}
 
 DECLFR(VCE_Read)
 {

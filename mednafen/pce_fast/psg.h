@@ -39,15 +39,15 @@ class PCEFast_PSG
 {
         public:
 
-        PCEFast_PSG(Blip_Buffer *bb_l, Blip_Buffer *bb_r) MDFN_COLD;
-        ~PCEFast_PSG() MDFN_COLD;
+        PCEFast_PSG(Blip_Buffer *bb_l, Blip_Buffer *bb_r);
+        ~PCEFast_PSG() ;
 
-	int StateAction(StateMem *sm, int load, int data_only) MDFN_COLD;
+   int StateAction(StateMem *sm, int load, int data_only);
 
-        void Power(const int32 timestamp) MDFN_COLD;
+        void Power(const int32 timestamp) ;
         void Write(int32 timestamp, uint8 A, uint8 V);
 
-	void SetVolume(double new_volume) MDFN_COLD;
+   void SetVolume(double new_volume) ;
 
 	void EndFrame(int32 timestamp);
 

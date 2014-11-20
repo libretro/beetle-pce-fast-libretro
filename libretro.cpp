@@ -387,57 +387,6 @@ static void Emulate(EmulateSpecStruct *espec)
 {
  INPUT_Frame();
 
-// MDFNMP_ApplyPeriodicCheats();
-
- #if 0
- {
-  static bool firstcat = true;
-  MDFN_PixelFormat nf;
-
-  nf.bpp = 16;
-  nf.colorspace = MDFN_COLORSPACE_RGB;
-  nf.Rshift = 11;
-  nf.Gshift = 5;
-  nf.Bshift = 0;
-  nf.Ashift = 16;
-  
-  nf.Rprec = 5;
-  nf.Gprec = 6;
-  nf.Bprec = 5;
-  nf.Aprec = 8;
-
-  espec->surface->SetFormat(nf, false);
-  espec->VideoFormatChanged = firstcat;
-  firstcat = false;
- }
- #endif
-
-#if 0
- static bool firstcat = true;
-
- MDFN_PixelFormat tmp_pf;
-
- tmp_pf.Rshift = 0;
- tmp_pf.Gshift = 0;
- tmp_pf.Bshift = 0;
- tmp_pf.Ashift = 8;
-
- tmp_pf.Rprec = 0;
- tmp_pf.Gprec = 0;
- tmp_pf.Bprec = 0;
- tmp_pf.Aprec = 0;
-
- tmp_pf.bpp = 8;
- tmp_pf.colorspace = MDFN_COLORSPACE_RGB;
-
- espec->surface->SetFormat(tmp_pf, false);
- espec->VideoFormatChanged = firstcat;
- firstcat = false;
-#endif
-
- if(espec->VideoFormatChanged)
-  VDC_SetPixelFormat(espec->surface->format); //.Rshift, espec->surface->format.Gshift, espec->surface->format.Bshift);
-
  if(espec->SoundFormatChanged)
  {
   for(int y = 0; y < 2; y++)
@@ -1148,9 +1097,8 @@ static retro_input_state_t input_state_cb;
 
 static bool overscan;
 static double last_sound_rate;
-static MDFN_PixelFormat last_pixel_format;
 
-static MDFN_Surface *surf;
+static MDFN_Surface surf = {NULL,0,0,0};
 
 static bool failed_init;
 
@@ -1411,10 +1359,11 @@ bool retro_load_game(const struct retro_game_info *info)
    if (!game)
       return false;
 
-   MDFN_PixelFormat pix_fmt(MDFN_COLORSPACE_RGB, 16, 8, 0, 13);
-   memset(&last_pixel_format, 0, sizeof(MDFN_PixelFormat));
-   
-   surf = new MDFN_Surface(NULL, FB_WIDTH, FB_HEIGHT, FB_WIDTH, pix_fmt);
+   surf.w = FB_WIDTH;
+   surf.h = FB_HEIGHT;
+   surf.pitchinpix = FB_WIDTH;
+   surf.pixels16 = (uint16*)calloc(FB_WIDTH*FB_HEIGHT, sizeof(uint16));
+
 
 
    // Possible endian bug ...
@@ -1491,7 +1440,7 @@ void retro_run(void)
    rects[0] = ~0;
 
    EmulateSpecStruct spec = {0};
-   spec.surface = surf;
+   spec.surface = &surf;
    spec.SoundRate = 44100;
    spec.SoundBuf = sound_buf;
    spec.LineWidths = rects;
@@ -1499,22 +1448,12 @@ void retro_run(void)
    spec.SoundVolume = 1.0;
    spec.soundmultiplier = 1.0;
    spec.SoundBufSize = 0;
-   spec.VideoFormatChanged = false;
-   spec.SoundFormatChanged = false;
-
-   if (memcmp(&last_pixel_format, &spec.surface->format, sizeof(MDFN_PixelFormat)))
-   {
-      spec.VideoFormatChanged = TRUE;
-
-      last_pixel_format = spec.surface->format;
-   }
 
    if (spec.SoundRate != last_sound_rate)
    {
       spec.SoundFormatChanged = true;
       last_sound_rate = spec.SoundRate;
    }
-
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
    pce_do_hw_render = !input_state_cb(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X);
@@ -1542,10 +1481,10 @@ void retro_run(void)
 #ifndef DISABLE_SW_RENDER
    else
 //      video_cb(surf->pixels16 , MEDNAFEN_CORE_GEOMETRY_BASE_W, MEDNAFEN_CORE_GEOMETRY_BASE_H, FB_WIDTH << 1);
-      video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
+      video_cb(surf.pixels16 + surf.pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 #endif
 #else
-   video_cb(surf->pixels16 + surf->pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
+   video_cb(surf.pixels16 + surf.pitchinpix * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
 #endif
 
    video_frames++;
@@ -1587,8 +1526,11 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit()
 {
-   delete surf;
-   surf = NULL;
+   if (surf.pixels16)
+   {
+      free(surf.pixels16);
+      surf.pixels16 = NULL;
+   }
 
    if (log_cb)
    {

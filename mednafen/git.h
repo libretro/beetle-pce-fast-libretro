@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "video.h"
+#include "video/surface.h"
 
 typedef struct
 {
@@ -168,10 +168,6 @@ typedef struct
 	// Height must be >= to the "fb_height" specified in the MDFNGI struct for the emulated system.
 	// The framebuffer pointed to by surface->pixels is written to by the system emulation code.
 	MDFN_Surface *surface;
-
-	// Will be set to TRUE if the video pixel format has changed since the last call to Emulate(), FALSE otherwise.
-	// Will be set to TRUE on the first call to the Emulate() function/method
-	bool VideoFormatChanged;
 
 	// Set by the system emulation code every frame, to denote the horizontal and vertical offsets of the image, and the size
 	// of the image.  If the emulated system sets the elements of LineWidths, then the horizontal offset(x) and width(w) of this structure

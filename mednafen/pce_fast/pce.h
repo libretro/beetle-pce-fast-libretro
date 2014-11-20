@@ -21,10 +21,10 @@ namespace PCE_Fast
 
    extern uint8 PCEIODataBuffer;
 
-   bool PCE_InitCD(void) MDFN_COLD;
+   bool PCE_InitCD(void);
 
    extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
-   void PCE_Power(void) MDFN_COLD;
+   void PCE_Power(void);
 
    extern readfunc PCERead[0x100];
    extern writefunc PCEWrite[0x100];

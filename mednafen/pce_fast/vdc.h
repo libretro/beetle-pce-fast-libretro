@@ -113,8 +113,6 @@ typedef struct
 
 extern vdc_t *vdc;
 
-
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format) MDFN_COLD;
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
 void VDC_SetLayerEnableMask(uint64 mask);
 
@@ -174,10 +172,10 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
 
 DECLFW(VCE_Write);
 
-void VDC_Init(int sgx) MDFN_COLD;
-void VDC_Close(void) MDFN_COLD;
-void VDC_Reset(void) MDFN_COLD;
-void VDC_Power(void) MDFN_COLD;
+void VDC_Init(int sgx);
+void VDC_Close(void);
+void VDC_Reset(void);
+void VDC_Power(void);
 
 int VDC_StateAction(StateMem *sm, int load, int data_only);
 
