@@ -19,10 +19,6 @@ else ifneq ($(findstring MINGW,$(shell uname -a)),)
 endif
 endif
 
-ifneq ($(platform), osx)
-   PTHREAD_FLAGS = -pthread
-endif
-
 arch = intel
 ifeq ($(shell uname -p),powerpc)
 arch = ppc
@@ -33,14 +29,12 @@ ifeq ($(platform), unix)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    ENDIANNESS_DEFINES := -DLSB_FIRST
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME).dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 ifeq ($(arch),ppc)
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
 else
@@ -56,8 +50,6 @@ else ifeq ($(platform), ios)
    fpic := -fPIC
    SHARED := -dynamiclib
    ENDIANNESS_DEFINES := -DLSB_FIRST
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS)
 
 ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcrun -sdk iphoneos -show-sdk-path)
@@ -84,8 +76,7 @@ else ifeq ($(platform), qnx)
    fpic := -fPIC
    SHARED := -lcpp -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
    ENDIANNESS_DEFINES := -DLSB_FIRST
-   #LDFLAGS += $(PTHREAD_FLAGS)
-   #FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   #FLAGS += -DHAVE_MKDIR
    FLAGS += -DHAVE_MKDIR
    CC = qcc -Vgcc_ntoarmv7le
    CXX = QCC -Vgcc_ntoarmv7le_cpp
@@ -133,7 +124,6 @@ else ifeq ($(platform), xenon)
    CXX = xenon-g++$(EXE_EXT)
    AR = xenon-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   LIBS := $(PTHREAD_FLAGS)
    FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
 else ifeq ($(platform), ngc)
@@ -162,8 +152,7 @@ else ifneq (,$(findstring armv,$(platform)))
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    ENDIANNESS_DEFINES := -DLSB_FIRST
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 ifneq (,$(findstring cortexa8,$(platform)))
    FLAGS += -marm -mcpu=cortex-a8
    ASFLAGS += -mcpu=cortex-a8
@@ -236,11 +225,9 @@ OBJECTS += $(MEDNAFEN_DIR)/sound/Blip_Buffer.o
 #libretro
 OBJECTS += libretro.o
 OBJECTS += scrc32.o
-OBJECTS += thread.o
 
 
 FLAGS += -DNEED_TREMOR
-FLAGS += -DWANT_THREADING
 FLAGS += -DWANT_CRC32
 
 ifeq ($(NO_GCC),1)
@@ -301,5 +288,4 @@ clean:
 
 $(CORE_DIR)/vdc.o: $(CORE_DIR)/vdc_psp.cpp $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
 libretro.o: $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
-thread.o: thread/psp_pthread.h
 $(CORE_DIR)/pcecd.o: $(CORE_DIR)/pce.h
