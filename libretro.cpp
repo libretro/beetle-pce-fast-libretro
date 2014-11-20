@@ -1060,7 +1060,7 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
    }
    catch (std::exception &e)
    {
-      MDFND_PrintError(e.what());
+      //      MDFND_PrintError(e.what());
       MDFN_PrintError(("Error opening CD."));
       return (0);
    }
@@ -1533,8 +1533,6 @@ static uint64_t video_frames, audio_frames;
 
 void retro_run(void)
 {
-   MDFNGI* curgame = (MDFNGI*)game;
-
    input_poll_cb();
 
    update_input();
@@ -1567,13 +1565,6 @@ void retro_run(void)
 #endif
 
    Emulate(&spec);
-
-   int16* const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS *
-                           curgame->soundchan;
-   int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
-   const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
-
-   spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
    unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
@@ -1874,42 +1865,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char* cd1)
    return ret;
 }
 
-void MDFND_Message(const char* str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
-void MDFND_MidSync(const EmulateSpecStruct*)
-{}
-
 void MDFN_MidLineUpdate(EmulateSpecStruct* espec, int y)
 {
    //MDFND_MidLineUpdate(espec, y);
-}
-
-void MDFND_PrintError(const char* err)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_ERROR, "%s\n", err);
-}
-
-/* forward declarations */
-extern void MDFND_DispMessage(unsigned char* str);
-
-void MDFND_DispMessage(unsigned char* str)
-{
-   const char* strc = (const char*)str;
-   struct retro_message msg =
-   {
-      strc,
-      180
-   };
-
-   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
-}
-
-
-void MDFN_ResetMessages(void)
-{
 }

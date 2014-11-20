@@ -14,10 +14,6 @@ void MDFN_indent(int indent);
 
 #define MDFNI_printf MDFN_printf
 
-/* Displays an error.  Can block or not. */
-void MDFND_PrintError(const char *s);
-void MDFND_Message(const char *s);
-
 uint32 MDFND_GetTime(void);
 
 /* path = path of game/file to load.  returns NULL on failure. */
