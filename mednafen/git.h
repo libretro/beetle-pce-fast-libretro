@@ -279,9 +279,6 @@ typedef struct
  // Returns 1 on successful load, 0 on fatal error(deprecated: -1 on unrecognized format)
  int (*Load)(const char *name, MDFNFILE *fp);
 
- // Return TRUE if the file is a recognized type, FALSE if not.
- bool (*TestMagic)(const char *name, MDFNFILE *fp);
-
  //
  // (*CDInterfaces).size() is guaranteed to be >= 1.
  int (*LoadCD)(std::vector<CDIF *> *CDInterfaces);
