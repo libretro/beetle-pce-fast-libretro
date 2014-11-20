@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/* 
+/*
  Arcade Card emulation based on information provided by Ki and David Shadoff
 */
 
@@ -27,340 +27,362 @@
 #include <errno.h>
 #include <string.h>
 
-static INLINE void ACAutoIncrement(ACPort_t *port)
+ArcadeCard arcade_card;
+
+static INLINE void ArcadeCard_AutoIncrement(ACPort_t* port)
 {
- if(port->control & 0x1)
- {
-  if(port->control & 0x10)
-  {
-   //if(port->control & 0x4)
-   //{
-   // printf("BOONY: %04x\n", port->increment);
-   // port->base = (port->base + port->increment + 0xFF0000) & 0xFFFFFF;
-   // printf("%04x\n", port->base);
-   //}
-   //else
-   port->base = (port->base + port->increment) & 0xFFFFFF;
-  }
-  else
-  {
-   port->offset = (port->offset + port->increment) & 0xFFFF;
-  }
- }
+   if (port->control & 0x1)
+   {
+      if (port->control & 0x10)
+      {
+         //if(port->control & 0x4)
+         //{
+         // printf("BOONY: %04x\n", port->increment);
+         // port->base = (port->base + port->increment + 0xFF0000) & 0xFFFFFF;
+         // printf("%04x\n", port->base);
+         //}
+         //else
+         port->base = (port->base + port->increment) & 0xFFFFFF;
+      }
+      else
+         port->offset = (port->offset + port->increment) & 0xFFFF;
+   }
 }
 
-uint8 ArcadeCard::Read(uint32 A, bool peek)
+uint8 ArcadeCard_Read(uint32 A, bool peek)
 {
- //printf("AC Read: %04x\n", A);
- if((A & 0x1F00) != 0x1A00)
- {
-  //if(!peek)
-  // printf("AC unknown read: %08x\n", A);
-  return(0xFF);
- }
- if(A < 0x1A80)
- {
-  ACPort_t *port = &AC.ports[(A >> 4) & 0x3];
+   //printf("AC Read: %04x\n", A);
+   if ((A & 0x1F00) != 0x1A00)
+   {
+      //if(!peek)
+      // printf("AC unknown read: %08x\n", A);
+      return (0xFF);
+   }
+   if (A < 0x1A80)
+   {
+      ACPort_t* port = &arcade_card.AC.ports[(A >> 4) & 0x3];
 
-  // if(!peek)
-  //  if(A & 0x40)
-  //   printf("AC mirrored port read: %08x\n", A);	// Madou Monogatari does!
+      // if(!peek)
+      //  if(A & 0x40)
+      //   printf("AC mirrored port read: %08x\n", A); // Madou Monogatari does!
 
-  switch(A & 0xF)
-  {
-   case 0x00:
-   case 0x01:
-             {
-	      uint32 aci;
-              uint8 ret;
+      switch (A & 0xF)
+      {
+      case 0x00:
+      case 0x01:
+      {
+         uint32 aci;
+         uint8 ret;
 
-	      aci = port->base;
-	      if(port->control & 0x2)
-	      {
-	       aci += port->offset;
-	       if(port->control & 0x8)
-                aci += 0xFF0000;
-	      }
-	      aci &= 0x1FFFFF;
-	      ret = ACRAM[aci];
-	      if(!peek)
-               ACAutoIncrement(port);
-              return(ret);
-             }
-   case 0x02: return(port->base >> 0);
-   case 0x03: return(port->base >> 8);
-   case 0x04: return(port->base >> 16);
+         aci = port->base;
+         if (port->control & 0x2)
+         {
+            aci += port->offset;
+            if (port->control & 0x8)
+               aci += 0xFF0000;
+         }
+         aci &= 0x1FFFFF;
+         ret = arcade_card.ACRAM[aci];
+         if (!peek)
+            ArcadeCard_AutoIncrement(port);
+         return (ret);
+      }
+      case 0x02:
+         return (port->base >> 0);
+      case 0x03:
+         return (port->base >> 8);
+      case 0x04:
+         return (port->base >> 16);
 
-   case 0x05: return(port->offset >> 0);
-   case 0x06: return(port->offset >> 8);
+      case 0x05:
+         return (port->offset >> 0);
+      case 0x06:
+         return (port->offset >> 8);
 
-   case 0x07: return(port->increment >> 0);
-   case 0x08: return(port->increment >> 8);
-   case 0x09: return(port->control);
-  }
- }
- else if(A >= 0x1AE0)
- {
-  switch(A & 0x1F)
-  {
-   case 0x00:
-   case 0x01:
-   case 0x02:
-   case 0x03: return((AC.shift_latch >> (A & 3) * 8) & 0xFF);
+      case 0x07:
+         return (port->increment >> 0);
+      case 0x08:
+         return (port->increment >> 8);
+      case 0x09:
+         return (port->control);
+      }
+   }
+   else if (A >= 0x1AE0)
+   {
+      switch (A & 0x1F)
+      {
+      case 0x00:
+      case 0x01:
+      case 0x02:
+      case 0x03:
+         return ((arcade_card.AC.shift_latch >> (A & 3) * 8) & 0xFF);
 
-   case 0x04: return(AC.shift_bits);
+      case 0x04:
+         return (arcade_card.AC.shift_bits);
 
-   case 0x05: return(AC.rotate_bits);
+      case 0x05:
+         return (arcade_card.AC.rotate_bits);
 
-   case 0x1C: return(0x00);
+      case 0x1C:
+         return (0x00);
 
-   case 0x1D: return(0x00);
+      case 0x1D:
+         return (0x00);
 
-   case 0x1E: return(0x10); // Version number.  We should verify this!
+      case 0x1E:
+         return (0x10); // Version number.  We should verify this!
 
-   case 0x1F: return(0x51); // Arcade Card ID
-  }
- }
+      case 0x1F:
+         return (0x51); // Arcade Card ID
+      }
+   }
 
- //if(!peek)
- // printf("AC unknown read: %08x\n", A);
- return(0xFF);
+   //if(!peek)
+   // printf("AC unknown read: %08x\n", A);
+   return (0xFF);
 }
 
-void ArcadeCard::Write(uint32 A, uint8 V)
+void ArcadeCard_Write(uint32 A, uint8 V)
 {
- //printf("AC Write: %04x %02x\n", A, V);
- if((A & 0x1F00) != 0x1A00)
- {
-  //printf("AC unknown write: %08x:%02x\n", A, V);
-  return;
- }
+   //printf("AC Write: %04x %02x\n", A, V);
+   if ((A & 0x1F00) != 0x1A00)
+   {
+      //printf("AC unknown write: %08x:%02x\n", A, V);
+      return;
+   }
 
- if(A < 0x1A80)
- {
-  ACPort_t *port = &AC.ports[(A >> 4) & 0x3];
+   if (A < 0x1A80)
+   {
+      ACPort_t* port = &arcade_card.AC.ports[(A >> 4) & 0x3];
 
-  switch(A & 0xF)
-  {
-   default:   //printf("AC unknown write: %08x:%02x\n", A, V);
-	      break;
+      switch (A & 0xF)
+      {
+      default:   //printf("AC unknown write: %08x:%02x\n", A, V);
+         break;
 
-   case 0x00:
-   case 0x01:
-	     {
-	      uint32 aci;
+      case 0x00:
+      case 0x01:
+      {
+         uint32 aci;
 
-              aci = port->base;
-              if(port->control & 0x2)
-              {
-               aci += port->offset;
-               if(port->control & 0x8)
-                aci += 0xFF0000;
-              }
-              aci &= 0x1FFFFF;
+         aci = port->base;
+         if (port->control & 0x2)
+         {
+            aci += port->offset;
+            if (port->control & 0x8)
+               aci += 0xFF0000;
+         }
+         aci &= 0x1FFFFF;
 
-              ACRAMUsed = true;
-              ACRAM[aci] = V;
-              ACAutoIncrement(port);
-	     }
-             break;
+         arcade_card.ACRAMUsed = true;
+         arcade_card.ACRAM[aci] = V;
+         ArcadeCard_AutoIncrement(port);
+      }
+      break;
 
-   case 0x02: port->base &= ~0xFF;
-              port->base |= V << 0;
-              break;
+      case 0x02:
+         port->base &= ~0xFF;
+         port->base |= V << 0;
+         break;
 
-   case 0x03: port->base &= ~0xFF00;
-              port->base |= V << 8;
-              break;
+      case 0x03:
+         port->base &= ~0xFF00;
+         port->base |= V << 8;
+         break;
 
-   case 0x04: port->base &= ~0xFF0000;
-              port->base |= V << 16;
-              break;
+      case 0x04:
+         port->base &= ~0xFF0000;
+         port->base |= V << 16;
+         break;
 
-   case 0x05: port->offset &= ~0xFF;
-              port->offset |= V << 0;
-              if((port->control & 0x60) == 0x20)
-              {
-               if(port->control & 0x08)
-                port->base += 0xFF0000;
+      case 0x05:
+         port->offset &= ~0xFF;
+         port->offset |= V << 0;
+         if ((port->control & 0x60) == 0x20)
+         {
+            if (port->control & 0x08)
+               port->base += 0xFF0000;
 
-               port->base = (port->base + port->offset) & 0xFFFFFF;
-              }
-              break;
+            port->base = (port->base + port->offset) & 0xFFFFFF;
+         }
+         break;
 
-   case 0x06: port->offset &= ~0xFF00;
-              port->offset |= V << 8;
-              if((port->control & 0x60) == 0x40)
-              {
-               if(port->control & 0x08)
-                port->base += 0xFF0000;
+      case 0x06:
+         port->offset &= ~0xFF00;
+         port->offset |= V << 8;
+         if ((port->control & 0x60) == 0x40)
+         {
+            if (port->control & 0x08)
+               port->base += 0xFF0000;
 
-               port->base = (port->base + port->offset) & 0xFFFFFF;
-              }
-              break;
+            port->base = (port->base + port->offset) & 0xFFFFFF;
+         }
+         break;
 
-   case 0x07: port->increment &= ~0xFF;
-              port->increment |= V << 0;
-              break;
+      case 0x07:
+         port->increment &= ~0xFF;
+         port->increment |= V << 0;
+         break;
 
-   case 0x08: port->increment &= ~0xFF00;
-              port->increment |= V << 8;
-              break;
+      case 0x08:
+         port->increment &= ~0xFF00;
+         port->increment |= V << 8;
+         break;
 
-   case 0x09: port->control = V & 0x7F;
-              break;
+      case 0x09:
+         port->control = V & 0x7F;
+         break;
 
-   case 0x0A: if((port->control & 0x60) == 0x60)
-              {
-               if(port->control & 0x08)
-                port->base += 0xFF0000;
+      case 0x0A:
+         if ((port->control & 0x60) == 0x60)
+         {
+            if (port->control & 0x08)
+               port->base += 0xFF0000;
 
-               port->base = (port->base + port->offset) & 0xFFFFFF;
-              }
-              break;
-  }
+            port->base = (port->base + port->offset) & 0xFFFFFF;
+         }
+         break;
+      }
 
-  //if(A & 0x40)
-  // printf("AC mirrored port write: %08x:%02x\n", A, V);
- }
- else if(A >= 0x1AE0)
- {
-  switch(A & 0x1F)
-  {
-   default: //printf("Unknown AC write: %04x %02x\n", A, V);
-	    break;
+      //if(A & 0x40)
+      // printf("AC mirrored port write: %08x:%02x\n", A, V);
+   }
+   else if (A >= 0x1AE0)
+   {
+      switch (A & 0x1F)
+      {
+      default: //printf("Unknown AC write: %04x %02x\n", A, V);
+         break;
 
-   case 0x00:
-   case 0x01:
-   case 0x02:
-   case 0x03: AC.shift_latch &= ~(0xFF << (A & 3) * 8);
-              AC.shift_latch |= (V << (A & 3) * 8);
-              break;
+      case 0x00:
+      case 0x01:
+      case 0x02:
+      case 0x03:
+         arcade_card.AC.shift_latch &= ~(0xFF << (A & 3) * 8);
+         arcade_card.AC.shift_latch |= (V << (A & 3) * 8);
+         break;
 
-   case 0x04: AC.shift_bits = V & 0xF;
-              if(AC.shift_bits)
-              {
-               if(AC.shift_bits & 0x8)
-                AC.shift_latch >>= 16 - AC.shift_bits;
-               else
-                AC.shift_latch <<= AC.shift_bits;
-              }
-              break;
+      case 0x04:
+         arcade_card.AC.shift_bits = V & 0xF;
+         if (arcade_card.AC.shift_bits)
+         {
+            if (arcade_card.AC.shift_bits & 0x8)
+               arcade_card.AC.shift_latch >>= 16 - arcade_card.AC.shift_bits;
+            else
+               arcade_card.AC.shift_latch <<= arcade_card.AC.shift_bits;
+         }
+         break;
 
-   case 0x05: AC.rotate_bits = V & 0xF;	// Untested code follows:
-              if(AC.rotate_bits)
-              {
-               if(AC.rotate_bits & 0x8)
-	       {
-		unsigned int sa = 16 - AC.rotate_bits;
-		unsigned int orv;
+      case 0x05:
+         arcade_card.AC.rotate_bits = V & 0xF;   // Untested code follows:
+         if (arcade_card.AC.rotate_bits)
+         {
+            if (arcade_card.AC.rotate_bits & 0x8)
+            {
+               unsigned int sa = 16 - arcade_card.AC.rotate_bits;
+               unsigned int orv;
 
-		orv = AC.shift_latch << (32 - sa);
+               orv = arcade_card.AC.shift_latch << (32 - sa);
 
-                AC.shift_latch = (AC.shift_latch >> sa) | orv;
-	       }
-               else
-	       {
-		unsigned int sa = AC.rotate_bits;
-		unsigned int orv;
+               arcade_card.AC.shift_latch = (arcade_card.AC.shift_latch >> sa) | orv;
+            }
+            else
+            {
+               unsigned int sa = arcade_card.AC.rotate_bits;
+               unsigned int orv;
 
-		orv = (AC.shift_latch >> (32 - sa)) & ((1 << sa) - 1);
+               orv = (arcade_card.AC.shift_latch >> (32 - sa)) & ((1 << sa) - 1);
 
-                AC.shift_latch = (AC.shift_latch << sa) | orv;
-	       }
-              }
-              break;
-  }
- }
+               arcade_card.AC.shift_latch = (arcade_card.AC.shift_latch << sa) | orv;
+            }
+         }
+         break;
+      }
+   }
 }
 
-ArcadeCard::ArcadeCard(void)
+void ArcadeCard_init(void)
 {
- ACRAMUsed = false;
- 
- memset(&AC, 0, sizeof(AC));
+   arcade_card.ACRAMUsed = false;
 
- memset(ACRAM, 0, sizeof(ACRAM));
+   memset(&arcade_card.AC, 0, sizeof(arcade_card.AC));
+
+   memset(arcade_card.ACRAM, 0, sizeof(arcade_card.ACRAM));
 }
 
-ArcadeCard::~ArcadeCard()
+void ArcadeCard_Power(void)
 {
-
+   memset(arcade_card.ACRAM, 0, 0x200000);
+   arcade_card.ACRAMUsed = false;
 }
 
-void ArcadeCard::Power(void)
+int ArcadeCard_StateAction(StateMem* sm, int load, int data_only)
 {
- memset(ACRAM, 0, 0x200000);
- ACRAMUsed = false;
-}
+   SFORMAT ACUsedRegs[] =
+   {
+      SFVAR(arcade_card.ACRAMUsed),
+      SFEND
+   };
 
-int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
-{
- SFORMAT ACUsedRegs[] = 
- {
-  SFVAR(ACRAMUsed),
-  SFEND
- };
+   if (!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed"))
+      return (0);
 
- if(!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed"))
-  return(0);
+   SFORMAT ACStateRegs[] =
+   {
+      SFVARN(arcade_card.AC.ports[0].base, "AC[0].base"), SFVARN(arcade_card.AC.ports[0].offset, "AC[0].offset"),
+      SFVARN(arcade_card.AC.ports[0].increment, "AC[0].increment"), SFVARN(arcade_card.AC.ports[0].control, "AC[0].control"),
 
- SFORMAT ACStateRegs[] =
- {
-  SFVARN(AC.ports[0].base, "AC[0].base"), SFVARN(AC.ports[0].offset, "AC[0].offset"),
-  SFVARN(AC.ports[0].increment, "AC[0].increment"), SFVARN(AC.ports[0].control, "AC[0].control"),
+      SFVARN(arcade_card.AC.ports[1].base, "AC[1].base"), SFVARN(arcade_card.AC.ports[1].offset, "AC[1].offset"),
+      SFVARN(arcade_card.AC.ports[1].increment, "AC[1].increment"), SFVARN(arcade_card.AC.ports[1].control, "AC[1].control"),
 
-  SFVARN(AC.ports[1].base, "AC[1].base"), SFVARN(AC.ports[1].offset, "AC[1].offset"),
-  SFVARN(AC.ports[1].increment, "AC[1].increment"), SFVARN(AC.ports[1].control, "AC[1].control"),
+      SFVARN(arcade_card.AC.ports[2].base, "AC[2].base"), SFVARN(arcade_card.AC.ports[2].offset, "AC[2].offset"),
+      SFVARN(arcade_card.AC.ports[2].increment, "AC[2].increment"), SFVARN(arcade_card.AC.ports[2].control, "AC[2].control"),
 
-  SFVARN(AC.ports[2].base, "AC[2].base"), SFVARN(AC.ports[2].offset, "AC[2].offset"),
-  SFVARN(AC.ports[2].increment, "AC[2].increment"), SFVARN(AC.ports[2].control, "AC[2].control"),
+      SFVARN(arcade_card.AC.ports[3].base, "AC[3].base"), SFVARN(arcade_card.AC.ports[3].offset, "AC[3].offset"),
+      SFVARN(arcade_card.AC.ports[3].increment, "AC[3].increment"), SFVARN(arcade_card.AC.ports[3].control, "AC[3].control"),
 
-  SFVARN(AC.ports[3].base, "AC[3].base"), SFVARN(AC.ports[3].offset, "AC[3].offset"),
-  SFVARN(AC.ports[3].increment, "AC[3].increment"), SFVARN(AC.ports[3].control, "AC[3].control"),
-
-  SFVARN(AC.shift_bits, "ACShiftBits"),
-  SFVARN(AC.shift_latch, "ACShift"),
-  SFVARN(AC.rotate_bits, "ACRotateBits"),
-  SFARRAY(ACRAM, ACRAMUsed ? 0x200000 : 0x0),
-  SFEND
- };
- int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard");
+      SFVARN(arcade_card.AC.shift_bits, "ACShiftBits"),
+      SFVARN(arcade_card.AC.shift_latch, "ACShift"),
+      SFVARN(arcade_card.AC.rotate_bits, "ACRotateBits"),
+      SFARRAY(arcade_card.ACRAM, arcade_card.ACRAMUsed ? 0x200000 : 0x0),
+      SFEND
+   };
+   int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard");
 
 
- return(ret);
+   return (ret);
 }
 
 
-void ArcadeCard::PeekRAM(uint32 Address, uint32 Length, uint8 *Buffer)
+void ArcadeCard_PeekRAM(uint32 Address, uint32 Length, uint8* Buffer)
 {
- while(Length--)
- {
-  Address &= (1 << 21) - 1;
+   while (Length--)
+   {
+      Address &= (1 << 21) - 1;
 
-  *Buffer = ACRAM[Address];
+      *Buffer = arcade_card.ACRAM[Address];
 
-  Address++;
-  Buffer++;
- }
+      Address++;
+      Buffer++;
+   }
 }
 
-void ArcadeCard::PokeRAM(uint32 Address, uint32 Length, const uint8 *Buffer)
+void ArcadeCard_PokeRAM(uint32 Address, uint32 Length, const uint8* Buffer)
 {
- uint8 used = 0;
+   uint8 used = 0;
 
- while(Length--)
- {
-  Address &= (1 << 21) - 1;
+   while (Length--)
+   {
+      Address &= (1 << 21) - 1;
 
-  ACRAM[Address] = *Buffer;
-  used |= ACRAM[Address];
+      arcade_card.ACRAM[Address] = *Buffer;
+      used |= arcade_card.ACRAM[Address];
 
-  Address++;
-  Buffer++;
- }
+      Address++;
+      Buffer++;
+   }
 
- if(used)
-  ACRAMUsed = true;
+   if (used)
+      arcade_card.ACRAMUsed = true;
 }
 

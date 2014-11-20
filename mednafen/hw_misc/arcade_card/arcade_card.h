@@ -1,6 +1,8 @@
 #ifndef __MDFN_PCE_ARCADE_CARD_H
 #define __MDFN_PCE_ARCADE_CARD_H
 
+#include "mednafen.h"
+
 typedef struct
 {
  uint32 base;           // 24 bits
@@ -17,39 +19,29 @@ typedef struct
  uint8 rotate_bits;	// same
 } ArcadeCard_t;
 
-class ArcadeCard
+typedef struct
 {
- public:
-
- ArcadeCard(void);
- ~ArcadeCard();
-
- void Power(void);
- int StateAction(StateMem *sm, int load, int data_only);
-
- uint8 Read(uint32 A, bool peek = false);	// Pass peek as true if you don't want side-effects from this read(IE in a debugger).
- void Write(uint32 A, uint8 V);
-
- INLINE void PhysWrite(uint32 A, uint8 V)
- {
-  Write(0x1a00 | ((A >> 9) & 0x30), V);
- }
-
- INLINE uint8 PhysRead(uint32 A, bool peek = false)
- {
-  return(Read(0x1a00 | ((A >> 9) & 0x30), peek));
- }
-
-
- void PeekRAM(uint32 Address, uint32 Length, uint8 *Buffer);
- void PokeRAM(uint32 Address, uint32 Length, const uint8 *Buffer);
-
- private:
-
  ArcadeCard_t AC;
-
  bool ACRAMUsed;
  uint8 ACRAM[0x200000];
-};
+}ArcadeCard;
+
+extern ArcadeCard arcade_card;
+
+void ArcadeCard_init(void);
+void ArcadeCard_Power(void);
+int ArcadeCard_StateAction(StateMem *sm, int load, int data_only);
+uint8 ArcadeCard_Read(uint32 A, bool peek = false);	// Pass peek as true if you don't want side-effects from this read(IE in a debugger).
+void ArcadeCard_Write(uint32 A, uint8 V);
+INLINE void ArcadeCard_PhysWrite(uint32 A, uint8 V)
+{
+ ArcadeCard_Write(0x1a00 | ((A >> 9) & 0x30), V);
+}
+INLINE uint8 ArcadeCard_PhysRead(uint32 A, bool peek = false)
+{
+ return(ArcadeCard_Read(0x1a00 | ((A >> 9) & 0x30), peek));
+}
+void ArcadeCard_PeekRAM(uint32 Address, uint32 Length, uint8 *Buffer);
+void ArcadeCard_PokeRAM(uint32 Address, uint32 Length, const uint8 *Buffer);
 
 #endif
