@@ -137,12 +137,12 @@ static void RedoLPF(int f)
          if (f >= 14)
          {
             int rolloff = (int)((((double)32087.5 / (16 - f)) / 2) * 0.70);
-            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate()));
+            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate_));
          }
          else
          {
             int rolloff = (int)((((double)32087.5 / (16 - f)) / 2) * 0.80);
-            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate()));
+            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate_));
          }
       }
       else
