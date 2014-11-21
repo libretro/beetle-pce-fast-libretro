@@ -1288,7 +1288,6 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
 
    cdda.CDDAVolume = 65536;
    cdda.CDDASynth.volume(1.0f / 65536);
-   cdda.CDDASynth.treble_eq(0);
    sbuf[0] = leftbuf;
    sbuf[1] = rightbuf;
 

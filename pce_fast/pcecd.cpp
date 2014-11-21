@@ -64,7 +64,6 @@ typedef Blip_Synth<blip_good_quality, 16384> ADSynth;
 static ADSynth ADPCMSynth;
 static OKIADPCM_Decoder<OKIADPCM_MSM5205> MSM5205;
 
-static bool ADPCMLP;
 typedef struct
 {
    uint8*    RAM;   // = NULL; //0x10000;
@@ -79,7 +78,6 @@ typedef struct
 
    uint8 LastCmd;
    uint32 SampleFreq;
-   uint32 LPF_SampleFreq;
 
    uint8 PlayBuffer;
    uint8 ReadBuffer;
@@ -127,28 +125,6 @@ static INLINE void Fader_SyncWhich(void)
    PCECD_Drive_SetCDDAVolume(0.50f * CDDAFadeVolume * CDDAVolumeSetting);
 }
 
-
-static void RedoLPF(int f)
-{
-   if (sbuf[0] && sbuf[1])
-   {
-      if (ADPCMLP)
-      {
-         if (f >= 14)
-         {
-            int rolloff = (int)((((double)32087.5 / (16 - f)) / 2) * 0.70);
-            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate));
-         }
-         else
-         {
-            int rolloff = (int)((((double)32087.5 / (16 - f)) / 2) * 0.80);
-            ADPCMSynth.treble_eq(blip_eq_t(-1000, rolloff, sbuf[0]->sample_rate));
-         }
-      }
-      else
-         ADPCMSynth.treble_eq(-8.0);
-   }
-}
 
 static INLINE int32 ADPCM_ClocksToNextEvent(void)
 {
@@ -271,7 +247,6 @@ bool PCECD_SetSettings(const PCECD_Settings* settings)
    Fader_SyncWhich();
 
    ADPCMSynth.volume(0.42735f * (settings ? settings->ADPCM_Volume : 1.0));
-   ADPCMLP = settings ? settings->ADPCM_LPF : 0;
 
    PCECD_Drive_SetTransferRate(126000 * (settings ? settings->CD_Speed : 1));
 
@@ -345,9 +320,7 @@ void PCECD_Power(uint32 timestamp)
    MSM5205.SetSSI(0);
 
    ADPCM.SampleFreq = 0;
-   ADPCM.LPF_SampleFreq = 0;
    ADPCM.bigdiv = ADPCM.bigdivacc * (16 - ADPCM.SampleFreq);
-   RedoLPF(ADPCM.LPF_SampleFreq);
 
    ADPCM.Addr = 0;
    ADPCM.ReadAddr = 0;
@@ -917,11 +890,6 @@ void PCECD_Run(uint32 in_timestamp)
 
 void PCECD_ResetTS(void)
 {
-   if (ADPCM.SampleFreq != ADPCM.LPF_SampleFreq)
-   {
-      ADPCM.LPF_SampleFreq = ADPCM.SampleFreq;
-      RedoLPF(ADPCM.LPF_SampleFreq);
-   }
    PCECD_Drive_ResetTS();
    lastts = 0;
 }
@@ -966,7 +934,6 @@ static int ADPCM_StateAction(StateMem* sm, int load, int data_only)
    {
       MSM5205.SetSample(ad_sample);
       MSM5205.SetSSI(ad_ref_index);
-      RedoLPF(ADPCM.SampleFreq);
    }
    return (ret);
 }

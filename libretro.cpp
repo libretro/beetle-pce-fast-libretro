@@ -292,7 +292,6 @@ bool PCE_InitCD(void)
 
    cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") /
                               100;
-   cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
 
    if (cd_settings.CDDA_Volume != 1.0)
       MDFN_printf(("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));

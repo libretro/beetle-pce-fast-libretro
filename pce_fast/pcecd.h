@@ -10,7 +10,6 @@ typedef struct
 
    unsigned int CD_Speed;
 
-   bool ADPCM_LPF;
 } PCECD_Settings;
 
 void PCECD_Run(uint32 in_timestamp);

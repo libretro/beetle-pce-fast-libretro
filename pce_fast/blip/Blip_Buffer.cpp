@@ -185,7 +185,7 @@ void Blip_Synth_Fast_::volume_unit(double new_unit)
    delta_factor = int (new_unit * (1L << blip_sample_bits) + 0.5);
 }
 
-long Blip_Buffer_read_samples(Blip_Buffer* bbuf, blip_sample_t* BLIP_RESTRICT out,
+long Blip_Buffer_read_samples(Blip_Buffer* bbuf, blip_sample_t* out,
                               long max_samples)
 {
    long count = Blip_Buffer_samples_avail(bbuf);

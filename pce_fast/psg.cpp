@@ -150,7 +150,6 @@ void PSG_RecalcNoiseFreqCache(int chnum)
 void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r)
 {
    //printf("Test: %u, %u\n", sizeof(psg_channel), (uint8*)&psg.channel[0].balance - (uint8*)&psg.channel[0].waveform[0]);
-   psg.Synth.treble_eq(-2.0);
 
    psg.sbuf[0] = bb_l;
    psg.sbuf[1] = bb_r;

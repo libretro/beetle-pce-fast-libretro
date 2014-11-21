@@ -85,8 +85,6 @@ bool MDFN_GetSettingB(const char* name)
       return 0;
    if (!strcmp("pce_fast.disable_softreset", name))
       return 0;
-   if (!strcmp("pce_fast.adpcmlp", name))
-      return 0;
    if (!strcmp("pce_fast.correct_aspect", name))
       return setting_pce_keepaspect;
    /* CDROM */

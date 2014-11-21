@@ -166,29 +166,6 @@ public:
 
    void volume_unit(double);
    Blip_Synth_Fast_();
-   void treble_eq(blip_eq_t const &) { }
-};
-
-class Blip_Synth_
-{
-public:
-   Blip_Buffer* buf;
-   int last_amp;
-   int delta_factor;
-
-   void volume_unit(double);
-   Blip_Synth_(short* impulses, int width);
-   void treble_eq(blip_eq_t const &);
-private:
-   double volume_unit_;
-   short* const impulses;
-   int const width;
-   blip_long kernel_unit;
-   int impulses_size() const
-   {
-      return blip_res / 2 * width + 1;
-   }
-   void adjust_impulse();
 };
 
 // Quality level. Start with blip_good_quality.
@@ -209,12 +186,6 @@ public:
       impl.volume_unit(v * (1.0 / (range < 0 ? -range : range)));
    }
 
-   // Configure low-pass filter (see blip_buffer.txt)
-   void treble_eq(blip_eq_t const &eq)
-   {
-      impl.treble_eq(eq);
-   }
-
    // Get/set Blip_Buffer used for output
    Blip_Buffer* output() const
    {
@@ -232,9 +203,9 @@ public:
 
    // Low-level interface
 
-   // Add an amplitude transition of specified delta, optionally into specified buffer
-   // rather than the one set with output(). Delta can be positive or negative.
-   // The actual change in amplitude is delta * (volume / range)
+//   // Add an amplitude transition of specified delta, optionally into specified buffer
+//   // rather than the one set with output(). Delta can be positive or negative.
+//   // The actual change in amplitude is delta * (volume / range)
    void offset(blip_time_t, int delta, Blip_Buffer*) const;
    void offset(blip_time_t t, int delta) const
    {
@@ -258,36 +229,14 @@ private:
    Blip_Synth_Fast_ impl;
 };
 
-// Low-pass equalization parameters
-class blip_eq_t
-{
-public:
-   // Logarithmic rolloff to treble dB at half sampling rate. Negative values reduce
-   // treble, small positive values (0 to 5.0) increase treble.
-   blip_eq_t(double treble_db = 0);
-
-   // See blip_buffer.txt
-   blip_eq_t(double treble, long rolloff_freq, long sample_rate,
-             long cutoff_freq = 0);
-
-private:
-   double treble;
-   long rolloff_freq;
-   long sample_rate;
-   long cutoff_freq;
-   void generate(float* out, int count) const;
-   friend class Blip_Synth_;
-};
 
 int const blip_sample_bits = 30;
-
-#define BLIP_RESTRICT
 
 // Optimized reading from Blip_Buffer, for use in custom sample output
 
 // Begin reading from buffer. Name should be unique to the current block.
 #define BLIP_READER_BEGIN( name, blip_buffer ) \
-   const blip_buf_t_* BLIP_RESTRICT name##_reader_buf = (blip_buffer).buffer;\
+   const blip_buf_t_* name##_reader_buf = (blip_buffer).buffer;\
    blip_long name##_reader_accum = (blip_buffer).reader_accum
 
 // Get value to pass to BLIP_READER_NEXT()
@@ -331,7 +280,7 @@ blip_inline void Blip_Synth<quality, range>::offset_resampled(
    // need for a longer buffer as set by set_sample_rate().
    assert((blip_long)(time >> BLIP_BUFFER_ACCURACY) < blip_buf->buffer_size);
    delta *= impl.delta_factor;
-   blip_long* BLIP_RESTRICT buf = blip_buf->buffer + (time >>
+   blip_long* buf = blip_buf->buffer + (time >>
                                   BLIP_BUFFER_ACCURACY);
    int phase = (int)(time >> (BLIP_BUFFER_ACCURACY - BLIP_PHASE_BITS) &
                      (blip_res - 1));
@@ -366,11 +315,6 @@ blip_inline void Blip_Synth<quality, range>::update(blip_time_t t, int amp)
    impl.last_amp = amp;
    offset_resampled(t * impl.buf->factor + impl.buf->offset, delta, impl.buf);
 }
-
-blip_inline blip_eq_t::blip_eq_t(double t) :
-   treble(t), rolloff_freq(0), sample_rate(44100), cutoff_freq(0) { }
-blip_inline blip_eq_t::blip_eq_t(double t, long rf, long sr, long cf) :
-   treble(t), rolloff_freq(rf), sample_rate(sr), cutoff_freq(cf) { }
 
 blip_inline int  Blip_Buffer_length(Blip_Buffer* bbuf)
 {
