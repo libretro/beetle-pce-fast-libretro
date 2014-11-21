@@ -175,7 +175,7 @@ void VDC_Close(void);
 void VDC_Reset(void);
 void VDC_Power(void);
 
-int VDC_StateAction(StateMem* sm, int load, int data_only);
+int VDC_StateAction(StateMem* sm, int load);
 
 #ifdef PSP
 #include "vdc_psp.h"

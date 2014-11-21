@@ -75,7 +75,7 @@ void HuC6280_Power(void);
 void HuC6280_IRQBegin(int w);
 void HuC6280_IRQEnd(int w);
 
-int HuC6280_StateAction(StateMem* sm, int load, int data_only);
+int HuC6280_StateAction(StateMem* sm, int load);
 
 static INLINE void HuC6280_StealCycle(void)
 {

@@ -582,7 +582,7 @@ void PSG_Power(const int32 timestamp)
    psg.vol_update_which = 0;
 }
 
-int PSG_StateAction(StateMem* sm, int load, int data_only)
+int PSG_StateAction(StateMem* sm, int load)
 {
    int ret = 1;
 
@@ -607,7 +607,7 @@ int PSG_StateAction(StateMem* sm, int load, int data_only)
          SFEND
       };
       tmpstr[3] = '0' + ch;
-      ret &= MDFNSS_StateAction(sm, load, data_only, CH_StateRegs, tmpstr);
+      ret &= MDFNSS_StateAction(sm, load, CH_StateRegs, tmpstr);
    }
 
    SFORMAT PSG_StateRegs[] =
@@ -623,7 +623,7 @@ int PSG_StateAction(StateMem* sm, int load, int data_only)
       SFEND
    };
 
-   ret &= MDFNSS_StateAction(sm, load, data_only, PSG_StateRegs, "PSG");
+   ret &= MDFNSS_StateAction(sm, load, PSG_StateRegs, "PSG");
 
    if (load)
    {

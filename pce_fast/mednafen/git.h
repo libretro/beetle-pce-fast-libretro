@@ -298,8 +298,7 @@ typedef struct
    bool SaveStateAltersState;   // true for bsnes and some libco-style emulators, false otherwise.
    // Main save state routine, called by the save state code in state.cpp.
    // When saving, load is set to 0.  When loading, load is set to the version field of the save state being loaded.
-   // data_only is true when the save state data is temporary, such as being saved into memory for state rewinding.
-   int (*StateAction)(StateMem* sm, int load, int data_only);
+   int (*StateAction)(StateMem* sm, int load);
 
    void (*Emulate)(EmulateSpecStruct* espec);
    void (*SetInput)(int port, const char* type, void* ptr);

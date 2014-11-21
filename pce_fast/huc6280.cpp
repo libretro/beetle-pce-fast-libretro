@@ -730,7 +730,7 @@ void HuC6280_ResetTS(void)
    HuCPU.timestamp = 0;
 }
 
-int HuC6280_StateAction(StateMem* sm, int load, int data_only)
+int HuC6280_StateAction(StateMem* sm, int load)
 {
    uint16 tmp_PC = GetRealPC_EXTERNAL();
 
@@ -769,7 +769,7 @@ int HuC6280_StateAction(StateMem* sm, int load, int data_only)
       SFEND
    };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU");
+   int ret = MDFNSS_StateAction(sm, load, SFCPU, "CPU");
 
    if (load)
    {

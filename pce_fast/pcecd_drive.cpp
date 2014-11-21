@@ -1302,7 +1302,7 @@ void PCECD_Drive_SetCDDAVolume(unsigned vol)
    cdda.CDDAVolume = vol;
 }
 
-int PCECD_Drive_StateAction(StateMem* sm, int load, int data_only,
+int PCECD_Drive_StateAction(StateMem* sm, int load,
                             const char* sname)
 {
    SFORMAT StateRegs[] =
@@ -1359,7 +1359,7 @@ int PCECD_Drive_StateAction(StateMem* sm, int load, int data_only,
       SFEND
    };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, sname);
+   int ret = MDFNSS_StateAction(sm, load, StateRegs, sname);
 
    if (load)
    {

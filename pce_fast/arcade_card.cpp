@@ -316,7 +316,7 @@ void ArcadeCard_Power(void)
    arcade_card.ACRAMUsed = false;
 }
 
-int ArcadeCard_StateAction(StateMem* sm, int load, int data_only)
+int ArcadeCard_StateAction(StateMem* sm, int load)
 {
    SFORMAT ACUsedRegs[] =
    {
@@ -324,7 +324,7 @@ int ArcadeCard_StateAction(StateMem* sm, int load, int data_only)
       SFEND
    };
 
-   if (!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed"))
+   if (!MDFNSS_StateAction(sm, load, ACUsedRegs, "ArcadeCardUsed"))
       return (0);
 
    SFORMAT ACStateRegs[] =
@@ -347,7 +347,7 @@ int ArcadeCard_StateAction(StateMem* sm, int load, int data_only)
       SFARRAY(arcade_card.ACRAM, arcade_card.ACRAMUsed ? 0x200000 : 0x0),
       SFEND
    };
-   int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard");
+   int ret = MDFNSS_StateAction(sm, load, ACStateRegs, "ArcadeCard");
 
 
    return (ret);

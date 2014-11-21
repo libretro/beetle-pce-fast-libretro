@@ -1248,7 +1248,7 @@ void VDC_Close(void)
    }
 }
 
-int VDC_StateAction(StateMem* sm, int load, int data_only)
+int VDC_StateAction(StateMem* sm, int load)
 {
    SFORMAT VCE_StateRegs[] =
    {
@@ -1262,7 +1262,7 @@ int VDC_StateAction(StateMem* sm, int load, int data_only)
    };
 
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, VCE_StateRegs, "VCE");
+   int ret = MDFNSS_StateAction(sm, load, VCE_StateRegs, "VCE");
 
    int chip = 0;
    {
@@ -1324,7 +1324,7 @@ int VDC_StateAction(StateMem* sm, int load, int data_only)
          SFEND
       };
 
-      ret &= MDFNSS_StateAction(sm, load, data_only, VDC_StateRegs, "VDC0");
+      ret &= MDFNSS_StateAction(sm, load, VDC_StateRegs, "VDC0");
 
       if (load)
       {

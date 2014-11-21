@@ -506,7 +506,7 @@ static void Emulate(EmulateSpecStruct* espec)
       PCECD_ResetTS();
 }
 
-static int StateAction(StateMem* sm, int load, int data_only)
+static int StateAction(StateMem* sm, int load)
 {
    SFORMAT StateRegs[] =
    {
@@ -519,13 +519,13 @@ static int StateAction(StateMem* sm, int load, int data_only)
    // if(BaseRAM[i] != 0xFF)
    //  printf("%d %02x\n", i, BaseRAM[i]);
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN");
+   int ret = MDFNSS_StateAction(sm, load, StateRegs, "MAIN");
 
-   ret &= HuC6280_StateAction(sm, load, data_only);
-   ret &= VDC_StateAction(sm, load, data_only);
-   ret &= PSG_StateAction(sm, load, data_only);
-   ret &= INPUT_StateAction(sm, load, data_only);
-   ret &= HuC_StateAction(sm, load, data_only);
+   ret &= HuC6280_StateAction(sm, load);
+   ret &= VDC_StateAction(sm, load);
+   ret &= PSG_StateAction(sm, load);
+   ret &= INPUT_StateAction(sm, load);
+   ret &= HuC_StateAction(sm, load);
 
    if (load)
    {
@@ -839,7 +839,7 @@ int HuCLoadCD(const char* bios_path)
    return (1);
 }
 
-int HuC_StateAction(StateMem* sm, int load, int data_only)
+int HuC_StateAction(StateMem* sm, int load)
 {
    SFORMAT StateRegs[] =
    {
@@ -849,17 +849,17 @@ int HuC_StateAction(StateMem* sm, int load, int data_only)
       SFVAR(HuCSF2Latch),
       SFEND
    };
-   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC");
+   int ret = MDFNSS_StateAction(sm, load, StateRegs, "HuC");
 
    if (load)
       HuCSF2Latch &= 0x3;
 
    if (PCE_IsCD)
    {
-      ret &= PCECD_StateAction(sm, load, data_only);
+      ret &= PCECD_StateAction(sm, load);
 
       if (PCE_ACEnabled)
-         ret &= ArcadeCard_StateAction(sm, load, data_only);
+         ret &= ArcadeCard_StateAction(sm, load);
    }
    return (ret);
 }

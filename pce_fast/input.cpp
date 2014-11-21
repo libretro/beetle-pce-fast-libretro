@@ -188,7 +188,7 @@ void INPUT_Write(unsigned int A, uint8 V)
    sel = V & 3;
 }
 
-int INPUT_StateAction(StateMem* sm, int load, int data_only)
+int INPUT_StateAction(StateMem* sm, int load)
 {
    SFORMAT StateRegs[] =
    {
@@ -214,7 +214,7 @@ int INPUT_StateAction(StateMem* sm, int load, int data_only)
       SFVAR(read_index),
       SFEND
    };
-   int ret =  MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY");
+   int ret =  MDFNSS_StateAction(sm, load, StateRegs, "JOY");
 
    return (ret);
 }

@@ -400,7 +400,7 @@ static int ReadStateChunk(StateMem *st, SFORMAT *sf, int size)
 static int CurrentState = 0;
 
 /* This function is called by the game driver(NES, GB, GBA) to save a state. */
-int MDFNSS_StateAction(void *st_p, int load, int data_only, std::vector <SSDescriptor> &sections)
+int MDFNSS_StateAction(void *st_p, int load, std::vector <SSDescriptor> &sections)
 {
    StateMem *st = (StateMem*)st_p;
    std::vector<SSDescriptor>::iterator section;
@@ -468,13 +468,13 @@ int MDFNSS_StateAction(void *st_p, int load, int data_only, std::vector <SSDescr
    return(1);
 }
 
-int MDFNSS_StateAction(void *st_p, int load, int data_only, SFORMAT *sf, const char *name, bool optional)
+int MDFNSS_StateAction(void *st_p, int load, SFORMAT *sf, const char *name, bool optional)
 {
    StateMem *st = (StateMem*)st_p;
    std::vector <SSDescriptor> love;
 
    love.push_back(SSDescriptor(sf, name, optional));
-   return(MDFNSS_StateAction(st, load, 0, love));
+   return(MDFNSS_StateAction(st, load, love));
 }
 
 int MDFNSS_SaveSM(void *st_p)
@@ -492,7 +492,7 @@ int MDFNSS_SaveSM(void *st_p)
 	MDFN_en32lsb(header + 28, neoheight);
 	smem_write(st, header, 32);
 
-	if(!MDFNGameInfo->StateAction(st, 0, 0))
+   if(!MDFNGameInfo->StateAction(st, 0))
 	 return(0);
 
 	uint32 sizy = smem_tell(st);
@@ -515,5 +515,5 @@ int MDFNSS_LoadSM(void *st_p)
 
    stateversion = MDFN_de32lsb(header + 16);
 
-   return(MDFNGameInfo->StateAction(st, stateversion, 0));
+   return(MDFNGameInfo->StateAction(st, stateversion));
 }

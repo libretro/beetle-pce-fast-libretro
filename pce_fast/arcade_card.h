@@ -30,7 +30,7 @@ extern ArcadeCard arcade_card;
 
 void ArcadeCard_init(void);
 void ArcadeCard_Power(void);
-int ArcadeCard_StateAction(StateMem* sm, int load, int data_only);
+int ArcadeCard_StateAction(StateMem* sm, int load);
 uint8 ArcadeCard_Read(uint32 A,
                       bool peek = false);   // Pass peek as true if you don't want side-effects from this read(IE in a debugger).
 void ArcadeCard_Write(uint32 A, uint8 V);

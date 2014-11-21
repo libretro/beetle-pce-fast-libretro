@@ -80,7 +80,7 @@ void PCECD_Drive_Close(void) ;
 
 void PCECD_Drive_SetTransferRate(uint32 TransferRate);
 void PCECD_Drive_SetCDDAVolume(unsigned vol); // vol of 65536 = 1.0 = maximum.
-int PCECD_Drive_StateAction(StateMem* sm, int load, int data_only,
+int PCECD_Drive_StateAction(StateMem* sm, int load,
                             const char* sname);
 
 void PCECD_Drive_SetDisc(bool tray_open, CDIF* cdif,

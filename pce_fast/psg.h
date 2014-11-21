@@ -54,7 +54,7 @@ extern PCEFast_PSG psg;
 void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r);
 
 
-int PSG_StateAction(StateMem* sm, int load, int data_only);
+int PSG_StateAction(StateMem* sm, int load);
 void PSG_Power(const int32 timestamp) ;
 void PSG_Write(int32 timestamp, uint8 A, uint8 V);
 void PSG_SetVolume(double new_volume) ;
