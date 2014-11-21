@@ -10,8 +10,6 @@ void GetFileBase(const char *f);
 // File-inclusion for-read-only path, for PSF and CUE/TOC sheet usage.
 bool MDFN_IsFIROPSafe(const std::string &path);
 
-std::string MDFN_MakeFName(int type, int id1, const char *cd1);
-
 void MDFN_ltrim(char *string);
 void MDFN_rtrim(char *string);
 void MDFN_trim(char *string);
@@ -34,8 +32,6 @@ typedef enum
  MDFNMKF_CHEAT_TMP,
  MDFNMKF_FIRMWARE
 } MakeFName_Type;
-
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1);
 
 const char * GetFNComponent(const char *str);
 

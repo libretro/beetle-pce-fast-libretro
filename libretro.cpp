@@ -281,6 +281,36 @@ static void PCECDIRQCB(bool asserted)
       HuC6280_IRQEnd(MDFN_IQIRQ2);
 }
 
+
+
+static uint8 lastchar = 0;
+
+
+
+static MDFNGI* game;
+
+struct retro_perf_callback perf_cb;
+retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
+retro_log_printf_t log_cb;
+static retro_video_refresh_t video_cb;
+static retro_audio_sample_t audio_cb;
+static retro_audio_sample_batch_t audio_batch_cb;
+static retro_environment_t environ_cb;
+static retro_input_poll_t input_poll_cb;
+static retro_input_state_t input_state_cb;
+
+static bool overscan;
+static double last_sound_rate;
+
+static MDFN_Surface surf = {NULL, 0, 0, 0};
+
+static bool failed_init;
+
+std::string retro_base_directory;
+std::string retro_base_name;
+std::string retro_save_directory;
+
+
 bool PCE_InitCD(void)
 {
    PCECD_Settings cd_settings;
@@ -418,14 +448,23 @@ static int LoadCommon(void)
 
    return (1);
 }
-
 static int LoadCD(CDIF* CDInterface)
 {
-   std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, "syscard3.pce");
+   static char bios_path[PATH_MAX];
+
+   char slash;
+#ifdef _WIN32
+   slash = '\\';
+#else
+   slash = '/';
+#endif
+
+   snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory.c_str(),
+            slash, "syscard3.pce");
 
    LoadCommonPre();
 
-   if (!HuCLoadCD(bios_path.c_str()))
+   if (!HuCLoadCD(bios_path))
       return (0);
 
    PCECD_Drive_SetDisc(true, NULL, true);
@@ -1019,33 +1058,6 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
    return (MDFNGameInfo);
 }
 
-static uint8 lastchar = 0;
-
-
-
-static MDFNGI* game;
-
-struct retro_perf_callback perf_cb;
-retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
-retro_log_printf_t log_cb;
-static retro_video_refresh_t video_cb;
-static retro_audio_sample_t audio_cb;
-static retro_audio_sample_batch_t audio_batch_cb;
-static retro_environment_t environ_cb;
-static retro_input_poll_t input_poll_cb;
-static retro_input_state_t input_state_cb;
-
-static bool overscan;
-static double last_sound_rate;
-
-static MDFN_Surface surf = {NULL, 0, 0, 0};
-
-static bool failed_init;
-
-std::string retro_base_directory;
-std::string retro_base_name;
-std::string retro_save_directory;
-
 static void set_basename(const char* path)
 {
    const char* base = strrchr(path, '/');
@@ -1634,46 +1646,4 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char*)
 {}
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
-
-// Use a simpler approach to make sure that things go right for libretro.
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char* cd1)
-{
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
-   std::string ret;
-   switch (type)
-   {
-   case MDFNMKF_SAV:
-      ret = retro_save_directory + slash + retro_base_name +
-            std::string(".") +
-            std::string(cd1);
-      break;
-   case MDFNMKF_FIRMWARE:
-      ret = retro_base_directory + slash + std::string(cd1);
-#ifdef _WIN32
-      sanitize_path(ret); // Because Windows path handling is mongoloid.
-#endif
-      break;
-   default:
-      break;
-   }
-
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "MDFN_MakeFName: %s\n", ret.c_str());
-   return ret;
-}
 

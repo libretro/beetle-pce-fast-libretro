@@ -93,8 +93,3 @@ bool MDFN_GetSettingB(const char* name)
    fprintf(stderr, "unhandled setting B: %s\n", name);
    return 0;
 }
-
-extern std::string retro_base_directory;
-extern std::string retro_base_name;
-
-
