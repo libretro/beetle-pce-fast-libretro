@@ -9,9 +9,6 @@
 
 extern std::vector<MDFNGI *>MDFNSystems;
 
-/* Indent stdout newlines +- "indent" amount */
-void MDFN_indent(int indent);
-
 #define MDFNI_printf MDFN_printf
 
 uint32 MDFND_GetTime(void);

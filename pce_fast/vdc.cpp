@@ -1150,8 +1150,8 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
       }
 
 
-      if (SHOULD_DRAW && fc_vrm)
-         MDFN_MidLineUpdate(espec, frame_counter - 14);
+//      if (SHOULD_DRAW && fc_vrm)
+//         MDFN_MidLineUpdate(espec, frame_counter - 14);
 
       if ((vdc->CR & 0x08) && need_vbi[0])
          vdc->status |= VDCS_VD;

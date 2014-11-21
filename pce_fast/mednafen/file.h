@@ -14,8 +14,7 @@ typedef struct
    int64 location;
 } MDFNFILE;
 
-bool MDFNFILE_Open(MDFNFILE* fp, const char* path, const void* known_ext,
-                   const char* purpose = NULL, const bool suppress_notfound_pe = FALSE);
+bool MDFNFILE_Open(MDFNFILE* fp, const char* path);
 bool MDFNFILE_Close(MDFNFILE* fp);
 uint64 MDFNFILE_fread(MDFNFILE* fp, void* ptr, size_t size, size_t nmemb);
 int MDFNFILE_fseek(MDFNFILE* fp, int64 offset, int whence);

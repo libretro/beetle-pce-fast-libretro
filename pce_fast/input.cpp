@@ -39,18 +39,6 @@ uint8 mouse_index[5];
 static uint8 sel;
 static uint8 read_index = 0;
 
-static void SyncSettings(void);
-
-void PCEINPUT_SettingChanged(const char* name)
-{
-   SyncSettings();
-}
-
-void PCEINPUT_Init(void)
-{
-   SyncSettings();
-}
-
 void PCEINPUT_SetInput(int port, const char* type, void* ptr)
 {
    assert(port < 5);
@@ -324,11 +312,4 @@ InputInfoStruct PCEInputInfo =
    PortInfo
 };
 
-static void SyncSettings(void)
-{
-   MDFNGameInfo->mouse_sensitivity =
-      MDFN_GetSettingF("pce_fast.mouse_sensitivity");
-   InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce_fast.disable_softreset") ?
-                             GamepadIDII_DSR : GamepadIDII;
-}
 

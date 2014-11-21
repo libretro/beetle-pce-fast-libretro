@@ -47,10 +47,9 @@ fail:
 
 
 
-bool MDFNFILE_Open(MDFNFILE *this_fp, const char *path, const void *known_ext, const char *purpose, const bool suppress_notfound_pe)
+bool MDFNFILE_Open(MDFNFILE *this_fp, const char *path)
 {
    FILE *fp;
-   (void)known_ext;
 
    if (!(fp = fopen(path, "rb")))
       return FALSE;

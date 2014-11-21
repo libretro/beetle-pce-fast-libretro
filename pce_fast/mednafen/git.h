@@ -345,24 +345,6 @@ typedef struct
    int rotated;
 
    uint8* name;    /* Game name, UTF8 encoding */
-   uint8 MD5[16];
-   uint8 GameSetMD5[16];  /* A unique ID for the game set this CD belongs to, only used in PC-FX emulation. */
-   bool GameSetMD5Valid; /* True if GameSetMD5 is valid. */
 
-
-   int soundrate;  /* For Ogg Vorbis expansion sound wacky support.  0 for default. */
-
-   VideoSystems VideoSystem;
-   GameMediumTypes GameType;
-
-   //int DiskLogicalCount;   // A single double-sided disk would be 2 here.
-   //const char *DiskNames;  // Null-terminated.
-
-   const char*
-   cspecial;  /* Special cart expansion: DIP switches, barcode reader, etc. */
-
-   std::vector<const char*>DesiredInput;  // Desired input device for the input ports, NULL for don't care
-
-   double mouse_sensitivity;
 } MDFNGI;
 #endif

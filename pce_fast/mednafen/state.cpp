@@ -477,7 +477,7 @@ int MDFNSS_StateAction(void *st_p, int load, int data_only, SFORMAT *sf, const c
    return(MDFNSS_StateAction(st, load, 0, love));
 }
 
-int MDFNSS_SaveSM(void *st_p, int, int, const void*, const void*, const void*)
+int MDFNSS_SaveSM(void *st_p)
 {
    StateMem *st = (StateMem*)st_p;
 	static const char *header_magic = "MDFNSVST";
@@ -502,7 +502,7 @@ int MDFNSS_SaveSM(void *st_p, int, int, const void*, const void*, const void*)
 	return(1);
 }
 
-int MDFNSS_LoadSM(void *st_p, int, int)
+int MDFNSS_LoadSM(void *st_p)
 {
    StateMem *st = (StateMem*)st_p;
    uint8 header[32];

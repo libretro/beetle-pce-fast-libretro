@@ -397,8 +397,6 @@ static int LoadCommon(void)
 
    }
 
-   PCEINPUT_Init();
-
    PCE_Power();
 
    MDFNGameInfo->LayerNames = "Background\0Sprites\0";
@@ -457,7 +455,8 @@ static void Emulate(EmulateSpecStruct* espec)
    {
       for (int y = 0; y < 2; y++)
       {
-         Blip_Buffer_set_sample_rate(&sbuf[y], espec->SoundRate ? espec->SoundRate : 44100, 50);
+         Blip_Buffer_set_sample_rate(&sbuf[y],
+                                     espec->SoundRate ? espec->SoundRate : 44100, 50);
          Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
          Blip_Buffer_bass_freq(&sbuf[y], 10);
       }
@@ -573,8 +572,6 @@ static MDFNSetting PCESettings[] =
    { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, ("Correct the aspect ratio."), NULL, MDFNST_BOOL, "1" },
    { "pce_fast.slstart", MDFNSF_NOFLAGS, ("First rendered scanline."), NULL, MDFNST_UINT, "4", "0", "239" },
    { "pce_fast.slend", MDFNSF_NOFLAGS, ("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
-   { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, ("Mouse sensitivity."), NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-   { "pce_fast.disable_softreset", MDFNSF_NOFLAGS, ("If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily."), NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
    { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("Enable Arcade Card emulation."), NULL, MDFNST_BOOL, "1" },
    { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CPU overclock multiplier."), NULL, MDFNST_UINT, "1", "1", "100"},
    { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CD-ROM data transfer speed multiplier."), NULL, MDFNST_UINT, "1", "1", "100" },
@@ -788,17 +785,9 @@ bool IsBRAMUsed(void)
 
 int HuCLoadCD(const char* bios_path)
 {
-   static const FileExtensionSpecStruct KnownBIOSExtensions[] =
-   {
-      { ".pce", ("PC Engine ROM Image") },
-      { ".bin", ("PC Engine ROM Image") },
-      { ".bios", ("BIOS Image") },
-      { NULL, NULL }
-   };
-
    MDFNFILE fp = {0};
 
-   if (!MDFNFILE_Open(&fp, bios_path, KnownBIOSExtensions, ("CD BIOS")))
+   if (!MDFNFILE_Open(&fp, bios_path))
       return (0);
 
    memset(ROMSpace, 0xFF, 262144);
@@ -934,71 +923,27 @@ MDFNGI EmulatedPCE_Fast =
    2,     // Number of output sound channels
 };
 
-static void ReadM3U(std::vector<std::string> &file_list, std::string path,
-                    unsigned depth = 0)
-{
-   std::vector<std::string> ret;
-   FileWrapper m3u_file(path.c_str(), FileWrapper::MODE_READ, ("M3U CD Set"));
-   std::string dir_path;
-   char linebuf[2048];
-
-   MDFN_GetFilePathComponents(path, &dir_path);
-
-   while (m3u_file.get_line(linebuf, sizeof(linebuf)))
-   {
-      std::string efp;
-
-      if (linebuf[0] == '#') continue;
-      MDFN_rtrim(linebuf);
-      if (linebuf[0] == 0) continue;
-
-      efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
-
-      if (efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
-      {
-         assert(efp != path);
-         //    throw(MDFN_Error(0, ("M3U at \"%s\" references self."), efp.c_str()));
-
-         assert(depth != 99);
-         //    throw(MDFN_Error(0, ("M3U load recursion too deep!")));
-
-         ReadM3U(file_list, efp, depth++);
-      }
-      else
-         file_list.push_back(efp);
-   }
-}
-
 static CDIF* CDInterface;  // FIXME: Cleanup on error out.
-// TODO: LoadCommon()
 
 MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
 {
-   uint8 LayoutMD5[16];
-
    MDFN_printf(("Loading %s...\n\n"), devicename ? devicename : ("PHYSICAL CD"));
    CDInterface = CDIF_Open(devicename);
 
    //
    // Print out a track list for all discs.
    //
-   MDFN_indent(1);
    CDUtility_TOC toc;
 
    CDInterface->ReadTOC(&toc);
 
    MDFN_printf("CD Layout:\n");
-   MDFN_indent(1);
 
    for (int32 track = toc.first_track; track <= toc.last_track; track++)
       MDFN_printf(("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba,
                   (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
 
    MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
-   MDFN_indent(-1);
-   MDFN_printf("\n");
-
-   MDFN_indent(-1);
 
    // This if statement will be true if force_module references a system without CDROM support.
    if (!MDFNGameInfo->LoadCD)
@@ -1010,9 +955,6 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
    MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname,
                MDFNGameInfo->fullname);
 
-   // TODO: include module name in hash
-   memcpy(MDFNGameInfo->MD5, LayoutMD5, 16);
-
    if (!(MDFNGameInfo->LoadCD(CDInterface)))
    {
       delete CDInterface;
@@ -1021,18 +963,12 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
       return (0);
    }
 
-   //MDFNI_SetLayerEnableMask(~0ULL);
-
-   // MDFN_LoadGameCheats(NULL);
-   // MDFNMP_InstallReadPatches();
-
    return (MDFNGameInfo);
 }
 
 MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
 {
    MDFNFILE GameFile = {0};
-   std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
    if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue")
@@ -1042,18 +978,7 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
 
    MDFN_printf(("Loading %s...\n"), name);
 
-   MDFN_indent(1);
-
-   // Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct* curexts = MDFNGameInfo->FileExtensions;
-
-   while (curexts->extension && curexts->description)
-   {
-      valid_iae.push_back(*curexts);
-      curexts++;
-   }
-
-   if (!MDFNFILE_Open(&GameFile, name, &valid_iae[0], ("game")))
+   if (!MDFNFILE_Open(&GameFile, name))
    {
       MDFNGameInfo = NULL;
       return 0;
@@ -1061,7 +986,6 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
 
    MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname,
                MDFNGameInfo->fullname);
-   MDFN_indent(1);
 
    //
    // Load per-game settings
@@ -1073,15 +997,9 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
    if (MDFNGameInfo->Load(name, &GameFile) <= 0)
    {
       MDFNFILE_Close(&GameFile);
-      MDFN_indent(-2);
       MDFNGameInfo = NULL;
       return (0);
    }
-
-   // MDFN_LoadGameCheats(NULL);
-   // MDFNMP_InstallReadPatches();
-
-   MDFN_indent(-2);
 
    if (!MDFNGameInfo->name)
    {
@@ -1100,13 +1018,6 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
    }
 
    return (MDFNGameInfo);
-}
-
-static int curindent = 0;
-
-void MDFN_indent(int indent)
-{
-   curindent += indent;
 }
 
 static uint8 lastchar = 0;
@@ -1653,13 +1564,8 @@ size_t retro_serialize_size(void)
    StateMem st;
    memset(&st, 0, sizeof(st));
 
-   if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n",
-                EmulatedPCE_Fast.shortname);
+   if (!MDFNSS_SaveSM(&st))
       return 0;
-   }
 
    free(st.data);
    return serialize_size = st.len;
@@ -1672,7 +1578,7 @@ bool retro_serialize(void* data, size_t size)
    st.data     = (uint8_t*)data;
    st.malloced = size;
 
-   return MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL);
+   return MDFNSS_SaveSM(&st);
 }
 
 bool retro_unserialize(const void* data, size_t size)
@@ -1682,7 +1588,7 @@ bool retro_unserialize(const void* data, size_t size)
    st.data = (uint8_t*)data;
    st.len  = size;
 
-   return MDFNSS_LoadSM(&st, 0, 0);
+   return MDFNSS_LoadSM(&st);
 }
 
 void* retro_get_memory_data(unsigned type)
@@ -1772,7 +1678,3 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char* cd1)
    return ret;
 }
 
-void MDFN_MidLineUpdate(EmulateSpecStruct* espec, int y)
-{
-   //MDFND_MidLineUpdate(espec, y);
-}
