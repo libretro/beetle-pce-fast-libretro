@@ -34,17 +34,17 @@ typedef blip_time_t blip_buf_t_;
 
 typedef struct
 {
-   blip_u64 factor_;
-   blip_resampled_time_t offset_;
-   blip_buf_t_* buffer_;
-   blip_long buffer_size_;
-   blip_long reader_accum_;
-   int bass_shift_;
-   long sample_rate_;
-   long clock_rate_;
-   int bass_freq_;
-   int length_;
-   int modified_;
+   blip_u64 factor;
+   blip_resampled_time_t offset;
+   blip_buf_t_* buffer;
+   blip_long buffer_size;
+   blip_long reader_accum;
+   int bass_shift;
+   long sample_rate;
+   long clock_rate;
+   int bass_freq;
+   int length;
+   int modified;
 }Blip_Buffer;
 
 void Blip_Buffer_init(Blip_Buffer* bbuf);
@@ -113,7 +113,7 @@ void Blip_Buffer_remove_silence(Blip_Buffer* bbuf, long count);
 
 static inline blip_resampled_time_t Blip_Buffer_resampled_time(Blip_Buffer* bbuf, blip_time_t t)
 {
-   return t * bbuf->factor_ + bbuf->offset_;
+   return t * bbuf->factor + bbuf->offset;
 }
 blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf, long clock_rate);
 
@@ -247,11 +247,11 @@ public:
    // Same as offset(), except code is inlined for higher performance
    void offset_inline(blip_time_t t, int delta, Blip_Buffer* buf) const
    {
-      offset_resampled(t * buf->factor_ + buf->offset_, delta, buf);
+      offset_resampled(t * buf->factor + buf->offset, delta, buf);
    }
    void offset_inline(blip_time_t t, int delta) const
    {
-      offset_resampled(t * impl.buf->factor_ + impl.buf->offset_, delta, impl.buf);
+      offset_resampled(t * impl.buf->factor + impl.buf->offset, delta, impl.buf);
    }
 
 private:
@@ -287,11 +287,11 @@ int const blip_sample_bits = 30;
 
 // Begin reading from buffer. Name should be unique to the current block.
 #define BLIP_READER_BEGIN( name, blip_buffer ) \
-   const blip_buf_t_* BLIP_RESTRICT name##_reader_buf = (blip_buffer).buffer_;\
-   blip_long name##_reader_accum = (blip_buffer).reader_accum_
+   const blip_buf_t_* BLIP_RESTRICT name##_reader_buf = (blip_buffer).buffer;\
+   blip_long name##_reader_accum = (blip_buffer).reader_accum
 
 // Get value to pass to BLIP_READER_NEXT()
-#define BLIP_READER_BASS( blip_buffer ) ((blip_buffer).bass_shift_)
+#define BLIP_READER_BASS( blip_buffer ) ((blip_buffer).bass_shift)
 
 // Constant value to use instead of BLIP_READER_BASS(), for slightly more optimal
 // code at the cost of having no bass control
@@ -310,7 +310,7 @@ int const blip_reader_default_bass = 9;
 // End reading samples from buffer. The number of samples read must now be removed
 // using Blip_Buffer_remove_samples().
 #define BLIP_READER_END( name, blip_buffer ) \
-   (void) ((blip_buffer).reader_accum_ = name##_reader_accum)
+   (void) ((blip_buffer).reader_accum = name##_reader_accum)
 
 
 // Compatibility with older version
@@ -344,7 +344,7 @@ public:
    }
    void end(Blip_Buffer &b)
    {
-      b.reader_accum_ = accum;
+      b.reader_accum = accum;
    }
 
 private:
@@ -363,9 +363,9 @@ blip_inline void Blip_Synth<quality, range>::offset_resampled(
 {
    // Fails if time is beyond end of Blip_Buffer, due to a bug in caller code or the
    // need for a longer buffer as set by set_sample_rate().
-   assert((blip_long)(time >> BLIP_BUFFER_ACCURACY) < blip_buf->buffer_size_);
+   assert((blip_long)(time >> BLIP_BUFFER_ACCURACY) < blip_buf->buffer_size);
    delta *= impl.delta_factor;
-   blip_long* BLIP_RESTRICT buf = blip_buf->buffer_ + (time >>
+   blip_long* BLIP_RESTRICT buf = blip_buf->buffer + (time >>
                                   BLIP_BUFFER_ACCURACY);
    int phase = (int)(time >> (BLIP_BUFFER_ACCURACY - BLIP_PHASE_BITS) &
                      (blip_res - 1));
@@ -390,7 +390,7 @@ template<int quality, int range>
 blip_inline void Blip_Synth<quality, range>::offset(blip_time_t t, int delta,
       Blip_Buffer* buf) const
 {
-   offset_resampled(t * buf->factor_ + buf->offset_, delta, buf);
+   offset_resampled(t * buf->factor + buf->offset, delta, buf);
 }
 
 template<int quality, int range>
@@ -398,7 +398,7 @@ blip_inline void Blip_Synth<quality, range>::update(blip_time_t t, int amp)
 {
    int delta = amp - impl.last_amp;
    impl.last_amp = amp;
-   offset_resampled(t * impl.buf->factor_ + impl.buf->offset_, delta, impl.buf);
+   offset_resampled(t * impl.buf->factor + impl.buf->offset, delta, impl.buf);
 }
 
 blip_inline blip_eq_t::blip_eq_t(double t) :
@@ -408,11 +408,11 @@ blip_inline blip_eq_t::blip_eq_t(double t, long rf, long sr, long cf) :
 
 blip_inline int  Blip_Buffer_length(Blip_Buffer* bbuf)
 {
-   return bbuf->length_;
+   return bbuf->length;
 }
 blip_inline long Blip_Buffer_samples_avail(Blip_Buffer* bbuf)
 {
-   return (long)(bbuf->offset_ >> BLIP_BUFFER_ACCURACY);
+   return (long)(bbuf->offset >> BLIP_BUFFER_ACCURACY);
 }
 blip_inline int  Blip_Buffer_output_latency(Blip_Buffer* bbuf)
 {
@@ -420,18 +420,18 @@ blip_inline int  Blip_Buffer_output_latency(Blip_Buffer* bbuf)
 }
 blip_inline long Blip_Buffer_get_clock_rate(Blip_Buffer* bbuf)
 {
-   return bbuf->clock_rate_;
+   return bbuf->clock_rate;
 }
 blip_inline void Blip_Buffer_set_clock_rate(Blip_Buffer* bbuf, long cps)
 {
-   bbuf->factor_ = Blip_Buffer_clock_rate_factor(bbuf, bbuf->clock_rate_ = cps);
+   bbuf->factor = Blip_Buffer_clock_rate_factor(bbuf, bbuf->clock_rate = cps);
 }
 
 blip_inline int Blip_Reader::begin(Blip_Buffer &blip_buf)
 {
-   buf = blip_buf.buffer_;
-   accum = blip_buf.reader_accum_;
-   return blip_buf.bass_shift_;
+   buf = blip_buf.buffer;
+   accum = blip_buf.reader_accum;
+   return blip_buf.bass_shift;
 }
 
 int const blip_max_length = 0;
