@@ -42,8 +42,6 @@ MDFNGI* MDFNGameInfo = &EmulatedPCE_Fast;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-static PCEFast_PSG* psg = NULL;
-
 static Blip_Buffer sbuf[2];
 
 bool PCE_ACEnabled;
@@ -241,7 +239,7 @@ static DECLFW(IOWrite)
 
    case 2:
       PCEIODataBuffer = V;
-      psg->Write(HuCPU.timestamp / pce_overclocked, A, V);
+      PSG_Write(HuCPU.timestamp / pce_overclocked, A, V);
       break;
 
    case 3:
@@ -385,9 +383,9 @@ static int LoadCommon(void)
 
    HuC6280_Init();
 
-   psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
+   PSG_init(&sbuf[0], &sbuf[1]);
 
-   psg->SetVolume(1.0);
+   PSG_SetVolume(1.0);
 
    if (PCE_IsCD)
    {
@@ -396,7 +394,7 @@ static int LoadCommon(void)
       if (cdpsgvolume != 100)
          MDFN_printf(("CD PSG Volume: %d%%\n"), cdpsgvolume);
 
-      psg->SetVolume(0.678 * cdpsgvolume / 100);
+      PSG_SetVolume(0.678 * cdpsgvolume / 100);
 
    }
 
@@ -502,10 +500,6 @@ static void Cleanup_PCE(void)
    HuC_Close();
 
    VDC_Close();
-
-   if (psg)
-      delete psg;
-   psg = NULL;
 }
 
 static void CloseGame(void)
@@ -550,7 +544,7 @@ static void Emulate(EmulateSpecStruct* espec)
    if (PCE_IsCD)
       PCECD_Run(HuCPU.timestamp * 3);
 
-   psg->EndFrame(HuCPU.timestamp / pce_overclocked);
+   PSG_EndFrame(HuCPU.timestamp / pce_overclocked);
 
    if (espec->SoundBuf)
    {
@@ -589,7 +583,7 @@ static int StateAction(StateMem* sm, int load, int data_only)
 
    ret &= HuC6280_StateAction(sm, load, data_only);
    ret &= VDC_StateAction(sm, load, data_only);
-   ret &= psg->StateAction(sm, load, data_only);
+   ret &= PSG_StateAction(sm, load, data_only);
    ret &= INPUT_StateAction(sm, load, data_only);
    ret &= HuC_StateAction(sm, load, data_only);
 
@@ -612,7 +606,7 @@ void PCE_Power(void)
 
    HuC6280_Power();
    VDC_Power();
-   psg->Power(HuCPU.timestamp / pce_overclocked);
+   PSG_Power(HuCPU.timestamp / pce_overclocked);
    HuC_Power();
 
    if (PCE_IsCD)

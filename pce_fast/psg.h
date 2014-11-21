@@ -3,8 +3,6 @@
 
 #include "blip/Blip_Buffer.h"
 
-class PCEFast_PSG;
-
 struct psg_channel
 {
    uint8 waveform[32];     /* Waveform data */
@@ -17,7 +15,7 @@ struct psg_channel
 
    int32 counter;
 
-   void (PCEFast_PSG::*UpdateOutput)(const int32 timestamp, psg_channel* ch);
+   void (*UpdateOutput)(const int32 timestamp, psg_channel* ch);
 
    uint32 freq_cache;
    uint32 noise_freq_cache;        // Channel 4,5 only
@@ -32,63 +30,47 @@ struct psg_channel
    uint8 balance;          /* Channel balance */
 };
 
-class PCEFast_PSG
+typedef struct
 {
-public:
-
-   PCEFast_PSG(Blip_Buffer* bb_l, Blip_Buffer* bb_r);
-   ~PCEFast_PSG() ;
-
-   int StateAction(StateMem* sm, int load, int data_only);
-
-   void Power(const int32 timestamp) ;
-   void Write(int32 timestamp, uint8 A, uint8 V);
-
-   void SetVolume(double new_volume) ;
-
-   void EndFrame(int32 timestamp);
-
-private:
-
-   void Update(int32 timestamp);
-
-   void UpdateSubLFO(int32 timestamp);
-   void UpdateSubNonLFO(int32 timestamp);
-
-   void RecalcUOFunc(int chnum);
-   void UpdateOutput_Off(const int32 timestamp, psg_channel* ch);
-   void UpdateOutput_Accum(const int32 timestamp, psg_channel* ch);
-   void UpdateOutput_Norm(const int32 timestamp, psg_channel* ch);
-   void UpdateOutput_Noise(const int32 timestamp, psg_channel* ch);
-
-   int32 GetVL(const int chnum, const int lr);
-
-   void RecalcFreqCache(int chnum);
-   void RecalcNoiseFreqCache(int chnum);
-   template<bool LFO_On>
-   void RunChannel(int chc, int32 timestamp);
    double OutputVolume;
-
    uint8 select;               /* Selected channel (0-5) */
    uint8 globalbalance;        /* Global sound balance */
    uint8 lfofreq;              /* LFO frequency */
    uint8 lfoctrl;              /* LFO control */
-
    int32 vol_update_counter;
    int32 vol_update_which;
    int32 vol_update_vllatch;
    bool vol_pending;
-
    psg_channel channel[6];
-
    int32 lastts;
-
    Blip_Buffer* sbuf[2];
    Blip_Synth<blip_good_quality, 8192> Synth;
-
    int32 dbtable_volonly[32];
-
    int32 dbtable[32][32];
-};
+} PCEFast_PSG;
+
+extern PCEFast_PSG psg;
+
+void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r);
+
+
+int PSG_StateAction(StateMem* sm, int load, int data_only);
+void PSG_Power(const int32 timestamp) ;
+void PSG_Write(int32 timestamp, uint8 A, uint8 V);
+void PSG_SetVolume(double new_volume) ;
+void PSG_EndFrame(int32 timestamp);
+void PSG_Update(int32 timestamp);
+void PSG_UpdateSubLFO(int32 timestamp);
+void PSG_UpdateSubNonLFO(int32 timestamp);
+void PSG_RecalcUOFunc(int chnum);
+void PSG_UpdateOutput_Off(const int32 timestamp, psg_channel* ch);
+void PSG_UpdateOutput_Accum(const int32 timestamp, psg_channel* ch);
+void PSG_UpdateOutput_Norm(const int32 timestamp, psg_channel* ch);
+void PSG_UpdateOutput_Noise(const int32 timestamp, psg_channel* ch);
+int32 PSG_GetVL(const int chnum, const int lr);
+void PSG_RecalcFreqCache(int chnum);
+void PSG_RecalcNoiseFreqCache(int chnum);
+template<bool LFO_On>
+void PSG_RunChannel(int chc, int32 timestamp);
 
 #endif
