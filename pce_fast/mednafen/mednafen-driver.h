@@ -7,8 +7,6 @@
 
 #include "settings-common.h"
 
-extern std::vector<MDFNGI *>MDFNSystems;
-
 #define MDFNI_printf MDFN_printf
 
 uint32 MDFND_GetTime(void);

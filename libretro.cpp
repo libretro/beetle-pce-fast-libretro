@@ -421,8 +421,7 @@ static int LoadCommon(void)
 
 static int LoadCD(CDIF* CDInterface)
 {
-   std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0,
-                                          MDFN_GetSettingS("pce_fast.cdbios").c_str());
+   std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, "syscard3.pce");
 
    LoadCommonPre();
 

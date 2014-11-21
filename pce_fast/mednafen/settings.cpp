@@ -30,11 +30,6 @@ int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 uint32_t setting_pce_keepaspect = 1;
 
-bool MDFN_SaveSettings(const char* path)
-{
-   return (1);
-}
-
 uint64 MDFN_GetSettingUI(const char* name)
 {
    if (!strcmp("pce_fast.cddavolume", name))
@@ -102,44 +97,4 @@ bool MDFN_GetSettingB(const char* name)
 extern std::string retro_base_directory;
 extern std::string retro_base_name;
 
-std::string MDFN_GetSettingS(const char* name)
-{
-   if (!strcmp("pce_fast.cdbios", name))
-      return std::string("syscard3.pce");
-   /* FILESYS */
-   if (!strcmp("filesys.path_firmware", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_palette", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_sav", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_state", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_cheat", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.fname_state", name))
-      return retro_base_name + std::string(".sav");
-   if (!strcmp("filesys.fname_sav", name))
-      return retro_base_name + std::string(".bsv");
-   fprintf(stderr, "unhandled setting S: %s\n", name);
-   return 0;
-}
 
-bool MDFNI_SetSetting(const char* name, const char* value, bool NetplayOverride)
-{
-   return false;
-}
-
-bool MDFNI_SetSettingB(const char* name, bool value)
-{
-   return false;
-}
-
-bool MDFNI_SetSettingUI(const char* name, uint64 value)
-{
-   return false;
-}
-
-void MDFNI_DumpSettingsDef(const char* path)
-{
-}
