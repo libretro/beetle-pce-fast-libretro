@@ -1,7 +1,6 @@
 #ifndef __MDFN_SIMPLEFIFO_H
 #define __MDFN_SIMPLEFIFO_H
 
-#include <vector>
 #include <assert.h>
 
 #include "math_ops.h"
@@ -12,9 +11,12 @@ class SimpleFIFO
 public:
 
    // Constructor
-   SimpleFIFO(uint32 the_size) // Size should be a power of 2!
+   SimpleFIFO(uint32 the_size)
    {
-      data.resize(round_up_pow2(the_size));
+      // Size should be a power of 2!
+      assert(the_size && !(the_size & (the_size - 1)));
+
+      data = (T*)malloc(the_size * sizeof(T));
       size = the_size;
       read_pos = 0;
       write_pos = 0;
@@ -24,7 +26,7 @@ public:
    // Destructor
    INLINE ~SimpleFIFO()
    {
-
+      free(data);
    }
 
    INLINE uint32 CanRead(void)
@@ -47,7 +49,7 @@ public:
 
       if (!peek)
       {
-         read_pos = (read_pos + 1) & (data.size() - 1);
+         read_pos = (read_pos + 1) & (size - 1);
          in_count--;
       }
 
@@ -69,7 +71,7 @@ public:
       {
          data[write_pos] = *happy_data;
 
-         write_pos = (write_pos + 1) & (data.size() - 1);
+         write_pos = (write_pos + 1) & (size - 1);
          in_count++;
          happy_data++;
          happy_count--;
@@ -96,7 +98,7 @@ public:
    }
 
    //private:
-   std::vector<T> data;
+   T* data;
    uint32 size;
    uint32 read_pos; // Read position
    uint32 write_pos; // Write position

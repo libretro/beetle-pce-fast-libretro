@@ -954,7 +954,7 @@ int PCECD_StateAction(StateMem* sm, int load)
       SFVAR(Fader.CountValue),
       SFVAR(Fader.Clocked),
 
-      SFARRAY(&SubChannelFIFO.data[0], SubChannelFIFO.data.size()),
+      SFARRAY(&SubChannelFIFO.data[0], SubChannelFIFO.size),
       SFVAR(SubChannelFIFO.read_pos),
       SFVAR(SubChannelFIFO.write_pos),
       SFVAR(SubChannelFIFO.in_count),

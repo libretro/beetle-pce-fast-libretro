@@ -2,39 +2,6 @@
 #define __MDFN_MATH_OPS_H
 #include "mednafen.h"
 
-// Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-// Rounds up to the nearest power of 2.
-static INLINE uint32 round_up_pow2(uint32 v)
-{
- v--;
- v |= v >> 1;
- v |= v >> 2;
- v |= v >> 4;
- v |= v >> 8;
- v |= v >> 16;
- v++;
-
- v += (v == 0);
-
- return(v);
-}
-
-static INLINE uint64 round_up_pow2(uint64 v)
-{
- v--;
- v |= v >> 1;
- v |= v >> 2;
- v |= v >> 4;
- v |= v >> 8;
- v |= v >> 16;
- v |= v >> 32;
- v++;
-
- v += (v == 0);
-
- return(v);
-}
-
 static INLINE uint32 uilog2(uint32 v)
 {
  // http://graphics.stanford.edu/~seander/bithacks.html#IntegerLogDeBruijn

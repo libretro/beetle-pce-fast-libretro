@@ -18,8 +18,6 @@
 #include "FileStream.h"
 #include "CDAccess.h"
 
-#include <vector>
-
 class CDAccess_CCD : public CDAccess
 {
 public:

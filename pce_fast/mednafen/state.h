@@ -91,8 +91,6 @@ INLINE uint32 SF_FORCE_D(double *) { return(0); }
 
 #define SFEND { 0, 0, 0, 0 }
 
-#include <vector>
-
 int MDFNSS_StateAction(void *st, int load, SFORMAT *sf, const char *name);
 
 #endif
