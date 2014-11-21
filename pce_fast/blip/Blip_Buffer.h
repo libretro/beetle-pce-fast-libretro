@@ -318,40 +318,6 @@ const long blip_unscaled = 65535;
 const int blip_low_quality  = blip_med_quality;
 const int blip_best_quality = blip_high_quality;
 
-// Deprecated; use BLIP_READER macros as follows:
-// Blip_Reader r; r.begin( buf ); -> BLIP_READER_BEGIN( r, buf );
-// int bass = r.begin( buf )      -> BLIP_READER_BEGIN( r, buf ); int bass = BLIP_READER_BASS( buf );
-// r.read()                       -> BLIP_READER_READ( r )
-// r.read_raw()                   -> BLIP_READER_READ_RAW( r )
-// r.next( bass )                 -> BLIP_READER_NEXT( r, bass )
-// r.next()                       -> BLIP_READER_NEXT( r, blip_reader_default_bass )
-// r.end( buf )                   -> BLIP_READER_END( r, buf )
-class Blip_Reader
-{
-public:
-   int begin(Blip_Buffer &);
-   blip_long read() const
-   {
-      return accum >> (blip_sample_bits - 16);
-   }
-   blip_long read_raw() const
-   {
-      return accum;
-   }
-   void next(int bass_shift = 9)
-   {
-      accum += *buf++ - (accum >> bass_shift);
-   }
-   void end(Blip_Buffer &b)
-   {
-      b.reader_accum = accum;
-   }
-
-private:
-   const blip_buf_t_* buf;
-   blip_long accum;
-};
-
 // End of public interface
 
 #include <assert.h>
@@ -425,13 +391,6 @@ blip_inline long Blip_Buffer_get_clock_rate(Blip_Buffer* bbuf)
 blip_inline void Blip_Buffer_set_clock_rate(Blip_Buffer* bbuf, long cps)
 {
    bbuf->factor = Blip_Buffer_clock_rate_factor(bbuf, bbuf->clock_rate = cps);
-}
-
-blip_inline int Blip_Reader::begin(Blip_Buffer &blip_buf)
-{
-   buf = blip_buf.buffer;
-   accum = blip_buf.reader_accum;
-   return blip_buf.bass_shift;
 }
 
 int const blip_max_length = 0;
