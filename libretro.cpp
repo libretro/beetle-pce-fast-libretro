@@ -421,64 +421,7 @@ static int LoadCommon(void)
    return (1);
 }
 
-static bool TestMagicCD(std::vector<CDIF*>* CDInterfaces)
-{
-   static const uint8 magic_test[0x20] = { 0x82, 0xB1, 0x82, 0xCC, 0x83, 0x76, 0x83, 0x8D, 0x83, 0x4F, 0x83, 0x89, 0x83, 0x80, 0x82, 0xCC,
-                                           0x92, 0x98, 0x8D, 0xEC, 0x8C, 0xA0, 0x82, 0xCD, 0x8A, 0x94, 0x8E, 0xAE, 0x89, 0xEF, 0x8E, 0xD0
-                                         };
-   uint8 sector_buffer[2048];
-   CDIF* cdiface = (*CDInterfaces)[0];
-   CDUtility_TOC toc;
-   bool ret = FALSE;
-
-   memset(sector_buffer, 0, sizeof(sector_buffer));
-
-   cdiface->ReadTOC(&toc);
-
-   for (int32 track = toc.first_track; track <= toc.last_track; track++)
-   {
-      if (toc.tracks[track].control & 0x4)
-      {
-         cdiface->ReadSector(sector_buffer, toc.tracks[track].lba, 1);
-
-         if (!memcmp((char*)sector_buffer, (char*)magic_test, 0x20))
-            ret = TRUE;
-
-         // PCE CD BIOS apparently only looks at the first data track.
-         break;
-      }
-   }
-
-
-   // If it's a PC-FX CD(Battle Heat), return false.
-   // This is very kludgy.
-   for (int32 track = toc.first_track; track <= toc.last_track; track++)
-   {
-      if (toc.tracks[track].control & 0x4)
-      {
-         cdiface->ReadSector(sector_buffer, toc.tracks[track].lba, 1);
-         if (!strncmp("PC-FX:Hu_CD-ROM", (char*)sector_buffer,
-                      strlen("PC-FX:Hu_CD-ROM")))
-            return (false);
-      }
-   }
-
-
-   // Now, test for the Games Express CD games.  The GE BIOS seems to always look at sector 0x10, but only if the first track is a
-   // data track.
-   if (toc.first_track == 1 && (toc.tracks[1].control & 0x4))
-   {
-      if (cdiface->ReadSector(sector_buffer, 0x10, 1))
-      {
-         if (!memcmp((char*)sector_buffer + 0x8, "HACKER CD ROM SYSTEM", 0x14))
-            ret = TRUE;
-      }
-   }
-
-   return (ret);
-}
-
-static int LoadCD(std::vector<CDIF*>* CDInterfaces)
+static int LoadCD(CDIF* CDInterface)
 {
    std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0,
                                           MDFN_GetSettingS("pce_fast.cdbios").c_str());
@@ -489,7 +432,7 @@ static int LoadCD(std::vector<CDIF*>* CDInterfaces)
       return (0);
 
    PCECD_Drive_SetDisc(true, NULL, true);
-   PCECD_Drive_SetDisc(false, (*CDInterfaces)[0], true);
+   PCECD_Drive_SetDisc(false, CDInterface, true);
 
    return (LoadCommon());
 }
@@ -959,7 +902,6 @@ MDFNGI EmulatedPCE_Fast =
    &PCEInputInfo,
    Load,
    LoadCD,
-   TestMagicCD,
    CloseGame,
    VDC_SetLayerEnableMask,
    NULL,
@@ -1027,7 +969,7 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path,
    }
 }
 
-static std::vector<CDIF*> CDInterfaces;  // FIXME: Cleanup on error out.
+static CDIF* CDInterface;  // FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
 MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
@@ -1035,50 +977,27 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
    uint8 LayoutMD5[16];
 
    MDFN_printf(("Loading %s...\n\n"), devicename ? devicename : ("PHYSICAL CD"));
-
-   try
-   {
-      if (devicename && strlen(devicename) > 4
-            && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
-      {
-         std::vector<std::string> file_list;
-
-         ReadM3U(file_list, devicename);
-
-         for (unsigned i = 0; i < file_list.size(); i++)
-            CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false));
-      }
-      else
-         CDInterfaces.push_back(CDIF_Open(devicename, false));
-   }
-   catch (std::exception &e)
-   {
-      //      MDFND_PrintError(e.what());
-      MDFN_PrintError(("Error opening CD."));
-      return (0);
-   }
+   CDInterface = CDIF_Open(devicename);
 
    //
    // Print out a track list for all discs.
    //
    MDFN_indent(1);
-   for (unsigned i = 0; i < CDInterfaces.size(); i++)
-   {
-      CDUtility_TOC toc;
+   CDUtility_TOC toc;
 
-      CDInterfaces[i]->ReadTOC(&toc);
+   CDInterface->ReadTOC(&toc);
 
-      MDFN_printf(("CD %d Layout:\n"), i + 1);
-      MDFN_indent(1);
+   MDFN_printf("CD Layout:\n");
+   MDFN_indent(1);
 
-      for (int32 track = toc.first_track; track <= toc.last_track; track++)
-         MDFN_printf(("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba,
-                     (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+   for (int32 track = toc.first_track; track <= toc.last_track; track++)
+      MDFN_printf(("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba,
+                  (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
 
-      MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
-      MDFN_indent(-1);
-      MDFN_printf("\n");
-   }
+   MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
+   MDFN_indent(-1);
+   MDFN_printf("\n");
+
    MDFN_indent(-1);
 
    // This if statement will be true if force_module references a system without CDROM support.
@@ -1094,11 +1013,9 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
    // TODO: include module name in hash
    memcpy(MDFNGameInfo->MD5, LayoutMD5, 16);
 
-   if (!(MDFNGameInfo->LoadCD(&CDInterfaces)))
+   if (!(MDFNGameInfo->LoadCD(CDInterface)))
    {
-      for (unsigned i = 0; i < CDInterfaces.size(); i++)
-         delete CDInterfaces[i];
-      CDInterfaces.clear();
+      delete CDInterface;
 
       MDFNGameInfo = NULL;
       return (0);
@@ -1120,8 +1037,7 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
 
    if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue")
                             || !strcasecmp(name + strlen(name) - 4, ".ccd")
-                            || !strcasecmp(name + strlen(name) - 4, ".toc")
-                            || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+                            || !strcasecmp(name + strlen(name) - 4, ".toc")))
       return (MDFNI_LoadCD(force_module, name));
 
    MDFN_printf(("Loading %s...\n"), name);
@@ -1486,9 +1402,7 @@ void retro_unload_game(void)
 
    MDFNGameInfo = NULL;
 
-   for (unsigned i = 0; i < CDInterfaces.size(); i++)
-      delete CDInterfaces[i];
-   CDInterfaces.clear();
+   delete CDInterface;
 }
 
 static void update_input(void)

@@ -68,6 +68,6 @@ protected:
    bool DiscEjected;
 };
 
-CDIF* CDIF_Open(const char* path, const bool is_device);
+CDIF* CDIF_Open(const char* path);
 
 #endif

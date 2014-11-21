@@ -480,7 +480,7 @@ Stream* CDIF::MakeStream(uint32 lba, uint32 sector_count)
 }
 
 
-CDIF* CDIF_Open(const char* path, const bool is_device)
+CDIF* CDIF_Open(const char* path)
 {
    CDAccess* cda = cdaccess_open_image(path);
 

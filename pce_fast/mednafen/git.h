@@ -281,8 +281,7 @@ typedef struct
 
    //
    // (*CDInterfaces).size() is guaranteed to be >= 1.
-   int (*LoadCD)(std::vector<CDIF*>* CDInterfaces);
-   bool (*TestMagicCD)(std::vector<CDIF*>* CDInterfaces);
+   int (*LoadCD)(CDIF* CDInterface);
 
    void (*CloseGame)(void);
 
