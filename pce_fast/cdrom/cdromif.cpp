@@ -27,57 +27,6 @@
 
 extern retro_log_printf_t log_cb;
 
-enum
-{
-   // Status/Error messages
-   CDIF_MSG_DONE = 0,     // Read -> emu. args: No args.
-   CDIF_MSG_INFO,         // Read -> emu. args: str_message
-   CDIF_MSG_FATAL_ERROR,     // Read -> emu. args: *TODO ARGS*
-
-   //
-   // Command messages.
-   //
-   CDIF_MSG_DIEDIEDIE,    // Emu -> read
-
-   CDIF_MSG_READ_SECTOR,     /* Emu -> read
-               args[0] = lba
-            */
-
-   CDIF_MSG_EJECT,     // Emu -> read, args[0]; 0=insert, 1=eject
-};
-
-class CDIF_Message
-{
-public:
-
-   CDIF_Message();
-   CDIF_Message(unsigned int message_, uint32 arg0 = 0, uint32 arg1 = 0,
-                uint32 arg2 = 0, uint32 arg3 = 0);
-   CDIF_Message(unsigned int message_, const std::string &str);
-   ~CDIF_Message();
-
-   unsigned int message;
-   uint32 args[4];
-   void* parg;
-   std::string str_message;
-};
-
-class CDIF_Queue
-{
-public:
-
-   CDIF_Queue();
-   ~CDIF_Queue();
-
-   bool Read(CDIF_Message* message, bool blocking = TRUE);
-
-   void Write(const CDIF_Message &message);
-
-private:
-   std::queue<CDIF_Message> ze_queue;
-};
-
-
 typedef struct
 {
    bool valid;
@@ -110,70 +59,6 @@ CDIF::CDIF() : UnrecoverableError(false), is_phys_cache(false),
 
 CDIF::~CDIF()
 {
-
-}
-
-
-CDIF_Message::CDIF_Message()
-{
-   message = 0;
-
-   memset(args, 0, sizeof(args));
-}
-
-CDIF_Message::CDIF_Message(unsigned int message_, uint32 arg0, uint32 arg1,
-                           uint32 arg2, uint32 arg3)
-{
-   message = message_;
-   args[0] = arg0;
-   args[1] = arg1;
-   args[2] = arg2;
-   args[3] = arg3;
-}
-
-CDIF_Message::CDIF_Message(unsigned int message_, const std::string &str)
-{
-   message = message_;
-   str_message = str;
-}
-
-CDIF_Message::~CDIF_Message()
-{
-
-}
-
-CDIF_Queue::CDIF_Queue()
-{
-}
-
-CDIF_Queue::~CDIF_Queue()
-{
-}
-
-// Returns FALSE if message not read, TRUE if it was read.  Will always return TRUE if "blocking" is set.
-// Will throw MDFN_Error if the read message code is CDIF_MSG_FATAL_ERROR
-bool CDIF_Queue::Read(CDIF_Message* message, bool blocking)
-{
-   bool ret = true;
-
-   if (ze_queue.size() == 0)
-      ret = false;
-   else
-   {
-      *message = ze_queue.front();
-      ze_queue.pop();
-   }
-
-   assert(!ret || message->message != CDIF_MSG_FATAL_ERROR);
-   //   if(ret && message->message == CDIF_MSG_FATAL_ERROR)
-   //      throw MDFN_Error(0, "%s", message->str_message.c_str());
-
-   return (ret);
-}
-
-void CDIF_Queue::Write(const CDIF_Message &message)
-{
-   ze_queue.push(message);
 
 }
 
