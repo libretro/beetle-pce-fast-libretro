@@ -1039,6 +1039,8 @@ void retro_init(void)
    setting_initial_scanline = 0;
    setting_last_scanline = 242;
 
+   environ_cb(RETRO_ENVIRONMENT_GET_PERF_INTERFACE, &perf_cb);
+
    check_system_specs();
 #ifdef PSP
    PSPPROF_INIT;
