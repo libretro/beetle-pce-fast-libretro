@@ -1068,34 +1068,6 @@ static void check_system_specs(void)
    environ_cb(RETRO_ENVIRONMENT_SET_PERFORMANCE_LEVEL, &level);
 }
 
-static void extract_directory(char *buf, const char *path, size_t size)
-{
-   strncpy(buf, path, size - 1);
-   buf[size - 1] = '\0';
-   char *base = strrchr(buf, SLASH_CHAR);
-   if (base)
-      *base = '\0';
-   else
-      strncpy(buf, ".", size);
-}
-
-static void extraxt_basename(char *buf, const char* path, size_t size)
-{
-   const char* base = strrchr(path, SLASH_CHAR);
-
-   if (base)
-      strncpy(buf, base, size - 1);
-   else
-      strncpy(buf, path, size - 1);
-
-   buf[size - 1] = '\0';
-
-   char* dot_location = strrchr(buf, '.');
-
-   if (dot_location)
-      *dot_location = '\0';
-}
-
 void retro_init(void)
 {
    struct retro_log_callback log;
