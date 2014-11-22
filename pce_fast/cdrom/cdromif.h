@@ -57,10 +57,6 @@ public:
       return (is_phys_cache);
    }
 
-   // For Mode 1, or Mode 2 Form 1.
-   // No reference counting or whatever is done, so if you destroy the CDIF object before you destroy the returned Stream, things will go BOOM.
-   Stream* MakeStream(uint32 lba, uint32 sector_count);
-
 protected:
    bool UnrecoverableError;
    bool is_phys_cache;
