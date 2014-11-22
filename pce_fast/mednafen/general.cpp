@@ -50,34 +50,6 @@ static bool IsAbsolutePath(const char *path)
  return(FALSE);
 }
 
-static bool IsAbsolutePath(const std::string &path)
-{
- return(IsAbsolutePath(path.c_str()));
-}
-
-bool MDFN_IsFIROPSafe(const std::string &path)
-{
- // We could make this more OS-specific, but it shouldn't hurt to try to weed out usage of characters that are path
- // separators in one OS but not in another, and we'd also run more of a risk of missing a special path separator case
- // in some OS.
-
- if(!MDFN_GetSettingB("filesys.untrusted_fip_check"))
-  return(true);
-
- if(path.find('\0') != string::npos)
-  return(false);
-
- if(path.find(':') != string::npos)
-  return(false);
-
- if(path.find('\\') != string::npos)
-  return(false);
-
- if(path.find('/') != string::npos)
-  return(false);
-
- return(true);
-}
 
 void MDFN_GetFilePathComponents(const std::string &file_path, 
       std::string *dir_path_out, std::string *file_base_out, 
@@ -133,7 +105,7 @@ void MDFN_GetFilePathComponents(const std::string &file_path,
   *file_ext_out = file_ext;
 }
 
-std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_path, bool skip_safety_check)
+std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_path)
 {
    char slash;
 #ifdef _WIN32
@@ -141,9 +113,6 @@ std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_pat
 #else
    slash = '/';
 #endif
-
-   assert(skip_safety_check || MDFN_IsFIROPSafe(rel_path));
-//      throw MDFN_Error(0, ("Referenced path \"%s\" is potentially unsafe.  See \"filesys.untrusted_fip_check\" setting.\n"), rel_path.c_str());
 
    if(IsAbsolutePath(rel_path.c_str()))
       return(rel_path);

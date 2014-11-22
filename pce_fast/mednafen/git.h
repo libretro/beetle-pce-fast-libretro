@@ -106,62 +106,6 @@ typedef struct
 
 struct MemoryPatch;
 
-// Miscellaneous system/simple commands(power, reset, dip switch toggles, coin insert, etc.)
-// (for DoSimpleCommand() )
-enum
-{
-   MDFN_MSC_RESET = 0x01,
-   MDFN_MSC_POWER = 0x02,
-
-   MDFN_MSC_INSERT_COIN = 0x07,
-
-   // If we ever support arcade systems, we'll abstract DIP switches differently...maybe.
-   MDFN_MSC_TOGGLE_DIP0 = 0x10,
-   MDFN_MSC_TOGGLE_DIP1,
-   MDFN_MSC_TOGGLE_DIP2,
-   MDFN_MSC_TOGGLE_DIP3,
-   MDFN_MSC_TOGGLE_DIP4,
-   MDFN_MSC_TOGGLE_DIP5,
-   MDFN_MSC_TOGGLE_DIP6,
-   MDFN_MSC_TOGGLE_DIP7,
-   MDFN_MSC_TOGGLE_DIP8,
-   MDFN_MSC_TOGGLE_DIP9,
-   MDFN_MSC_TOGGLE_DIP10,
-   MDFN_MSC_TOGGLE_DIP11,
-   MDFN_MSC_TOGGLE_DIP12,
-   MDFN_MSC_TOGGLE_DIP13,
-   MDFN_MSC_TOGGLE_DIP14,
-   MDFN_MSC_TOGGLE_DIP15,
-
-
-   // n of DISKn translates to is emulation module specific.
-   MDFN_MSC_INSERT_DISK0 = 0x20,
-   MDFN_MSC_INSERT_DISK1,
-   MDFN_MSC_INSERT_DISK2,
-   MDFN_MSC_INSERT_DISK3,
-   MDFN_MSC_INSERT_DISK4,
-   MDFN_MSC_INSERT_DISK5,
-   MDFN_MSC_INSERT_DISK6,
-   MDFN_MSC_INSERT_DISK7,
-   MDFN_MSC_INSERT_DISK8,
-   MDFN_MSC_INSERT_DISK9,
-   MDFN_MSC_INSERT_DISK10,
-   MDFN_MSC_INSERT_DISK11,
-   MDFN_MSC_INSERT_DISK12,
-   MDFN_MSC_INSERT_DISK13,
-   MDFN_MSC_INSERT_DISK14,
-   MDFN_MSC_INSERT_DISK15,
-
-   MDFN_MSC_INSERT_DISK   = 0x30,
-   MDFN_MSC_EJECT_DISK    = 0x31,
-
-   // This command should select the next disk or disk side in the set and use MDFN_DispMessage() to show which disk is selected.
-   // (If it's only allowed while a disk is ejected, or not, is emulation module specific.
-   MDFN_MSC_SELECT_DISK   = 0x32,
-
-   MDFN_MSC__LAST = 0x3F  // WARNING: Increasing(or having the enum'd value of a command greater than this :b) this will necessitate a change to the netplay protocol.
-};
-
 typedef struct
 {
    // Pitch(32-bit) must be equal to width and >= the "fb_width" specified in the MDFNGI struct for the emulated system.
@@ -242,16 +186,6 @@ typedef struct
 
 } EmulateSpecStruct;
 
-typedef enum
-{
-   MODPRIO_INTERNAL_EXTRA_LOW = 0, // For "cdplay" module, mostly.
-
-   MODPRIO_INTERNAL_LOW = 10,
-   MODPRIO_EXTERNAL_LOW = 20,
-   MODPRIO_INTERNAL_HIGH = 30,
-   MODPRIO_EXTERNAL_HIGH = 40
-} ModPrio;
-
 class CDIF;
 
 typedef struct
@@ -270,10 +204,6 @@ typedef struct
    // This list is used to make best-guess choices, when calling the TestMagic*() functions would be unreasonable, such
    // as when scanning a ZIP archive for a file to load.  The list may also be used in the future for GUI file open windows.
    const FileExtensionSpecStruct* FileExtensions;
-
-   ModPrio ModulePriority;
-
-   void* Debugger;
    InputInfoStruct* InputInfo;
 
    // Returns 1 on successful load, 0 on fatal error(deprecated: -1 on unrecognized format)
@@ -285,31 +215,12 @@ typedef struct
 
    void (*CloseGame)(void);
 
-   void (*SetLayerEnableMask)(uint64 mask); // Video
-   const char* LayerNames;
-
-   void (*SetChanEnableMask)(uint64 mask);  // Audio(TODO, placeholder)
-   const char* ChanNames;
-
-   void (*InstallReadPatch)(uint32 address);
-   void (*RemoveReadPatches)(void);
-   uint8(*MemRead)(uint32 addr);
-
-   bool SaveStateAltersState;   // true for bsnes and some libco-style emulators, false otherwise.
-   // Main save state routine, called by the save state code in state.cpp.
-   // When saving, load is set to 0.  When loading, load is set to the version field of the save state being loaded.
    int (*StateAction)(StateMem* sm, int load);
 
    void (*Emulate)(EmulateSpecStruct* espec);
    void (*SetInput)(int port, const char* type, void* ptr);
 
-   void (*DoSimpleCommand)(int cmd);
-
    const MDFNSetting* Settings;
-
-   // Time base for EmulateSpecStruct::MasterCycles
-#define MDFN_MASTERCLOCK_FIXED(n)  ((int64)((double)(n) * (1LL << 32)))
-   int64 MasterClock;
 
    uint32 fps; // frames per second * 65536 * 256, truncated
 
@@ -337,13 +248,6 @@ typedef struct
 
    int fb_width;    // Width of the framebuffer(not necessarily width of the image).  MDFN_Surface width should be >= this.
    int fb_height;      // Height of the framebuffer passed to the Emulate() function(not necessarily height of the image)
-
-   int soundchan;   // Number of output sound channels.
-
-
-   int rotated;
-
-   uint8* name;    /* Game name, UTF8 encoding */
 
 } MDFNGI;
 #endif

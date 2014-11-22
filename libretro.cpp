@@ -423,8 +423,6 @@ static int LoadCommon(void)
    }
 
    PCE_Power();
-
-   MDFNGameInfo->LayerNames = "Background\0Sprites\0";
    MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 *
                                 256);
 
@@ -579,19 +577,6 @@ void PCE_Power(void)
 
    if (PCE_IsCD)
       PCECD_Power(HuCPU.timestamp * 3);
-}
-
-static void DoSimpleCommand(int cmd)
-{
-   switch (cmd)
-   {
-   case MDFN_MSC_RESET:
-      PCE_Power();
-      break;
-   case MDFN_MSC_POWER:
-      PCE_Power();
-      break;
-   }
 }
 
 static MDFNSetting PCESettings[] =
@@ -913,41 +898,23 @@ MDFNGI EmulatedPCE_Fast =
    "pce_fast",
    "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
    KnownExtensions,
-   MODPRIO_INTERNAL_LOW,
-   NULL,
    &PCEInputInfo,
    Load,
    LoadCD,
    CloseGame,
-   VDC_SetLayerEnableMask,
-   NULL,
-   NULL,
-   NULL,
-   NULL,
-   NULL,
-   MemRead,
-   false,
    StateAction,
    Emulate,
    PCEINPUT_SetInput,
-   DoSimpleCommand,
    PCESettings,
-   MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
    0,
-
    true,  // Multires possible?
-
    0,   // lcm_width
    0,   // lcm_height
    NULL,  // Dummy
-
    288,   // Nominal width
    232,   // Nominal height
-
    512, // Framebuffer width
    242, // Framebuffer height
-
-   2,     // Number of output sound channels
 };
 
 static CDIF* CDInterface;  // FIXME: Cleanup on error out.
@@ -1028,22 +995,6 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
       return (0);
    }
 
-   if (!MDFNGameInfo->name)
-   {
-      unsigned int x;
-      char* tmp;
-
-      MDFNGameInfo->name = (UTF8*)strdup(GetFNComponent(name));
-
-      for (x = 0; x < strlen((char*)MDFNGameInfo->name); x++)
-      {
-         if (MDFNGameInfo->name[x] == '_')
-            MDFNGameInfo->name[x] = ' ';
-      }
-      if ((tmp = strrchr((char*)MDFNGameInfo->name, '.')))
-         * tmp = 0;
-   }
-
    return (MDFNGameInfo);
 }
 
@@ -1096,7 +1047,7 @@ void retro_init(void)
 
 void retro_reset(void)
 {
-   DoSimpleCommand(MDFN_MSC_RESET);
+   PCE_Power();
 }
 
 bool retro_load_game_special(unsigned, const struct retro_game_info*, size_t)
@@ -1251,10 +1202,6 @@ void retro_unload_game(void)
    //   MDFN_FlushGameCheats(0);
 
    MDFNGameInfo->CloseGame();
-
-   if (MDFNGameInfo->name)
-      free(MDFNGameInfo->name);
-   MDFNGameInfo->name = NULL;
 
    //   MDFNMP_Kill();
 

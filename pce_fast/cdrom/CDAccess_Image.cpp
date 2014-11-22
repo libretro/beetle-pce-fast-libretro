@@ -554,9 +554,6 @@ void CDAccess_Image::ImageOpen(const char* path)
                active_track = -1;
             }
 
-            assert(MDFN_IsFIROPSafe(args[0]));
-            //      throw(MDFN_Error(0, ("Referenced path \"%s\" is potentially unsafe.  See \"filesys.untrusted_fip_check\" setting.\n"), args[0].c_str()));
-
             std::string efn = MDFN_EvalFIP(base_dir, args[0]);
             TmpTrack.fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
             TmpTrack.FirstFileInstance = 1;

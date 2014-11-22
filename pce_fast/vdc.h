@@ -111,7 +111,6 @@ typedef struct
 extern vdc_t* vdc;
 
 void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES);
-void VDC_SetLayerEnableMask(uint64 mask);
 
 DECLFW(VDC_Write);
 DECLFW(VDC_Write_ST);

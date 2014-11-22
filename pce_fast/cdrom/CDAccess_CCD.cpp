@@ -354,7 +354,7 @@ void CDAccess_CCD::Load(const char* path)
    // Open image stream.
    {
       std::string image_path = MDFN_EvalFIP(dir_path,
-                                            file_base + std::string(".") + std::string(img_extsd), true);
+                                            file_base + std::string(".") + std::string(img_extsd));
 
       img_stream = new FileStream(image_path.c_str(), FileStream::MODE_READ);
 
@@ -370,7 +370,7 @@ void CDAccess_CCD::Load(const char* path)
    // Open subchannel stream
    {
       std::string sub_path = MDFN_EvalFIP(dir_path,
-                                          file_base + std::string(".") + std::string(sub_extsd), true);
+                                          file_base + std::string(".") + std::string(sub_extsd));
 
       sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
 

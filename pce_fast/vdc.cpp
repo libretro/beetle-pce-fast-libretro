@@ -37,7 +37,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "vdc_psp.cpp"
 #endif
 
-static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
 static bool unlimited_sprites;
@@ -266,12 +265,6 @@ DECLFW(VCE_Write)
       vce.ctaddress++;
       break;
    }
-}
-
-
-void VDC_SetLayerEnableMask(uint64 mask)
-{
-   userle = mask;
 }
 
 DECLFW(VDC_Write_ST)
@@ -1060,23 +1053,11 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
                CalcStartEnd(vdc, start, end);
 
                if ((vdc->CR & 0x80) && SHOULD_DRAW)
-               {
-                  if (userle & (ULE_BG0))
-                     DrawBG(vdc, end - start + (vdc->BG_XOffset & 7), bg_linebuf);
-                  else
-                     memset(bg_linebuf, 0, end - start + (vdc->BG_XOffset & 7));
-               }
+                  DrawBG(vdc, end - start + (vdc->BG_XOffset & 7), bg_linebuf);
 
-               if ((vdc->CR & 0x40) && (SHOULD_DRAW
-                                        || (vdc->CR &
-                                            0x03))) // Don't skip sprite drawing if we can generate sprite #0 or sprite overflow IRQs.
-               {
-                  if ((userle & (ULE_SPR0)) || (vdc->CR & 0x03))
-                     DrawSprites(vdc, end - start, spr_linebuf + 0x20);
-
-                  if (!(userle & (ULE_SPR0)))
-                     memset(spr_linebuf + 0x20, 0, sizeof(uint16) * (end - start));
-               }
+                // Don't skip sprite drawing if we can generate sprite #0 or sprite overflow IRQs.
+               if ((vdc->CR & 0x40) && (SHOULD_DRAW|| (vdc->CR &0x03)))
+                  DrawSprites(vdc, end - start, spr_linebuf + 0x20);
 
 #ifdef PSP
 #ifndef DISABLE_SW_RENDER
@@ -1231,7 +1212,6 @@ void VDC_Init(int sgx)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
    correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
-   userle = ~0;
 
    vdc = (vdc_t*)MDFN_malloc(sizeof(vdc_t), "VDC");
 #ifdef PSP
