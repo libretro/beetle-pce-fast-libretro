@@ -290,7 +290,6 @@ static uint8 lastchar = 0;
 static MDFNGI* game;
 
 struct retro_perf_callback perf_cb;
-retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
 retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
 static retro_audio_sample_t audio_cb;
@@ -304,11 +303,7 @@ static double last_sound_rate;
 
 static MDFN_Surface surf = {NULL, 0, 0, 0};
 
-static bool failed_init;
-
-std::string retro_base_directory;
-std::string retro_base_name;
-std::string retro_save_directory;
+char retro_base_directory[PATH_MAX] = "";
 
 
 bool PCE_InitCD(void)
@@ -452,15 +447,9 @@ static int LoadCD(CDIF* CDInterface)
 {
    static char bios_path[PATH_MAX];
 
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
 
-   snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory.c_str(),
-            slash, "syscard3.pce");
+   snprintf(bios_path, sizeof(bios_path), "%s%c%s", retro_base_directory,
+            SLASH_CHAR, "syscard3.pce");
 
    LoadCommonPre();
 
@@ -1058,20 +1047,6 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
    return (MDFNGameInfo);
 }
 
-static void set_basename(const char* path)
-{
-   const char* base = strrchr(path, '/');
-   if (!base)
-      base = strrchr(path, '\\');
-
-   if (base)
-      retro_base_name = base + 1;
-   else
-      retro_base_name = path;
-
-   retro_base_name = retro_base_name.substr(0, retro_base_name.find_last_of('.'));
-}
-
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
 #define MEDNAFEN_CORE_VERSION "v0.9.36.1"
@@ -1093,6 +1068,34 @@ static void check_system_specs(void)
    environ_cb(RETRO_ENVIRONMENT_SET_PERFORMANCE_LEVEL, &level);
 }
 
+static void extract_directory(char *buf, const char *path, size_t size)
+{
+   strncpy(buf, path, size - 1);
+   buf[size - 1] = '\0';
+   char *base = strrchr(buf, SLASH_CHAR);
+   if (base)
+      *base = '\0';
+   else
+      strncpy(buf, ".", size);
+}
+
+static void extraxt_basename(char *buf, const char* path, size_t size)
+{
+   const char* base = strrchr(path, SLASH_CHAR);
+
+   if (base)
+      strncpy(buf, base, size - 1);
+   else
+      strncpy(buf, path, size - 1);
+
+   buf[size - 1] = '\0';
+
+   char* dot_location = strrchr(buf, '.');
+
+   if (dot_location)
+      *dot_location = '\0';
+}
+
 void retro_init(void)
 {
    struct retro_log_callback log;
@@ -1106,53 +1109,9 @@ void retro_init(void)
    const char* dir = NULL;
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)
-   {
-      retro_base_directory = dir;
-      // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-      size_t last = retro_base_directory.find_last_not_of("/\\");
-      if (last != std::string::npos)
-         last++;
-
-      retro_base_directory = retro_base_directory.substr(0, last);
-   }
+      strncpy(retro_base_directory, dir, sizeof(retro_base_directory));
    else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN,
-                "System directory is not defined. Fallback on using same dir as ROM for system directory later ...\n");
-      failed_init = true;
-   }
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &dir) && dir)
-   {
-      // If save directory is defined use it, otherwise use system directory
-      retro_save_directory = *dir ? dir : retro_base_directory;
-      // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-      size_t last = retro_save_directory.find_last_not_of("/\\");
-      if (last != std::string::npos)
-         last++;
-
-      retro_save_directory = retro_save_directory.substr(0, last);
-   }
-   else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN,
-                "Save directory is not defined. Fallback on using SYSTEM directory ...\n");
-      retro_save_directory = retro_base_directory;
-   }
-
-   enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
-   if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
-      log_cb(RETRO_LOG_INFO,
-             "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_PERF_INTERFACE, &perf_cb))
-      perf_get_cpu_features_cb = perf_cb.get_cpu_features;
-   else
-      perf_get_cpu_features_cb = NULL;
+      strncpy(retro_base_directory, ".", sizeof(retro_base_directory));
 
    setting_initial_scanline = 0;
    setting_last_scanline = 242;
@@ -1279,13 +1238,18 @@ static uint8_t input_buf[MAX_PLAYERS][2] = {0};
 
 bool retro_load_game(const struct retro_game_info* info)
 {
-   if (failed_init)
+   enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
+   if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565))
+   {
+      if (log_cb)
+         log_cb(RETRO_LOG_INFO,"Frontend does not supports RGB565\n");
+
       return false;
+   }
+
 
    overscan = false;
    environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &overscan);
-
-   set_basename(info->path);
 
    check_variables();
 

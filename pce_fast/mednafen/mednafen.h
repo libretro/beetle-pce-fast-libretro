@@ -56,5 +56,22 @@ void MDFN_MidSync(EmulateSpecStruct *espec);
 #include "mednafen-memory.h"
 
 #include "pce.h"
+
+#ifndef PATH_MAX
+#ifdef MAX_PATH
+#define PATH_MAX MAX_PATH
+#else
+#define PATH_MAX  4096
+#endif
+#endif
+
+#ifdef _WIN32
+#define SLASH_CHAR '\\'
+#define SLASH_STRING "\\"
+#else
+#define SLASH_CHAR '/'
+#define SLASH_STRING "/"
+#endif
+
 #endif
 
