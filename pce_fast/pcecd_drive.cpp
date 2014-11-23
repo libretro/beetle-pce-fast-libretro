@@ -429,23 +429,6 @@ static void CommandCCError(int key, int asc = 0, int ascq = 0)
    SendStatusAndMessage(STATUS_CHECK_CONDITION, 0x00);
 }
 
-static bool ValidateRawDataSector(uint8* data, const uint32 lba)
-{
-   if (!edc_lec_check_and_correct(data, false))
-   {
-      MDFN_DispMessage(("Uncorrectable data at sector %u"), lba);
-      MDFN_PrintError(("Uncorrectable data at sector %u"), lba);
-
-      din.Flush();
-      cd.data_transfer_done = false;
-
-      CommandCCError(SENSEKEY_MEDIUM_ERROR, AP_LEC_UNCORRECTABLE_ERROR);
-      return (false);
-   }
-
-   return (true);
-}
-
 static void DoREADBase(uint32 sa, uint32 sc)
 {
    int track;
@@ -954,18 +937,18 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
                memcpy(cd.SubPWBuf, tmpbuf + 2352, 96);
 
 
-//               typedef struct
-//               {
-//                  uint64_t data[294];
-//               }sector_buffer_t;
-//               typedef struct
-//               {
-//                  uint64_t data[12];
-//               }sub_buffer_t;
+               //               typedef struct
+               //               {
+               //                  uint64_t data[294];
+               //               }sector_buffer_t;
+               //               typedef struct
+               //               {
+               //                  uint64_t data[12];
+               //               }sub_buffer_t;
 
-//               *((sector_buffer_t*)cdda.CDDASectorBuffer)= *((sector_buffer_t*)tmpbuf);
-//               *((sector_buffer_t*)cd.SubPWBuf)= *((sector_buffer_t*)(tmpbuf + 2352));
-//               memcpy(cdda.CDDASectorBuffer, tmpbuf, 1176);
+               //               *((sector_buffer_t*)cdda.CDDASectorBuffer)= *((sector_buffer_t*)tmpbuf);
+               //               *((sector_buffer_t*)cd.SubPWBuf)= *((sector_buffer_t*)(tmpbuf + 2352));
+               //               memcpy(cdda.CDDASectorBuffer, tmpbuf, 1176);
             }
             GenSubQFromSubPW();
             read_sec++;
@@ -996,9 +979,9 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
          if (sbuf[0] && sbuf[1])
          {
             Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[0] - cdda.last_sample[0],
-                                         sbuf[0]);
+                              sbuf[0]);
             Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[1] - cdda.last_sample[1],
-                                         sbuf[1]);
+                              sbuf[1]);
          }
 
          cdda.last_sample[0] = sample[0];
@@ -1048,35 +1031,32 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
                CommandCCError(SENSEKEY_ILLEGAL_REQUEST);
             }
             else
-#ifndef PCE_FAST_CD_SPEEDHACK
-               if (ValidateRawDataSector(tmp_read_buf, SectorAddr))
-#endif
+            {
+               memcpy(cd.SubPWBuf, tmp_read_buf + 2352, 96);
+
+               if (tmp_read_buf[12 + 3] == 0x2)
+                  din.Write(tmp_read_buf + 24, 2048);
+               else
+                  din.Write(tmp_read_buf + 16, 2048);
+
+               GenSubQFromSubPW();
+
+               CDIRQCallback(PCECD_Drive_IRQ_DATA_TRANSFER_READY);
+
+               SectorAddr++;
+               SectorCount--;
+
+               if (CurrentPhase != PHASE_DATA_IN)
+                  ChangePhase(PHASE_DATA_IN);
+
+               if (SectorCount)
                {
-                  memcpy(cd.SubPWBuf, tmp_read_buf + 2352, 96);
-
-                  if (tmp_read_buf[12 + 3] == 0x2)
-                     din.Write(tmp_read_buf + 24, 2048);
-                  else
-                     din.Write(tmp_read_buf + 16, 2048);
-
-                  GenSubQFromSubPW();
-
-                  CDIRQCallback(PCECD_Drive_IRQ_DATA_TRANSFER_READY);
-
-                  SectorAddr++;
-                  SectorCount--;
-
-                  if (CurrentPhase != PHASE_DATA_IN)
-                     ChangePhase(PHASE_DATA_IN);
-
-                  if (SectorCount)
-                  {
-                     cd.data_transfer_done = FALSE;
-                     CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
-                  }
-                  else
-                     cd.data_transfer_done = TRUE;
+                  cd.data_transfer_done = FALSE;
+                  CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
                }
+               else
+                  cd.data_transfer_done = TRUE;
+            }
          }           // end else to if(!Cur_CDIF->ReadSector
 
       }

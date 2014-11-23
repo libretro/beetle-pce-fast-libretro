@@ -176,28 +176,6 @@ void encode_mode2_form2_sector(uint32 aba,
                                uint8* sector_data);  // 2324+8 bytes of user data at offset 16
 
 
-// out_buf must be able to contain 2352+96 bytes.
-// "mode" is only used if(toc.tracks[100].control & 0x4)
-void synth_leadout_sector_lba(const uint8 mode, const CDUtility_TOC &toc,
-                              const int32 lba,
-                              uint8* out_buf);
-
-//
-// User data error detection and correction
-//
-
-// Check EDC of a mode 1 or mode 2 form 1 sector.
-//  Returns "true" if checksum is ok(matches).
-//  Returns "false" if checksum mismatch.
-//  sector_data should contain 2352 bytes of raw sector data.
-bool edc_check(const uint8* sector_data, bool xa);
-
-// Check EDC and L-EC data of a mode 1 or mode 2 form 1 sector, and correct bit errors if any exist.
-//  Returns "true" if errors weren't detected, or they were corrected succesfully.
-//  Returns "false" if errors couldn't be corrected.
-//  sector_data should contain 2352 bytes of raw sector data.
-bool edc_lec_check_and_correct(uint8* sector_data, bool xa);
-
 //
 // Subchannel(Q in particular) functions
 //
@@ -223,8 +201,5 @@ void subpw_interleave(const uint8* in_buf, uint8* out_buf);
 // subq_input must pass subq_check_checksum().
 // TODO
 //void subq_extrapolate(const uint8 *subq_input, int32 position_delta, uint8 *subq_output);
-
-// (De)Scrambles data sector.
-void scrambleize_data_sector(uint8* sector_data);
 
 #endif

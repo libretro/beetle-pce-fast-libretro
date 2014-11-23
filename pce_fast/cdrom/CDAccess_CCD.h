@@ -38,8 +38,6 @@ private:
    void Load(const char* path);
    void Cleanup(void);
 
-   void CheckSubQSanity(void);
-
    Stream* img_stream;
    Stream* sub_stream;
    size_t img_numsectors;

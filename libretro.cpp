@@ -1007,8 +1007,6 @@ void retro_init(void)
    else
       log_cb = NULL;
 
-   CDUtility_Init();
-
    const char* dir = NULL;
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &dir) && dir)

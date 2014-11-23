@@ -200,11 +200,6 @@ OBJECTS += $(CORE_DIR)/cdrom/CDAccess.o
 OBJECTS += $(CORE_DIR)/cdrom/CDAccess_Image.o
 OBJECTS += $(CORE_DIR)/cdrom/CDAccess_CCD.o
 OBJECTS += $(CORE_DIR)/cdrom/CDUtility.o
-OBJECTS += $(CORE_DIR)/cdrom/lec.o
-OBJECTS += $(CORE_DIR)/cdrom/galois.o
-OBJECTS += $(CORE_DIR)/cdrom/recover-raw.o
-OBJECTS += $(CORE_DIR)/cdrom/l-ec.o
-OBJECTS += $(CORE_DIR)/cdrom/crc32.o
 OBJECTS += $(CORE_DIR)/cdrom/cdromif.o
 #mednafen
 OBJECTS += $(MEDNAFEN_DIR)/settings.o

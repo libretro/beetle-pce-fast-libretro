@@ -63,21 +63,6 @@ CDIF::~CDIF()
 }
 
 
-
-bool CDIF::ValidateRawSector(uint8* buf)
-{
-   int mode = buf[12 + 3];
-
-   if (mode != 0x1 && mode != 0x2)
-      return (false);
-
-   if (!edc_lec_check_and_correct(buf, mode == 2))
-      return (false);
-
-   return (true);
-}
-
-
 int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
 {
    int ret = 0;
@@ -93,16 +78,6 @@ int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
       {
          puts("CDIF Raw Read error");
          return (FALSE);
-      }
-
-      if (!ValidateRawSector(tmpbuf))
-      {
-         if (log_cb)
-         {
-            log_cb(RETRO_LOG_ERROR, "Uncorrectable data at sector %d\n", lba);
-            log_cb(RETRO_LOG_ERROR, "Uncorrectable data at sector %d\n", lba);
-         }
-         return (false);
       }
 
       const int mode = tmpbuf[12 + 3];
