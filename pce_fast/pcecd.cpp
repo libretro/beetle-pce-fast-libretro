@@ -60,8 +60,7 @@ static inline void ADPCM_DEBUG(const char* format, ...)
    /*printf("[Half=%d, End=%d, Playing=%d] "x, ADPCM.HalfReached, ADPCM.EndReached, ADPCM.Playing, ## __VA_ARGS__);*/
 }
 
-typedef Blip_Synth<blip_good_quality, 16384> ADSynth;
-static ADSynth ADPCMSynth;
+static Blip_Synth ADPCMSynth;
 static OKIADPCM_Decoder<OKIADPCM_MSM5205> MSM5205;
 
 typedef struct
@@ -246,7 +245,7 @@ bool PCECD_SetSettings(const PCECD_Settings* settings)
    CDDAVolumeSetting = settings ? settings->CDDA_Volume : 1.0;
    Fader_SyncWhich();
 
-   ADPCMSynth.volume(0.42735f * (settings ? settings->ADPCM_Volume : 1.0));
+   ADPCMSynth.volume(0.42735f * (settings ? settings->ADPCM_Volume : 1.0), 0x4000);
 
    PCECD_Drive_SetTransferRate(126000 * (settings ? settings->CD_Speed : 1));
 

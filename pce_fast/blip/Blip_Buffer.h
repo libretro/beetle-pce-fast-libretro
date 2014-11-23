@@ -168,20 +168,14 @@ public:
    Blip_Synth_Fast_();
 };
 
-// Quality level. Start with blip_good_quality.
-const int blip_med_quality  = 8;
-const int blip_good_quality = 12;
-const int blip_high_quality = 16;
-
 // Range specifies the greatest expected change in amplitude. Calculate it
 // by finding the difference between the maximum and minimum expected
 // amplitudes (max - min).
-template<int quality, int range>
 class Blip_Synth
 {
 public:
    // Set overall volume of waveform
-   void volume(double v)
+   void volume(double v, int range)
    {
       impl.volume_unit(v * (1.0 / (range < 0 ? -range : range)));
    }
@@ -264,15 +258,12 @@ int const blip_reader_default_bass = 9;
 
 // Compatibility with older version
 const long blip_unscaled = 65535;
-const int blip_low_quality  = blip_med_quality;
-const int blip_best_quality = blip_high_quality;
 
 // End of public interface
 
 #include <assert.h>
 
-template<int quality, int range>
-blip_inline void Blip_Synth<quality, range>::offset_resampled(
+blip_inline void Blip_Synth::offset_resampled(
    blip_resampled_time_t time,
    int delta, Blip_Buffer* blip_buf) const
 {
@@ -301,15 +292,13 @@ blip_inline void Blip_Synth<quality, range>::offset_resampled(
 #undef BLIP_FWD
 #undef BLIP_REV
 
-template<int quality, int range>
-blip_inline void Blip_Synth<quality, range>::offset(blip_time_t t, int delta,
+blip_inline void Blip_Synth::offset(blip_time_t t, int delta,
       Blip_Buffer* buf) const
 {
    offset_resampled(t * buf->factor + buf->offset, delta, buf);
 }
 
-template<int quality, int range>
-blip_inline void Blip_Synth<quality, range>::update(blip_time_t t, int amp)
+blip_inline void Blip_Synth::update(blip_time_t t, int amp)
 {
    int delta = amp - impl.last_amp;
    impl.last_amp = amp;

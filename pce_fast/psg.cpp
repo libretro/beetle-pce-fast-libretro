@@ -27,7 +27,7 @@ void PSG_SetVolume(double new_volume)
 {
    psg.OutputVolume = new_volume;
 
-   psg.Synth.volume(psg.OutputVolume / 6);
+   psg.Synth.volume(psg.OutputVolume / 6, 0x2000);
 }
 
 void PSG_UpdateOutput_Norm(const int32 timestamp, psg_channel* ch)

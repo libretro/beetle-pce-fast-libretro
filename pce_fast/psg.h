@@ -44,7 +44,7 @@ typedef struct
    psg_channel channel[6];
    int32 lastts;
    Blip_Buffer* sbuf[2];
-   Blip_Synth<blip_good_quality, 8192> Synth;
+   Blip_Synth Synth;
    int32 dbtable_volonly[32];
    int32 dbtable[32][32];
 } PCEFast_PSG;

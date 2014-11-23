@@ -94,8 +94,6 @@ typedef struct
 
 } pcecd_drive_t;
 
-typedef Blip_Synth < blip_good_quality, 1> CDSynth;
-
 enum
 {
    CDDASTATUS_PAUSED = -1,
@@ -117,7 +115,7 @@ typedef struct
    uint32 scan_sec_end;
 
    uint8 PlayMode;
-   CDSynth CDDASynth;
+   Blip_Synth CDDASynth;
    int32 CDDAVolume;
    int16 last_sample[2];
    int16 CDDASectorBuffer[1176];
@@ -1301,7 +1299,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
    cdda.CDDATimeDiv = cdda_time_div;
 
    cdda.CDDAVolume = 65536;
-   cdda.CDDASynth.volume(1.0f / 65536);
+   cdda.CDDASynth.volume(1.0f / 65536, 1);
    sbuf[0] = leftbuf;
    sbuf[1] = rightbuf;
 
