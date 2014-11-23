@@ -24,7 +24,6 @@ class Stream
   ATTRIBUTE_WRITEABLE,
   ATTRIBUTE_SEEKABLE
  };
- virtual uint64 attributes(void) = 0;
 
  virtual uint64 read(void *data, uint64 count, bool error_on_eos = true) = 0;
  virtual void write(const void *data, uint64 count) = 0;
@@ -40,105 +39,6 @@ class Stream
 				// stream is writeable; it will be called automatically from the destructor, with any
 				// exceptions thrown caught and logged.
 
- //
- // Utility functions(TODO):
- //
- INLINE uint8 get_u8(void)
- {
-  uint8 ret;
-
-  read(&ret, sizeof(ret));
-
-  return ret;
- }
-
- INLINE void put_u8(uint8 c)
- {
-  write(&c, sizeof(c));
- }
-
-
- template<typename T>
- INLINE T get_NE(void)
- {
-  T ret;
-
-  read(&ret, sizeof(ret));
-
-  return ret;
- }
-
- template<typename T>
- INLINE void put_NE(T c)
- {
-  write(&c, sizeof(c));
- }
-
-
- template<typename T>
- INLINE T get_RE(void)
- {
-  uint8 tmp[sizeof(T)];
-  T ret = 0;
-
-  read(tmp, sizeof(tmp));
-
-  for(unsigned i = 0; i < sizeof(T); i++)
-   ret |= (T)tmp[i] << (i * 8);
-
-  return ret;
- }
-
- template<typename T>
- INLINE void put_RE(T c)
- {
-  uint8 tmp[sizeof(T)];
-
-  for(unsigned i = 0; i < sizeof(T); i++)
-   tmp[i] = ((uint8 *)&c)[sizeof(T) - 1 - i];
-
-  write(tmp, sizeof(tmp));
- }
-
- template<typename T>
- INLINE T get_LE(void)
- {
-  #ifdef LSB_FIRST
-  return get_NE<T>();
-  #else
-  return get_RE<T>();
-  #endif
- }
-
- template<typename T>
- INLINE void put_LE(T c)
- {
-  #ifdef LSB_FIRST
-  return put_NE<T>(c);
-  #else
-  return put_RE<T>(c);
-  #endif
- }
-
- template<typename T>
- INLINE T get_BE(void)
- {
-  #ifndef LSB_FIRST
-  return get_NE<T>();
-  #else
-  return get_RE<T>();
-  #endif
- }
-
- template<typename T>
- INLINE void put_BE(T c)
- {
-  #ifndef LSB_FIRST
-  return put_NE<T>(c);
-  #else
-  return put_RE<T>(c);
-  #endif
- }
 
  // Reads a line into "str", overwriting its contents; returns the line-end char('\n' or '\r' or '\0'), or -1 on EOF.
  // The line-end char won't be added to "str".

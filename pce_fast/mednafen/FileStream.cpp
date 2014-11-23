@@ -46,24 +46,6 @@ FileStream::~FileStream()
       sceIoClose(fp);
 }
 
-uint64 FileStream::attributes(void)
-{
-   uint64 ret = ATTRIBUTE_SEEKABLE;
-
-   switch(OpenedMode)
-   {
-      case FileStream::MODE_READ:
-         ret |= ATTRIBUTE_READABLE;
-         break;
-      case FileStream::MODE_WRITE_SAFE:
-      case FileStream::MODE_WRITE:
-         ret |= ATTRIBUTE_WRITEABLE;
-         break;
-   }
-
-   return ret;
-}
-
 uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
 {
 #if 0
@@ -171,24 +153,6 @@ FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
 
 FileStream::~FileStream()
 {
-}
-
-uint64 FileStream::attributes(void)
-{
-   uint64 ret = ATTRIBUTE_SEEKABLE;
-
-   switch(OpenedMode)
-   {
-      case FileStream::MODE_READ:
-         ret |= ATTRIBUTE_READABLE;
-         break;
-      case FileStream::MODE_WRITE_SAFE:
-      case FileStream::MODE_WRITE:
-         ret |= ATTRIBUTE_WRITEABLE;
-         break;
-   }
-
-   return ret;
 }
 
 uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
