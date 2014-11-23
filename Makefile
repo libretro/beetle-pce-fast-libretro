@@ -213,7 +213,6 @@ OBJECTS += $(MEDNAFEN_DIR)/FileStream.o
 OBJECTS += $(MEDNAFEN_DIR)/Stream.o
 OBJECTS += $(MEDNAFEN_DIR)/state.o
 OBJECTS += $(MEDNAFEN_DIR)/endian.o
-OBJECTS += $(MEDNAFEN_DIR)/file.o
 #okiadpcm
 OBJECTS += $(MEDNAFEN_DIR)/okiadpcm.o
 #misc

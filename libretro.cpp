@@ -37,6 +37,43 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+
+static MDFNSetting PCESettings[] =
+{
+   { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, ("Correct the aspect ratio."), NULL, MDFNST_BOOL, "1" },
+   { "pce_fast.slstart", MDFNSF_NOFLAGS, ("First rendered scanline."), NULL, MDFNST_UINT, "4", "0", "239" },
+   { "pce_fast.slend", MDFNSF_NOFLAGS, ("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
+   { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("Enable Arcade Card emulation."), NULL, MDFNST_BOOL, "1" },
+   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CPU overclock multiplier."), NULL, MDFNST_UINT, "1", "1", "100"},
+   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CD-ROM data transfer speed multiplier."), NULL, MDFNST_UINT, "1", "1", "100" },
+   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, ("Remove 16-sprites-per-scanline hardware limit."), NULL, MDFNST_BOOL, "0" },
+
+   { "pce_fast.cdbios", MDFNSF_EMU_STATE, ("Path to the CD BIOS"), NULL, MDFNST_STRING, "syscard3.pce" },
+
+   { "pce_fast.adpcmlp", MDFNSF_NOFLAGS, ("Enable dynamic ADPCM lowpass filter."), NULL, MDFNST_BOOL, "0" },
+   { "pce_fast.cdpsgvolume", MDFNSF_NOFLAGS, ("PSG volume when playing a CD game."), NULL, MDFNST_UINT, "100", "0", "200" },
+   { "pce_fast.cddavolume", MDFNSF_NOFLAGS, ("CD-DA volume."), NULL, MDFNST_UINT, "100", "0", "200" },
+   { "pce_fast.adpcmvolume", MDFNSF_NOFLAGS, ("ADPCM volume."), NULL, MDFNST_UINT, "100", "0", "200" },
+   { NULL }
+};
+
+static uint8 MemRead(uint32 addr)
+{
+   return (PCERead[(addr / 8192) & 0xFF](addr));
+}
+
+static const FileExtensionSpecStruct KnownExtensions[] =
+{
+   { ".pce", ("PC Engine ROM Image") },
+   { NULL, NULL }
+};
+
+static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
+static uint8* HuCROM = NULL;
+static bool IsPopulous;
+bool PCE_IsCD;
+uint8 SaveRAM[2048];
+
 static Blip_Buffer sbuf[2];
 
 bool PCE_ACEnabled;
@@ -277,6 +314,60 @@ static void PCECDIRQCB(bool asserted)
 }
 
 
+static DECLFW(ACPhysWrite)
+{
+   ArcadeCard_PhysWrite(A, V);
+}
+
+static DECLFR(ACPhysRead)
+{
+   return (ArcadeCard_PhysRead(A));
+}
+
+static DECLFR(SaveRAMRead)
+{
+   if ((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
+      return (SaveRAM[A & 2047]);
+   else
+      return (0xFF);
+}
+
+static DECLFW(SaveRAMWrite)
+{
+   if ((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
+      SaveRAM[A & 2047] = V;
+}
+
+static DECLFR(HuCRead)
+{
+   return ROMSpace[A];
+}
+
+static DECLFW(HuCRAMWrite)
+{
+   ROMSpace[A] = V;
+}
+
+static DECLFW(HuCRAMWriteCDSpecial) // Hyper Dyne Special hack
+{
+   BaseRAM[0x2000 | (A & 0x1FFF)] = V;
+   ROMSpace[A] = V;
+}
+
+static uint8 HuCSF2Latch = 0;
+
+static DECLFR(HuCSF2Read)
+{
+   return (HuCROM[(A & 0x7FFFF) + 0x80000 + HuCSF2Latch *
+                  0x80000 ]); // | (HuCSF2Latch << 19) ]);
+}
+
+static DECLFW(HuCSF2Write)
+{
+   if ((A & 0x1FFC) == 0x1FF0)
+      HuCSF2Latch = (A & 0x3);
+}
+
 
 static uint8 lastchar = 0;
 
@@ -323,19 +414,42 @@ bool PCE_InitCD(void)
 static int LoadCommon(void);
 static void LoadCommonPre(void);
 
-static int Load(const char* name, MDFNFILE* fp)
+static int PCE_Load(const char* path)
 {
+   FILE* fp = fopen(path, "rb");
+   long f_size;
    uint32 headerlen = 0;
    uint32 r_size;
+
+   fseek(fp, 0, SEEK_END);
+   f_size = ftell(fp);
 
    LoadCommonPre();
 
    {
-      if (GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
+      if (f_size & 0x200) // 512 byte header!
          headerlen = 512;
    }
 
-   r_size = GET_FSIZE_PTR(fp) - headerlen;
+   r_size = f_size - headerlen;
+   uint32 len =  f_size - headerlen;
+
+   fseek(fp, f_size & 0x200, SEEK_SET);
+
+   uint32 sf2_threshold = 2048 * 1024;
+   uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
+   uint32 m_len = (len + 8191) & ~8191;
+   bool sf2_mapper = FALSE;
+
+   if (m_len >= sf2_threshold)
+   {
+      sf2_mapper = TRUE;
+
+      if (m_len != sf2_required_size)
+         m_len = sf2_required_size;
+   }
+
+
    if (r_size > 4096 * 1024) r_size = 4096 * 1024;
 
    for (int x = 0; x < 0x100; x++)
@@ -344,10 +458,103 @@ static int Load(const char* name, MDFNFILE* fp)
       PCEWrite[x] = PCENullWrite;
    }
 
-   uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen,
-                      GET_FSIZE_PTR(fp) - headerlen);
+   //   if (!(HuCROM = (uint8*)malloc(m_len)))
+   //      return (0);
 
-   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
+   //   memset(HuCROM, 0xFF, m_len);
+   //   fread(HuCROM, 1, ((m_len < len) ? m_len : len), fp);
+
+   if (!(HuCROM = (uint8*)malloc(len)))
+      return (0);
+
+   memset(HuCROM, 0xFF, len);
+   fread(HuCROM, 1, len, fp);
+   fclose(fp);
+
+
+   uint32 crc = crc32(0, HuCROM, f_size - headerlen);
+
+   MDFN_printf(("ROM:       %dKiB\n"), (len + 1023) / 1024);
+   MDFN_printf(("ROM CRC32: 0x%04x\n"), crc);
+
+
+   /*************************/
+
+
+   IsPopulous = 0;
+   PCE_IsCD = 0;
+
+   memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
+
+   if (m_len == 0x60000)
+   {
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
+      memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
+      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+   }
+   else if (m_len == 0x80000)
+   {
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
+      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+   }
+   else
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM,
+             (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
+
+   for (int x = 0x00; x < 0x80; x++)
+   {
+      HuCPUFastMap[x] = ROMSpace;
+      PCERead[x] = HuCRead;
+   }
+
+   if (!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
+   {
+      uint8* PopRAM = ROMSpace + 0x40 * 8192;
+
+      memset(PopRAM, 0xFF, 32768);
+
+      IsPopulous = 1;
+
+      MDFN_printf("Populous\n");
+
+      for (int x = 0x40; x < 0x44; x++)
+      {
+         HuCPUFastMap[x] = &PopRAM[(x & 3) * 8192] - x * 8192;
+         PCERead[x] = HuCRead;
+         PCEWrite[x] = HuCRAMWrite;
+      }
+      //  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
+   }
+   else
+   {
+      memset(SaveRAM, 0x00, 2048);
+      memcpy(SaveRAM, BRAM_Init_String,
+             8);    // So users don't have to manually intialize the file cabinet
+      // in the CD BIOS screen.
+      PCEWrite[0xF7] = SaveRAMWrite;
+      PCERead[0xF7] = SaveRAMRead;
+      //  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+   }
+
+   // 0x1A558
+   //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
+   if (sf2_mapper)
+   {
+      for (int x = 0x40; x < 0x80; x++)
+      {
+         // FIXME: PCE_FAST
+         HuCPUFastMap[x] =
+            NULL; // Make sure our reads go through our read function, and not a table lookup
+         PCERead[x] = HuCSF2Read;
+      }
+      PCEWrite[0] = HuCSF2Write;
+      MDFN_printf("Street Fighter 2 Mapper\n");
+      HuCSF2Latch = 0;
+   }
 
    return (LoadCommon());
 }
@@ -415,19 +622,19 @@ static int LoadCommon(void)
 
    PCE_Power();
    MDFNGameInfo.fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 *
-                                256);
+                               256);
 
    // Clean this up:
    if (!MDFN_GetSettingB("pce_fast.correct_aspect"))
       MDFNGameInfo.fb_width = 682;
 
    MDFNGameInfo.nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ?
-                                 288 : 341;
+                                288 : 341;
    MDFNGameInfo.nominal_height = MDFN_GetSettingUI("pce_fast.slend") -
-                                  MDFN_GetSettingUI("pce_fast.slstart") + 1;
+                                 MDFN_GetSettingUI("pce_fast.slstart") + 1;
 
    MDFNGameInfo.lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 :
-                             341;
+                            341;
    MDFNGameInfo.lcm_height = MDFNGameInfo.nominal_height;
 
    return (1);
@@ -570,98 +777,6 @@ void PCE_Power(void)
       PCECD_Power(HuCPU.timestamp * 3);
 }
 
-static MDFNSetting PCESettings[] =
-{
-   { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, ("Correct the aspect ratio."), NULL, MDFNST_BOOL, "1" },
-   { "pce_fast.slstart", MDFNSF_NOFLAGS, ("First rendered scanline."), NULL, MDFNST_UINT, "4", "0", "239" },
-   { "pce_fast.slend", MDFNSF_NOFLAGS, ("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
-   { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("Enable Arcade Card emulation."), NULL, MDFNST_BOOL, "1" },
-   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CPU overclock multiplier."), NULL, MDFNST_UINT, "1", "1", "100"},
-   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CD-ROM data transfer speed multiplier."), NULL, MDFNST_UINT, "1", "1", "100" },
-   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, ("Remove 16-sprites-per-scanline hardware limit."), NULL, MDFNST_BOOL, "0" },
-
-   { "pce_fast.cdbios", MDFNSF_EMU_STATE, ("Path to the CD BIOS"), NULL, MDFNST_STRING, "syscard3.pce" },
-
-   { "pce_fast.adpcmlp", MDFNSF_NOFLAGS, ("Enable dynamic ADPCM lowpass filter."), NULL, MDFNST_BOOL, "0" },
-   { "pce_fast.cdpsgvolume", MDFNSF_NOFLAGS, ("PSG volume when playing a CD game."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { "pce_fast.cddavolume", MDFNSF_NOFLAGS, ("CD-DA volume."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { "pce_fast.adpcmvolume", MDFNSF_NOFLAGS, ("ADPCM volume."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { NULL }
-};
-
-static uint8 MemRead(uint32 addr)
-{
-   return (PCERead[(addr / 8192) & 0xFF](addr));
-}
-
-static const FileExtensionSpecStruct KnownExtensions[] =
-{
-   { ".pce", ("PC Engine ROM Image") },
-   { NULL, NULL }
-};
-
-static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
-
-static uint8* HuCROM = NULL;
-
-static bool IsPopulous;
-bool PCE_IsCD;
-
-uint8 SaveRAM[2048];
-
-static DECLFW(ACPhysWrite)
-{
-   ArcadeCard_PhysWrite(A, V);
-}
-
-static DECLFR(ACPhysRead)
-{
-   return (ArcadeCard_PhysRead(A));
-}
-
-static DECLFR(SaveRAMRead)
-{
-   if ((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
-      return (SaveRAM[A & 2047]);
-   else
-      return (0xFF);
-}
-
-static DECLFW(SaveRAMWrite)
-{
-   if ((!PCE_IsCD || PCECD_IsBRAMEnabled()) && (A & 8191) < 2048)
-      SaveRAM[A & 2047] = V;
-}
-
-static DECLFR(HuCRead)
-{
-   return ROMSpace[A];
-}
-
-static DECLFW(HuCRAMWrite)
-{
-   ROMSpace[A] = V;
-}
-
-static DECLFW(HuCRAMWriteCDSpecial) // Hyper Dyne Special hack
-{
-   BaseRAM[0x2000 | (A & 0x1FFF)] = V;
-   ROMSpace[A] = V;
-}
-
-static uint8 HuCSF2Latch = 0;
-
-static DECLFR(HuCSF2Read)
-{
-   return (HuCROM[(A & 0x7FFFF) + 0x80000 + HuCSF2Latch *
-                  0x80000 ]); // | (HuCSF2Latch << 19) ]);
-}
-
-static DECLFW(HuCSF2Write)
-{
-   if ((A & 0x1FFC) == 0x1FF0)
-      HuCSF2Latch = (A & 0x3);
-}
 
 static void Cleanup(void)
 {
@@ -673,107 +788,6 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-int HuCLoad(const uint8* data, uint32 len, uint32 crc32)
-{
-   uint32 sf2_threshold = 2048 * 1024;
-   uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
-   uint32 m_len = (len + 8191) & ~8191;
-   bool sf2_mapper = FALSE;
-
-   if (m_len >= sf2_threshold)
-   {
-      sf2_mapper = TRUE;
-
-      if (m_len != sf2_required_size)
-         m_len = sf2_required_size;
-   }
-
-   IsPopulous = 0;
-   PCE_IsCD = 0;
-
-   MDFN_printf(("ROM:       %dKiB\n"), (len + 1023) / 1024);
-   MDFN_printf(("ROM CRC32: 0x%04x\n"), crc32);
-
-   if (!(HuCROM = (uint8*)MDFN_malloc(m_len, ("HuCard ROM"))))
-      return (0);
-
-   memset(HuCROM, 0xFF, m_len);
-   memcpy(HuCROM, data, (m_len < len) ? m_len : len);
-
-   memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
-
-   if (m_len == 0x60000)
-   {
-      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
-      memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
-      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-      memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-      memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-   }
-   else if (m_len == 0x80000)
-   {
-      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
-      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
-      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
-   }
-   else
-      memcpy(ROMSpace + 0x00 * 8192, HuCROM,
-             (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
-
-   for (int x = 0x00; x < 0x80; x++)
-   {
-      HuCPUFastMap[x] = ROMSpace;
-      PCERead[x] = HuCRead;
-   }
-
-   if (!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
-   {
-      uint8* PopRAM = ROMSpace + 0x40 * 8192;
-
-      memset(PopRAM, 0xFF, 32768);
-
-      IsPopulous = 1;
-
-      MDFN_printf("Populous\n");
-
-      for (int x = 0x40; x < 0x44; x++)
-      {
-         HuCPUFastMap[x] = &PopRAM[(x & 3) * 8192] - x * 8192;
-         PCERead[x] = HuCRead;
-         PCEWrite[x] = HuCRAMWrite;
-      }
-      //  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
-   }
-   else
-   {
-      memset(SaveRAM, 0x00, 2048);
-      memcpy(SaveRAM, BRAM_Init_String,
-             8);    // So users don't have to manually intialize the file cabinet
-      // in the CD BIOS screen.
-      PCEWrite[0xF7] = SaveRAMWrite;
-      PCERead[0xF7] = SaveRAMRead;
-      //  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
-   }
-
-   // 0x1A558
-   //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
-   if (sf2_mapper)
-   {
-      for (int x = 0x40; x < 0x80; x++)
-      {
-         // FIXME: PCE_FAST
-         HuCPUFastMap[x] =
-            NULL; // Make sure our reads go through our read function, and not a table lookup
-         PCERead[x] = HuCSF2Read;
-      }
-      PCEWrite[0] = HuCSF2Write;
-      MDFN_printf("Street Fighter 2 Mapper\n");
-      HuCSF2Latch = 0;
-   }
-
-   return (1);
-}
 
 bool IsBRAMUsed(void)
 {
@@ -788,17 +802,19 @@ bool IsBRAMUsed(void)
 
 int HuCLoadCD(const char* bios_path)
 {
-   MDFNFILE fp = {0};
+   FILE* fp = fopen(bios_path, "rb");
+   long f_size;
 
-   if (!MDFNFILE_Open(&fp, bios_path))
-      return (0);
+   fseek(fp, 0, SEEK_END);
+   f_size = ftell(fp);
+   fseek(fp, f_size & 0x200, SEEK_SET);
+   f_size &= ~0x200;
 
-   memset(ROMSpace, 0xFF, 262144);
+   memset(ROMSpace, 0xFF, 0x40000);
 
-   memcpy(ROMSpace, GET_FDATA(fp) + (GET_FSIZE(fp) & 512),
-          ((GET_FSIZE(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE(fp) & ~ 512));
+   fread(ROMSpace, 1, (f_size > 0x40000) ? 0x40000 : f_size, fp);
 
-   MDFNFILE_Close(&fp);
+   fclose(fp);
 
    PCE_IsCD = 1;
    PCE_InitCD();
@@ -890,7 +906,7 @@ MDFNGI MDFNGameInfo =
    "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
    KnownExtensions,
    &PCEInputInfo,
-   Load,
+   PCE_Load,
    LoadCD,
    CloseGame,
    StateAction,
@@ -944,8 +960,6 @@ bool MDFNI_LoadCD(const char* force_module, const char* devicename)
 
 bool MDFNI_LoadGame(const char* force_module, const char* name)
 {
-   MDFNFILE GameFile = {0};
-
    if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue")
                             || !strcasecmp(name + strlen(name) - 4, ".ccd")
                             || !strcasecmp(name + strlen(name) - 4, ".toc")))
@@ -953,17 +967,12 @@ bool MDFNI_LoadGame(const char* force_module, const char* name)
 
    MDFN_printf(("Loading %s...\n"), name);
 
-   if (!MDFNFILE_Open(&GameFile, name))
-      return false;
-
    MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo.shortname,
                MDFNGameInfo.fullname);
 
-   if (MDFNGameInfo.Load(name, &GameFile) <= 0)
-   {
-      MDFNFILE_Close(&GameFile);
+   if (MDFNGameInfo.Load(name) <= 0)
       return false;
-   }
+
    return true;
 }
 
@@ -1136,7 +1145,7 @@ bool retro_load_game(const struct retro_game_info* info)
    if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565))
    {
       if (log_cb)
-         log_cb(RETRO_LOG_INFO,"Frontend does not supports RGB565\n");
+         log_cb(RETRO_LOG_INFO, "Frontend does not supports RGB565\n");
 
       return false;
    }

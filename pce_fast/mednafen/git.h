@@ -6,7 +6,7 @@
 #include "state.h"
 #include "settings-common.h"
 #include "surface.h"
-#include "file.h"
+//#include "file.h"
 
 typedef struct
 {
@@ -205,7 +205,7 @@ typedef struct
    InputInfoStruct* InputInfo;
 
    // Returns 1 on successful load, 0 on fatal error(deprecated: -1 on unrecognized format)
-   int (*Load)(const char* name, MDFNFILE* fp);
+   int (*Load)(const char* path);
 
    //
    // (*CDInterfaces).size() is guaranteed to be >= 1.
