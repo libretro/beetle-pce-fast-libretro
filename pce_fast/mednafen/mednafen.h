@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mednafen-types.h"
-#include "math_ops.h"
 #include "settings.h"
 #include "git.h"
 extern MDFNGI MDFNGameInfo;
