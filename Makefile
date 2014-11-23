@@ -199,7 +199,6 @@ OBJECTS += $(CORE_DIR)/vdc.o
 OBJECTS += $(CORE_DIR)/cdrom/CDAccess.o
 OBJECTS += $(CORE_DIR)/cdrom/CDAccess_Image.o
 OBJECTS += $(CORE_DIR)/cdrom/CDAccess_CCD.o
-OBJECTS += $(CORE_DIR)/cdrom/CDUtility.o
 OBJECTS += $(CORE_DIR)/cdrom/cdromif.o
 #mednafen
 OBJECTS += $(MEDNAFEN_DIR)/settings.o

@@ -811,13 +811,10 @@ CDAccess_Image::~CDAccess_Image()
 void CDAccess_Image::Read_Raw_Sector(uint8* buf, int32 lba)
 {
    bool TrackFound = FALSE;
-   uint8 SimuQ[0xC];
 
    memset(buf + 2352, 0, 96);
 
    MakeSubPQ(lba, buf + 2352);
-
-   subq_deinterleave(buf + 2352, SimuQ);
 
    for (int32 track = FirstTrack; track < (FirstTrack + NumTracks); track++)
    {
@@ -896,9 +893,6 @@ void CDAccess_Image::Read_Raw_Sector(uint8* buf, int32 lba)
    assert(TrackFound);
    //   throw(MDFN_Error(0, ("Could not find track for sector %u!"), lba));
 
-   //subq_deinterleave(buf + 2352, qbuf);
-   //printf("%02x\n", qbuf[0]);
-   //printf("%02x\n", buf[12 + 3]);
 }
 
 //
@@ -994,8 +988,6 @@ void CDAccess_Image::MakeSubPQ(int32 lba, uint8* SubPWBuf)
    buf[7] = U8_to_BCD(ma);
    buf[8] = U8_to_BCD(sa);
    buf[9] = U8_to_BCD(fa);
-
-   subq_generate_checksum(buf);
 
    for (int i = 0; i < 96; i++)
       SubPWBuf[i] |= (((buf[i >> 3] >> (7 - (i & 0x7))) & 1) ? 0x40 : 0x00) |

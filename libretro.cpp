@@ -569,28 +569,17 @@ static int PCE_Load(const char* path)
       PCEWrite[x] = PCENullWrite;
    }
 
-   //   if (!(HuCROM = (uint8*)malloc(m_len)))
-   //      return (0);
-
-   //   memset(HuCROM, 0xFF, m_len);
-   //   fread(HuCROM, 1, ((m_len < len) ? m_len : len), fp);
-
-   if (!(HuCROM = (uint8*)malloc(len)))
+   if (!(HuCROM = (uint8*)malloc(m_len)))
       return (0);
 
-   memset(HuCROM, 0xFF, len);
-   fread(HuCROM, 1, len, fp);
+   memset(HuCROM, 0xFF, m_len);
+   fread(HuCROM, 1, ((m_len < len) ? m_len : len), fp);
+
    fclose(fp);
 
-
-   uint32 crc = crc32(0, HuCROM, f_size - headerlen);
-
    MDFN_printf(("ROM:       %dKiB\n"), (len + 1023) / 1024);
-   MDFN_printf(("ROM CRC32: 0x%04x\n"), crc);
-
 
    /*************************/
-
 
    IsPopulous = 0;
    PCE_IsCD = 0;

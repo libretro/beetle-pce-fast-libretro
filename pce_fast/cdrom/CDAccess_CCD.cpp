@@ -399,6 +399,24 @@ CDAccess_CCD::~CDAccess_CCD()
    Cleanup();
 }
 
+// Interleaves 96 bytes of subchannel P-W data from 96 bytes of uninterleaved subchannel PW data.
+inline void subpw_interleave(const uint8* in_buf, uint8* out_buf)
+{
+   assert(in_buf != out_buf);
+
+   for (unsigned d = 0; d < 12; d++)
+   {
+      for (unsigned bitpoodle = 0; bitpoodle < 8; bitpoodle++)
+      {
+         uint8 rawb = 0;
+
+         for (unsigned ch = 0; ch < 8; ch++)
+            rawb |= ((in_buf[ch * 12 + d] >> (7 - bitpoodle)) & 1) << (7 - ch);
+         out_buf[(d << 3) + bitpoodle] = rawb;
+      }
+   }
+}
+
 void CDAccess_CCD::Read_Raw_Sector(uint8* buf, int32 lba)
 {
    assert(lba >= 0 && (size_t)lba < img_numsectors);

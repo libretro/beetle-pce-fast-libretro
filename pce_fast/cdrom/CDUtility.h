@@ -1,6 +1,8 @@
 #ifndef __MDFN_CDROM_CDUTILITY_H
 #define __MDFN_CDROM_CDUTILITY_H
 
+#include "mednafen-types.h"
+
 // Call once at app startup before creating any threads that could potentially cause re-entrancy to these functions.
 // It will also be called automatically if needed for the first time a function in this namespace that requires
 // the initialization function to be called is called, for potential
@@ -129,16 +131,7 @@ static INLINE void LBA_to_AMSF(int32 lba, uint8* m_a, uint8* s_a, uint8* f_a)
 //
 // BCD conversion functions
 //
-static INLINE bool BCD_is_valid(uint8 bcd_number)
-{
-   if ((bcd_number & 0xF0) >= 0xA0)
-      return (false);
 
-   if ((bcd_number & 0x0F) >= 0x0A)
-      return (false);
-
-   return (true);
-}
 
 static INLINE uint8 BCD_to_U8(uint8 bcd_number)
 {
@@ -149,57 +142,5 @@ static INLINE uint8 U8_to_BCD(uint8 num)
 {
    return (((num / 10) << 4) + (num % 10));
 }
-
-// should always perform the conversion, even if the bcd number is invalid.
-static INLINE bool BCD_to_U8_check(uint8 bcd_number, uint8* out_number)
-{
-   *out_number = BCD_to_U8(bcd_number);
-
-   if (!BCD_is_valid(bcd_number))
-      return (false);
-
-   return (true);
-}
-
-//
-// Sector data encoding functions(to full 2352 bytes raw sector).
-//
-//  sector_data must be able to contain at least 2352 bytes.
-void encode_mode0_sector(uint32 aba, uint8* sector_data);
-void encode_mode1_sector(uint32 aba,
-                         uint8* sector_data);  // 2048 bytes of user data at offset 16
-void encode_mode2_sector(uint32 aba,
-                         uint8* sector_data);  // 2336 bytes of user data at offset 16
-void encode_mode2_form1_sector(uint32 aba,
-                               uint8* sector_data);  // 2048+8 bytes of user data at offset 16
-void encode_mode2_form2_sector(uint32 aba,
-                               uint8* sector_data);  // 2324+8 bytes of user data at offset 16
-
-
-//
-// Subchannel(Q in particular) functions
-//
-
-// Returns false on checksum mismatch, true on match.
-bool subq_check_checksum(const uint8* subq_buf);
-
-// Calculates the checksum of Q subchannel data(not including the checksum bytes of course ;)) from subq_buf, and stores it into the appropriate position
-// in subq_buf.
-void subq_generate_checksum(uint8* subq_buf);
-
-// Deinterleaves 12 bytes of subchannel Q data from 96 bytes of interleaved subchannel PW data.
-void subq_deinterleave(const uint8* subpw_buf, uint8* subq_buf);
-
-// Deinterleaves 96 bytes of subchannel P-W data from 96 bytes of interleaved subchannel PW data.
-void subpw_deinterleave(const uint8* in_buf, uint8* out_buf);
-
-// Interleaves 96 bytes of subchannel P-W data from 96 bytes of uninterleaved subchannel PW data.
-void subpw_interleave(const uint8* in_buf, uint8* out_buf);
-
-// Extrapolates Q subchannel current position data from subq_input, with frame/sector delta position_delta, and writes to subq_output.
-// Only valid for ADR_CURPOS.
-// subq_input must pass subq_check_checksum().
-// TODO
-//void subq_extrapolate(const uint8 *subq_input, int32 position_delta, uint8 *subq_output);
 
 #endif

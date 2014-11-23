@@ -241,33 +241,27 @@ void PCECD_Drive_SetRST(bool set)
    //printf("Set RST: %d\n", set);
 }
 
+// Deinterleaves 12 bytes of subchannel Q data from 96 bytes of interleaved subchannel PW data.
+inline void subq_deinterleave(const uint8* SubPWBuf, uint8* qbuf)
+{
+   memset(qbuf, 0, 0xC);
+
+   for (int i = 0; i < 96; i++)
+      qbuf[i >> 3] |= ((SubPWBuf[i] >> 6) & 0x1) << (7 - (i & 0x7));
+}
+
 static void GenSubQFromSubPW(void)
 {
    uint8 SubQBuf[0xC];
 
    subq_deinterleave(cd.SubPWBuf, SubQBuf);
 
-   //printf("Real %d/ SubQ %d - ", read_sec, BCD_to_U8(SubQBuf[7]) * 75 * 60 + BCD_to_U8(SubQBuf[8]) * 75 + BCD_to_U8(SubQBuf[9]) - 150);
-   // Debug code, remove me.
-   //for(int i = 0; i < 0xC; i++)
-   // printf("%02x ", SubQBuf[i]);
-   //printf("\n");
+   memcpy(cd.SubQBuf_Last, SubQBuf, 0xC);
 
-   if (!subq_check_checksum(SubQBuf))
-      SCSIDBG("SubQ checksum error!");
-   else
-   {
-      memcpy(cd.SubQBuf_Last, SubQBuf, 0xC);
+   uint8 adr = SubQBuf[0] & 0xF;
 
-      uint8 adr = SubQBuf[0] & 0xF;
-
-      if (adr <= 0x3)
-         memcpy(cd.SubQBuf[adr], SubQBuf, 0xC);
-
-      //if(adr == 0x02)
-      //for(int i = 0; i < 12; i++)
-      // printf("%02x\n", cd.SubQBuf[0x2][i]);
-   }
+   if (adr <= 0x3)
+      memcpy(cd.SubQBuf[adr], SubQBuf, 0xC);
 }
 
 
