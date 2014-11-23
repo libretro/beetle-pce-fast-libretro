@@ -839,15 +839,15 @@ void PCECD_Drive_ResetTS(void)
    lastts = 0;
 }
 
-void PCECD_Drive_GetCDDAValues(int16 &left, int16 &right)
+void PCECD_Drive_GetCDDAValues(int16* left, int16* right)
 {
    if (cdda.CDDAStatus)
    {
-      left = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2];
-      right = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2 + 1];
+      *left = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2];
+      *right = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2 + 1];
    }
    else
-      left = right = 0;
+      *left = *right = 0;
 }
 
 static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)

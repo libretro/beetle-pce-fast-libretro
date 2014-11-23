@@ -5,13 +5,13 @@
 
 typedef int32 pcecd_drive_timestamp_t;
 
-struct pcecd_drive_bus_t
+typedef struct
 {
    // Data bus(FIXME: we should have a variable for the target and the initiator, and OR them together to be truly accurate).
    uint8 DB;
 
    uint32 signals;
-};
+}pcecd_drive_bus_t;
 
 extern pcecd_drive_bus_t
 cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c, but use the macros below.
@@ -70,7 +70,7 @@ enum
    PCECD_Drive_IRQ_MAGICAL_REQ,
 };
 
-void PCECD_Drive_GetCDDAValues(int16 &left, int16 &right);
+void PCECD_Drive_GetCDDAValues(int16 *left, int16 *right);
 
 void PCECD_Drive_SetLog(void (*logfunc)(const char*, const char*, ...)) ;
 void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer* leftbuf,
@@ -84,6 +84,6 @@ int PCECD_Drive_StateAction(StateMem* sm, int load,
                             const char* sname);
 
 void PCECD_Drive_SetDisc(bool tray_open, CDIF* cdif,
-                         bool no_emu_side_effects = false) ;
+                         bool no_emu_side_effects /* = false */) ;
 
 #endif

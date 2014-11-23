@@ -1,14 +1,11 @@
 #ifndef _MEDNAFEN_H
 #define _MEDNAFEN_H
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "mednafen-types.h"
 #include "settings.h"
-
-
 #include "git.h"
 
 extern MDFNGI MDFNGameInfo;
@@ -16,7 +13,6 @@ extern MDFNGI MDFNGameInfo;
 #include "mednafen-driver.h"
 #include "mednafen-endian.h"
 #include "mednafen-memory.h"
-
 
 #ifdef _WIN32
 #define strcasecmp _stricmp
@@ -46,8 +42,5 @@ void MDFN_MidSync(EmulateSpecStruct *espec);
 #define SLASH_CHAR '/'
 #define SLASH_STRING "/"
 #endif
-
-
-#include "pce.h"
 
 #endif

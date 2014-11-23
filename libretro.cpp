@@ -1,9 +1,6 @@
 #include <stdarg.h>
 #include "mednafen.h"
-#include "git.h"
-#include "general.h"
 #include "libretro.h"
-#include "scrc32.h"
 
 #include "pce.h"
 #include "vdc.h"
@@ -435,13 +432,14 @@ int HuCLoadCD(const char* bios_path)
 
    MDFN_printf(("Arcade Card Emulation:  %s\n"),
                PCE_ACEnabled ? ("Enabled") : ("Disabled"));
-   for (int x = 0; x < 0x40; x++)
+   int x;
+   for (x = 0; x < 0x40; x++)
    {
       HuCPUFastMap[x] = ROMSpace;
       PCERead[x] = HuCRead;
    }
 
-   for (int x = 0x68; x < 0x88; x++)
+   for (x = 0x68; x < 0x88; x++)
    {
       HuCPUFastMap[x] = ROMSpace;
       PCERead[x] = HuCRead;
@@ -454,7 +452,7 @@ int HuCLoadCD(const char* bios_path)
    {
       ArcadeCard_init();
 
-      for (int x = 0x40; x < 0x44; x++)
+      for (x = 0x40; x < 0x44; x++)
       {
          HuCPUFastMap[x] = NULL;
          PCERead[x] = ACPhysRead;
@@ -563,7 +561,8 @@ static int PCE_Load(const char* path)
 
    if (r_size > 4096 * 1024) r_size = 4096 * 1024;
 
-   for (int x = 0; x < 0x100; x++)
+   int x;
+   for (x = 0; x < 0x100; x++)
    {
       PCERead[x] = PCEBusRead;
       PCEWrite[x] = PCENullWrite;
@@ -605,7 +604,7 @@ static int PCE_Load(const char* path)
       memcpy(ROMSpace + 0x00 * 8192, HuCROM,
              (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
 
-   for (int x = 0x00; x < 0x80; x++)
+   for (x = 0x00; x < 0x80; x++)
    {
       HuCPUFastMap[x] = ROMSpace;
       PCERead[x] = HuCRead;
@@ -621,7 +620,7 @@ static int PCE_Load(const char* path)
 
       MDFN_printf("Populous\n");
 
-      for (int x = 0x40; x < 0x44; x++)
+      for (x = 0x40; x < 0x44; x++)
       {
          HuCPUFastMap[x] = &PopRAM[(x & 3) * 8192] - x * 8192;
          PCERead[x] = HuCRead;
@@ -644,7 +643,7 @@ static int PCE_Load(const char* path)
    //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
    if (sf2_mapper)
    {
-      for (int x = 0x40; x < 0x80; x++)
+      for (x = 0x40; x < 0x80; x++)
       {
          // FIXME: PCE_FAST
          HuCPUFastMap[x] =
@@ -673,7 +672,8 @@ static void LoadCommonPre(void)
                   (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
 
    memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
-   for (int x = 0; x < 0x100; x++)
+   int x;
+   for (x = 0; x < 0x100; x++)
    {
       PCERead[x] = PCEBusRead;
       PCEWrite[x] = PCENullWrite;
@@ -693,7 +693,8 @@ static int LoadCommon(void)
       PCEWrite[0xF8] = BaseRAMWrite;
       PCEWrite[0xF9] = PCEWrite[0xFA] = PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
 
-      for (int x = 0xf8; x < 0xfb; x++)
+      int x;
+      for (x = 0xf8; x < 0xfb; x++)
          HuCPUFastMap[x] = BaseRAM - x * 8192;
 
       PCERead[0xFF] = IORead;
@@ -777,7 +778,8 @@ static void Emulate(EmulateSpecStruct* espec)
 
    if (espec->SoundFormatChanged)
    {
-      for (int y = 0; y < 2; y++)
+      int y;
+      for (y = 0; y < 2; y++)
       {
          Blip_Buffer_set_sample_rate(&sbuf[y],
                                      espec->SoundRate ? espec->SoundRate : 44100, 50);
@@ -813,7 +815,8 @@ static void Emulate(EmulateSpecStruct* espec)
 
    if (espec->SoundBuf)
    {
-      for (int y = 0; y < 2; y++)
+      int y;
+      for (y = 0; y < 2; y++)
       {
          Blip_Buffer_end_frame(&sbuf[y], HuCPU.timestamp / pce_overclocked);
          espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y], espec->SoundBuf + y,
@@ -864,7 +867,8 @@ void PCE_Power(void)
 {
    memset(BaseRAM, 0x00, sizeof(BaseRAM));
 
-   for (int i = 8192; i < 32768; i++)
+   int i;
+   for (i = 8192; i < 32768; i++)
       BaseRAM[i] = 0xFF;
 
    PCEIODataBuffer = 0xFF;
@@ -885,7 +889,8 @@ bool IsBRAMUsed(void)
    if (memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
       return (1);
 
-   for (int x = 8; x < 2048; x++)
+   int x;
+   for (x = 8; x < 2048; x++)
       if (SaveRAM[x]) return (1);
 
    return (0);
