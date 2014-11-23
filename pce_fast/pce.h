@@ -18,6 +18,7 @@ typedef void (MDFN_FASTCALL* writefunc)(uint32 A, uint8 V);
 typedef uint8(MDFN_FASTCALL* readfunc)(uint32 A);
 
 extern uint8 PCEIODataBuffer;
+extern bool PCE_IsCD;
 
 bool PCE_InitCD(void);
 

@@ -414,6 +414,118 @@ bool PCE_InitCD(void)
 static int LoadCommon(void);
 static void LoadCommonPre(void);
 
+
+int HuCLoadCD(const char* bios_path)
+{
+   FILE* fp = fopen(bios_path, "rb");
+   long f_size;
+
+   fseek(fp, 0, SEEK_END);
+   f_size = ftell(fp);
+   fseek(fp, f_size & 0x200, SEEK_SET);
+   f_size &= ~0x200;
+
+   memset(ROMSpace, 0xFF, 0x40000);
+
+   fread(ROMSpace, 1, (f_size > 0x40000) ? 0x40000 : f_size, fp);
+
+   fclose(fp);
+
+   PCE_IsCD = 1;
+   PCE_InitCD();
+
+   MDFN_printf(("Arcade Card Emulation:  %s\n"),
+               PCE_ACEnabled ? ("Enabled") : ("Disabled"));
+   for (int x = 0; x < 0x40; x++)
+   {
+      HuCPUFastMap[x] = ROMSpace;
+      PCERead[x] = HuCRead;
+   }
+
+   for (int x = 0x68; x < 0x88; x++)
+   {
+      HuCPUFastMap[x] = ROMSpace;
+      PCERead[x] = HuCRead;
+      PCEWrite[x] = HuCRAMWrite;
+   }
+   PCEWrite[0x80] = HuCRAMWriteCDSpecial;   // Hyper Dyne Special hack
+   // MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
+
+   if (PCE_ACEnabled)
+   {
+      ArcadeCard_init();
+
+      for (int x = 0x40; x < 0x44; x++)
+      {
+         HuCPUFastMap[x] = NULL;
+         PCERead[x] = ACPhysRead;
+         PCEWrite[x] = ACPhysWrite;
+      }
+   }
+
+   memset(SaveRAM, 0x00, 2048);
+   memcpy(SaveRAM, BRAM_Init_String,
+          8); // So users don't have to manually intialize the file cabinet
+   // in the CD BIOS screen.
+
+   PCEWrite[0xF7] = SaveRAMWrite;
+   PCERead[0xF7] = SaveRAMRead;
+   // MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+   return (1);
+}
+
+int HuC_StateAction(StateMem* sm, int load)
+{
+   SFORMAT StateRegs[] =
+   {
+      SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
+      SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
+      SFARRAY(ROMSpace + 0x68 * 8192, PCE_IsCD ? 262144 : 0),
+      SFVAR(HuCSF2Latch),
+      SFEND
+   };
+   int ret = MDFNSS_StateAction(sm, load, StateRegs, "HuC");
+
+   if (load)
+      HuCSF2Latch &= 0x3;
+
+   if (PCE_IsCD)
+   {
+      ret &= PCECD_StateAction(sm, load);
+
+      if (PCE_ACEnabled)
+         ret &= ArcadeCard_StateAction(sm, load);
+   }
+   return (ret);
+}
+
+static void Cleanup(void)
+{
+   if (PCE_IsCD)
+      PCECD_Close();
+
+   if (HuCROM)
+      MDFN_free(HuCROM);
+   HuCROM = NULL;
+}
+
+
+void HuC_Close(void)
+{
+   Cleanup();
+}
+
+void HuC_Power(void)
+{
+   if (PCE_IsCD)
+      memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
+
+   if (PCE_ACEnabled)
+      ArcadeCard_Power();
+}
+
+
+
 static int PCE_Load(const char* path)
 {
    FILE* fp = fopen(path, "rb");
@@ -639,6 +751,7 @@ static int LoadCommon(void)
 
    return (1);
 }
+
 static int LoadCD(CDIF* CDInterface)
 {
    static char bios_path[PATH_MAX];
@@ -778,16 +891,6 @@ void PCE_Power(void)
 }
 
 
-static void Cleanup(void)
-{
-   if (PCE_IsCD)
-      PCECD_Close();
-
-   if (HuCROM)
-      MDFN_free(HuCROM);
-   HuCROM = NULL;
-}
-
 
 bool IsBRAMUsed(void)
 {
@@ -799,106 +902,6 @@ bool IsBRAMUsed(void)
 
    return (0);
 }
-
-int HuCLoadCD(const char* bios_path)
-{
-   FILE* fp = fopen(bios_path, "rb");
-   long f_size;
-
-   fseek(fp, 0, SEEK_END);
-   f_size = ftell(fp);
-   fseek(fp, f_size & 0x200, SEEK_SET);
-   f_size &= ~0x200;
-
-   memset(ROMSpace, 0xFF, 0x40000);
-
-   fread(ROMSpace, 1, (f_size > 0x40000) ? 0x40000 : f_size, fp);
-
-   fclose(fp);
-
-   PCE_IsCD = 1;
-   PCE_InitCD();
-
-   MDFN_printf(("Arcade Card Emulation:  %s\n"),
-               PCE_ACEnabled ? ("Enabled") : ("Disabled"));
-   for (int x = 0; x < 0x40; x++)
-   {
-      HuCPUFastMap[x] = ROMSpace;
-      PCERead[x] = HuCRead;
-   }
-
-   for (int x = 0x68; x < 0x88; x++)
-   {
-      HuCPUFastMap[x] = ROMSpace;
-      PCERead[x] = HuCRead;
-      PCEWrite[x] = HuCRAMWrite;
-   }
-   PCEWrite[0x80] = HuCRAMWriteCDSpecial;   // Hyper Dyne Special hack
-   // MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
-
-   if (PCE_ACEnabled)
-   {
-      ArcadeCard_init();
-
-      for (int x = 0x40; x < 0x44; x++)
-      {
-         HuCPUFastMap[x] = NULL;
-         PCERead[x] = ACPhysRead;
-         PCEWrite[x] = ACPhysWrite;
-      }
-   }
-
-   memset(SaveRAM, 0x00, 2048);
-   memcpy(SaveRAM, BRAM_Init_String,
-          8); // So users don't have to manually intialize the file cabinet
-   // in the CD BIOS screen.
-
-   PCEWrite[0xF7] = SaveRAMWrite;
-   PCERead[0xF7] = SaveRAMRead;
-   // MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
-   return (1);
-}
-
-int HuC_StateAction(StateMem* sm, int load)
-{
-   SFORMAT StateRegs[] =
-   {
-      SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
-      SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
-      SFARRAY(ROMSpace + 0x68 * 8192, PCE_IsCD ? 262144 : 0),
-      SFVAR(HuCSF2Latch),
-      SFEND
-   };
-   int ret = MDFNSS_StateAction(sm, load, StateRegs, "HuC");
-
-   if (load)
-      HuCSF2Latch &= 0x3;
-
-   if (PCE_IsCD)
-   {
-      ret &= PCECD_StateAction(sm, load);
-
-      if (PCE_ACEnabled)
-         ret &= ArcadeCard_StateAction(sm, load);
-   }
-   return (ret);
-}
-
-void HuC_Close(void)
-{
-   Cleanup();
-}
-
-void HuC_Power(void)
-{
-   if (PCE_IsCD)
-      memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
-
-   if (PCE_ACEnabled)
-      ArcadeCard_Power();
-}
-
-
 
 MDFNGI MDFNGameInfo =
 {
