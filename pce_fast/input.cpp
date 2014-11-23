@@ -17,7 +17,6 @@
 
 #include "pce.h"
 #include "input.h"
-#include "huc.h"
 #include "mednafen-endian.h"
 
 static int InputTypes[5];

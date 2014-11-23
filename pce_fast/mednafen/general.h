@@ -15,20 +15,6 @@ void MDFN_ltrim(std::string &string);
 void MDFN_rtrim(std::string &string);
 void MDFN_trim(std::string &string);
 
-typedef enum
-{
- MDFNMKF_STATE = 0,
- MDFNMKF_SNAP,
- MDFNMKF_SAV,
- MDFNMKF_CHEAT,
- MDFNMKF_PALETTE,
- MDFNMKF_IPS,
- MDFNMKF_MOVIE,
- MDFNMKF_AUX,
- MDFNMKF_SNAP_DAT,
- MDFNMKF_CHEAT_TMP,
- MDFNMKF_FIRMWARE
-} MakeFName_Type;
 
 const char * GetFNComponent(const char *str);
 

@@ -9,7 +9,6 @@
 #include "vdc.h"
 #include "psg.h"
 #include "input.h"
-#include "huc.h"
 #include "pcecd.h"
 #include "pcecd_drive.h"
 #include "arcade_card.h"
