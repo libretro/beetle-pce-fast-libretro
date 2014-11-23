@@ -1,18 +1,24 @@
 // Band-limited sound synthesis buffer
 // Various changes and hacks for use in Mednafen.
 
-#ifdef __GNUC__
-#define blip_inline inline __attribute__((always_inline))
-#else
-#define blip_inline inline
-#endif
-
-#include <limits.h>
-#include <stdint.h>
-
 // Blip_Buffer 0.4.1
 #ifndef BLIP_BUFFER_H
 #define BLIP_BUFFER_H
+
+#include <limits.h>
+#include <stdint.h>
+#include <assert.h>
+
+#ifdef __GNUC__
+#define blip_inline static inline __attribute__((always_inline))
+#else
+#define blip_inline static inline
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 // Internal
 typedef int32_t blip_long;
@@ -54,7 +60,7 @@ void Blip_Buffer_deinit(Blip_Buffer* bbuf);
 // to 1/4 second), then clear buffer. Returns NULL on success, otherwise if there
 // isn't enough memory, returns error without affecting current buffer setup.
 blargg_err_t Blip_Buffer_set_sample_rate(Blip_Buffer* bbuf,
-      long samples_per_sec, int msec_length = 1000 / 4);
+      long samples_per_sec, int msec_length /*= 1000 / 4*/);
 
 // End current time frame of specified duration and make its samples available
 // (along with any still-unread samples) for reading with read_samples(). Begins
@@ -75,10 +81,10 @@ void Blip_Buffer_bass_freq(Blip_Buffer* bbuf, int frequency);
 
 // Remove all available samples and clear buffer to silence. If 'entire_buffer' is
 // false, just clears out any samples waiting rather than the entire buffer.
-void Blip_Buffer_clear(Blip_Buffer* bbuf, int entire_buffer = 1);
+void Blip_Buffer_clear(Blip_Buffer* bbuf, int entire_buffer /*= 1*/);
 
 // Number of samples available for reading with read_samples()
-long Blip_Buffer_samples_avail(Blip_Buffer* bbuf);
+blip_inline long Blip_Buffer_samples_avail(Blip_Buffer* bbuf);
 
 // Remove 'count' samples from those waiting to be read
 void Blip_Buffer_remove_samples(Blip_Buffer* bbuf, long count);
@@ -102,9 +108,6 @@ static inline blip_resampled_time_t Blip_Buffer_resampled_time(
 blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf,
       long clock_rate);
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #define BLIP_BUFFER_ACCURACY 32
 #define BLIP_PHASE_BITS 8
@@ -128,10 +131,11 @@ blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf,
 
 // Internal
 typedef blip_u64 blip_resampled_time_t;
-int const blip_widest_impulse_ = 16;
-int const blip_buffer_extra_ = blip_widest_impulse_ + 2;
-int const blip_res = 1 << BLIP_PHASE_BITS;
-int const blip_sample_bits = 30;
+
+#define blip_widest_impulse_  16
+#define blip_buffer_extra_    (blip_widest_impulse_ + 2)
+#define blip_res              (1 << BLIP_PHASE_BITS)
+#define blip_sample_bits      30
 
 // Range specifies the greatest expected change in amplitude. Calculate it
 // by finding the difference between the maximum and minimum expected
@@ -145,7 +149,7 @@ typedef struct
 
 blip_inline void Blip_Synth_set_volume(Blip_Synth* synth, double v, int range)
 {
-   synth->delta_factor = int ((v * (1.0 / (range < 0 ? -range : range))) *
+   synth->delta_factor = ((v * (1.0 / (range < 0 ? -range : range))) *
                               (1L << blip_sample_bits) + 0.5);
 }
 // Works directly in terms of fractional output samples. Contact author for more info.
@@ -193,7 +197,6 @@ int const blip_reader_default_bass = 9;
 
 // End of public interface
 
-#include <assert.h>
 
 blip_inline void Blip_Synth_offset_resampled(
    Blip_Synth* synth,
@@ -232,5 +235,8 @@ blip_inline void Blip_Buffer_set_clock_rate(Blip_Buffer* bbuf, long cps)
    bbuf->factor = Blip_Buffer_clock_rate_factor(bbuf, bbuf->clock_rate = cps);
 }
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

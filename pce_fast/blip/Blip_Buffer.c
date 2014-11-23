@@ -3,7 +3,7 @@
 #include "Blip_Buffer.h"
 
 #include <assert.h>
-#include <climits>
+#include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -95,7 +95,7 @@ blargg_err_t Blip_Buffer_set_sample_rate(Blip_Buffer* bbuf, long new_rate,
       Blip_Buffer_set_clock_rate(bbuf, bbuf->clock_rate);
    Blip_Buffer_bass_freq(bbuf, bbuf->bass_freq);
 
-   Blip_Buffer_clear(bbuf);
+   Blip_Buffer_clear(bbuf, 1);
 
    return 0; // success
 }
@@ -168,7 +168,9 @@ long Blip_Buffer_read_samples(Blip_Buffer* bbuf, blip_sample_t* out,
       int const bass = BLIP_READER_BASS(*bbuf);
       BLIP_READER_BEGIN(reader, *bbuf);
 
-      for (blip_long n = count; n; --n)
+      blip_long n;
+
+      for (n = count; n; --n)
       {
          blip_long s = BLIP_READER_READ(reader);
          if ((blip_sample_t) s != s)
