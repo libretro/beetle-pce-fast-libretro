@@ -114,7 +114,7 @@ else ifeq ($(platform), psp1)
    CXX = psp-g++$(EXE_EXT)
    AR = psp-ar$(EXE_EXT)
    ENDIANNESS_DEFINES := -DLSB_FIRST
-   FLAGS += -DPSP -G0
+   FLAGS += -DPSP -G0 -std=c99
    FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I$(shell psp-config --pspsdk-path)/include

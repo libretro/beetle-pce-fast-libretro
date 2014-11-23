@@ -32,7 +32,7 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include <math.h>
 
 #ifdef PSP
-#include "vdc_psp.cpp"
+#include "vdc_psp.c"
 #endif
 
 static uint32 disabled_layer_color;

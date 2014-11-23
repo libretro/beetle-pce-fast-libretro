@@ -217,11 +217,11 @@ static inline void sceGuClutMode_(unsigned int cpsm, unsigned int shift,
 static inline int getExp_(int val)
 {
    unsigned int i;
-   asm("clz %0, %1\n":"=r"(i):"r"(val&0x3FF));
+   __asm__("clz %0, %1\n":"=r"(i):"r"(val&0x3FF));
    return 31 - i;
 }
 
-void inline sceGuTexImage_(int mipmap, int width, int height, int tbw,
+static inline void sceGuTexImage_(int mipmap, int width, int height, int tbw,
                            const void* tbp)
 {
    sendCommandi(0xa0, ((unsigned int)tbp) & 0xffffff);
