@@ -21,7 +21,6 @@
 #define __MDFN_FILESTREAM_H
 
 #include "Stream.h"
-#include "FileWrapper.h"
 
 #ifdef PSP
 #include <pspiofilemgr.h>
@@ -33,9 +32,9 @@ class FileStream : public Stream
 
  enum
  {
-  MODE_READ = FileWrapper::MODE_READ,
-  MODE_WRITE = FileWrapper::MODE_WRITE,
-  MODE_WRITE_SAFE = FileWrapper::MODE_WRITE_SAFE,
+  MODE_READ = 0,
+  MODE_WRITE,
+  MODE_WRITE_SAFE
  };
 
  FileStream(const char *path, const int mode);

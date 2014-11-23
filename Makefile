@@ -209,7 +209,6 @@ OBJECTS += $(CORE_DIR)/cdrom/cdromif.o
 #mednafen
 OBJECTS += $(MEDNAFEN_DIR)/settings.o
 OBJECTS += $(MEDNAFEN_DIR)/general.o
-OBJECTS += $(MEDNAFEN_DIR)/FileWrapper.o
 OBJECTS += $(MEDNAFEN_DIR)/FileStream.o
 OBJECTS += $(MEDNAFEN_DIR)/Stream.o
 OBJECTS += $(MEDNAFEN_DIR)/state.o

@@ -88,7 +88,6 @@ endif
 MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/math_ops.cpp \
 	$(MEDNAFEN_DIR)/settings.cpp \
 	$(MEDNAFEN_DIR)/general.cpp \
-	$(MEDNAFEN_DIR)/FileWrapper.cpp \
 	$(MEDNAFEN_DIR)/FileStream.cpp \
 	$(MEDNAFEN_DIR)/MemoryStream.cpp \
 	$(MEDNAFEN_DIR)/Stream.cpp \

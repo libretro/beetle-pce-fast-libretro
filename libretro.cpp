@@ -5,8 +5,6 @@
 #include "libretro.h"
 #include "scrc32.h"
 
-#include "FileWrapper.h"
-
 #include "pce.h"
 #include "vdc.h"
 #include "psg.h"
