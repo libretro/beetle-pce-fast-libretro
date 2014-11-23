@@ -126,30 +126,6 @@ int MDFNFILE_fseek(MDFNFILE *fp, int64 offset, int whence)
    return 0;
 }
 
-int MDFNFILE_read16le(MDFNFILE *fp, uint16 *val)
-{
-   if ((fp->location + 2) > fp->f_size)
-      return 0;
-
-   *val = MDFN_de16lsb(fp->f_data + fp->location);
-
-   fp->location += 2;
-
-   return 1;
-}
-
-int MDFNFILE_read32le(MDFNFILE *fp, uint32 *val)
-{
-   if ((fp->location + 4) > fp->f_size)
-      return 0;
-
-   *val = MDFN_de32lsb(fp->f_data + fp->location);
-
-   fp->location += 4;
-
-   return 1;
-}
-
 char *MDFNFILE_fgets(MDFNFILE *fp, char *s, int buffer_size)
 {
    int pos = 0;

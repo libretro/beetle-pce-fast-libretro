@@ -18,8 +18,6 @@ bool MDFNFILE_Open(MDFNFILE* fp, const char* path);
 bool MDFNFILE_Close(MDFNFILE* fp);
 uint64 MDFNFILE_fread(MDFNFILE* fp, void* ptr, size_t size, size_t nmemb);
 int MDFNFILE_fseek(MDFNFILE* fp, int64 offset, int whence);
-int MDFNFILE_read32le(MDFNFILE* fp, uint32* Bufo);
-int MDFNFILE_read16le(MDFNFILE* fp, uint16* Bufo);
 char* MDFNFILE_fgets(MDFNFILE *fp, char* s, int size);
 bool MDFNFILE_MakeMemWrapAndClose(MDFNFILE *fp, void* tz);
 

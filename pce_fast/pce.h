@@ -63,7 +63,7 @@ extern struct retro_perf_callback perf_cb;
 #endif
 
 
-#ifdef PSP_PROFILER
+#if defined(PSP_PROFILER) && defined(PSP)
 #include <psptypes.h>
 #include <pspkerneltypes.h>
 #include <pspdebug.h>
