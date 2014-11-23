@@ -29,7 +29,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "surface.h"
 #include "vdc.h"
 #include "pcecd.h"
-#include "FileStream.h"
 #include <math.h>
 
 #ifdef PSP
@@ -70,7 +69,8 @@ static INLINE void FixPCache(int entry)
    if (!(entry & 0xFF))
    {
       uint16_t color0 = MAKECOLOR_PCE(vce.color_table[entry & 0x100]);
-      for (int x = 0; x < 16; x++)
+      int x;
+      for (x = 0; x < 16; x++)
          vce.color_table_cache[entry + (x << 4)] = color0 ;
       return;
    }
@@ -92,7 +92,8 @@ static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
 
    *tc = 0;
 
-   for (int x = 0; x < 8; x++)
+   int x;
+   for (x = 0; x < 8; x++)
    {
       uint32 raw_pixel = ((bitplane01 >> x) & 1);
       raw_pixel |= ((bitplane01 >> (x + 8)) & 1) << 1;
@@ -133,14 +134,16 @@ static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
    }
    else if (special)
    {
-      for (int y = 0; y < 16; y++)
+      int y;
+      for (y = 0; y < 16; y++)
       {
          uint8* tc = which_vdc->spr_tile_cache[no][y];
 
          uint32 bitplane0 = which_vdc->VRAM[y + 0x00 + no * 0x40 + ((special & 1) << 5)];
          uint32 bitplane1 = which_vdc->VRAM[y + 0x10 + no * 0x40 + ((special & 1) << 5)];
 
-         for (int x = 0; x < 16; x++)
+         int x;
+         for (x = 0; x < 16; x++)
          {
             uint32 raw_pixel;
             raw_pixel = ((bitplane0 >> x) & 1) << 0;
@@ -151,7 +154,8 @@ static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
    }
    else
    {
-      for (int y = 0; y < 16; y++)
+      int y;
+      for (y = 0; y < 16; y++)
       {
          uint8* tc = which_vdc->spr_tile_cache[no][y];
 
@@ -160,7 +164,8 @@ static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
          uint32 bitplane2 = which_vdc->VRAM[y + 0x20 + no * 0x40];
          uint32 bitplane3 = which_vdc->VRAM[y + 0x30 + no * 0x40];
 
-         for (int x = 0; x < 16; x++)
+         int x;
+         for (x = 0; x < 16; x++)
          {
             uint32 raw_pixel;
             raw_pixel = ((bitplane0 >> x) & 1) << 0;
@@ -181,7 +186,8 @@ static INLINE void SetVCECR(uint8 V)
    if (((V & 0x80) >> 7) != vce.bw)
    {
       vce.bw = V & 0x80;
-      for (int x = 0; x < 512; x++)
+      int x;
+      for (x = 0; x < 512; x++)
          FixPCache(x);
    }
 
@@ -275,7 +281,8 @@ DECLFW(VDC_Write_ST)
 static void DoDMA(vdc_t* vdc)
 {
    // Assuming one cycle for reads, one cycle for write, with DMA?
-   for (int i = 0; i < 455; i++)
+   int i;
+   for (i = 0; i < 455; i++)
    {
       if (!vdc->DMAReadWrite)
       {
@@ -445,10 +452,12 @@ DECLFW(VDC_Write)
 
 
 // 682 + 8 + 128 = 818.
-static INLINE void CalcStartEnd(const vdc_t* vdc, uint32 &start, uint32 &end)
-{
+static INLINE void CalcStartEnd(const vdc_t* vdc, uint32* start_p, uint32* end_p)
+{   
    //static const unsigned int ClockModeWidths[3] = { 288, 384, 576 };
    static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
+   uint32_t start = *start_p;
+   uint32_t end   = *end_p;
 
    start = (M_vdc_HDS + 1) * 8;
    // Semi-hack for Asuka 120%
@@ -482,39 +491,9 @@ static INLINE void CalcStartEnd(const vdc_t* vdc, uint32 &start, uint32 &end)
    end += 128;
    start += 128;
 
-#if 0
-   uint32 display_width;
-   display_width = (M_vdc_HDW + 1) * 8;
+   *start_p = start;
+   *end_p   = end;
 
-   if (display_width > ClockModeWidths[vce.dot_clock])
-      display_width = ClockModeWidths[vce.dot_clock];
-
-   start = (ClockModeWidths[vce.dot_clock] - display_width) / 2;
-
-   // For: start - (vdc->BG_XOffset & 7)
-   start += 8;
-
-   // For: alignment space when correct_aspect == 0
-   start += 128;
-
-   // Semi-hack for Asuka 120%
-   if (vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43
-         && M_vdc_HSW == 2)
-      start += 8;
-   else if (vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3
-            && M_vdc_HDW == 33 && M_vdc_HSW == 2)
-      start += 4;
-   // and for Addams Family
-   else if (vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4
-            && M_vdc_HDW == 43 && M_vdc_HSW == 9)
-      start += 4;
-
-   //MDFN_DispMessage((UTF8*)"dc: %d, %d %d %d %d; %d %d\n", vce.dot_clock, M_vdc_HDS, M_vdc_HDE, M_vdc_HDW, M_vdc_HSW, start, (M_vdc_HDS + 1) * 8);
-
-   end = start + display_width;
-   if (end > (ClockModeWidths[vce.dot_clock] + 8 + 128))
-      end = ClockModeWidths[vce.dot_clock] + 8 + 128;
-#endif
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
@@ -548,7 +527,8 @@ static void DrawBG(const vdc_t* vdc, const uint32 count, uint8* target)
       if ((vdc->MWR & 0x3) == 0x3)
          cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
 
-      for (int x = count - 1; x >= 0; x -= 8)
+      int x;
+      for (x = count - 1; x >= 0; x -= 8)
       {
          const uint16 bat = BAT_Base[bat_boom];
          const uint64 color_or = cblock_exlut[bat >> 12];
@@ -662,7 +642,8 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
 
    // First, grab the up to 16(or 128 for unlimited_sprites) sprite units(16xWHATEVER; each 32xWHATEVER sprite counts as 2 sprite units when
    // rendering a scanline) for this scanline.
-   for (int i = 0; i < vdc->SAT_Cache_Valid; i++)
+   int i;
+   for (i = 0; i < vdc->SAT_Cache_Valid; i++)
    {
       const SAT_Cache_t* SATR = &vdc->SAT_Cache[i];
 
@@ -721,7 +702,7 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
    if (!active_sprites)
       return;
 
-   for (int i = (active_sprites - 1) ; i >= 0; i--)
+   for (i = (active_sprites - 1) ; i >= 0; i--)
    {
       int32 pos = SpriteList[i].x - 0x20;
       uint32 prio_or;
@@ -750,7 +731,8 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
             x_second = 0;
          }
 
-         for (int32 x = 0; x < 16; x++, x_second += increment)
+         int32 x;
+         for (x = 0; x < 16; x++, x_second += increment)
          {
             const uint32 raw_pixel = pix_source[x_second];
             if (raw_pixel)
@@ -783,7 +765,8 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
             x_second = 0;
          }
 
-         for (int32 x = 0; x < 16; x++, x_second += increment)
+         int32 x;
+         for (x = 0; x < 16; x++, x_second += increment)
          {
             const uint32 raw_pixel = pix_source[x_second];
             if (raw_pixel)
@@ -797,7 +780,8 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
 static INLINE void MixBGSPR(const uint32 count_in, const uint8* bg_linebuf_in,
                             const uint16* spr_linebuf_in, uint16_t* target_in)
 {
-   for (unsigned int x = 0; x < count_in; x++)
+   unsigned int x;
+   for (x = 0; x < count_in; x++)
    {
       const uint32 bg_pixel = bg_linebuf_in[x];
       const uint32 spr_pixel = spr_linebuf_in[x];
@@ -838,7 +822,7 @@ static void MixNone(const uint32 count, uint16_t* target)
 }
 
 void DrawOverscan(const vdc_t* vdc, uint16_t* target, const MDFN_Rect* lw,
-                  const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
+                  const bool full /* = true */, const int32 vpl /* = 0 */, const int32 vpr /* = 0 */)
 {
    uint32 os_color = vce.color_table_cache[0x100];
 
@@ -872,8 +856,8 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
       DisplayRect->x = 0;
       DisplayRect->w = 256;
 
-      DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
-      DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
+      DisplayRect->y = setting_initial_scanline;
+      DisplayRect->h = setting_last_scanline - DisplayRect->y + 1;
    }
 
 #ifdef PSP
@@ -1034,7 +1018,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
          if (vdc->burst_mode)
          {
             if (fc_vrm && SHOULD_DRAW)
-               DrawOverscan(vdc, target_ptr16, DisplayRect);
+               DrawOverscan(vdc, target_ptr16, DisplayRect, true, 0, 0);
          }
          else if (vdc->display_counter >= (VDS + VSW)
                   && vdc->display_counter < (VDS + VSW + VDW + 1))
@@ -1049,7 +1033,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
             {
                uint32 start, end;
 
-               CalcStartEnd(vdc, start, end);
+               CalcStartEnd(vdc, &start, &end);
 
                if ((vdc->CR & 0x80) && SHOULD_DRAW)
                   DrawBG(vdc, end - start + (vdc->BG_XOffset & 7), bg_linebuf);
@@ -1125,7 +1109,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
          else if (SHOULD_DRAW && fc_vrm) // Hmm, overscan...
          {
             //else if(target_ptr16)
-            DrawOverscan(vdc, target_ptr16, DisplayRect);
+            DrawOverscan(vdc, target_ptr16, DisplayRect, true, 0, 0);
          }
       }
 
@@ -1209,8 +1193,8 @@ void VDC_Power(void)
 
 void VDC_Init(int sgx)
 {
-   unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
-   correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
+   unlimited_sprites = setting_pce_fast_nospritelimit;
+   correct_aspect = setting_pce_keepaspect;
 
    vdc = (vdc_t*)MDFN_malloc(sizeof(vdc_t), "VDC");
 #ifdef PSP
@@ -1307,12 +1291,13 @@ int VDC_StateAction(StateMem* sm, int load)
 
       if (load)
       {
-         for (int x = 0; x < VRAM_Size; x++)
+         int x;
+         for (x = 0; x < VRAM_Size; x++)
          {
             FixTileCache(vdc, x);
             vdc->spr_tile_clean[x >> 6] = 0;
          }
-         for (int x = 0; x < 512; x++)
+         for (x = 0; x < 512; x++)
             FixPCache(x);
          RebuildSATCache(vdc);
       }

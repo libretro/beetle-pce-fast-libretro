@@ -1,9 +1,14 @@
 #ifndef _HuC6280H
+#define _HuC6280H
+
 #include "mednafen.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define HUC6280_CRAZY_VERSION
 //#define HUC6280_EXTRA_CRAZY
-
 #define HUC6280_LAZY_FLAGS
 
 typedef struct __HuC6280
@@ -153,5 +158,8 @@ static INLINE void HuC6280_IRQStatusWrite(unsigned int A, uint8 V)
    }
 }
 
-#define _HuC6280H
+#ifdef __cplusplus
+}
+#endif
+
 #endif

@@ -139,7 +139,8 @@ void HuC6280_SetMPR(int i, int v)
 
 static void HuC6280_FlushMPRCache(void)
 {
-   for (int x = 0; x < 9; x++)
+   int x;
+   for (x = 0; x < 9; x++)
       HuC6280_SetMPR(x, HuCPU.MPR[x & 0x7]);
 }
 
@@ -300,17 +301,25 @@ static uint8 ZNTable[256];
            HU_P|=((t>>8)&C_FLAG)^C_FLAG;  \
           }
 
-#define TAM     for(int i = 0; i < 8; i ++) {               \
-                        if(x & (1 << i))        \
-         {  \
-            SET_MPR(i, HU_A); \
-         }  \
-           } SET_MPR(8, HuCPU.MPR[0]);
+#define TAM  do { \
+                  int i; \
+                  for(i = 0; i < 8; i ++) \
+                  { \
+                     if(x & (1 << i))        \
+                     {  \
+                        SET_MPR(i, HU_A); \
+                     }  \
+                  } SET_MPR(8, HuCPU.MPR[0]); \
+               }while(0)
 
-#define TMA for(int i = 0; i < 8; i ++) {    \
-         if(x & (1 << i))  \
-            HU_A = HuCPU.MPR[i]; \
-      }
+#define TMA  do { \
+                  int i; \
+                  for(i = 0; i < 8; i ++) \
+                  { \
+                     if(x & (1 << i))  \
+                     HU_A = HuCPU.MPR[i]; \
+                  } \
+                }while(0)
 
 #define CSL
 #define CSH
@@ -544,7 +553,8 @@ void HuC6280_Reset(void)
    HuC6280_SetMPR(8, 0xFF);
    HuC6280_SetMPR(1, 0xF8);
 
-   for (int i = 2; i < 8; i++)
+   int i;
+   for (i = 2; i < 8; i++)
       HuC6280_SetMPR(i, 0);
 
    npc = RdMem16(0xFFFE);
@@ -593,7 +603,8 @@ void HuC6280_Power(void)
 
    HuCPU.timestamp = 0;
 
-   for (int i = 0; i < 9; i++)
+   int i;
+   for (i = 0; i < 9; i++)
    {
       HuCPU.MPR[i] = 0;
       HuCPU.FastPageR[i] = NULL;

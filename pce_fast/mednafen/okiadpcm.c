@@ -15,11 +15,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mednafen.h"
-#include "okiadpcm.h"
-#include <math.h>
+#include "mednafen-types.h"
 
-const int   OKIADPCM_StepSizes[49] =
+const int OKIADPCM_StepSizes[49] =
 {
    // These can also be generated like:
    // double start = 16;
@@ -37,7 +35,7 @@ const int   OKIADPCM_StepSizes[49] =
    876,   963, 1060, 1166,  1282,  1411, 1552,
 };
 
-const int   OKIADPCM_StepIndexDeltas[16] =
+const int OKIADPCM_StepIndexDeltas[16] =
 {
    -1, -1, -1, -1, 2, 4, 6, 8,
    -1, -1, -1, -1, 2, 4, 6, 8

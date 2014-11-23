@@ -3,6 +3,10 @@
 
 #include "pce.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
@@ -22,9 +26,9 @@ typedef struct
 
 extern vpc_t vpc;
 
-static const int VRAM_Size = 0x8000;
-static const int VRAM_SizeMask = VRAM_Size - 1; //0x7FFF;
-static const int VRAM_BGTileNoMask = VRAM_SizeMask / 16; //0x7FF;
+#define VRAM_Size          0x8000
+#define VRAM_SizeMask      (VRAM_Size - 1)         //0x7FFF;
+#define VRAM_BGTileNoMask  ((VRAM_SizeMask) / 16)    //0x7FF;
 
 typedef struct
 {
@@ -175,6 +179,10 @@ void VDC_Reset(void);
 void VDC_Power(void);
 
 int VDC_StateAction(StateMem* sm, int load);
+
+#ifdef __cplusplus
+}
+#endif
 
 #ifdef PSP
 #include "vdc_psp.h"

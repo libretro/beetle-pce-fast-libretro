@@ -279,6 +279,6 @@ clean:
 
 .PHONY: clean
 
-$(CORE_DIR)/vdc.o: $(CORE_DIR)/vdc_psp.cpp $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
+$(CORE_DIR)/vdc.o: $(CORE_DIR)/vdc_psp.c $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
 libretro.o: $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
 $(CORE_DIR)/pcecd.o: $(CORE_DIR)/pce.h
