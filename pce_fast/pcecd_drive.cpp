@@ -995,9 +995,9 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
 
          if (sbuf[0] && sbuf[1])
          {
-            cdda.CDDASynth.offset_inline(synthtime, sample[0] - cdda.last_sample[0],
+            Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[0] - cdda.last_sample[0],
                                          sbuf[0]);
-            cdda.CDDASynth.offset_inline(synthtime, sample[1] - cdda.last_sample[1],
+            Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[1] - cdda.last_sample[1],
                                          sbuf[1]);
          }
 
@@ -1299,7 +1299,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
    cdda.CDDATimeDiv = cdda_time_div;
 
    cdda.CDDAVolume = 65536;
-   cdda.CDDASynth.volume(1.0f / 65536, 1);
+   Blip_Synth_set_volume(&cdda.CDDASynth, 1.0f / 65536, 1);
    sbuf[0] = leftbuf;
    sbuf[1] = rightbuf;
 

@@ -27,7 +27,7 @@ void PSG_SetVolume(double new_volume)
 {
    psg.OutputVolume = new_volume;
 
-   psg.Synth.volume(psg.OutputVolume / 6, 0x2000);
+   Blip_Synth_set_volume(&psg.Synth, psg.OutputVolume / 6, 0x2000);
 }
 
 void PSG_UpdateOutput_Norm(const int32 timestamp, psg_channel* ch)
@@ -38,8 +38,8 @@ void PSG_UpdateOutput_Norm(const int32 timestamp, psg_channel* ch)
    samp[0] = psg.dbtable[ch->vl[0]][sv];
    samp[1] = psg.dbtable[ch->vl[1]][sv];
 
-   psg.Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
-   psg.Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -53,8 +53,8 @@ void PSG_UpdateOutput_Noise(const int32 timestamp, psg_channel* ch)
    samp[0] = psg.dbtable[ch->vl[0]][sv];
    samp[1] = psg.dbtable[ch->vl[1]][sv];
 
-   psg.Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
-   psg.Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -66,8 +66,8 @@ void PSG_UpdateOutput_Off(const int32 timestamp, psg_channel* ch)
 
    samp[0] = samp[1] = 0;
 
-   psg.Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
-   psg.Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -83,8 +83,8 @@ void PSG_UpdateOutput_Accum(const int32 timestamp, psg_channel* ch)
    samp[1] = ((int32)psg.dbtable_volonly[ch->vl[1]] * ((int32)ch->samp_accum - 496))
              >> (8 + 5);
 
-   psg.Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
-   psg.Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[0] - ch->blip_prev_samp[0], psg.sbuf[0]);
+   Blip_Synth_offset(&psg.Synth, timestamp, samp[1] - ch->blip_prev_samp[1], psg.sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];

@@ -245,7 +245,7 @@ bool PCECD_SetSettings(const PCECD_Settings* settings)
    CDDAVolumeSetting = settings ? settings->CDDA_Volume : 1.0;
    Fader_SyncWhich();
 
-   ADPCMSynth.volume(0.42735f * (settings ? settings->ADPCM_Volume : 1.0), 0x4000);
+   Blip_Synth_set_volume(&ADPCMSynth, 0.42735f * (settings ? settings->ADPCM_Volume : 1.0), 0x4000);
 
    PCECD_Drive_SetTransferRate(126000 * (settings ? settings->CD_Speed : 1));
 
@@ -772,8 +772,8 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
 
          if (sbuf[0] && sbuf[1])
          {
-            ADPCMSynth.offset_inline(synthtime, pcm - ADPCM.last_pcm, sbuf[0]);
-            ADPCMSynth.offset_inline(synthtime, pcm - ADPCM.last_pcm, sbuf[1]);
+            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf[0]);
+            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf[1]);
          }
          ADPCM.last_pcm = pcm;
       }

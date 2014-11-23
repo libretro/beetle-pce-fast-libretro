@@ -156,18 +156,6 @@ void Blip_Buffer_remove_samples(Blip_Buffer* bbuf,  long count)
    }
 }
 
-// Blip_Synth_
-
-Blip_Synth::Blip_Synth()
-{
-   delta_factor = 0;
-}
-
-void Blip_Synth::volume_unit(double new_unit)
-{
-   delta_factor = int (new_unit * (1L << blip_sample_bits) + 0.5);
-}
-
 long Blip_Buffer_read_samples(Blip_Buffer* bbuf, blip_sample_t* out,
                               long max_samples)
 {
