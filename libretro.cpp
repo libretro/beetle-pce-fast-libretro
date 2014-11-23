@@ -1159,7 +1159,7 @@ static void check_variables(void)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 13
-static uint8_t input_buf[MAX_PLAYERS][2] = {0};
+static uint8_t input_buf[MAX_PLAYERS][2] = {{0}};
 
 bool retro_load_game(const struct retro_game_info* info)
 {

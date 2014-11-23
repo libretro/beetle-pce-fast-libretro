@@ -954,6 +954,20 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
                   cdda.CDDASectorBuffer[i] = MDFN_de16lsb(&tmpbuf[i * 2]);
 
                memcpy(cd.SubPWBuf, tmpbuf + 2352, 96);
+
+
+//               typedef struct
+//               {
+//                  uint64_t data[294];
+//               }sector_buffer_t;
+//               typedef struct
+//               {
+//                  uint64_t data[12];
+//               }sub_buffer_t;
+
+//               *((sector_buffer_t*)cdda.CDDASectorBuffer)= *((sector_buffer_t*)tmpbuf);
+//               *((sector_buffer_t*)cd.SubPWBuf)= *((sector_buffer_t*)(tmpbuf + 2352));
+//               memcpy(cdda.CDDASectorBuffer, tmpbuf, 1176);
             }
             GenSubQFromSubPW();
             read_sec++;
