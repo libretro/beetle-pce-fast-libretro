@@ -66,7 +66,7 @@ blargg_err_t Blip_Buffer_set_sample_rate(Blip_Buffer* bbuf, long new_rate,
    if (new_size > ((1LL << 30) - 1))
       new_size = (1LL << 30) - 1;
 
-   if (msec != blip_max_length)
+   if (msec != 0)
    {
       blip_s64 s = ((blip_s64)new_rate * (msec + 1) + 999) / 1000;
       if (s < new_size)
@@ -143,21 +143,6 @@ long Blip_Buffer_count_samples(Blip_Buffer* bbuf,  blip_time_t t)
    return (long)(last_sample - first_sample);
 }
 
-blip_time_t Blip_Buffer_count_clocks(Blip_Buffer* bbuf,  long count)
-{
-   if (!bbuf->factor)
-   {
-      assert(0);   // sample rate and clock rates must be set first
-      return 0;
-   }
-
-   if (count > bbuf->buffer_size)
-      count = bbuf->buffer_size;
-   blip_resampled_time_t time = (blip_resampled_time_t) count <<
-                                BLIP_BUFFER_ACCURACY;
-   return (blip_time_t)((time - bbuf->offset + bbuf->factor - 1) / bbuf->factor);
-}
-
 void Blip_Buffer_remove_samples(Blip_Buffer* bbuf,  long count)
 {
    if (count)
@@ -175,8 +160,6 @@ void Blip_Buffer_remove_samples(Blip_Buffer* bbuf,  long count)
 
 Blip_Synth::Blip_Synth()
 {
-   buf = 0;
-   last_amp = 0;
    delta_factor = 0;
 }
 

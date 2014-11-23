@@ -772,8 +772,8 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
 
          if (sbuf[0] && sbuf[1])
          {
-            ADPCMSynth.offset(synthtime, pcm - ADPCM.last_pcm, sbuf[0]);
-            ADPCMSynth.offset(synthtime, pcm - ADPCM.last_pcm, sbuf[1]);
+            ADPCMSynth.offset_inline(synthtime, pcm - ADPCM.last_pcm, sbuf[0]);
+            ADPCMSynth.offset_inline(synthtime, pcm - ADPCM.last_pcm, sbuf[1]);
          }
          ADPCM.last_pcm = pcm;
       }
