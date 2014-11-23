@@ -22,7 +22,6 @@ typedef struct
 int32 smem_read(StateMem *st, void *buffer, uint32 len);
 int32 smem_write(StateMem *st, void *buffer, uint32 len);
 int32 smem_putc(StateMem *st, int value);
-int32 smem_tell(StateMem *st);
 int32 smem_seek(StateMem *st, uint32 offset, int whence);
 int smem_write32le(StateMem *st, uint32 b);
 int smem_read32le(StateMem *st, uint32 *b);
@@ -51,7 +50,6 @@ typedef struct {
    // If 0, the subchunk isn't saved.
    uint32 flags;	// Flags
    const char *name;	// Name
-   //uint32 struct_size;	// Only used for MDFNSTATE_ARRAYOFS, sizeof(struct) that members of the linked SFORMAT struct are in.
 } SFORMAT;
 
 #define SFVARN(x, n) { &(x), sizeof(x), MDFNSTATE_RLSB, n }

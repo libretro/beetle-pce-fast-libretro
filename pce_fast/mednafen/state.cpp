@@ -16,8 +16,6 @@
  */
 
 #include <string.h>
-#include <map>
-
 #include "mednafen.h"
 #include "general.h"
 #include "state.h"
@@ -64,11 +62,6 @@ int32 smem_putc(StateMem* st, int value)
    if (smem_write(st, &tmpval, 1) != 1)
       return (-1);
    return (1);
-}
-
-int32 smem_tell(StateMem* st)
-{
-   return (st->loc);
 }
 
 int32 smem_seek(StateMem* st, uint32 offset, int whence)
@@ -226,12 +219,12 @@ static int WriteStateChunk(StateMem* st, const char* sname, SFORMAT* sf)
 
    smem_write32le(st, 0);                // We'll come back and write this later.
 
-   data_start_pos = smem_tell(st);
+   data_start_pos = st->loc;
 
    if (!SubWrite(st, sf))
       return (0);
 
-   end_pos = smem_tell(st);
+   end_pos = st->loc;
 
    smem_seek(st, data_start_pos - 4, SEEK_SET);
    smem_write32le(st, end_pos - data_start_pos);
@@ -240,20 +233,10 @@ static int WriteStateChunk(StateMem* st, const char* sname, SFORMAT* sf)
    return (end_pos - data_start_pos);
 }
 
-struct compare_cstr
+static SFORMAT* FindSF(const char* name, SFORMAT* sf)
 {
-   bool operator()(const char* s1, const char* s2) const
-   {
-      return (strcmp(s1, s2) < 0);
-   }
-};
-
-typedef std::map<const char*, SFORMAT*, compare_cstr> SFMap_t;
-
-static void MakeSFMap(SFORMAT* sf, SFMap_t &sfmap)
-{
-   while (sf->size
-          || sf->name) // Size can sometimes be zero, so also check for the text name.  These two should both be zero only at the end of a struct.
+   // Size can sometimes be zero, so also check for the text name.  These two should both be zero only at the end of a struct.
+   while (sf->size || sf->name)
    {
       if (!sf->size || !sf->v)
       {
@@ -261,22 +244,26 @@ static void MakeSFMap(SFORMAT* sf, SFMap_t &sfmap)
          continue;
       }
 
-      if (sf->size == (uint32)~0)           /* Link to another SFORMAT structure. */
-         MakeSFMap((SFORMAT*)sf->v, sfmap);
+      if (sf->size == (uint32)~0) /* Link to another SFORMAT structure. */
+      {
+         SFORMAT* temp_sf = FindSF(name, (SFORMAT*)sf->v);
+         if (temp_sf)
+            return temp_sf;
+      }
       else
       {
          assert(sf->name);
-
-         if (sfmap.find(sf->name) != sfmap.end())
-            printf("Duplicate save state variable in internal emulator structures(CLUB THE PROGRAMMERS WITH BREADSTICKS): %s\n",
-                   sf->name);
-
-         sfmap[sf->name] = sf;
+         if (strcmp(sf->name, name) == 0)
+            return sf;
       }
-
       sf++;
    }
+   return NULL;
 }
+
+
+
+
 
 // Fast raw chunk reader
 static void DOReadChunk(StateMem* st, SFORMAT* sf)
@@ -316,13 +303,8 @@ static int ReadStateChunk(StateMem* st, SFORMAT* sf, int size)
    int temp;
 
    {
-      SFMap_t sfmap;
-      SFMap_t sfmap_found;  // Used for identifying variables that are missing in the save state.
-
-      MakeSFMap(sf, sfmap);
-
-      temp = smem_tell(st);
-      while (smem_tell(st) < (temp + size))
+      temp = st->loc;
+      while (st->loc < (temp + size))
       {
          uint32 recorded_size;   // In bytes
          uint8 toa[1 +
@@ -344,13 +326,10 @@ static int ReadStateChunk(StateMem* st, SFORMAT* sf, int size)
 
          smem_read32le(st, &recorded_size);
 
-         SFMap_t::iterator sfmit;
+         SFORMAT* tmp = FindSF((char*)toa + 1, sf);
 
-         sfmit = sfmap.find((char*)toa + 1);
-
-         if (sfmit != sfmap.end())
+         if (tmp)
          {
-            SFORMAT* tmp = sfmit->second;
             uint32 expected_size = tmp->size;  // In bytes
 
             if (recorded_size != expected_size)
@@ -365,8 +344,6 @@ static int ReadStateChunk(StateMem* st, SFORMAT* sf, int size)
             }
             else
             {
-               sfmap_found[tmp->name] = tmp;
-
                smem_read(st, (uint8*)tmp->v, expected_size);
 
                if (tmp->flags & MDFNSTATE_BOOL)
@@ -396,13 +373,7 @@ static int ReadStateChunk(StateMem* st, SFORMAT* sf, int size)
          }
       } // while(...)
 
-      for (SFMap_t::const_iterator it = sfmap.begin(); it != sfmap.end(); it++)
-      {
-         if (sfmap_found.find(it->second->name) == sfmap_found.end())
-            printf("Variable missing from save state: %s\n", it->second->name);
-      }
-
-      assert(smem_tell(st) == (temp + size));
+      assert(st->loc == (temp + size));
    }
    return 1;
 }
@@ -491,7 +462,7 @@ int MDFNSS_SaveSM(void* st_p)
    if (!MDFNGameInfo.StateAction(st, 0))
       return (0);
 
-   uint32 sizy = smem_tell(st);
+   uint32 sizy = st->loc;
    smem_seek(st, 16 + 4, SEEK_SET);
    smem_write32le(st, sizy);
 
