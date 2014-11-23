@@ -917,9 +917,9 @@ static int ADPCM_StateAction(StateMem* sm, int load)
       SFVAR(ADPCM.WritePending),
       SFVAR(ADPCM.WritePendingValue),
 
-      SFVAR(ADPCM.HalfReached),
-      SFVAR(ADPCM.EndReached),
-      SFVAR(ADPCM.Playing),
+      SFVAR_BOOL(ADPCM.HalfReached),
+      SFVAR_BOOL(ADPCM.EndReached),
+      SFVAR_BOOL(ADPCM.Playing),
 
       SFVAR(ADPCM.PlayNibble),
 
@@ -941,7 +941,7 @@ int PCECD_StateAction(StateMem* sm, int load)
 {
    SFORMAT StateRegs[] =
    {
-      SFVAR(bBRAMEnabled),
+      SFVAR_BOOL(bBRAMEnabled),
       SFVAR(ACKStatus),
       SFVAR(ClearACKDelay),
       SFARRAY16(RawPCMVolumeCache, 2),
@@ -951,7 +951,7 @@ int PCECD_StateAction(StateMem* sm, int load)
       SFVAR(Fader.Volume),
       SFVAR(Fader.CycleCounter),
       SFVAR(Fader.CountValue),
-      SFVAR(Fader.Clocked),
+      SFVAR_BOOL(Fader.Clocked),
 
       SFARRAY(&SubChannelFIFO.data[0], SubChannelFIFO.size),
       SFVAR(SubChannelFIFO.read_pos),

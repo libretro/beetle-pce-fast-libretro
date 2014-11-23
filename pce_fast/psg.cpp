@@ -619,7 +619,7 @@ int PSG_StateAction(StateMem* sm, int load)
 
       SFVAR(psg.vol_update_counter),
       SFVAR(psg.vol_update_which),
-      SFVAR(psg.vol_pending),
+      SFVAR_BOOL(psg.vol_pending),
       SFEND
    };
 

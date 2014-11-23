@@ -1,8 +1,6 @@
 #ifndef MDFN_SETTINGS_H
 #define MDFN_SETTINGS_H
 
-#include <string>
-
 extern int setting_initial_scanline;
 extern int setting_last_scanline;
 extern int setting_pce_fast_nospritelimit;

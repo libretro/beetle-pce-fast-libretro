@@ -7,9 +7,13 @@
 #include <string.h>
 #include "mednafen-types.h"
 #include "settings.h"
-#include "git.h"
-extern MDFNGI MDFNGameInfo;
 
+
+#include "git.h"
+
+#ifdef __cplusplus
+extern MDFNGI MDFNGameInfo;
+#endif
 
 #include "mednafen-driver.h"
 #include "mednafen-endian.h"

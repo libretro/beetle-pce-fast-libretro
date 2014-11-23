@@ -2,7 +2,7 @@
 #define __MDFN_MEDNAFEN_DRIVER_H
 
 #include <stdio.h>
-#include <string>
+//#include <string>
 
 #include "settings-common.h"
 

@@ -320,7 +320,7 @@ int ArcadeCard_StateAction(StateMem* sm, int load)
 {
    SFORMAT ACUsedRegs[] =
    {
-      SFVAR(arcade_card.ACRAMUsed),
+      SFVAR_BOOL(arcade_card.ACRAMUsed),
       SFEND
    };
 

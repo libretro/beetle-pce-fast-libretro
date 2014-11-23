@@ -4,7 +4,9 @@
 #include "mednafen-types.h"
 #include "mednafen.h"
 #include "state.h"
+#ifdef __cplusplus
 #include "general.h"
+#endif
 #include "mednafen-memory.h"
 
 #define PCE_MASTER_CLOCK        21477272.727273

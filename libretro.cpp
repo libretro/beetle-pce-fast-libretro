@@ -229,7 +229,7 @@ static DECLFR(IORead)
       if ((A & 0x1E00) == 0x1A00)
    {
          if (PCE_ACEnabled)
-            return (ArcadeCard_Read(A & 0x1FFF));
+            return (ArcadeCard_Read(A & 0x1FFF, false));
          else
             return (0);
       }
@@ -320,7 +320,7 @@ static DECLFW(ACPhysWrite)
 
 static DECLFR(ACPhysRead)
 {
-   return (ArcadeCard_PhysRead(A));
+   return (ArcadeCard_PhysRead(A, false));
 }
 
 static DECLFR(SaveRAMRead)

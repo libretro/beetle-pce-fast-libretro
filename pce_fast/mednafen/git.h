@@ -1,8 +1,6 @@
 #ifndef _GIT_H
 #define _GIT_H
 
-#include <string>
-
 #include "state.h"
 #include "settings-common.h"
 #include "surface.h"
@@ -184,6 +182,8 @@ typedef struct
 
 } EmulateSpecStruct;
 
+#ifdef __cplusplus
+
 class CDIF;
 
 typedef struct
@@ -248,4 +248,7 @@ typedef struct
    int fb_height;      // Height of the framebuffer passed to the Emulate() function(not necessarily height of the image)
 
 } MDFNGI;
+
+#endif
+
 #endif
