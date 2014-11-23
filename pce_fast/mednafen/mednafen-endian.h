@@ -1,6 +1,10 @@
 #ifndef __MDFN_ENDIAN_H
 #define __MDFN_ENDIAN_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #ifndef htole32
 #define htole32 le32toh
 #endif
@@ -45,5 +49,9 @@ static inline uint32 MDFN_de32lsb(const uint8 *morp)
 {
  return(morp[0]|(morp[1]<<8)|(morp[2]<<16)|(morp[3]<<24));
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

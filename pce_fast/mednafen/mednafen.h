@@ -11,9 +11,7 @@
 
 #include "git.h"
 
-#ifdef __cplusplus
 extern MDFNGI MDFNGameInfo;
-#endif
 
 #include "mednafen-driver.h"
 #include "mednafen-endian.h"

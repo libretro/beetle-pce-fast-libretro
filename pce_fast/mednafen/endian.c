@@ -59,7 +59,8 @@ void Endian_A64_Swap(void *src, uint32 nelements)
  {
   uint8 *base = &nsrc[i * 8];
 
-  for(int z = 0; z < 4; z++)
+  int z;
+  for(z = 0; z < 4; z++)
   {
    uint8 tmp = base[z];
 

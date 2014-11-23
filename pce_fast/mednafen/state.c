@@ -17,7 +17,7 @@
 
 #include <string.h>
 #include "mednafen.h"
-#include "general.h"
+//#include "general.h"
 #include "state.h"
 #include "surface.h"
 #include "msvc_compat.h"
@@ -116,7 +116,7 @@ int smem_read32le(StateMem* st, uint32* b)
    return (4);
 }
 
-static bool SubWrite(StateMem* st, SFORMAT* sf, const char* name_prefix = NULL)
+static bool SubWrite(StateMem* st, SFORMAT* sf, const char* name_prefix /* = NULL */)
 {
    while (sf->size
           || sf->name) // Size can sometimes be zero, so also check for the text name.  These two should both be zero only at the end of a struct.
@@ -173,7 +173,8 @@ static bool SubWrite(StateMem* st, SFORMAT* sf, const char* name_prefix = NULL)
       // Don't do it if we're only saving the raw data.
       if (sf->flags & MDFNSTATE_BOOL)
       {
-         for (int32 bool_monster = 0; bool_monster < bytesize; bool_monster++)
+         int32 bool_monster;
+         for (bool_monster = 0; bool_monster < bytesize; bool_monster++)
          {
             uint8 tmp_bool = ((bool*)sf->v)[bool_monster];
             //printf("Bool write: %.31s\n", sf->name);
@@ -221,7 +222,7 @@ static int WriteStateChunk(StateMem* st, const char* sname, SFORMAT* sf)
 
    data_start_pos = st->loc;
 
-   if (!SubWrite(st, sf))
+   if (!SubWrite(st, sf, NULL))
       return (0);
 
    end_pos = st->loc;
@@ -260,9 +261,6 @@ static SFORMAT* FindSF(const char* name, SFORMAT* sf)
    }
    return NULL;
 }
-
-
-
 
 
 // Fast raw chunk reader
@@ -349,7 +347,8 @@ static int ReadStateChunk(StateMem* st, SFORMAT* sf, int size)
                if (tmp->flags & MDFNSTATE_BOOL)
                {
                   // Converting downwards is necessary for the case of sizeof(bool) > 1
-                  for (int32 bool_monster = expected_size - 1; bool_monster >= 0; bool_monster--)
+                  int32 bool_monster;
+                  for (bool_monster = expected_size - 1; bool_monster >= 0; bool_monster--)
                      ((bool*)tmp->v)[bool_monster] = ((uint8*)tmp->v)[bool_monster];
                }
                if (tmp->flags & MDFNSTATE_RLSB64)

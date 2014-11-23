@@ -183,8 +183,10 @@ typedef struct
 } EmulateSpecStruct;
 
 #ifdef __cplusplus
-
 class CDIF;
+#else
+typedef void CDIF;
+#endif
 
 typedef struct
 {
@@ -248,7 +250,5 @@ typedef struct
    int fb_height;      // Height of the framebuffer passed to the Emulate() function(not necessarily height of the image)
 
 } MDFNGI;
-
-#endif
 
 #endif
