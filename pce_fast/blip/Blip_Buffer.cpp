@@ -173,14 +173,14 @@ void Blip_Buffer_remove_samples(Blip_Buffer* bbuf,  long count)
 
 // Blip_Synth_
 
-Blip_Synth_Fast_::Blip_Synth_Fast_()
+Blip_Synth::Blip_Synth()
 {
    buf = 0;
    last_amp = 0;
    delta_factor = 0;
 }
 
-void Blip_Synth_Fast_::volume_unit(double new_unit)
+void Blip_Synth::volume_unit(double new_unit)
 {
    delta_factor = int (new_unit * (1L << blip_sample_bits) + 0.5);
 }
