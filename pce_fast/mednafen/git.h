@@ -3,15 +3,16 @@
 
 #include <string>
 
+#include "state.h"
+#include "settings-common.h"
 #include "surface.h"
+#include "file.h"
 
 typedef struct
 {
    const char* extension; // Example ".nes"
    const char* description; // Example "iNES Format ROM Image"
 } FileExtensionSpecStruct;
-
-#include "file.h"
 
 enum
 {
@@ -39,9 +40,6 @@ typedef enum
    GMT_CDROM, // PC Engine CD, PC-FX
    GMT_PLAYER // Music player(NSF, HES, GSF)
 } GameMediumTypes;
-
-#include "state.h"
-#include "settings-common.h"
 
 typedef enum
 {

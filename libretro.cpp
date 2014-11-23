@@ -20,9 +20,6 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
-extern MDFNGI EmulatedPCE_Fast;
-MDFNGI* MDFNGameInfo = &EmulatedPCE_Fast;
-
 /* Mednafen - Multi-system Emulator
  *
  * This program is free software; you can redistribute it and/or modify
@@ -283,10 +280,6 @@ static void PCECDIRQCB(bool asserted)
 
 static uint8 lastchar = 0;
 
-
-
-static MDFNGI* game;
-
 struct retro_perf_callback perf_cb;
 retro_log_printf_t log_cb;
 static retro_video_refresh_t video_cb;
@@ -421,21 +414,21 @@ static int LoadCommon(void)
    }
 
    PCE_Power();
-   MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 *
+   MDFNGameInfo.fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 *
                                 256);
 
    // Clean this up:
    if (!MDFN_GetSettingB("pce_fast.correct_aspect"))
-      MDFNGameInfo->fb_width = 682;
+      MDFNGameInfo.fb_width = 682;
 
-   MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ?
+   MDFNGameInfo.nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ?
                                  288 : 341;
-   MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce_fast.slend") -
+   MDFNGameInfo.nominal_height = MDFN_GetSettingUI("pce_fast.slend") -
                                   MDFN_GetSettingUI("pce_fast.slstart") + 1;
 
-   MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 :
+   MDFNGameInfo.lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 :
                              341;
-   MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
+   MDFNGameInfo.lcm_height = MDFNGameInfo.nominal_height;
 
    return (1);
 }
@@ -891,7 +884,7 @@ void HuC_Power(void)
 
 
 
-MDFNGI EmulatedPCE_Fast =
+MDFNGI MDFNGameInfo =
 {
    "pce_fast",
    "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
@@ -917,7 +910,7 @@ MDFNGI EmulatedPCE_Fast =
 
 static CDIF* CDInterface;  // FIXME: Cleanup on error out.
 
-MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
+bool MDFNI_LoadCD(const char* force_module, const char* devicename)
 {
    MDFN_printf(("Loading %s...\n\n"), devicename ? devicename : ("PHYSICAL CD"));
    CDInterface = CDIF_Open(devicename);
@@ -937,31 +930,21 @@ MDFNGI* MDFNI_LoadCD(const char* force_module, const char* devicename)
 
    MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
 
-   // This if statement will be true if force_module references a system without CDROM support.
-   if (!MDFNGameInfo->LoadCD)
-   {
-      MDFN_PrintError(("Specified system \"%s\" doesn't support CDs!"), force_module);
-      return (0);
-   }
+   MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo.shortname,
+               MDFNGameInfo.fullname);
 
-   MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname,
-               MDFNGameInfo->fullname);
-
-   if (!(MDFNGameInfo->LoadCD(CDInterface)))
+   if (!(MDFNGameInfo.LoadCD(CDInterface)))
    {
       delete CDInterface;
-
-      MDFNGameInfo = NULL;
-      return (0);
+      return false;
    }
 
-   return (MDFNGameInfo);
+   return true;
 }
 
-MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
+bool MDFNI_LoadGame(const char* force_module, const char* name)
 {
    MDFNFILE GameFile = {0};
-   MDFNGameInfo = &EmulatedPCE_Fast;
 
    if (strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue")
                             || !strcasecmp(name + strlen(name) - 4, ".ccd")
@@ -971,29 +954,17 @@ MDFNGI* MDFNI_LoadGame(const char* force_module, const char* name)
    MDFN_printf(("Loading %s...\n"), name);
 
    if (!MDFNFILE_Open(&GameFile, name))
-   {
-      MDFNGameInfo = NULL;
-      return 0;
-   }
+      return false;
 
-   MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname,
-               MDFNGameInfo->fullname);
+   MDFN_printf(("Using module: %s(%s)\n\n"), MDFNGameInfo.shortname,
+               MDFNGameInfo.fullname);
 
-   //
-   // Load per-game settings
-   //
-   // Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
-   // End load per-game settings
-   //
-
-   if (MDFNGameInfo->Load(name, &GameFile) <= 0)
+   if (MDFNGameInfo.Load(name, &GameFile) <= 0)
    {
       MDFNFILE_Close(&GameFile);
-      MDFNGameInfo = NULL;
-      return (0);
+      return false;
    }
-
-   return (MDFNGameInfo);
+   return true;
 }
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
@@ -1087,16 +1058,16 @@ static void check_variables(void)
       if (strcmp(var.value, "disabled") == 0)
       {
          setting_pce_keepaspect = 0;
-         EmulatedPCE_Fast.fb_width = 512;
-         EmulatedPCE_Fast.nominal_width = 341;
-         EmulatedPCE_Fast.lcm_width = 341;
+         MDFNGameInfo.fb_width = 512;
+         MDFNGameInfo.nominal_width = 341;
+         MDFNGameInfo.lcm_width = 341;
       }
       else if (strcmp(var.value, "enabled") == 0)
       {
          setting_pce_keepaspect = 1;
-         EmulatedPCE_Fast.fb_width = 682;
-         EmulatedPCE_Fast.nominal_width = 288;
-         EmulatedPCE_Fast.lcm_width = 1024;
+         MDFNGameInfo.fb_width = 682;
+         MDFNGameInfo.nominal_width = 288;
+         MDFNGameInfo.lcm_width = 1024;
       }
    }
 
@@ -1170,14 +1141,12 @@ bool retro_load_game(const struct retro_game_info* info)
       return false;
    }
 
-
    overscan = false;
    environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &overscan);
 
    check_variables();
 
-   game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
-   if (!game)
+   if (!MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path))
       return false;
 
    surf.w = FB_WIDTH;
@@ -1191,21 +1160,12 @@ bool retro_load_game(const struct retro_game_info* info)
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
 
-   return game;
+   return true;
 }
 
 void retro_unload_game(void)
 {
-   if (!MDFNGameInfo)
-      return;
-
-   //   MDFN_FlushGameCheats(0);
-
-   MDFNGameInfo->CloseGame();
-
-   //   MDFNMP_Kill();
-
-   MDFNGameInfo = NULL;
+   MDFNGameInfo.CloseGame();
 
    delete CDInterface;
 }
@@ -1372,11 +1332,6 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
-   MDFNGI* currgame = (MDFNGI*)game;
-
-   if (!currgame)
-      return;
-
    switch (device)
    {
    case RETRO_DEVICE_JOYPAD:
@@ -1451,7 +1406,6 @@ static size_t serialize_size;
 
 size_t retro_serialize_size(void)
 {
-   MDFNGI* curgame = (MDFNGI*)game;
    //if (serialize_size)
    //   return serialize_size;
 

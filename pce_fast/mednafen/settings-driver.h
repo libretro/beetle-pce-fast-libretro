@@ -3,6 +3,4 @@
 
 #include "settings-common.h"
 
-#include <map>
-
 #endif

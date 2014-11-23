@@ -1,13 +1,21 @@
 #ifndef _MEDNAFEN_H
 #define _MEDNAFEN_H
 
-#include "mednafen-types.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "mednafen-types.h"
 #include "math_ops.h"
+#include "settings.h"
 #include "git.h"
+extern MDFNGI MDFNGameInfo;
+
+
+#include "mednafen-driver.h"
+#include "mednafen-endian.h"
+#include "mednafen-memory.h"
+
 
 #ifdef _WIN32
 #define strcasecmp _stricmp
@@ -37,10 +45,6 @@
 #define gzseek(a,b,c) gzseek(a,b,c)
 #endif
 
-extern MDFNGI *MDFNGameInfo;
-
-#include "settings.h"
-
 #define MDFN_PrintError printf
 #define MDFN_printf printf
 #define MDFN_DispMessage printf
@@ -49,13 +53,6 @@ void MDFN_LoadGameCheats(void *override);
 void MDFN_FlushGameCheats(int nosave);
 
 void MDFN_MidSync(EmulateSpecStruct *espec);
-
-#include "mednafen-driver.h"
-
-#include "mednafen-endian.h"
-#include "mednafen-memory.h"
-
-#include "pce.h"
 
 #ifndef PATH_MAX
 #ifdef MAX_PATH
@@ -73,5 +70,7 @@ void MDFN_MidSync(EmulateSpecStruct *espec);
 #define SLASH_STRING "/"
 #endif
 
-#endif
 
+#include "pce.h"
+
+#endif

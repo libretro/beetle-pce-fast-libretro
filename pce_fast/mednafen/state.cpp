@@ -15,11 +15,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "mednafen.h"
-
 #include <string.h>
+#include <map>
 
-#include "driver.h"
+#include "mednafen.h"
 #include "general.h"
 #include "state.h"
 #include "surface.h"
@@ -489,7 +488,7 @@ int MDFNSS_SaveSM(void* st_p)
    MDFN_en32lsb(header + 28, neoheight);
    smem_write(st, header, 32);
 
-   if (!MDFNGameInfo->StateAction(st, 0))
+   if (!MDFNGameInfo.StateAction(st, 0))
       return (0);
 
    uint32 sizy = smem_tell(st);
@@ -512,5 +511,5 @@ int MDFNSS_LoadSM(void* st_p)
 
    stateversion = MDFN_de32lsb(header + 16);
 
-   return (MDFNGameInfo->StateAction(st, stateversion));
+   return (MDFNGameInfo.StateAction(st, stateversion));
 }
