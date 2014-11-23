@@ -53,7 +53,8 @@ void PCEINPUT_SetInput(int port, const char* type, void* ptr)
 
 void INPUT_Frame(void)
 {
-   for (int x = 0; x < 5; x++)
+   int x;
+   for (x = 0; x < 5; x++)
    {
       if (InputTypes[x] == 1)
       {
@@ -79,7 +80,8 @@ void INPUT_Frame(void)
 
 void INPUT_FixTS(void)
 {
-   for (int x = 0; x < 5; x++)
+   int x;
+   for (x = 0; x < 5; x++)
    {
       if (InputTypes[x] == 2)
          mouse_last_meow[x] -= HuCPU.timestamp;

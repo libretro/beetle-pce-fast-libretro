@@ -2,6 +2,7 @@
 #define __MDFN_SIMPLEFIFO_H
 
 #include <assert.h>
+#include "mednafen-types.h"
 
 template<typename T>
 class SimpleFIFO

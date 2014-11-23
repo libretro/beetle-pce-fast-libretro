@@ -155,7 +155,8 @@ void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r)
    psg.sbuf[1] = bb_r;
 
    psg.lastts = 0;
-   for (int ch = 0; ch < 6; ch++)
+   int ch;
+   for (ch = 0; ch < 6; ch++)
    {
       psg.channel[ch].blip_prev_samp[0] = 0;
       psg.channel[ch].blip_prev_samp[1] = 0;
@@ -164,7 +165,8 @@ void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r)
 
    PSG_SetVolume(1.0);
 
-   for (int vl = 0; vl < 32; vl++)
+   int vl;
+   for (vl = 0; vl < 32; vl++)
    {
       double flub = 1;
 
@@ -175,7 +177,8 @@ void PSG_init(Blip_Buffer* bb_l, Blip_Buffer* bb_r)
       if (vl == 0x1F)
          flub = 0;
 
-      for (int samp = 0; samp < 32; samp++)
+      int samp;
+      for (samp = 0; samp < 32; samp++)
       {
          int eff_samp = samp * 2 - 0x1F;
 
@@ -343,8 +346,8 @@ void PSG_Write(int32 timestamp, uint8 A, uint8 V)
 
 // Don't use INLINE, which has always_inline in it, due to gcc's inability to cope with the type of recursion
 // used in this function.
-template<bool LFO_On>
-void PSG_RunChannel(int chc, int32 timestamp)
+
+void PSG_RunChannel_LFO_On(int chc, int32 timestamp)
 {
    psg_channel* ch = &psg.channel[chc];
    int32 running_timestamp = ch->lastts;
@@ -395,7 +398,74 @@ void PSG_RunChannel(int chc, int32 timestamp)
 
    ch->counter -= run_time;
 
-   if (!LFO_On && ch->freq_cache <= 0xA)
+   while (ch->counter <= 0)
+   {
+      ch->waveform_index = (ch->waveform_index + 1) & 0x1F;
+      ch->dda = ch->waveform[ch->waveform_index];
+
+      ch->UpdateOutput(timestamp + ch->counter, ch);
+
+      PSG_RunChannel_LFO_Off(1, timestamp + ch->counter);
+      PSG_RecalcFreqCache(0);
+      PSG_RecalcUOFunc(0);
+
+      ch->counter += (ch->freq_cache <= 0xA) ? 0xA :
+                     ch->freq_cache; // Not particularly accurate, but faster.
+   }
+}
+
+void PSG_RunChannel_LFO_Off(int chc, int32 timestamp)
+{
+   psg_channel* ch = &psg.channel[chc];
+   int32 running_timestamp = ch->lastts;
+   int32 run_time = timestamp - ch->lastts;
+
+   ch->lastts = timestamp;
+
+   if (!run_time)
+      return;
+
+   ch->UpdateOutput(running_timestamp, ch);
+
+   if (chc >= 4)
+   {
+      int32 freq = ch->noise_freq_cache;
+
+      ch->noisecount -= run_time;
+
+#define CLOCK_LFSR(lfsr) { unsigned int newbit = ((lfsr >> 0) ^ (lfsr >> 1) ^ (lfsr >> 11) ^ (lfsr >> 12) ^ (lfsr >> 17)) & 1; lfsr = (lfsr >> 1) | (newbit << 17); }
+      if (&PSG_UpdateOutput_Noise == ch->UpdateOutput)
+      {
+         while (ch->noisecount <= 0)
+         {
+            CLOCK_LFSR(ch->lfsr);
+            PSG_UpdateOutput_Noise(timestamp + ch->noisecount, ch);
+            ch->noisecount += freq;
+         }
+      }
+      else
+      {
+         while (ch->noisecount <= 0)
+         {
+            CLOCK_LFSR(ch->lfsr);
+            ch->noisecount += freq;
+         }
+      }
+#undef CLOCK_LFSR
+   }
+
+   // D7 of control is 0, don't clock the counter at all.
+   // D7 of lfocontrol is 1(and chc == 1), don't clock the counter at all(not sure about this)
+   // In DDA mode, don't clock the counter.
+   // (Noise being enabled isn't handled here since AFAIK it doesn't disable clocking of the waveform portion, its sound just overrides the sound from
+   //  the waveform portion when the noise enable bit is set, which is handled in our PSG_RecalcUOFunc).
+   if (!(ch->control & 0x80) || (chc == 1 && (psg.lfoctrl & 0x80))
+         || (ch->control & 0x40))
+      return;
+
+   ch->counter -= run_time;
+
+   if (ch->freq_cache <= 0xA)
    {
       if (ch->counter <= 0)
       {
@@ -415,32 +485,24 @@ void PSG_RunChannel(int chc, int32 timestamp)
 
       ch->UpdateOutput(timestamp + ch->counter, ch);
 
-      if (LFO_On)
-      {
-         PSG_RunChannel<false>(1, timestamp + ch->counter);
-         PSG_RecalcFreqCache(0);
-         PSG_RecalcUOFunc(0);
-
-         ch->counter += (ch->freq_cache <= 0xA) ? 0xA :
-                        ch->freq_cache; // Not particularly accurate, but faster.
-      }
-      else
-         ch->counter += ch->freq_cache;
+      ch->counter += ch->freq_cache;
    }
 }
 
 INLINE void PSG_UpdateSubLFO(int32 timestamp)
 {
-   PSG_RunChannel<true>(0, timestamp);
+   PSG_RunChannel_LFO_On(0, timestamp);
 
-   for (int chc = 1; chc < 6; chc++)
-      PSG_RunChannel<false>(chc, timestamp);
+   int chc;
+   for (chc = 1; chc < 6; chc++)
+      PSG_RunChannel_LFO_Off(chc, timestamp);
 }
 
 INLINE void PSG_UpdateSubNonLFO(int32 timestamp)
 {
-   for (int chc = 0; chc < 6; chc++)
-      PSG_RunChannel<false>(chc, timestamp);
+   int chc;
+   for (chc = 0; chc < 6; chc++)
+      PSG_RunChannel_LFO_Off(chc, timestamp);
 }
 
 //static int32 last_read;
@@ -530,7 +592,8 @@ void PSG_EndFrame(int32 timestamp)
 {
    PSG_Update(timestamp);
    psg.lastts = 0;
-   for (int chc = 0; chc < 6; chc++)
+   int chc;
+   for (chc = 0; chc < 6; chc++)
       psg.channel[chc].lastts = 0;
 }
 
@@ -547,7 +610,8 @@ void PSG_Power(const int32 timestamp)
    psg.lfofreq = 0;
    psg.lfoctrl = 0;
 
-   for (int ch = 0; ch < 6; ch++)
+   int ch;
+   for (ch = 0; ch < 6; ch++)
    {
       psg.channel[ch].frequency = 0;
       psg.channel[ch].control = 0x00;
@@ -586,7 +650,8 @@ int PSG_StateAction(StateMem* sm, int load)
 {
    int ret = 1;
 
-   for (int ch = 0; ch < 6; ch++)
+   int ch;
+   for (ch = 0; ch < 6; ch++)
    {
       char tmpstr[5] = "SCHx";
       psg_channel* pt = &psg.channel[ch];
@@ -635,16 +700,19 @@ int PSG_StateAction(StateMem* sm, int load)
       if (!psg.channel[5].lfsr)
          psg.channel[5].lfsr = 1;
 
-      for (int ch = 0; ch < 6; ch++)
+      int ch;
+      for (ch = 0; ch < 6; ch++)
       {
          psg.channel[ch].samp_accum = 0;
-         for (int wi = 0; wi < 32; wi++)
+         int wi;
+         for (wi = 0; wi < 32; wi++)
          {
             psg.channel[ch].waveform[wi] &= 0x1F;
             psg.channel[ch].samp_accum += psg.channel[ch].waveform[wi];
          }
 
-         for (int lr = 0; lr < 2; lr++)
+         int lr;
+         for (lr = 0; lr < 2; lr++)
             psg.channel[ch].vl[lr] &= 0x1F;
 
          if (!psg.channel[ch].noisecount && ch >= 4)

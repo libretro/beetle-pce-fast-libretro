@@ -3,7 +3,11 @@
 
 #include "blip/Blip_Buffer.h"
 
-struct psg_channel
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct psg_channel_struct
 {
    uint8 waveform[32];     /* Waveform data */
    uint8 waveform_index;   /* Waveform data index */
@@ -15,7 +19,7 @@ struct psg_channel
 
    int32 counter;
 
-   void (*UpdateOutput)(const int32 timestamp, psg_channel* ch);
+   void (*UpdateOutput)(const int32 timestamp, struct psg_channel_struct* ch);
 
    uint32 freq_cache;
    uint32 noise_freq_cache;        // Channel 4,5 only
@@ -28,7 +32,7 @@ struct psg_channel
 
    uint16 frequency;       /* Channel frequency */
    uint8 balance;          /* Channel balance */
-};
+} psg_channel;
 
 typedef struct
 {
@@ -70,7 +74,12 @@ void PSG_UpdateOutput_Noise(const int32 timestamp, psg_channel* ch);
 int32 PSG_GetVL(const int chnum, const int lr);
 void PSG_RecalcFreqCache(int chnum);
 void PSG_RecalcNoiseFreqCache(int chnum);
-template<bool LFO_On>
-void PSG_RunChannel(int chc, int32 timestamp);
+
+void PSG_RunChannel_LFO_On(int chc, int32 timestamp);
+void PSG_RunChannel_LFO_Off(int chc, int32 timestamp);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
