@@ -10,7 +10,6 @@
 
 extern MDFNGI MDFNGameInfo;
 
-#include "mednafen-driver.h"
 #include "mednafen-endian.h"
 #include "mednafen-memory.h"
 

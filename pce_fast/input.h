@@ -1,6 +1,8 @@
 #ifndef __PCE_INPUT_H
 #define __PCE_INPUT_H
 
+#include "mednafen.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -215,7 +215,6 @@ OBJECTS += $(CORE_DIR)/arcade_card.o
 OBJECTS += $(CORE_DIR)/blip/Blip_Buffer.o
 #libretro
 OBJECTS += libretro.o
-OBJECTS += scrc32.o
 
 ifeq ($(NO_GCC),1)
 EXTRA_GCC_FLAGS :=
