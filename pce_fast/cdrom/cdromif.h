@@ -29,8 +29,8 @@ class CDIF
 {
 public:
 
-   CDIF();
-   virtual ~CDIF();
+   CDIF(){}
+   virtual ~CDIF(){}
 
    inline void ReadTOC(CDUtility_TOC* read_target)
    {
@@ -45,20 +45,8 @@ public:
    // Will return the type(1, 2) of the first sector read to the buffer supplied, 0 on error
    int ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors);
 
-   // Return true if operation succeeded or it was a NOP(either due to not being implemented, or the current status matches eject_status).
-   // Returns false on failure(usually drive error of some kind; not completely fatal, can try again).
-   virtual bool Eject(bool eject_status) = 0;
-
-   inline bool IsPhysical(void)
-   {
-      return (is_phys_cache);
-   }
-
 protected:
-   bool UnrecoverableError;
-   bool is_phys_cache;
    CDUtility_TOC disc_toc;
-   bool DiscEjected;
 };
 
 CDIF* CDIF_Open(const char* path);

@@ -21,19 +21,12 @@
 class CDAccess_CCD : public CDAccess
 {
 public:
-
    CDAccess_CCD(const char* path);
    virtual ~CDAccess_CCD();
 
    virtual void Read_Raw_Sector(uint8* buf, int32 lba);
 
    virtual void Read_TOC(CDUtility_TOC* toc);
-
-   virtual bool Is_Physical(void) throw();
-
-   virtual void Eject(bool eject_status);
-
-private:
 
    void Load(const char* path);
    void Cleanup(void);

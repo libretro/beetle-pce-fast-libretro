@@ -35,40 +35,22 @@ typedef struct
    uint8 data[2352 + 96];
 } CDIF_Sector_Buffer;
 
-// TODO: prohibit copy constructor
 class CDIF_ST : public CDIF
 {
 public:
-
    CDIF_ST(CDAccess* cda);
    virtual ~CDIF_ST();
 
    virtual void HintReadSector(uint32 lba);
    virtual bool ReadRawSector(uint8* buf, uint32 lba);
-   virtual bool Eject(bool eject_status);
 
-private:
    CDAccess* disc_cdaccess;
 };
-
-CDIF::CDIF() : UnrecoverableError(false), is_phys_cache(false),
-   DiscEjected(false)
-{
-
-}
-
-CDIF::~CDIF()
-{
-
-}
 
 
 int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
 {
    int ret = 0;
-
-   if (UnrecoverableError)
-      return (false);
 
    while (nSectors--)
    {
@@ -110,12 +92,6 @@ int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
 
 CDIF_ST::CDIF_ST(CDAccess* cda) : disc_cdaccess(cda)
 {
-   //puts("***WARNING USING SINGLE-THREADED CD READER***");
-
-   is_phys_cache = false;
-   UnrecoverableError = false;
-   DiscEjected = false;
-
    disc_cdaccess->Read_TOC(&disc_toc);
 
    assert(disc_toc.first_track > 0 && disc_toc.last_track < 100
@@ -139,12 +115,6 @@ void CDIF_ST::HintReadSector(uint32 lba)
 
 bool CDIF_ST::ReadRawSector(uint8* buf, uint32 lba)
 {
-   if (UnrecoverableError)
-   {
-      memset(buf, 0, 2352 + 96);
-      return (false);
-   }
-
    try
    {
       disc_cdaccess->Read_Raw_Sector(buf, lba);
@@ -154,41 +124,6 @@ bool CDIF_ST::ReadRawSector(uint8* buf, uint32 lba)
       if (log_cb)
          log_cb(RETRO_LOG_ERROR, "Sector %u read error: %s\n", lba, e.what());
       memset(buf, 0, 2352 + 96);
-      return (false);
-   }
-
-   return (true);
-}
-
-bool CDIF_ST::Eject(bool eject_status)
-{
-   if (UnrecoverableError)
-      return (false);
-
-   try
-   {
-      int32 old_de = DiscEjected;
-
-      DiscEjected = eject_status;
-
-      if (old_de != DiscEjected)
-      {
-         disc_cdaccess->Eject(eject_status);
-
-         if (!eject_status)    // Re-read the TOC
-         {
-            disc_cdaccess->Read_TOC(&disc_toc);
-
-            assert(disc_toc.first_track > 0 && disc_toc.last_track < 100
-                   && disc_toc.first_track <= disc_toc.last_track);
-            //     throw(MDFN_Error(0, ("TOC first(%d)/last(%d) track numbers bad."), disc_toc.first_track, disc_toc.last_track));
-         }
-      }
-   }
-   catch (std::exception &e)
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_ERROR, "%s\n", e.what());
       return (false);
    }
 

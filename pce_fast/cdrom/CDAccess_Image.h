@@ -33,18 +33,11 @@ struct CDRFILE_TRACK_INFO
 class CDAccess_Image : public CDAccess
 {
 public:
-
    CDAccess_Image(const char* path);
    virtual ~CDAccess_Image();
 
-   virtual void Read_Raw_Sector(uint8* buf, int32 lba);
-
+   virtual void Read_Raw_Sector(uint8* buf, int32 lba);   
    virtual void Read_TOC(CDUtility_TOC* toc);
-
-   virtual bool Is_Physical(void) throw();
-
-   virtual void Eject(bool eject_status);
-private:
 
    int32 NumTracks;
    int32 FirstTrack;

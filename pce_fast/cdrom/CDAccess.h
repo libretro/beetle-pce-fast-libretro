@@ -15,15 +15,6 @@ public:
    virtual void Read_Raw_Sector(uint8* buf, int32 lba) = 0;
 
    virtual void Read_TOC(CDUtility_TOC* toc) = 0;
-
-   virtual bool Is_Physical(void) throw() = 0;
-
-   virtual void Eject(bool eject_status) =
-      0;     // Eject a disc if it's physical, otherwise NOP.  Returns true on success(or NOP), false on error
-
-private:
-   CDAccess(const CDAccess &);  // No copy constructor.
-   CDAccess &operator=(const CDAccess &); // No assignment operator.
 };
 
 CDAccess* cdaccess_open_image(const char* path);
