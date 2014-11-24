@@ -10,8 +10,6 @@ extern "C" {
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
-#define VDC_DEBUG(x)
-//printf("%s: %d\n", x, vdc->display_counter);
 #define VDC_UNDEFINED(x) { }
 //{ printf("%s: %d\n", x, vdc->display_counter); }
 

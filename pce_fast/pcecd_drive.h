@@ -72,7 +72,6 @@ enum
 
 void PCECD_Drive_GetCDDAValues(int16 *left, int16 *right);
 
-void PCECD_Drive_SetLog(void (*logfunc)(const char*, const char*, ...)) ;
 void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer* leftbuf,
                       Blip_Buffer* rightbuf, uint32 TransferRate, uint32 SystemClock,
                       void (*IRQFunc)(int), void (*SSCFunc)(uint8, int)) ;

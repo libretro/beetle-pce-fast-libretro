@@ -32,8 +32,6 @@
 #include "pcecd.h"
 #include "cdrom/SimpleFIFO.h"
 
-//#define PCECD_DEBUG
-
 static unsigned int OC_Multiplier;
 
 static void (*IRQCB)(bool asserted);
@@ -53,12 +51,6 @@ static int32 ClearACKDelay;
 
 static int32 lastts;
 static int32 pcecd_drive_ne = 0;
-
-// ADPCM variables and whatnot
-static inline void ADPCM_DEBUG(const char* format, ...)
-{
-   /*printf("[Half=%d, End=%d, Playing=%d] "x, ADPCM.HalfReached, ADPCM.EndReached, ADPCM.Playing, ## __VA_ARGS__);*/
-}
 
 static Blip_Synth ADPCMSynth;
 static OKIADPCM_Decoder<OKIADPCM_MSM5205> MSM5205;
@@ -187,10 +179,6 @@ static void StuffSubchannel(uint8 meow, int subindex)
 
 static void CDIRQ(int type)
 {
-#ifdef PCECD_DEBUG
-   if (type != 0x8000 || _Port[0x3] & 0x60)
-      printf("CDIRQ: %d\n", type);
-#endif
    if (type & 0x8000)
    {
       type &= 0x7FFF;
@@ -376,10 +364,14 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
    }
    else
    {
-#ifdef PCE_FAST_CD_SPEEDHACK
-      //   if (timestamp > 0x7FFF)
-#endif
+//#ifdef PCE_FAST_CD_SPEEDHACK
+//         if (timestamp > 0x7FF)
+//          PCECD_Run(timestamp);
+//         else
+//          update_irq_state();
+//#else
       PCECD_Run(timestamp);
+//#endif
 
       switch (A & 0xf)
       {
@@ -444,7 +436,6 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
          break;
 
       case 0xa:
-         ADPCM_DEBUG("ReadBuffer\n");
          ADPCM.ReadPending = 19 * 3; //24 * 3;
          ret = ADPCM.ReadBuffer;
          break;
@@ -468,10 +459,6 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
          break;
       }
    }
-
-#ifdef PCECD_DEBUG
-   printf("Read: %04x %02x, %d\n", A, ret, timestamp);
-#endif
 
    return (ret);
 }
@@ -498,12 +485,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 {
    const uint8 V = data;
 
-#ifdef PCECD_DEBUG
-   printf("Write: (PC=%04x, t=%6d) %04x %02x; MSG: %d, REQ: %d, ACK: %d, CD: %d, IO: %d, BSY: %d, SEL: %d\n",
-          HuCPU.PC, timestamp, physAddr, data, PCECD_Drive_GetMSG(), PCECD_Drive_GetREQ(),
-          PCECD_Drive_GetACK(), PCECD_Drive_GetCD(), PCECD_Drive_GetIO(),
-          PCECD_Drive_GetBSY(), PCECD_Drive_GetSEL());
-#endif
 #ifdef PCE_FAST_CD_SPEEDHACK
    //   if (timestamp > 0x7FFF)
 #endif
@@ -530,13 +511,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       break;
 
    case 0x2:      // $1802
-#ifdef PCECD_DEBUG
-      if (!(_Port[0x3] & _Port[2] & 0x40) && (_Port[0x3] & data & 0x40))
-         puts("IRQ on waah 0x40");
-      if (!(_Port[0x3] & _Port[2] & 0x20) && (_Port[0x3] & data & 0x20))
-         puts("IRQ on waah 0x20");
-#endif
-
       PCECD_Drive_SetACK(data & 0x80);
       pcecd_drive_ne = PCECD_Drive_Run(timestamp);
       _Port[2] = data;
@@ -580,12 +554,9 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       ADPCM.Addr &= 0xFF00;
       ADPCM.Addr |= V;
 
-      ADPCM_DEBUG("SAL: %02x, %d\n", V, timestamp);
-
       // Length appears to be constantly latched when D4 is set(tested on a real system)
       if (ADPCM.LastCmd & 0x10)
       {
-         ADPCM_DEBUG("Set length(crazy way L): %04x\n", ADPCM.Addr);
          ADPCM.LengthCount = ADPCM.Addr;
       }
       break;
@@ -597,24 +568,19 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       ADPCM.Addr &= 0x00FF;
       ADPCM.Addr |= V << 8;
 
-      ADPCM_DEBUG("SAH: %02x, %d\n", V, timestamp);
-
       // Length appears to be constantly latched when D4 is set(tested on a real system)
       if (ADPCM.LastCmd & 0x10)
       {
-         ADPCM_DEBUG("Set length(crazy way H): %04x\n", ADPCM.Addr);
          ADPCM.LengthCount = ADPCM.Addr;
       }
       break;
 
    case 0xa:
-      //ADPCM_DEBUG("Write: %02x, %d\n", V, timestamp);
       ADPCM.WritePending = 3 * 11;
       ADPCM.WritePendingValue = data;
       break;
 
    case 0xb:   // adpcm dma
-      ADPCM_DEBUG("DMA: %02x\n", V);
       _Port[0xb] = data;
       break;
 
@@ -622,7 +588,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       break;
 
    case 0xd:
-      ADPCM_DEBUG("Write180D: %02x\n", V);
       if (data & 0x80)
       {
          ADPCM.Addr = 0;
@@ -660,7 +625,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       // Length appears to be constantly latched when D4 is set(tested on a real system)
       if (data & 0x10)
       {
-         ADPCM_DEBUG("Set length: %04x\n", ADPCM.Addr);
          ADPCM.LengthCount = ADPCM.Addr;
          ADPCM.EndReached = false;
       }
@@ -672,8 +636,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
             ADPCM.ReadAddr = ADPCM.Addr;
          else
             ADPCM.ReadAddr = (ADPCM.Addr - 1) & 0xFFFF;
-
-         ADPCM_DEBUG("Set ReadAddr: %04x, %06x\n", ADPCM.Addr, ADPCM.ReadAddr);
       }
 
       // D0 and D1 control write address
@@ -682,7 +644,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
          ADPCM.WriteAddr = ADPCM.Addr;
          if (!(data & 0x1))
             ADPCM.WriteAddr = (ADPCM.WriteAddr - 1) & 0xFFFF;
-         ADPCM_DEBUG("Set WriteAddr: %04x, %06x\n", ADPCM.Addr, ADPCM.WriteAddr);
       }
       ADPCM.LastCmd = data;
       UpdateADPCMIRQState();
@@ -693,17 +654,11 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       uint8 freq = V & 0x0F;
 
       ADPCM.SampleFreq = freq;
-
-      ADPCM_DEBUG("Freq: %02x\n", freq);
    }
    break;
 
    case 0xf:
       Fader.Command = V;
-
-#ifdef PCECD_DEBUG
-      printf("Fade: %02x\n", data);
-#endif
 
       // Cancel fade
       if (!(V & 0x8))
@@ -867,12 +822,7 @@ void PCECD_Run(uint32 in_timestamp)
             PCECD_Drive_SetACK(FALSE);
             PCECD_Drive_Run(running_ts);
             if (PCECD_Drive_GetCD())
-            {
                _Port[0xb] &= ~1;
-#ifdef PCECD_DEBUG
-               puts("DMA End");
-#endif
-            }
          }
       }
 

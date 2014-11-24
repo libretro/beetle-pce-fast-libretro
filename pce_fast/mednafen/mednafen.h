@@ -22,11 +22,6 @@ extern MDFNGI MDFNGameInfo;
 #define MDFN_printf printf
 #define MDFN_DispMessage printf
 
-void MDFN_LoadGameCheats(void *override);
-void MDFN_FlushGameCheats(int nosave);
-
-void MDFN_MidSync(EmulateSpecStruct *espec);
-
 #ifndef PATH_MAX
 #ifdef MAX_PATH
 #define PATH_MAX MAX_PATH
@@ -42,5 +37,7 @@ void MDFN_MidSync(EmulateSpecStruct *espec);
 #define SLASH_CHAR '/'
 #define SLASH_STRING "/"
 #endif
+
+#include "pce.h"
 
 #endif

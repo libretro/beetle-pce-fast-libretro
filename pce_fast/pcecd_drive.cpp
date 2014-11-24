@@ -22,12 +22,6 @@
 #include "cdrom/SimpleFIFO.h"
 #include "msvc_compat.h"
 
-static inline void SCSIDBG(const char* format, ...)
-{
-   //printf("SCSI: " format "\n",  ## __VA_ARGS__);
-}
-//#define SCSIDBG(format, ...) { }
-
 static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
 static void (*CDIRQCallback)(int);
@@ -139,8 +133,6 @@ static INLINE void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
    target[13] = ascq;     // Additional Sense Code Qualifier
    target[14] = fru;      // Field Replaceable Unit code
 }
-
-static void (*SCSILog)(const char*, const char* format, ...);
 
 static pcecd_drive_timestamp_t lastts;
 static int64 monotonic_timestamp;
@@ -452,15 +444,6 @@ static void DoREADBase(uint32 sa, uint32 sc)
       return;
    }
 
-   if (SCSILog)
-   {
-      int Track = toc.FindTrackByLBA(sa);
-      uint32 Offset = sa -
-                      toc.tracks[Track].lba; //Cur_CDIF->GetTrackStartPositionLBA(Track);
-      SCSILog("SCSI", "Read: start=0x%08x(track=%d, offs=0x%08x), cnt=0x%08x", sa,
-              Track, Offset, sc);
-   }
-
    SectorAddr = sa;
    SectorCount = sc;
    if (SectorCount)
@@ -512,10 +495,8 @@ static void DoREAD6(const uint8* cdb)
 
    // TODO: confirm real PCE does this(PC-FX does at least).
    if (!sc)
-   {
-      SCSIDBG("READ(6) with count == 0.\n");
       sc = 256;
-   }
+
 
    DoREADBase(sa, sc);
 }
@@ -533,7 +514,7 @@ static void DoNEC_PCE_SAPSP(const uint8* cdb)
    switch (cdb[9] & 0xc0)
    {
    default:
-      SCSIDBG("Unknown SAPSP 9: %02x\n", cdb[9]);
+//      SCSIDBG("Unknown SAPSP 9: %02x\n", cdb[9]);
    case 0x00:
       new_read_sec_start = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
       break;
@@ -609,7 +590,7 @@ static void DoNEC_PCE_SAPEP(const uint8* cdb)
    switch (cdb[9] & 0xc0)
    {
    default:
-      SCSIDBG("Unknown SAPEP 9: %02x\n", cdb[9]);
+//      SCSIDBG("Unknown SAPEP 9: %02x\n", cdb[9]);
 
    case 0x00:
       new_read_sec_end = (cdb[3] << 16) | (cdb[4] << 8) | cdb[5];
@@ -1112,33 +1093,9 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
                while (cmd_info_ptr->pretty_name && cmd_info_ptr->cmd != cd.command_buffer[0])
                   cmd_info_ptr++;
 
-               if (SCSILog)
-               {
-                  char log_buffer[1024];
-                  int lb_pos;
-
-                  log_buffer[0] = 0;
-
-                  lb_pos = snprintf(log_buffer, 1024, "Command: %02x, %s  ", cd.command_buffer[0],
-                                    cmd_info_ptr->pretty_name ? cmd_info_ptr->pretty_name : "!!BAD COMMAND!!");
-
-                  for (int i = 0; i < RequiredCDBLen[cd.command_buffer[0] >> 4]; i++)
-                     lb_pos += snprintf(log_buffer + lb_pos, 1024 - lb_pos, "%02x ",
-                                        cd.command_buffer[i]);
-
-                  SCSILog("SCSI", "%s", log_buffer);
-                  //puts(log_buffer);
-               }
-
-
                if (cmd_info_ptr->pretty_name == NULL) // Command not found!
                {
                   CommandCCError(SENSEKEY_ILLEGAL_REQUEST, NSE_INVALID_COMMAND);
-
-                  SCSIDBG("Bad Command: %02x\n", cd.command_buffer[0]);
-
-                  if (SCSILog)
-                     SCSILog("SCSI", "Bad Command: %02x", cd.command_buffer[0]);
 
                   cd.command_buffer_pos = 0;
                }
@@ -1241,11 +1198,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
    return (next_time);
 }
 
-void PCECD_Drive_SetLog(void (*logfunc)(const char*, const char*, ...))
-{
-   SCSILog = logfunc;
-}
-
 void PCECD_Drive_SetTransferRate(uint32 TransferRate)
 {
    CD_DATA_TRANSFER_RATE = TransferRate;
@@ -1265,8 +1217,6 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
 
    monotonic_timestamp = 0;
    lastts = 0;
-
-   SCSILog = NULL;
 
    //din = new SimpleFIFO<uint8>(2048);
 

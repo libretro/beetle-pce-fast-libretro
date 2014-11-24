@@ -311,9 +311,9 @@ static void DoDMA(vdc_t* vdc)
             vdc->DMARunning = 0;
             if (vdc->DCR & 0x02)
             {
+               /* DMA IRQ */
                vdc->status |= VDCS_DV;
-               HuC6280_IRQBegin(MDFN_IQIRQ1);
-               VDC_DEBUG("DMA IRQ");
+               HuC6280_IRQBegin(MDFN_IQIRQ1);               
             }
             break;
          }
@@ -327,12 +327,7 @@ DECLFW(VDC_Write)
    int msb = A & 1;
    int chip = 0;
 
-   {
-      A &= 0x3;
-   }
-   //if((A == 0x2 || A == 0x3) && ((vdc->select & 0x1f) >= 0x09) && ((vdc->select & 0x1f) <= 0x13))
-
-   //printf("%04x, %02x: %02x, %d\n", A, vdc->select, V, vdc->display_counter);
+   A &= 0x3;
 
    switch (A)
    {
@@ -662,9 +657,9 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
          {
             if (vdc->CR & 0x2)
             {
+               /* Overflow IRQ */
                vdc->status |= VDCS_OR;
                HuC6280_IRQBegin(MDFN_IQIRQ1);
-               VDC_DEBUG("Overflow IRQ");
             }
             if (!unlimited_sprites)
                break;
@@ -743,8 +738,8 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
 
                if (dest_pix[x] & 0x100)
                {
+                  /* Sprite hit IRQ */
                   vdc->status |= VDCS_CR;
-                  VDC_DEBUG("Sprite hit IRQ");
                   HuC6280_IRQBegin(MDFN_IQIRQ1);
                }
                dest_pix[x] = raw_pixel | prio_or;
@@ -995,7 +990,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
          }
          if ((int)vdc->RCRCount == ((int)vdc->RCR - 0x40) && (vdc->CR & 0x04))
          {
-            VDC_DEBUG("RCR IRQ");
+            /* RCR IRQ */
             vdc->status |= VDCS_RR;
             HuC6280_IRQBegin(MDFN_IQIRQ1);
          }
@@ -1124,7 +1119,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
 
       if (vdc->status & VDCS_VD)
       {
-         VDC_DEBUG("VBlank IRQ");
+         /* VBlank IRQ */
          HuC6280_IRQBegin(MDFN_IQIRQ1);
       }
 
@@ -1146,7 +1141,7 @@ void VDC_RunFrame(EmulateSpecStruct* espec, bool IsHES)
             {
                if (vdc->DCR & 0x01)
                {
-                  VDC_DEBUG("Sprite DMA IRQ");
+                  /* Sprite DMA IRQ */
                   vdc->status |= VDCS_DS;
                   HuC6280_IRQBegin(MDFN_IQIRQ1);
                }

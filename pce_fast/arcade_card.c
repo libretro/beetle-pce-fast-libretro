@@ -49,22 +49,15 @@ static INLINE void ArcadeCard_AutoIncrement(ACPort_t* port)
    }
 }
 
-uint8 ArcadeCard_Read(uint32 A, bool peek)
+uint8 ArcadeCard_Read(uint32 A)
 {
-   //printf("AC Read: %04x\n", A);
    if ((A & 0x1F00) != 0x1A00)
-   {
-      //if(!peek)
-      // printf("AC unknown read: %08x\n", A);
       return (0xFF);
-   }
+
    if (A < 0x1A80)
    {
       ACPort_t* port = &arcade_card.AC.ports[(A >> 4) & 0x3];
 
-      // if(!peek)
-      //  if(A & 0x40)
-      //   printf("AC mirrored port read: %08x\n", A); // Madou Monogatari does!
 
       switch (A & 0xF)
       {
@@ -83,8 +76,7 @@ uint8 ArcadeCard_Read(uint32 A, bool peek)
          }
          aci &= 0x1FFFFF;
          ret = arcade_card.ACRAM[aci];
-         if (!peek)
-            ArcadeCard_AutoIncrement(port);
+         ArcadeCard_AutoIncrement(port);
          return (ret);
       }
       case 0x02:
@@ -137,14 +129,11 @@ uint8 ArcadeCard_Read(uint32 A, bool peek)
       }
    }
 
-   //if(!peek)
-   // printf("AC unknown read: %08x\n", A);
    return (0xFF);
 }
 
 void ArcadeCard_Write(uint32 A, uint8 V)
 {
-   //printf("AC Write: %04x %02x\n", A, V);
    if ((A & 0x1F00) != 0x1A00)
    {
       //printf("AC unknown write: %08x:%02x\n", A, V);
