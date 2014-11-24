@@ -26,7 +26,7 @@ static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
 static void (*CDIRQCallback)(int);
 static void (*CDStuffSubchannels)(uint8, int);
-static Blip_Buffer* sbuf[2];
+static Blip_Buffer* sbuf_CDDA[2];
 static CDIF* Cur_CDIF;
 
 // Internal operation to the SCSI CD unit.  Only pass 1 or 0 to these macros!
@@ -134,7 +134,7 @@ static INLINE void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
    target[14] = fru;      // Field Replaceable Unit code
 }
 
-static pcecd_drive_timestamp_t lastts;
+static pcecd_drive_timestamp_t pcecd_drive_lastts;
 static int64 monotonic_timestamp;
 static int64 pce_lastsapsp_timestamp;
 
@@ -817,7 +817,7 @@ static SCSICH PCECommandDefs[] =
 
 void PCECD_Drive_ResetTS(void)
 {
-   lastts = 0;
+   pcecd_drive_lastts = 0;
 }
 
 void PCECD_Drive_GetCDDAValues(int16* left, int16* right)
@@ -951,12 +951,12 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
                CDStuffSubchannels(0x00, subindex);
          }
 
-         if (sbuf[0] && sbuf[1])
+         if (sbuf_CDDA[0] && sbuf_CDDA[1])
          {
             Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[0] - cdda.last_sample[0],
-                              sbuf[0]);
+                              sbuf_CDDA[0]);
             Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[1] - cdda.last_sample[1],
-                              sbuf[1]);
+                              sbuf_CDDA[1]);
          }
 
          cdda.last_sample[0] = sample[0];
@@ -1041,17 +1041,17 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 
 uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
 {
-   int32 run_time = system_timestamp - lastts;
+   int32 run_time = system_timestamp - pcecd_drive_lastts;
 
-   if (system_timestamp < lastts)
+   if (system_timestamp < pcecd_drive_lastts)
    {
-      fprintf(stderr, "Meow: %d %d\n", system_timestamp, lastts);
-      assert(system_timestamp >= lastts);
+      fprintf(stderr, "Meow: %d %d\n", system_timestamp, pcecd_drive_lastts);
+      assert(system_timestamp >= pcecd_drive_lastts);
    }
 
    monotonic_timestamp += run_time;
 
-   lastts = system_timestamp;
+   pcecd_drive_lastts = system_timestamp;
 
    RunCDRead(system_timestamp, run_time);
    RunCDDA(system_timestamp, run_time);
@@ -1216,7 +1216,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
    cd.TrayOpen = false;
 
    monotonic_timestamp = 0;
-   lastts = 0;
+   pcecd_drive_lastts = 0;
 
    //din = new SimpleFIFO<uint8>(2048);
 
@@ -1224,8 +1224,8 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
 
    cdda.CDDAVolume = 65536;
    Blip_Synth_set_volume(&cdda.CDDASynth, 1.0f / 65536, 1);
-   sbuf[0] = leftbuf;
-   sbuf[1] = rightbuf;
+   sbuf_CDDA[0] = leftbuf;
+   sbuf_CDDA[1] = rightbuf;
 
    CD_DATA_TRANSFER_RATE = TransferRate;
    System_Clock = SystemClock;

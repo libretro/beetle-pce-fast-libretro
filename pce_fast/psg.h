@@ -47,7 +47,7 @@ typedef struct
    bool vol_pending;
    psg_channel channel[6];
    int32 lastts;
-   Blip_Buffer* sbuf[2];
+   Blip_Buffer* sbuf_PSG[2];
    Blip_Synth Synth;
    int32 dbtable_volonly[32];
    int32 dbtable[32][32];

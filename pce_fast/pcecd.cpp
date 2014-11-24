@@ -44,7 +44,7 @@ static uint8   ACKStatus;
 
 static SimpleFIFO<uint8> SubChannelFIFO(16);
 
-static Blip_Buffer* sbuf[2];
+static Blip_Buffer* sbuf_ADPCM[2];
 static int16 RawPCMVolumeCache[2];
 
 static int32 ClearACKDelay;
@@ -250,11 +250,11 @@ bool PCECD_Init(const PCECD_Settings* settings, void (*irqcb)(bool),
 
    IRQCB = irqcb;
 
-   sbuf[0] = soundbuf_l;
-   sbuf[1] = soundbuf_r;
+   sbuf_ADPCM[0] = soundbuf_l;
+   sbuf_ADPCM[1] = soundbuf_r;
 
    // Warning: magic number 126000 in PCECD_SetSettings() too
-   PCECD_Drive_Init(3 * OC_Multiplier, sbuf[0], sbuf[1],
+   PCECD_Drive_Init(3 * OC_Multiplier, sbuf_ADPCM[0], sbuf_ADPCM[1],
                     126000 * (settings ? settings->CD_Speed : 1), master_clock * OC_Multiplier,
                     CDIRQ, StuffSubchannel);
 
@@ -725,10 +725,10 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
          pcm = (pcm * ADPCMFadeVolume) >> 8;
          uint32 synthtime = ((basetime + (ADPCM.bigdiv >> 16))) / (3 * OC_Multiplier);
 
-         if (sbuf[0] && sbuf[1])
+         if (sbuf_ADPCM[0] && sbuf_ADPCM[1])
          {
-            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf[0]);
-            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf[1]);
+            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf_ADPCM[0]);
+            Blip_Synth_offset(&ADPCMSynth, synthtime, pcm - ADPCM.last_pcm, sbuf_ADPCM[1]);
          }
          ADPCM.last_pcm = pcm;
       }

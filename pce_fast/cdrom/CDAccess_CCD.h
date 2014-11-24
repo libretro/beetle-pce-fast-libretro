@@ -15,6 +15,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#ifndef __MDFN_CDACCESS_CCD_H_
+#define __MDFN_CDACCESS_CCD_H_
+
 #include "FileStream.h"
 #include "CDAccess.h"
 
@@ -36,3 +39,5 @@ public:
    size_t img_numsectors;
    CDUtility_TOC tocd;
 };
+
+#endif

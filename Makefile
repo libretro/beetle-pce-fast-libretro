@@ -1,6 +1,7 @@
 TARGET_NAME := mednafen_pce_fast_libretro
 
 DEBUG = 0
+WANT_GRIFFIN = 1
 FRONTEND_SUPPORTS_RGB565 = 1
 
 
@@ -186,8 +187,11 @@ endif
 CORE_DIR := pce_fast
 MEDNAFEN_DIR := $(CORE_DIR)/mednafen
 
-OBJECTS :=
 
+ifeq ($(WANT_GRIFFIN),1)
+OBJECTS := griffin.o
+else
+OBJECTS :=
 #core
 OBJECTS += $(CORE_DIR)/huc6280.o
 OBJECTS += $(CORE_DIR)/input.o
@@ -215,6 +219,8 @@ OBJECTS += $(CORE_DIR)/arcade_card.o
 OBJECTS += $(CORE_DIR)/blip/Blip_Buffer.o
 #libretro
 OBJECTS += libretro.o
+endif
+
 
 ifeq ($(NO_GCC),1)
 EXTRA_GCC_FLAGS :=

@@ -24,17 +24,6 @@
 #include <limits.h>
 #include <map>
 
-static void MDFN_strtoupper(std::string &str)
-{
-   const size_t len = str.length();
-
-   for (size_t x = 0; x < len; x++)
-   {
-      if (str[x] >= 'a' && str[x] <= 'z')
-         str[x] = str[x] - 'a' + 'A';
-   }
-}
-
 typedef std::map<std::string, std::string> CCD_Section;
 
 template<typename T>
