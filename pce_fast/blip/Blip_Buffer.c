@@ -165,23 +165,25 @@ long Blip_Buffer_read_samples(Blip_Buffer* bbuf, blip_sample_t* out,
 
    if (count)
    {
-      int const bass = BLIP_READER_BASS(*bbuf);
-      BLIP_READER_BEGIN(reader, *bbuf);
+      int const bass = bbuf->bass_shift;
+
+      const blip_buf_t_* reader_buf = bbuf->buffer;
+      blip_long reader_accum = bbuf->reader_accum;
 
       blip_long n;
 
       for (n = count; n; --n)
       {
-         blip_long s = BLIP_READER_READ(reader);
+         blip_long s = reader_accum >> (blip_sample_bits - 16);
          if ((blip_sample_t) s != s)
             s = 0x7FFF - (s >> 24);
          *out = (blip_sample_t) s;
          out += 2;
-         BLIP_READER_NEXT(reader, bass);
+
+         reader_accum += *reader_buf++ - (reader_accum >> (bass));
       }
 
-      BLIP_READER_END(reader, *bbuf);
-
+      bbuf->reader_accum = reader_accum;
       Blip_Buffer_remove_samples(bbuf, count);
    }
    return count;

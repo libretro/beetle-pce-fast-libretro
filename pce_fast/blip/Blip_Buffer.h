@@ -166,34 +166,10 @@ blip_inline void Blip_Synth_offset(Blip_Synth* synth, blip_time_t t, int delta,
    Blip_Synth_offset_resampled(synth, t * buf->factor + buf->offset, delta, buf);
 }
 
-// Optimized reading from Blip_Buffer, for use in custom sample output
-
-// Begin reading from buffer. Name should be unique to the current block.
-#define BLIP_READER_BEGIN( name, blip_buffer ) \
-   const blip_buf_t_* name##_reader_buf = (blip_buffer).buffer;\
-   blip_long name##_reader_accum = (blip_buffer).reader_accum
-
-// Get value to pass to BLIP_READER_NEXT()
-#define BLIP_READER_BASS( blip_buffer ) ((blip_buffer).bass_shift)
-
 // Constant value to use instead of BLIP_READER_BASS(), for slightly more optimal
 // code at the cost of having no bass control
 #define blip_reader_default_bass    9
 
-// Current sample
-#define BLIP_READER_READ( name )        (name##_reader_accum >> (blip_sample_bits - 16))
-
-// Current raw sample in full internal resolution
-#define BLIP_READER_READ_RAW( name )    (name##_reader_accum)
-
-// Advance to next sample
-#define BLIP_READER_NEXT( name, bass ) \
-   (void) (name##_reader_accum += *name##_reader_buf++ - (name##_reader_accum >> (bass)))
-
-// End reading samples from buffer. The number of samples read must now be removed
-// using Blip_Buffer_remove_samples().
-#define BLIP_READER_END( name, blip_buffer ) \
-   (void) ((blip_buffer).reader_accum = name##_reader_accum)
 
 // End of public interface
 
