@@ -20,8 +20,6 @@
 
 #include "CDUtility.h"
 
-//#include <queue>
-
 typedef CDUtility_TOC CD_TOC;
 
 class CDIF

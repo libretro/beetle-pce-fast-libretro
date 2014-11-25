@@ -167,7 +167,7 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO* track)
 {
    if (track->DIFormat == DI_FORMAT_AUDIO)
    {
-      const int64 size = track->fp->size();
+      const int64 size = FSTREAM_SIZE(track->fp);
 
       //printf("%d %d %d\n", (int)stat_buf.st_size, (int)track->FileOffset, (int)stat_buf.st_size - (int)track->FileOffset);
       if (track->SubchannelMode)
@@ -177,7 +177,7 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO* track)
    }
    else
    {
-      const int64 size = track->fp->size();
+      const int64 size = FSTREAM_SIZE(track->fp);
 
       return ((size - track->FileOffset) / DI_Size_Table[track->DIFormat]);
    }
@@ -188,14 +188,14 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO* track)
 void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
       const int tracknum, const std::string &filename, const char* binoffset,
       const char* msfoffset, const char* length,
-      std::map<std::string, FileStream*> &toc_streamcache)
+      std::map<std::string, FSTREAM_ID> &toc_streamcache)
 {
    long offset = 0; // In bytes!
    long tmp_long;
    int m, s, f;
    uint32 sector_mult;
    long sectors;
-   std::map<std::string, FileStream*>::iterator ribbit;
+   std::map<std::string, FSTREAM_ID>::iterator ribbit;
 
    ribbit = toc_streamcache.find(filename);
 
@@ -213,7 +213,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
 
       efn = MDFN_EvalFIP(base_dir, filename);
 
-      track->fp = new FileStream(efn.c_str());
+      track->fp = FSTREAM_OPEN(efn.c_str());
 
       toc_streamcache[filename] = track->fp;
    }
@@ -267,7 +267,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
 
 void CDAccess_Image::ImageOpen(const char* path)
 {
-   FileStream fp(path);
+   FSTREAM_ID fp = FSTREAM_OPEN(path);
    static const unsigned max_args = 4;
    std::string linebuf;
    std::string cmdbuf, args[max_args];
@@ -276,7 +276,7 @@ void CDAccess_Image::ImageOpen(const char* path)
    int32 AutoTrackInc = 1; // For TOC
    CDRFILE_TRACK_INFO TmpTrack;
    std::string file_base, file_ext;
-   std::map<std::string, FileStream*> toc_streamcache;
+   std::map<std::string, FSTREAM_ID> toc_streamcache;
 
    disc_type = DISC_TYPE_CDDA_OR_M1;
    memset(&TmpTrack, 0, sizeof(TmpTrack));
@@ -294,14 +294,14 @@ void CDAccess_Image::ImageOpen(const char* path)
    {
       uint8 bom_tmp[3];
 
-      if (fp.read(bom_tmp, 3, false) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB
+      if (FSTREAM_READ(bom_tmp, 3, fp) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB
             && bom_tmp[2] == 0xBF)
       {
          // Print an annoying error message, but don't actually error out.
          MDFN_PrintError(("UTF-8 BOM detected at start of CUE sheet."));
       }
       else
-         fp.seek(0, SEEK_SET);
+         FSTREAM_SEEK(fp, 0, SEEK_SET);
    }
 
 
@@ -310,7 +310,7 @@ void CDAccess_Image::ImageOpen(const char* path)
    LastTrack = 0;
 
    linebuf.reserve(1024);
-   while (fp.get_line(linebuf) >= 0)
+   while (get_line(fp, linebuf) >= 0)
    {
       unsigned argcount = 0;
 
@@ -514,7 +514,7 @@ void CDAccess_Image::ImageOpen(const char* path)
             }
 
             std::string efn = MDFN_EvalFIP(base_dir, args[0]);
-            TmpTrack.fp = new FileStream(efn.c_str());
+            TmpTrack.fp = FSTREAM_OPEN(efn.c_str());  // TODO: close those too on deinit
             TmpTrack.FirstFileInstance = 1;
 
             assert(!strcasecmp(args[1].c_str(), "BINARY"));
@@ -735,6 +735,8 @@ void CDAccess_Image::ImageOpen(const char* path)
    } // end to track loop
 
    total_sectors = RunningLBA;
+
+   FSTREAM_CLOSE(fp);
 }
 
 void CDAccess_Image::Cleanup(void)
@@ -800,29 +802,29 @@ void CDAccess_Image::Read_Raw_Sector(uint8* buf, int32 lba)
             if (ct->SubchannelMode)
                SeekPos += 96 * (lba - ct->LBA);
 
-            ct->fp->seek(SeekPos, SEEK_SET);
+            FSTREAM_SEEK(ct->fp, SeekPos, SEEK_SET);
 
             switch (ct->DIFormat)
             {
             case DI_FORMAT_AUDIO:
-               ct->fp->read(buf, 2352);
+               FSTREAM_READ(buf, 2352, ct->fp);
 
                if (ct->RawAudioMSBFirst)
                   Endian_A16_Swap(buf, 588 * 2);
                break;
 
             case DI_FORMAT_MODE1:
-               ct->fp->read(buf + 12 + 3 + 1, 2048);
+               FSTREAM_READ(buf + 12 + 3 + 1, 2048, ct->fp);
 //               encode_mode1_sector(lba + 150, buf);
                break;
 
             case DI_FORMAT_MODE1_RAW:
             case DI_FORMAT_MODE2_RAW:
-               ct->fp->read(buf, 2352);
+               FSTREAM_READ(buf, 2352, ct->fp);
                break;
 
             case DI_FORMAT_MODE2:
-               ct->fp->read(buf + 16, 2336);
+               FSTREAM_READ(buf + 16, 2336, ct->fp);
 //               encode_mode2_sector(lba + 150, buf);
                break;
 
@@ -830,19 +832,19 @@ void CDAccess_Image::Read_Raw_Sector(uint8* buf, int32 lba)
             // FIXME: M2F1, M2F2, does sub-header come before or after user data(standards say before, but I wonder
             // about cdrdao...).
             case DI_FORMAT_MODE2_FORM1:
-               ct->fp->read(buf + 24, 2048);
+               FSTREAM_READ(buf + 24, 2048, ct->fp);
                //encode_mode2_form1_sector(lba + 150, buf);
                break;
 
             case DI_FORMAT_MODE2_FORM2:
-               ct->fp->read(buf + 24, 2324);
+               FSTREAM_READ(buf + 24, 2324, ct->fp);
                //encode_mode2_form2_sector(lba + 150, buf);
                break;
 
             }
 
             if (ct->SubchannelMode)
-               ct->fp->read(buf + 2352, 96);
+               FSTREAM_READ(buf + 2352, 96, ct->fp);
 
          } // end if audible part of audio track read.
          break;

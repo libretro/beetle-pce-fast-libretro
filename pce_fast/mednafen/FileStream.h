@@ -20,28 +20,46 @@
 #ifndef __MDFN_FILESTREAM_H
 #define __MDFN_FILESTREAM_H
 
-#ifdef PSP
-#include <pspiofilemgr.h>
-#endif
+#include <stdio.h>
+#include <string>
+#include "mednafen-types.h"
 
-class FileStream
+typedef FILE* FSTREAM_ID;
+
+static inline long int fsize(FILE* fp)
 {
- public:
+   long int curr_pos, size;
+   curr_pos = ftell(fp);
+   fseek(fp,0,SEEK_END);
+   size = ftell(fp);
+   fseek(fp,curr_pos,SEEK_SET);
+   return size;
+}
 
- FileStream(const char *path);
- ~FileStream();
 
- uint64 read(void *data, uint64 count, bool error_on_eos = true);
- void write(const void *data, uint64 count);
- void seek(int64 offset, int whence);
- int64 tell(void);
- int64 size(void);
- void close(void);
- int get_line(std::string &str);
+#define FSTREAM_OPEN(path)                fopen((path), "rb")
+#define FSTREAM_READ(data, count, fp)     fread((data), 1, (count), (fp))
+#define FSTREAM_SEEK(fp, offset, whence)  fseek((fp), (offset), (whence))
+#define FSTREAM_TELL(fp)                  ftell(fp)
+#define FSTREAM_SIZE(fp)                  fsize(fp)
+#define FSTREAM_CLOSE(fp)                 fclose(fp)
 
- FILE *fp;
-};
+static inline int get_line(FSTREAM_ID fp, std::string &str)
+{
+ uint8 c;
 
+ str.clear();	// or str.resize(0)??
+
+ while(FSTREAM_READ(&c, 1, fp) > 0)
+ {
+  if(c == '\r' || c == '\n' || c == 0)
+   return(c);
+
+  str.push_back(c);
+ }
+
+ return(-1);
+}
 
 
 #endif

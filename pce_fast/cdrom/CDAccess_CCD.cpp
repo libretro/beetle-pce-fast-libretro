@@ -87,7 +87,7 @@ CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL),
 
 void CDAccess_CCD::Load(const char* path)
 {
-   FileStream cf(path);
+   FSTREAM_ID cf = FSTREAM_OPEN(path);
    std::map<std::string, CCD_Section> Sections;
    std::string linebuf;
    std::string cur_section_name;
@@ -138,7 +138,7 @@ void CDAccess_CCD::Load(const char* path)
 
    linebuf.reserve(256);
 
-   while (cf.get_line(linebuf) >= 0)
+   while (get_line(cf, linebuf) >= 0)
    {
       MDFN_trim(linebuf);
 
@@ -173,6 +173,8 @@ void CDAccess_CCD::Load(const char* path)
          Sections[cur_section_name][k] = v;
       }
    }
+
+   FSTREAM_CLOSE(cf);
 
    {
       CCD_Section &ds = Sections["DISC"];
@@ -345,9 +347,9 @@ void CDAccess_CCD::Load(const char* path)
       std::string image_path = MDFN_EvalFIP(dir_path,
                                             file_base + std::string(".") + std::string(img_extsd));
 
-      img_stream = new FileStream(image_path.c_str());
+      img_stream = FSTREAM_OPEN(image_path.c_str()); // TODO: close stream on deinit
 
-      int64 ss = img_stream->size();
+      int64 ss = FSTREAM_SIZE(img_stream);
 
       assert(!(ss % 2352));
       //         throw MDFN_Error(0, ("CCD image size is not evenly divisible by 2352."));
@@ -361,11 +363,12 @@ void CDAccess_CCD::Load(const char* path)
       std::string sub_path = MDFN_EvalFIP(dir_path,
                                           file_base + std::string(".") + std::string(sub_extsd));
 
-      sub_stream = new FileStream(sub_path.c_str());
+      sub_stream = FSTREAM_OPEN(sub_path.c_str());  // TODO: close stream on deinit
 
-      assert(sub_stream->size() == (int64)img_numsectors * 96);
+      assert(FSTREAM_SIZE(sub_stream) == (int64)img_numsectors * 96);
       //         throw MDFN_Error(0, ("CCD SUB file size mismatch."));
    }
+
 }
 
 void CDAccess_CCD::Cleanup(void)
@@ -413,11 +416,11 @@ void CDAccess_CCD::Read_Raw_Sector(uint8* buf, int32 lba)
 
    uint8 sub_buf[96];
 
-   img_stream->seek(lba * 2352, SEEK_SET);
-   img_stream->read(buf, 2352);
+   FSTREAM_SEEK(img_stream, lba * 2352, SEEK_SET);
+   FSTREAM_READ(buf, 2352, img_stream);
 
-   sub_stream->seek(lba * 96, SEEK_SET);
-   sub_stream->read(sub_buf, 96);
+   FSTREAM_SEEK(sub_stream, lba * 96, SEEK_SET);
+   FSTREAM_READ(sub_buf, 96, sub_stream);
 
    subpw_interleave(sub_buf, buf + 2352);
 }
