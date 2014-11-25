@@ -52,7 +52,6 @@ cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c
 #define PCECD_Drive_GetSEL() SEL_signal
 
 void PCECD_Drive_Power(pcecd_drive_timestamp_t system_timestamp);
-void PCECD_Drive_SetDB(uint8 data);
 
 // These PCECD_Drive_Set* functions are kind of misnomers, at least in comparison to the PCECD_Drive_Get* functions...
 // They will set/clear the bits corresponding to the KING's side of the bus.

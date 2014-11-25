@@ -13,8 +13,6 @@
 
 #include "settings.cpp"
 #include "general.cpp"
-#include "FileStream.cpp"
-#include "Stream.cpp"
 #include "state.c"
 #include "endian.c"
 

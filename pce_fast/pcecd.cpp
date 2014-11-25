@@ -506,7 +506,7 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 
    case 0x1:      // $1801
       _Port[1] = data;
-      PCECD_Drive_SetDB(data);
+      cd_bus.DB = data;
       pcecd_drive_ne = PCECD_Drive_Run(timestamp);
       break;
 

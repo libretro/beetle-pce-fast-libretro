@@ -45,7 +45,7 @@ static inline void SetREQ(bool set)
    SetIOP(PCECD_Drive_REQ_mask, set);
 }
 
-#define SetkingACK(set)    SetIOP(PCECD_Drive_kingACK_mask, set)
+#define SetkingACK(set)         SetIOP(PCECD_Drive_kingACK_mask, set)
 #define SetkingRST(set)         SetIOP(PCECD_Drive_kingRST_mask, set)
 #define SetkingSEL(set)         SetIOP(PCECD_Drive_kingSEL_mask, set)
 
@@ -105,20 +105,19 @@ enum
 
 typedef struct
 {
-   int32 CDDADivAcc;
+   int32 div_acc;
    uint32 scan_sec_end;
 
-   uint8 PlayMode;
-   Blip_Synth CDDASynth;
-   int32 CDDAVolume;
+   uint8 play_mode;
+   Blip_Synth synth;
+   int32 volume;
    int16 last_sample[2];
-   int16 CDDASectorBuffer[1176];
-   uint32 CDDAReadPos;
+   int16 sector_buffer[1176];
+   uint32 readPos;
 
-   int8 CDDAStatus;
-   uint8 ScanMode;
-   int32 CDDADiv;
-   int CDDATimeDiv;
+   int8 status;
+   int32 div;
+   int time_div;
 } cdda_t;
 
 static inline void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
@@ -171,7 +170,7 @@ static void VirtualReset(void)
 {
    din.Flush();
 
-   cdda.CDDADivAcc = (int64)System_Clock * 65536 / 44100;
+   cdda.div_acc = (int64)System_Clock * 65536 / 44100;
    CDReadTimer = 0;
 
    pce_lastsapsp_timestamp = monotonic_timestamp;
@@ -180,12 +179,11 @@ static void VirtualReset(void)
    read_sec_start = read_sec = 0;
    read_sec_end = ~0;
 
-   cdda.PlayMode = PLAYMODE_SILENT;
-   cdda.CDDAReadPos = 0;
-   cdda.CDDAStatus = CDDASTATUS_STOPPED;
-   cdda.CDDADiv = 0;
+   cdda.play_mode = PLAYMODE_SILENT;
+   cdda.readPos = 0;
+   cdda.status = CDDASTATUS_STOPPED;
+   cdda.div = 0;
 
-   cdda.ScanMode = 0;
    cdda.scan_sec_end = 0;
 
    ChangePhase(PHASE_BUS_FREE);
@@ -208,12 +206,6 @@ void PCECD_Drive_Power(pcecd_drive_timestamp_t system_timestamp)
    VirtualReset();
 }
 
-
-void PCECD_Drive_SetDB(uint8 data)
-{
-   cd_bus.DB = data;
-   //printf("Set DB: %02x\n", data);
-}
 
 void PCECD_Drive_SetACK(bool set)
 {
@@ -457,7 +449,7 @@ static void DoREADBase(uint32 sa, uint32 sc)
       CDReadTimer = 0;
       SendStatusAndMessage(STATUS_GOOD, 0x00);
    }
-   cdda.CDDAStatus = CDDASTATUS_STOPPED;
+   cdda.status = CDDASTATUS_STOPPED;
 }
 
 //
@@ -538,7 +530,7 @@ static void DoNEC_PCE_SAPSP(const uint8* cdb)
    }
 
    //printf("%lld\n", (long long)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 / System_Clock);
-   if (cdda.CDDAStatus == CDDASTATUS_PLAYING
+   if (cdda.status == CDDASTATUS_PLAYING
          && new_read_sec_start == read_sec_start
          && ((int64)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 /
              System_Clock) < 190)
@@ -556,15 +548,15 @@ static void DoNEC_PCE_SAPSP(const uint8* cdb)
    read_sec_end = toc.tracks[100].lba;
 
 
-   cdda.CDDAReadPos = 588;
+   cdda.readPos = 588;
 
-   cdda.CDDAStatus = CDDASTATUS_PAUSED;
-   cdda.PlayMode = PLAYMODE_SILENT;
+   cdda.status = CDDASTATUS_PAUSED;
+   cdda.play_mode = PLAYMODE_SILENT;
 
    if (cdb[1])
    {
-      cdda.PlayMode = PLAYMODE_NORMAL;
-      cdda.CDDAStatus = CDDASTATUS_PLAYING;
+      cdda.play_mode = PLAYMODE_NORMAL;
+      cdda.status = CDDASTATUS_PLAYING;
    }
 
    if (read_sec < toc.tracks[100].lba)
@@ -621,23 +613,23 @@ static void DoNEC_PCE_SAPEP(const uint8* cdb)
    {
    default:
    case 0x03:
-      cdda.PlayMode = PLAYMODE_NORMAL;
-      cdda.CDDAStatus = CDDASTATUS_PLAYING;
+      cdda.play_mode = PLAYMODE_NORMAL;
+      cdda.status = CDDASTATUS_PLAYING;
       break;
 
    case 0x02:
-      cdda.PlayMode = PLAYMODE_INTERRUPT;
-      cdda.CDDAStatus = CDDASTATUS_PLAYING;
+      cdda.play_mode = PLAYMODE_INTERRUPT;
+      cdda.status = CDDASTATUS_PLAYING;
       break;
 
    case 0x01:
-      cdda.PlayMode = PLAYMODE_LOOP;
-      cdda.CDDAStatus = CDDASTATUS_PLAYING;
+      cdda.play_mode = PLAYMODE_LOOP;
+      cdda.status = CDDASTATUS_PLAYING;
       break;
 
    case 0x00:
-      cdda.PlayMode = PLAYMODE_SILENT;
-      cdda.CDDAStatus = CDDASTATUS_STOPPED;
+      cdda.play_mode = PLAYMODE_SILENT;
+      cdda.status = CDDASTATUS_STOPPED;
       break;
    }
 
@@ -653,10 +645,10 @@ static void DoNEC_PCE_SAPEP(const uint8* cdb)
 ********************************************************/
 static void DoNEC_PCE_PAUSE(const uint8* cdb)
 {
-   if (cdda.CDDAStatus !=
+   if (cdda.status !=
          CDDASTATUS_STOPPED) // Hmm, should we give an error if it tries to pause and it's already paused?
    {
-      cdda.CDDAStatus = CDDASTATUS_PAUSED;
+      cdda.status = CDDASTATUS_PAUSED;
       SendStatusAndMessage(STATUS_GOOD, 0x00);
    }
    else // Definitely give an error if it tries to pause when no track is playing!
@@ -686,9 +678,9 @@ static void DoNEC_PCE_READSUBQ(const uint8* cdb)
    data_in[8] = SubQBuf[8];     // S(abs)
    data_in[9] = SubQBuf[9];     // F(abs)
 
-   if (cdda.CDDAStatus == CDDASTATUS_PAUSED)
+   if (cdda.status == CDDASTATUS_PAUSED)
       data_in[0] = 2;    // Pause
-   else if (cdda.CDDAStatus == CDDASTATUS_PLAYING)
+   else if (cdda.status == CDDASTATUS_PLAYING)
       data_in[0] = 0;    // Playing
    else
       data_in[0] = 3;    // Stopped
@@ -822,10 +814,10 @@ void PCECD_Drive_ResetTS(void)
 
 void PCECD_Drive_GetCDDAValues(int16* left, int16* right)
 {
-   if (cdda.CDDAStatus)
+   if (cdda.status)
    {
-      *left = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2];
-      *right = cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2 + 1];
+      *left = cdda.sector_buffer[cdda.readPos * 2];
+      *right = cdda.sector_buffer[cdda.readPos * 2 + 1];
    }
    else
       *left = *right = 0;
@@ -834,34 +826,34 @@ void PCECD_Drive_GetCDDAValues(int16* left, int16* right)
 static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
 {
    //   return;
-   if (cdda.CDDAStatus == CDDASTATUS_PLAYING)
+   if (cdda.status == CDDASTATUS_PLAYING)
    {
       int32 sample[2];
 
-      cdda.CDDADiv -= run_time << 16;
+      cdda.div -= run_time << 16;
 
-      while (cdda.CDDADiv <= 0)
+      while (cdda.div <= 0)
       {
-         const uint32 synthtime = ((system_timestamp + (cdda.CDDADiv >> 16))) /
-                                  cdda.CDDATimeDiv;
+         const uint32 synthtime = ((system_timestamp + (cdda.div >> 16))) /
+                                  cdda.time_div;
 
-         cdda.CDDADiv += cdda.CDDADivAcc;
+         cdda.div += cdda.div_acc;
 
          //MDFN_DispMessage("%d %d %d\n", read_sec_start, read_sec, read_sec_end);
 
-         if (cdda.CDDAReadPos == 588)
+         if (cdda.readPos == 588)
          {
             if (read_sec >= read_sec_end)
             {
-               switch (cdda.PlayMode)
+               switch (cdda.play_mode)
                {
                case PLAYMODE_SILENT:
                case PLAYMODE_NORMAL:
-                  cdda.CDDAStatus = CDDASTATUS_STOPPED;
+                  cdda.status = CDDASTATUS_STOPPED;
                   break;
 
                case PLAYMODE_INTERRUPT:
-                  cdda.CDDAStatus = CDDASTATUS_STOPPED;
+                  cdda.status = CDDASTATUS_STOPPED;
                   CDIRQCallback(PCECD_Drive_IRQ_DATA_TRANSFER_DONE);
                   break;
 
@@ -871,20 +863,20 @@ static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
                }
 
                // If CDDA playback is stopped, break out of our while(CDDADiv ...) loop and don't play any more sound!
-               if (cdda.CDDAStatus == CDDASTATUS_STOPPED)
+               if (cdda.status == CDDASTATUS_STOPPED)
                   break;
             }
 
             // Don't play past the user area of the disc.
             if (read_sec >= toc.tracks[100].lba)
             {
-               cdda.CDDAStatus = CDDASTATUS_STOPPED;
+               cdda.status = CDDASTATUS_STOPPED;
                break;
             }
 
             if (cd.TrayOpen)
             {
-               cdda.CDDAStatus = CDDASTATUS_STOPPED;
+               cdda.status = CDDASTATUS_STOPPED;
 
 #if 0
                cd.data_transfer_done = FALSE;
@@ -899,7 +891,7 @@ static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
             }
 
 
-            cdda.CDDAReadPos = 0;
+            cdda.readPos = 0;
 
             {
                uint8 tmpbuf[2352 + 96];
@@ -907,7 +899,7 @@ static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
                Cur_CDIF->ReadRawSector(tmpbuf, read_sec); //, read_sec_end, read_sec_start);
 
                for (int i = 0; i < 588 * 2; i++)
-                  cdda.CDDASectorBuffer[i] = MDFN_de16lsb(&tmpbuf[i * 2]);
+                  cdda.sector_buffer[i] = MDFN_de16lsb(&tmpbuf[i * 2]);
 
                memcpy(cd.SubPWBuf, tmpbuf + 2352, 96);
 
@@ -933,17 +925,17 @@ static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
          // current sector as audio.
          sample[0] = sample[1] = 0;
 
-         if (!(cd.SubQBuf_Last[0] & 0x40) && cdda.PlayMode != PLAYMODE_SILENT)
+         if (!(cd.SubQBuf_Last[0] & 0x40) && cdda.play_mode != PLAYMODE_SILENT)
          {
-            sample[0] = (cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2 + 0] * cdda.CDDAVolume)
+            sample[0] = (cdda.sector_buffer[cdda.readPos * 2 + 0] * cdda.volume)
                         >> 16;
-            sample[1] = (cdda.CDDASectorBuffer[cdda.CDDAReadPos * 2 + 1] * cdda.CDDAVolume)
+            sample[1] = (cdda.sector_buffer[cdda.readPos * 2 + 1] * cdda.volume)
                         >> 16;
          }
 
-         if (!(cdda.CDDAReadPos % 6))
+         if (!(cdda.readPos % 6))
          {
-            int subindex = cdda.CDDAReadPos / 6 - 2;
+            int subindex = cdda.readPos / 6 - 2;
 
             if (subindex >= 0)
                CDStuffSubchannels(cd.SubPWBuf[subindex], subindex);
@@ -953,16 +945,16 @@ static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
 
          if (sbuf_CDDA[0] && sbuf_CDDA[1])
          {
-            Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[0] - cdda.last_sample[0],
+            Blip_Synth_offset(&cdda.synth, synthtime, sample[0] - cdda.last_sample[0],
                               sbuf_CDDA[0]);
-            Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[1] - cdda.last_sample[1],
+            Blip_Synth_offset(&cdda.synth, synthtime, sample[1] - cdda.last_sample[1],
                               sbuf_CDDA[1]);
          }
 
          cdda.last_sample[0] = sample[0];
          cdda.last_sample[1] = sample[1];
 
-         cdda.CDDAReadPos++;
+         cdda.readPos++;
       }
    }
 }
@@ -1186,9 +1178,9 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
    if (CDReadTimer > 0 && CDReadTimer < next_time)
       next_time = CDReadTimer;
 
-   if (cdda.CDDAStatus == CDDASTATUS_PLAYING)
+   if (cdda.status == CDDASTATUS_PLAYING)
    {
-      int32 cdda_div_sexytime = (cdda.CDDADiv + 0xFFFF) >> 16;
+      int32 cdda_div_sexytime = (cdda.div + 0xFFFF) >> 16;
       if (cdda_div_sexytime > 0 && cdda_div_sexytime < next_time)
          next_time = cdda_div_sexytime;
    }
@@ -1220,10 +1212,10 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
 
    //din = new SimpleFIFO<uint8>(2048);
 
-   cdda.CDDATimeDiv = cdda_time_div;
+   cdda.time_div = cdda_time_div;
 
-   cdda.CDDAVolume = 65536;
-   Blip_Synth_set_volume(&cdda.CDDASynth, 1.0f / 65536, 1);
+   cdda.volume = 65536;
+   Blip_Synth_set_volume(&cdda.synth, 1.0f / 65536, 1);
    sbuf_CDDA[0] = leftbuf;
    sbuf_CDDA[1] = rightbuf;
 
@@ -1235,7 +1227,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer* leftbuf,
 
 void PCECD_Drive_SetCDDAVolume(unsigned vol)
 {
-   cdda.CDDAVolume = vol;
+   cdda.volume = vol;
 }
 
 int PCECD_Drive_StateAction(StateMem* sm, int load,
@@ -1269,11 +1261,11 @@ int PCECD_Drive_StateAction(StateMem* sm, int load,
       SFVARN_BOOL(cd.TrayOpen, "TrayOpen"),
       SFVARN_BOOL(cd.DiscChanged, "DiscChanged"),
 
-      SFVAR(cdda.PlayMode),
-      SFARRAY16(cdda.CDDASectorBuffer, 1176),
-      SFVAR(cdda.CDDAReadPos),
-      SFVAR(cdda.CDDAStatus),
-      SFVAR(cdda.CDDADiv),
+      SFVAR(cdda.play_mode),
+      SFARRAY16(cdda.sector_buffer, 1176),
+      SFVAR(cdda.readPos),
+      SFVAR(cdda.status),
+      SFVAR(cdda.div),
       SFVAR(read_sec_start),
       SFVAR(read_sec),
       SFVAR(read_sec_end),
@@ -1282,7 +1274,6 @@ int PCECD_Drive_StateAction(StateMem* sm, int load,
       SFVAR(SectorAddr),
       SFVAR(SectorCount),
 
-      SFVAR(cdda.ScanMode),
       SFVAR(cdda.scan_sec_end),
 
       SFARRAYN(&cd.SubQBuf[0][0], sizeof(cd.SubQBuf), "SubQBufs"),
@@ -1303,8 +1294,8 @@ int PCECD_Drive_StateAction(StateMem* sm, int load,
       din.read_pos &= din.size - 1;
       din.write_pos = (din.read_pos + din.in_count) & (din.size - 1);
 
-      if (cdda.CDDADiv <= 0)
-         cdda.CDDADiv = 1;
+      if (cdda.div <= 0)
+         cdda.div = 1;
       //printf("%d %d %d\n", din.in_count, din.read_pos, din.write_pos);
    }
 

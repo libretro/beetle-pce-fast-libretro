@@ -793,7 +793,7 @@ static void Emulate(EmulateSpecStruct* espec)
 #endif
    RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
 #if defined(DUMP_FRAME_TIMES) && defined(PERF_TEST)
-   printf("%u : %u ticks\n", VDC_RunFrame_time.call_cnt,
+   printf("%u : %u ticks\n", (uint32_t)VDC_RunFrame_time.call_cnt,
           (uint32_t)(VDC_RunFrame_time.total - start_ticks));
    fflush(stdout);
 #endif
