@@ -33,26 +33,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
-static MDFNSetting PCESettings[] =
-{
-   { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, ("Correct the aspect ratio."), NULL, MDFNST_BOOL, "1" },
-   { "pce_fast.slstart", MDFNSF_NOFLAGS, ("First rendered scanline."), NULL, MDFNST_UINT, "4", "0", "239" },
-   { "pce_fast.slend", MDFNSF_NOFLAGS, ("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
-   { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("Enable Arcade Card emulation."), NULL, MDFNST_BOOL, "1" },
-   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CPU overclock multiplier."), NULL, MDFNST_UINT, "1", "1", "100"},
-   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, ("CD-ROM data transfer speed multiplier."), NULL, MDFNST_UINT, "1", "1", "100" },
-   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, ("Remove 16-sprites-per-scanline hardware limit."), NULL, MDFNST_BOOL, "0" },
-
-   { "pce_fast.cdbios", MDFNSF_EMU_STATE, ("Path to the CD BIOS"), NULL, MDFNST_STRING, "syscard3.pce" },
-
-   { "pce_fast.adpcmlp", MDFNSF_NOFLAGS, ("Enable dynamic ADPCM lowpass filter."), NULL, MDFNST_BOOL, "0" },
-   { "pce_fast.cdpsgvolume", MDFNSF_NOFLAGS, ("PSG volume when playing a CD game."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { "pce_fast.cddavolume", MDFNSF_NOFLAGS, ("CD-DA volume."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { "pce_fast.adpcmvolume", MDFNSF_NOFLAGS, ("ADPCM volume."), NULL, MDFNST_UINT, "100", "0", "200" },
-   { NULL }
-};
-
 static uint8 MemRead(uint32 addr)
 {
    return (PCERead[(addr / 8192) & 0xFF](addr));
@@ -389,12 +369,10 @@ bool PCE_InitCD(void)
    PCECD_Settings cd_settings;
    memset(&cd_settings, 0, sizeof(PCECD_Settings));
 
-   cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce_fast.cddavolume") /
-                             100;
-   cd_settings.CD_Speed = MDFN_GetSettingUI("pce_fast.cdspeed");
+   cd_settings.CDDA_Volume = ((double)setting_pce_fast_cddavolume) / 100.0;
+   cd_settings.CD_Speed = setting_pce_fast_cdspeed;
 
-   cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") /
-                              100;
+   cd_settings.ADPCM_Volume = (double)(setting_pce_fast_adpcmvolume) / 100.0;
 
    if (cd_settings.CDDA_Volume != 1.0)
       MDFN_printf(("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
@@ -661,15 +639,14 @@ static int PCE_Load(const char* path)
 static void LoadCommonPre(void)
 {
    // FIXME:  Make these globals less global!
-   pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
-   PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
+   pce_overclocked = 1;
+   PCE_ACEnabled = true;
 
    if (pce_overclocked > 1)
       MDFN_printf(("CPU overclock: %dx\n"), pce_overclocked);
 
-   if (MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-      MDFN_printf(("CD-ROM speed:  %ux\n"),
-                  (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
+   if (setting_pce_fast_cdspeed > 1)
+      MDFN_printf("CD-ROM speed:  %ux\n", setting_pce_fast_cdspeed);
 
    memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
    int x;
@@ -712,7 +689,7 @@ static int LoadCommon(void)
 
    if (PCE_IsCD)
    {
-      unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
+      unsigned int cdpsgvolume = setting_pce_fast_cdpsgvolume;
 
       if (cdpsgvolume != 100)
          MDFN_printf(("CD PSG Volume: %d%%\n"), cdpsgvolume);
@@ -726,16 +703,14 @@ static int LoadCommon(void)
                                256);
 
    // Clean this up:
-   if (!MDFN_GetSettingB("pce_fast.correct_aspect"))
+   if (!setting_pce_keepaspect)
       MDFNGameInfo.fb_width = 682;
 
-   MDFNGameInfo.nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ?
-                                288 : 341;
-   MDFNGameInfo.nominal_height = MDFN_GetSettingUI("pce_fast.slend") -
-                                 MDFN_GetSettingUI("pce_fast.slstart") + 1;
+   MDFNGameInfo.nominal_width = setting_pce_keepaspect ? 288 : 341;
+   MDFNGameInfo.nominal_height = setting_last_scanline - setting_initial_scanline +
+                                 1;
 
-   MDFNGameInfo.lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 :
-                            341;
+   MDFNGameInfo.lcm_width = setting_pce_keepaspect ? 1024 : 341;
    MDFNGameInfo.lcm_height = MDFNGameInfo.nominal_height;
 
    return (1);
@@ -801,14 +776,16 @@ static void Emulate(EmulateSpecStruct* espec)
 #endif
 
 #ifdef PSP_PROFILER
-   if ((frame_id >= PSP_PROFILER_START_FRAME)&&(frame_id <= PSP_PROFILER_END_FRAME))
+   if ((frame_id >= PSP_PROFILER_START_FRAME)
+         && (frame_id <= PSP_PROFILER_END_FRAME))
       PSPPROF_START;
 #endif
    // if (VDC_RunFrame_time.call_cnt == 44)
    //    printf("halt\n");
    VDC_RunFrame(espec, false);
 #ifdef PSP_PROFILER
-   if ((frame_id >= PSP_PROFILER_START_FRAME)&&(frame_id <= PSP_PROFILER_END_FRAME))
+   if ((frame_id >= PSP_PROFILER_START_FRAME)
+         && (frame_id <= PSP_PROFILER_END_FRAME))
       PSPPROF_STOP;
    if (frame_id == PSP_PROFILER_END_FRAME)
       PSPPROF_DUMP;
@@ -921,7 +898,6 @@ MDFNGI MDFNGameInfo =
    StateAction,
    Emulate,
    PCEINPUT_SetInput,
-   PCESettings,
    0,
    true,  // Multires possible?
    0,   // lcm_width

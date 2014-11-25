@@ -36,29 +36,4 @@ typedef enum
 #define MDFNSF_REQUIRES_RELOAD   (1 << 24)   // If a game reload is required for the setting to take effect.
 #define MDFNSF_REQUIRES_RESTART  (1 << 25)   // If Mednafen restart is required for the setting to take effect.
 
-typedef struct
-{
-   const char* string;
-   int number;
-   const char* description;   // Short
-   const char*
-   description_extra;   // Extra verbose text appended to the short description.
-} MDFNSetting_EnumList;
-
-typedef struct
-{
-   const char* name;
-   uint32 flags;
-   const char* description; // Short
-   const char* description_extra;
-
-   MDFNSettingType type;
-   const char* default_value;
-   const char* minimum;
-   const char* maximum;
-   bool (*validate_func)(const char* name, const char* value);
-   void (*ChangeNotification)(const char* name);
-   const MDFNSetting_EnumList* enum_list;
-} MDFNSetting;
-
 #endif

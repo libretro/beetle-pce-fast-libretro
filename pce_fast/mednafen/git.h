@@ -131,8 +131,6 @@ typedef struct
    void (*Emulate)(EmulateSpecStruct* espec);
    void (*SetInput)(int port, const char* type, void* ptr);
 
-   const MDFNSetting* Settings;
-
    uint32 fps; // frames per second * 65536 * 256, truncated
 
    // multires is a hint that, if set, indicates that the system has fairly programmable video modes(particularly, the ability

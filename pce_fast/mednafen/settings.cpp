@@ -30,6 +30,8 @@ int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 uint32_t setting_pce_keepaspect = 1;
 
+#if 0
+
 uint64 MDFN_GetSettingUI(const char* name)
 {
    if (!strcmp("pce_fast.cddavolume", name))
@@ -93,3 +95,4 @@ bool MDFN_GetSettingB(const char* name)
    fprintf(stderr, "unhandled setting B: %s\n", name);
    return 0;
 }
+#endif
