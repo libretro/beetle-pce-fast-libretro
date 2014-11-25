@@ -772,6 +772,10 @@ static void CloseGame(void)
    Cleanup_PCE();
 }
 
+#ifdef PSP_PROFILER
+static int frame_id;
+#endif
+
 static void Emulate(EmulateSpecStruct* espec)
 {
    INPUT_Frame();
@@ -795,14 +799,24 @@ static void Emulate(EmulateSpecStruct* espec)
 #if defined(DUMP_FRAME_TIMES) && defined(PERF_TEST)
    retro_perf_tick_t start_ticks = VDC_RunFrame_time.total;
 #endif
-   PSPPROF_START;
+
+#ifdef PSP_PROFILER
+   if ((frame_id >= PSP_PROFILER_START_FRAME)&&(frame_id <= PSP_PROFILER_END_FRAME))
+      PSPPROF_START;
+#endif
    // if (VDC_RunFrame_time.call_cnt == 44)
    //    printf("halt\n");
    VDC_RunFrame(espec, false);
-   PSPPROF_STOP;
+#ifdef PSP_PROFILER
+   if ((frame_id >= PSP_PROFILER_START_FRAME)&&(frame_id <= PSP_PROFILER_END_FRAME))
+      PSPPROF_STOP;
+   if (frame_id == PSP_PROFILER_END_FRAME)
+      PSPPROF_DUMP;
+   frame_id++;
+#endif
    RETRO_PERFORMANCE_STOP(VDC_RunFrame_time);
 #if defined(DUMP_FRAME_TIMES) && defined(PERF_TEST)
-   printf("%u : %u ticks\n", (uint32_t)VDC_RunFrame_time.call_cnt,
+   printf("%u : %u ticks\n", VDC_RunFrame_time.call_cnt,
           (uint32_t)(VDC_RunFrame_time.total - start_ticks));
    fflush(stdout);
 #endif
@@ -1163,6 +1177,10 @@ bool retro_load_game(const struct retro_game_info* info)
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
 
+#ifdef PSP_PROFILER
+   frame_id = 0;
+#endif
+
    return true;
 }
 
@@ -1438,6 +1456,11 @@ bool retro_unserialize(const void* data, size_t size)
    memset(&st, 0, sizeof(st));
    st.data = (uint8_t*)data;
    st.len  = size;
+
+#ifdef PSP_PROFILER
+   PSPPROF_INIT;
+   frame_id = 0;
+#endif
 
    return MDFNSS_LoadSM(&st);
 }

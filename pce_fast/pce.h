@@ -43,6 +43,8 @@ extern uint8 BaseRAM[32768 + 8192];
 //#define PERF_TEST
 //#define DUMP_FRAME_TIMES
 //#define PSP_PROFILER
+#define PSP_PROFILER_START_FRAME    10
+#define PSP_PROFILER_END_FRAME      50
 #define PCE_FAST_CD_SPEEDHACK
 
 #ifdef PERF_TEST
@@ -107,6 +109,7 @@ extern unsigned int threadProfilerCallCount;
       printf ( "********** Profile ***********\n" );\
       printf ( "Calls          : %10u\n",          threadProfilerCallCount );\
       printf ( "ck/Call        : %10u(%10u)\n",          PROFILER_REGS->systemck/threadProfilerCallCount, (PROFILER_REGS->systemck - threadProfilerCallCount*166)/threadProfilerCallCount);\
+      printf ( "us/Call        : %10u(%10u)\n",          PROFILER_REGS->systemck/(threadProfilerCallCount * 333), (PROFILER_REGS->systemck - threadProfilerCallCount*166)/(threadProfilerCallCount * 333));\
       printf ( "enable         : %10u\n",          PROFILER_REGS->enable);\
       printf ( "systemck       : %10u(%10u) [cycles]\n", PROFILER_REGS->systemck ,PROFILER_REGS->systemck - threadProfilerCallCount*166);\
       printf ( "cpu ck         : %10u(%10u) [cycles]\n", PROFILER_REGS->cpuck ,PROFILER_REGS->cpuck - threadProfilerCallCount*166);\

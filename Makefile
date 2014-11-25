@@ -1,7 +1,7 @@
 TARGET_NAME := mednafen_pce_fast_libretro
 
 DEBUG = 0
-WANT_GRIFFIN = 1
+WANT_GRIFFIN = 0
 FRONTEND_SUPPORTS_RGB565 = 1
 
 
