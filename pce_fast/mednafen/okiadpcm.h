@@ -50,23 +50,23 @@ public:
 
    }
 
-   INLINE uint16 GetSample(void)
+   inline uint16 GetSample(void)
    {
       return (CurSample);
    }
 
-   INLINE void SetSample(uint16 new_sample)
+   inline void SetSample(uint16 new_sample)
    {
       assert(new_sample <= 0xFFF);
       CurSample = new_sample;
    }
 
-   INLINE uint8 GetSSI(void)
+   inline uint8 GetSSI(void)
    {
       return (StepSizeIndex);
    }
 
-   INLINE void SetSSI(uint8 new_ssi)
+   inline void SetSSI(uint8 new_ssi)
    {
       assert(new_ssi <= 48);
       StepSizeIndex = new_ssi;
@@ -74,7 +74,7 @@ public:
 
    // DecodeDelta returns the coded delta for the given nibble and (previous) predictor.
    // It will not wrap nor saturate the returned value, and CurSample is not updated.
-   INLINE int32 DecodeDelta(const uint8 nibble)
+   inline int32 DecodeDelta(const uint8 nibble)
    {
       int32 ret = OKIADPCM_DeltaTable[StepSizeIndex][nibble];
 
@@ -91,7 +91,7 @@ public:
 
    // This function will return the full 12-bits, it's up to the caller to
    // truncate as necessary(MSM5205 only has a 10-bit D/A, MSM5218 has a 12-bit D/A)
-   INLINE uint16 Decode(const uint8 nibble)
+   inline uint16 Decode(const uint8 nibble)
    {
       CurSample += DecodeDelta(nibble);
 

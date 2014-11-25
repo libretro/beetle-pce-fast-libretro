@@ -48,48 +48,6 @@ public:
 };
 
 
-int CDIF::ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
-{
-   int ret = 0;
-
-   while (nSectors--)
-   {
-      uint8 tmpbuf[2352 + 96];
-
-      if (!ReadRawSector(tmpbuf, lba))
-      {
-         puts("CDIF Raw Read error");
-         return (FALSE);
-      }
-
-      const int mode = tmpbuf[12 + 3];
-
-      if (!ret)
-         ret = mode;
-
-      if (mode == 1)
-         memcpy(pBuf, &tmpbuf[12 + 4], 2048);
-      else if (mode == 2)
-         memcpy(pBuf, &tmpbuf[12 + 4 + 8], 2048);
-      else
-      {
-         printf("CDIF_ReadSector() invalid sector type at LBA=%u\n", (unsigned int)lba);
-         return (false);
-      }
-
-      pBuf += 2048;
-      lba++;
-   }
-
-   return (ret);
-}
-
-//
-//
-// Single-threaded implementation follows.
-//
-//
-
 CDIF_ST::CDIF_ST(CDAccess* cda) : disc_cdaccess(cda)
 {
    disc_cdaccess->Read_TOC(&disc_toc);

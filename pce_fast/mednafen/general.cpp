@@ -107,17 +107,10 @@ void MDFN_GetFilePathComponents(const std::string &file_path,
 
 std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_path)
 {
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
-
    if(IsAbsolutePath(rel_path.c_str()))
       return(rel_path);
    else
-      return(dir_path + slash + rel_path);
+      return(dir_path + SLASH_CHAR + rel_path);
 }
 
 const char * GetFNComponent(const char *str)

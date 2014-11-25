@@ -38,11 +38,11 @@ void ArcadeCard_Power(void);
 int ArcadeCard_StateAction(StateMem* sm, int load);
 uint8 ArcadeCard_Read(uint32 A);
 void ArcadeCard_Write(uint32 A, uint8 V);
-INLINE void ArcadeCard_PhysWrite(uint32 A, uint8 V)
+inline void ArcadeCard_PhysWrite(uint32 A, uint8 V)
 {
    ArcadeCard_Write(0x1a00 | ((A >> 9) & 0x30), V);
 }
-INLINE uint8 ArcadeCard_PhysRead(uint32 A)
+inline uint8 ArcadeCard_PhysRead(uint32 A)
 {
    return (ArcadeCard_Read(0x1a00 | ((A >> 9) & 0x30)));
 }

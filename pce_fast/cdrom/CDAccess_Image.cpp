@@ -957,7 +957,7 @@ void CDAccess_Image::MakeSubPQ(int32 lba, uint8* SubPWBuf)
 
 void CDAccess_Image::Read_TOC(CDUtility_TOC* toc)
 {
-   toc->Clear();
+   CDUtility_Clear_TOC(toc);
 
    toc->first_track = FirstTrack;
    toc->last_track = FirstTrack + NumTracks - 1;

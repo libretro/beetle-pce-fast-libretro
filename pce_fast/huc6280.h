@@ -82,12 +82,12 @@ void HuC6280_IRQEnd(int w);
 
 int HuC6280_StateAction(StateMem* sm, int load);
 
-static INLINE void HuC6280_StealCycle(void)
+static inline void HuC6280_StealCycle(void)
 {
    HuCPU.timestamp++;
 }
 
-static INLINE uint8 HuC6280_TimerRead(unsigned int A)
+static inline uint8 HuC6280_TimerRead(unsigned int A)
 {
 #if 0
    return (HuCPU.timer_value | (PCEIODataBuffer & 0x80));
@@ -101,7 +101,7 @@ static INLINE uint8 HuC6280_TimerRead(unsigned int A)
    return (tvr | (PCEIODataBuffer & 0x80));
 }
 
-static INLINE void HuC6280_TimerWrite(unsigned int A, uint8 V)
+static inline void HuC6280_TimerWrite(unsigned int A, uint8 V)
 {
    switch (A & 1)
    {
@@ -122,7 +122,7 @@ static INLINE void HuC6280_TimerWrite(unsigned int A, uint8 V)
    }
 }
 
-static INLINE uint8 HuC6280_IRQStatusRead(unsigned int A)
+static inline uint8 HuC6280_IRQStatusRead(unsigned int A)
 {
    if (!(A & 2))
       return (PCEIODataBuffer);
@@ -144,7 +144,7 @@ static INLINE uint8 HuC6280_IRQStatusRead(unsigned int A)
    return (PCEIODataBuffer);
 }
 
-static INLINE void HuC6280_IRQStatusWrite(unsigned int A, uint8 V)
+static inline void HuC6280_IRQStatusWrite(unsigned int A, uint8 V)
 {
    if (!(A & 2)) return;
    switch (A & 1)

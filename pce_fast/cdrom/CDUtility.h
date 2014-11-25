@@ -2,12 +2,7 @@
 #define __MDFN_CDROM_CDUTILITY_H
 
 #include "mednafen-types.h"
-
-// Call once at app startup before creating any threads that could potentially cause re-entrancy to these functions.
-// It will also be called automatically if needed for the first time a function in this namespace that requires
-// the initialization function to be called is called, for potential
-// usage in constructors of statically-declared objects.
-void CDUtility_Init(void);
+#include "string.h"
 
 // Quick definitions here:
 //
@@ -26,14 +21,6 @@ enum
    ADR_ISRC    = 0x03
 };
 
-
-struct CDUtility_TOC_Track
-{
-   uint8 adr;
-   uint8 control;
-   uint32 lba;
-};
-
 // SubQ control field flags.
 enum
 {
@@ -50,80 +37,82 @@ enum
    DISC_TYPE_CD_XA      = 0x20
 };
 
-struct CDUtility_TOC
+typedef struct
 {
-   INLINE CDUtility_TOC()
-   {
-      Clear();
-   }
+   uint8 adr;
+   uint8 control;
+   uint32 lba;
+} CDUtility_TOC_Track;
 
-   INLINE void Clear(void)
-   {
-      first_track = last_track = 0;
-      disc_type = 0;
-
-      memset(tracks, 0, sizeof(
-                tracks));  // FIXME if we change TOC_Track to non-POD type.
-   }
-
-   INLINE int FindTrackByLBA(uint32 LBA)
-   {
-      for (int32 track = first_track; track <= (last_track + 1); track++)
-      {
-         if (track == (last_track + 1))
-         {
-            if (LBA < tracks[100].lba)
-               return (track - 1);
-         }
-         else
-         {
-            if (LBA < tracks[track].lba)
-               return (track - 1);
-         }
-      }
-      return (0);
-   }
-
+typedef struct
+{
    uint8 first_track;
    uint8 last_track;
    uint8 disc_type;
-   CDUtility_TOC_Track tracks[100 +
-                              1];  // [0] is unused, [100] is for the leadout track.
+
+   // [0] is unused, [100] is for the leadout track.
    // Also, for convenience, tracks[last_track + 1] will always refer
    // to the leadout track(even if last_track < 99, IE the leadout track details are duplicated).
-};
+   CDUtility_TOC_Track tracks[100 +1];
+
+} CDUtility_TOC;
+
+inline void CDUtility_Clear_TOC(CDUtility_TOC* toc)
+{
+   toc->first_track = toc->last_track = 0;
+   toc->disc_type = 0;
+   memset(toc->tracks, 0, sizeof(toc->tracks));
+}
+
+inline int CDUtility_FindTrackByLBA(CDUtility_TOC* toc, uint32 LBA)
+{
+   for (int32 track = toc->first_track; track <= (toc->last_track + 1); track++)
+   {
+      if (track == (toc->last_track + 1))
+      {
+         if (LBA < toc->tracks[100].lba)
+            return (track - 1);
+      }
+      else
+      {
+         if (LBA < toc->tracks[track].lba)
+            return (track - 1);
+      }
+   }
+   return (0);
+}
 
 //
 // Address conversion functions.
 //
-static INLINE uint32 AMSF_to_ABA(int32 m_a, int32 s_a, int32 f_a)
+static inline uint32 AMSF_to_ABA(int32 m_a, int32 s_a, int32 f_a)
 {
    return (f_a + 75 * s_a + 75 * 60 * m_a);
 }
 
-static INLINE void ABA_to_AMSF(uint32 aba, uint8* m_a, uint8* s_a, uint8* f_a)
+static inline void ABA_to_AMSF(uint32 aba, uint8* m_a, uint8* s_a, uint8* f_a)
 {
    *m_a = aba / 75 / 60;
    *s_a = (aba - *m_a * 75 * 60) / 75;
    *f_a = aba - (*m_a * 75 * 60) - (*s_a * 75);
 }
 
-static INLINE int32 ABA_to_LBA(uint32 aba)
+static inline int32 ABA_to_LBA(uint32 aba)
 {
    return (aba - 150);
 }
 
-static INLINE uint32 LBA_to_ABA(int32 lba)
+static inline uint32 LBA_to_ABA(int32 lba)
 {
    return (lba + 150);
 }
 
-static INLINE int32 AMSF_to_LBA(uint8 m_a, uint8 s_a, uint8 f_a)
+static inline int32 AMSF_to_LBA(uint8 m_a, uint8 s_a, uint8 f_a)
 {
    return (ABA_to_LBA(AMSF_to_ABA(m_a, s_a, f_a)));
 }
 
-static INLINE void LBA_to_AMSF(int32 lba, uint8* m_a, uint8* s_a, uint8* f_a)
+static inline void LBA_to_AMSF(int32 lba, uint8* m_a, uint8* s_a, uint8* f_a)
 {
    ABA_to_AMSF(LBA_to_ABA(lba), m_a, s_a, f_a);
 }
@@ -133,12 +122,12 @@ static INLINE void LBA_to_AMSF(int32 lba, uint8* m_a, uint8* s_a, uint8* f_a)
 //
 
 
-static INLINE uint8 BCD_to_U8(uint8 bcd_number)
+static inline uint8 BCD_to_U8(uint8 bcd_number)
 {
    return (((bcd_number >> 4) * 10) + (bcd_number & 0x0F));
 }
 
-static INLINE uint8 U8_to_BCD(uint8 num)
+static inline uint8 U8_to_BCD(uint8 num)
 {
    return (((num / 10) << 4) + (num % 10));
 }

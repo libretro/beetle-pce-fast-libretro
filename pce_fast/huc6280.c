@@ -144,24 +144,24 @@ static void HuC6280_FlushMPRCache(void)
       HuC6280_SetMPR(x, HuCPU.MPR[x & 0x7]);
 }
 
-static INLINE uint8 RdMem(unsigned int A)
+static inline uint8 RdMem(unsigned int A)
 {
    uint8 wmpr = HuCPU.MPR[A >> 13];
    return (PCERead[wmpr]((wmpr << 13) | (A & 0x1FFF)));
 }
 
-static INLINE uint16 RdMem16(unsigned int A)
+static inline uint16 RdMem16(unsigned int A)
 {
    return (RdMem(A) | (RdMem(A + 1) << 8));
 }
 
-static INLINE void WrMem(unsigned int A, uint8 V)
+static inline void WrMem(unsigned int A, uint8 V)
 {
    uint8 wmpr = HuCPU.MPR[A >> 13];
    PCEWrite[wmpr]((wmpr << 13) | (A & 0x1FFF), V);
 }
 
-static INLINE uint8 RdOp(unsigned int A)
+static inline uint8 RdOp(unsigned int A)
 {
    return (HuCPU.FastPageR[A >> 13][A]);
 }

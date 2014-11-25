@@ -99,7 +99,7 @@ typedef struct
 static FADE_t Fader;
 static int32 ADPCMFadeVolume, CDDAFadeVolume;
 
-static INLINE void Fader_SyncWhich(void)
+static inline void Fader_SyncWhich(void)
 {
    if (Fader.Command & 0x2) // ADPCM fade
    {
@@ -117,7 +117,7 @@ static INLINE void Fader_SyncWhich(void)
 }
 
 
-static INLINE int32 ADPCM_ClocksToNextEvent(void)
+static inline int32 ADPCM_ClocksToNextEvent(void)
 {
 #ifdef PCE_FAST_CD_SPEEDHACK
    int32 ret = 0x7FFF;
@@ -204,7 +204,7 @@ static void UpdateADPCMIRQState(void)
    update_irq_state();
 }
 
-static INLINE uint8 read_1808(int32 timestamp)
+static inline uint8 read_1808(int32 timestamp)
 {
    uint8 ret = PCECD_Drive_GetDB();
 
@@ -463,7 +463,7 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
    return (ret);
 }
 
-static INLINE void Fader_Run(const int32 clocks)
+static inline void Fader_Run(const int32 clocks)
 {
    if (Fader.Clocked)
    {
@@ -683,7 +683,7 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
    }
 }
 
-static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
+static inline void ADPCM_PB_Run(int32 basetime, int32 run_time)
 {
    ADPCM.bigdiv -= run_time * 65536;
 
@@ -735,7 +735,7 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
    }
 }
 
-static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
+static inline void ADPCM_Run(const int32 clocks, const int32 timestamp)
 {
    //printf("ADPCM Run: %d\n", clocks);
    ADPCM_PB_Run(timestamp, clocks);

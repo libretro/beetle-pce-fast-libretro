@@ -29,7 +29,7 @@
 
 ArcadeCard arcade_card;
 
-static INLINE void ArcadeCard_AutoIncrement(ACPort_t* port)
+static inline void ArcadeCard_AutoIncrement(ACPort_t* port)
 {
    if (port->control & 0x1)
    {

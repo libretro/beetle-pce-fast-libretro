@@ -63,7 +63,7 @@ vdc_t* vdc = NULL;
 //#else
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
 //#endif
-static INLINE void FixPCache(int entry)
+static inline void FixPCache(int entry)
 {
 #ifndef DISABLE_SW_RENDER
    if (!(entry & 0xFF))
@@ -80,7 +80,7 @@ static INLINE void FixPCache(int entry)
 #endif
 }
 
-static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
+static inline void FixTileCache(vdc_t* which_vdc, uint16 A)
 {
 #ifndef DISABLE_SW_RENDER
    uint32 charname = (A >> 4);
@@ -115,7 +115,7 @@ static INLINE void FixTileCache(vdc_t* which_vdc, uint16 A)
 #endif
 }
 
-static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
+static inline void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
       uint32 special)
 {
    if (special != 0x4 && special != 0x5)
@@ -181,7 +181,7 @@ static INLINE void CheckFixSpriteTileCache(vdc_t* which_vdc, uint16 no,
 }
 
 
-static INLINE void SetVCECR(uint8 V)
+static inline void SetVCECR(uint8 V)
 {
    if (((V & 0x80) >> 7) != vce.bw)
    {
@@ -447,7 +447,7 @@ DECLFW(VDC_Write)
 
 
 // 682 + 8 + 128 = 818.
-static INLINE void CalcStartEnd(const vdc_t* vdc, uint32* start_p, uint32* end_p)
+static inline void CalcStartEnd(const vdc_t* vdc, uint32* start_p, uint32* end_p)
 {   
    //static const unsigned int ClockModeWidths[3] = { 288, 384, 576 };
    static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
@@ -545,7 +545,7 @@ static void DrawBG(const vdc_t* vdc, const uint32 count, uint8* target)
 static const unsigned int sprite_height_tab[4] = { 16, 32, 64, 64 };
 static const unsigned int sprite_height_no_mask[4] = { ~0U, ~2U, ~6U, ~6U };
 
-static INLINE void RebuildSATCache(vdc_t* vdc)
+static inline void RebuildSATCache(vdc_t* vdc)
 {
    unsigned i;
    SAT_Cache_t* sat_ptr = (SAT_Cache_t*)vdc->SAT_Cache;
@@ -602,7 +602,7 @@ static INLINE void RebuildSATCache(vdc_t* vdc)
    }
 }
 
-static INLINE void DoSATDMA(vdc_t* vdc)
+static inline void DoSATDMA(vdc_t* vdc)
 {
    unsigned i;
    if (vdc->SATB > (VRAM_Size - 0x100))
@@ -772,7 +772,7 @@ static void DrawSprites(vdc_t* vdc, const int32 end, uint16* spr_linebuf)
    }
 }
 
-static INLINE void MixBGSPR(const uint32 count_in, const uint8* bg_linebuf_in,
+static inline void MixBGSPR(const uint32 count_in, const uint8* bg_linebuf_in,
                             const uint16* spr_linebuf_in, uint16_t* target_in)
 {
    unsigned int x;

@@ -20,8 +20,6 @@
 
 #include "CDUtility.h"
 
-typedef CDUtility_TOC CD_TOC;
-
 class CDIF
 {
 public:
@@ -36,11 +34,6 @@ public:
 
    virtual void HintReadSector(uint32 lba) = 0;
    virtual bool ReadRawSector(uint8* buf, uint32 lba) = 0;
-
-   // Utility/Wrapped functions
-   // Reads mode 1 and mode2 form 1 sectors(2048 bytes per sector returned)
-   // Will return the type(1, 2) of the first sector read to the buffer supplied, 0 on error
-   int ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors);
 
 protected:
    CDUtility_TOC disc_toc;

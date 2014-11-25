@@ -37,7 +37,7 @@ static CDIF* Cur_CDIF;
 #define SetCD(set)              SetIOP(PCECD_Drive_CD_mask, set)
 #define SetMSG(set)             SetIOP(PCECD_Drive_MSG_mask, set)
 
-static INLINE void SetREQ(bool set)
+static inline void SetREQ(bool set)
 {
    if (set && !REQ_signal)
       CDIRQCallback(PCECD_Drive_IRQ_MAGICAL_REQ);
@@ -121,7 +121,7 @@ typedef struct
    int CDDATimeDiv;
 } cdda_t;
 
-static INLINE void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
+static inline void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
                              uint8 fru)
 {
    memset(target, 0, 18);
@@ -425,7 +425,7 @@ static void DoREADBase(uint32 sa, uint32 sc)
       return;
    }
 
-   if ((track = toc.FindTrackByLBA(sa)) == 0)
+   if ((track = CDUtility_FindTrackByLBA(&toc, sa)) == 0)
    {
       CommandCCError(SENSEKEY_ILLEGAL_REQUEST, NSE_END_OF_VOLUME);
       return;
@@ -831,7 +831,7 @@ void PCECD_Drive_GetCDDAValues(int16* left, int16* right)
       *left = *right = 0;
 }
 
-static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
+static inline void RunCDDA(uint32 system_timestamp, int32 run_time)
 {
    //   return;
    if (cdda.CDDAStatus == CDDASTATUS_PLAYING)
@@ -967,7 +967,7 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
    }
 }
 
-static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
+static inline void RunCDRead(uint32 system_timestamp, int32 run_time)
 {
    //   return;
    if (CDReadTimer > 0)

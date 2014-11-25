@@ -344,7 +344,7 @@ void PSG_Write(int32 timestamp, uint8 A, uint8 V)
    }
 }
 
-// Don't use INLINE, which has always_inline in it, due to gcc's inability to cope with the type of recursion
+// Don't use inline, which has always_inline in it, due to gcc's inability to cope with the type of recursion
 // used in this function.
 
 void PSG_RunChannel_LFO_On(int chc, int32 timestamp)
@@ -489,7 +489,7 @@ void PSG_RunChannel_LFO_Off(int chc, int32 timestamp)
    }
 }
 
-INLINE void PSG_UpdateSubLFO(int32 timestamp)
+inline void PSG_UpdateSubLFO(int32 timestamp)
 {
    PSG_RunChannel_LFO_On(0, timestamp);
 
@@ -498,7 +498,7 @@ INLINE void PSG_UpdateSubLFO(int32 timestamp)
       PSG_RunChannel_LFO_Off(chc, timestamp);
 }
 
-INLINE void PSG_UpdateSubNonLFO(int32 timestamp)
+inline void PSG_UpdateSubNonLFO(int32 timestamp)
 {
    int chc;
    for (chc = 0; chc < 6; chc++)

@@ -7,12 +7,8 @@ extern uint32 MDFN_RoundUpPow2(uint32);
 
 void GetFileBase(const char *f);
 
-void MDFN_ltrim(char *string);
-void MDFN_rtrim(char *string);
 void MDFN_trim(char *string);
 
-void MDFN_ltrim(std::string &string);
-void MDFN_rtrim(std::string &string);
 void MDFN_trim(std::string &string);
 
 

@@ -88,7 +88,7 @@ void INPUT_FixTS(void)
    }
 }
 
-static INLINE bool CheckLM(int n)
+static inline bool CheckLM(int n)
 {
    if ((int64)HuCPU.timestamp - mouse_last_meow[n] > 10000)
    {

@@ -23,22 +23,22 @@ public:
    }
 
    // Destructor
-   INLINE ~SimpleFIFO()
+   inline ~SimpleFIFO()
    {
       free(data);
    }
 
-   INLINE uint32 CanRead(void)
+   inline uint32 CanRead(void)
    {
       return (in_count);
    }
 
-   INLINE uint32 CanWrite(void)
+   inline uint32 CanWrite(void)
    {
       return (size - in_count);
    }
 
-   INLINE T ReadUnit(bool peek = false)
+   inline T ReadUnit(bool peek = false)
    {
       T ret;
 
@@ -55,14 +55,14 @@ public:
       return (ret);
    }
 
-   INLINE uint8 ReadByte(bool peek = false)
+   inline uint8 ReadByte(bool peek = false)
    {
       assert(sizeof(T) == 1);
 
       return (ReadUnit(peek));
    }
 
-   INLINE void Write(const T* happy_data, uint32 happy_count)
+   inline void Write(const T* happy_data, uint32 happy_count)
    {
       assert(CanWrite() >= happy_count);
 
@@ -77,19 +77,19 @@ public:
       }
    }
 
-   INLINE void WriteUnit(const T &wr_data)
+   inline void WriteUnit(const T &wr_data)
    {
       Write(&wr_data, 1);
    }
 
-   INLINE void WriteByte(const T &wr_data)
+   inline void WriteByte(const T &wr_data)
    {
       assert(sizeof(T) == 1);
       Write(&wr_data, 1);
    }
 
 
-   INLINE void Flush(void)
+   inline void Flush(void)
    {
       read_pos = 0;
       write_pos = 0;
