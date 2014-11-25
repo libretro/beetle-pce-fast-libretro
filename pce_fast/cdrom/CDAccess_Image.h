@@ -3,8 +3,7 @@
 
 #include <map>
 #include <string>
-
-class Stream;
+#include "FileStream.h"
 
 struct CDRFILE_TRACK_INFO
 {
@@ -21,7 +20,7 @@ struct CDRFILE_TRACK_INFO
    int32 index[2];
 
    int32 sectors; // Not including pregap sectors!
-   Stream* fp;
+   FileStream* fp;
    bool FirstFileInstance;
    bool RawAudioMSBFirst;
    long FileOffset;
@@ -56,7 +55,7 @@ public:
 
    void ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track, const int tracknum,
                              const std::string &filename, const char* binoffset, const char* msfoffset,
-                             const char* length, std::map<std::string, Stream*> &toc_streamcache);
+                             const char* length, std::map<std::string, FileStream*> &toc_streamcache);
    uint32 GetSectorCount(CDRFILE_TRACK_INFO* track);
 };
 

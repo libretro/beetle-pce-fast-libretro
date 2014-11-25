@@ -20,40 +20,26 @@
 #ifndef __MDFN_FILESTREAM_H
 #define __MDFN_FILESTREAM_H
 
-#include "Stream.h"
-
 #ifdef PSP
 #include <pspiofilemgr.h>
 #endif
 
-class FileStream : public Stream
+class FileStream
 {
  public:
 
- enum
- {
-  MODE_READ = 0,
-  MODE_WRITE,
-  MODE_WRITE_SAFE
- };
+ FileStream(const char *path);
+ ~FileStream();
 
- FileStream(const char *path, const int mode);
- virtual ~FileStream();
+ uint64 read(void *data, uint64 count, bool error_on_eos = true);
+ void write(const void *data, uint64 count);
+ void seek(int64 offset, int whence);
+ int64 tell(void);
+ int64 size(void);
+ void close(void);
+ int get_line(std::string &str);
 
- virtual uint64 read(void *data, uint64 count, bool error_on_eos = true);
- virtual void write(const void *data, uint64 count);
- virtual void seek(int64 offset, int whence);
- virtual int64 tell(void);
- virtual int64 size(void);
- virtual void close(void);
-
- private:
-#ifdef PSP
- SceUID fp;
-#else
  FILE *fp;
-#endif
- const int OpenedMode;
 };
 
 

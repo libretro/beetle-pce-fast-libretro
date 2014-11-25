@@ -34,8 +34,8 @@ public:
    void Load(const char* path);
    void Cleanup(void);
 
-   Stream* img_stream;
-   Stream* sub_stream;
+   FileStream* img_stream;
+   FileStream* sub_stream;
    size_t img_numsectors;
    CDUtility_TOC tocd;
 };

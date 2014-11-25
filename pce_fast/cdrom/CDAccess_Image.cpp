@@ -188,14 +188,14 @@ uint32 CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO* track)
 void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
       const int tracknum, const std::string &filename, const char* binoffset,
       const char* msfoffset, const char* length,
-      std::map<std::string, Stream*> &toc_streamcache)
+      std::map<std::string, FileStream*> &toc_streamcache)
 {
    long offset = 0; // In bytes!
    long tmp_long;
    int m, s, f;
    uint32 sector_mult;
    long sectors;
-   std::map<std::string, Stream*>::iterator ribbit;
+   std::map<std::string, FileStream*>::iterator ribbit;
 
    ribbit = toc_streamcache.find(filename);
 
@@ -213,7 +213,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
 
       efn = MDFN_EvalFIP(base_dir, filename);
 
-      track->fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
+      track->fp = new FileStream(efn.c_str());
 
       toc_streamcache[filename] = track->fp;
    }
@@ -267,7 +267,7 @@ void CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO* track,
 
 void CDAccess_Image::ImageOpen(const char* path)
 {
-   FileStream fp(path, FileStream::MODE_READ);
+   FileStream fp(path);
    static const unsigned max_args = 4;
    std::string linebuf;
    std::string cmdbuf, args[max_args];
@@ -276,7 +276,7 @@ void CDAccess_Image::ImageOpen(const char* path)
    int32 AutoTrackInc = 1; // For TOC
    CDRFILE_TRACK_INFO TmpTrack;
    std::string file_base, file_ext;
-   std::map<std::string, Stream*> toc_streamcache;
+   std::map<std::string, FileStream*> toc_streamcache;
 
    disc_type = DISC_TYPE_CDDA_OR_M1;
    memset(&TmpTrack, 0, sizeof(TmpTrack));
@@ -514,7 +514,7 @@ void CDAccess_Image::ImageOpen(const char* path)
             }
 
             std::string efn = MDFN_EvalFIP(base_dir, args[0]);
-            TmpTrack.fp = new FileStream(efn.c_str(), FileStream::MODE_READ);
+            TmpTrack.fp = new FileStream(efn.c_str());
             TmpTrack.FirstFileInstance = 1;
 
             assert(!strcasecmp(args[1].c_str(), "BINARY"));

@@ -87,7 +87,7 @@ CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL),
 
 void CDAccess_CCD::Load(const char* path)
 {
-   FileStream cf(path, FileStream::MODE_READ);
+   FileStream cf(path);
    std::map<std::string, CCD_Section> Sections;
    std::string linebuf;
    std::string cur_section_name;
@@ -345,7 +345,7 @@ void CDAccess_CCD::Load(const char* path)
       std::string image_path = MDFN_EvalFIP(dir_path,
                                             file_base + std::string(".") + std::string(img_extsd));
 
-      img_stream = new FileStream(image_path.c_str(), FileStream::MODE_READ);
+      img_stream = new FileStream(image_path.c_str());
 
       int64 ss = img_stream->size();
 
@@ -361,7 +361,7 @@ void CDAccess_CCD::Load(const char* path)
       std::string sub_path = MDFN_EvalFIP(dir_path,
                                           file_base + std::string(".") + std::string(sub_extsd));
 
-      sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
+      sub_stream = new FileStream(sub_path.c_str());
 
       assert(sub_stream->size() == (int64)img_numsectors * 96);
       //         throw MDFN_Error(0, ("CCD SUB file size mismatch."));

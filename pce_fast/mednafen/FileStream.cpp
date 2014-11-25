@@ -19,118 +19,11 @@
 
 #include <sys/stat.h>
 #include "mednafen.h"
-#include "Stream.h"
 #include "FileStream.h"
 
 #include <stdarg.h>
 #include <string.h>
 
-#ifdef PSP
-#include <pspiofilemgr.h>
-
-FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
-{
- if(mode == FileStream::MODE_WRITE)
-  fp = sceIoOpen(path, PSP_O_WRONLY|PSP_O_CREAT, 0777);
- else
-  fp = sceIoOpen(path, PSP_O_RDONLY, 0777);
-
- assert(fp >= 0);
-//  throw(MDFN_Error(ene.Errno(), ("Error opening file %s"), ene.StrError()));
-
-}
-
-FileStream::~FileStream()
-{
-   if (fp >= 0)
-      sceIoClose(fp);
-}
-
-uint64 FileStream::read(void *data, uint64 count, bool error_on_eos)
-{
-#if 0
-   static u8 CD_cache_buffer[2352*50];
-   static u8* CD_cache_buffer_pos = CD_cache_buffer;
-
-   static int read_count = 0;
-//   static u8* old_buffer = NULL;
-//   printf("%6i : read of %u, data : 0x%08X, old_data+%u\n", read_count, (u32)count, (u32)data,(u8*)data-old_buffer);
-//   fflush(stdout);
-//   old_buffer = (u8*)data;
-
-   if ( read_count == 1)
-   {
-      sceIoRead(fp, data, count);
-      sceIoReadAsync(fp, CD_cache_buffer, 2352*50);
-      CD_cache_buffer_pos = CD_cache_buffer;
-      read_count++;
-      return count;
-   }
-
-   if (read_count > 1)
-   {
-      SceInt64 res;
-      sceIoWaitAsync(fp, &res);
-      memcpy(data, CD_cache_buffer_pos, count);
-      CD_cache_buffer_pos += count;
-      read_count++;
-      return count;
-   }
-//   if (read_count > 1)
-//      return count;
-//   if (read_count == 1)
-//   {
-//      sceIoRead(fp,data,count*42);
-//      return count;
-//   }
-
-   read_count++;
-#endif
-
-   return sceIoRead(fp,data,count);
-
-}
-
-void FileStream::write(const void *data, uint64 count)
-{
-   sceIoWrite(fp, data, count);
-}
-
-void FileStream::seek(int64 offset, int whence)
-{
-#if 0
-   if (offset!=55415472)
-      return;
-//   printf("seek to %u \n", (s32)offset);
-#endif
-   sceIoLseek32(fp, offset, whence);
-
-}
-
-int64 FileStream::tell(void)
-{
-
-   return sceIoLseek32(fp, 0, SEEK_CUR);
-}
-
-int64 FileStream::size(void)
-{
-   int current_pos = sceIoLseek32(fp, 0, SEEK_CUR);
-   int size = sceIoLseek32(fp, 0, SEEK_END);
-
-   sceIoLseek32(fp, current_pos, SEEK_SET);
-
-   return(size);
-}
-
-void FileStream::close(void)
-{
-   if (fp >= 0)
-      sceIoClose(fp);
-   fp = -1;
-}
-
-#else
 #ifdef _WIN32
 #include <io.h>
 #else
@@ -140,11 +33,8 @@ void FileStream::close(void)
 #define fseeko fseek
 #define ftello ftell
 
-FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
+FileStream::FileStream(const char *path)
 {
- if(mode == FileStream::MODE_WRITE)
-  fp = fopen(path, "wb");
- else
   fp = fopen(path, "rb");
 
  assert(fp);
@@ -193,4 +83,19 @@ void FileStream::close(void)
    fp = NULL;
    fclose(tmp);
 }
-#endif
+int FileStream::get_line(std::string &str)
+{
+ uint8 c;
+
+ str.clear();	// or str.resize(0)??
+
+ while(read(&c, sizeof(c), false) > 0)
+ {
+  if(c == '\r' || c == '\n' || c == 0)
+   return(c);
+
+  str.push_back(c);
+ }
+
+ return(-1);
+}

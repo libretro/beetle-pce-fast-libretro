@@ -19,9 +19,8 @@
 #define __MDFN_CDROM_CDROMIF_H
 
 #include "CDUtility.h"
-#include "Stream.h"
 
-#include <queue>
+//#include <queue>
 
 typedef CDUtility_TOC CD_TOC;
 
