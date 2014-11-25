@@ -915,7 +915,6 @@ MDFNGI MDFNGameInfo =
    "pce_fast",
    "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
    KnownExtensions,
-   &PCEInputInfo,
    PCE_Load,
    LoadCD,
    CloseGame,
