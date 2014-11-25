@@ -4,6 +4,18 @@
 #include <assert.h>
 #include <stdint.h>
 
+#ifndef __cplusplus
+#if defined(_MSC_VER) && !defined(SN_TARGET_PS3)
+/* Hack applied for MSVC when compiling in C89 mode
+ * as it isn't C99-compliant. */
+#define bool unsigned char
+#define true 1
+#define false 0
+#else
+#include <stdbool.h>
+#endif
+#endif
+
 typedef int8_t int8;
 typedef int16_t int16;
 typedef int32_t int32; 
@@ -99,11 +111,6 @@ typedef struct
  };
 } Uuint32;
 
-typedef uint32   UTF32;  /* at least 32 bits */
-typedef uint16  UTF16;  /* at least 16 bits */
-typedef uint8   UTF8;   /* typically 8 bits */
-typedef unsigned char   Boolean; /* 0 or 1 */
-
 #ifndef FALSE
 #define FALSE 0
 #endif
@@ -112,23 +119,8 @@ typedef unsigned char   Boolean; /* 0 or 1 */
 #define TRUE 1
 #endif
 
-#undef require
-#define require( expr ) assert( expr )
-
 #if !defined(MSB_FIRST) && !defined(LSB_FIRST)
  #error "Define MSB_FIRST or LSB_FIRST!"
-#endif
-
-#ifndef __cplusplus
-#if defined(_MSC_VER) && !defined(SN_TARGET_PS3)
-/* Hack applied for MSVC when compiling in C89 mode
- * as it isn't C99-compliant. */
-#define bool unsigned char
-#define true 1
-#define false 0
-#else
-#include <stdbool.h>
-#endif
 #endif
 
 #endif
