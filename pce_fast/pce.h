@@ -45,7 +45,7 @@ extern uint8 BaseRAM[32768 + 8192];
 //#define PSP_PROFILER
 //#define PSP_PROFILER_START_FRAME    10
 //#define PSP_PROFILER_END_FRAME      50
-#define PCE_FAST_CD_SPEEDHACK
+//#define PCE_FAST_CD_SPEEDHACK
 
 #ifdef PERF_TEST
 
