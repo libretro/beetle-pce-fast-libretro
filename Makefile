@@ -230,7 +230,7 @@ WARNINGS += -Wno-unused-function
 WARNINGS += -Wno-uninitialized
 WARNINGS += $(NEW_GCC_WARNING_FLAGS)
 WARNINGS += -Wno-strict-aliasing
-WARNINGS += -Wno-narrowing
+#WARNINGS += -Wno-narrowing
 
 EXTRA_GCC_FLAGS := -funroll-loops
 endif
