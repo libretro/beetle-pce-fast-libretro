@@ -66,7 +66,17 @@ static long _get_data(OggVorbis_File *vf){
     char *buffer=ogg_sync_buffer(&vf->oy,CHUNKSIZE);
     long bytes=(vf->callbacks.read_func)(buffer,1,CHUNKSIZE,vf->datasource);
     if(bytes>0)ogg_sync_wrote(&vf->oy,bytes);
-    if(bytes==0 && errno)return(-1);
+#ifdef GEKKO
+    // It seems that EOVERFLOW is set whenever
+    // we read to the end of the file on WII...
+	// Fix copied from WiiMednafen code.
+    if(bytes==0 && errno && errno != EOVERFLOW)
+#else
+    if(bytes==0 && errno)
+#endif
+	{
+	  return(-1);
+	}
     return(bytes);
   }else
     return(0);
