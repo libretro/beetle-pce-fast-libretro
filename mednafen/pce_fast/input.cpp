@@ -20,9 +20,6 @@
 #include "huc.h"
 #include "../mednafen-endian.h"
 
-namespace PCE_Fast
-{
-
 static int InputTypes[5];
 static uint8 *data_ptr[5];
 
@@ -333,5 +330,3 @@ static void SyncSettings(void)
  MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pce_fast.mouse_sensitivity");
  InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce_fast.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
 }
-
-};

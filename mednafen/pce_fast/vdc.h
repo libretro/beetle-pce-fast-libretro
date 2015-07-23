@@ -1,9 +1,6 @@
 #ifndef _PCE_VDC_H
 #define _PCE_VDC_H
 
-namespace PCE_Fast
-{
-
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
@@ -176,7 +173,5 @@ void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;
 
 int VDC_StateAction(StateMem *sm, int load, int data_only);
-
-};
 
 #endif

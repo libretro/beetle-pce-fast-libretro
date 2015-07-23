@@ -21,9 +21,6 @@
 #include <math.h>
 #include <string.h>
 
-namespace PCE_Fast
-{
-
 void PCEFast_PSG::SetVolume(double new_volume)
 {
  OutputVolume = new_volume;
@@ -671,6 +668,4 @@ int PCEFast_PSG::StateAction(StateMem *sm, int load, int data_only)
   }
  }
  return(ret); 
-}
-
 }

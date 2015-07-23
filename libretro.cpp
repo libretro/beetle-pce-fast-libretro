@@ -49,8 +49,6 @@ MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
 
 extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
 
-namespace PCE_Fast
-{
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
@@ -911,8 +909,6 @@ void HuC_Power(void)
   arcade_card->Power();
 }
 
-};
-
 MDFNGI EmulatedPCE_Fast =
 {
  "pce_fast",
@@ -1520,7 +1516,7 @@ static void check_variables(void)
 
    if (do_cdsettings)
    {
-      PCE_Fast::PCECD_Settings settings = {0};
+      PCECD_Settings settings = {0};
       settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;

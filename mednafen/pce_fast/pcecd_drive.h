@@ -3,9 +3,6 @@
 
 #include "../include/blip/Blip_Buffer.h"
 
-namespace PCE_Fast
-{
-
 typedef int32 pcecd_drive_timestamp_t;
 
 struct pcecd_drive_bus_t
@@ -83,7 +80,5 @@ void PCECD_Drive_SetCDDAVolume(unsigned vol); // vol of 65536 = 1.0 = maximum.
 int PCECD_Drive_StateAction(StateMem *sm, int load, int data_only, const char *sname);
 
 void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects = false) MDFN_COLD;
-
-}
 
 #endif

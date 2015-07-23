@@ -33,9 +33,6 @@ The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cy
 #include "../FileStream.h"
 #include <math.h>
 
-namespace PCE_Fast
-{
-
 static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
@@ -1221,5 +1218,3 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
  return(ret);
 }
-
-};

@@ -5,10 +5,6 @@
 
 #define HUC6280_LAZY_FLAGS
 
-namespace PCE_Fast
-{
-
-
 typedef struct __HuC6280
 {
 	#ifdef HUC6280_CRAZY_VERSION
@@ -148,9 +144,6 @@ static INLINE void HuC6280_IRQStatusWrite(unsigned int A, uint8 V)
   case 1: HuC6280_IRQEnd(MDFN_IQTIMER); break;
  }
 }
-
-
-};
 
 #define _HuC6280H
 #endif

@@ -22,8 +22,6 @@
 #include "../cdrom/SimpleFIFO.h"
 #include "../msvc_compat.h"
 
-namespace PCE_Fast
-{
 static inline void SCSIDBG(const char *format, ...)
 {
 //printf("SCSI: " format "\n",  ## __VA_ARGS__);
@@ -1364,6 +1362,4 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
  }
 
  return (ret);
-}
-
 }

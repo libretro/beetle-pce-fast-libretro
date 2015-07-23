@@ -3,9 +3,6 @@
 
 #include "../include/blip/Blip_Buffer.h"
 
-namespace PCE_Fast
-{
-
 class PCEFast_PSG;
 
 struct psg_channel
@@ -93,7 +90,5 @@ class PCEFast_PSG
 
 	int32 dbtable[32][32];
 };
-
-}
 
 #endif

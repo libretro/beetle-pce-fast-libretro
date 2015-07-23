@@ -18,9 +18,6 @@
 #include "pce.h"
 #include "vdc.h"
 
-namespace PCE_Fast
-{
-
 HuC6280 HuCPU;
 uint8 *HuCPUFastMap[0x100];
 
@@ -778,6 +775,3 @@ int HuC6280_StateAction(StateMem *sm, int load, int data_only)
 
  return(ret);
 }
-
-
-};

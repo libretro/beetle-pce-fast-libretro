@@ -3,9 +3,6 @@
 
 #include "../include/blip/Blip_Buffer.h"
 
-namespace PCE_Fast
-{
-
 typedef struct
 {
 	float CDDA_Volume;	// Max 2.000...
@@ -32,6 +29,5 @@ bool PCECD_IsBRAMEnabled(void);
 
 int PCECD_StateAction(StateMem *sm, int load, int data_only);
 
-}
 #endif
 

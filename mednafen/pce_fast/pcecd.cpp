@@ -31,9 +31,6 @@
 #include "pcecd.h"
 #include "../cdrom/SimpleFIFO.h"
 
-namespace PCE_Fast
-{
-
 //#define PCECD_DEBUG
 
 static unsigned int OC_Multiplier;
@@ -982,6 +979,4 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
          SubChannelFIFO.write_pos %= SubChannelFIFO.size;
 	}
 	return(ret);
-}
-
 }
