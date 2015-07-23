@@ -59,8 +59,6 @@ typedef enum
 		// It's also rather a special case of game module->driver code communication.
 } InputDeviceInputType;
 
-#include "git-virtb.h"
-
 typedef struct
 {
 	const char *SettingName;	// No spaces, shouldbe all a-z0-9 and _. Definitely no ~!
