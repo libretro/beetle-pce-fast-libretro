@@ -663,8 +663,11 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
  //if(!active_sprites)
  // return;
 
- //memset(spr_linebuf, 0, sizeof(uint16) * end);
+#if 0
+ memset(spr_linebuf, 0, sizeof(uint16) * end);
+#else
  MDFN_FastU32MemsetM8((uint32 *)spr_linebuf, 0, ((end + 3) >> 1) & ~1);
+#endif
 
  if(!active_sprites)
   return;
