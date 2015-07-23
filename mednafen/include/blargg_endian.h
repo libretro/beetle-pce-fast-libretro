@@ -30,7 +30,7 @@
 	#endif
 #else
 
-#if defined (LSB_FIRST) || defined (__LITTLE_ENDIAN__) || BLARGG_CPU_X86 || \
+#if !defined(MSB_FIRST) || defined (__LITTLE_ENDIAN__) || BLARGG_CPU_X86 || \
 		(defined (LITTLE_ENDIAN) && LITTLE_ENDIAN+0 != 1234)
 	#define BLARGG_LITTLE_ENDIAN 1
 #endif
