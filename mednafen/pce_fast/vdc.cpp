@@ -59,6 +59,18 @@ vdc_t *vdc = NULL;
 
 #define MAKECOLOR_PCE(val) ((((val & 0x038) >> 3) << 13)|(((((val & 0x038) >> 3) & 0x6) << 10) | (((val & 0x1c0) >> 6) << 8) | (((val & 0x1c0) >> 6) << 5) | ((val & 0x007) << 2) | ((val & 0x007) >> 1)))
 
+
+static INLINE void MDFN_FastU32MemsetM8(uint32_t *array, uint32_t value_32, unsigned int u32len)
+{
+   uint32_t *ai;
+
+   for(ai = array; ai < array + u32len; ai += 2)
+   {
+      ai[0] = value_32;
+      ai[1] = value_32;
+   }
+}
+
 static INLINE void FixPCache(int entry)
 {
    if(!(entry & 0xFF))
@@ -1112,16 +1124,14 @@ void VDC_Init(int sgx)
  correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
  userle = ~0;
 
- vdc = (vdc_t *)MDFN_malloc(sizeof(vdc_t), "VDC");
+ vdc = (vdc_t *)malloc(sizeof(vdc_t));
 }
 
 void VDC_Close(void)
 {
- {
-  if(vdc)
-   MDFN_free(vdc);
-  vdc = NULL;
- }
+   if(vdc)
+      free(vdc);
+   vdc = NULL;
 }
 
 int VDC_StateAction(StateMem *sm, int load, int data_only)

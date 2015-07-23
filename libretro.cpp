@@ -642,7 +642,7 @@ static void Cleanup(void)
       PCECD_Close();
 
    if(HuCROM)
-      MDFN_free(HuCROM);
+      free(HuCROM);
    HuCROM = NULL;
 }
 
@@ -673,7 +673,7 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
  MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
  MDFN_printf(_("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
 
- if(!(HuCROM = (uint8 *)MDFN_malloc(m_len, _("HuCard ROM"))))
+ if(!(HuCROM = (uint8 *)malloc(m_len)))
  {
   return(0);
  }
@@ -1876,17 +1876,6 @@ static size_t serialize_size;
 
 size_t retro_serialize_size(void)
 {
-   MDFNGI *curgame = (MDFNGI*)game;
-   //if (serialize_size)
-   //   return serialize_size;
-
-   if (!StateAction)
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", EmulatedPCE_Fast.shortname);
-      return 0;
-   }
-
    StateMem st;
    memset(&st, 0, sizeof(st));
 
