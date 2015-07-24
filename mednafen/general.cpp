@@ -33,28 +33,18 @@ using namespace std;
 
 static bool IsAbsolutePath(const char *path)
 {
-   if (
-#ifdef _WIN32
-         path[0] == '\\' ||
-#endif
-         path[0] == '/'
-      )
+   if (path[0] == '\\' || path[0] == '/')
+      return(TRUE);
+
+#if defined(WIN32) || defined(DOS)
+   if((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
+   {
+      if(path[1] == ':')
          return(TRUE);
+   }
+#endif
 
- #if defined(WIN32) || defined(DOS)
- if((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
- {
-    if(path[1] == ':')
-       return(TRUE);
- }
- #endif
-
- return(FALSE);
-}
-
-static bool IsAbsolutePath(const std::string &path)
-{
- return(IsAbsolutePath(path.c_str()));
+   return(FALSE);
 }
 
 bool MDFN_IsFIROPSafe(const std::string &path)
