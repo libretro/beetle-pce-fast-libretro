@@ -36,17 +36,7 @@
 
 FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
 {
- if(mode == FileStream::MODE_WRITE)
-  fp = fopen(path, "wb");
- else
-  fp = fopen(path, "rb");
-
- if(!fp)
- {
-  ErrnoHolder ene(errno);
-
-  throw(MDFN_Error(ene.Errno(), _("Error opening file %s"), ene.StrError()));
- }
+   fp = fopen(path, (mode == FileStream::MODE_WRITE) ? "wb" : "rb");
 }
 
 FileStream::~FileStream()
