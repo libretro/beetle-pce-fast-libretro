@@ -56,9 +56,10 @@ void Endian_A64_Swap(void *src, uint32_t nelements)
 
    for(i = 0; i < nelements; i++)
    {
+      unsigned z;
       uint8_t *base = &nsrc[i * 8];
 
-      for(int z = 0; z < 4; z++)
+      for(z = 0; z < 4; z++)
       {
          uint8_t tmp = base[z];
 
@@ -151,9 +152,10 @@ void Endian_A64_LE_to_NE(void *src, uint32_t nelements)
 
    for(i = 0; i < nelements; i++)
    {
+      unsigned z;
       uint8_t *base = &nsrc[i * 8];
 
-      for(int z = 0; z < 4; z++)
+      for(z = 0; z < 4; z++)
       {
          uint8_t tmp = base[z];
 
