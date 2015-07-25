@@ -107,7 +107,7 @@ typedef struct
 extern vdc_t *vdc;
 
 
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format) MDFN_COLD;
+void VDC_SetPixelFormat(void);
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
 void VDC_SetLayerEnableMask(uint64 mask);
 

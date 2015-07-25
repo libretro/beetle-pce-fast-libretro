@@ -365,13 +365,6 @@
 					</Filter>
 				</Filter>
 				<Filter
-					Name="video"
-					Filter="">
-					<File
-						RelativePath="..\..\mednafen\video\surface.cpp">
-					</File>
-				</Filter>
-				<Filter
 					Name="tremor"
 					Filter="">
 					<File

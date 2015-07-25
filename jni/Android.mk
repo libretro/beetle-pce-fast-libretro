@@ -94,7 +94,6 @@ MEDNAFEN_SOURCES := $(MEDNAFEN_DIR)/error.cpp \
 	$(MEDNAFEN_DIR)/Stream.cpp \
 	$(MEDNAFEN_DIR)/state.cpp \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/video/surface.cpp \
 	$(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp \
 	$(MEDNAFEN_DIR)/file.cpp \
 	$(OKIADPCM_SOURCES) \

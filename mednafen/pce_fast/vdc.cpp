@@ -214,7 +214,7 @@ vpc_t vpc;
 #define VDCS_VD		0x20 // Vertical blank interrupt occurred
 #define VDCS_BSY	0x40 // VDC is waiting for a CPU access slot during the active display area??
 
-void VDC_SetPixelFormat(const MDFN_PixelFormat &format)
+void VDC_SetPixelFormat(void)
 {
  // I know the temptation is there, but don't combine these two loops just
  // because they loop 512 times ;)
@@ -948,7 +948,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
    MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
    
-   uint16 *target_ptr16 = surface->pixels16 + (frame_counter - 14) * surface->pitchinpix;
+   uint16 *target_ptr16 = surface->pixels + (frame_counter - 14) * surface->pitch;
 
    if(fc_vrm && !skip)
     LineWidths[frame_counter - 14] = DisplayRect->w;
