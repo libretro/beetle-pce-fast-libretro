@@ -30,11 +30,6 @@ int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 uint32_t setting_pce_keepaspect = 1;
 
-bool MDFN_SaveSettings(const char *path)
-{
-   return(1);
-}
-
 uint64 MDFN_GetSettingUI(const char *name)
 {
    if (!strcmp("pce_fast.cddavolume", name))
