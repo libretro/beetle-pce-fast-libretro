@@ -236,7 +236,7 @@
 				Name="mednafen"
 				Filter="">
 				<File
-					RelativePath="..\..\mednafen\endian.cpp">
+					RelativePath="..\..\mednafen\mednafen-endian.c">
 				</File>
 				<File
 					RelativePath="..\..\mednafen\error.cpp">

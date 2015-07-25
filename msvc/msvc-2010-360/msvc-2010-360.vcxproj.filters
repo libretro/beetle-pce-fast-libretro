@@ -47,9 +47,6 @@
     <ClCompile Include="..\..\thread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mednafen\endian.cpp">
-      <Filter>Source Files\mednafen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mednafen\error.cpp">
       <Filter>Source Files\mednafen</Filter>
     </ClCompile>
