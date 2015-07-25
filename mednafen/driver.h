@@ -5,7 +5,6 @@
 #include "git.h"
 #include "settings-driver.h"
 #include "mednafen-driver.h"
-#include "state-driver.h"
 #include "mempatcher-driver.h"
 
 #endif
