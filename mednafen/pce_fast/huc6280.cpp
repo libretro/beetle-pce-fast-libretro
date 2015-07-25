@@ -129,104 +129,104 @@ static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
 
 void HuC6280_SetMPR(int i, int v)
 {
- uint8 *Page1_local = HuCPU.Page1;
+   uint8 *Page1_local = HuCPU.Page1;
 
- SET_MPR(i, v);
+   SET_MPR(i, v);
 
- HuCPU.Page1 = Page1_local;
+   HuCPU.Page1 = Page1_local;
 }
 
 
 static void HuC6280_FlushMPRCache(void)
 {
- for(int x = 0; x < 9; x++)
-  HuC6280_SetMPR(x, HuCPU.MPR[x & 0x7]);
+   for(int x = 0; x < 9; x++)
+      HuC6280_SetMPR(x, HuCPU.MPR[x & 0x7]);
 }
 
 static INLINE uint8 RdMem(unsigned int A)
 {
- uint8 wmpr = HuCPU.MPR[A >> 13];
- return(PCERead[wmpr]((wmpr << 13) | (A & 0x1FFF)));
+   uint8 wmpr = HuCPU.MPR[A >> 13];
+   return(PCERead[wmpr]((wmpr << 13) | (A & 0x1FFF)));
 }
 
 static INLINE uint16 RdMem16(unsigned int A)
 {
- return(RdMem(A) | (RdMem(A + 1) << 8));
+   return(RdMem(A) | (RdMem(A + 1) << 8));
 }
 
 static INLINE void WrMem(unsigned int A, uint8 V)
 {
- uint8 wmpr = HuCPU.MPR[A >> 13];
- PCEWrite[wmpr]((wmpr << 13) | (A & 0x1FFF), V);
+   uint8 wmpr = HuCPU.MPR[A >> 13];
+   PCEWrite[wmpr]((wmpr << 13) | (A & 0x1FFF), V);
 }
 
 static INLINE uint8 RdOp(unsigned int A)
 {
- return(HuCPU.FastPageR[A >> 13][A]);
+   return(HuCPU.FastPageR[A >> 13][A]);
 }
 
 #define PUSH(V) \
 {       \
- HU_Page1[0x100 + HU_S] = V; \
- HU_S--;  \
+   HU_Page1[0x100 + HU_S] = V; \
+   HU_S--;  \
 }       
 
 #define PUSH_PC()	\
 {	\
- unsigned int real_pc = GetRealPC();	\
- PUSH(real_pc >> 8);	\
- PUSH(real_pc);		\
+   unsigned int real_pc = GetRealPC();	\
+   PUSH(real_pc >> 8);	\
+   PUSH(real_pc);		\
 }
 
 #define POP() HU_Page1[0x100 + ++HU_S]
 
 #define POP_PC()	\
 {	\
- unsigned int npc;	\
- npc = POP();	\
- npc |= POP() << 8;	\
- SetPC(npc);	\
+   unsigned int npc;	\
+   npc = POP();	\
+   npc |= POP() << 8;	\
+   SetPC(npc);	\
 }
 
 // Hopefully we never RTS to 0x0000. ;)
 #define POP_PC_AP()        \
 {       \
- uint32 npc;      \
- npc = POP();   \
- npc |= POP() << 8;     \
- npc++;		\
- SetPC(npc);    \
+   uint32 npc;      \
+   npc = POP();   \
+   npc |= POP() << 8;     \
+   npc++;		\
+   SetPC(npc);    \
 }
 
 /* Some of these operations will only make sense if you know what the flag
    constants are. */
 
 #ifdef HUC6280_LAZY_FLAGS
- #define X_ZN(zort)      { HU_ZNFlags = (int32)(int8)(uint8)(zort); }
- #define X_ZN_BIT(opres, argie)	 { HU_ZNFlags = (opres) | ((argie) << 24); }
+#define X_ZN(zort)      { HU_ZNFlags = (int32)(int8)(uint8)(zort); }
+#define X_ZN_BIT(opres, argie)	 { HU_ZNFlags = (opres) | ((argie) << 24); }
 #else
- static uint8 ZNTable[256];
- #define X_ZN(zort)      HU_P&=~(Z_FLAG|N_FLAG);HU_P|=ZNTable[zort]
- #define X_ZN_BIT(opres, argie)	{ HU_P &= ~(Z_FLAG | N_FLAG); HU_P |= ZNTable[opres] & Z_FLAG; HU_P |= argie & N_FLAG; }
+static uint8 ZNTable[256];
+#define X_ZN(zort)      HU_P&=~(Z_FLAG|N_FLAG);HU_P|=ZNTable[zort]
+#define X_ZN_BIT(opres, argie)	{ HU_P &= ~(Z_FLAG | N_FLAG); HU_P |= ZNTable[opres] & Z_FLAG; HU_P |= argie & N_FLAG; }
 #endif
 
 #define JR(cond)        \
 {               \
- if(cond)       \
- {      \
-  int32 disp;   \
-  disp = 1 + (int8)RdAtPC();      \
-  ADDCYC(2);    \
-  HU_PC+=disp;    \
- }      \
- else IncPC();  \
+   if(cond)       \
+   {      \
+      int32 disp;   \
+      disp = 1 + (int8)RdAtPC();      \
+      ADDCYC(2);    \
+      HU_PC+=disp;    \
+   }      \
+   else IncPC();  \
 }
 
 #define BRA            \
 {                      \
- int32 disp;           \
- disp = 1 + (int8)RdAtPC();      \
- HU_PC+=disp;            \
+   int32 disp;           \
+   disp = 1 + (int8)RdAtPC();      \
+   HU_PC+=disp;            \
 }
 
 #define BBRi(bitto) JR(!(x & (1 << bitto)))
@@ -249,68 +249,68 @@ static INLINE uint8 RdOp(unsigned int A)
 #define ORA        HU_A|=x;X_ZN(HU_A);
 
 #define ADC  {	\
-	      if(HU_P & D_FLAG)	\
-	      {		\
-		uint32 low = (HU_A & 0x0F) + (x & 0x0F) + (HU_P & 1);	\
-		uint32 high = (HU_A & 0xF0) + (x & 0xF0);	\
-		HU_P &= ~C_FLAG;	\
-		if(low > 0x09) { high += 0x10; low += 0x06; }	\
-		if(high > 0x90) { high += 0x60; }	\
-		HU_P |= (high >> 8) & C_FLAG;	\
-		HU_A = (low & 0x0F) | (high & 0xF0);	\
-		X_ZN(HU_A);	\
-	      }	\
-	      else	\
-	      {	\
-	       uint32 l=HU_A+x+(HU_P&1);	\
-	       HU_P&=~(C_FLAG|V_FLAG);	\
-               HU_P|=((((HU_A^x)&0x80)^0x80) & ((HU_A^l)&0x80))>>1;	\
-               HU_P|=(l>>8)&C_FLAG;	\
-	       HU_A=l;	\
-	       X_ZN(HU_A);	\
-	      }	\
-	     }
+   if(HU_P & D_FLAG)	\
+   {		\
+      uint32 low = (HU_A & 0x0F) + (x & 0x0F) + (HU_P & 1);	\
+      uint32 high = (HU_A & 0xF0) + (x & 0xF0);	\
+      HU_P &= ~C_FLAG;	\
+      if(low > 0x09) { high += 0x10; low += 0x06; }	\
+      if(high > 0x90) { high += 0x60; }	\
+      HU_P |= (high >> 8) & C_FLAG;	\
+      HU_A = (low & 0x0F) | (high & 0xF0);	\
+      X_ZN(HU_A);	\
+   }	\
+   else	\
+   {	\
+      uint32 l=HU_A+x+(HU_P&1);	\
+      HU_P&=~(C_FLAG|V_FLAG);	\
+      HU_P|=((((HU_A^x)&0x80)^0x80) & ((HU_A^l)&0x80))>>1;	\
+      HU_P|=(l>>8)&C_FLAG;	\
+      HU_A=l;	\
+      X_ZN(HU_A);	\
+   }	\
+}
 
 #define SBC  if(HU_P & D_FLAG)	\
-	     {		\
-	      uint32 c = (HU_P & 1) ^ 1;	\
-	      uint32 l = HU_A - x - c;	\
-	      uint32 low = (HU_A & 0x0f) - (x & 0x0f) - c;	\
-	      uint32 high = (HU_A & 0xf0) - (x & 0xf0);	\
-	      HU_P &= ~(C_FLAG);	\
-	      if(low & 0xf0) low -= 0x06;	\
-	      if(low & 0x80) high -= 0x10;	\
-	      if(high & 0x0f00) high -= 0x60;	\
-	      HU_P |= ((l >> 8) & C_FLAG) ^ C_FLAG;	\
-	      HU_A = (low & 0x0F) | (high & 0xf0);	\
-	      X_ZN(HU_A);	\
-	     }	else {	\
-	      uint32 l=HU_A-x-((HU_P&1)^1);	\
-	      HU_P&=~(C_FLAG|V_FLAG);	\
-	      HU_P|=((HU_A^l)&(HU_A^x)&0x80)>>1;	\
-	      HU_P|=((l>>8)&C_FLAG)^C_FLAG;	\
-	      HU_A=l;	\
-	      X_ZN(HU_A);	\
-	     }
+{		\
+   uint32 c = (HU_P & 1) ^ 1;	\
+   uint32 l = HU_A - x - c;	\
+   uint32 low = (HU_A & 0x0f) - (x & 0x0f) - c;	\
+   uint32 high = (HU_A & 0xf0) - (x & 0xf0);	\
+   HU_P &= ~(C_FLAG);	\
+   if(low & 0xf0) low -= 0x06;	\
+   if(low & 0x80) high -= 0x10;	\
+   if(high & 0x0f00) high -= 0x60;	\
+   HU_P |= ((l >> 8) & C_FLAG) ^ C_FLAG;	\
+   HU_A = (low & 0x0F) | (high & 0xf0);	\
+   X_ZN(HU_A);	\
+}	else {	\
+   uint32 l=HU_A-x-((HU_P&1)^1);	\
+   HU_P&=~(C_FLAG|V_FLAG);	\
+   HU_P|=((HU_A^l)&(HU_A^x)&0x80)>>1;	\
+   HU_P|=((l>>8)&C_FLAG)^C_FLAG;	\
+   HU_A=l;	\
+   X_ZN(HU_A);	\
+}
 
 #define CMPL(a1,a2) {	\
-		     uint32 t=a1-a2;	\
-		     X_ZN(t&0xFF);	\
-		     HU_P&=~C_FLAG;	\
-		     HU_P|=((t>>8)&C_FLAG)^C_FLAG;	\
-		    }
+   uint32 t=a1-a2;	\
+   X_ZN(t&0xFF);	\
+   HU_P&=~C_FLAG;	\
+   HU_P|=((t>>8)&C_FLAG)^C_FLAG;	\
+}
 
 #define TAM     for(int i = 0; i < 8; i ++) {               \
-                        if(x & (1 << i))        \
-			{	\
-				SET_MPR(i, HU_A);	\
-			}	\
-	        } SET_MPR(8, HuCPU.MPR[0]);
+   if(x & (1 << i))        \
+   {	\
+      SET_MPR(i, HU_A);	\
+   }	\
+} SET_MPR(8, HuCPU.MPR[0]);
 
 #define TMA	for(int i = 0; i < 8; i ++) {		\
-			if(x & (1 << i))	\
-				HU_A = HuCPU.MPR[i];	\
-		}	
+   if(x & (1 << i))	\
+   HU_A = HuCPU.MPR[i];	\
+}	
 
 #define CSL	
 #define CSH	
@@ -335,95 +335,95 @@ static INLINE uint8 RdOp(unsigned int A)
 #define LSR	HU_P&=~C_FLAG;HU_P|=x&1;x>>=1;X_ZN(x)
 
 #define ROL	{	\
-		 uint8 l=x>>7;	\
-		 x<<=1;	\
-		 x|=HU_P&C_FLAG;	\
-		 HU_P&=~C_FLAG;	\
-		 HU_P|=l;	\
-		 X_ZN(x);	\
-		}
+   uint8 l=x>>7;	\
+   x<<=1;	\
+   x|=HU_P&C_FLAG;	\
+   HU_P&=~C_FLAG;	\
+   HU_P|=l;	\
+   X_ZN(x);	\
+}
 #define ROR	{	\
-		 uint8 l=x&1;	\
-		 x>>=1;	\
-		 x|=(HU_P&C_FLAG)<<7;	\
-		 HU_P&=~C_FLAG;	\
-		 HU_P|=l;	\
-		 X_ZN(x);	\
-		}
+   uint8 l=x&1;	\
+   x>>=1;	\
+   x|=(HU_P&C_FLAG)<<7;	\
+   HU_P&=~C_FLAG;	\
+   HU_P|=l;	\
+   X_ZN(x);	\
+}
 
 /* Absolute */
 #define GetAB(target)   \
 {       		\
- target=RdAtPC();       \
- IncPC();       	\
- target|=RdAtPC()<<8;   \
- IncPC();       	\
+   target=RdAtPC();       \
+   IncPC();       	\
+   target|=RdAtPC()<<8;   \
+   IncPC();       	\
 }
 
 /* Absolute Indexed(for reads) */
 #define GetABI(target, i)	\
 {				\
- unsigned int tmp;		\
- GetAB(tmp);			\
- target=tmp;			\
- target+=i;			\
+   unsigned int tmp;		\
+   GetAB(tmp);			\
+   target=tmp;			\
+   target+=i;			\
 }
 
 /* Zero Page */
 #define GetZP(target)	\
 {			\
- target=RdAtPC(); 	\
- IncPC();		\
+   target=RdAtPC(); 	\
+   IncPC();		\
 }
 
 /* Zero Page Indexed */
 #define GetZPI(target,i)	\
 {				\
- target=i+RdAtPC();		\
- IncPC();			\
+   target=i+RdAtPC();		\
+   IncPC();			\
 }
 
 /* Indirect */
 #define GetIND(target)		\
 {       			\
- uint8 tmp;			\
- tmp=RdAtPC();			\
- IncPC();			\
- target=HU_Page1[tmp];		\
- tmp++;				\
- target|=HU_Page1[tmp]<<8;       	\
+   uint8 tmp;			\
+   tmp=RdAtPC();			\
+   IncPC();			\
+   target=HU_Page1[tmp];		\
+   tmp++;				\
+   target|=HU_Page1[tmp]<<8;       	\
 }
 
 
 /* Indexed Indirect */
 #define GetIX(target)		\
 {				\
- uint8 tmp;			\
- tmp=RdAtPC();			\
- IncPC();			\
- tmp+=HU_X;			\
- target=HU_Page1[tmp];		\
- tmp++;				\
- target|=HU_Page1[tmp] <<8;	\
+   uint8 tmp;			\
+   tmp=RdAtPC();			\
+   IncPC();			\
+   tmp+=HU_X;			\
+   target=HU_Page1[tmp];		\
+   tmp++;				\
+   target|=HU_Page1[tmp] <<8;	\
 }
 
 /* Indirect Indexed(for reads) */
 #define GetIY(target)	\
 {			\
- unsigned int rt;	\
- uint8 tmp;		\
- tmp=RdAtPC();		\
- rt=HU_Page1[tmp];	\
- tmp++;			\
- rt|=HU_Page1[tmp]<<8;	\
- target = (rt + HU_Y);	\
- IncPC();		\
+   unsigned int rt;	\
+   uint8 tmp;		\
+   tmp=RdAtPC();		\
+   rt=HU_Page1[tmp];	\
+   tmp++;			\
+   rt|=HU_Page1[tmp]<<8;	\
+   target = (rt + HU_Y);	\
+   IncPC();		\
 }
 
 /* Now come the macros to wrap up all of the above stuff addressing mode functions
    and operation macros.  Note that operation macros will always operate(redundant
    redundant) on the variable "x".
-*/
+   */
 
 #define RMW_A(op) {uint8 x=HU_A; op; HU_A=x; break; } /* Meh... */
 #define RMW_AB(op) {unsigned int EA; uint8 x; GetAB(EA); x=RdMem(EA); op; WrMem(EA,x); break; }
@@ -475,303 +475,303 @@ static INLINE uint8 RdOp(unsigned int A)
 
 static const uint8 CycTable[256] =
 {                             
- /*0x00*/ 8, 7, 3, 4, 6, 4, 6, 7, 3, 2, 2, 2, 7, 5, 7, 6, 
- /*0x10*/ 2, 7, 7, 4, 6, 4, 6, 7, 2, 5, 2, 2, 7, 5, 7, 6, 
- /*0x20*/ 7, 7, 3, 4, 4, 4, 6, 7, 4, 2, 2, 2, 5, 5, 7, 6, 
- /*0x30*/ 2, 7, 7, 2, 4, 4, 6, 7, 2, 5, 2, 2, 5, 5, 7, 6, 
- /*0x40*/ 7, 7, 3, 4, 8, 4, 6, 7, 3, 2, 2, 2, 4, 5, 7, 6, 
- /*0x50*/ 2, 7, 7, 5, 3, 4, 6, 7, 2, 5, 3, 2, 2, 5, 7, 6, 
- /*0x60*/ 7, 7, 2, 2, 4, 4, 6, 7, 4, 2, 2, 2, 7, 5, 7, 6, 
- /*0x70*/ 2, 7, 7, 17, 4, 4, 6, 7, 2, 5, 4, 2, 7, 5, 7, 6, 
+   /*0x00*/ 8, 7, 3, 4, 6, 4, 6, 7, 3, 2, 2, 2, 7, 5, 7, 6, 
+   /*0x10*/ 2, 7, 7, 4, 6, 4, 6, 7, 2, 5, 2, 2, 7, 5, 7, 6, 
+   /*0x20*/ 7, 7, 3, 4, 4, 4, 6, 7, 4, 2, 2, 2, 5, 5, 7, 6, 
+   /*0x30*/ 2, 7, 7, 2, 4, 4, 6, 7, 2, 5, 2, 2, 5, 5, 7, 6, 
+   /*0x40*/ 7, 7, 3, 4, 8, 4, 6, 7, 3, 2, 2, 2, 4, 5, 7, 6, 
+   /*0x50*/ 2, 7, 7, 5, 3, 4, 6, 7, 2, 5, 3, 2, 2, 5, 7, 6, 
+   /*0x60*/ 7, 7, 2, 2, 4, 4, 6, 7, 4, 2, 2, 2, 7, 5, 7, 6, 
+   /*0x70*/ 2, 7, 7, 17, 4, 4, 6, 7, 2, 5, 4, 2, 7, 5, 7, 6, 
 
- /*0x80*/ 4, 7, 2, 7, 4, 4, 4, 7, 2, 2, 2, 2, 5, 5, 5, 6, 
- /*0x90*/ 2, 7, 7, 8, 4, 4, 4, 7, 2, 5, 2, 2, 5, 5, 5, 6, 
- /*0xA0*/ 2, 7, 2, 7, 4, 4, 4, 7, 2, 2, 2, 2, 5, 5, 5, 6, 
- /*0xB0*/ 2, 7, 7, 8, 4, 4, 4, 7, 2, 5, 2, 2, 5, 5, 5, 6, 
- /*0xC0*/ 2, 7, 2, 17, 4, 4, 6, 7, 2, 2, 2, 2, 5, 5, 7, 6, 
- /*0xD0*/ 2, 7, 7, 17, 3, 4, 6, 7, 2, 5, 3, 2, 2, 5, 7, 6, 
- /*0xE0*/ 2, 7, 2, 17, 4, 4, 6, 7, 2, 2, 2, 2, 5, 5, 7, 6, 
- /*0xF0*/ 2, 7, 7, 17, 2, 4, 6, 7, 2, 5, 4, 2, 2, 5, 7, 6, 
+   /*0x80*/ 4, 7, 2, 7, 4, 4, 4, 7, 2, 2, 2, 2, 5, 5, 5, 6, 
+   /*0x90*/ 2, 7, 7, 8, 4, 4, 4, 7, 2, 5, 2, 2, 5, 5, 5, 6, 
+   /*0xA0*/ 2, 7, 2, 7, 4, 4, 4, 7, 2, 2, 2, 2, 5, 5, 5, 6, 
+   /*0xB0*/ 2, 7, 7, 8, 4, 4, 4, 7, 2, 5, 2, 2, 5, 5, 5, 6, 
+   /*0xC0*/ 2, 7, 2, 17, 4, 4, 6, 7, 2, 2, 2, 2, 5, 5, 7, 6, 
+   /*0xD0*/ 2, 7, 7, 17, 3, 4, 6, 7, 2, 5, 3, 2, 2, 5, 7, 6, 
+   /*0xE0*/ 2, 7, 2, 17, 4, 4, 6, 7, 2, 2, 2, 2, 5, 5, 7, 6, 
+   /*0xF0*/ 2, 7, 7, 17, 2, 4, 6, 7, 2, 5, 4, 2, 2, 5, 7, 6, 
 };
 #if 0
 static bool WillIRQOccur(void) NO_INLINE;
 static bool WillIRQOccur(void)
 {
- bool ret = false;
+   bool ret = false;
 
- if(HU_IRQlow)
- {
-  if(!(HU_PI&I_FLAG))
-  {
-   if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
-    ret = true;
-   else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
-    ret = true;
-   else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
-    ret = true;
-  }
- }
+   if(HU_IRQlow)
+   {
+      if(!(HU_PI&I_FLAG))
+      {
+         if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
+            ret = true;
+         else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
+            ret = true;
+         else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
+            ret = true;
+      }
+   }
 
- return(true);
+   return(true);
 }
 #endif
 
 void HuC6280_IRQBegin(int w)
 {
- HU_IRQlow|=w;
+   HU_IRQlow|=w;
 }
 
 void HuC6280_IRQEnd(int w)
 {
- HU_IRQlow&=~w;
+   HU_IRQlow&=~w;
 }
 
 void HuC6280_Reset(void)
 {
- HuCPU.timer_next_timestamp = HuCPU.timestamp + 1024;
+   HuCPU.timer_next_timestamp = HuCPU.timestamp + 1024;
 
- HuCPU.timer_load = 0;
- HuCPU.timer_value = 0;
- HuCPU.timer_status = 0;
- HuCPU.in_block_move = 0;
+   HuCPU.timer_load = 0;
+   HuCPU.timer_value = 0;
+   HuCPU.timer_status = 0;
+   HuCPU.in_block_move = 0;
 
- unsigned int npc;
+   unsigned int npc;
 
- HuCPU.IRQMask = HuCPU.IRQMaskDelay = 7;
+   HuCPU.IRQMask = HuCPU.IRQMaskDelay = 7;
 
- HuC6280_SetMPR(0, 0xFF);
- HuC6280_SetMPR(8, 0xFF);
- HuC6280_SetMPR(1, 0xF8);
+   HuC6280_SetMPR(0, 0xFF);
+   HuC6280_SetMPR(8, 0xFF);
+   HuC6280_SetMPR(1, 0xF8);
 
- for(int i = 2; i < 8; i++)
-  HuC6280_SetMPR(i, 0);
+   for(int i = 2; i < 8; i++)
+      HuC6280_SetMPR(i, 0);
 
- npc = RdMem16(0xFFFE);
+   npc = RdMem16(0xFFFE);
 
- #define PC_local HuCPU.PC
- SetPC(npc);
- #undef PC_local
+#define PC_local HuCPU.PC
+   SetPC(npc);
+#undef PC_local
 
- HuCPU.mooPI = I_FLAG;
- HuCPU.P = I_FLAG;
+   HuCPU.mooPI = I_FLAG;
+   HuCPU.P = I_FLAG;
 
- HU_IRQlow = 0;
+   HU_IRQlow = 0;
 }
-  
+
 void HuC6280_Init(void)
 {
-	memset((void *)&HuCPU,0,sizeof(HuCPU));
-	memset(dummy_bank, 0, sizeof(dummy_bank));
+   memset((void *)&HuCPU,0,sizeof(HuCPU));
+   memset(dummy_bank, 0, sizeof(dummy_bank));
 
-	#ifdef HUC6280_LAZY_FLAGS
+#ifdef HUC6280_LAZY_FLAGS
 
-	#else
-         for(int x=0; x < 256; x++)
-          if(!x) ZNTable[x]=Z_FLAG;
-          else if (x&0x80) ZNTable[x]=N_FLAG;
-          else ZNTable[x]=0;
-	#endif
+#else
+   for(int x=0; x < 256; x++)
+      if(!x) ZNTable[x]=Z_FLAG;
+      else if (x&0x80) ZNTable[x]=N_FLAG;
+      else ZNTable[x]=0;
+#endif
 }
 
 void HuC6280_Power(void)
 {
- HuCPU.IRQlow = 0;
+   HuCPU.IRQlow = 0;
 
- HuCPU.A = 0;
- HuCPU.X = 0;
- HuCPU.Y = 0;
- HuCPU.S = 0;
- HuCPU.P = 0;
- HuCPU.mooPI = 0;
+   HuCPU.A = 0;
+   HuCPU.X = 0;
+   HuCPU.Y = 0;
+   HuCPU.S = 0;
+   HuCPU.P = 0;
+   HuCPU.mooPI = 0;
 
- #if 0
- HU_PC = HU_PC_base = NULL;
- #else
- HuCPU.PC = 0;
- #endif
+#if 0
+   HU_PC = HU_PC_base = NULL;
+#else
+   HuCPU.PC = 0;
+#endif
 
- HuCPU.timestamp = 0;
+   HuCPU.timestamp = 0;
 
- for(int i = 0; i < 9; i++)
- {
-  HuCPU.MPR[i] = 0;
-  HuCPU.FastPageR[i] = NULL;
- }  
- HuC6280_Reset();
+   for(int i = 0; i < 9; i++)
+   {
+      HuCPU.MPR[i] = 0;
+      HuCPU.FastPageR[i] = NULL;
+   }  
+   HuC6280_Reset();
 }
 
 void HuC6280_Run(int32 cycles)
 {
-	const int32 next_user_event = HuCPU.previous_next_user_event + cycles * pce_overclocked;
+   const int32 next_user_event = HuCPU.previous_next_user_event + cycles * pce_overclocked;
 
-	HuCPU.previous_next_user_event = next_user_event;
+   HuCPU.previous_next_user_event = next_user_event;
 
-	LOAD_LOCALS();
+   LOAD_LOCALS();
 
-	if(HuCPU.timestamp >= next_user_event)
-	 return;
+   if(HuCPU.timestamp >= next_user_event)
+      return;
 
-	int32 next_event;
+   int32 next_event;
 
-	if(HuCPU.in_block_move)
-	{
-         next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
+   if(HuCPU.in_block_move)
+   {
+      next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
 
-	 switch(HuCPU.in_block_move)
-	 {
-	  case IBM_TIA: goto continue_the_TIA;
-	  case IBM_TAI: goto continue_the_TAI;
-	  case IBM_TDD: goto continue_the_TDD;
-	  case IBM_TII: goto continue_the_TII;
-	  case IBM_TIN:	goto continue_the_TIN;
-	 }
-	}
+      switch(HuCPU.in_block_move)
+      {
+         case IBM_TIA: goto continue_the_TIA;
+         case IBM_TAI: goto continue_the_TAI;
+         case IBM_TDD: goto continue_the_TDD;
+         case IBM_TII: goto continue_the_TII;
+         case IBM_TIN:	goto continue_the_TIN;
+      }
+   }
 
-	while(MDFN_LIKELY(HuCPU.timestamp < next_user_event))
-	{
-	 next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
+   while(MDFN_LIKELY(HuCPU.timestamp < next_user_event))
+   {
+      next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
 
-	 while(MDFN_LIKELY(HuCPU.timestamp < next_event))
-	 {
-	  uint8 b1;
+      while(MDFN_LIKELY(HuCPU.timestamp < next_event))
+      {
+         uint8 b1;
 
-	  if(HU_IRQlow)
-	  {
-	   if(!(HU_PI&I_FLAG))
-	   {
-	    uint32 tmpa = 0;
+         if(HU_IRQlow)
+         {
+            if(!(HU_PI&I_FLAG))
+            {
+               uint32 tmpa = 0;
 
-	    if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
-	     tmpa = 0xFFFA;
-            else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
-	     tmpa = 0xFFF8;
-	    else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
-	     tmpa = 0xFFF6;
+               if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
+                  tmpa = 0xFFFA;
+               else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
+                  tmpa = 0xFFF8;
+               else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
+                  tmpa = 0xFFF6;
 
-	    if(tmpa)
-	    {
-	     unsigned int npc;
+               if(tmpa)
+               {
+                  unsigned int npc;
 
-	     ADDCYC(8);
-	     PUSH_PC();
+                  ADDCYC(8);
+                  PUSH_PC();
 
-	     COMPRESS_FLAGS();
-	     PUSH((HU_P&~B_FLAG));
-	     HU_P |= I_FLAG;
-	     HU_P &= ~(T_FLAG | D_FLAG);
-	     HU_PI = HU_P;
+                  COMPRESS_FLAGS();
+                  PUSH((HU_P&~B_FLAG));
+                  HU_P |= I_FLAG;
+                  HU_P &= ~(T_FLAG | D_FLAG);
+                  HU_PI = HU_P;
 
-	     npc = RdMem16(tmpa);
-	     SetPC(npc);
+                  npc = RdMem16(tmpa);
+                  SetPC(npc);
 
-	     if(tmpa == 0xFFF8)
-	      HU_IRQlow &= ~0x200;
+                  if(tmpa == 0xFFF8)
+                     HU_IRQlow &= ~0x200;
 
-	     continue;
-	    }
-	   }
-	  }	// end if(HU_IRQlow)
+                  continue;
+               }
+            }
+         }	// end if(HU_IRQlow)
 
-	  //printf("%04x\n", GetRealPC());
-	  HU_PI = HU_P;
-	  HuCPU.IRQMaskDelay = HuCPU.IRQMask;
+         //printf("%04x\n", GetRealPC());
+         HU_PI = HU_P;
+         HuCPU.IRQMaskDelay = HuCPU.IRQMask;
 
-	  b1 = RdAtPC();
+         b1 = RdAtPC();
 
-	  ADDCYC(CycTable[b1]);
+         ADDCYC(CycTable[b1]);
 
-	  IncPC();
+         IncPC();
 
-          switch(b1)
-          {
-           #include "huc6280_ops.inc"
-          } 
+         switch(b1)
+         {
+#include "huc6280_ops.inc"
+         } 
 
-	  #ifndef HUC6280_EXTRA_CRAZY
- 	  FixPC_PC();
-	  #endif
-	 }	// end while(HuCPU.timestamp < next_event)
+#ifndef HUC6280_EXTRA_CRAZY
+         FixPC_PC();
+#endif
+      }	// end while(HuCPU.timestamp < next_event)
 
-	 while(HuCPU.timestamp >= HuCPU.timer_next_timestamp)
-	 {
-	  HuCPU.timer_next_timestamp += 1024 * pce_overclocked;
+      while(HuCPU.timestamp >= HuCPU.timer_next_timestamp)
+      {
+         HuCPU.timer_next_timestamp += 1024 * pce_overclocked;
 
-          if(HuCPU.timer_status)
-          {
-           HuCPU.timer_value --;
-           if(HuCPU.timer_value < 0)
-           {
-                HuCPU.timer_value = HuCPU.timer_load;
-                HuC6280_IRQBegin(MDFN_IQTIMER);
-           }
-          }
+         if(HuCPU.timer_status)
+         {
+            HuCPU.timer_value --;
+            if(HuCPU.timer_value < 0)
+            {
+               HuCPU.timer_value = HuCPU.timer_load;
+               HuC6280_IRQBegin(MDFN_IQTIMER);
+            }
          }
-	} // end while(HuCPU.timestamp < next_user_event)
+      }
+   } // end while(HuCPU.timestamp < next_user_event)
 
-	GetOutBMT:
+GetOutBMT:
 
-	SAVE_LOCALS();
+   SAVE_LOCALS();
 }
 
 void HuC6280_ResetTS(void)
 {
- HuCPU.timer_next_timestamp -= HuCPU.timestamp;
- HuCPU.previous_next_user_event -= HuCPU.timestamp;
- HuCPU.timestamp = 0;
+   HuCPU.timer_next_timestamp -= HuCPU.timestamp;
+   HuCPU.previous_next_user_event -= HuCPU.timestamp;
+   HuCPU.timestamp = 0;
 }
 
 int HuC6280_StateAction(StateMem *sm, int load, int data_only)
 {
- uint16 tmp_PC = GetRealPC_EXTERNAL();
+   uint16 tmp_PC = GetRealPC_EXTERNAL();
 
- #define P_local HuCPU.P
- COMPRESS_FLAGS();
+#define P_local HuCPU.P
+   COMPRESS_FLAGS();
 
- SFORMAT SFCPU[]=
- {
-  SFVARN(tmp_PC, "PC"),
-  SFVARN(HuCPU.A, "A"),
-  SFVARN(HuCPU.P, "P"),
-  SFVARN(HuCPU.X, "X"),
-  SFVARN(HuCPU.Y, "Y"),
-  SFVARN(HuCPU.S, "S"),
-  SFVARN(HuCPU.mooPI, "PI"),
+   SFORMAT SFCPU[]=
+   {
+      SFVARN(tmp_PC, "PC"),
+      SFVARN(HuCPU.A, "A"),
+      SFVARN(HuCPU.P, "P"),
+      SFVARN(HuCPU.X, "X"),
+      SFVARN(HuCPU.Y, "Y"),
+      SFVARN(HuCPU.S, "S"),
+      SFVARN(HuCPU.mooPI, "PI"),
 
-  SFVARN(HuCPU.IRQMask, "IRQMask"),
-  SFVARN(HuCPU.IRQMaskDelay, "IRQMaskDelay"),
-  SFARRAYN(HuCPU.MPR, 8, "MPR"),
-  SFVARN(HuCPU.timer_status, "timer_status"),
-  SFVARN(HuCPU.timer_value, "timer_value"),
-  SFVARN(HuCPU.timer_load, "timer_load"),
+      SFVARN(HuCPU.IRQMask, "IRQMask"),
+      SFVARN(HuCPU.IRQMaskDelay, "IRQMaskDelay"),
+      SFARRAYN(HuCPU.MPR, 8, "MPR"),
+      SFVARN(HuCPU.timer_status, "timer_status"),
+      SFVARN(HuCPU.timer_value, "timer_value"),
+      SFVARN(HuCPU.timer_load, "timer_load"),
 
 
-  SFVARN(HuCPU.IRQlow, "IRQlow"),
-  SFVARN(HuCPU.in_block_move, "IBM"),
-  SFVARN(HuCPU.bmt_src, "IBM_SRC"),
-  SFVARN(HuCPU.bmt_dest, "IBM_DEST"),
-  SFVARN(HuCPU.bmt_length, "IBM_LENGTH"),
-  SFVARN(HuCPU.bmt_alternate, "IBM_ALTERNATE"),
+      SFVARN(HuCPU.IRQlow, "IRQlow"),
+      SFVARN(HuCPU.in_block_move, "IBM"),
+      SFVARN(HuCPU.bmt_src, "IBM_SRC"),
+      SFVARN(HuCPU.bmt_dest, "IBM_DEST"),
+      SFVARN(HuCPU.bmt_length, "IBM_LENGTH"),
+      SFVARN(HuCPU.bmt_alternate, "IBM_ALTERNATE"),
 
-  SFVARN(HuCPU.timestamp, "timestamp"),
-  SFVARN(HuCPU.timer_next_timestamp, "timer_next_timestamp"),
-  SFVARN(HuCPU.previous_next_user_event, "previous_next_user_event"),
+      SFVARN(HuCPU.timestamp, "timestamp"),
+      SFVARN(HuCPU.timer_next_timestamp, "timer_next_timestamp"),
+      SFVARN(HuCPU.previous_next_user_event, "previous_next_user_event"),
 
-  SFEND
- };
+      SFEND
+   };
 
- int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU");
+   int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU");
 
- if(load)
- {
-  // Update MPR cache
-  HuC6280_FlushMPRCache();
+   if(load)
+   {
+      // Update MPR cache
+      HuC6280_FlushMPRCache();
 
-  // This must be after the MPR cache is updated:
-  SetPC_EXTERNAL(tmp_PC);
- }
+      // This must be after the MPR cache is updated:
+      SetPC_EXTERNAL(tmp_PC);
+   }
 
- EXPAND_FLAGS();
- #undef P_local
+   EXPAND_FLAGS();
+#undef P_local
 
- return(ret);
+   return(ret);
 }
