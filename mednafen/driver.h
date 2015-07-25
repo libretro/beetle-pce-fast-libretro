@@ -7,6 +7,5 @@
 #include "mednafen-driver.h"
 #include "state-driver.h"
 #include "mempatcher-driver.h"
-#include "video-driver.h"
 
 #endif
