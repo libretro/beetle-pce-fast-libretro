@@ -66,17 +66,7 @@ static long _get_data(OggVorbis_File *vf){
     char *buffer=ogg_sync_buffer(&vf->oy,CHUNKSIZE);
     long bytes=(vf->callbacks.read_func)(buffer,1,CHUNKSIZE,vf->datasource);
     if(bytes>0)ogg_sync_wrote(&vf->oy,bytes);
-#ifdef GEKKO
-    // It seems that EOVERFLOW is set whenever
-    // we read to the end of the file on WII...
-	// Fix copied from WiiMednafen code.
-    if(bytes==0 && errno && errno != EOVERFLOW)
-#else
-    if(bytes==0 && errno)
-#endif
-	{
-	  return(-1);
-	}
+    if(bytes==0 && errno)return(-1);
     return(bytes);
   }else
     return(0);
@@ -954,33 +944,30 @@ static int _ov_open2(OggVorbis_File *vf){
 
 /* clear out the OggVorbis_File struct */
 int ov_clear(OggVorbis_File *vf){
-  if(vf){
-    vorbis_block_clear(&vf->vb);
-    vorbis_dsp_clear(&vf->vd);
-    ogg_stream_clear(&vf->os);
+   if(vf){
+      vorbis_block_clear(&vf->vb);
+      vorbis_dsp_clear(&vf->vd);
+      ogg_stream_clear(&vf->os);
 
-    if(vf->vi && vf->links){
-      int i;
-      for(i=0;i<vf->links;i++){
-        vorbis_info_clear(vf->vi+i);
-        vorbis_comment_clear(vf->vc+i);
+      if(vf->vi && vf->links){
+         int i;
+         for(i=0;i<vf->links;i++){
+            vorbis_info_clear(vf->vi+i);
+            vorbis_comment_clear(vf->vc+i);
+         }
+         _ogg_free(vf->vi);
+         _ogg_free(vf->vc);
       }
-      _ogg_free(vf->vi);
-      _ogg_free(vf->vc);
-    }
-    if(vf->dataoffsets)_ogg_free(vf->dataoffsets);
-    if(vf->pcmlengths)_ogg_free(vf->pcmlengths);
-    if(vf->serialnos)_ogg_free(vf->serialnos);
-    if(vf->offsets)_ogg_free(vf->offsets);
-    ogg_sync_clear(&vf->oy);
-    if(vf->datasource && vf->callbacks.close_func)
-      (vf->callbacks.close_func)(vf->datasource);
-    memset(vf,0,sizeof(*vf));
-  }
-#ifdef DEBUG_LEAKS
-  _VDBG_dump();
-#endif
-  return(0);
+      if(vf->dataoffsets)_ogg_free(vf->dataoffsets);
+      if(vf->pcmlengths)_ogg_free(vf->pcmlengths);
+      if(vf->serialnos)_ogg_free(vf->serialnos);
+      if(vf->offsets)_ogg_free(vf->offsets);
+      ogg_sync_clear(&vf->oy);
+      if(vf->datasource && vf->callbacks.close_func)
+         (vf->callbacks.close_func)(vf->datasource);
+      memset(vf,0,sizeof(*vf));
+   }
+   return(0);
 }
 
 /* inspects the OggVorbis file and finds/documents all the logical
@@ -1007,44 +994,6 @@ int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
   };
 
   return ov_open_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_fopen(const char *path,OggVorbis_File *vf){
-  int ret;
-  FILE *f = fopen(path,"rb");
-  if(!f) return -1;
-
-  ret = ov_open(f,vf,NULL,0);
-  if(ret) fclose(f);
-  return ret;
-}
-
-
-/* Only partially open the vorbis file; test for Vorbisness, and load
-   the headers for the first chain.  Do not seek (although test for
-   seekability).  Use ov_test_open to finish opening the file, else
-   ov_clear to close/free it. Same return codes as open. */
-
-int ov_test_callbacks(void *f,OggVorbis_File *vf,
-    const char *initial,long ibytes,ov_callbacks callbacks)
-{
-  return _ov_open1(f,vf,initial,ibytes,callbacks);
-}
-
-int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
-  ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, ogg_int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
-  };
-
-  return ov_test_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_test_open(OggVorbis_File *vf){
-  if(vf->ready_state!=PARTOPEN)return(OV_EINVAL);
-  return _ov_open2(vf);
 }
 
 /* How many logical bitstreams in this physical bitstream? */
@@ -1749,28 +1698,6 @@ ogg_int64_t ov_pcm_tell(OggVorbis_File *vf){
   return(vf->pcm_offset);
 }
 
-/* return time offset (milliseconds) of next PCM sample to be read */
-ogg_int64_t ov_time_tell(OggVorbis_File *vf){
-  int link=0;
-  ogg_int64_t pcm_total=0;
-  ogg_int64_t time_total=0;
-
-  if(vf->ready_state<OPENED)return(OV_EINVAL);
-  if(vf->seekable){
-    pcm_total=ov_pcm_total(vf,-1);
-    time_total=ov_time_total(vf,-1);
-
-    /* which bitstream section does this time offset occur in? */
-    for(link=vf->links-1;link>=0;link--){
-      pcm_total-=vf->pcmlengths[link*2+1];
-      time_total-=ov_time_total(vf,link);
-      if(vf->pcm_offset>=pcm_total)break;
-    }
-  }
-
-  return(time_total+(1000*vf->pcm_offset-pcm_total)/vf->vi[link].rate);
-}
-
 /*  link:   -1) return the vorbis_info struct for the bitstream section
                 currently being decoded
            0-n) to request information for a specific bitstream section
@@ -1793,24 +1720,6 @@ vorbis_info *ov_info(OggVorbis_File *vf,int link){
         return vf->vi+link;
   }else{
     return vf->vi;
-  }
-}
-
-/* grr, strong typing, grr, no templates/inheritence, grr */
-vorbis_comment *ov_comment(OggVorbis_File *vf,int link){
-  if(vf->seekable){
-    if(link<0)
-      if(vf->ready_state>=STREAMSET)
-        return vf->vc+vf->current_link;
-      else
-        return vf->vc;
-    else
-      if(link>=vf->links)
-        return NULL;
-      else
-        return vf->vc+link;
-  }else{
-    return vf->vc;
   }
 }
 
@@ -1841,54 +1750,62 @@ vorbis_comment *ov_comment(OggVorbis_File *vf,int link){
 
             *section) set to the logical bitstream number */
 
-long ov_read(OggVorbis_File *vf,char *buffer,int bytes_req,int *bitstream){
-  int i,j;
+long ov_read(OggVorbis_File *vf,char *buffer,int bytes_req,int *bitstream)
+{
+   int i,j;
+   ogg_int32_t **pcm;
+   long samples;
 
-  ogg_int32_t **pcm;
-  long samples;
+   if(vf->ready_state<OPENED)return(OV_EINVAL);
 
-  if(vf->ready_state<OPENED)return(OV_EINVAL);
-
-  while(1){
-    if(vf->ready_state==INITSET){
-      samples=vorbis_synthesis_pcmout(&vf->vd,&pcm);
-      if(samples)break;
-    }
-
-    /* suck in another packet */
-    {
-      int ret=_fetch_and_process_packet(vf,NULL,1,1);
-      if(ret==OV_EOF)
-        return(0);
-      if(ret<=0)
-        return(ret);
-    }
-
-  }
-
-  if(samples>0){
-
-    /* yay! proceed to pack data into the byte buffer */
-
-    long channels=ov_info(vf,-1)->channels;
-
-    if(samples>(bytes_req/(2*channels)))
-      samples=bytes_req/(2*channels);
-
-    for(i=0;i<channels;i++) { /* It's faster in this order */
-      ogg_int32_t *src=pcm[i];
-      short *dest=((short *)buffer)+i;
-      for(j=0;j<samples;j++) {
-        *dest=CLIP_TO_15(src[j]>>9);
-        dest+=channels;
+   while(1)
+   {
+      if(vf->ready_state==INITSET)
+      {
+         samples=vorbis_synthesis_pcmout(&vf->vd,&pcm);
+         if(samples)
+            break;
       }
-    }
 
-    vorbis_synthesis_read(&vf->vd,samples);
-    vf->pcm_offset+=samples;
-    if(bitstream)*bitstream=vf->current_link;
-    return(samples*2*channels);
-  }else{
-    return(samples);
-  }
+      /* suck in another packet */
+      {
+         int ret=_fetch_and_process_packet(vf,NULL,1,1);
+         if(ret==OV_EOF)
+            return(0);
+         if(ret<=0)
+            return(ret);
+      }
+
+   }
+
+   if(samples>0)
+   {
+      /* yay! proceed to pack data into the byte buffer */
+
+      long channels=ov_info(vf,-1)->channels;
+
+      if(samples>(bytes_req/(2*channels)))
+         samples=bytes_req/(2*channels);
+
+      for(i=0;i<channels;i++)
+      { /* It's faster in this order */
+         ogg_int32_t *src=pcm[i];
+         short *dest=((short *)buffer)+i;
+
+         for(j=0;j<samples;j++)
+         {
+            *dest=CLIP_TO_15(src[j]>>9);
+            dest+=channels;
+         }
+      }
+
+      vorbis_synthesis_read(&vf->vd,samples);
+      vf->pcm_offset+=samples;
+      if(bitstream)
+         *bitstream=vf->current_link;
+
+      return(samples * 2 * channels);
+   }
+
+   return(samples);
 }
