@@ -1788,11 +1788,7 @@ size_t retro_serialize_size(void)
    memset(&st, 0, sizeof(st));
 
    if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "[mednafen]: Module %s doesn't support save states.\n", EmulatedPCE_Fast.shortname);
       return 0;
-   }
 
    free(st.data);
    return serialize_size = st.len;
@@ -1820,41 +1816,32 @@ bool retro_unserialize(const void *data, size_t size)
 
 void *retro_get_memory_data(unsigned type)
 {
-   uint8_t *data;
-
    switch (type)
    {
       case RETRO_MEMORY_SAVE_RAM:
          if (IsPopulous)
-            data = (uint8_t*)(ROMSpace + 0x40 * 8192);
-         else
-            data = (uint8_t*)SaveRAM;
-         break;
+            return (uint8_t*)(ROMSpace + 0x40 * 8192);
+         return (uint8_t*)SaveRAM;
       default:
-         data = NULL;
          break;
    }
-   return data;
+
+   return NULL;
 }
 
 size_t retro_get_memory_size(unsigned type)
 {
-   unsigned size;
-
    switch (type)
    {
       case RETRO_MEMORY_SAVE_RAM:
          if (IsPopulous)
-            size = 32768;
-         else
-            size = 2048;
-         break;
+            return 32768;
+         return 2048;
       default:
-         size = 0;
          break;
    }
 
-   return size;
+   return 0;
 }
 
 void retro_cheat_reset(void)
