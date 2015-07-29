@@ -44,8 +44,6 @@ TARGET_NAME := mednafen_pce_fast_libretro
 
 include ../Makefile.common
 
-CORE_INCDIR := $(CORE_DIR)
-
 LOCAL_SRC_FILES += $(SOURCES_CXX) $(SOURCES_C)
 EXTRA_GCC_FLAGS := -funroll-loops
 

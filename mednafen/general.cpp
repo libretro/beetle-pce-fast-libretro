@@ -27,8 +27,6 @@
 #include "general.h"
 #include "state.h"
 
-#include "md5.h"
-
 using namespace std;
 
 static bool IsAbsolutePath(const char *path)

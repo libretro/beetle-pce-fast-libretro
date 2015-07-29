@@ -375,11 +375,6 @@ typedef struct
  int rotated;
 
  uint8 *name;    /* Game name, UTF8 encoding */
- uint8 MD5[16];
- uint8 GameSetMD5[16];	/* A unique ID for the game set this CD belongs to, only used in PC-FX emulation. */
- bool GameSetMD5Valid; /* True if GameSetMD5 is valid. */
-
-
  int soundrate;  /* For Ogg Vorbis expansion sound wacky support.  0 for default. */
 
  VideoSystems VideoSystem;

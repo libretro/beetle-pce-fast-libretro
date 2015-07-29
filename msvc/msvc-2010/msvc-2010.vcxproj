@@ -31,7 +31,6 @@
     <ClCompile Include="..\..\mednafen\FileWrapper.cpp" />
     <ClCompile Include="..\..\mednafen\general.cpp" />
     <ClCompile Include="..\..\mednafen\hw_misc\arcade_card\arcade_card.cpp" />
-    <ClCompile Include="..\..\mednafen\md5.cpp" />
     <ClCompile Include="..\..\mednafen\MemoryStream.cpp" />
     <ClCompile Include="..\..\mednafen\mempatcher.cpp" />
     <ClCompile Include="..\..\mednafen\okiadpcm.cpp" />

@@ -109,7 +109,6 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/Stream.cpp \
 	$(MEDNAFEN_DIR)/state.cpp \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/md5.cpp \
 	$(MEDNAFEN_DIR)/okiadpcm.cpp \
 	$(CORE_DIR)/libretro.cpp
 

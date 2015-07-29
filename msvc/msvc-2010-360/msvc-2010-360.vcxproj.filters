@@ -65,9 +65,6 @@
     <ClCompile Include="..\..\mednafen\math_ops.cpp">
       <Filter>Source Files\mednafen</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mednafen\md5.cpp">
-      <Filter>Source Files\mednafen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mednafen\MemoryStream.cpp">
       <Filter>Source Files\mednafen</Filter>
     </ClCompile>
