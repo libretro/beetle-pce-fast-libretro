@@ -323,9 +323,7 @@ DECLFW(VDC_Write)
    int msb = A & 1;
    int chip = 0;
 
-   {
-      A &= 0x3;
-   }
+   A &= 0x3;
    //if((A == 0x2 || A == 0x3) && ((vdc->select & 0x1f) >= 0x09) && ((vdc->select & 0x1f) <= 0x13))
 
    //printf("%04x, %02x: %02x, %d\n", A, vdc->select, V, vdc->display_counter);
@@ -441,37 +439,6 @@ static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
    // For: alignment space when correct_aspect == 0
    end += 128;
    start += 128;
-
-#if 0
-   uint32 display_width;
-   display_width = (M_vdc_HDW + 1) * 8;
-
-   if(display_width > ClockModeWidths[vce.dot_clock])
-      display_width = ClockModeWidths[vce.dot_clock];
-
-   start = (ClockModeWidths[vce.dot_clock] - display_width) / 2;
-
-   // For: start - (vdc->BG_XOffset & 7)
-   start += 8;
-
-   // For: alignment space when correct_aspect == 0
-   start += 128;
-
-   // Semi-hack for Asuka 120%
-   if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
-      start += 8;
-   else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
-      start += 4;
-   // and for Addams Family
-   else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
-      start += 4;
-
-   //MDFN_DispMessage((UTF8*)"dc: %d, %d %d %d %d; %d %d\n", vce.dot_clock, M_vdc_HDS, M_vdc_HDE, M_vdc_HDW, M_vdc_HSW, start, (M_vdc_HDS + 1) * 8);
-
-   end = start + display_width;
-   if(end > (ClockModeWidths[vce.dot_clock] + 8 + 128))
-      end = ClockModeWidths[vce.dot_clock] + 8 + 128;
-#endif
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
@@ -691,18 +658,18 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       if(SpriteList[i].flags & SPRF_PRIORITY)
          prio_or |= SPR_HPMASK;
 
+      const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
+      int increment = -1;
+      int32 x_second = 15;
+
+      if(SpriteList[i].flags & SPRF_HFLIP)
+      {
+         increment = 1;
+         x_second = 0;
+      }
+
       if((SpriteList[i].flags & SPRF_SPRITE0) && (vdc->CR & 0x01))
       {
-         const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
-
-         int increment = -1;
-         int32 x_second = 15;
-         if(SpriteList[i].flags & SPRF_HFLIP)
-         {
-            increment = 1;
-            x_second = 0;
-         }
-
          for(int32 x = 0; x < 16; x++, x_second += increment)
          {
             const uint32 raw_pixel = pix_source[x_second];
@@ -725,14 +692,6 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       {
          // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
          //
-         const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
-         int increment = -1;
-         int32 x_second = 15;
-         if(SpriteList[i].flags & SPRF_HFLIP)
-         {
-            increment = 1;
-            x_second = 0;
-         }
 
          for(int32 x = 0; x < 16; x++, x_second += increment)
          {
