@@ -109,50 +109,39 @@ bool MDFNFILE::Close(void)
 
 uint64 MDFNFILE::fread(void *ptr, size_t element_size, size_t nmemb)
 {
-   uint32 total = element_size * nmemb;
+   int64 avail = f_size - location;
+   if (nmemb > avail)
+      nmemb = avail;
 
-   if (location >= f_size)
-      return 0;
-
-   if ((location + total) > f_size)
-   {
-      int64 ak = f_size - location;
-
-      memcpy((uint8*)ptr, f_data + location, ak);
-
-      location = f_size;
-
-      return(ak / element_size);
-   }
-   else
-   {
-      memcpy((uint8*)ptr, f_data + location, total);
-
-      location += total;
-
-      return nmemb;
-   }
+   memcpy((uint8*)ptr, f_data + location, nmemb);
+   location += nmemb;
+   return nmemb;
 }
 
 int MDFNFILE::fseek(int64 offset, int whence)
 {
+   size_t ptr;
+
    switch(whence)
    {
       case SEEK_SET:
-         if (offset >= f_size)
-            return -1;
-
-         location = offset;
+         ptr = offset;
          break;
       case SEEK_CUR:
-         if ((offset + location) > f_size)
-            return -1;
-
-         location += offset;
+         ptr = location + offset;
+         break;
+      case SEEK_END:
+         ptr = f_size + offset;
          break;
    }    
 
-   return 0;
+   if (ptr <= f_size)
+   {
+      location = ptr;
+      return 0;
+   }
+
+   return -1;
 }
 
 int MDFNFILE::read16le(uint16 *val)
