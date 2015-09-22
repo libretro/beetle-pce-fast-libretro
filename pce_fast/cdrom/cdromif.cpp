@@ -73,17 +73,7 @@ void CDIF_ST::HintReadSector(uint32 lba)
 
 bool CDIF_ST::ReadRawSector(uint8* buf, uint32 lba)
 {
-   try
-   {
-      disc_cdaccess->Read_Raw_Sector(buf, lba);
-   }
-   catch (std::exception &e)
-   {
-      if (log_cb)
-         log_cb(RETRO_LOG_ERROR, "Sector %u read error: %s\n", lba, e.what());
-      memset(buf, 0, 2352 + 96);
-      return (false);
-   }
+   disc_cdaccess->Read_Raw_Sector(buf, lba);
 
    return (true);
 }

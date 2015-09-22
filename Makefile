@@ -119,6 +119,20 @@ else ifeq ($(platform), psp1)
    FLAGS += -DHAVE_MKDIR -DDISABLE_SW_RENDER
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I$(shell psp-config --pspsdk-path)/include
+# CTR(3DS)
+else ifeq ($(platform), ctr)
+   TARGET := $(TARGET_NAME)_ctr.a
+   CC = $(DEVKITARM)/bin/arm-none-eabi-gcc$(EXE_EXT)
+   CXX = $(DEVKITARM)/bin/arm-none-eabi-g++$(EXE_EXT)
+   AR = $(DEVKITARM)/bin/arm-none-eabi-ar$(EXE_EXT)
+   ENDIANNESS_DEFINES := -DLSB_FIRST
+   FLAGS += -DARM11 -D_3DS
+   FLAGS += -march=armv6k -mtune=mpcore -mfloat-abi=hard -marm -mfpu=vfp
+   FLAGS += -Wall -mword-relocations
+   FLAGS += -fomit-frame-pointer -ffast-math
+   FLAGS += -DHAVE_MKDIR
+   CXXFLAGS += -fno-rtti -fno-exceptions
+   STATIC_LINKING = 1
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_xenon360.a
    CC = xenon-gcc$(EXE_EXT)

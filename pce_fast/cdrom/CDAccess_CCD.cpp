@@ -74,15 +74,7 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname,
 CDAccess_CCD::CDAccess_CCD(const char* path) : img_stream(NULL),
    sub_stream(NULL), img_numsectors(0)
 {
-   try
-   {
-      Load(path);
-   }
-   catch (...)
-   {
-      Cleanup();
-      throw;
-   }
+   Load(path);
 }
 
 void CDAccess_CCD::Load(const char* path)
