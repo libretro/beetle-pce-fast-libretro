@@ -20,8 +20,6 @@ class FileWrapper
 
  void write(const void *data, uint64 count);
 
- int scanf(const char *format, ...) MDFN_FORMATSTR(scanf, 2, 3);
-
  void put_char(int c);
 
  void put_string(const char *str);
