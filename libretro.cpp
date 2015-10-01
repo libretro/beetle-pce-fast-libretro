@@ -892,7 +892,7 @@ MDFNGI EmulatedPCE_Fast =
 static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
  std::vector<std::string> ret;
- FileWrapper m3u_file(path.c_str(), FileWrapper::MODE_READ, _("M3U CD Set"));
+ FileWrapper m3u_file(path.c_str(), MODE_READ, _("M3U CD Set"));
  std::string dir_path;
  char linebuf[2048];
 

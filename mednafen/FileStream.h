@@ -20,35 +20,31 @@
 #ifndef __MDFN_FILESTREAM_H
 #define __MDFN_FILESTREAM_H
 
+#include <retro_file.h>
+#include <retro_stat.h>
+
 #include "Stream.h"
 #include "FileWrapper.h"
 
 class FileStream : public Stream
 {
- public:
+   public:
+      FileStream(const char *path, const int mode);
+      virtual ~FileStream();
 
- enum
- {
-  MODE_READ = FileWrapper::MODE_READ,
-  MODE_WRITE = FileWrapper::MODE_WRITE,
-  MODE_WRITE_SAFE = FileWrapper::MODE_WRITE_SAFE,
- };
+      virtual uint64_t attributes(void);
 
- FileStream(const char *path, const int mode);
- virtual ~FileStream();
+      virtual uint64_t read(void *data, uint64_t count, bool error_on_eos = true);
+      virtual void write(const void *data, uint64_t count);
+      virtual void seek(int64_t offset, int whence);
+      virtual int64_t tell(void);
+      virtual int64_t size(void);
+      virtual void close(void);
 
- virtual uint64 attributes(void);
-
- virtual uint64 read(void *data, uint64 count, bool error_on_eos = true);
- virtual void write(const void *data, uint64 count);
- virtual void seek(int64 offset, int whence);
- virtual int64 tell(void);
- virtual int64 size(void);
- virtual void close(void);
-
- private:
- FILE *fp;
- const int OpenedMode;
+   private:
+      RFILE *fp;
+      char *original_path;
+      const int OpenedMode;
 };
 
 

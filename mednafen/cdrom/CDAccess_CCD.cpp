@@ -102,7 +102,7 @@ CDAccess_CCD::CDAccess_CCD(const char *path, bool image_memcache) : img_stream(N
 
 void CDAccess_CCD::Load(const char *path, bool image_memcache)
 {
- FileStream cf(path, FileStream::MODE_READ);
+ FileStream cf(path, MODE_READ);
  std::map<std::string, CCD_Section> Sections;
  std::string linebuf;
  std::string cur_section_name;
@@ -360,11 +360,11 @@ case 1:
 
   if(image_memcache)
   {
-   img_stream = new MemoryStream(new FileStream(image_path.c_str(), FileStream::MODE_READ));
+   img_stream = new MemoryStream(new FileStream(image_path.c_str(), MODE_READ));
   }
   else
   {
-   img_stream = new FileStream(image_path.c_str(), FileStream::MODE_READ);
+   img_stream = new FileStream(image_path.c_str(), MODE_READ);
   }
 
   int64 ss = img_stream->size();
@@ -381,9 +381,9 @@ case 1:
   std::string sub_path = MDFN_EvalFIP(dir_path, file_base + std::string(".") + std::string(sub_extsd), true);
 
   if(image_memcache)
-   sub_stream = new MemoryStream(new FileStream(sub_path.c_str(), FileStream::MODE_READ));
+   sub_stream = new MemoryStream(new FileStream(sub_path.c_str(), MODE_READ));
   else
-   sub_stream = new FileStream(sub_path.c_str(), FileStream::MODE_READ);
+   sub_stream = new FileStream(sub_path.c_str(), MODE_READ);
 
   if(sub_stream->size() != (int64)img_numsectors * 96)
    throw MDFN_Error(0, _("CCD SUB file size mismatch."));
