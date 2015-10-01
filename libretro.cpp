@@ -6,8 +6,6 @@
 #include "libretro.h"
 #include "thread.h"
 
-#include	"mednafen/FileWrapper.h"
-
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
 #include "mednafen/pce_fast/psg.h"
@@ -891,36 +889,42 @@ MDFNGI EmulatedPCE_Fast =
 #ifdef NEED_CD
 static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
- std::vector<std::string> ret;
- FileWrapper m3u_file(path.c_str(), MODE_READ, _("M3U CD Set"));
- std::string dir_path;
- char linebuf[2048];
+   std::string dir_path;
+   char linebuf[2048];
+   FILE *fp = fopen(path.c_str(), "rb");
 
- MDFN_GetFilePathComponents(path, &dir_path);
+   if (fp == NULL)
+      return;
 
- while(m3u_file.get_line(linebuf, sizeof(linebuf)))
- {
-  std::string efp;
+   MDFN_GetFilePathComponents(path, &dir_path);
 
-  if(linebuf[0] == '#') continue;
-  MDFN_rtrim(linebuf);
-  if(linebuf[0] == 0) continue;
+   while(fgets(linebuf, sizeof(linebuf), fp))
+   {
+      std::string efp;
 
-  efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
+      if(linebuf[0] == '#')
+         continue;
+      MDFN_rtrim(linebuf);
+      if(linebuf[0] == 0)
+         continue;
 
-  if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
-  {
-   if(efp == path)
-    throw(MDFN_Error(0, _("M3U at \"%s\" references self."), efp.c_str()));
+      efp = MDFN_EvalFIP(dir_path, std::string(linebuf));
 
-   if(depth == 99)
-    throw(MDFN_Error(0, _("M3U load recursion too deep!")));
+      if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
+      {
+         if(efp == path)
+            throw(MDFN_Error(0, _("M3U at \"%s\" references self."), efp.c_str()));
 
-   ReadM3U(file_list, efp, depth++);
-  }
-  else
-   file_list.push_back(efp);
- }
+         if(depth == 99)
+            throw(MDFN_Error(0, _("M3U load recursion too deep!")));
+
+         ReadM3U(file_list, efp, depth++);
+      }
+      else
+         file_list.push_back(efp);
+   }
+
+   fclose(fp);
 }
 
 #ifdef NEED_CD
