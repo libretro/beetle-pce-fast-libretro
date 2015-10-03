@@ -4,7 +4,8 @@
 #include "mednafen/git.h"
 #include "mednafen/general.h"
 #include "libretro.h"
-#include "thread.h"
+
+#include <rthreads/rthreads.h>
 
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
