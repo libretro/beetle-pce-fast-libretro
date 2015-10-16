@@ -64,7 +64,10 @@ endif
    OSXVER = `sw_vers -productVersion | cut -d. -f 2`
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
    fpic += -mmacosx-version-min=10.1
-else ifeq ($(platform), ios)
+
+# iOS
+else ifneq (,$(findstring ios,$(platform)))
+
    TARGET := $(TARGET_NAME)_ios.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
@@ -75,16 +78,12 @@ ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
 endif
 
-   CC = clang -arch armv7 -isysroot $(IOSSDK)
-   CXX = clang++ -arch armv7 -isysroot $(IOSSDK)
-   OSXVER = `sw_vers -productVersion | cut -d. -f 2`
-   OSX_IS_LEOPARD   = `(( $(OSXVER) == 5)) && echo "YES"`
-   OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
+   CC = cc -arch armv7 -isysroot $(IOSSDK)
+   CXX = c++ -arch armv7 -isysroot $(IOSSDK)
 IPHONEMINVER :=
-ifeq ($(OSX_IS_LEOPARD),"YES")
-   IPHONEMINVER = -miphone-version-min=5.0
-endif
-ifeq ($(OSX_LT_MAVERICKS),"YES")
+ifeq ($(platform),ios9)
+	IPHONEMINVER = -miphoneos-version-min=8.0
+else
 	IPHONEMINVER = -miphoneos-version-min=5.0
 endif
    LDFLAGS += $(IPHONEMINVER)
