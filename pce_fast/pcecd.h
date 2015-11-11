@@ -2,6 +2,9 @@
 #define __PCE_CDROM_H
 
 #include "blip/Blip_Buffer.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct
 {
@@ -30,5 +33,8 @@ bool PCECD_IsBRAMEnabled(void);
 
 int PCECD_StateAction(StateMem* sm, int load);
 
+#ifdef __cplusplus
+}
+#endif
 #endif
 

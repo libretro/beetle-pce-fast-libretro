@@ -133,6 +133,7 @@ else ifeq ($(platform), ctr)
    FLAGS += -DHAVE_MKDIR
    CXXFLAGS += -fno-rtti -fno-exceptions
    STATIC_LINKING = 1
+   WANT_GRIFFIN := 0
 else ifeq ($(platform), xenon)
    TARGET := $(TARGET_NAME)_xenon360.a
    CC = xenon-gcc$(EXE_EXT)
@@ -293,3 +294,9 @@ clean:
 $(CORE_DIR)/vdc.o: $(CORE_DIR)/vdc_psp.c $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
 libretro.o: $(CORE_DIR)/vdc_psp.h $(CORE_DIR)/vdc_psp_utils.h $(CORE_DIR)/pce.h
 $(CORE_DIR)/pcecd.o: $(CORE_DIR)/pce.h
+
+
+ifeq ($(platform), ctr)
+libretro.o : libretro.cpp
+	$(CXX) -c -o $@ $< $(CXXFLAGS) -O0 -DNDEBUG
+endif
