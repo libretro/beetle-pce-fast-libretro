@@ -22,7 +22,6 @@
 #include "CDAccess.h"
 #include "general.h"
 
-#include <algorithm>
 #include "libretro.h"
 
 extern retro_log_printf_t log_cb;

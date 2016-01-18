@@ -131,7 +131,7 @@ else ifeq ($(platform), ctr)
    FLAGS += -Wall -mword-relocations
    FLAGS += -fomit-frame-pointer -ffast-math
    FLAGS += -DHAVE_MKDIR
-   CXXFLAGS += -fno-rtti -fno-exceptions
+   CXXFLAGS += -fno-rtti -fno-exceptions -D_GLIBCXX_USE_CXX11_ABI=0 -std=gnu++11
    STATIC_LINKING = 1
    WANT_GRIFFIN := 0
 else ifeq ($(platform), xenon)
