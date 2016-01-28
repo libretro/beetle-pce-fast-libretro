@@ -66,7 +66,7 @@ INLINE uint32 SF_FORCE_A64(uint64 *) { return(0); }
 
 INLINE uint32 SF_FORCE_D(double *) { return(0); }
 
-#define SFVARN(x, n) { &(x), SF_IS_BOOL(&(x)) ? 1 : sizeof(x), MDFNSTATE_RLSB | (SF_IS_BOOL(&(x)) ? MDFNSTATE_BOOL : 0), n }
+#define SFVARN(x, n) { &(x), SF_IS_BOOL(&(x)) ? 1 : (uint32_t)sizeof(x), MDFNSTATE_RLSB | (SF_IS_BOOL(&(x)) ? MDFNSTATE_BOOL : 0), n }
 #define SFVAR(x) SFVARN((x), #x)
 
 #define SFARRAYN(x, l, n) { (x), (uint32)(l), 0 | SF_FORCE_A8(x), n }
