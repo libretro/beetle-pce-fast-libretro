@@ -180,6 +180,16 @@ else ifeq ($(platform), wii)
    EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
    FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
+else ifeq ($(platform), rpi1)
+   TARGET := $(TARGET_NAME).so
+   fpic := -fPIC
+   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   CC = gcc
+   LDFLAGS += $(PTHREAD_FLAGS)
+   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   IS_X86 = 0
+   FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard -funsafe-math-optimizations
+   FLAGS += -fomit-frame-pointer -ffast-math
 else ifeq ($(platform), rpi2)
    TARGET := $(TARGET_NAME).so
    fpic := -fPIC
