@@ -185,7 +185,7 @@ else ifeq ($(platform), rpi1)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS)
+   LDFLAGS += $(PTHREAD_FLAGS) -lrt
    FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    IS_X86 = 0
    FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard -funsafe-math-optimizations
@@ -195,7 +195,7 @@ else ifeq ($(platform), rpi2)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS)
+   LDFLAGS += $(PTHREAD_FLAGS) -lrt
    FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    IS_X86 = 0
    FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -funsafe-math-optimizations
