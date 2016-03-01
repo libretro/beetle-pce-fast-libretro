@@ -41,7 +41,7 @@ class MDFNFILE
 	int read32le(uint32 *Bufo);
 	int read16le(uint16 *Bufo);
 
-	inline int fgetc(void)
+	inline int _fgetc(void)
 	{
 	 if(location < f_size)
 	  return f_data[location++];
