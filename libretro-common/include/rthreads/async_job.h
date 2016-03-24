@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2015 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (boolean.h).
+ * The following license statement only applies to this file (async_job.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,20 +20,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __LIBRETRO_SDK_BOOLEAN_H
-#define __LIBRETRO_SDK_BOOLEAN_H
+#ifndef __LIBRETRO_SDK_ASYNC_JOB_H
+#define __LIBRETRO_SDK_ASYNC_JOB_H
 
-#ifndef __cplusplus
+typedef struct async_job async_job_t;
+typedef void (*async_task_t)(void *payload);
 
-#if defined(_MSC_VER) && !defined(SN_TARGET_PS3)
-/* Hack applied for MSVC when compiling in C89 mode as it isn't C99 compliant. */
-#define bool unsigned char
-#define true 1
-#define false 0
-#else
-#include <stdbool.h>
-#endif
+async_job_t *async_job_new(void);
 
-#endif
+void async_job_free(async_job_t *ajob);
 
-#endif
+int async_job_add(async_job_t *ajob, async_task_t task, void *payload);
+
+#endif /* __LIBRETRO_SDK_ASYNC_JOB_H */

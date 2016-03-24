@@ -119,7 +119,7 @@ SOURCES_C += $(MEDNAFEN_DIR)/trio/trio.c \
 				 $(MEDNAFEN_DIR)/trio/triostr.c 
 
 ifneq ($(STATIC_LINKING), 1)
-SOURCES_C += $(LIBRETRO_DIR)/file/retro_file.c \
+SOURCES_C += $(LIBRETRO_DIR)/streams/file_stream.c \
 				 $(LIBRETRO_DIR)/file/retro_stat.c
 
 ifeq ($(NEED_THREADING), 1)
