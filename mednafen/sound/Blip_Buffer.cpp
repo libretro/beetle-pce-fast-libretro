@@ -221,20 +221,3 @@ long Blip_Buffer::read_samples( blip_sample_t* BLIP_RESTRICT out, long max_sampl
 	}
 	return count;
 }
-
-void Blip_Buffer::mix_samples( blip_sample_t const* in, long count )
-{
-	buf_t_* out = buffer_ + (offset_ >> BLIP_BUFFER_ACCURACY) + blip_widest_impulse_ / 2;
-	
-	int const sample_shift = blip_sample_bits - 16;
-	int prev = 0;
-	while ( count-- )
-	{
-		blip_long s = (blip_long) *in++ << sample_shift;
-		*out += s - prev;
-		prev = s;
-		++out;
-	}
-	*out -= prev;
-}
-

@@ -87,9 +87,6 @@ public:
 	// Number of raw samples that can be mixed within frame of specified duration.
 	long count_samples( blip_time_t duration ) const;
 	
-	// Mix 'count' samples from 'buf' into buffer.
-	void mix_samples( blip_sample_t const* buf, long count );
-	
 	// not documented yet
 	void set_modified() { modified_ = 1; }
 	int clear_modified() { int b = modified_; modified_ = 0; return b; }
@@ -368,7 +365,6 @@ blip_inline int  Blip_Buffer::length() const         { return length_; }
 blip_inline long Blip_Buffer::samples_avail() const  { return (long) (offset_ >> BLIP_BUFFER_ACCURACY); }
 blip_inline long Blip_Buffer::sample_rate() const    { return sample_rate_; }
 blip_inline int  Blip_Buffer::output_latency() const { return blip_widest_impulse_ / 2; }
-blip_inline long Blip_Buffer::clock_rate() const     { return clock_rate_; }
 blip_inline void Blip_Buffer::clock_rate( long cps ) { factor_ = clock_rate_factor( clock_rate_ = cps ); }
 
 blip_inline int Blip_Reader::begin( Blip_Buffer& blip_buf )
