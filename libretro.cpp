@@ -1297,6 +1297,9 @@ void retro_init(void)
    else
       perf_get_cpu_features_cb = NULL;
    
+   bool yes = true;
+   environ_cb(RETRO_ENVIRONMENT_SET_SUPPORT_ACHIEVEMENTS, &yes);
+   
    setting_initial_scanline = 0;
    setting_last_scanline = 242;
 
