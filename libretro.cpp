@@ -1827,6 +1827,8 @@ void *retro_get_memory_data(unsigned type)
          if (IsPopulous)
             return (uint8_t*)(ROMSpace + 0x40 * 8192);
          return (uint8_t*)SaveRAM;
+      case RETRO_MEMORY_SYSTEM_RAM:
+         return BaseRAM;
       default:
          break;
    }
@@ -1842,6 +1844,8 @@ size_t retro_get_memory_size(unsigned type)
          if (IsPopulous)
             return 32768;
          return 2048;
+      case RETRO_MEMORY_SYSTEM_RAM:
+         return sizeof(BaseRAM) - 8192;
       default:
          break;
    }
