@@ -188,7 +188,7 @@ else ifeq ($(platform), rpi1)
    LDFLAGS += $(PTHREAD_FLAGS) -lrt
    FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    IS_X86 = 0
-   FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard -funsafe-math-optimizations
+   FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard
    FLAGS += -fomit-frame-pointer -ffast-math
 else ifeq ($(platform), rpi2)
    TARGET := $(TARGET_NAME).so
@@ -198,7 +198,18 @@ else ifeq ($(platform), rpi2)
    LDFLAGS += $(PTHREAD_FLAGS) -lrt
    FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    IS_X86 = 0
-   FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -funsafe-math-optimizations
+   FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+   FLAGS += -fomit-frame-pointer -ffast-math
+   HAVE_NEON = 1
+else ifeq ($(platform), rpi3)
+   TARGET := $(TARGET_NAME).so
+   fpic := -fPIC
+   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   CC = gcc
+   LDFLAGS += $(PTHREAD_FLAGS) -lrt
+   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   IS_X86 = 0
+   FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
    FLAGS += -fomit-frame-pointer -ffast-math
    HAVE_NEON = 1
 else ifneq (,$(findstring armv,$(platform)))
