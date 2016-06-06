@@ -2015,10 +2015,10 @@ void MDFN_DispMessage(const char *format, ...)
    struct retro_message msg;
    va_list ap;
    va_start(ap,format);
-   char *str = NULL;
+   char *str = new char[4096];
    const char *strc = NULL;
 
-   vasprintf(&str, format,ap);
+   vsnprintf(str, 4096, format,ap);
    va_end(ap);
    strc = str;
 
