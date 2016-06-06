@@ -312,16 +312,6 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="trio"
-					Filter="">
-					<File
-						RelativePath="..\..\mednafen\trio\trio.c">
-					</File>
-					<File
-						RelativePath="..\..\mednafen\trio\triostr.c">
-					</File>
-				</Filter>
-				<Filter
 					Name="sound"
 					Filter="">
 					<File

@@ -18,9 +18,6 @@
     <Filter Include="Source Files\mednafen\video">
       <UniqueIdentifier>{82077d1a-8197-4b2f-8098-2818f64b525d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mednafen\trio">
-      <UniqueIdentifier>{35dd6f7d-5243-42fb-bf3b-66ae5808c1da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mednafen\pce_fast">
       <UniqueIdentifier>{6ba4afd0-4a16-411a-9fa9-c63e451b35bf}</UniqueIdentifier>
     </Filter>
@@ -187,12 +184,6 @@
     </ClCompile>
     <ClCompile Include="..\..\mednafen\tremor\window.c">
       <Filter>Source Files\mednafen\tremor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mednafen\trio\trio.c">
-      <Filter>Source Files\mednafen\trio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\mednafen\trio\triostr.c">
-      <Filter>Source Files\mednafen\trio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

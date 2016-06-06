@@ -19,7 +19,6 @@
 #include "error.h"
 #include <string.h>
 #include <stdarg.h>
-#include "include/trio/trio.h"
 #include "../libretro.h"
 
 extern retro_log_printf_t log_cb;
@@ -35,7 +34,7 @@ MDFN_Error::MDFN_Error(int errno_code_new, const char *format, ...) throw()
 
    va_list ap;
    va_start(ap, format);
-   error_message = trio_vaprintf(format, ap);
+   vsnprintf(error_message, 4096, format, ap);
    va_end(ap);
 
    if (log_cb)
@@ -47,7 +46,7 @@ MDFN_Error::MDFN_Error(const ErrnoHolder &enh)
 {
    errno_code = enh.Errno();
 
-   error_message = trio_aprintf("%s", enh.StrError());
+   error_message = strdup(enh.StrError());
 }
 
 
