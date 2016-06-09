@@ -1,7 +1,7 @@
-/* Copyright  (C) 2010-2016 The RetroArch team
+/* Copyright  (C) 2010-2015 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (retro_common.h).
+ * The following license statement only applies to this file (stdstring.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,18 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _LIBRETRO_COMMON_RETRO_COMMON_H
-#define _LIBRETRO_COMMON_RETRO_COMMON_H
+#ifndef __LIBRETRO_SDK_STDSTRING_H
+#define __LIBRETRO_SDK_STDSTRING_H
 
-/*
-This file is designed to normalize the libretro-common compiling environment.
-It is not to be used in public API headers, as they should be designed as leanly as possible.
-Nonetheless.. in the meantime, if you do something like use ssize_t, which is not fully portable, 
-in a public API, you may need this.
-*/
+#include <stdlib.h>
+#include <stddef.h>
+#include <string.h>
+#include <boolean.h>
 
-/* conditional compilation is handled inside here */
-#include <compat/msvc.h>
+#include <retro_common_api.h>
+
+RETRO_BEGIN_DECLS
+
+bool string_is_empty(const char *data);
+
+bool string_is_equal(const char *a, const char *b);
+
+bool string_is_equal_noncase(const char *a, const char *b);
+
+char *string_to_upper(char *s);
+
+char *string_to_lower(char *s);
+
+char *string_ucwords(char* s);
+
+char *string_replace_substring(const char *in, const char *pattern,
+      const char *by);
+
+/* Remove leading whitespaces */
+char *string_trim_whitespace_left(char *const s);
+
+/* Remove trailing whitespaces */
+char *string_trim_whitespace_right(char *const s);
+
+/* Remove leading and trailing whitespaces */
+char *string_trim_whitespace(char *const s);
+
+RETRO_END_DECLS
 
 #endif
-

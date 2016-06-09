@@ -117,7 +117,8 @@ endif
 
 ifneq ($(STATIC_LINKING), 1)
 SOURCES_C += $(LIBRETRO_DIR)/streams/file_stream.c \
-				 $(LIBRETRO_DIR)/file/retro_stat.c
+				 $(LIBRETRO_DIR)/file/retro_stat.c \
+				 $(LIBRETRO_DIR)/string/stdstring.c
 
 ifeq ($(NEED_THREADING), 1)
 SOURCES_C += $(LIBRETRO_DIR)/rthreads/rthreads.c

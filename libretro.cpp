@@ -5,6 +5,7 @@
 #include "libretro.h"
 
 #include <rthreads/rthreads.h>
+#include <string/stdstring.h>
 
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
@@ -904,7 +905,7 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
 
       if(linebuf[0] == '#')
          continue;
-      MDFN_rtrim(linebuf);
+      string_trim_whitespace_right(linebuf);
       if(linebuf[0] == 0)
          continue;
 
