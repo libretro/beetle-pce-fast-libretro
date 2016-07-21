@@ -102,7 +102,6 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/error.cpp \
 	$(MEDNAFEN_DIR)/settings.cpp \
 	$(MEDNAFEN_DIR)/general.cpp \
-	$(MEDNAFEN_DIR)/file.cpp \
 	$(MEDNAFEN_DIR)/FileStream.cpp \
 	$(MEDNAFEN_DIR)/MemoryStream.cpp \
 	$(MEDNAFEN_DIR)/Stream.cpp \
@@ -112,6 +111,7 @@ SOURCES_CXX += \
 	$(CORE_DIR)/libretro.cpp
 
 SOURCES_C += \
+	$(MEDNAFEN_DIR)/file.c \
 	$(MEDNAFEN_DIR)/mednafen-endian.c
 endif
 

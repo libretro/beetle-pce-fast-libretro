@@ -744,18 +744,18 @@ int HuCLoadCD(const char *bios_path)
   { NULL, NULL }
  };
 
- MDFNFILE fp;
+ MDFNFILE *fp = file_open(bios_path);
 
- if(!fp.Open(bios_path, KnownBIOSExtensions, _("CD BIOS")))
- {
+ if(!fp)
   return(0);
- }
 
  memset(ROMSpace, 0xFF, 262144);
 
- memcpy(ROMSpace, GET_FDATA(fp) + (GET_FSIZE(fp) & 512), ((GET_FSIZE(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE(fp) &~ 512) );
+ memcpy(ROMSpace, GET_FDATA_PTR(fp) + (GET_FSIZE_PTR(fp) & 512), ((GET_FSIZE_PTR(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE_PTR(fp) &~ 512) );
 
- fp.Close();
+ if (fp)
+    file_close(fp);
+ fp = NULL;
 
  PCE_IsCD = 1;
  PCE_InitCD();
@@ -947,12 +947,14 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
    for(unsigned i = 0; i < file_list.size(); i++)
    {
-    CDInterfaces.push_back(CDIF_Open(file_list[i].c_str(), false, old_cdimagecache));
+      CDIF *cdif = CDIF_Open(file_list[i].c_str(), false, old_cdimagecache);
+      CDInterfaces.push_back(cdif);
    }
   }
   else
   {
-   CDInterfaces.push_back(CDIF_Open(devicename, false, old_cdimagecache));
+     CDIF *cdif = CDIF_Open(devicename, false, old_cdimagecache);
+     CDInterfaces.push_back(cdif);
   }
  }
  catch(std::exception &e)
@@ -1016,20 +1018,20 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
 
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 {
-   MDFNFILE GameFile;
-	std::vector<FileExtensionSpecStruct> valid_iae;
+   std::vector<FileExtensionSpecStruct> valid_iae;
+   MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
 #ifdef NEED_CD
-	if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-	 return(MDFNI_LoadCD(force_module, name));
+   if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+      return(MDFNI_LoadCD(force_module, name));
 #endif
 
-	MDFN_printf(_("Loading %s...\n"),name);
+   MDFN_printf(_("Loading %s...\n"),name);
 
-	MDFN_indent(1);
+   MDFN_indent(1);
 
-	// Construct a NULL-delimited list of known file extensions for MDFN_fopen()
+   // Construct a NULL-delimited list of known file extensions for MDFN_fopen()
    const FileExtensionSpecStruct *curexts = MDFNGameInfo->FileExtensions;
 
    while(curexts->extension && curexts->description)
@@ -1038,36 +1040,30 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
       curexts++;
    }
 
-	if(!GameFile.Open(name, &valid_iae[0], _("game")))
-   {
-      MDFNGameInfo = NULL;
-      return 0;
-   }
+   GameFile = file_open(name);
 
-	MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
-	MDFN_indent(1);
+   if(!GameFile)
+      goto error;
 
-	//
-	// Load per-game settings
-	//
-	// Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
-	// End load per-game settings
-	//
+   MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+   MDFN_indent(1);
 
-   if(MDFNGameInfo->Load(name, &GameFile) <= 0)
-   {
-      GameFile.Close();
-      MDFN_indent(-2);
-      MDFNGameInfo = NULL;
-      return(0);
-   }
+   //
+   // Load per-game settings
+   //
+   // Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
+   // End load per-game settings
+   //
 
-	MDFN_LoadGameCheats(NULL);
-	MDFNMP_InstallReadPatches();
+   if(MDFNGameInfo->Load(name, GameFile) <= 0)
+      goto error;
 
-	MDFN_indent(-2);
+   MDFN_LoadGameCheats(NULL);
+   MDFNMP_InstallReadPatches();
 
-	if(!MDFNGameInfo->name)
+   MDFN_indent(-2);
+
+   if(!MDFNGameInfo->name)
    {
       unsigned int x;
       char *tmp;
@@ -1084,6 +1080,12 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
    }
 
    return(MDFNGameInfo);
+
+error:
+   if (GameFile)
+      file_close(GameFile);
+   MDFNGameInfo = NULL;
+   return NULL;
 }
 
 static int curindent = 0;
