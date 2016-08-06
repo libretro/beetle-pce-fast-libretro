@@ -284,35 +284,6 @@ int const blip_reader_default_bass = 9;
 #define BLIP_READER_END( name, blip_buffer ) \
 	(void) ((blip_buffer).reader_accum_ = name##_reader_accum)
 
-
-// Compatibility with older version
-const long blip_unscaled = 65535;
-const int blip_low_quality  = blip_med_quality;
-const int blip_best_quality = blip_high_quality;
-
-// Deprecated; use BLIP_READER macros as follows:
-// Blip_Reader r; r.begin( buf ); -> BLIP_READER_BEGIN( r, buf );
-// int bass = r.begin( buf )      -> BLIP_READER_BEGIN( r, buf ); int bass = BLIP_READER_BASS( buf );
-// r.read()                       -> BLIP_READER_READ( r )
-// r.read_raw()                   -> BLIP_READER_READ_RAW( r )
-// r.next( bass )                 -> BLIP_READER_NEXT( r, bass )
-// r.next()                       -> BLIP_READER_NEXT( r, blip_reader_default_bass )
-// r.end( buf )                   -> BLIP_READER_END( r, buf )
-class Blip_Reader {
-public:
-	int begin( Blip_Buffer& );
-	blip_long read() const          { return accum >> (blip_sample_bits - 16); }
-	blip_long read_raw() const      { return accum; }
-	void next( int bass_shift = 9 )         { accum += *buf++ - (accum >> bass_shift); }
-	void end( Blip_Buffer& b )              { b.reader_accum_ = accum; }
-	
-private:
-	const Blip_Buffer::buf_t_* buf;
-	blip_long accum;
-};
-
-// End of public interface
-
 #include <assert.h>
 
 template<int quality,int range>
@@ -339,9 +310,6 @@ blip_inline void Blip_Synth<quality,range>::offset_resampled( blip_resampled_tim
 	buf [1] = right;
 }
 
-#undef BLIP_FWD
-#undef BLIP_REV
-
 template<int quality,int range>
 blip_inline void Blip_Synth<quality,range>::offset( blip_time_t t, int delta, Blip_Buffer* buf ) const
 {
@@ -366,13 +334,6 @@ blip_inline long Blip_Buffer::samples_avail() const  { return (long) (offset_ >>
 blip_inline long Blip_Buffer::sample_rate() const    { return sample_rate_; }
 blip_inline int  Blip_Buffer::output_latency() const { return blip_widest_impulse_ / 2; }
 blip_inline void Blip_Buffer::clock_rate( long cps ) { factor_ = clock_rate_factor( clock_rate_ = cps ); }
-
-blip_inline int Blip_Reader::begin( Blip_Buffer& blip_buf )
-{
-	buf = blip_buf.buffer_;
-	accum = blip_buf.reader_accum_;
-	return blip_buf.bass_shift_;
-}
 
 int const blip_max_length = 0;
 int const blip_default_length = 250;
