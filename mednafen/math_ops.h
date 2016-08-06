@@ -1,23 +1,6 @@
 #ifndef __MDFN_MATH_OPS_H
 #define __MDFN_MATH_OPS_H
 
-// Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-// Rounds up to the nearest power of 2.
-static INLINE uint32 round_up_pow2(uint32 v)
-{
-   v--;
-   v |= v >> 1;
-   v |= v >> 2;
-   v |= v >> 4;
-   v |= v >> 8;
-   v |= v >> 16;
-   v++;
-
-   v += (v == 0);
-
-   return(v);
-}
-
 // Some compilers' optimizers and some platforms might fubar the generated code from these macros,
 // so some tests are run in...tests.cpp
 #define sign_8_to_s16(_value) ((int16)(int8)(_value))
