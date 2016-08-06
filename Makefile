@@ -22,9 +22,6 @@ endif
 # CD for CD-based systems in order to prevent file access delays/hiccups
 CACHE_CD = 0
 
-ifneq ($(platform), osx)
-   PTHREAD_FLAGS = -pthread
-endif
 HAVE_HES = 0
 NEED_BPP = 32
 NEED_TREMOR = 1
