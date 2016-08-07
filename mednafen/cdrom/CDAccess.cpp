@@ -22,12 +22,6 @@
 #include "CDAccess_Image.h"
 #include "CDAccess_CCD.h"
 
-#ifdef HAVE_LIBCDIO
-#include "CDAccess_Physical.h"
-#endif
-
-using namespace CDUtility;
-
 CDAccess::CDAccess()
 {
 

@@ -28,8 +28,6 @@ static inline void SCSIDBG(const char *format, ...)
 }
 //#define SCSIDBG(format, ...) { }
 
-using namespace CDUtility;
-
 static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
 static void (*CDIRQCallback)(int);
@@ -155,7 +153,7 @@ static cdda_t cdda;
 
 static SimpleFIFO<uint8> din(2048);
 
-static CDUtility::TOC toc;
+static TOC toc;
 
 static uint32 read_sec_start;
 static uint32 read_sec;
@@ -470,7 +468,7 @@ static void DoREADBase(uint32 sa, uint32 sc)
 
  if(SCSILog)
  {
-  int Track = toc.FindTrackByLBA(sa);
+  int Track     = TOC_FindTrackByLBA(&toc, sa);
   uint32 Offset = sa - toc.tracks[Track].lba; //Cur_CDIF->GetTrackStartPositionLBA(Track);
   SCSILog("SCSI", "Read: start=0x%08x(track=%d, offs=0x%08x), cnt=0x%08x", sa, Track, Offset, sc);
  }

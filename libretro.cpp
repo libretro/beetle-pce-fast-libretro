@@ -298,7 +298,7 @@ static bool TestMagicCD(std::vector<CDIF *> *CDInterfaces)
                                        };
  uint8 sector_buffer[2048];
  CDIF *cdiface = (*CDInterfaces)[0];
- CDUtility::TOC toc;
+ TOC toc;
  bool ret = FALSE;
 
  memset(sector_buffer, 0, sizeof(sector_buffer));
@@ -970,7 +970,7 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
  MDFN_indent(1);
  for(unsigned i = 0; i < CDInterfaces.size(); i++)
  {
-  CDUtility::TOC toc;
+  TOC toc;
 
   CDInterfaces[i]->ReadTOC(&toc);
 
@@ -1251,7 +1251,7 @@ void retro_init(void)
       log_cb = NULL;
 
 #ifdef NEED_CD
-   CDUtility::CDUtility_Init();
+   CDUtility_Init();
 #endif
 
    const char *dir = NULL;
