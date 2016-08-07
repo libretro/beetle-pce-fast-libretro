@@ -34,7 +34,7 @@ static bool IsAbsolutePath(const char *path)
    if (path[0] == '\\' || path[0] == '/')
       return(TRUE);
 
-#if defined(WIN32) || defined(DOS)
+#if defined(WIN32)
    if((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
    {
       if(path[1] == ':')
