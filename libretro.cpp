@@ -1874,11 +1874,6 @@ void MDFND_PrintError(const char* err)
       log_cb(RETRO_LOG_ERROR, "%s\n", err);
 }
 
-void MDFND_Sleep(unsigned int time)
-{
-   retro_sleep(time);
-}
-
 /* forward declarations */
 extern void MDFND_DispMessage(unsigned char *str);
 

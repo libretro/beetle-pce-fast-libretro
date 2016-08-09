@@ -20,7 +20,6 @@ void MDFND_PrintError(const char *s);
 void MDFND_Message(const char *s);
 
 uint32 MDFND_GetTime(void);
-void MDFND_Sleep(uint32 ms);
 
 /* path = path of game/file to load.  returns NULL on failure. */
 MDFNGI *MDFNI_LoadGame(const char *force_module, const char *path);
