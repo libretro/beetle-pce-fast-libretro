@@ -1671,11 +1671,6 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
-   MDFNGI *currgame = (MDFNGI*)game;
-
-   if (!currgame)
-      return;
-
    switch(device)
    {
       case RETRO_DEVICE_JOYPAD:
