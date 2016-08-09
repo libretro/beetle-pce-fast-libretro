@@ -275,7 +275,9 @@ static int LoadCommon(void)
 
  PCE_Power();
 
+#if 0
  MDFNGameInfo->LayerNames = "Background\0Sprites\0";
+#endif
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
 
  // Clean this up:
@@ -449,7 +451,7 @@ static void Emulate(EmulateSpecStruct *espec)
   PCECD_ResetTS();
 }
 
-static int StateAction(StateMem *sm, int load, int data_only)
+int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
@@ -528,7 +530,7 @@ static MDFNSetting PCESettings[] =
   { NULL }
 };
 
-static uint8 MemRead(uint32 addr)
+uint8 MemRead(uint32 addr)
 {
  return(PCERead[(addr / 8192) & 0xFF](addr));
 }
@@ -844,30 +846,6 @@ void HuC_Power(void)
 
 MDFNGI EmulatedPCE_Fast =
 {
- "pce_fast",
- "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
- KnownExtensions,
- MODPRIO_INTERNAL_LOW,
- NULL,
- &PCEInputInfo,
- Load,
- TestMagic,
- LoadCD,
- TestMagicCD,
- CloseGame,
- VDC_SetLayerEnableMask,
- NULL,
- NULL,
- NULL,
- NULL,
- NULL,
- MemRead,
- NULL,
- false,
- StateAction,
- Emulate,
- PCEINPUT_SetInput,
- DoSimpleCommand,
  PCESettings,
  MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
  0,
@@ -988,16 +966,9 @@ MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
  }
  MDFN_indent(-1);
 
- // This if statement will be true if force_module references a system without CDROM support.
- if(!MDFNGameInfo->LoadCD)
- {
-    MDFN_PrintError(_("Specified system \"%s\" doesn't support CDs!"), force_module);
-    return(0);
- }
+ MDFN_printf("Using module: pce_fast.\n");
 
- MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
-
- if(!(MDFNGameInfo->LoadCD(&CDInterfaces)))
+ if(!(LoadCD(&CDInterfaces)))
  {
   for(unsigned i = 0; i < CDInterfaces.size(); i++)
    delete CDInterfaces[i];
@@ -1032,7 +1003,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
    MDFN_indent(1);
 
    // Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct *curexts = MDFNGameInfo->FileExtensions;
+   const FileExtensionSpecStruct *curexts = KnownExtensions;
 
    while(curexts->extension && curexts->description)
    {
@@ -1045,7 +1016,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
    if(!GameFile)
       goto error;
 
-   MDFN_printf(_("Using module: %s(%s)\n\n"), MDFNGameInfo->shortname, MDFNGameInfo->fullname);
+   MDFN_printf(_("Using module: pce_fast.\n\n"));
    MDFN_indent(1);
 
    //
@@ -1055,7 +1026,7 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
    // End load per-game settings
    //
 
-   if(MDFNGameInfo->Load(name, GameFile) <= 0)
+   if(Load(name, GameFile) <= 0)
       goto error;
 
    MDFN_LoadGameCheats(NULL);
@@ -1569,7 +1540,7 @@ void retro_unload_game(void)
 
    MDFN_FlushGameCheats(0);
 
-   MDFNGameInfo->CloseGame();
+   CloseGame();
 
    if(MDFNGameInfo->name)
       free(MDFNGameInfo->name);
