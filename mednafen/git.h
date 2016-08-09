@@ -317,7 +317,6 @@ typedef struct
 
  int rotated;
 
- uint8 *name;    /* Game name, UTF8 encoding */
  int soundrate;  /* For Ogg Vorbis expansion sound wacky support.  0 for default. */
 
  VideoSystems VideoSystem;

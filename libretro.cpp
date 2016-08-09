@@ -1034,22 +1034,6 @@ MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
 
    MDFN_indent(-2);
 
-   if(!MDFNGameInfo->name)
-   {
-      unsigned int x;
-      char *tmp;
-
-      MDFNGameInfo->name = (UTF8 *)strdup(GetFNComponent(name));
-
-      for(x=0;x<strlen((char *)MDFNGameInfo->name);x++)
-      {
-         if(MDFNGameInfo->name[x] == '_')
-            MDFNGameInfo->name[x] = ' ';
-      }
-      if((tmp = strrchr((char *)MDFNGameInfo->name, '.')))
-         *tmp = 0;
-   }
-
    return(MDFNGameInfo);
 
 error:
@@ -1541,10 +1525,6 @@ void retro_unload_game(void)
    MDFN_FlushGameCheats(0);
 
    CloseGame();
-
-   if(MDFNGameInfo->name)
-      free(MDFNGameInfo->name);
-   MDFNGameInfo->name = NULL;
 
    MDFNMP_Kill();
 
