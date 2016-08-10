@@ -196,9 +196,6 @@
 			<File
 				RelativePath="..\..\libretro.cpp">
 			</File>
-			<File
-				RelativePath="..\..\scrc32.cpp">
-			</File>
 			<Filter
 				Name="mednafen"
 				Filter="">

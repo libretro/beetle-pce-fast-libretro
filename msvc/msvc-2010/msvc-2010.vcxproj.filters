@@ -38,9 +38,6 @@
     <ClCompile Include="..\..\libretro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\scrc32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\thread.c">
       <Filter>Source Files</Filter>
     </ClCompile>
