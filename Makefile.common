@@ -19,7 +19,7 @@ ifneq ($(HAVE_GRIFFIN),1)
 endif
 
 ifeq ($(NEED_BLIP), 1)
-SOURCES_CXX += $(MEDNAFEN_DIR)/sound/Blip_Buffer.cpp
+SOURCES_C += $(MEDNAFEN_DIR)/sound/Blip_Buffer.c
 endif
 
 ifeq ($(HAVE_HES), 1)

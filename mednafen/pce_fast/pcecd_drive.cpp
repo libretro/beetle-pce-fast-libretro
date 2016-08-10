@@ -94,7 +94,7 @@ typedef struct
 
 } pcecd_drive_t;
 
-typedef Blip_Synth < blip_good_quality, 1> CDSynth;
+typedef Blip_Synth CDSynth;
 
 enum
 {
@@ -956,8 +956,8 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
 
    if(sbuf[0] && sbuf[1])
    {
-    cdda.CDDASynth.offset_inline(synthtime, sample[0] - cdda.last_sample[0], sbuf[0]);
-    cdda.CDDASynth.offset_inline(synthtime, sample[1] - cdda.last_sample[1], sbuf[1]);
+    Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[0] - cdda.last_sample[0], sbuf[0]);
+    Blip_Synth_offset(&cdda.CDDASynth, synthtime, sample[1] - cdda.last_sample[1], sbuf[1]);
    }
 
    cdda.last_sample[0] = sample[0];
@@ -1260,8 +1260,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  cdda.CDDATimeDiv = cdda_time_div;
 
  cdda.CDDAVolume = 65536;
- cdda.CDDASynth.volume(1.0f / 65536);
- cdda.CDDASynth.treble_eq(0);
+ Blip_Synth_set_volume(&cdda.CDDASynth, 1.0f / 65536, 1);
  sbuf[0] = leftbuf;
  sbuf[1] = rightbuf;
 

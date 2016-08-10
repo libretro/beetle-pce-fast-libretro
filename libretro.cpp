@@ -418,9 +418,10 @@ static void Emulate(EmulateSpecStruct *espec)
  {
   for(int y = 0; y < 2; y++)
   {
-   sbuf[y].set_sample_rate(espec->SoundRate ? espec->SoundRate : 44100, 50);
-   sbuf[y].clock_rate((long)(PCE_MASTER_CLOCK / 3));
-   sbuf[y].bass_freq(10);
+     Blip_Buffer_set_sample_rate(&sbuf[y],
+           espec->SoundRate ? espec->SoundRate : 44100, 50);
+     Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
+     Blip_Buffer_bass_freq(&sbuf[y], 10);
   }
  }
  VDC_RunFrame(espec, false);
@@ -436,8 +437,9 @@ static void Emulate(EmulateSpecStruct *espec)
  {
   for(int y = 0; y < 2; y++)
   {
-   sbuf[y].end_frame(HuCPU.timestamp / pce_overclocked);
-   espec->SoundBufSize = sbuf[y].read_samples(espec->SoundBuf + y, espec->SoundBufMaxSize, 1);
+     Blip_Buffer_end_frame(&sbuf[y], HuCPU.timestamp / pce_overclocked);
+     espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y], espec->SoundBuf + y,
+           espec->SoundBufMaxSize);
   }
  }
 

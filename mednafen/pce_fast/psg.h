@@ -84,7 +84,7 @@ class PCEFast_PSG
         int32 lastts;
 
 	Blip_Buffer *sbuf[2];
-	Blip_Synth<blip_good_quality, 8192> Synth;
+	Blip_Synth Synth;
 
         int32 dbtable_volonly[32];
 

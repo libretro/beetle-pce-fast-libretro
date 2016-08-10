@@ -25,7 +25,7 @@ void PCEFast_PSG::SetVolume(double new_volume)
 {
    OutputVolume = new_volume;
 
-   Synth.volume(OutputVolume / 6);
+   Blip_Synth_set_volume(&Synth, OutputVolume / 6, 8192);
 }
 
 void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
@@ -36,8 +36,8 @@ void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -51,8 +51,8 @@ void PCEFast_PSG::UpdateOutput_Noise(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -64,8 +64,8 @@ void PCEFast_PSG::UpdateOutput_Off(const int32 timestamp, psg_channel *ch)
 
    samp[0] = samp[1] = 0;
 
-   Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -79,8 +79,8 @@ void PCEFast_PSG::UpdateOutput_Accum(const int32 timestamp, psg_channel *ch)
    samp[0] = ((int32)dbtable_volonly[ch->vl[0]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
    samp[1] = ((int32)dbtable_volonly[ch->vl[1]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
 
-   Synth.offset_inline(timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Synth.offset_inline(timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -145,7 +145,6 @@ void PCEFast_PSG::RecalcNoiseFreqCache(int chnum)
 PCEFast_PSG::PCEFast_PSG(Blip_Buffer *bb_l, Blip_Buffer *bb_r)
 {
    //printf("Test: %u, %u\n", sizeof(psg_channel), (uint8*)&channel[0].balance - (uint8*)&channel[0].waveform[0]);
-   Synth.treble_eq(-2.0);
 
    sbuf[0] = bb_l;
    sbuf[1] = bb_r;

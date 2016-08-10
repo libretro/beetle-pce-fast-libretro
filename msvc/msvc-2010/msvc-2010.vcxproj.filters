@@ -134,7 +134,7 @@
     <ClCompile Include="..\..\mednafen\pce_fast\vdc.cpp">
       <Filter>Source Files\mednafen\pce_fast</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mednafen\sound\Blip_Buffer.cpp">
+    <ClCompile Include="..\..\mednafen\sound\Blip_Buffer.c">
       <Filter>Source Files\mednafen\sound</Filter>
     </ClCompile>
     <ClCompile Include="..\..\mednafen\tremor\bitwise.c">

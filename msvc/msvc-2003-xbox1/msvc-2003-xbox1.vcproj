@@ -282,7 +282,7 @@
 					Name="sound"
 					Filter="">
 					<File
-						RelativePath="..\..\mednafen\sound\Blip_Buffer.cpp">
+						RelativePath="..\..\mednafen\sound\Blip_Buffer.c">
 					</File>
 				</Filter>
 				<Filter
