@@ -45,8 +45,6 @@ MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
-
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
@@ -202,9 +200,7 @@ static int Load(const char *name, MDFNFILE *fp)
   PCEWrite[x] = PCENullWrite;
  }
 
- uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
-
-  HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
+  HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
  return(LoadCommon());
 }
@@ -623,7 +619,7 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
+int HuCLoad(const uint8 *data, uint32 len)
 {
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
@@ -643,7 +639,6 @@ int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
 
 
  MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
- MDFN_printf(_("ROM CRC32: 0x%04x\n"), crc32);
 
  if(!(HuCROM = (uint8 *)malloc(m_len)))
  {
