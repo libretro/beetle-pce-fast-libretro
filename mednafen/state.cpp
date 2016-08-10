@@ -372,8 +372,6 @@ static int ReadStateChunk(StateMem *st, SFORMAT *sf, int size)
    return 1;
 }
 
-static int CurrentState = 0;
-
 /* This function is called by the game driver(NES, GB, GBA) to save a state. */
 int MDFNSS_StateAction(void *st_p, int load, int data_only, std::vector <SSDescriptor> &sections)
 {
