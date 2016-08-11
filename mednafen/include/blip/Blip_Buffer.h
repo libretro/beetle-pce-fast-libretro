@@ -130,8 +130,6 @@ blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf,
 //#endif
 
 // Internal
-typedef blip_u64 blip_resampled_time_t;
-
 #define blip_widest_impulse_  16
 #define blip_buffer_extra_    (blip_widest_impulse_ + 2)
 #define blip_res              (1 << BLIP_PHASE_BITS)
