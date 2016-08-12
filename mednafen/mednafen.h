@@ -27,10 +27,6 @@
 #define gzgetc(a) fgetc(a)
 #define gzseek(a,b,c) fseek(a,b,c)
 
-#ifndef gettext_noop
-#define gettext_noop(a) (a)
-#endif
-
 extern MDFNGI *MDFNGameInfo;
 
 #include "settings.h"

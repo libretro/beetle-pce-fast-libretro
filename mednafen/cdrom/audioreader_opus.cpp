@@ -97,17 +97,17 @@ static const char *op_errstring(int error)
   const char *str;
  } error_table[] =
  {
-  { OP_EREAD, gettext_noop("OP_EREAD: An underlying read, seek, or tell operation failed when it should have succeeded.") },
-  { OP_EFAULT, gettext_noop("OP_EFAULT: A NULL pointer was passed where one was unexpected, or an internal memory allocation failed, or an internal library error was encountered.") },
-  { OP_EIMPL, gettext_noop("OP_EIMPL: The stream used a feature that is not implemented, such as an unsupported channel family.") },
-  { OP_EINVAL, gettext_noop("OP_EINVAL: One or more parameters to a function were invalid.") },
-  { OP_ENOTFORMAT, gettext_noop("OP_ENOTFORMAT: A purported Ogg Opus stream did not begin with an Ogg page, or a purported header packet did not start with one of the required strings, \"OpusHead\" or \"OpusTags\".") },
-  { OP_EBADHEADER, gettext_noop("OP_EBADHEADER: A required header packet was not properly formatted, contained illegal values, or was missing altogether.") },
-  { OP_EVERSION, gettext_noop("OP_EVERSION: The ID header contained an unrecognized version number.") },
-  { OP_EBADPACKET, gettext_noop("OP_EBADPACKET: An audio packet failed to decode properly.") },
-  { OP_EBADLINK, gettext_noop("OP_EBADLINK: We failed to find data we had seen before, or the bitstream structure was sufficiently malformed that seeking to the target destination was impossible.") },
-  { OP_ENOSEEK, gettext_noop("OP_ENOSEEK: An operation that requires seeking was requested on an unseekable stream.") },
-  { OP_EBADTIMESTAMP, gettext_noop("OP_EBADTIMESTAMP: The first or last granule position of a link failed basic validity checks.") },
+  { OP_EREAD, "OP_EREAD: An underlying read, seek, or tell operation failed when it should have succeeded." },
+  { OP_EFAULT, "OP_EFAULT: A NULL pointer was passed where one was unexpected, or an internal memory allocation failed, or an internal library error was encountered." },
+  { OP_EIMPL, "OP_EIMPL: The stream used a feature that is not implemented, such as an unsupported channel family." },
+  { OP_EINVAL, "OP_EINVAL: One or more parameters to a function were invalid." },
+  { OP_ENOTFORMAT, "OP_ENOTFORMAT: A purported Ogg Opus stream did not begin with an Ogg page, or a purported header packet did not start with one of the required strings, \"OpusHead\" or \"OpusTags\"." },
+  { OP_EBADHEADER, "OP_EBADHEADER: A required header packet was not properly formatted, contained illegal values, or was missing altogether." },
+  { OP_EVERSION, "OP_EVERSION: The ID header contained an unrecognized version number." },
+  { OP_EBADPACKET, "OP_EBADPACKET: An audio packet failed to decode properly." },
+  { OP_EBADLINK, "OP_EBADLINK: We failed to find data we had seen before, or the bitstream structure was sufficiently malformed that seeking to the target destination was impossible." },
+  { OP_ENOSEEK, "OP_ENOSEEK: An operation that requires seeking was requested on an unseekable stream." },
+  { OP_EBADTIMESTAMP, "OP_EBADTIMESTAMP: The first or last granule position of a link failed basic validity checks." },
  };
 
  for(unsigned i = 0; i < sizeof(error_table) / sizeof(error_table[0]); i++)
