@@ -21,11 +21,6 @@ void MDFND_Message(const char *s);
 
 uint32 MDFND_GetTime(void);
 
-/* path = path of game/file to load.  returns NULL on failure. */
-MDFNGI *MDFNI_LoadGame(const char *force_module, const char *path);
-
-MDFNGI *MDFNI_LoadCD(const char *sysname, const char *devicename);
-
 /* Sets the base directory(save states, snapshots, etc. are saved in directories
    below this directory. */
 void MDFNI_SetBaseDirectory(const char *dir);

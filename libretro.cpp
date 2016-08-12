@@ -862,7 +862,6 @@ MDFNGI EmulatedPCE_Fast =
  2,     // Number of output sound channels
 };
 
-#ifdef NEED_CD
 static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::string dir_path;
@@ -903,97 +902,92 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
    fclose(fp);
 }
 
-#ifdef NEED_CD
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
-#endif
 // TODO: LoadCommon()
 
-MDFNGI *MDFNI_LoadCD(const char *force_module, const char *devicename)
+static MDFNGI *MDFNI_LoadCD(const char *devicename)
 {
- MDFN_printf(_("Loading %s...\n\n"), devicename ? devicename : _("PHYSICAL CD"));
+   MDFN_printf(_("Loading %s...\n\n"), devicename ? devicename : _("PHYSICAL CD"));
 
- try
- {
-  if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
-  {
-   std::vector<std::string> file_list;
-
-   ReadM3U(file_list, devicename);
-
-   for(unsigned i = 0; i < file_list.size(); i++)
+   try
    {
-      CDIF *cdif = CDIF_Open(file_list[i].c_str(), false, old_cdimagecache);
-      CDInterfaces.push_back(cdif);
+      if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+      {
+         std::vector<std::string> file_list;
+
+         ReadM3U(file_list, devicename);
+
+         for(unsigned i = 0; i < file_list.size(); i++)
+         {
+            CDIF *cdif = CDIF_Open(file_list[i].c_str(), false, old_cdimagecache);
+            CDInterfaces.push_back(cdif);
+         }
+      }
+      else
+      {
+         CDIF *cdif = CDIF_Open(devicename, false, old_cdimagecache);
+         CDInterfaces.push_back(cdif);
+      }
    }
-  }
-  else
-  {
-     CDIF *cdif = CDIF_Open(devicename, false, old_cdimagecache);
-     CDInterfaces.push_back(cdif);
-  }
- }
- catch(std::exception &e)
- {
-  MDFND_PrintError(e.what());
-  MDFN_PrintError(_("Error opening CD."));
-  return(0);
- }
+   catch(std::exception &e)
+   {
+      MDFND_PrintError(e.what());
+      MDFN_PrintError(_("Error opening CD."));
+      return(0);
+   }
 
- //
- // Print out a track list for all discs.
- //
- MDFN_indent(1);
- for(unsigned i = 0; i < CDInterfaces.size(); i++)
- {
-  TOC toc;
+   //
+   // Print out a track list for all discs.
+   //
+   MDFN_indent(1);
+   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   {
+      TOC toc;
 
-  CDInterfaces[i]->ReadTOC(&toc);
+      CDInterfaces[i]->ReadTOC(&toc);
 
-  MDFN_printf(_("CD %d Layout:\n"), i + 1);
-  MDFN_indent(1);
+      MDFN_printf(_("CD %d Layout:\n"), i + 1);
+      MDFN_indent(1);
 
-  for(int32 track = toc.first_track; track <= toc.last_track; track++)
-  {
-   MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
-  }
+      for(int32 track = toc.first_track; track <= toc.last_track; track++)
+      {
+         MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+      }
 
-  MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
-  MDFN_indent(-1);
-  MDFN_printf("\n");
- }
- MDFN_indent(-1);
+      MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
+      MDFN_indent(-1);
+      MDFN_printf("\n");
+   }
+   MDFN_indent(-1);
 
- MDFN_printf("Using module: pce_fast.\n");
+   MDFN_printf("Using module: pce_fast.\n");
 
- if(!(LoadCD(&CDInterfaces)))
- {
-  for(unsigned i = 0; i < CDInterfaces.size(); i++)
-   delete CDInterfaces[i];
-  CDInterfaces.clear();
+   if(!(LoadCD(&CDInterfaces)))
+   {
+      for(unsigned i = 0; i < CDInterfaces.size(); i++)
+         delete CDInterfaces[i];
+      CDInterfaces.clear();
 
-  MDFNGameInfo = NULL;
-  return(0);
- }
+      MDFNGameInfo = NULL;
+      return(0);
+   }
 
- //MDFNI_SetLayerEnableMask(~0ULL);
+   //MDFNI_SetLayerEnableMask(~0ULL);
 
- MDFN_LoadGameCheats(NULL);
- MDFNMP_InstallReadPatches();
+   MDFN_LoadGameCheats(NULL);
+   MDFNMP_InstallReadPatches();
 
- return(MDFNGameInfo);
+   return(MDFNGameInfo);
 }
-#endif
 
-MDFNGI *MDFNI_LoadGame(const char *force_module, const char *name)
+static MDFNGI *MDFNI_LoadGame(const char *name)
 {
    std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
-#ifdef NEED_CD
    if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-      return(MDFNI_LoadCD(force_module, name));
-#endif
+      return(MDFNI_LoadCD(name));
 
    MDFN_printf(_("Loading %s...\n"),name);
 
@@ -1202,9 +1196,7 @@ void retro_init(void)
    else 
       log_cb = NULL;
 
-#ifdef NEED_CD
    CDUtility_Init();
-#endif
 
    const char *dir = NULL;
 
@@ -1484,7 +1476,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables();
 
-   game = MDFNI_LoadGame(MEDNAFEN_CORE_NAME_MODULE, info->path);
+   game = MDFNI_LoadGame(info->path);
    if (!game)
       return false;
 
@@ -1527,11 +1519,9 @@ void retro_unload_game(void)
 
    MDFNGameInfo = NULL;
 
-#ifdef NEED_CD
    for(unsigned i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
-#endif
 }
 
 static void update_input(void)
