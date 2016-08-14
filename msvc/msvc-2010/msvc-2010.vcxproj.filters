@@ -107,9 +107,6 @@
     <ClCompile Include="..\..\mednafen\cdrom\recover-raw.cpp">
       <Filter>Source Files\mednafen\cdrom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mednafen\cdrom\SimpleFIFO.cpp">
-      <Filter>Source Files\mednafen\cdrom</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mednafen\hw_misc\arcade_card\arcade_card.cpp">
       <Filter>Source Files\mednafen\hw_misc\arcade_card</Filter>
     </ClCompile>

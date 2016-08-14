@@ -271,9 +271,6 @@
 					<File
 						RelativePath="..\..\mednafen\cdrom\recover-raw.cpp">
 					</File>
-					<File
-						RelativePath="..\..\mednafen\cdrom\SimpleFIFO.cpp">
-					</File>
 				</Filter>
 				<Filter
 					Name="sound"
