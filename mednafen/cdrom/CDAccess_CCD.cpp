@@ -108,6 +108,8 @@ void CDAccess_CCD::Load(const char *path, bool image_memcache)
  char img_extsd[4] = { 'i', 'm', 'g', 0 };
  char sub_extsd[4] = { 's', 'u', 'b', 0 };
 
+ TOC_Init(&tocd);
+
  MDFN_GetFilePathComponents(path, &dir_path, &file_base, &file_ext);
 
  if(file_ext.length() == 4 && file_ext[0] == '.')
