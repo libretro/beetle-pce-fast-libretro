@@ -863,14 +863,14 @@ MDFNGI EmulatedPCE_Fast =
  2,     // Number of output sound channels
 };
 
-static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
+static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::string dir_path;
    char linebuf[2048];
    FILE *fp = fopen(path.c_str(), "rb");
 
-   if (fp == NULL)
-      return;
+   if (!fp)
+      return false;
 
    MDFN_GetFilePathComponents(path, &dir_path);
 
@@ -889,10 +889,18 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
       if(efp.size() >= 4 && efp.substr(efp.size() - 4) == ".m3u")
       {
          if(efp == path)
-            throw(MDFN_Error(0, _("M3U at \"%s\" references self."), efp.c_str()));
+         {
+            log_cb(RETRO_LOG_ERROR, "M3U at \"%s\" references self.\n", efp.c_str());
+            fclose(fp);
+            return false;
+         }
 
          if(depth == 99)
-            throw(MDFN_Error(0, _("M3U load recursion too deep!")));
+         {
+            log_cb(RETRO_LOG_ERROR, "M3U load recursion too deep!\n");
+            fclose(fp);
+            return false;
+         }
 
          ReadM3U(file_list, efp, depth++);
       }
@@ -901,6 +909,8 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
    }
 
    fclose(fp);
+
+   return true;
 }
 
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
@@ -908,38 +918,40 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
 
 static MDFNGI *MDFNI_LoadCD(const char *devicename)
 {
-   MDFN_printf(_("Loading %s...\n\n"), devicename ? devicename : _("PHYSICAL CD"));
+   bool ret = false;
+   log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   try
+   if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
    {
-      if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
-      {
-         std::vector<std::string> file_list;
+      std::vector<std::string> file_list;
 
-         ReadM3U(file_list, devicename);
+      if (ReadM3U(file_list, devicename))
+         ret = true;
 
-         for(unsigned i = 0; i < file_list.size(); i++)
-         {
-            CDIF *cdif = CDIF_Open(file_list[i].c_str(), false);
-            CDInterfaces.push_back(cdif);
-         }
-      }
-      else
+      for(unsigned i = 0; i < file_list.size(); i++)
       {
-         CDIF *cdif = CDIF_Open(devicename, false);
+         CDIF *cdif = CDIF_Open(file_list[i].c_str(), false);
          CDInterfaces.push_back(cdif);
       }
    }
-   catch(std::exception &e)
+   else
    {
-      MDFND_PrintError(e.what());
-      MDFN_PrintError(_("Error opening CD."));
-      return(0);
+      CDIF *cdif = CDIF_Open(devicename, false);
+
+      if (cdif)
+      {
+         ret = true;
+         CDInterfaces.push_back(cdif);
+      }
    }
 
-   //
-   // Print out a track list for all discs.
-   //
+   if (!ret)
+   {
+      log_cb(RETRO_LOG_ERROR, "Error opening CD.\n");
+      return NULL;
+   }
+
+   /* Print out a track list for all discs. */
    MDFN_indent(1);
    for(unsigned i = 0; i < CDInterfaces.size(); i++)
    {
