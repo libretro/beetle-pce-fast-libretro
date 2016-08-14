@@ -16,8 +16,14 @@
 #include "mednafen/pce_fast/pcecd_drive.h"
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mempatcher.h"
+
+#ifdef HAVE_CDROM_NEW
+#include "mednafen/cdrom-new/cdromif.h"
+#include "mednafen/cdrom-new/CDUtility.h"
+#else
 #include "mednafen/cdrom/cdromif.h"
 #include "mednafen/cdrom/CDUtility.h"
+#endif
 
 #ifdef _MSC_VER
 #include "mednafen/msvc_compat.h"
@@ -919,13 +925,21 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
 
          for(unsigned i = 0; i < file_list.size(); i++)
          {
+#ifdef HAVE_CDROM_NEW
+            CDIF *cdif = CDIF_Open(file_list[i].c_str(), false);
+#else
             CDIF *cdif = CDIF_Open(file_list[i].c_str(), false, old_cdimagecache);
+#endif
             CDInterfaces.push_back(cdif);
          }
       }
       else
       {
+#ifdef HAVE_CDROM_NEW
+         CDIF *cdif = CDIF_Open(devicename, false);
+#else
          CDIF *cdif = CDIF_Open(devicename, false, old_cdimagecache);
+#endif
          CDInterfaces.push_back(cdif);
       }
    }

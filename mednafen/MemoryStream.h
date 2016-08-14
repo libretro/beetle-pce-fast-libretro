@@ -20,6 +20,8 @@
 #ifndef _MEMORY_STREAM_H
 #define _MEMORY_STREAM_H
 
+#include <retro_inline.h>
+
 #include "Stream.h"
 
 class MemoryStream : public Stream

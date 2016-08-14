@@ -25,8 +25,9 @@
 #include <stdarg.h>
 #include <string.h>
 
-FileStream::FileStream(const char *path, const int mode): OpenedMode(mode)
+FileStream::FileStream(const char *path, const int mode)
 {
+   OpenedMode = mode;
    fp = filestream_open(path, (mode == MODE_WRITE) ? RFILE_MODE_WRITE : RFILE_MODE_READ, -1);
 
    if (!fp)

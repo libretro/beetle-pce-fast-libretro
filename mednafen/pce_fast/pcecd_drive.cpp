@@ -18,8 +18,13 @@
 #include "../mednafen.h"
 #include <math.h>
 #include "pcecd_drive.h"
+#ifdef HAVE_CDROM_NEW
+#include "../cdrom-new/cdromif.h"
+#include "../cdrom-new/SimpleFIFO.h"
+#else
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
+#endif
 #include "../msvc_compat.h"
 
 static inline void SCSIDBG(const char *format, ...)
@@ -140,8 +145,6 @@ static INLINE void MakeSense(uint8 target[18], uint8 key, uint8 asc, uint8 ascq,
  target[13] = ascq;		// Additional Sense Code Qualifier
  target[14] = fru;		// Field Replaceable Unit code
 }
-
-static void (*SCSILog)(const char *, const char *format, ...);
 
 static pcecd_drive_timestamp_t lastts;
 static int64 monotonic_timestamp;
@@ -464,13 +467,6 @@ static void DoREADBase(uint32 sa, uint32 sc)
  {
   CommandCCError(SENSEKEY_MEDIUM_ERROR, NSE_HEADER_READ_ERROR);
   return;
- }
-
- if(SCSILog)
- {
-  int Track     = TOC_FindTrackByLBA(&toc, sa);
-  uint32 Offset = sa - toc.tracks[Track].lba; //Cur_CDIF->GetTrackStartPositionLBA(Track);
-  SCSILog("SCSI", "Read: start=0x%08x(track=%d, offs=0x%08x), cnt=0x%08x", sa, Track, Offset, sc);
  }
 
  SectorAddr = sa;
@@ -1097,31 +1093,11 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
       while(cmd_info_ptr->pretty_name && cmd_info_ptr->cmd != cd.command_buffer[0])
        cmd_info_ptr++;
   
-      if(SCSILog)
-      {
-       char log_buffer[1024];
-       int lb_pos;
-
-       log_buffer[0] = 0;
-       
-       lb_pos = snprintf(log_buffer, 1024, "Command: %02x, %s  ", cd.command_buffer[0], cmd_info_ptr->pretty_name ? cmd_info_ptr->pretty_name : "!!BAD COMMAND!!");
-
-       for(int i = 0; i < RequiredCDBLen[cd.command_buffer[0] >> 4]; i++)
-        lb_pos += snprintf(log_buffer + lb_pos, 1024 - lb_pos, "%02x ", cd.command_buffer[i]);
-
-       SCSILog("SCSI", "%s", log_buffer);
-       //puts(log_buffer);
-      }
-
-
       if(cmd_info_ptr->pretty_name == NULL)	// Command not found!
       {
        CommandCCError(SENSEKEY_ILLEGAL_REQUEST, NSE_INVALID_COMMAND);
 
        SCSIDBG("Bad Command: %02x\n", cd.command_buffer[0]);
-
-       if(SCSILog)
-        SCSILog("SCSI", "Bad Command: %02x", cd.command_buffer[0]);
 
        cd.command_buffer_pos = 0;
       }
@@ -1232,7 +1208,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
 
 void PCECD_Drive_SetLog(void (*logfunc)(const char *, const char *, ...))
 {
- SCSILog = logfunc;
 }
 
 void PCECD_Drive_SetTransferRate(uint32 TransferRate)
@@ -1253,11 +1228,11 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  monotonic_timestamp = 0;
  lastts = 0;
 
- SCSILog = NULL;
-
  //din = new SimpleFIFO<uint8>(2048);
  
+#ifndef HAVE_CDROM_NEW
  TOC_Init(&toc);
+#endif
 
  cdda.CDDATimeDiv = cdda_time_div;
 

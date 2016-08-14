@@ -15,37 +15,30 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// TODO/WIP
+#include "../mednafen.h"
+#include "CDAccess.h"
+#include "CDAccess_Image.h"
+#include "CDAccess_CCD.h"
 
-#ifndef __MDFN_FILESTREAM_H
-#define __MDFN_FILESTREAM_H
-
-#include <streams/file_stream.h>
-#include <retro_stat.h>
-
-#include "Stream.h"
-
-class FileStream : public Stream
+CDAccess::CDAccess()
 {
-   public:
-      FileStream(const char *path, const int mode);
-      virtual ~FileStream();
 
-      virtual uint64_t attributes(void);
+}
 
-      virtual uint64_t read(void *data, uint64_t count, bool error_on_eos = true);
-      virtual void write(const void *data, uint64_t count);
-      virtual void seek(int64_t offset, int whence);
-      virtual int64_t tell(void);
-      virtual int64_t size(void);
-      virtual void close(void);
+CDAccess::~CDAccess()
+{
 
-   private:
-      RFILE *fp;
-      char *original_path;
-      int OpenedMode;
-};
+}
 
+CDAccess* CDAccess_Open(const std::string& path, bool image_memcache)
+{
+ CDAccess *ret = NULL;
 
+ if(path.size() >= 4 && !strcasecmp(path.c_str() + path.size() - 4, ".ccd"))
+  ret = new CDAccess_CCD(path, image_memcache);
+ else
+  ret = new CDAccess_Image(path, image_memcache);
 
-#endif
+ return ret;
+}
+
