@@ -1256,6 +1256,8 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  SCSILog = NULL;
 
  //din = new SimpleFIFO<uint8>(2048);
+ 
+ TOC_Init(&toc);
 
  cdda.CDDATimeDiv = cdda_time_div;
 
