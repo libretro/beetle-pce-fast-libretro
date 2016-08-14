@@ -49,6 +49,10 @@
 
 #include <map>
 
+#if 0
+template<typename T> void showtype(T foo);
+#endif
+
 enum
 {
    CDRF_SUBM_NONE = 0,
@@ -1308,7 +1312,12 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
    if(!SubQReplaceMap.empty())
    {
       //printf("%d\n", lba);
+
       auto it = SubQReplaceMap.find(LBA_to_ABA(lba));
+
+#if 0
+      showtype(it);
+#endif
 
       if(it != SubQReplaceMap.end())
       {
