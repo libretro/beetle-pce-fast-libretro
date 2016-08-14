@@ -35,23 +35,18 @@
  *** Everything #includeable is rolled up herein...
  */
 
-#include "../mednafen-types.h"
-
+#include <stdint.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
-#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef _WIN32
-#include <direct.h>
-#else
 #include <unistd.h>
-#endif
 
 /***
  *** dvdisaster.c
@@ -63,13 +58,13 @@ void CreateEcc(void);
 void FixEcc(void);
 void Verify(void);
 
-uint32 EDCCrc32(const unsigned char*, int);
+uint32_t EDCCrc32(const unsigned char*, int);
 
 /***
  *** galois.c
  ***
  * This is currently the hardcoded GF(2**8).
- * int32 gives abundant space for the GF.
+ * int32_t gives abundant space for the GF.
  * Squeezing it down to uint8 won't probably gain much,
  * so we implement this defensively here.
  *
@@ -87,27 +82,27 @@ uint32 EDCCrc32(const unsigned char*, int);
 /* Lookup tables for Galois field arithmetic */
 
 typedef struct _GaloisTables
-{  int32 gfGenerator;  /* GF generator polynomial */ 
-   int32 *indexOf;     /* log */
-   int32 *alphaTo;     /* inverse log */
-   int32 *encAlphaTo; /* inverse log optimized for encoder */
+{  int32_t gfGenerator;  /* GF generator polynomial */ 
+   int32_t *indexOf;     /* log */
+   int32_t *alphaTo;     /* inverse log */
+   int32_t *encAlphaTo; /* inverse log optimized for encoder */
 } GaloisTables;
 
 /* Lookup and working tables for the ReedSolomon codecs */
 
 typedef struct _ReedSolomonTables
 {  GaloisTables *gfTables;/* from above */
-   int32 *gpoly;        /* RS code generator polynomial */
-   int32 fcr;           /* first consecutive root of RS generator polynomial */
-   int32 primElem;      /* primitive field element */
-   int32 nroots;        /* degree of RS generator polynomial */
-   int32 ndata;         /* data bytes per ecc block */
+   int32_t *gpoly;        /* RS code generator polynomial */
+   int32_t fcr;           /* first consecutive root of RS generator polynomial */
+   int32_t primElem;      /* primitive field element */
+   int32_t nroots;        /* degree of RS generator polynomial */
+   int32_t ndata;         /* data bytes per ecc block */
 } ReedSolomonTables;
 
-GaloisTables* CreateGaloisTables(int32);
+GaloisTables* CreateGaloisTables(int32_t);
 void FreeGaloisTables(GaloisTables*);
 
-ReedSolomonTables *CreateReedSolomonTables(GaloisTables*, int32, int32, int);
+ReedSolomonTables *CreateReedSolomonTables(GaloisTables*, int32_t, int32_t, int);
 void FreeReedSolomonTables(ReedSolomonTables*);
 
 /*** 
@@ -151,10 +146,10 @@ int CountC2Errors(unsigned char*);
 char* sgettext(char*);
 char* sgettext_utf8(char*);
 
-int64 uchar_to_int64(unsigned char*);
-void int64_to_uchar(unsigned char*, int64);
+int64_t uchar_to_int64_t(unsigned char*);
+void int64_t_to_uchar(unsigned char*, int64_t);
 
-void CalcSectors(int64, int64*, int*);
+void CalcSectors(int64_t, int64_t*, int*);
 
 /***
  *** recover-raw.c

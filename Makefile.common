@@ -4,11 +4,7 @@ SOURCES_C   :=
 LIBRETRO_DIR := $(CORE_DIR)/libretro-common
 MEDNAFEN_DIR := $(CORE_DIR)/mednafen
 CORE_EMU_DIR := $(MEDNAFEN_DIR)/pce_fast
-ifeq ($(HAVE_CDROM_NEW), 1)
-CDROM_DIR    := $(MEDNAFEN_DIR)/cdrom-new
-else
 CDROM_DIR    := $(MEDNAFEN_DIR)/cdrom
-endif
 
 INCFLAGS := -I$(CORE_DIR) -I$(MEDNAFEN_DIR) -I$(MEDNAFEN_DIR)/include -I$(MEDNAFEN_DIR)/intl -I$(MEDNAFEN_DIR)/hw_sound -I$(MEDNAFEN_DIR)/hw_cpu -I$(MEDNAFEN_DIR)/hw_misc -I$(LIBRETRO_DIR)/include
 
@@ -73,8 +69,6 @@ endif
 
 ifeq ($(NEED_CD), 1)
 ifneq ($(HAVE_GRIFFIN),1)
-ifeq ($(HAVE_CDROM_NEW), 1)
-FLAGS += -DHAVE_CDROM_NEW
 SOURCES_CXX += $(CDROM_DIR)/CDAccess.cpp \
 	$(CDROM_DIR)/CDAccess_Image.cpp \
 	$(CDROM_DIR)/CDAccess_CCD.cpp \
@@ -87,22 +81,6 @@ SOURCES_CXX += $(CDROM_DIR)/CDAccess.cpp \
 	$(CDROM_DIR)/recover-raw.cpp \
 	$(CDROM_DIR)/l-ec.cpp \
 	$(CDROM_DIR)/edc_crc32.cpp
-else
-SOURCES_CXX += \
-	$(CDROM_DIR)/CDAccess.cpp \
-	$(CDROM_DIR)/CDAccess_Image.cpp \
-	$(CDROM_DIR)/CDAccess_CCD.cpp \
-	$(CDROM_DIR)/audioreader.cpp \
-	$(CDROM_DIR)/cdromif.cpp
-
-SOURCES_C +=  \
-	$(CDROM_DIR)/CDUtility.c \
-	$(CDROM_DIR)/lec.c \
-	$(CDROM_DIR)/galois.c \
-	$(CDROM_DIR)/recover-raw.c \
-	$(CDROM_DIR)/l-ec.c \
-	$(CDROM_DIR)/edc_crc32.c
-endif
 endif
    FLAGS += -DNEED_CD
 endif

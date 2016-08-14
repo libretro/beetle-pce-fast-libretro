@@ -18,13 +18,8 @@
 #include "../mednafen.h"
 #include <math.h>
 #include "pcecd_drive.h"
-#ifdef HAVE_CDROM_NEW
-#include "../cdrom-new/cdromif.h"
-#include "../cdrom-new/SimpleFIFO.h"
-#else
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
-#endif
 #include "../msvc_compat.h"
 
 static inline void SCSIDBG(const char *format, ...)
@@ -1230,10 +1225,6 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
 
  //din = new SimpleFIFO<uint8>(2048);
  
-#ifndef HAVE_CDROM_NEW
- TOC_Init(&toc);
-#endif
-
  cdda.CDDATimeDiv = cdda_time_div;
 
  cdda.CDDAVolume = 65536;
