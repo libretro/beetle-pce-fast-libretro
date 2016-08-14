@@ -49,10 +49,6 @@
 
 #include <map>
 
-#if 0
-template<typename T> void showtype(T foo);
-#endif
-
 enum
 {
    CDRF_SUBM_NONE = 0,
