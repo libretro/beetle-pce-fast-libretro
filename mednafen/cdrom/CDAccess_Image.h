@@ -2,7 +2,6 @@
 #define __MDFN_CDACCESS_IMAGE_H
 
 #include <map>
-#include <array>
 
 #include "CDUtility.h"
 
