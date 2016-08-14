@@ -30,12 +30,14 @@
 
 #include "../mednafen.h"
 
-#include <sys/types.h>
+#include <stdint.h>
 
 #include <string.h>
 #include <errno.h>
 #include <time.h>
 #include <memory>
+
+#include <retro_stat.h>
 
 #include "../general.h"
 #include "../mednafen-endian.h"
@@ -384,7 +386,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
    static const unsigned max_args = 4;
    std::string linebuf;
    std::string cmdbuf, args[max_args];
-   bool IsTOC = FALSE;
+   bool IsTOC = false;
    int32_t active_track = -1;
    int32_t AutoTrackInc = 1; // For TOC
    CDRFILE_TRACK_INFO TmpTrack;
@@ -410,7 +412,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
       if(fp.read(bom_tmp, 3, false) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF)
       {
          // Print an annoying error message, but don't actually error out.
-         MDFN_PrintError(_("UTF-8 BOM detected at start of CUE sheet."));
+         log_cb(RETRO_LOG_WARN, "UTF-8 BOM detected at start of CUE sheet.\n");
       }
       else
          fp.seek(0, SEEK_SET);
@@ -502,7 +504,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
             }
 
             if(TmpTrack.DIFormat == DI_FORMAT_AUDIO)
-               TmpTrack.RawAudioMSBFirst = TRUE; // Silly cdrdao...
+               TmpTrack.RawAudioMSBFirst = true; /* Silly cdrdao... */
 
             if(!strcasecmp(args[1].c_str(), "RW"))
             {
@@ -1020,7 +1022,7 @@ CDAccess_Image::~CDAccess_Image()
    Cleanup();
 }
 
-void CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
+bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
 {
    uint8_t SimuQ[0xC];
    int32_t track;
@@ -1053,7 +1055,7 @@ void CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
       }
 
       synth_leadout_sector_lba(data_synth_mode, toc, lba, buf);
-      return;
+      return true;
    }
    //
    //
@@ -1180,6 +1182,8 @@ void CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             ct->fp->read(buf + 2352, 96);
       }
    } // end if audible part of audio track read.
+
+   return true;
 }
 
 bool CDAccess_Image::Fast_Read_Raw_PW_TSRE(uint8_t* pwbuf, int32_t lba)
@@ -1325,9 +1329,10 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
    return track;
 }
 
-void CDAccess_Image::Read_TOC(TOC *rtoc)
+bool CDAccess_Image::Read_TOC(TOC *rtoc)
 {
    *rtoc = toc;
+   return true;
 }
 
 void CDAccess_Image::GenerateTOC(void)
