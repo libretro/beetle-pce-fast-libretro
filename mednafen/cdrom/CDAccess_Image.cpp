@@ -1313,7 +1313,7 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
       if(it != SubQReplaceMap.end())
       {
          //printf("Replace: %d\n", lba);
-         memcpy(buf, it->second.data(), 12);
+         memcpy(buf, (void*)it->second.data(), 12);
       }
    }
 
