@@ -307,7 +307,7 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
    uint8_t ed[4 + 10];
    uint8_t tmpq[12];
 
-   MDFN_printf(_("Loading SBI file \"%s\"...\n"), sbi_path.c_str());
+   log_cb(RETRO_LOG_INFO, "Loading SBI file \"%s\"...\n", sbi_path.c_str());
 
    if (!path_is_valid(sbi_path.c_str()))
    {
@@ -356,7 +356,8 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
 
       memcpy(SubQReplaceMap[aba].data(), tmpq, 12);
    }
-   MDFN_printf(_("Loaded Q subchannel replacements for %zu sectors.\n"), SubQReplaceMap.size());
+
+   log_cb(RETRO_LOG_INFO, "Loaded Q subchannel replacements for %zu sectors.\n", SubQReplaceMap.size());
    return true;
 }
 
@@ -397,7 +398,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
 
    if(!strcasecmp(file_ext.c_str(), ".toc"))
    {
-      MDFN_printf(_("TOC file detected.\n"));
+      log_cb(RETRO_LOG_INFO, "TOC file detected.\n");
       IsTOC = true;
    }
 
@@ -820,7 +821,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
          else if(cmdbuf == "CDTEXTFILE" || cmdbuf == "CATALOG" || cmdbuf == "ISRC" ||
                cmdbuf == "TITLE" || cmdbuf == "PERFORMER" || cmdbuf == "SONGWRITER")
          {
-            MDFN_printf(_("Unsupported CUE sheet directive: \"%s\".\n"), cmdbuf.c_str());	// FIXME, generic logger passed by pointer to constructor
+            log_cb(RETRO_LOG_WARN, "Unsupported CUE sheet directive: \"%s\".\n", cmdbuf.c_str());	/* FIXME, generic logger passed by pointer to constructor */
          }
          else
          {
