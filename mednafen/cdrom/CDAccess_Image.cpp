@@ -1309,11 +1309,7 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
    {
       //printf("%d\n", lba);
 
-      auto it = SubQReplaceMap.find(LBA_to_ABA(lba));
-
-#if 0
-      showtype(it);
-#endif
+      std::map<uint32_t, stl_array<uint8_t, 12> >::const_iterator it = SubQReplaceMap.find(LBA_to_ABA(lba));
 
       if(it != SubQReplaceMap.end())
       {
