@@ -2431,12 +2431,12 @@ void SCSICD_GetCDDAValues(int16 &left, int16 &right)
 #define CDDA_FILTER_NUMPHASES_SHIFT		6
 #define CDDA_FILTER_NUMPHASES	       		(1 << CDDA_FILTER_NUMPHASES_SHIFT)
 
-alignas(16) static const int16 CDDA_Filter[1 + CDDA_FILTER_NUMPHASES + 1][CDDA_FILTER_NUMCONVOLUTIONS_PADDED] =
+static const int16 CDDA_Filter[1 + CDDA_FILTER_NUMPHASES + 1][CDDA_FILTER_NUMCONVOLUTIONS_PADDED] =
 {
  #include "scsicd_cdda_filter.inc"
 };
 
-alignas(16) static const int16 OversampleFilter[2][0x10] =
+static const int16 OversampleFilter[2][0x10] =
 {
  {    -82,    217,   -463,    877,  -1562,   2783,  -5661,  29464,   9724,  -3844,   2074,  -1176,    645,   -323,    138,    -43,  }, /* sum=32768, sum_abs=59076 */
  {    -43,    138,   -323,    645,  -1176,   2074,  -3844,   9724,  29464,  -5661,   2783,  -1562,    877,   -463,    217,    -82,  }, /* sum=32768, sum_abs=59076 */
