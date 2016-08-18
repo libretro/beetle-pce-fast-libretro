@@ -4,31 +4,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#ifdef MSB_FIRST
-#ifndef le32toh
-#define le32toh(l)      ((((l)>>24) & 0xff) | (((l)>>8) & 0xff00) \
-      | (((l)<<8) & 0xff0000) | (((l)<<24) & 0xff000000))
-#endif
-#ifndef le16toh
-#define le16toh(l)      ((((l)>>8) & 0xff) | (((l)<<8) & 0xff00))
-#endif
-#else
-#ifndef le32toh
-#define le32toh(l)      (l)
-#endif
-#ifndef le16toh
-#define le16toh(l)      (l)
-#endif
-#endif
-
-#ifndef htole32
-#define htole32 le32toh
-#endif
-
-#ifndef htole16
-#define htole16 le16toh
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
