@@ -45,14 +45,13 @@ ifeq ($(platform), unix)
    ifneq ($(shell uname -p | grep -E '((i.|x)86|amd64)'),)
       IS_X86 = 1
    endif
-   LDFLAGS += $(PTHREAD_FLAGS) -lrt
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   LDFLAGS += -lrt
+   FLAGS += -DHAVE_MKDIR
 else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
 ifeq ($(arch),ppc)
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
    OLD_GCC := 1
@@ -67,8 +66,6 @@ else ifneq (,$(findstring ios,$(platform)))
    TARGET := $(TARGET_NAME)_libretro_ios.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS)
 
 ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk iphoneos Path)
@@ -90,8 +87,6 @@ else ifeq ($(platform), qnx)
    TARGET := $(TARGET_NAME)_libretro_$(platform).so
    fpic := -fPIC
    SHARED := -lcpp -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   #LDFLAGS += $(PTHREAD_FLAGS)
-   #FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
    FLAGS += -DHAVE_MKDIR
    CC = qcc -Vgcc_ntoarmv7le
    CXX = QCC -Vgcc_ntoarmv7le_cpp
@@ -153,7 +148,6 @@ else ifeq ($(platform), xenon)
    CXX = xenon-g++$(EXE_EXT)
    AR = xenon-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   LIBS := $(PTHREAD_FLAGS)
    FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
 else ifeq ($(platform), ngc)
@@ -181,8 +175,8 @@ else ifeq ($(platform), rpi1)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS) -lrt
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   LDFLAGS += -lrt
+   FLAGS += -DHAVE_MKDIR
    IS_X86 = 0
    FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard
    FLAGS += -fomit-frame-pointer -ffast-math
@@ -191,8 +185,8 @@ else ifeq ($(platform), rpi2)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS) -lrt
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   LDFLAGS += -lrt
+   FLAGS += -DHAVE_MKDIR
    IS_X86 = 0
    FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
    FLAGS += -fomit-frame-pointer -ffast-math
@@ -202,8 +196,8 @@ else ifeq ($(platform), rpi3)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS) -lrt
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   LDFLAGS += -lrt
+   FLAGS += -DHAVE_MKDIR
    IS_X86 = 0
    FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
    FLAGS += -fomit-frame-pointer -ffast-math
@@ -213,8 +207,7 @@ else ifneq (,$(findstring armv,$(platform)))
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    CC = gcc
-   LDFLAGS += $(PTHREAD_FLAGS)
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   FLAGS += -DHAVE_MKDIR
    IS_X86 = 0
 ifneq (,$(findstring cortexa8,$(platform)))
    FLAGS += -marm -mcpu=cortex-a8
@@ -235,6 +228,11 @@ else ifneq (,$(findstring hardfloat,$(platform)))
    FLAGS += -mfloat-abi=hard
 endif
    FLAGS += -DARM
+
+else ifeq ($(platform), emscripten)
+   TARGET := $(TARGET_NAME)_libretro_$(platform).bc
+   STATIC_LINKING = 1
+
 else ifeq ($(platform), gcw0)
    TARGET := $(TARGET_NAME)_libretro.so
    CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
@@ -242,8 +240,8 @@ else ifeq ($(platform), gcw0)
    AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   LDFLAGS += $(PTHREAD_FLAGS) -lrt
-   FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
+   LDFLAGS += -lrt
+   FLAGS += -DHAVE_MKDIR
    FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 else
    TARGET := $(TARGET_NAME)_libretro.dll
