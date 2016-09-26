@@ -771,7 +771,13 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    int32 *LineWidths = espec->LineWidths;
    bool skip = espec->skip || IsHES;
 
-   if(!skip){
+   // x and w should be overwritten in the big loop
+
+   if(!skip)
+   {
+      DisplayRect->x = 0;
+      DisplayRect->w = 256;
+
       DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
       DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
    }
@@ -782,7 +788,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(frame_counter == 0)
       {
-         VDS = 12 /*constant that fills the framebuffer*//*M_vdc_VDS*/;	//Vertical Display Start position minus two
+         VDS = M_vdc_VDS;
          VSW = M_vdc_VSW;
          VDW = M_vdc_VDW;
          VCR = M_vdc_VCR;
@@ -947,10 +953,16 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                      memset(spr_linebuf + 0x20, 0, sizeof(uint16) * (end - start));
                }
 
-               if(SHOULD_DRAW){
+               if(SHOULD_DRAW)
+               {
+                  static const int xs[2][3] = {
+                     { 24 - 43, 38, 96 - 43 * 2 },
+                     { 24,      38, 96 }
+                  };
+
                   int32 width = end - start;
                   int32 source_offset = 0;
-                  int32 target_offset = 0;
+                  int32 target_offset = start - (128 + 8 + xs[correct_aspect][vce.dot_clock]);
 
                   if(target_offset < 0)
                   {
@@ -961,6 +973,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
                   if((target_offset + width) > DisplayRect->w)
                      width = (int32)DisplayRect->w - target_offset;
+
+                  //if(vdc->display_counter == 50)
+                  //	MDFN_DispMessage("soffset=%d, toffset=%d, width=%d", source_offset, target_offset, width);
 
                   if(width > 0)
                   {
@@ -994,6 +1009,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
             //else if(target_ptr16)
             DrawOverscan(vdc, target_ptr16, DisplayRect);
          }
+      }
+
+      if(SHOULD_DRAW && fc_vrm)
+      {
+         MDFN_MidLineUpdate(espec, frame_counter - 14);
       }
 
       if((vdc->CR & 0x08) && need_vbi[0])
@@ -1044,8 +1064,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
 
-   DisplayRect->w = (M_vdc_HDW + 1) * 8;	//Horizontal Display Width in eight pixel tiles minus one
-   DisplayRect->h = M_vdc_VDW + 1;	//Vertical Display Width in pixels minus one
 }
 
 void VDC_Reset(void)

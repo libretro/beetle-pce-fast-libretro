@@ -193,6 +193,7 @@ typedef struct
 	MDFN_Surface *surface;
 
 	// Will be set to TRUE if the video pixel format has changed since the last call to Emulate(), FALSE otherwise.
+	// Will be set to TRUE on the first call to the Emulate() function/method
 	bool VideoFormatChanged;
 
 	// Set by the system emulation code every frame, to denote the horizontal and vertical offsets of the image, and the size

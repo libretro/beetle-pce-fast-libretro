@@ -24,19 +24,6 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
-#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
-#define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H 242
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
-#define FB_WIDTH 512
-#define FB_HEIGHT 242
-
 static bool old_cdimagecache = false;
 
 extern MDFNGI EmulatedPCE_Fast;
@@ -867,8 +854,8 @@ MDFNGI EmulatedPCE_Fast =
  0,   // lcm_height           
  NULL,  // Dummy
 
- MEDNAFEN_CORE_GEOMETRY_BASE_W,   // Nominal width
- MEDNAFEN_CORE_GEOMETRY_BASE_H,   // Nominal height
+ 288,   // Nominal width
+ 232,   // Nominal height
 
  512,	// Framebuffer width
  242,	// Framebuffer height
@@ -1165,6 +1152,8 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
+
+static bool overscan;
 static double last_sound_rate;
 
 static MDFN_Surface *surf;
@@ -1190,6 +1179,19 @@ static void set_basename(const char *path)
 }
 
 #include "mednafen/pce_fast/pcecd.h"
+
+#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
+#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
+#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
+#define MEDNAFEN_CORE_TIMING_FPS 59.82
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
+#define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
+#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
+#define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
+#define FB_WIDTH 512
+#define FB_HEIGHT 242
 
 #define FB_MAX_HEIGHT FB_HEIGHT
 
@@ -1530,6 +1532,10 @@ bool retro_load_game(const struct retro_game_info *info)
    };
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
+
+   overscan = false;
+   environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &overscan);
+
    set_basename(info->path);
 
    check_variables();
@@ -1546,7 +1552,8 @@ bool retro_load_game(const struct retro_game_info *info)
    surf->width  = FB_WIDTH;
    surf->height = FB_HEIGHT;
    surf->pitch  = FB_WIDTH;
-   surf->pixels = (uint16_t*) calloc(2, FB_WIDTH * FB_HEIGHT);
+
+   surf->pixels = (uint16_t*)calloc(1, FB_WIDTH * FB_HEIGHT * 3);
 
    if (!surf->pixels)
    {
@@ -1667,14 +1674,11 @@ void retro_run(void)
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   unsigned width  = spec.DisplayRect.w;
+   unsigned width  = spec.DisplayRect.w & ~0x1;
    unsigned height = spec.DisplayRect.h;
-   struct retro_system_av_info system_av_info;
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
-   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
-   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
-   video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+
+   video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
+
    video_frames++;
    audio_frames += spec.SoundBufSize;
 
@@ -1932,6 +1936,14 @@ void MDFND_Message(const char *str)
 {
    if (log_cb)
       log_cb(RETRO_LOG_INFO, "%s\n", str);
+}
+
+void MDFND_MidSync(const EmulateSpecStruct *)
+{}
+
+void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
+{
+ //MDFND_MidLineUpdate(espec, y);
 }
 
 void MDFND_PrintError(const char* err)
