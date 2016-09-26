@@ -26,7 +26,7 @@
 #ifndef INLINE
 
 #if !defined(__cplusplus) && defined(_WIN32)
-#define INLINE inline
+#define INLINE _inline
 #elif defined(__STDC_VERSION__) && __STDC_VERSION__>=199901L
 #define INLINE inline
 #elif defined(__GNUC__)
