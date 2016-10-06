@@ -858,7 +858,7 @@ MDFNGI EmulatedPCE_Fast =
  232,   // Nominal height
 
  512,	// Framebuffer width
- 242,	// Framebuffer height
+ 243,	// Framebuffer height
 
  2,     // Number of output sound channels
 };
@@ -1188,10 +1188,10 @@ static void set_basename(const char *path)
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 242
+#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
 #define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
 #define FB_WIDTH 512
-#define FB_HEIGHT 242
+#define FB_HEIGHT 243
 
 #define FB_MAX_HEIGHT FB_HEIGHT
 
