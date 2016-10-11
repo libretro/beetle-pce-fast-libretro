@@ -1685,9 +1685,12 @@ void retro_run(void)
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
-      check_variables();
-}
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
+	check_variables();
+        struct retro_system_av_info new_av_info;
+	retro_get_system_av_info(&new_av_info);
+	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &new_av_info);
+   }
 
 void retro_get_system_info(struct retro_system_info *info)
 {
@@ -1705,7 +1708,7 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    info->timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
    info->timing.sample_rate    = 44100;
    info->geometry.base_width   = MEDNAFEN_CORE_GEOMETRY_BASE_W;
-   info->geometry.base_height  = MEDNAFEN_CORE_GEOMETRY_BASE_H;
+   info->geometry.base_height  = setting_last_scanline - setting_initial_scanline + 1;
    info->geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    info->geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
    info->geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
