@@ -1690,6 +1690,10 @@ void retro_run(void)
         struct retro_system_av_info new_av_info;
 	retro_get_system_av_info(&new_av_info);
 	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &new_av_info);
+		   
+	if(PCE_IsCD){
+		psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+	}
    }
 
 void retro_get_system_info(struct retro_system_info *info)
