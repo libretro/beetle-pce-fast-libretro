@@ -782,7 +782,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(frame_counter == 0)
       {
-         VDS = 12 /*constant that fills the framebuffer*//*M_vdc_VDS*/;	//Vertical Display Start position minus two
+         VDS = M_vdc_VDS;
          VSW = M_vdc_VSW;
          VDW = M_vdc_VDW;
          VCR = M_vdc_VCR;
@@ -1045,7 +1045,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    } while(frame_counter != VBlankFL); // big frame loop!
 
    DisplayRect->w = (M_vdc_HDW + 1) * 8;	//Horizontal Display Width in eight pixel tiles minus one
-   DisplayRect->h = M_vdc_VDW + 1;	//Vertical Display Width in pixels minus one
 }
 
 void VDC_Reset(void)
