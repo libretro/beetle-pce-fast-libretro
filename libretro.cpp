@@ -288,17 +288,6 @@ static int LoadCommon(void)
  MDFNGameInfo->LayerNames = "Background\0Sprites\0";
 #endif
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
-
- // Clean this up:
- if(!MDFN_GetSettingB("pce_fast.correct_aspect"))
-  MDFNGameInfo->fb_width = 682;
-
- MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 288 : 341;
- MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce_fast.slend") - MDFN_GetSettingUI("pce_fast.slstart") + 1;
-
- MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 : 341;
- MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
-
  return(1);
 }
 
@@ -522,7 +511,6 @@ static void DoSimpleCommand(int cmd)
 
 static MDFNSetting PCESettings[] = 
 {
-  { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, "Correct the aspect ratio.", NULL, MDFNST_BOOL, "1" },
   { "pce_fast.slstart", MDFNSF_NOFLAGS, "First rendered scanline.", NULL, MDFNST_UINT, "4", "0", "239" },
   { "pce_fast.slend", MDFNSF_NOFLAGS, "Last rendered scanline.", NULL, MDFNST_UINT, "235", "0", "239" },
   { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, "Mouse sensitivity.", NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
@@ -1322,27 +1310,6 @@ static void check_variables(void)
       else if (strcmp(var.value, "enabled") == 0)
          setting_pce_fast_nospritelimit = 1;
    }
-
-   var.key = "pce_keepaspect";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "disabled") == 0)
-      {
-         setting_pce_keepaspect = 0;
-         EmulatedPCE_Fast.fb_width = 512;
-         EmulatedPCE_Fast.nominal_width = 341;
-         EmulatedPCE_Fast.lcm_width = 341;
-      }
-      else if (strcmp(var.value, "enabled") == 0)
-      {
-         setting_pce_keepaspect = 1;
-         EmulatedPCE_Fast.fb_width = 682;
-         EmulatedPCE_Fast.nominal_width = 288;
-         EmulatedPCE_Fast.lcm_width = 1024;
-      }
-   }
-
    var.key = "pce_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1749,7 +1716,6 @@ void retro_set_environment(retro_environment_t cb)
    static const struct retro_variable vars[] = {
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
-      { "pce_keepaspect", "Keep Aspect; enabled|disabled" },
       { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
       { "pce_last_scanline", "Last scanline; 241|242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240" },
       { "pce_cddavolume", "(CD) CDDA Volume; 100|0|10|20|30|40|50|60|70|80|90" },
