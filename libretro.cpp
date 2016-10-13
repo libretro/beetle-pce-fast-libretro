@@ -1190,21 +1190,6 @@ static void set_basename(const char *path)
 
 #include "mednafen/pce_fast/pcecd.h"
 
-#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
-#define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
-#define FB_WIDTH 512
-#define FB_HEIGHT 243
-
-#define FB_MAX_HEIGHT FB_HEIGHT
-
 static void check_system_specs(void)
 {
    unsigned level = 5;
@@ -1650,7 +1635,7 @@ void retro_run(void)
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static int32_t rects[FB_MAX_HEIGHT];
+   static int32_t rects[FB_HEIGHT];
    rects[0] = ~0;
 
    EmulateSpecStruct spec = {0};
