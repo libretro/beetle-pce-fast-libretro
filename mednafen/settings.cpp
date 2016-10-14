@@ -23,6 +23,7 @@
 
 int setting_initial_scanline = 0;
 int setting_last_scanline = 242;
+int setting_pce_hoverscan = 0;
 int setting_pce_fast_nospritelimit = 0;
 int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
@@ -46,6 +47,8 @@ uint64 MDFN_GetSettingUI(const char *name)
       return setting_initial_scanline;
    if (!strcmp("pce_fast.slend", name))
       return setting_last_scanline; 
+   if (!strcmp("pce_fast.hoverscan", name))
+      return setting_pce_hoverscan; 
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;
@@ -84,6 +87,8 @@ bool MDFN_GetSettingB(const char *name)
       return 0;
    if (!strcmp("pce_fast.correct_aspect", name))
       return setting_pce_keepaspect;
+   if (!strcmp("pce_fast.hoverscan", name))
+      return setting_pce_hoverscan;
    /* CDROM */
    if (!strcmp("cdrom.lec_eval", name))
       return 1;
