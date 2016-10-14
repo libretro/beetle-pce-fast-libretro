@@ -38,6 +38,7 @@ static uint32 disabled_layer_color;
 
 static bool unlimited_sprites;
 static bool correct_aspect;
+static bool hoverscan;
 
 #define ULE_BG0		1
 #define ULE_SPR0	2
@@ -849,7 +850,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          };
 
          DisplayRect->x = 0;
-         DisplayRect->w = ws[correct_aspect][vce.dot_clock];
+         if(hoverscan == 1 && vce.dot_clock == 1){
+			   DisplayRect->w = 352;
+		   }else{
+			   DisplayRect->w = ws[correct_aspect][vce.dot_clock];
+		   }
       }
 
       int chip = 0;
@@ -951,6 +956,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   int32 width = end - start;
                   int32 source_offset = 0;
                   int32 target_offset = 0;
+                  
+                  // Align 512 width mode
+                  if(vce.dot_clock ==2){
+					      target_offset = - 16;
+				      }
 
                   if(target_offset < 0)
                   {
@@ -1044,7 +1054,13 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
 
-   DisplayRect->w = (M_vdc_HDW + 1) * 8;	//Horizontal Display Width in eight pixel tiles minus one
+   if(vce.dot_clock ==2){
+		DisplayRect->w = 512; 
+	}else if(vce.dot_clock ==1 && hoverscan ==0){
+		DisplayRect->w = 341; 
+	}else{
+		DisplayRect->w = (M_vdc_HDW + 1) * 8; 	//Horizontal Display Width in eight pixel tiles minus one
+	}
 }
 
 void VDC_Reset(void)
@@ -1068,6 +1084,7 @@ void VDC_Init(int sgx)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
    correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
+   hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
    userle = ~0;
 
    vdc = (vdc_t *)malloc(sizeof(vdc_t));
