@@ -959,8 +959,13 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   
                   // Align 512 width mode
                   if(vce.dot_clock ==2){
-					      target_offset = - 16;
-				      }
+                     target_offset = - 16;
+                  }
+                  
+		  //Align width<256 in a 256 rectangle forced later on
+                  if(width > 0 && width < 256){
+                     target_offset = (256 - width)/2;
+                  }
 
                   if(target_offset < 0)
                   {
@@ -1054,12 +1059,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
 
-   if(vce.dot_clock ==2){
-		DisplayRect->w = 512; 
-	}else if(vce.dot_clock ==1 && hoverscan ==0){
-		DisplayRect->w = 341; 
+	static const int defined_width[3] = { 256, 341, 512};
+
+	if(vce.dot_clock ==1 && hoverscan ==0){
+		DisplayRect->w = 352;
 	}else{
-		DisplayRect->w = (M_vdc_HDW + 1) * 8; 	//Horizontal Display Width in eight pixel tiles minus one
+		DisplayRect->w = defined_width[vce.dot_clock];
 	}
 }
 
