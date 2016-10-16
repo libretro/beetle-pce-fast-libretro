@@ -1061,7 +1061,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
 	static const int defined_width[3] = { 256, 341, 512};
 
-	if(vce.dot_clock ==1 && hoverscan ==0){
+	if(vce.dot_clock ==1 && hoverscan ==1){
 		DisplayRect->w = 352;
 	}else{
 		DisplayRect->w = defined_width[vce.dot_clock];
