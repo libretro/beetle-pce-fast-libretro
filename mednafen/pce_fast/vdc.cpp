@@ -47,6 +47,7 @@ static bool hoverscan;
 
 static const uint8 bat_width_shift_tab[4] = { 5, 6, 7, 7 };
 static const uint8 bat_height_mask_tab[2] = { 32 - 1, 64 - 1 };
+static const int defined_width[3] = { 256, 341, 512};
 
 static unsigned int VDS;
 static unsigned int VSW;
@@ -962,9 +963,13 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                      target_offset = - 16;
                   }
                   
-		  //Align width<256 in a 256 rectangle forced later on
-                  if(width > 0 && width < 256){
-                     target_offset = (256 - width)/2;
+                  //Centre any picture thinner than its display mode width
+                  if(width > 0 && width < defined_width[vce.dot_clock]){
+                     target_offset = (defined_width[vce.dot_clock] - width)/2;
+			  
+                     if(vce.dot_clock ==1 && hoverscan ==1){
+                        target_offset = (352 - width)/2;
+                     }
                   }
 
                   if(target_offset < 0)
@@ -1058,8 +1063,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       frame_counter = (frame_counter + 1) % (vce.lc263 ? 263 : 262);
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
-
-	static const int defined_width[3] = { 256, 341, 512};
 
 	if(vce.dot_clock ==1 && hoverscan ==1){
 		DisplayRect->w = 352;
