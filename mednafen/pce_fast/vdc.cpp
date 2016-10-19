@@ -950,11 +950,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   int32 source_offset = 0;
                   int32 target_offset = 0;
                   
-                  // Align 512 width mode
-                  if(vce.dot_clock ==2){
-                     target_offset = - 16;
-                  }
-                  
                   //Centre any picture thinner than its display mode width
                   if(width > 0 && width < defined_width[vce.dot_clock]){
                      target_offset = (defined_width[vce.dot_clock] - width)/2;
@@ -968,7 +963,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   if(vce.dot_clock == 1 && hoverscan == 0 && width > 341){
                      target_offset = (341 - width) / 2;
                   }
-				  
+				 
+                  // Align TV Sport Basketball
+                  if(vce.dot_clock ==2 && width > 512){
+                     target_offset = - 16;
+                  }
+		       
                   // Semi-hack for Asuka 120%
                   if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
                      target_offset = 0;
