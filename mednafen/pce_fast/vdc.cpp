@@ -415,14 +415,6 @@ static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
    static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
 
    start = (M_vdc_HDS + 1) * 8;
-   // Semi-hack for Asuka 120%
-   if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
-      start -= 8;
-   else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
-      start -= 4;
-   // and for Addams Family
-   else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
-      start -= 4;
    end = start + (M_vdc_HDW + 1) * 8;
 
    if(start > (ClockPixelWidths[vce.dot_clock]))
@@ -971,7 +963,21 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                         target_offset = (352 - width)/2;
                      }
                   }
-
+				  
+                  //Centre cropping of overscan OFF
+                  if(vce.dot_clock == 1 && hoverscan == 0 && width > 341){
+                     target_offset = (341 - width) / 2;
+                  }
+				  
+                  // Semi-hack for Asuka 120%
+                  if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
+                     target_offset = 0;
+                  else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
+                     target_offset = 0;
+                  // and for Addams Family
+                  else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
+                     target_offset = 0;
+		       
                   if(target_offset < 0)
                   {
                      width += target_offset;
