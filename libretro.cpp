@@ -32,7 +32,7 @@
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
 #define FB_WIDTH 512
 #define FB_HEIGHT 243
 
@@ -519,6 +519,7 @@ static MDFNSetting PCESettings[] =
   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier.", NULL, MDFNST_UINT, "1", "1", "100" },
   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
+  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Display 352 pixels width instead of 341.", NULL, MDFNST_BOOL, "0" },
 
   { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
 
@@ -1310,6 +1311,17 @@ static void check_variables(void)
       else if (strcmp(var.value, "enabled") == 0)
          setting_pce_fast_nospritelimit = 1;
    }
+	
+	var.key = "pce_hoverscan";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "disabled") == 0)
+         setting_pce_hoverscan = 0;
+      else if (strcmp(var.value, "enabled") == 0)
+         setting_pce_hoverscan = 1;
+   }
+	
    var.key = "pce_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1645,8 +1657,13 @@ void retro_run(void)
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
       check_variables();
+	
+      if(PCE_IsCD){
+            psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      }
+   }
 }
 
 void retro_get_system_info(struct retro_system_info *info)
@@ -1715,12 +1732,13 @@ void retro_set_environment(retro_environment_t cb)
 
    static const struct retro_variable vars[] = {
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
+      { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
+      { "pce_hoverscan", "Horizontal Overscan (Restart); disabled|enabled" },
       { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "pce_last_scanline", "Last scanline; 241|242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240" },
-      { "pce_cddavolume", "(CD) CDDA Volume; 100|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume; 100|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume; 100|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
+      { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { "Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
       { "p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },

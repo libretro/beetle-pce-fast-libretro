@@ -37,7 +37,7 @@ static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
 static bool unlimited_sprites;
-static bool correct_aspect;
+static bool hoverscan;
 
 #define ULE_BG0		1
 #define ULE_SPR0	2
@@ -46,6 +46,7 @@ static bool correct_aspect;
 
 static const uint8 bat_width_shift_tab[4] = { 5, 6, 7, 7 };
 static const uint8 bat_height_mask_tab[2] = { 32 - 1, 64 - 1 };
+static const int defined_width[3] = { 256, 341, 512};
 
 static unsigned int VDS;
 static unsigned int VSW;
@@ -403,42 +404,6 @@ DECLFW(VDC_Write)
                 }
                 break;
    }
-}
-
-
-// 682 + 8 + 128 = 818.
-static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
-{
-   //static const unsigned int ClockModeWidths[3] = { 288, 384, 576 };
-   static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
-
-   start = (M_vdc_HDS + 1) * 8;
-   // Semi-hack for Asuka 120%
-   if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
-      start -= 8;
-   else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
-      start -= 4;
-   // and for Addams Family
-   else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
-      start -= 4;
-   end = start + (M_vdc_HDW + 1) * 8;
-
-   if(start > (ClockPixelWidths[vce.dot_clock]))
-      start = ClockPixelWidths[vce.dot_clock];
-
-   if(end > (ClockPixelWidths[vce.dot_clock]))
-      end = ClockPixelWidths[vce.dot_clock];
-
-   if(start == end)	// In case HDS is way off-screen, REMOVE when we confirm the rest of the code won't flip out
-      start = end - 8;	// when start == end;
-
-   // For: start - (vdc->BG_XOffset & 7)
-   end += 8;
-   start += 8;
-
-   // For: alignment space when correct_aspect == 0
-   end += 128;
-   start += 128;
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
@@ -843,13 +808,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(!skip)
       {
-         static const int ws[2][3] = {
-            { 341, 341, 682 },
-            { 256, 341, 512 }
-         };
-
          DisplayRect->x = 0;
-         DisplayRect->w = ws[correct_aspect][vce.dot_clock];
+         if(hoverscan == 1 && vce.dot_clock == 1){
+			   DisplayRect->w = 352;
+		   }else{
+			   DisplayRect->w = defined_width[vce.dot_clock];
+		   }
       }
 
       int chip = 0;
@@ -926,9 +890,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
             if(fc_vrm)
             {
-               uint32 start, end;
-
-               CalcStartEnd(vdc, start, end);
+               uint32 start = (M_vdc_HDS + 1) * 8;
+               uint32 end = start + (M_vdc_HDW + 1) * 8;
 
                if((vdc->CR & 0x80) && SHOULD_DRAW)
                {
@@ -951,7 +914,35 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   int32 width = end - start;
                   int32 source_offset = 0;
                   int32 target_offset = 0;
-
+                  
+                  //Centre any picture thinner than its display mode width
+                  if(width > 0 && width < defined_width[vce.dot_clock]){
+                     if(vce.dot_clock ==1 && hoverscan ==1){
+                        target_offset = (352 - width)/2;
+                     }else{
+                        target_offset = (defined_width[vce.dot_clock] - width)/2;
+                     }
+                  }
+				  
+                  //Centre cropping of overscan OFF
+                  if(vce.dot_clock == 1 && hoverscan == 0 && width > 341){
+                     target_offset = (341 - width) / 2;
+                  }
+				 
+                  // Align TV Sport Basketball
+                  if(vce.dot_clock ==2 && width > 512){
+                     target_offset = - 16;
+                  }
+		       
+                  // Semi-hack for Asuka 120%
+                  if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
+                     target_offset = 0;
+                  else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
+                     target_offset = 0;
+                  // and for Addams Family
+                  else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
+                     target_offset = 0;
+		       
                   if(target_offset < 0)
                   {
                      width += target_offset;
@@ -1044,7 +1035,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
 
-   DisplayRect->w = (M_vdc_HDW + 1) * 8;	//Horizontal Display Width in eight pixel tiles minus one
+	if(vce.dot_clock ==1 && hoverscan ==1){
+		DisplayRect->w = 352;
+	}else{
+		DisplayRect->w = defined_width[vce.dot_clock];
+	}
 }
 
 void VDC_Reset(void)
@@ -1067,7 +1062,7 @@ void VDC_Power(void)
 void VDC_Init(int sgx)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
-   correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
+   hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
    userle = ~0;
 
    vdc = (vdc_t *)malloc(sizeof(vdc_t));
