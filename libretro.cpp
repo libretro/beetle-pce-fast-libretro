@@ -1661,9 +1661,10 @@ void retro_run(void)
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated || video_frames == 0)
+   {
       check_variables();
-	    update_geometry(width, height);
+	   update_geometry(width, height);
       if(PCE_IsCD){
             psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
