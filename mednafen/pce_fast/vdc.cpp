@@ -740,7 +740,10 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       DisplayRect->y = MDFN_GetSettingUI("pce_fast.slstart");
       DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
    }
-
+	
+   if (hoverscan != MDFN_GetSettingB("pce_fast.hoverscan"))
+      hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
+	
    do
    {
       const bool SHOULD_DRAW = (!skip && (int)frame_counter >= (DisplayRect->y + 14) && (int)frame_counter < (DisplayRect->y + DisplayRect->h + 14));
