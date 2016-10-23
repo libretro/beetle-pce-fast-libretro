@@ -1626,7 +1626,7 @@ void retro_run(void)
 
    static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
-   static unsigned width, height = 0;
+   static unsigned width, height;
    bool resolution_changed = false;
    rects[0] = ~0;
 
