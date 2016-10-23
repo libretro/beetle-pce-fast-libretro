@@ -37,7 +37,6 @@ static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
 static bool unlimited_sprites;
-static bool correct_aspect;
 static bool hoverscan;
 
 #define ULE_BG0		1
@@ -405,34 +404,6 @@ DECLFW(VDC_Write)
                 }
                 break;
    }
-}
-
-
-// 682 + 8 + 128 = 818.
-static INLINE void CalcStartEnd(const vdc_t *vdc, uint32 &start, uint32 &end)
-{
-   //static const unsigned int ClockModeWidths[3] = { 288, 384, 576 };
-   static const unsigned int ClockPixelWidths[3] = { 341, 455, 682 };
-
-   start = (M_vdc_HDS + 1) * 8;
-   end = start + (M_vdc_HDW + 1) * 8;
-
-   if(start > (ClockPixelWidths[vce.dot_clock]))
-      start = ClockPixelWidths[vce.dot_clock];
-
-   if(end > (ClockPixelWidths[vce.dot_clock]))
-      end = ClockPixelWidths[vce.dot_clock];
-
-   if(start == end)	// In case HDS is way off-screen, REMOVE when we confirm the rest of the code won't flip out
-      start = end - 8;	// when start == end;
-
-   // For: start - (vdc->BG_XOffset & 7)
-   end += 8;
-   start += 8;
-
-   // For: alignment space when correct_aspect == 0
-   end += 128;
-   start += 128;
 }
 
 #define CB_EXL(n) (((n) << 4) | ((n) << 12) | ((n) << 20) | ((n) << 28) | ((n) << 36) | ((n) << 44) | ((n) << 52) | ((n) << 60))
@@ -837,16 +808,11 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(!skip)
       {
-         static const int ws[2][3] = {
-            { 341, 341, 682 },
-            { 256, 341, 512 }
-         };
-
          DisplayRect->x = 0;
          if(hoverscan == 1 && vce.dot_clock == 1){
 			   DisplayRect->w = 352;
 		   }else{
-			   DisplayRect->w = ws[correct_aspect][vce.dot_clock];
+			   DisplayRect->w = defined_width[vce.dot_clock];
 		   }
       }
 
@@ -924,9 +890,8 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
             if(fc_vrm)
             {
-               uint32 start, end;
-
-               CalcStartEnd(vdc, start, end);
+               uint32 start = (M_vdc_HDS + 1) * 8;
+               uint32 end = start + (M_vdc_HDW + 1) * 8;
 
                if((vdc->CR & 0x80) && SHOULD_DRAW)
                {
@@ -952,10 +917,10 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   
                   //Centre any picture thinner than its display mode width
                   if(width > 0 && width < defined_width[vce.dot_clock]){
-                     target_offset = (defined_width[vce.dot_clock] - width)/2;
-			  
                      if(vce.dot_clock ==1 && hoverscan ==1){
                         target_offset = (352 - width)/2;
+                     }else{
+                        target_offset = (defined_width[vce.dot_clock] - width)/2;
                      }
                   }
 				  
@@ -1097,7 +1062,6 @@ void VDC_Power(void)
 void VDC_Init(int sgx)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
-   correct_aspect = MDFN_GetSettingB("pce_fast.correct_aspect");
    hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
    userle = ~0;
 

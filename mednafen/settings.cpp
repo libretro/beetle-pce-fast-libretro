@@ -29,7 +29,6 @@ int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
-uint32_t setting_pce_keepaspect = 1;
 
 uint64 MDFN_GetSettingUI(const char *name)
 {
@@ -85,8 +84,6 @@ bool MDFN_GetSettingB(const char *name)
       return 0;
    if (!strcmp("pce_fast.adpcmlp", name))
       return 0;
-   if (!strcmp("pce_fast.correct_aspect", name))
-      return setting_pce_keepaspect;
    if (!strcmp("pce_fast.hoverscan", name))
       return setting_pce_hoverscan;
    /* CDROM */
