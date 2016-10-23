@@ -1605,6 +1605,15 @@ static void update_input(void)
 
 static uint64_t video_frames, audio_frames;
 
+void update_geometry(unsigned width, unsigned height)
+{
+   struct retro_system_av_info system_av_info;
+   system_av_info.geometry.base_width = width;
+   system_av_info.geometry.base_height = height;
+   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
+}
+
 void retro_run(void)
 {
    MDFNGI *curgame = (MDFNGI*)game;
@@ -1645,11 +1654,6 @@ void retro_run(void)
 
    unsigned width  = spec.DisplayRect.w;
    unsigned height = spec.DisplayRect.h;
-   struct retro_system_av_info system_av_info;
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
-   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
-   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
    video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
    video_frames++;
    audio_frames += spec.SoundBufSize;
@@ -1659,7 +1663,7 @@ void retro_run(void)
    bool updated = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
       check_variables();
-	
+	    update_geometry(width, height);
       if(PCE_IsCD){
             psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
