@@ -1605,6 +1605,17 @@ static void update_input(void)
 
 static uint64_t video_frames, audio_frames;
 
+void update_geometry(unsigned width, unsigned height)
+{
+   struct retro_system_av_info system_av_info;
+   system_av_info.geometry.base_width = width;
+   system_av_info.geometry.base_height = height;
+   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
+}
+
+
+
 void retro_run(void)
 {
    MDFNGI *curgame = (MDFNGI*)game;
@@ -1615,6 +1626,8 @@ void retro_run(void)
 
    static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
+   static unsigned width, height;
+   bool resolution_changed = false;
    rects[0] = ~0;
 
    EmulateSpecStruct spec = {0};
@@ -1643,27 +1656,29 @@ void retro_run(void)
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   unsigned width  = spec.DisplayRect.w;
-   unsigned height = spec.DisplayRect.h;
-   struct retro_system_av_info system_av_info;
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
-   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
-   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
+   if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+      resolution_changed = true;
+
+   width  = spec.DisplayRect.w;
+   height = spec.DisplayRect.h;
    video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
-   video_frames++;
-   audio_frames += spec.SoundBufSize;
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated){
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+   {
       check_variables();
-	
+      update_geometry(width, height);
       if(PCE_IsCD){
             psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
    }
+   
+   if (resolution_changed)
+      update_geometry(width, height);
+   video_frames++;
+   audio_frames += spec.SoundBufSize;
 }
 
 void retro_get_system_info(struct retro_system_info *info)
