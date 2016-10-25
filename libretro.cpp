@@ -14,15 +14,28 @@
 #include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
+#include "mednafen/settings-driver.h"
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mempatcher.h"
-
 #include "mednafen/cdrom/cdromif.h"
 #include "mednafen/cdrom/CDUtility.h"
 
 #ifdef _MSC_VER
 #include "mednafen/msvc_compat.h"
 #endif
+
+#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
+#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
+#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
+#define MEDNAFEN_CORE_TIMING_FPS 59.82
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
+#define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
+#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
+#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
+#define FB_WIDTH 512
+#define FB_HEIGHT 243
 
 static bool old_cdimagecache = false;
 
@@ -276,17 +289,6 @@ static int LoadCommon(void)
  MDFNGameInfo->LayerNames = "Background\0Sprites\0";
 #endif
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
-
- // Clean this up:
- if(!MDFN_GetSettingB("pce_fast.correct_aspect"))
-  MDFNGameInfo->fb_width = 682;
-
- MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 288 : 341;
- MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce_fast.slend") - MDFN_GetSettingUI("pce_fast.slstart") + 1;
-
- MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce_fast.correct_aspect") ? 1024 : 341;
- MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
-
  return(1);
 }
 
@@ -510,7 +512,6 @@ static void DoSimpleCommand(int cmd)
 
 static MDFNSetting PCESettings[] = 
 {
-  { "pce_fast.correct_aspect", MDFNSF_CAT_VIDEO, "Correct the aspect ratio.", NULL, MDFNST_BOOL, "1" },
   { "pce_fast.slstart", MDFNSF_NOFLAGS, "First rendered scanline.", NULL, MDFNST_UINT, "4", "0", "239" },
   { "pce_fast.slend", MDFNSF_NOFLAGS, "Last rendered scanline.", NULL, MDFNST_UINT, "235", "0", "239" },
   { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, "Mouse sensitivity.", NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
@@ -519,6 +520,7 @@ static MDFNSetting PCESettings[] =
   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier.", NULL, MDFNST_UINT, "1", "1", "100" },
   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
+  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Display 352 pixels width instead of 341.", NULL, MDFNST_BOOL, "0" },
 
   { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
 
@@ -854,11 +856,11 @@ MDFNGI EmulatedPCE_Fast =
  0,   // lcm_height           
  NULL,  // Dummy
 
- 288,   // Nominal width
- 232,   // Nominal height
+ MEDNAFEN_CORE_GEOMETRY_BASE_W,   // Nominal width
+ MEDNAFEN_CORE_GEOMETRY_BASE_H,   // Nominal height
 
- 512,	// Framebuffer width
- 243,	// Framebuffer height
+ FB_WIDTH,	// Framebuffer width
+ FB_HEIGHT,	// Framebuffer height
 
  2,     // Number of output sound channels
 };
@@ -1152,8 +1154,6 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-
-static bool overscan;
 static double last_sound_rate;
 
 static MDFN_Surface *surf;
@@ -1179,21 +1179,6 @@ static void set_basename(const char *path)
 }
 
 #include "mednafen/pce_fast/pcecd.h"
-
-#define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd"
-#define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 288
-#define MEDNAFEN_CORE_GEOMETRY_BASE_H 232
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (4.0 / 3.0)
-#define FB_WIDTH 512
-#define FB_HEIGHT 243
-
-#define FB_MAX_HEIGHT FB_HEIGHT
 
 static void check_system_specs(void)
 {
@@ -1327,27 +1312,18 @@ static void check_variables(void)
       else if (strcmp(var.value, "enabled") == 0)
          setting_pce_fast_nospritelimit = 1;
    }
-
-   var.key = "pce_keepaspect";
+	
+	var.key = "pce_hoverscan";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "disabled") == 0)
-      {
-         setting_pce_keepaspect = 0;
-         EmulatedPCE_Fast.fb_width = 512;
-         EmulatedPCE_Fast.nominal_width = 341;
-         EmulatedPCE_Fast.lcm_width = 341;
-      }
+         setting_pce_hoverscan = 0;
       else if (strcmp(var.value, "enabled") == 0)
-      {
-         setting_pce_keepaspect = 1;
-         EmulatedPCE_Fast.fb_width = 682;
-         EmulatedPCE_Fast.nominal_width = 288;
-         EmulatedPCE_Fast.lcm_width = 1024;
-      }
+         setting_pce_hoverscan = 1;
+      MDFNI_SetSettingB("pce_fast.hoverscan", setting_pce_hoverscan);
    }
-
+	
    var.key = "pce_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1532,10 +1508,6 @@ bool retro_load_game(const struct retro_game_info *info)
    };
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
-
-   overscan = false;
-   environ_cb(RETRO_ENVIRONMENT_GET_OVERSCAN, &overscan);
-
    set_basename(info->path);
 
    check_variables();
@@ -1552,8 +1524,7 @@ bool retro_load_game(const struct retro_game_info *info)
    surf->width  = FB_WIDTH;
    surf->height = FB_HEIGHT;
    surf->pitch  = FB_WIDTH;
-
-   surf->pixels = (uint16_t*)calloc(1, FB_WIDTH * FB_HEIGHT * 3);
+   surf->pixels = (uint16_t*) calloc(2, FB_WIDTH * FB_HEIGHT);
 
    if (!surf->pixels)
    {
@@ -1636,6 +1607,17 @@ static void update_input(void)
 
 static uint64_t video_frames, audio_frames;
 
+void update_geometry(unsigned width, unsigned height)
+{
+   struct retro_system_av_info system_av_info;
+   system_av_info.geometry.base_width = width;
+   system_av_info.geometry.base_height = height;
+   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
+}
+
+
+
 void retro_run(void)
 {
    MDFNGI *curgame = (MDFNGI*)game;
@@ -1645,7 +1627,9 @@ void retro_run(void)
    update_input();
 
    static int16_t sound_buf[0x10000];
-   static int32_t rects[FB_MAX_HEIGHT];
+   static int32_t rects[FB_HEIGHT];
+   static unsigned width, height;
+   bool resolution_changed = false;
    rects[0] = ~0;
 
    EmulateSpecStruct spec = {0};
@@ -1674,19 +1658,29 @@ void retro_run(void)
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   unsigned width  = spec.DisplayRect.w & ~0x1;
-   unsigned height = spec.DisplayRect.h;
+   if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+      resolution_changed = true;
 
-   video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH << 1);
-
-   video_frames++;
-   audio_frames += spec.SoundBufSize;
+   width  = spec.DisplayRect.w;
+   height = spec.DisplayRect.h;
+   video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
+   {
       check_variables();
+      if(PCE_IsCD){
+            psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+      }
+      update_geometry(width, height);
+   }
+   
+   if (resolution_changed)
+      update_geometry(width, height);
+   video_frames++;
+   audio_frames += spec.SoundBufSize;
 }
 
 void retro_get_system_info(struct retro_system_info *info)
@@ -1755,13 +1749,13 @@ void retro_set_environment(retro_environment_t cb)
 
    static const struct retro_variable vars[] = {
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
-      { "pce_keepaspect", "Keep Aspect; enabled|disabled" },
+      { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
+      { "pce_hoverscan", "Horizontal Overscan; disabled|enabled" },
       { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "pce_last_scanline", "Last scanline; 241|242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240" },
-      { "pce_cddavolume", "(CD) CDDA Volume; 100|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume; 100|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume; 100|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
+      { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
+      { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { "Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
       { "p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
@@ -1936,14 +1930,6 @@ void MDFND_Message(const char *str)
 {
    if (log_cb)
       log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
-void MDFND_MidSync(const EmulateSpecStruct *)
-{}
-
-void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y)
-{
- //MDFND_MidLineUpdate(espec, y);
 }
 
 void MDFND_PrintError(const char* err)
