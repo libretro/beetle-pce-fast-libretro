@@ -25,6 +25,7 @@ int setting_initial_scanline = 0;
 int setting_last_scanline = 242;
 int setting_pce_hoverscan = 0;
 int setting_pce_fast_nospritelimit = 0;
+int setting_pce_overclocked = 1;
 int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
@@ -40,8 +41,8 @@ uint64 MDFN_GetSettingUI(const char *name)
       return setting_pce_fast_cdpsgvolume;
    if (!strcmp("pce_fast.cdspeed", name))
       return setting_pce_fast_cdspeed;
-   if (!strcmp("pce_fast.ocmultiplier", name)) /* make configurable */
-      return 1;
+   if (!strcmp("pce_fast.ocmultiplier", name))
+      return setting_pce_overclocked;
    if (!strcmp("pce_fast.slstart", name))
       return setting_initial_scanline;
    if (!strcmp("pce_fast.slend", name))
