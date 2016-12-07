@@ -1408,7 +1408,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-      turbo_enable[0][0] = 1;
+		turbo_enable[0][0] = 1;
+	  else
+		turbo_enable[0][0] = 0;
    }
    
    var.key = "p0_turbo_II_enable";
@@ -1416,7 +1418,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[0][1] = 1;
+		turbo_enable[0][1] = 1;
+	  else
+		turbo_enable[0][1] = 0;
    }
    
    var.key = "p1_turbo_I_enable";
@@ -1424,7 +1428,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[1][0] = 1;
+		turbo_enable[1][0] = 1;
+  	  else
+		turbo_enable[1][0] = 0;
    }
    
    var.key = "p1_turbo_II_enable";
@@ -1432,7 +1438,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[1][1] = 1;
+		turbo_enable[1][1] = 1;
+	  else
+		turbo_enable[1][1] = 0;
    }
    
    var.key = "p2_turbo_I_enable";
@@ -1440,7 +1448,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[2][0] = 1;
+		turbo_enable[2][0] = 1;
+	  else
+		turbo_enable[2][0] = 0;
    }
    
    var.key = "p2_turbo_II_enable";
@@ -1448,7 +1458,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[2][1] = 1;
+		turbo_enable[2][1] = 1;
+	  else
+		turbo_enable[2][1] = 0;
    }
    
       var.key = "p3_turbo_I_enable";
@@ -1456,7 +1468,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-      turbo_enable[3][0] = 1;
+		turbo_enable[3][0] = 1;
+	  else
+		turbo_enable[3][0] = 0;
    }
    
    var.key = "p3_turbo_II_enable";
@@ -1464,7 +1478,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[3][1] = 1;
+		turbo_enable[3][1] = 1;
+	  else
+		turbo_enable[3][1] = 0;
    }
    
    var.key = "p4_turbo_I_enable";
@@ -1472,7 +1488,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[4][0] = 1;
+		turbo_enable[4][0] = 1;
+	  else
+		turbo_enable[4][0] = 0;
    }
    
    var.key = "p4_turbo_II_enable";
@@ -1480,7 +1498,9 @@ static void check_variables(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       if (strcmp(var.value, "enabled") == 0)
-	  turbo_enable[4][1] = 1;
+		turbo_enable[4][1] = 1;
+	  else
+		turbo_enable[4][1] = 0;
    }
 	  
 }
