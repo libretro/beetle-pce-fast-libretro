@@ -32,6 +32,10 @@ WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
 
 TARGET_NAME := mednafen_pce_fast
+GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
+ifneq ($(GIT_VERSION)," unknown")
+	CXXFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+endif
 
 arch = intel
 ifeq ($(shell uname -p),powerpc)
