@@ -520,7 +520,7 @@ static MDFNSetting PCESettings[] =
   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier.", NULL, MDFNST_UINT, "1", "1", "100" },
   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Reduce 352 pixels width overscan.", NULL, MDFNST_BOOL, "0" },
+  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Reduce 352 pixels width overscan.", NULL, MDFNST_UINT, "300", "300", "352" },
 
   { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
 
@@ -1324,11 +1324,7 @@ static void check_variables(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "disabled") == 0)
-         setting_pce_hoverscan = 0;
-      else if (strcmp(var.value, "enabled") == 0)
-         setting_pce_hoverscan = 1;
-      MDFNI_SetSettingB("pce_fast.hoverscan", setting_pce_hoverscan);
+      setting_pce_hoverscan = atoi(var.value);
    }
 	
    var.key = "pce_initial_scanline";
@@ -1781,7 +1777,7 @@ void retro_set_environment(retro_environment_t cb)
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
       { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
       { "pce_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-      { "pce_hoverscan", "Horizontal Overscan; disabled|enabled" },
+      { "pce_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
       { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
       { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
       { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },

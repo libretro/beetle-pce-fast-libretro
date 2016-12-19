@@ -37,7 +37,6 @@ static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;
 
 static bool unlimited_sprites;
-static bool hoverscan;
 
 #define ULE_BG0		1
 #define ULE_SPR0	2
@@ -46,7 +45,7 @@ static bool hoverscan;
 
 static const uint8 bat_width_shift_tab[4] = { 5, 6, 7, 7 };
 static const uint8 bat_height_mask_tab[2] = { 32 - 1, 64 - 1 };
-static const int defined_width[3] = { 256, 341, 512};
+static int defined_width[3] = {256, 352, 512};
 
 static unsigned int VDS;
 static unsigned int VSW;
@@ -741,8 +740,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       DisplayRect->h = MDFN_GetSettingUI("pce_fast.slend") - DisplayRect->y + 1;
    }
 	
-   if (hoverscan != MDFN_GetSettingB("pce_fast.hoverscan"))
-      hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
+	//Change 352 mode width without restart
+   if (defined_width[1] != MDFN_GetSettingUI("pce_fast.hoverscan"))
+      defined_width[1] = MDFN_GetSettingUI("pce_fast.hoverscan");
 	
    do
    {
@@ -812,11 +812,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       if(!skip)
       {
          DisplayRect->x = 0;
-         if(hoverscan == 1 && vce.dot_clock == 1){
-			   DisplayRect->w = 352;
-		   }else{
-			   DisplayRect->w = defined_width[vce.dot_clock];
-		   }
+         DisplayRect->w = defined_width[vce.dot_clock];
       }
 
       int chip = 0;
@@ -920,18 +916,14 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   
                   //Centre any picture thinner than its display mode width
                   if(width > 0 && width < defined_width[vce.dot_clock]){
-                     if(vce.dot_clock ==1 && hoverscan ==1){
-                        target_offset = (352 - width)/2;
-                     }else{
-                        target_offset = (defined_width[vce.dot_clock] - width)/2;
-                     }
+                     target_offset = (defined_width[vce.dot_clock] - width)/2;
                   }
 				  
-                  //Centre cropping of overscan OFF
-                  if(vce.dot_clock == 1 && hoverscan == 0 && width > 341){
-                     target_offset = (341 - width) / 2;
+                  //Centre overscan cropping
+                  if(vce.dot_clock == 1 && defined_width[1] < width){
+                     target_offset += (defined_width[1] - width) / 2;
                   }
-				 
+				  
                   // Align TV Sport Basketball
                   if(vce.dot_clock ==2 && width > 512){
                      target_offset = - 16;
@@ -939,12 +931,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 		       
                   // Semi-hack for Asuka 120%
                   if(vce.dot_clock == 1 && M_vdc_HDS == 5 && M_vdc_HDE == 6 && M_vdc_HDW == 43 && M_vdc_HSW == 2)
-                     target_offset = 0;
+                     target_offset += 8;
                   else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 3 && M_vdc_HDW == 33 && M_vdc_HSW == 2)
                      target_offset = 0;
                   // and for Addams Family
                   else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
-                     target_offset = 0;
+                     target_offset += 4;
 		       
                   if(target_offset < 0)
                   {
@@ -1038,11 +1030,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       //printf("%d\n", vce.lc263);
    } while(frame_counter != VBlankFL); // big frame loop!
 
-	if(vce.dot_clock ==1 && hoverscan ==1){
-		DisplayRect->w = 352;
-	}else{
-		DisplayRect->w = defined_width[vce.dot_clock];
-	}
+	DisplayRect->w = defined_width[vce.dot_clock];
 }
 
 void VDC_Reset(void)
@@ -1065,7 +1053,7 @@ void VDC_Power(void)
 void VDC_Init(int sgx)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
-   hoverscan = MDFN_GetSettingB("pce_fast.hoverscan");
+   defined_width[1] = MDFN_GetSettingUI("pce_fast.hoverscan");
    userle = ~0;
 
    vdc = (vdc_t *)malloc(sizeof(vdc_t));
