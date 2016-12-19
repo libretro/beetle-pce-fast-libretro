@@ -520,7 +520,7 @@ static MDFNSetting PCESettings[] =
   { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
   { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier.", NULL, MDFNST_UINT, "1", "1", "100" },
   { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Display 352 pixels width instead of 341.", NULL, MDFNST_BOOL, "0" },
+  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Reduce 352 pixels width overscan.", NULL, MDFNST_BOOL, "0" },
 
   { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
 
