@@ -10,5 +10,6 @@ void INPUT_Frame(void);
 int INPUT_StateAction(StateMem *sm, int load, int data_only);
 extern InputInfoStruct PCEInputInfo;
 void INPUT_FixTS(void);
+extern bool AVPad6Enabled[5];
 
 #endif

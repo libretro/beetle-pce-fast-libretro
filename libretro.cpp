@@ -1283,6 +1283,8 @@ static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 // The number of frames between each firing of a turbo button
 static int Turbo_Delay;
+static int Turbo_Toggling = 1;
+static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 static void check_variables(void)
 {
@@ -1383,6 +1385,17 @@ static void check_variables(void)
 
       if (PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
+   }
+
+   // Set Turbo_Toggling
+   var.key = "Turbo_Toggling";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "enabled") == 0)
+         Turbo_Toggling = 1;
+      else
+         Turbo_Toggling = 0;
    }
 
    // Set TURBO_DELAY 
@@ -1584,6 +1597,7 @@ void retro_unload_game(void)
 
 static void update_input(void)
 {
+   static int turbo_map[] = { -1,-1,-1,-1,-1,-1,-1,-1,1,0,-1,-1,-1 };
    static unsigned map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1620,8 +1634,23 @@ static void update_input(void)
                turbo_counter[j][i] = 0;
             }
          }
+         else if (turbo_map[i] != -1 && Turbo_Toggling && !AVPad6Enabled[j])
+         {
+            if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
+            {
+               if (turbo_toggle_down[j][i] == 0)
+               {
+                  turbo_toggle_down[j][i] = 1;
+                  turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
+                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1, i == 9 ? "I" : "II", turbo_enable[j][turbo_map[i]] ? "ON" : "OFF" );
+               }
+            }
+            else turbo_toggle_down[j][i] = 0;
+
+         }
          else input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-	     	     
+
+
          // Input data must be little endian.
          input_buf[j][0] = (input_state >> 0) & 0xff;
          input_buf[j][1] = (input_state >> 8) & 0xff;
