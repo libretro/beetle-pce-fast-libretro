@@ -683,7 +683,11 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
                //fstat(fileno(TmpTrack.fp), &stat_buf);
                //TmpTrack.sectors = stat_buf.st_size; // / 2048;
             }
-            else if(!strcasecmp(args[1].c_str(), "OGG") || !strcasecmp(args[1].c_str(), "VORBIS") || !strcasecmp(args[1].c_str(), "WAVE") || !strcasecmp(args[1].c_str(), "WAV") || !strcasecmp(args[1].c_str(), "PCM")
+            else if(!strcasecmp(args[1].c_str(), "WAVE") || !strcasecmp(args[1].c_str(), "WAV"))
+            {
+               // Make it work with WAVE / WAV file type names in the cue sheet, previously .wav was working only with BINARY
+            }
+            else if(!strcasecmp(args[1].c_str(), "OGG") || !strcasecmp(args[1].c_str(), "VORBIS") || !strcasecmp(args[1].c_str(), "PCM")
                   || !strcasecmp(args[1].c_str(), "MPC") || !strcasecmp(args[1].c_str(), "MP+"))
             {
                TmpTrack.AReader = CDAFR_Open(TmpTrack.fp);
