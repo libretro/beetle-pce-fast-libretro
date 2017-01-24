@@ -1516,9 +1516,6 @@ static void check_variables(void)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
-   if (failed_init)
-      return false;
-
    struct retro_input_descriptor desc[] = {
       #define button_ids(INDEX) \
       { INDEX, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },\
@@ -1542,6 +1539,9 @@ bool retro_load_game(const struct retro_game_info *info)
 	  
       { 0 },
    };
+
+   if (!info || failed_init)
+      return false;
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
    set_basename(info->path);
