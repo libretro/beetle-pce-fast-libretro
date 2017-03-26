@@ -363,9 +363,9 @@ static void ChangePhase(const unsigned int new_phase)
 static void SendStatusAndMessage(uint8 status, uint8 message)
 {
  // This should never ever happen, but that doesn't mean it won't. ;)
- if(din.CanRead())
+ if(din.in_count)
  {
-  printf("BUG: %d bytes still in SCSI CD FIFO\n", din.CanRead());
+  printf("BUG: %d bytes still in SCSI CD FIFO\n", din.in_count);
   din.Flush();
  }
 
@@ -1145,7 +1145,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
     if(!REQ_signal && !ACK_signal)
     {
      //puts("REQ and ACK false");
-     if(din.CanRead() == 0)	// aaand we're done!
+     if(din.in_count == 0)	// aaand we're done!
      {
       CDIRQCallback(0x8000 | PCECD_Drive_IRQ_DATA_TRANSFER_READY);
 
