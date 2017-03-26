@@ -1618,6 +1618,7 @@ static void update_input(void)
    {
       uint16_t input_state = 0;
       for (unsigned i = 0; i < MAX_BUTTONS; i++)
+      {
          if (turbo_enable[j][i] == 1) //Check whether a given button is turbo-capable
          {
             if (turbo_counter[j][i] == (Turbo_Delay+1)) //Turbo buttons only fire when their counter exceeds the turbo delay
@@ -1649,11 +1650,11 @@ static void update_input(void)
 
          }
          else input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+      }
 
-
-         // Input data must be little endian.
-         input_buf[j][0] = (input_state >> 0) & 0xff;
-         input_buf[j][1] = (input_state >> 8) & 0xff;
+      // Input data must be little endian.
+      input_buf[j][0] = (input_state >> 0) & 0xff;
+      input_buf[j][1] = (input_state >> 8) & 0xff;
    }
 }
 
