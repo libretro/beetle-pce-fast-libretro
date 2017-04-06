@@ -17,7 +17,6 @@ endif
 
 ifeq ($(TARGET_ARCH),x86)
 ANDROID_FLAGS := -DANDROID_X86
-IS_X86 = 1
 endif
 
 ifeq ($(TARGET_ARCH),mips)

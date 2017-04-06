@@ -31,10 +31,6 @@ ifeq ($(NEED_DEINTERLACER), 1)
    FLAGS += -DNEED_DEINTERLACER
 endif
 
-ifeq ($(IS_X86), 1)
-FLAGS += -DARCH_X86
-endif
-
 ifeq ($(NEED_BPP), 8)
 FLAGS += -DWANT_8BPP
 endif

@@ -57,15 +57,11 @@ ifneq (,$(findstring unix,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   ifneq ($(shell uname -p | grep -E '((i.|x)86|amd64)'),)
-      IS_X86 = 1
-   endif
    LDFLAGS += -lrt
    FLAGS += -DHAVE_MKDIR
    
    # Raspberry Pi
    ifneq (,$(findstring rpi,$(platform)))
-      IS_X86 = 0
       FLAGS += -fomit-frame-pointer -ffast-math
       ifneq (,$(findstring rpi1,$(platform)))
          FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard
@@ -74,11 +70,6 @@ ifneq (,$(findstring unix,$(platform)))
       else ifneq (,$(findstring rpi3,$(platform)))
          FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
       endif
-   endif
-
-   # Generic ARM
-   ifneq (,$(findstring armv,$(platform)))
-      IS_X86 = 0
    endif
 
 # OS X
@@ -237,7 +228,6 @@ else
    TARGET := $(TARGET_NAME)_libretro.dll
    CC = gcc
    CXX = g++
-   IS_X86 = 1
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -static-libgcc -static-libstdc++ -lwinmm
    FLAGS += -DHAVE__MKDIR
@@ -278,10 +268,6 @@ FLAGS += $(fpic) $(NEW_GCC_FLAGS)
 FLAGS += $(INCFLAGS)
 
 FLAGS += $(ENDIANNESS_DEFINES) -DSIZEOF_DOUBLE=8 $(WARNINGS) -DPACKAGE=\"mednafen\" -DMEDNAFEN_VERSION_NUMERIC=931 -DPSS_STYLE=1 -DMPC_FIXED_POINT $(CORE_DEFINE) -DSTDC_HEADERS -D__STDC_LIMIT_MACROS -D__LIBRETRO__ -D_LOW_ACCURACY_ $(EXTRA_INCLUDES) $(SOUND_DEFINE)
-
-ifeq ($(IS_X86), 1)
-FLAGS += -DARCH_X86
-endif
 
 ifeq ($(CACHE_CD), 1)
 FLAGS += -D__LIBRETRO_CACHE_CD__
