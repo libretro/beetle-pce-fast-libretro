@@ -31,10 +31,6 @@ ifeq ($(NEED_DEINTERLACER), 1)
    FLAGS += -DNEED_DEINTERLACER
 endif
 
-ifeq ($(IS_X86), 1)
-FLAGS += -DARCH_X86
-endif
-
 ifeq ($(NEED_BPP), 8)
 FLAGS += -DWANT_8BPP
 endif
@@ -84,7 +80,7 @@ endif
    FLAGS += -DNEED_CD
 
 ifeq ($(NEED_TREMOR), 1)
-   SOURCES_C += $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)
+   SOURCES_C += $(sort $(wildcard $(MEDNAFEN_DIR)/tremor/*.c))
    FLAGS += -DNEED_TREMOR
 endif
 
