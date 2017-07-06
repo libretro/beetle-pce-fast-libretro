@@ -37,7 +37,7 @@
 #include <time.h>
 #include <memory>
 
-#include <retro_stat.h>
+#include <file/file_path.h>
 
 #include "../general.h"
 #include "../mednafen-endian.h"

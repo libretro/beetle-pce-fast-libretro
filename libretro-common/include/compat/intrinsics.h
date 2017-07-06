@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2017 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (boolean.h).
+ * The following license statement only applies to this file (intrinsics.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,20 +20,66 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef __LIBRETRO_SDK_BOOLEAN_H
-#define __LIBRETRO_SDK_BOOLEAN_H
+#ifndef __LIBRETRO_SDK_COMPAT_INTRINSICS_H
+#define __LIBRETRO_SDK_COMPAT_INTRINSICS_H
 
-#ifndef __cplusplus
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
 
-#if defined(_MSC_VER) && !defined(SN_TARGET_PS3)
-/* Hack applied for MSVC when compiling in C89 mode as it isn't C99 compliant. */
-#define bool unsigned char
-#define true 1
-#define false 0
+#include <retro_common_api.h>
+#include <retro_inline.h>
+
+#if defined(_MSC_VER) && !defined(_XBOX)
+#if (_MSC_VER > 1310)
+#include <intrin.h>
+#endif
+#endif
+
+RETRO_BEGIN_DECLS
+
+/* Count Leading Zero, unsigned 16bit input value */
+static INLINE unsigned compat_clz_u16(uint16_t val)
+{
+#ifdef __GNUC__
+   return __builtin_clz(val << 16 | 0x8000);
 #else
-#include <stdbool.h>
-#endif
+   unsigned ret = 0;
 
+   while(!(val & 0x8000) && ret < 16)
+   {
+      val <<= 1;
+      ret++;
+   }
+
+   return ret;
 #endif
+}
+
+/* Count Trailing Zero */
+static INLINE int compat_ctz(unsigned x)
+{
+#if defined(__GNUC__) && !defined(RARCH_CONSOLE)
+   return __builtin_ctz(x);
+#elif _MSC_VER >= 1400
+   unsigned long r = 0;
+   _BitScanReverse((unsigned long*)&r, x);
+   return (int)r;
+#else
+/* Only checks at nibble granularity, 
+ * because that's what we need. */
+   if (x & 0x000f)
+      return 0;
+   if (x & 0x00f0)
+      return 4;
+   if (x & 0x0f00)
+      return 8;
+   if (x & 0xf000)
+      return 12;
+   return 16;
+#endif
+}
+
+RETRO_END_DECLS
 
 #endif
