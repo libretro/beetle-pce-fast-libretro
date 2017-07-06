@@ -116,12 +116,14 @@ blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf,
 
 void Blip_Buffer_bass_freq(Blip_Buffer* bbuf,  int freq)
 {
-   bbuf->bass_freq = freq;
    int shift = 31;
+
+   bbuf->bass_freq = freq;
    if (freq > 0)
    {
+      long f;
       shift = 13;
-      long f = (freq << 16) / bbuf->sample_rate;
+      f = (freq << 16) / bbuf->sample_rate;
       while ((f >>= 1) && --shift) { }
    }
    bbuf->bass_shift = shift;
@@ -151,10 +153,11 @@ void Blip_Buffer_remove_samples(Blip_Buffer* bbuf,  long count)
 {
    if (count)
    {
+      long remain;
       Blip_Buffer_remove_silence(bbuf, count);
 
       // copy remaining samples to beginning and clear old samples
-      long remain = Blip_Buffer_samples_avail(bbuf) + blip_buffer_extra_;
+      remain = Blip_Buffer_samples_avail(bbuf) + blip_buffer_extra_;
       memmove(bbuf->buffer, bbuf->buffer + count, remain * sizeof(bbuf->buffer));
       memset(bbuf->buffer + remain, 0, count * sizeof(bbuf->buffer));
    }
