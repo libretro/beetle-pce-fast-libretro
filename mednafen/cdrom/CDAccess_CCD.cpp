@@ -28,6 +28,8 @@
 #include <limits.h>
 #include <map>
 
+#include <retro_miscellaneous.h>
+
 static void MDFN_strtoupper(std::string &str)
 {
    const size_t len = str.length();
