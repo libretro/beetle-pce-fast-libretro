@@ -94,7 +94,7 @@ void Blip_Buffer_mix_samples(Blip_Buffer* bbuf, blip_sample_t const* buf,
 
 void Blip_Buffer_remove_silence(Blip_Buffer* bbuf, long count);
 
-static inline blip_resampled_time_t Blip_Buffer_resampled_time(
+static INLINE blip_resampled_time_t Blip_Buffer_resampled_time(
    Blip_Buffer* bbuf, blip_time_t t)
 {
    return t * bbuf->factor + bbuf->offset;
