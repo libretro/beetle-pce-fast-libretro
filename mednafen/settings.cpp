@@ -30,6 +30,7 @@ int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
+std::string setting_pce_fast_cdbios = "syscard3.pce";
 
 uint64 MDFN_GetSettingUI(const char *name)
 {
@@ -103,7 +104,7 @@ extern std::string retro_base_name;
 std::string MDFN_GetSettingS(const char *name)
 {
    if (!strcmp("pce_fast.cdbios", name))
-      return std::string("syscard3.pce");
+      return setting_pce_fast_cdbios;
    /* FILESYS */
    if (!strcmp("filesys.path_firmware", name))
       return retro_base_directory;
