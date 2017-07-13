@@ -1305,6 +1305,20 @@ static void check_variables(void)
          old_cdimagecache = cdimage_cache;
    }
 
+   var.key = "pce_fast_cdbios";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "System Card 3") == 0)
+         setting_pce_fast_cdbios = "syscard3.pce";
+      else if (strcmp(var.value, "System Card 2") == 0)
+         setting_pce_fast_cdbios = "syscard2.pce";
+      else if (strcmp(var.value, "System Card 1") == 0)
+         setting_pce_fast_cdbios = "syscard1.pce";
+      else if (strcmp(var.value, "Games Express") == 0)
+         setting_pce_fast_cdbios = "gexpress.pce";
+   }
+
    var.key = "pce_nospritelimit";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1805,6 +1819,7 @@ void retro_set_environment(retro_environment_t cb)
 
    static const struct retro_variable vars[] = {
       { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
+      { "pce_fast_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2" },
       { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
       { "pce_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
       { "pce_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },

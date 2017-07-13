@@ -12,6 +12,7 @@ extern int setting_pce_fast_cddavolume;
 extern int setting_pce_fast_adpcmvolume;
 extern int setting_pce_fast_cdpsgvolume;
 extern uint32_t setting_pce_fast_cdspeed;
+extern std::string setting_pce_fast_cdbios;
 
 // This should assert() or something if the setting isn't found, since it would
 // be a totally tubular error!
