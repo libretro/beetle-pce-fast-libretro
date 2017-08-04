@@ -40,8 +40,8 @@ typedef int ssize_t;
 #define strdup _strdup
 #define lseek _lseek
 
-#include <tchar.h>
-#define strlen _tcslen
+//#include <tchar.h>
+//#define strlen _tcslen
 
 # define S_IRUSR  S_IREAD                      /* read, user */
 # define S_IWUSR  S_IWRITE                     /* write, user */
@@ -53,7 +53,9 @@ typedef int ssize_t;
 #pragma warning(disable : 4146)
 #pragma warning(disable : 4267)
 
+#if _MSC_VER < 1800
 #define roundf(in) (in >= 0.0f ? floorf(in + 0.5f) : ceilf(in - 0.5f))
+#endif
 
 #ifndef PATH_MAX
 #define PATH_MAX MAX_PATH
