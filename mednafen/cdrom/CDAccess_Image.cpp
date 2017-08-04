@@ -50,6 +50,7 @@
 #include "CDAFReader.h"
 
 #include <map>
+#include <algorithm>
 
 enum
 {
