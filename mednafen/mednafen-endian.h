@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <streams/file_stream_transforms.h>
 
 #ifdef __cplusplus
 extern "C" {

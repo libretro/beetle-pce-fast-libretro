@@ -17,10 +17,6 @@
 
 #include "mednafen-endian.h"
 
-#ifdef __LIBRETRO__
-#include <streams/file_stream_transforms.h>
-#endif
-
 void Endian_A16_Swap(void *src, uint32_t nelements)
 {
    uint32_t i;
