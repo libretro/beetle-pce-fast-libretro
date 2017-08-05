@@ -34,6 +34,7 @@ NEED_CD = 1
 NEED_CRC32 = 1
 WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
+HAVE_CHD = 1
 
 prefix := /usr
 libdir := $(prefix)/lib

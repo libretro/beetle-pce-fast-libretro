@@ -1027,12 +1027,16 @@ CDAccess_Image::~CDAccess_Image()
    Cleanup();
 }
 
+static void dump_sector(uint8_t* buf, int32_t lba);
+
 bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
 {
    uint8_t SimuQ[0xC];
    int32_t track;
    CDRFILE_TRACK_INFO *ct;
 
+  
+  log_cb(RETRO_LOG_INFO, "CD read sector lba=%d\n", lba);
    //
    // Leadout synthesis
    //
@@ -1108,7 +1112,7 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             // TODO: Zero out optional(?) checksum bytes?
             break;
       }
-      //printf("Pre/post-gap read, LBA=%d(LBA-track_start_LBA=%d)\n", lba, lba - ct->LBA);
+      printf("Pre/post-gap read, LBA=%d(LBA-track_start_LBA=%d)\n", lba, lba - ct->LBA);
    }
    else
    {
@@ -1136,6 +1140,7 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
          long SeekPos = ct->FileOffset;
          long LBARelPos = lba - ct->LBA;
 
+         printf("SeekPos=%d, LBARelPos=%d\n", SeekPos, LBARelPos);
          SeekPos += LBARelPos * DI_Size_Table[ct->DIFormat];
 
          if(ct->SubchannelMode)
@@ -1187,6 +1192,8 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             ct->fp->read(buf + 2352, 96);
       }
    } // end if audible part of audio track read.
+
+   dump_sector(buf, lba);
 
    return true;
 }
@@ -1368,4 +1375,23 @@ void CDAccess_Image::GenerateTOC(void)
    toc.tracks[100].valid = true;
 }
 
-
+#ifdef fwrite
+#undef fwrite
+#endif
+#ifdef FILE
+#undef FILE
+#endif
+#ifdef fopen
+#undef fopen
+#endif
+#ifdef fclose
+#undef fclose
+#endif
+static void dump_sector(uint8_t* buf, int32_t lba)
+{
+   char sectorname[1024];
+   sprintf(sectorname, "/Users/romain/ISO%8d.bin", lba);
+   FILE* fp = fopen(sectorname, "wb");
+   fwrite(buf, 2352+96, 1, fp);
+   fclose(fp);
+}
