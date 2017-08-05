@@ -1679,6 +1679,8 @@ void update_geometry(unsigned width, unsigned height)
    struct retro_system_av_info system_av_info;
    system_av_info.geometry.base_width = width;
    system_av_info.geometry.base_height = height;
+   system_av_info.geometry.max_width = MEDNAFEN_CORE_GEOMETRY_MAX_W;
+   system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
    system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }

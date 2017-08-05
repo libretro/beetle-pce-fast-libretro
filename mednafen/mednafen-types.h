@@ -33,8 +33,10 @@ typedef uint64_t uint64;
   #define MDFN_NOWARN_UNUSED __attribute__((unused))
 
 #elif defined(_MSC_VER)
+#if _MSC_VER < 1800
 #define roundf(in) (in >= 0.0f ? floorf(in + 0.5f) : ceilf(in - 0.5f))
-  #define NO_INLINE
+#endif
+#define NO_INLINE
 #define MDFN_LIKELY(n) ((n) != 0)
 #define MDFN_UNLIKELY(n) ((n) != 0)
 
