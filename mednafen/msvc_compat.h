@@ -19,6 +19,7 @@
 #ifdef _MSC_VER
 
 #undef UNICODE // Do not bother with UNICODE at this time.
+
 #include <stddef.h>
 #include <io.h>
 #include <math.h>
@@ -40,8 +41,10 @@ typedef int ssize_t;
 #define strdup _strdup
 #define lseek _lseek
 
-//#include <tchar.h>
-//#define strlen _tcslen
+#if (_MSC_VER < 1310)
+#include <tchar.h>
+#define strlen _tcslen
+#endif
 
 # define S_IRUSR  S_IREAD                      /* read, user */
 # define S_IWUSR  S_IWRITE                     /* write, user */
