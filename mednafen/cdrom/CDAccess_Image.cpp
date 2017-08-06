@@ -941,7 +941,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
          RunningLBA += Tracks[x].sectors;
          RunningLBA += Tracks[x].postgap;
 
-         //printf("%d, %ld %d %d %d %d\n", x, FileOffset, Tracks[x].index, Tracks[x].pregap, Tracks[x].sectors, Tracks[x].LBA);
+	//printf("%d, %ld %d %d %d %d\n", x, FileOffset, Tracks[x].index, Tracks[x].pregap, Tracks[x].sectors, Tracks[x].LBA);
 
          FileOffset += Tracks[x].sectors * DI_Size_Table[Tracks[x].DIFormat];
       } // end to cue sheet handling
@@ -1026,8 +1026,6 @@ CDAccess_Image::~CDAccess_Image()
 {
    Cleanup();
 }
-
-static void dump_sector(uint8_t* buf, int32_t lba);
 
 bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
 {
@@ -1192,8 +1190,6 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             ct->fp->read(buf + 2352, 96);
       }
    } // end if audible part of audio track read.
-
-   dump_sector(buf, lba);
 
    return true;
 }
@@ -1375,23 +1371,3 @@ void CDAccess_Image::GenerateTOC(void)
    toc.tracks[100].valid = true;
 }
 
-#ifdef fwrite
-#undef fwrite
-#endif
-#ifdef FILE
-#undef FILE
-#endif
-#ifdef fopen
-#undef fopen
-#endif
-#ifdef fclose
-#undef fclose
-#endif
-static void dump_sector(uint8_t* buf, int32_t lba)
-{
-   char sectorname[1024];
-   sprintf(sectorname, "/Users/romain/ISO%8d.bin", lba);
-   FILE* fp = fopen(sectorname, "wb");
-   fwrite(buf, 2352+96, 1, fp);
-   fclose(fp);
-}
