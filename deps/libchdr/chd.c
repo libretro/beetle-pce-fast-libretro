@@ -602,7 +602,6 @@ void cdlz_codec_free(void* codec)
 chd_error cdlz_codec_decompress(void *codec, const uint8_t *src, uint32_t complen, uint8_t *dest, uint32_t destlen)
 {
 	cdlz_codec_data* cdlz = (cdlz_codec_data*)codec;
-	printf("cdlz_codec_decompress\n");
 
 	// determine header bytes
 	uint32_t frames = destlen / CD_FRAME_SIZE;
@@ -661,7 +660,6 @@ void cdzl_codec_free(void *codec)
 
 chd_error cdzl_codec_decompress(void *codec, const uint8_t *src, uint32_t complen, uint8_t *dest, uint32_t destlen)
 {
-	printf("cdzl_codec_decompress\n");
 	cdzl_codec_data* cdzl = (cdzl_codec_data*)codec;
 	
 	// determine header bytes
@@ -760,7 +758,6 @@ void cdfl_codec_free(void *codec)
 
 chd_error cdfl_codec_decompress(void *codec, const uint8_t *src, uint32_t complen, uint8_t *dest, uint32_t destlen)
 {
-	printf("cdfl_codec_decompress\n");
 	cdfl_codec_data *cdfl = (cdfl_codec_data*)codec;
 
 	// reset and decode
@@ -1266,10 +1263,10 @@ chd_error chd_open_file(core_file *file, int mode, chd_file *parent, chd_file **
 		EARLY_EXIT(err = CHDERR_INVALID_PARAMETER);
 
 	/* allocate memory for the final result */
-	newchd = (chd_file *)malloc(sizeof(**chd));
+	newchd = (chd_file *)malloc(sizeof(chd_file));
 	if (newchd == NULL)
 		EARLY_EXIT(err = CHDERR_OUT_OF_MEMORY);
-	memset(newchd, 0, sizeof(*newchd));
+	memset(newchd, 0, sizeof(chd_file));
 	newchd->cookie = COOKIE_VALUE;
 	newchd->parent = parent;
 	newchd->file = file;
@@ -1385,9 +1382,10 @@ chd_error chd_open_file(core_file *file, int mode, chd_file *parent, chd_file **
 								break;
 						}
 						if (codec != NULL)
+						{
 							err = (*newchd->codecintf[decompnum]->init)(codec, newchd->header.hunkbytes);
+						}
 					}
-					
 				}
 			}
 		}

@@ -57,8 +57,6 @@ CDAccess_CHD::CDAccess_CHD(const std::string &path, bool image_memcache) : NumTr
   Load(path, image_memcache);
 }
 
-static void dump_disc(CDAccess_CHD* chd, int leadout);
-
 bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 {
   chd_error err = chd_open(path.c_str(), CHD_OPEN_READ, NULL, &chd);
@@ -122,8 +120,8 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     toc.tracks[NumTracks].control = strcmp(type, "AUDIO") == 0 ? 0 : 4;
     toc.tracks[NumTracks].valid = true;
 
-    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : 0;
-    Tracks[NumTracks].pregap_dv = pregap;
+    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : (strcmp(pgtype, "MODE1")==0) ? pregap : 0;
+    Tracks[NumTracks].pregap_dv = (strcmp(pgtype, "VAUDIO")==0) ? pregap : 0;
     plba += Tracks[NumTracks].pregap + Tracks[NumTracks].pregap_dv;
     Tracks[NumTracks].LBA = toc.tracks[NumTracks].lba = plba;
     Tracks[NumTracks].postgap = postgap;
@@ -170,6 +168,8 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
     toc.first_track = 1;
     toc.last_track = NumTracks;
+
+    //printf("Track=%d pregap=%d pregap_dv=%d sectors=%d LBA=%d\n", NumTracks, Tracks[NumTracks].pregap, Tracks[NumTracks].pregap_dv, Tracks[NumTracks].sectors, Tracks[NumTracks].LBA);
   }
 
   FirstTrack = 1;
@@ -200,8 +200,6 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     }
   }
 
-  //dump_disc(this, numsectors);
-  //exit(0);
   return true;
 }
 
@@ -210,8 +208,6 @@ CDAccess_CHD::~CDAccess_CHD()
   if (chd != NULL)
     chd_close(chd);
 }
-
-static void dump_sector(uint8_t* buf, int32_t lba);
 
 bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
 {
@@ -222,7 +218,7 @@ bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_IN
   int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
   int err = CHDERR_NONE;
 
-  log_cb(RETRO_LOG_INFO, "chd_read_sector lba=%d cad=%d hunknum=%d hunkofs=%d\n", lba, cad, hunknum, hunkofs);
+  //log_cb(RETRO_LOG_INFO, "chd_read_sector lba=%d cad=%d hunknum=%d hunkofs=%d\n", lba, cad, hunknum, hunkofs);
   /* each hunk holds ~8 sectors, optimize when reading contiguous sectors */
   if (hunknum != oldhunk)
   {
@@ -233,7 +229,7 @@ bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_IN
       oldhunk = hunknum;
   }
 
-  log_cb(RETRO_LOG_ERROR, "chd_read_sector OK lba=%d\n", lba);
+  //log_cb(RETRO_LOG_ERROR, "chd_read_sector OK lba=%d\n", lba);
   memcpy(buf, hunkmem + hunkofs * (2352 + 96), 2352);
 
   return err;
@@ -412,8 +408,6 @@ bool CDAccess_CHD::Read_Raw_Sector(uint8_t *buf, int32_t lba)
     }
   } // end if audible part of audio track read.
 
-  //dump_sector(buf, lba);
-
   return true;
 }
 
@@ -439,8 +433,10 @@ int32_t CDAccess_CHD::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
     }
   }
 
-  if (!track_found)
+  if (!track_found) {
+    //printf("Could not find track for sector %d\n!", lba);
     throw(MDFN_Error(0, _("Could not find track for sector %u!"), lba));
+  }
 
   if (lba < Tracks[track].LBA)
     lba_relative = Tracks[track].LBA - 1 - lba;
@@ -552,37 +548,3 @@ bool CDAccess_CHD::Read_TOC(TOC *toc)
   return true;
 }
 
-#ifdef fwrite
-#undef fwrite
-#endif
-#ifdef FILE
-#undef FILE
-#endif
-#ifdef fopen
-#undef fopen
-#endif
-#ifdef fclose
-#undef fclose
-#endif
-static void dump_sector(uint8_t* buf, int32_t lba)
-{
-   char sectorname[1024];
-   sprintf(sectorname, "/Users/romain/CHD%8d.bin", lba);
-   FILE* fp = fopen(sectorname, "wb");
-   fwrite(buf, 2352+96, 1, fp);
-   fclose(fp);
-}
-
-static void dump_disc(CDAccess_CHD* chd, int leadout)
-{
-   char discname[1024];
-   uint8_t buf[2352+96];
-   sprintf(discname, "/Users/romain/dumpchd.bin");
-   FILE* fp = fopen(discname, "wb");
-   for (int i = 0 ; i < 13000/*leadout*/ ; i++)
-   {
-      chd->Read_Raw_Sector(buf, i);
-      fwrite(buf, 2352, 1, fp);
-   }
-   fclose(fp);
-}
