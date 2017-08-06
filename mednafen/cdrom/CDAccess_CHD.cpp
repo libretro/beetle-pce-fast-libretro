@@ -72,6 +72,7 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
   int plba = -150;
   int numsectors = 0;
+  int fileOffset = 0;
   while (1)
   {
     int tkid = 0, frames = 0, pad = 0, pregap = 0, postgap = 0;
@@ -134,11 +135,10 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
     toc.tracks[NumTracks].lba = plba;
 
-    int fileOffset = plba;
-    if (strcmp(pgtype, "MODE1") == 0)
-      fileOffset -= pregap;
     fileOffset = (fileOffset + 3) & ~3;
     Tracks[NumTracks].fileOffset = fileOffset;
+    //printf("Tracks[%d].fileOffset=%d\n",NumTracks, fileOffset);
+    fileOffset += frames;
 
     if (strcmp(type, "AUDIO") == 0)
     {
