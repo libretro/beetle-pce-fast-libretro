@@ -121,8 +121,8 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     toc.tracks[NumTracks].control = strcmp(type, "AUDIO") == 0 ? 0 : 4;
     toc.tracks[NumTracks].valid = true;
 
-    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : (strcmp(pgtype, "MODE1")==0) ? pregap : 0;
-    Tracks[NumTracks].pregap_dv = (strcmp(pgtype, "VAUDIO")==0) ? pregap : 0;
+    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : (pgtype[0] != 'V') ? pregap : 0;
+    Tracks[NumTracks].pregap_dv = (pgtype[0] != 'V') ? 0 : pregap;
     plba += Tracks[NumTracks].pregap + Tracks[NumTracks].pregap_dv;
     Tracks[NumTracks].LBA = toc.tracks[NumTracks].lba = plba;
     Tracks[NumTracks].postgap = postgap;
@@ -152,19 +152,14 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     else if (strcmp(type, "MODE1") == 0)
       Tracks[NumTracks].DIFormat = DI_FORMAT_MODE1;
 
-    Tracks[NumTracks].subq_control = strcmp(type, "AUDIO") == 0 ? 0 : 4;
+    Tracks[NumTracks].subq_control = (strcmp(type, "AUDIO") == 0) ? 0 : 4;
 
     log_cb(RETRO_LOG_INFO, "chd_parse '%s' track=%d lba=%d, pregap=%d pregap_dv=%d postgap=%d sectors=%d\n", tmp, NumTracks, Tracks[NumTracks].LBA, Tracks[NumTracks].pregap, Tracks[NumTracks].pregap_dv, Tracks[NumTracks].postgap, Tracks[NumTracks].sectors);
 
-    if (strcmp(pgtype, "MODE1") == 0)
-      plba += frames;
-    else
-      plba += frames - Tracks[NumTracks].pregap_dv;
+    plba += frames - Tracks[NumTracks].pregap_dv;
     plba += Tracks[NumTracks].postgap;
 
     numsectors += frames;
-    if (strcmp(pgtype, "MODE1") == 0)
-      numsectors += Tracks[NumTracks].pregap_dv;
 
     toc.first_track = 1;
     toc.last_track = NumTracks;
@@ -212,7 +207,7 @@ CDAccess_CHD::~CDAccess_CHD()
 bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
 {
   const chd_header *head = chd_get_header(chd);
-  int cad = lba - track->LBA + track->fileOffset; // HACK - track->file_offset;
+  int cad = lba - track->LBA + track->fileOffset;
   int sph = head->hunkbytes / (2352 + 96);
   int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
   int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
