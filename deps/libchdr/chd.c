@@ -36,6 +36,8 @@
     POSSIBILITY OF SUCH DAMAGE.
 
 ***************************************************************************/
+#define DONT_SET_BYTE
+typedef unsigned char Byte;
 
 #include "chd.h"
 #include "cdrom.h"
