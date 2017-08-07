@@ -1235,8 +1235,10 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
       }
    }
 
+#if 0
    if(!track_found)
       throw(MDFN_Error(0, _("Could not find track for sector %u!"), lba));
+#endif
 
    if(lba < Tracks[track].LBA)
       lba_relative = Tracks[track].LBA - 1 - lba;

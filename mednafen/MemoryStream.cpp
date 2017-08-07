@@ -20,8 +20,7 @@ MemoryStream::MemoryStream() : data_buffer(NULL), data_buffer_size(0), data_buff
 {
  data_buffer_size = 0;
  data_buffer_alloced = 64;
- if(!(data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced)))
-  throw MDFN_Error(ErrnoHolder(errno));
+ data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced);
 }
 
 MemoryStream::MemoryStream(uint64 size_hint) : data_buffer(NULL), data_buffer_size(0), data_buffer_alloced(0), position(0)
@@ -29,8 +28,7 @@ MemoryStream::MemoryStream(uint64 size_hint) : data_buffer(NULL), data_buffer_si
  data_buffer_size = 0;
  data_buffer_alloced = (size_hint > SIZE_MAX) ? SIZE_MAX : size_hint;
 
- if(!(data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced)))
-  throw MDFN_Error(ErrnoHolder(errno));
+ data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced);
 }
 
 MemoryStream::MemoryStream(Stream *stream) : data_buffer(NULL), data_buffer_size(0), data_buffer_alloced(0), position(0)
@@ -40,8 +38,7 @@ MemoryStream::MemoryStream(Stream *stream) : data_buffer(NULL), data_buffer_size
 
    data_buffer_size = stream->size();
    data_buffer_alloced = data_buffer_size;
-   if(!(data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced)))
-      throw MDFN_Error(ErrnoHolder(errno));
+   data_buffer = (uint8*)realloc(data_buffer, data_buffer_alloced);
 
    stream->read(data_buffer, data_buffer_size);
 
@@ -53,8 +50,7 @@ MemoryStream::MemoryStream(const MemoryStream &zs)
 {
  data_buffer_size = zs.data_buffer_size;
  data_buffer_alloced = zs.data_buffer_alloced;
- if(!(data_buffer = (uint8*)malloc(data_buffer_alloced)))
-  throw MDFN_Error(ErrnoHolder(errno));
+ data_buffer = (uint8*)malloc(data_buffer_alloced);
 
  memcpy(data_buffer, zs.data_buffer, data_buffer_size);
 
@@ -101,12 +97,13 @@ INLINE void MemoryStream::grow_if_necessary(uint64 new_required_size)
    if(new_required_alloced < new_required_size || new_required_alloced > SIZE_MAX)
     new_required_alloced = SIZE_MAX;
 
+#if 0
    // If constrained alloc size isn't enough, throw an out-of-memory/address-space type error.
    if(new_required_alloced < new_required_size)
     throw MDFN_Error(ErrnoHolder(ENOMEM));
+#endif
 
-   if(!(new_data_buffer = (uint8*)realloc(data_buffer, new_required_alloced)))
-    throw MDFN_Error(ErrnoHolder(errno));
+   new_data_buffer = (uint8*)realloc(data_buffer, new_required_alloced);
 
    //
    // Assign all in one go after the realloc() so we don't leave our object in an inconsistent state if the realloc() fails.
@@ -142,8 +139,10 @@ void MemoryStream::write(const void *data, uint64 count)
 {
  uint64 nrs = position + count;
 
+#if 0
  if(nrs < position)
   throw MDFN_Error(ErrnoHolder(EFBIG));
+#endif
 
  grow_if_necessary(nrs);
 
@@ -157,10 +156,6 @@ void MemoryStream::seek(int64 offset, int whence)
 
  switch(whence)
  {
-  default:
-	throw MDFN_Error(ErrnoHolder(EINVAL));
-	break;
-
   case SEEK_SET:
 	new_position = offset;
 	break;
@@ -174,9 +169,7 @@ void MemoryStream::seek(int64 offset, int whence)
 	break;
  }
 
- if(new_position < 0)
-  throw MDFN_Error(ErrnoHolder(EINVAL));
- else
+ if(!(new_position < 0))
   grow_if_necessary(new_position);
 
  position = new_position;

@@ -118,7 +118,4 @@ typedef unsigned char   Boolean; /* 0 or 1 */
 #undef require
 #define require( expr ) assert( expr )
 
-#include "error.h"
-
-
 #endif

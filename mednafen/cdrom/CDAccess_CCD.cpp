@@ -52,8 +52,8 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname, const bool hav
    {
       if(have_defval)
          return defval;
-      else
-         throw MDFN_Error(0, _("Missing property: %s"), propname.c_str());
+      printf("Missing property: %s", propname.c_str());
+      return 0;
    }
 
    const std::string &v = zit->second;
@@ -77,7 +77,8 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname, const bool hav
 
    if(!vp[0] || ep[0])
    {
-      throw MDFN_Error(0, _("Property %s: Malformed integer: %s"), propname.c_str(), v.c_str());
+      printf("Property %s: Malformed integer: %s", propname.c_str(), v.c_str());
+      return 0;
    }
 
    return ret;

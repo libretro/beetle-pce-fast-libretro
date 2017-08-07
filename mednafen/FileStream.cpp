@@ -27,16 +27,8 @@
 
 FileStream::FileStream(const char *path, const int mode)
 {
-   OpenedMode = mode;
-   fp = filestream_open(path, (mode == MODE_WRITE) ? RFILE_MODE_WRITE : RFILE_MODE_READ, -1);
-
-   if (!fp)
-   {
-      ErrnoHolder ene(errno);
-
-      throw(MDFN_Error(ene.Errno(), "Error opening file %s", ene.StrError()));
-   }
-
+   OpenedMode    = mode;
+   fp            = filestream_open(path, (mode == MODE_WRITE) ? RFILE_MODE_WRITE : RFILE_MODE_READ, -1);
    original_path = strdup(path);
 }
 
