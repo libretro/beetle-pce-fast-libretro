@@ -941,7 +941,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
          RunningLBA += Tracks[x].sectors;
          RunningLBA += Tracks[x].postgap;
 
-	//printf("%d, %ld %d %d %d %d\n", x, FileOffset, Tracks[x].index, Tracks[x].pregap, Tracks[x].sectors, Tracks[x].LBA);
+         //printf("%d, %ld %d %d %d %d\n", x, FileOffset, Tracks[x].index, Tracks[x].pregap, Tracks[x].sectors, Tracks[x].LBA);
 
          FileOffset += Tracks[x].sectors * DI_Size_Table[Tracks[x].DIFormat];
       } // end to cue sheet handling
@@ -1033,8 +1033,6 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
    int32_t track;
    CDRFILE_TRACK_INFO *ct;
 
-  
-  log_cb(RETRO_LOG_INFO, "CD read sector lba=%d\n", lba);
    //
    // Leadout synthesis
    //
@@ -1110,7 +1108,7 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             // TODO: Zero out optional(?) checksum bytes?
             break;
       }
-      printf("Pre/post-gap read, LBA=%d(LBA-track_start_LBA=%d)\n", lba, lba - ct->LBA);
+      //printf("Pre/post-gap read, LBA=%d(LBA-track_start_LBA=%d)\n", lba, lba - ct->LBA);
    }
    else
    {
@@ -1138,7 +1136,6 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
          long SeekPos = ct->FileOffset;
          long LBARelPos = lba - ct->LBA;
 
-         printf("SeekPos=%d, LBARelPos=%d\n", SeekPos, LBARelPos);
          SeekPos += LBARelPos * DI_Size_Table[ct->DIFormat];
 
          if(ct->SubchannelMode)
@@ -1370,4 +1367,5 @@ void CDAccess_Image::GenerateTOC(void)
    toc.tracks[100].control = Tracks[FirstTrack + NumTracks - 1].subq_control;
    toc.tracks[100].valid = true;
 }
+
 
