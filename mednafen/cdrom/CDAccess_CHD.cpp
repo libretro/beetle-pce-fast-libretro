@@ -121,8 +121,8 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     toc.tracks[NumTracks].control = strcmp(type, "AUDIO") == 0 ? 0 : 4;
     toc.tracks[NumTracks].valid = true;
 
-    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : (pgtype[0] != 'V') ? pregap : 0;
-    Tracks[NumTracks].pregap_dv = (pgtype[0] != 'V') ? 0 : pregap;
+    Tracks[NumTracks].pregap = (NumTracks == 1) ? 150 : (pgtype[0] == 'V') ? 0 : pregap;
+    Tracks[NumTracks].pregap_dv = (pgtype[0] == 'V') ? pregap : 0;
     plba += Tracks[NumTracks].pregap + Tracks[NumTracks].pregap_dv;
     Tracks[NumTracks].LBA = toc.tracks[NumTracks].lba = plba;
     Tracks[NumTracks].postgap = postgap;
@@ -135,10 +135,12 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
     toc.tracks[NumTracks].lba = plba;
 
-    fileOffset = (fileOffset + 3) & ~3;
-    Tracks[NumTracks].fileOffset = fileOffset;
+    fileOffset += Tracks[NumTracks].pregap_dv;
     //printf("Tracks[%d].fileOffset=%d\n",NumTracks, fileOffset);
-    fileOffset += frames;
+    Tracks[NumTracks].fileOffset = fileOffset;
+    fileOffset += frames - Tracks[NumTracks].pregap_dv;
+    fileOffset += Tracks[NumTracks].postgap;
+    fileOffset += ((frames + 3) & ~3) - frames;
 
     if (strcmp(type, "AUDIO") == 0)
     {
@@ -154,7 +156,7 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
 
     Tracks[NumTracks].subq_control = (strcmp(type, "AUDIO") == 0) ? 0 : 4;
 
-    log_cb(RETRO_LOG_INFO, "chd_parse '%s' track=%d lba=%d, pregap=%d pregap_dv=%d postgap=%d sectors=%d\n", tmp, NumTracks, Tracks[NumTracks].LBA, Tracks[NumTracks].pregap, Tracks[NumTracks].pregap_dv, Tracks[NumTracks].postgap, Tracks[NumTracks].sectors);
+    //log_cb(RETRO_LOG_INFO, "chd_parse '%s' track=%d lba=%d, pregap=%d pregap_dv=%d postgap=%d sectors=%d\n", tmp, NumTracks, Tracks[NumTracks].LBA, Tracks[NumTracks].pregap, Tracks[NumTracks].pregap_dv, Tracks[NumTracks].postgap, Tracks[NumTracks].sectors);
 
     plba += frames - Tracks[NumTracks].pregap_dv;
     plba += Tracks[NumTracks].postgap;
@@ -213,7 +215,6 @@ bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_IN
   int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
   int err = CHDERR_NONE;
 
-  //log_cb(RETRO_LOG_INFO, "chd_read_sector lba=%d cad=%d hunknum=%d hunkofs=%d\n", lba, cad, hunknum, hunkofs);
   /* each hunk holds ~8 sectors, optimize when reading contiguous sectors */
   if (hunknum != oldhunk)
   {
@@ -224,16 +225,15 @@ bool CDAccess_CHD::Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_IN
       oldhunk = hunknum;
   }
 
-  //log_cb(RETRO_LOG_ERROR, "chd_read_sector OK lba=%d\n", lba);
   memcpy(buf, hunkmem + hunkofs * (2352 + 96), 2352);
 
   return err;
 }
 
-bool CDAccess_CHD::Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba)
+bool CDAccess_CHD::Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
 {
   const chd_header *head = chd_get_header(chd);
-  int cad = lba; // HACK - track->file_offset;
+  int cad = lba - track->LBA + track->fileOffset;
   int sph = head->hunkbytes / (2352 + 96);
   int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
   int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
@@ -254,10 +254,10 @@ bool CDAccess_CHD::Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba)
   return err;
 }
 
-bool CDAccess_CHD::Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba)
+bool CDAccess_CHD::Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track)
 {
   const chd_header *head = chd_get_header(chd);
-  int cad = lba; // HACK - track->file_offset;
+  int cad = lba - track->LBA + track->fileOffset;
   int sph = head->hunkbytes / (2352 + 96);
   int hunknum = cad / sph; //(cad * head->unitbytes) / head->hunkbytes;
   int hunkofs = cad % sph; //(cad * head->unitbytes) % head->hunkbytes;
@@ -370,7 +370,7 @@ bool CDAccess_CHD::Read_Raw_Sector(uint8_t *buf, int32_t lba)
         break;
 
       case DI_FORMAT_MODE1:
-        Read_CHD_Hunk_M1(buf, lba);
+        Read_CHD_Hunk_M1(buf, lba, ct);
         encode_mode1_sector(lba + 150, buf);
         break;
 
@@ -381,7 +381,7 @@ bool CDAccess_CHD::Read_Raw_Sector(uint8_t *buf, int32_t lba)
         break;
 
       case DI_FORMAT_MODE2:
-        Read_CHD_Hunk_M2(buf, lba);
+        Read_CHD_Hunk_M2(buf, lba, ct);
         encode_mode2_sector(lba + 150, buf);
         break;
 
@@ -542,4 +542,3 @@ bool CDAccess_CHD::Read_TOC(TOC *toc)
   *toc = this->toc;
   return true;
 }
-

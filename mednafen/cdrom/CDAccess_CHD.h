@@ -72,8 +72,8 @@ class CDAccess_CHD : public CDAccess
   int32_t MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const;
 
   bool Read_CHD_Hunk_RAW(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
-  bool Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba);
-  bool Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba);
+  bool Read_CHD_Hunk_M1(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
+  bool Read_CHD_Hunk_M2(uint8_t *buf, int32_t lba, CHDFILE_TRACK_INFO* track);
 
   int32_t NumTracks;
   int32_t FirstTrack;
