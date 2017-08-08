@@ -1131,8 +1131,17 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	uint32_t last_self = 0;
 	uint64_t last_parent = 0;
    struct bitstream* bitbuf;
+   uint32_t mapbytes;
+   uint64_t firstoffs;
+   uint16_t mapcrc;
+   uint8_t lengthbits;
+   uint8_t selfbits;
+   uint8_t parentbits;
    uint8_t *compressed;
 	uint8_t rawbuf[16];
+   struct huffman_decoder* decoder;
+   enum huffman_error err;
+   uint64_t curoffset;
 
 	if (header->mapoffset == 0)
 	{
@@ -1143,12 +1152,12 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	// read the reader
 	core_fseek(chd->file, header->mapoffset, SEEK_SET);
 	core_fread(chd->file, rawbuf, sizeof(rawbuf));
-	uint32_t mapbytes = get_bigendian_uint32(&rawbuf[0]);
-	uint64_t firstoffs = get_bigendian_uint48(&rawbuf[4]);
-	uint16_t mapcrc = get_bigendian_uint16(&rawbuf[10]);
-	uint8_t lengthbits = rawbuf[12];
-	uint8_t selfbits = rawbuf[13];
-	uint8_t parentbits = rawbuf[14];
+	mapbytes = get_bigendian_uint32(&rawbuf[0]);
+	firstoffs = get_bigendian_uint48(&rawbuf[4]);
+	mapcrc = get_bigendian_uint16(&rawbuf[10]);
+	lengthbits = rawbuf[12];
+	selfbits = rawbuf[13];
+	parentbits = rawbuf[14];
 
 	// now read the map
 	compressed = (uint8_t*)malloc(sizeof(uint8_t) * mapbytes);
@@ -1158,8 +1167,8 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	header->rawmap = (uint8_t*)malloc(sizeof(uint8_t) * map_size_v5(header));
 
 	// first decode the compression types
-	struct huffman_decoder* decoder = create_huffman_decoder(16, 8);
-	enum huffman_error err = huffman_import_tree_rle(decoder, bitbuf);
+	decoder = create_huffman_decoder(16, 8);
+	err = huffman_import_tree_rle(decoder, bitbuf);
 	if (err != HUFFERR_NONE)
 		return CHDERR_DECOMPRESSION_ERROR;
 	for (hunknum = 0; hunknum < header->hunkcount; hunknum++)
@@ -1180,7 +1189,7 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	}
 
 	// then iterate through the hunks and extract the needed data
-	uint64_t curoffset = firstoffs;
+	curoffset = firstoffs;
 	for (hunknum = 0; hunknum < header->hunkcount; hunknum++)
 	{
 		uint8_t *rawmap = header->rawmap + (hunknum * 12);
@@ -1381,10 +1390,13 @@ chd_error chd_open_file(core_file *file, int mode, chd_file *parent, chd_file **
 	}
 	else
 	{
+      int decompnum;
+
 		// verify the compression types and initialize the codecs
-		for (int decompnum = 0; decompnum < ARRAY_LENGTH(newchd->header.compression); decompnum++)
+		for (decompnum = 0; decompnum < ARRAY_LENGTH(newchd->header.compression); decompnum++)
 		{
-			for (int i = 0 ; i < ARRAY_LENGTH(codec_interfaces) ; i++)
+         int i;
+			for (i = 0 ; i < ARRAY_LENGTH(codec_interfaces) ; i++)
 			{
 				if (codec_interfaces[i].compression == newchd->header.compression[decompnum])
 				{
@@ -1497,8 +1509,9 @@ void chd_close(chd_file *chd)
 	}
 	else
 	{
+      int i;
 		// Free the codecs
-		for (int i = 0 ; i < 4 ; i++)
+		for (i = 0 ; i < 4 ; i++)
 		{
 			void* codec = NULL;
 			switch (chd->codecintf[i]->compression)
@@ -2005,20 +2018,22 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		{
 			/* compressed data */
 			case V34_MAP_ENTRY_TYPE_COMPRESSED:
+            {
+               void* codec;
+                  /* read it into the decompression buffer */
+                  core_fseek(chd->file, entry->offset, SEEK_SET);
+               bytes = core_fread(chd->file, chd->compressed, entry->length);
+               if (bytes != entry->length)
+                  return CHDERR_READ_ERROR;
 
-				/* read it into the decompression buffer */
-				core_fseek(chd->file, entry->offset, SEEK_SET);
-				bytes = core_fread(chd->file, chd->compressed, entry->length);
-				if (bytes != entry->length)
-					return CHDERR_READ_ERROR;
-
-				/* now decompress using the codec */
-				err = CHDERR_NONE;
-				void* codec = &chd->zlib_codec_data;
-				if (chd->codecintf[0]->decompress != NULL)
-					err = (*chd->codecintf[0]->decompress)(codec, chd->compressed, entry->length, dest, chd->header.hunkbytes);
-				if (err != CHDERR_NONE)
-					return err;
+               /* now decompress using the codec */
+               err   = CHDERR_NONE;
+               codec = &chd->zlib_codec_data;
+               if (chd->codecintf[0]->decompress != NULL)
+                  err = (*chd->codecintf[0]->decompress)(codec, chd->compressed, entry->length, dest, chd->header.hunkbytes);
+               if (err != CHDERR_NONE)
+                  return err;
+            }
 				break;
 
 			/* uncompressed data */
@@ -2058,6 +2073,7 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		uint64_t blockoffs;
 		uint32_t blocklen;
 		uint16_t blockcrc;
+      void* codec = NULL;
 		uint8_t *rawmap = &chd->header.rawmap[chd->header.mapentrybytes * hunknum];
 
 		// uncompressed case
@@ -2080,7 +2096,6 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		blocklen = get_bigendian_uint24(&rawmap[1]);
 		blockoffs = get_bigendian_uint48(&rawmap[4]);
 		blockcrc = get_bigendian_uint16(&rawmap[10]);
-		void* codec = NULL;
 		switch (rawmap[0])
 		{
 			case COMPRESSION_TYPE_0:
@@ -2328,11 +2343,12 @@ static void zlib_codec_free(void *codec)
 	if (data != NULL)
 	{
 		int i;
+      zlib_allocator alloc;
 
 		inflateEnd(&data->inflater);
 
 		/* free our fast memory */
-		zlib_allocator alloc = data->allocator;
+		alloc = data->allocator;
 		for (i = 0; i < MAX_ZLIB_ALLOCS; i++)
 			if (alloc.allocptr[i])
 				free(alloc.allocptr[i]);
