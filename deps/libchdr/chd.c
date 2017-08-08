@@ -56,6 +56,9 @@ typedef unsigned char Byte;
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+
+#include <retro_inline.h>
+
 #define TRUE 1
 #define FALSE 0
 
@@ -895,7 +898,7 @@ static const codec_interface codec_interfaces[] =
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline UINT64 get_bigendian_uint64(const UINT8 *base)
+static INLINE UINT64 get_bigendian_uint64(const UINT8 *base)
 {
 	return ((UINT64)base[0] << 56) | ((UINT64)base[1] << 48) | ((UINT64)base[2] << 40) | ((UINT64)base[3] << 32) |
 			((UINT64)base[4] << 24) | ((UINT64)base[5] << 16) | ((UINT64)base[6] << 8) | (UINT64)base[7];
@@ -907,7 +910,7 @@ static inline UINT64 get_bigendian_uint64(const UINT8 *base)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline void put_bigendian_uint64(UINT8 *base, UINT64 value)
+static INLINE void put_bigendian_uint64(UINT8 *base, UINT64 value)
 {
 	base[0] = value >> 56;
 	base[1] = value >> 48;
@@ -924,7 +927,7 @@ static inline void put_bigendian_uint64(UINT8 *base, UINT64 value)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline UINT64 get_bigendian_uint48(const UINT8 *base)
+static INLINE UINT64 get_bigendian_uint48(const UINT8 *base)
 {
 	return  ((UINT64)base[0] << 40) | ((UINT64)base[1] << 32) |
 			((UINT64)base[2] << 24) | ((UINT64)base[3] << 16) | ((UINT64)base[4] << 8) | (UINT64)base[5];
@@ -935,7 +938,7 @@ static inline UINT64 get_bigendian_uint48(const UINT8 *base)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline void put_bigendian_uint48(UINT8 *base, UINT64 value)
+static INLINE void put_bigendian_uint48(UINT8 *base, UINT64 value)
 {
 	value &= 0xffffffffffff; 
 	base[0] = value >> 40;
@@ -950,7 +953,7 @@ static inline void put_bigendian_uint48(UINT8 *base, UINT64 value)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline UINT32 get_bigendian_uint32(const UINT8 *base)
+static INLINE UINT32 get_bigendian_uint32(const UINT8 *base)
 {
 	return (base[0] << 24) | (base[1] << 16) | (base[2] << 8) | base[3];
 }
@@ -961,7 +964,7 @@ static inline UINT32 get_bigendian_uint32(const UINT8 *base)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline void put_bigendian_uint24(UINT8 *base, UINT32 value)
+static INLINE void put_bigendian_uint24(UINT8 *base, UINT32 value)
 {
 	value &= 0xffffff;
 	base[0] = value >> 16;
@@ -975,7 +978,7 @@ static inline void put_bigendian_uint24(UINT8 *base, UINT32 value)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline void put_bigendian_uint32(UINT8 *base, UINT32 value)
+static INLINE void put_bigendian_uint32(UINT8 *base, UINT32 value)
 {
 	value &= 0xffffff;
 	base[0] = value >> 16;
@@ -988,7 +991,7 @@ static inline void put_bigendian_uint32(UINT8 *base, UINT32 value)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline UINT32 get_bigendian_uint24(const UINT8 *base)
+static INLINE UINT32 get_bigendian_uint24(const UINT8 *base)
 {
 	return (base[0] << 16) | (base[1] << 8) | base[2];
 }
@@ -998,7 +1001,7 @@ static inline UINT32 get_bigendian_uint24(const UINT8 *base)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline UINT16 get_bigendian_uint16(const UINT8 *base)
+static INLINE UINT16 get_bigendian_uint16(const UINT8 *base)
 {
 	return (base[0] << 8) | base[1];
 }
@@ -1009,7 +1012,7 @@ static inline UINT16 get_bigendian_uint16(const UINT8 *base)
     the data stream in bigendian order
 -------------------------------------------------*/
 
-static inline void put_bigendian_uint16(UINT8 *base, UINT16 value)
+static INLINE void put_bigendian_uint16(UINT8 *base, UINT16 value)
 {
 	base[0] = value >> 8;
 	base[1] = value;
@@ -1021,7 +1024,7 @@ static inline void put_bigendian_uint16(UINT8 *base, UINT16 value)
     entry from the datastream
 -------------------------------------------------*/
 
-static inline void map_extract(const UINT8 *base, map_entry *entry)
+static INLINE void map_extract(const UINT8 *base, map_entry *entry)
 {
 	entry->offset = get_bigendian_uint64(&base[0]);
 	entry->crc = get_bigendian_uint32(&base[8]);
@@ -1035,7 +1038,7 @@ static inline void map_extract(const UINT8 *base, map_entry *entry)
     entry to the datastream
 -------------------------------------------------*/
 
-static inline void map_assemble(UINT8 *base, map_entry *entry)
+static INLINE void map_assemble(UINT8 *base, map_entry *entry)
 {
 	put_bigendian_uint64(&base[0], entry->offset);
 	put_bigendian_uint32(&base[8], entry->crc);
@@ -1047,7 +1050,7 @@ static inline void map_assemble(UINT8 *base, map_entry *entry)
 /*-------------------------------------------------
     map_size_v5 - calculate CHDv5 map size
 -------------------------------------------------*/
-static inline int map_size_v5(chd_header* header)
+static INLINE int map_size_v5(chd_header* header)
 {
 	return header->hunkcount * header->mapentrybytes;
 }
@@ -1237,7 +1240,7 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
     entry in old format from the datastream
 -------------------------------------------------*/
 
-static inline void map_extract_old(const UINT8 *base, map_entry *entry, UINT32 hunkbytes)
+static INLINE void map_extract_old(const UINT8 *base, map_entry *entry, UINT32 hunkbytes)
 {
 	entry->offset = get_bigendian_uint64(&base[0]);
 	entry->crc = 0;
