@@ -161,7 +161,7 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
     plba += frames - Tracks[NumTracks].pregap_dv;
     plba += Tracks[NumTracks].postgap;
 
-    numsectors += frames;
+    numsectors += (NumTracks == 1) ? frames : frames + Tracks[NumTracks].pregap;
 
     toc.first_track = 1;
     toc.last_track = NumTracks;
