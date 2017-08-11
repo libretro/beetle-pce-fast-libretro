@@ -1413,7 +1413,7 @@ static void check_variables(void)
    }
 
    // Set TURBO_DELAY 
-   var.key = "Turbo_Delay";
+   var.key = "pce_Turbo_Delay";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1426,7 +1426,7 @@ static void check_variables(void)
    }
 
    // Enable turbo for each player's I+II buttons   
-   var.key = "p0_turbo_I_enable";
+   var.key = "pce_p0_turbo_I_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1436,7 +1436,7 @@ static void check_variables(void)
 		turbo_enable[0][0] = 0;
    }
    
-   var.key = "p0_turbo_II_enable";
+   var.key = "pce_p0_turbo_II_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1446,7 +1446,7 @@ static void check_variables(void)
 		turbo_enable[0][1] = 0;
    }
    
-   var.key = "p1_turbo_I_enable";
+   var.key = "pce_p1_turbo_I_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1456,7 +1456,7 @@ static void check_variables(void)
 		turbo_enable[1][0] = 0;
    }
    
-   var.key = "p1_turbo_II_enable";
+   var.key = "pce_p1_turbo_II_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1466,7 +1466,7 @@ static void check_variables(void)
 		turbo_enable[1][1] = 0;
    }
    
-   var.key = "p2_turbo_I_enable";
+   var.key = "pce_p2_turbo_I_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1476,7 +1476,7 @@ static void check_variables(void)
 		turbo_enable[2][0] = 0;
    }
    
-   var.key = "p2_turbo_II_enable";
+   var.key = "pce_p2_turbo_II_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1486,7 +1486,7 @@ static void check_variables(void)
 		turbo_enable[2][1] = 0;
    }
    
-      var.key = "p3_turbo_I_enable";
+      var.key = "pce_p3_turbo_I_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1496,7 +1496,7 @@ static void check_variables(void)
 		turbo_enable[3][0] = 0;
    }
    
-   var.key = "p3_turbo_II_enable";
+   var.key = "pce_p3_turbo_II_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1506,7 +1506,7 @@ static void check_variables(void)
 		turbo_enable[3][1] = 0;
    }
    
-   var.key = "p4_turbo_I_enable";
+   var.key = "pce_p4_turbo_I_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1516,7 +1516,7 @@ static void check_variables(void)
 		turbo_enable[4][0] = 0;
    }
    
-   var.key = "p4_turbo_II_enable";
+   var.key = "pce_p4_turbo_II_enable";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1831,17 +1831,17 @@ void retro_set_environment(retro_environment_t cb)
       { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
-      { "Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
-      { "p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
-      { "p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
-      { "p1_turbo_I_enable", "P2 Turbo I; disabled|enabled" },
-      { "p1_turbo_II_enable", "P2 Turbo II; disabled|enabled" },
-      { "p2_turbo_I_enable", "P3 Turbo I; disabled|enabled" },
-      { "p2_turbo_II_enable", "P3 Turbo II; disabled|enabled" },
-      { "p3_turbo_I_enable", "P4 Turbo I; disabled|enabled" },
-      { "p3_turbo_II_enable", "P4 Turbo II; disabled|enabled" },
-      { "p4_turbo_I_enable", "P5 Turbo I; disabled|enabled" },
-      { "p4_turbo_II_enable", "P5 Turbo II; disabled|enabled" },
+      { "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
+      { "pce_p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
+      { "pce_p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
+      { "pce_p1_turbo_I_enable", "P2 Turbo I; disabled|enabled" },
+      { "pce_p1_turbo_II_enable", "P2 Turbo II; disabled|enabled" },
+      { "pce_p2_turbo_I_enable", "P3 Turbo I; disabled|enabled" },
+      { "pce_p2_turbo_II_enable", "P3 Turbo II; disabled|enabled" },
+      { "pce_p3_turbo_I_enable", "P4 Turbo I; disabled|enabled" },
+      { "pce_p3_turbo_II_enable", "P4 Turbo II; disabled|enabled" },
+      { "pce_p4_turbo_I_enable", "P5 Turbo I; disabled|enabled" },
+      { "pce_p4_turbo_II_enable", "P5 Turbo II; disabled|enabled" },
       { NULL, NULL },
    };
 
