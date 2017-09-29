@@ -52,6 +52,9 @@ struct MDFNFILE *file_open(const char *path)
    ld = (const char*)strrchr(path, '.');
    file->ext = strdup(ld ? ld + 1 : "");
 
+   if (fp)
+      fclose((FILE*)fp);
+
    return file;
 
 error:
