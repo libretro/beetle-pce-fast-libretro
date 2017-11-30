@@ -937,7 +937,12 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   // and for Addams Family
                   else if(vce.dot_clock == 1 && M_vdc_HDS == 4 && M_vdc_HDE == 4 && M_vdc_HDW == 43 && M_vdc_HSW == 9)
                      target_offset += 4;
-		       
+                  // Final Blaster intro fix
+                  else if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 26 && M_vdc_HDW == 9 && M_vdc_HSW == 2)
+                     target_offset -= 88;
+                  else if(vce.dot_clock == 0 && M_vdc_HDS == 24 && M_vdc_HDE == 4 && M_vdc_HDW == 9 && M_vdc_HSW == 2)
+                     target_offset += 88;
+
                   if(target_offset < 0)
                   {
                      width += target_offset;
