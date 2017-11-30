@@ -923,7 +923,13 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
                   if(vce.dot_clock == 1 && defined_width[1] < width){
                      target_offset += (defined_width[1] - width) / 2;
                   }
-				  
+
+                  // Final Blaster intro fix
+                  if(vce.dot_clock == 0 && M_vdc_HDS == 2 && M_vdc_HDE == 26 && M_vdc_HDW == 9 && M_vdc_HSW == 2)
+                     target_offset -= 88;
+                  else if(vce.dot_clock == 0 && M_vdc_HDS == 24 && M_vdc_HDE == 4 && M_vdc_HDW == 9 && M_vdc_HSW == 2)
+                     target_offset += 88;
+
                   // Align TV Sport Basketball
                   if(vce.dot_clock ==2 && width > 512){
                      target_offset = - 16;
