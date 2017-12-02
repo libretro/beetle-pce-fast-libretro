@@ -220,7 +220,7 @@ static int Load(const char *name, MDFNFILE *fp)
 
   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
- if(crc = 0xfae0fc60)
+ if(crc == 0xfae0fc60)
   OrderOfGriffonFix = true;
 
  return(LoadCommon());
