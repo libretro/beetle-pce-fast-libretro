@@ -1281,7 +1281,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 }
 
 #define MAX_PLAYERS 5
-#define MAX_BUTTONS 13
+#define MAX_BUTTONS 15
 static uint8_t input_buf[MAX_PLAYERS][2] = {0};
 
 // Array to keep track of whether a given player's button is turbo
@@ -1291,6 +1291,7 @@ static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 // The number of frames between each firing of a turbo button
 static int Turbo_Delay;
 static int Turbo_Toggling = 1;
+static bool turbo_toggle_alt = false;
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 static void check_variables(void)
@@ -1409,7 +1410,7 @@ static void check_variables(void)
    }
 
    // Set Turbo_Toggling
-   var.key = "Turbo_Toggling";
+   var.key = "pce_Turbo_Toggling";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1430,6 +1431,17 @@ static void check_variables(void)
       Turbo_Delay = 8;
       else if (strcmp(var.value, "Slow") == 0)
       Turbo_Delay = 15;
+   }
+
+   //  False sets turbo hotkey X/Y, true assigns hotkey to L3/R3
+   var.key = "pce_turbo_toggle_hotkey";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "enabled") == 0)
+         turbo_toggle_alt = true;
+      else
+         turbo_toggle_alt = false;
    }
 
    // Enable turbo for each player's I+II buttons   
@@ -1618,7 +1630,8 @@ void retro_unload_game(void)
 
 static void update_input(void)
 {
-   static int turbo_map[] = { -1,-1,-1,-1,-1,-1,-1,-1,1,0,-1,-1,-1 };
+   static int turbo_map[]     = { -1,-1,-1,-1,-1,-1,-1,-1, 1, 0,-1,-1,-1,-1,-1 };
+   static int turbo_map_alt[] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0 };
    static unsigned map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1632,7 +1645,9 @@ static void update_input(void)
       RETRO_DEVICE_ID_JOYPAD_X,
       RETRO_DEVICE_ID_JOYPAD_L,
       RETRO_DEVICE_ID_JOYPAD_R,
-      RETRO_DEVICE_ID_JOYPAD_L2
+      RETRO_DEVICE_ID_JOYPAD_L2,
+      RETRO_DEVICE_ID_JOYPAD_L3,
+      RETRO_DEVICE_ID_JOYPAD_R3
    };
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
@@ -1656,15 +1671,17 @@ static void update_input(void)
                turbo_counter[j][i] = 0;
             }
          }
-         else if (turbo_map[i] != -1 && Turbo_Toggling && !AVPad6Enabled[j])
+         else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && Turbo_Toggling && !AVPad6Enabled[j])
          {
             if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
             {
                if (turbo_toggle_down[j][i] == 0)
                {
                   turbo_toggle_down[j][i] = 1;
-                  turbo_enable[j][turbo_map[i]] = turbo_enable[j][turbo_map[i]] ^ 1;
-                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1, i == 9 ? "I" : "II", turbo_enable[j][turbo_map[i]] ? "ON" : "OFF" );
+                  turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] = turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ^ 1;
+                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
+                     i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                     turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF" );
                }
             }
             else turbo_toggle_down[j][i] = 0;
@@ -1839,6 +1856,8 @@ void retro_set_environment(retro_environment_t cb)
       { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
       { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
       { "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
+      { "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
+      { "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
       { "pce_p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
       { "pce_p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
       { "pce_p1_turbo_I_enable", "P2 Turbo I; disabled|enabled" },
