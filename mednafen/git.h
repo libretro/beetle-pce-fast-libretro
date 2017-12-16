@@ -2,7 +2,7 @@
 #define _GIT_H
 
 #include <string>
-#include "../libretro.h"
+#include <libretro.h>
 
 #include "video.h"
 
