@@ -32,15 +32,33 @@ typedef struct RFILE RFILE;
 
 #define FILE RFILE
 
+#undef fopen
+#undef fclose
+#undef ftell
+#undef fseek
+#undef fread
+#undef fgets
+#undef fgetc
+#undef fwrite
+#undef fputc
+#undef fprintf
+#undef ferror
+#undef feof
+
 #define fopen rfopen
 #define fclose rfclose
 #define ftell rftell
 #define fseek rfseek
 #define fread rfread
 #define fgets rfgets
+#define fgetc rfgetc
 #define fwrite rfwrite
+#define fputc rfputc
+#define fprintf rfprintf
+#define ferror rferror
+#define feof rfeof
 
-RFILE* rfopen(const char *path, char *mode);
+RFILE* rfopen(const char *path, const char *mode);
 
 int rfclose(RFILE* stream);
 
@@ -53,8 +71,18 @@ size_t rfread(void* buffer,
 
 char *rfgets(char *buffer, int maxCount, RFILE* stream);
 
+int rfgetc(RFILE* stream);
+
 size_t rfwrite(void const* buffer,
    size_t elementSize, size_t elementCount, RFILE* stream);
+
+int rfputc(int character, RFILE * stream);
+
+int rfprintf(RFILE * stream, const char * format, ...);
+
+int rferror(RFILE* stream);
+
+int rfeof(RFILE* stream);
 
 RETRO_END_DECLS
 
