@@ -3,6 +3,7 @@
 #include <retro_miscellaneous.h>
 #include <streams/file_stream.h>
 #include <string/stdstring.h>
+#include <encodings/crc32.h>
 #include <libretro.h>
 
 #include "mednafen/mednafen.h"
@@ -61,8 +62,6 @@ MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-extern "C" unsigned long crc32(unsigned long crc, const unsigned char *buf, unsigned int len);
 
 static PCEFast_PSG *psg = NULL;
 extern ArcadeCard *arcade_card; // Bah, lousy globals.
@@ -219,7 +218,7 @@ static int Load(const char *name, MDFNFILE *fp)
   PCEWrite[x] = PCENullWrite;
  }
 
- uint32 crc = crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
+ uint32 crc = encoding_crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
