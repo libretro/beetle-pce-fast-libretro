@@ -37,8 +37,6 @@
 #include <time.h>
 #include <memory>
 
-#include <file/file_path.h>
-
 #include "../general.h"
 #include "../mednafen-endian.h"
 #include "../FileStream.h"
@@ -312,11 +310,14 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
 
    log_cb(RETRO_LOG_INFO, "Loading SBI file \"%s\"...\n", sbi_path.c_str());
 
-   if (!path_is_valid(sbi_path.c_str()))
+   RFILE* sbiFile = filestream_open(sbi_path.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
+   if (sbiFile == nullptr)
    {
       /* SBI file not available, but don't error out. */
       return true;
    }
+
+   filestream_close(sbiFile);
 
    FileStream sbis(sbi_path.c_str(), MODE_READ);
 
