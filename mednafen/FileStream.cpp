@@ -27,30 +27,11 @@
 
 FileStream::FileStream(const char *path, const int mode)
 {
-   OpenedMode    = mode;
    fp            = filestream_open(path, (mode == MODE_WRITE) ? RETRO_VFS_FILE_ACCESS_WRITE : RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
 }
 
 FileStream::~FileStream()
 {
-}
-
-uint64_t FileStream::attributes(void)
-{
-   uint64_t ret = ATTRIBUTE_SEEKABLE;
-
-   switch(OpenedMode)
-   {
-      case MODE_READ:
-         ret |= ATTRIBUTE_READABLE;
-         break;
-      case MODE_WRITE_SAFE:
-      case MODE_WRITE:
-         ret |= ATTRIBUTE_WRITEABLE;
-         break;
-   }
-
-   return ret;
 }
 
 uint64_t FileStream::read(void *data, uint64_t count, bool error_on_eos)
