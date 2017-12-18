@@ -41,7 +41,6 @@ class FileStream : public Stream
 
    private:
       RFILE *fp;
-      char *original_path;
       int OpenedMode;
 };
 

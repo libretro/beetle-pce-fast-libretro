@@ -29,14 +29,10 @@ FileStream::FileStream(const char *path, const int mode)
 {
    OpenedMode    = mode;
    fp            = filestream_open(path, (mode == MODE_WRITE) ? RETRO_VFS_FILE_ACCESS_WRITE : RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
-   original_path = strdup(path);
 }
 
 FileStream::~FileStream()
 {
-   if (original_path)
-      free(original_path);
-   original_path = NULL;
 }
 
 uint64_t FileStream::attributes(void)
