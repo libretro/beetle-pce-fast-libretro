@@ -89,7 +89,6 @@ int64_t FileStream::size(void)
 {
    if (!fp)
       return -1;
-
    return filestream_get_size(fp);
 }
 
