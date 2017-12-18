@@ -307,15 +307,14 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
    uint8_t header[4];
    uint8_t ed[4 + 10];
    uint8_t tmpq[12];
+   RFILE *sbiFile;
 
    log_cb(RETRO_LOG_INFO, "Loading SBI file \"%s\"...\n", sbi_path.c_str());
 
-   RFILE* sbiFile = filestream_open(sbi_path.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
-   if (sbiFile == nullptr)
-   {
+   sbiFile = filestream_open(sbi_path.c_str(), RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
       /* SBI file not available, but don't error out. */
+   if (!sbiFile)
       return true;
-   }
 
    filestream_close(sbiFile);
 
