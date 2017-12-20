@@ -899,7 +899,7 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
       SFEND
    };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM");
+   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM", false);
    if(load)
    {
       MSM5205.SetSample(ad_sample);
@@ -932,7 +932,7 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
       SFEND
    };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD");
+   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PECD", false);
    ret &= PCECD_Drive_StateAction(sm, load, data_only, "CDRM");
    ret &= ADPCM_StateAction(sm, load, data_only);
 

@@ -763,7 +763,7 @@ int HuC6280_StateAction(StateMem *sm, int load, int data_only)
       SFEND
    };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU");
+   int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU", false);
 
    if(load)
    {

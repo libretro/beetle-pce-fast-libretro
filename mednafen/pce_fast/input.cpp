@@ -229,7 +229,7 @@ int INPUT_StateAction(StateMem *sm, int load, int data_only)
       SFVAR(read_index),
       SFEND
    };
-   int ret =  MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY");
+   int ret =  MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY", false);
 
    return(ret);
 }

@@ -302,7 +302,7 @@ int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
   SFEND
  };
 
- if(!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed"))
+ if(!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed", false))
   return(0);
 
  SFORMAT ACStateRegs[] =
@@ -325,7 +325,7 @@ int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
   SFARRAY(ACRAM, ACRAMUsed ? 0x200000 : 0x0),
   SFEND
  };
- int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard");
+ int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard", false);
 
 
  return(ret);

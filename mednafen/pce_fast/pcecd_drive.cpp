@@ -1299,7 +1299,7 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
   SFEND
  };
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, sname);
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, sname, false);
 
  if(load)
  {

@@ -90,25 +90,13 @@ INLINE uint32_t SF_FORCE_D(double *) { return(0); }
 #define SFEND { 0, 0, 0, 0 }
 
 // State-Section Descriptor
-class SSDescriptor
+struct SSDescriptor
 {
-   public:
-      SSDescriptor(SFORMAT *n_sf, const char *n_name, bool n_optional = 0)
-      {
-         sf = n_sf;
-         name = n_name;
-         optional = n_optional;
-      }
-      ~SSDescriptor(void)
-      {
-
-      }
-
-      SFORMAT *sf;
-      const char *name;
-      bool optional;
+   SFORMAT *sf;
+   const char *name;
+   bool optional;
 };
 
-int MDFNSS_StateAction(void *st, int load, int data_only, SFORMAT *sf, const char *name, bool optional = 0);
+int MDFNSS_StateAction(void *st, int load, int data_only, SFORMAT *sf, const char *name, bool optional);
 
 #endif
