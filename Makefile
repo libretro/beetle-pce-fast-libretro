@@ -66,7 +66,6 @@ ifneq (,$(findstring unix,$(platform)))
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -lrt
-   FLAGS += -DHAVE_MKDIR
    
    # Raspberry Pi
    ifneq (,$(findstring rpi,$(platform)))
@@ -85,7 +84,6 @@ else ifeq ($(platform), osx)
    TARGET := $(TARGET_NAME)_libretro.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
-   FLAGS += -DHAVE_MKDIR
    ifeq ($(arch),ppc)
       ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
       OLD_GCC := 1
@@ -120,7 +118,6 @@ else ifeq ($(platform), qnx)
    TARGET := $(TARGET_NAME)_libretro_$(platform).so
    fpic := -fPIC
    SHARED := -lcpp -lm -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   FLAGS += -DHAVE_MKDIR
    CC = qcc -Vgcc_ntoarmv7le
    CXX = QCC -Vgcc_ntoarmv7le_cpp
    AR = QCC -Vgcc_ntoarmv7le
@@ -131,7 +128,6 @@ else ifneq (,$(filter $(platform), ps3 sncps3 psl1ght))
    TARGET := $(TARGET_NAME)_libretro_ps3.a
    STATIC_LINKING = 1
    ENDIANNESS_DEFINES := -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -DHAVE_MKDIR
 
    # sncps3
    ifneq (,$(findstring sncps3,$(platform)))
@@ -166,7 +162,6 @@ else ifeq ($(platform), psp1)
    CXX = psp-g++$(EXE_EXT)
    AR = psp-ar$(EXE_EXT)
    FLAGS += -DPSP -G0
-   FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
    EXTRA_INCLUDES := -I$(shell psp-config --pspsdk-path)/include
 
@@ -176,7 +171,7 @@ else ifeq ($(platform), vita)
    CC = arm-vita-eabi-gcc$(EXE_EXT)
    CXX = arm-vita-eabi-g++$(EXE_EXT)
    AR = arm-vita-eabi-ar$(EXE_EXT)
-   FLAGS += -DVITA -DHAVE_MKDIR
+   FLAGS += -DVITA
    STATIC_LINKING = 1
 
 # Xbox 360
@@ -186,7 +181,6 @@ else ifeq ($(platform), xenon)
    CXX = xenon-g++$(EXE_EXT)
    AR = xenon-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
-   FLAGS += -DHAVE_MKDIR
    STATIC_LINKING = 1
 
 # Nintendo Game Cube / Wii / WiiU
@@ -197,7 +191,6 @@ else ifneq (,$(filter $(platform), ngc wii wiiu))
    AR = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
    ENDIANNESS_DEFINES += -DGEKKO -mcpu=750 -meabi -mhard-float -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
    FLAGS += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int
-   FLAGS += -DHAVE_MKDIR
    EXTRA_INCLUDES := -I$(DEVKITPRO)/libogc/include
    STATIC_LINKING = 1
 
@@ -228,7 +221,6 @@ else ifeq ($(platform), gcw0)
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -lrt
-   FLAGS += -DHAVE_MKDIR
    FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 
 # Windows MSVC 2017 all architectures
@@ -394,7 +386,6 @@ PSS_STYLE :=2
 LDFLAGS += -DLL
 CFLAGS += -D_CRT_SECURE_NO_DEPRECATE
 LIBS =
-FLAGS += -DHAVE__MKDIR
 WINDOWS_VERSION=1
 
 # Windows
@@ -404,7 +395,6 @@ else
    CXX = g++
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -static-libgcc -static-libstdc++ -lwinmm
-   FLAGS += -DHAVE__MKDIR
 WINDOWS_VERSION=1
 
 endif
