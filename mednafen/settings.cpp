@@ -100,7 +100,6 @@ bool MDFN_GetSettingB(const char *name)
 }
 
 extern std::string retro_base_directory;
-extern std::string retro_base_name;
 
 std::string MDFN_GetSettingS(const char *name)
 {
@@ -117,10 +116,6 @@ std::string MDFN_GetSettingS(const char *name)
       return retro_base_directory;
    if (!strcmp("filesys.path_cheat", name))
       return retro_base_directory;
-   if (!strcmp("filesys.fname_state", name))
-      return retro_base_name + std::string(".sav");
-   if (!strcmp("filesys.fname_sav", name))
-      return retro_base_name + std::string(".bsv");
    fprintf(stderr, "unhandled setting S: %s\n", name);
    return 0;
 }

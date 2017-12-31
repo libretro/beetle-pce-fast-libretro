@@ -1105,21 +1105,6 @@ static MDFN_Surface *surf;
 static bool failed_init;
 
 std::string retro_base_directory;
-std::string retro_base_name;
-
-static void set_basename(const char *path)
-{
-   const char *base = strrchr(path, '/');
-   if (!base)
-      base = strrchr(path, '\\');
-
-   if (base)
-      retro_base_name = base + 1;
-   else
-      retro_base_name = path;
-
-   retro_base_name = retro_base_name.substr(0, retro_base_name.find_last_of('.'));
-}
 
 #include "mednafen/pce_fast/pcecd.h"
 
@@ -1494,7 +1479,6 @@ bool retro_load_game(const struct retro_game_info *info)
       return false;
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
-   set_basename(info->path);
 
    check_variables();
 
