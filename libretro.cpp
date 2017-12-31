@@ -1106,7 +1106,6 @@ static bool failed_init;
 
 std::string retro_base_directory;
 std::string retro_base_name;
-std::string retro_save_directory;
 
 static void set_basename(const char *path)
 {
@@ -1160,25 +1159,6 @@ void retro_init(void)
       failed_init = true;
    }
    
-   if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &dir) && dir)
-   {
-	  // If save directory is defined use it, otherwise use system directory
-      retro_save_directory = *dir ? dir : retro_base_directory;
-      // Make sure that we don't have any lingering slashes, etc, as they break Windows.
-      size_t last = retro_save_directory.find_last_not_of("/\\");
-      if (last != std::string::npos)
-         last++;
-
-      retro_save_directory = retro_save_directory.substr(0, last);      
-   }
-   else
-   {
-      /* TODO: Add proper fallback */
-      if (log_cb)
-         log_cb(RETRO_LOG_WARN, "Save directory is not defined. Fallback on using SYSTEM directory ...\n");
-	  retro_save_directory = retro_base_directory;
-   }      
-
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
       log_cb(RETRO_LOG_INFO, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
@@ -1973,10 +1953,6 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
    std::string ret;
    switch (type)
    {
-      case MDFNMKF_SAV:
-         ret = retro_save_directory +slash + retro_base_name +
-            std::string(".") + std::string(cd1);
-         break;
       case MDFNMKF_FIRMWARE:
          ret = retro_base_directory + slash + std::string(cd1);
 #ifdef _WIN32
