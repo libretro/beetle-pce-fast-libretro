@@ -180,10 +180,10 @@ bool PCE_InitCD(void)
  cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
 
  if(cd_settings.CDDA_Volume != 1.0)
-  MDFN_printf(_("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
+  MDFN_printf("CD-DA Volume: %d%%\n", (int)(100 * cd_settings.CDDA_Volume));
 
  if(cd_settings.ADPCM_Volume != 1.0)
-  MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
+  MDFN_printf("ADPCM Volume: %d%%\n", (int)(100 * cd_settings.ADPCM_Volume));
 
  return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
 }
@@ -230,10 +230,10 @@ static void LoadCommonPre(void)
  PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
 
  if(pce_overclocked > 1)
-  MDFN_printf(_("CPU overclock: %dx\n"), pce_overclocked);
+  MDFN_printf("CPU overclock: %dx\n", pce_overclocked);
 
  if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-  MDFN_printf(_("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
+  MDFN_printf("CD-ROM speed:  %ux\n", (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
 
  memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
  for(int x = 0; x < 0x100; x++)
@@ -278,7 +278,7 @@ static int LoadCommon(void)
 
   if(cdpsgvolume != 100)
   {
-   MDFN_printf(_("CD PSG Volume: %d%%\n"), cdpsgvolume);
+   MDFN_printf("CD PSG Volume: %d%%\n", cdpsgvolume);
   }
 
   psg->SetVolume(0.678 * cdpsgvolume / 100);
@@ -585,7 +585,7 @@ int HuCLoad(const uint8 *data, uint32 len)
  PCE_IsCD = 0;
 
 
- MDFN_printf(_("ROM:       %dKiB\n"), (len + 1023) / 1024);
+ MDFN_printf("ROM:       %dKiB\n", (len + 1023) / 1024);
 
  if(!(HuCROM = (uint8 *)malloc(m_len)))
  {
@@ -706,7 +706,7 @@ int HuCLoadCD(const char *bios_path)
  PCE_IsCD = 1;
  PCE_InitCD();
 
- MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled")); 
+ MDFN_printf("Arcade Card Emulation:  %s\n", PCE_ACEnabled ? "Enabled" : "Disabled"); 
  for(int x = 0; x < 0x40; x++)
  {
   HuCPUFastMap[x] = ROMSpace;
@@ -726,7 +726,7 @@ int HuCLoadCD(const char *bios_path)
  {
     if (!(arcade_card = new ArcadeCard()))
     {
-       MDFN_PrintError(_("Error creating %s object.\n"), "ArcadeCard");
+       MDFN_PrintError("Error creating %s object.\n", "ArcadeCard");
        Cleanup();
        return(0);
     }
@@ -905,12 +905,12 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
 
       CDInterfaces[i]->ReadTOC(&toc);
 
-      MDFN_printf(_("CD %d Layout:\n"), i + 1);
+      MDFN_printf("CD %d Layout:\n", i + 1);
       MDFN_indent(1);
 
       for(int32 track = toc.first_track; track <= toc.last_track; track++)
       {
-         MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+         MDFN_printf("Track %2d, LBA: %6d  %s\n", track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
       }
 
       MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
@@ -948,7 +948,7 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
       return(MDFNI_LoadCD(name));
 
-   MDFN_printf(_("Loading %s...\n"),name);
+   MDFN_printf("Loading %s...\n",name);
 
    MDFN_indent(1);
 
@@ -966,7 +966,7 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    if(!GameFile)
       goto error;
 
-   MDFN_printf(_("Using module: pce_fast.\n\n"));
+   MDFN_printf("Using module: pce_fast.\n\n");
    MDFN_indent(1);
 
    //
@@ -1610,8 +1610,6 @@ void update_geometry(unsigned width, unsigned height)
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
-
-
 void retro_run(void)
 {
    MDFNGI *curgame = (MDFNGI*)game;
@@ -1995,8 +1993,4 @@ void MDFN_DispMessage(const char *format, ...)
    msg.msg = strc;
 
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
-}
-
-void MDFN_ResetMessages(void)
-{
 }
