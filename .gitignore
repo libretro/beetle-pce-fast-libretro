@@ -2,5 +2,9 @@
 *.so
 *.dll
 *.dylib
+*.lib
+*.pdb
+*.exp
+*.manifest
 /old
 
