@@ -479,7 +479,7 @@ endif
 CXXFLAGS += $(FLAGS)
 CFLAGS += $(FLAGS)
 
-OBJOUT   = -o
+OBJOUT   = -o 
 LINKOUT  = -o 
 
 ifneq (,$(findstring msvc,$(platform)))
@@ -491,7 +491,9 @@ else
 endif
 
 $(TARGET): $(OBJECTS)
-ifeq ($(STATIC_LINKING), 1)
+ifeq ($(platform), emscripten)
+	$(CXX) $(CXXFLAGS) $(OBJOUT)$@ $^
+else ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
 	$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
