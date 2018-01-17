@@ -161,7 +161,7 @@ endif
 endif
 
 ifeq ($(NEED_TREMOR), 1)
-   SOURCES_C += $(sort $(wildcard $(MEDNAFEN_DIR)/tremor/*.c))
+   SOURCES_C += $(sort $(filter-out %ivorbisfile_example.c, $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)))
    FLAGS += -DNEED_TREMOR
 endif
 
