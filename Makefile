@@ -65,7 +65,12 @@ ifneq (,$(findstring unix,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   ifneq (,$(findstring Haiku,$(shell uname -s)))
+   LDFLAGS += -lroot
+   CXXFLAGS += -fpermissive
+   else
    LDFLAGS += -lrt
+   endif
    
    # Raspberry Pi
    ifneq (,$(findstring rpi,$(platform)))
