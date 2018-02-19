@@ -10,7 +10,9 @@
 
 #ifdef _SZ_ALLOC_DEBUG
 
-#ifdef _WIN32
+#if defined(_XBOX)
+#include <xtl.h>
+#elif defined(_WIN32)
 #include <windows.h>
 #endif
 

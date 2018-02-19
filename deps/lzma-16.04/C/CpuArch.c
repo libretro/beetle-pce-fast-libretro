@@ -174,10 +174,16 @@ Bool CPU_Is_InOrder()
 }
 
 #if !defined(MY_CPU_AMD64) && defined(_WIN32)
+#ifdef _XBOX
+#include <xtl.h>
+#else
 #include <windows.h>
+#endif
 static Bool CPU_Sys_Is_SSE_Supported()
 {
-#if _MSC_VER >= 1900 && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+#ifdef _XBOX1
+  return False;
+#elif _MSC_VER >= 1900 && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
   return True;
 #else
   OSVERSIONINFO vi;
