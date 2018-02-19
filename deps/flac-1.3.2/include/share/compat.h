@@ -144,7 +144,7 @@
 #  endif
 #endif /* defined _MSC_VER */
 
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_XBOX)
 /* All char* strings are in UTF-8 format. Added to support Unicode files on Windows */
 
 #include "share/win_utf8_io.h"
