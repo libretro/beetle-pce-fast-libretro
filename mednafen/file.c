@@ -28,7 +28,7 @@
 
 struct MDFNFILE *file_open(const char *path)
 {
-   ssize_t size          = 0;
+   int64_t size          = 0;
    const char        *ld = NULL;
    struct MDFNFILE *file = (struct MDFNFILE*)calloc(1, sizeof(*file));
 
@@ -39,7 +39,7 @@ struct MDFNFILE *file_open(const char *path)
       goto error;
 
    ld         = (const char*)strrchr(path, '.');
-   file->size = (int64_t)size;
+   file->size = size;
    file->ext  = strdup(ld ? ld + 1 : "");
 
    return file;
