@@ -39,7 +39,7 @@ extern "C"
  */
 typedef struct {
   size_t (*read_func)  (void *ptr, size_t size, size_t nmemb, void *datasource);
-  int    (*seek_func)  (void *datasource, ogg_int64_t offset, int whence);
+  int    (*seek_func)  (void *datasource, int64_t offset, int whence);
   int    (*close_func) (void *datasource);
   long   (*tell_func)  (void *datasource);
 } ov_callbacks;
@@ -53,28 +53,28 @@ typedef struct {
 typedef struct OggVorbis_File {
   void            *datasource; /* Pointer to a FILE *, etc. */
   int              seekable;
-  ogg_int64_t      offset;
-  ogg_int64_t      end;
+  int64_t      offset;
+  int64_t      end;
   ogg_sync_state   oy;
 
   /* If the FILE handle isn't seekable (eg, a pipe), only the current
      stream appears */
   int              links;
-  ogg_int64_t     *offsets;
-  ogg_int64_t     *dataoffsets;
-  ogg_uint32_t    *serialnos;
-  ogg_int64_t     *pcmlengths;
+  int64_t     *offsets;
+  int64_t     *dataoffsets;
+  uint32_t    *serialnos;
+  int64_t     *pcmlengths;
   vorbis_info     *vi;
   vorbis_comment  *vc;
 
   /* Decoding working state local storage */
-  ogg_int64_t      pcm_offset;
+  int64_t      pcm_offset;
   int              ready_state;
-  ogg_uint32_t     current_serialno;
+  uint32_t     current_serialno;
   int              current_link;
 
-  ogg_int64_t      bittrack;
-  ogg_int64_t      samptrack;
+  int64_t      bittrack;
+  int64_t      samptrack;
 
   ogg_stream_state os; /* take physical pages, weld into a logical
                           stream of packets */
@@ -101,19 +101,19 @@ extern long ov_streams(OggVorbis_File *vf);
 extern long ov_seekable(OggVorbis_File *vf);
 extern long ov_serialnumber(OggVorbis_File *vf,int i);
 
-extern ogg_int64_t ov_raw_total(OggVorbis_File *vf,int i);
-extern ogg_int64_t ov_pcm_total(OggVorbis_File *vf,int i);
-extern ogg_int64_t ov_time_total(OggVorbis_File *vf,int i);
+extern int64_t ov_raw_total(OggVorbis_File *vf,int i);
+extern int64_t ov_pcm_total(OggVorbis_File *vf,int i);
+extern int64_t ov_time_total(OggVorbis_File *vf,int i);
 
-extern int ov_raw_seek(OggVorbis_File *vf,ogg_int64_t pos);
-extern int ov_pcm_seek(OggVorbis_File *vf,ogg_int64_t pos);
-extern int ov_pcm_seek_page(OggVorbis_File *vf,ogg_int64_t pos);
-extern int ov_time_seek(OggVorbis_File *vf,ogg_int64_t pos);
-extern int ov_time_seek_page(OggVorbis_File *vf,ogg_int64_t pos);
+extern int ov_raw_seek(OggVorbis_File *vf,int64_t pos);
+extern int ov_pcm_seek(OggVorbis_File *vf,int64_t pos);
+extern int ov_pcm_seek_page(OggVorbis_File *vf,int64_t pos);
+extern int ov_time_seek(OggVorbis_File *vf,int64_t pos);
+extern int ov_time_seek_page(OggVorbis_File *vf,int64_t pos);
 
-extern ogg_int64_t ov_raw_tell(OggVorbis_File *vf);
-extern ogg_int64_t ov_pcm_tell(OggVorbis_File *vf);
-extern ogg_int64_t ov_time_tell(OggVorbis_File *vf);
+extern int64_t ov_raw_tell(OggVorbis_File *vf);
+extern int64_t ov_pcm_tell(OggVorbis_File *vf);
+extern int64_t ov_time_tell(OggVorbis_File *vf);
 
 extern vorbis_info *ov_info(OggVorbis_File *vf,int link);
 extern vorbis_comment *ov_comment(OggVorbis_File *vf,int link);
