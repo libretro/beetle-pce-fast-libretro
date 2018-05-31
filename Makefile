@@ -511,7 +511,28 @@ LINKOUT  = -o
 ifneq (,$(findstring msvc,$(platform)))
 	OBJOUT = -Fo
 	LINKOUT = -out:
+ifeq ($(STATIC_LINKING),1)
+	LD ?= lib.exe
+	STATIC_LINKING=0
+
+	ifeq ($(DEBUG), 1)
+		CFLAGS += -MTd
+		CXXFLAGS += -MTd
+	else
+		CFLAGS += -MT
+		CXXFLAGS += -MT
+	endif
+else
 	LD = link.exe
+
+	ifeq ($(DEBUG), 1)
+		CFLAGS += -MDd
+		CXXFLAGS += -MDd
+	else
+		CFLAGS += -MD
+		CXXFLAGS += -MD
+	endif
+endif
 else
 	LD = $(CXX)
 endif
