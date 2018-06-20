@@ -213,12 +213,7 @@ static int Load(const char *name, MDFNFILE *fp)
   PCEWrite[x] = PCENullWrite;
  }
 
- uint32 crc = encoding_crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
-
   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
-
- if(crc == 0xfae0fc60)
-  OrderOfGriffonFix = true;
 
  return(LoadCommon());
 }

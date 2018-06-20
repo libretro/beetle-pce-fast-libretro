@@ -31,7 +31,6 @@ int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
 std::string setting_pce_fast_cdbios = "syscard3.pce";
-bool OrderOfGriffonFix = false;
 
 uint64 MDFN_GetSettingUI(const char *name)
 {

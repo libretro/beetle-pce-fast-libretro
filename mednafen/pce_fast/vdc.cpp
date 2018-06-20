@@ -812,14 +812,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       if(!skip)
       {
          DisplayRect->x = 0;
-
-         // Order of Griffon semi-hack
-         if (OrderOfGriffonFix)
-         {
-            // Force to use specified width to fit status bar inside frame.
-            defined_width[0] = defined_width[1] = 320;
-         }
-
          DisplayRect->w = defined_width[vce.dot_clock];
       }
 
