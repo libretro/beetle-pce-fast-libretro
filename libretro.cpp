@@ -29,7 +29,7 @@
 #endif
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
-#define MEDNAFEN_CORE_NAME "Mednafen PCE Fast"
+#define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
 #define MEDNAFEN_CORE_VERSION "v0.9.38.7"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
