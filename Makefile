@@ -97,7 +97,7 @@ ifneq (,$(findstring unix,$(platform)))
 else ifeq ($(platform), classic_armv7_a7)
 	TARGET := $(TARGET_NAME)_libretro.so
 	fpic := -fPIC
-	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.
+	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
 	FLAGS += -DARM -Ofast \
 	-flto=4 -fwhole-program -fuse-linker-plugin \
 	-fdata-sections -ffunction-sections -Wl,--gc-sections \
@@ -108,6 +108,7 @@ else ifeq ($(platform), classic_armv7_a7)
 	-marm -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 	HAVE_NEON = 1
 	ARCH = arm
+  LDFLAGS += -marm -mtune=cortex-a7 -mfpu=neon-vfpv4
   LDFLAGS += -lrt
 	ifeq ($(shell echo `$(CC) -dumpversion` "< 4.9" | bc -l), 1)
 	  CFLAGS += -march=armv7-a
