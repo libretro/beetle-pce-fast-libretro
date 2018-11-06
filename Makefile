@@ -26,7 +26,9 @@ ifeq ($(platform),)
       platform = win
    endif
 else ifneq (,$(findstring armv,$(platform)))
-   override platform += unix
+	ifeq (,$(findstring classic_,$(platform)))
+		override platform += unix
+	endif
 else ifneq (,$(findstring rpi,$(platform)))
    override platform += unix
 endif
