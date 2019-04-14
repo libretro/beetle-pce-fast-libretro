@@ -141,10 +141,25 @@ static INLINE uint32_t MDFN_de24msb(const uint8_t *morp)
  return((morp[2]<<0)|(morp[1]<<8)|(morp[0]<<16));
 }
 
-
 static INLINE uint32_t MDFN_de32msb(const uint8_t *morp)
 {
  return(morp[3]|(morp[2]<<8)|(morp[1]<<16)|(morp[0]<<24));
+}
+
+static INLINE uint64_t MDFN_de64msb(const uint8_t *morp)
+{
+ uint64_t ret = 0;
+
+ ret |= (uint64_t)morp[7];
+ ret |= (uint64_t)morp[6] << 8;
+ ret |= (uint64_t)morp[5] << 16;
+ ret |= (uint64_t)morp[4] << 24;
+ ret |= (uint64_t)morp[3] << 32;
+ ret |= (uint64_t)morp[2] << 40;
+ ret |= (uint64_t)morp[1] << 48;
+ ret |= (uint64_t)morp[0] << 56;
+
+ return(ret);
 }
 
 #ifdef __cplusplus

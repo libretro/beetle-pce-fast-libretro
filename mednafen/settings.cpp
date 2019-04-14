@@ -20,37 +20,42 @@
 #include <string.h>
 #include <string>
 #include "settings.h"
+#include <mednafen/hw_sound/pce_psg/pce_psg.h>
 
-int setting_initial_scanline = 0;
-int setting_last_scanline = 242;
+int setting_pce_initial_scanline = 0;
+int setting_pce_last_scanline = 242;
 int setting_pce_hoverscan = 352;
-int setting_pce_fast_nospritelimit = 0;
+int setting_pce_nospritelimit = 0;
 int setting_pce_overclocked = 1;
-int setting_pce_fast_cddavolume = 100;
-int setting_pce_fast_adpcmvolume = 100;
-int setting_pce_fast_cdpsgvolume = 100;
-uint32_t setting_pce_fast_cdspeed = 1;
-std::string setting_pce_fast_cdbios = "syscard3.pce";
+int setting_pce_cddavolume = 100;
+int setting_pce_adpcmvolume = 100;
+int setting_pce_cdpsgvolume = 100;
+uint32_t setting_pce_cdspeed = 1;
+std::string setting_pce_cdbios = "syscard3.pce";
 bool OrderOfGriffonFix = false;
 
 uint64 MDFN_GetSettingUI(const char *name)
 {
-   if (!strcmp("pce_fast.cddavolume", name))
-      return setting_pce_fast_cddavolume;
-   if (!strcmp("pce_fast.adpcmvolume", name))
-      return setting_pce_fast_adpcmvolume;
-   if (!strcmp("pce_fast.cdpsgvolume", name))
-      return setting_pce_fast_cdpsgvolume;
-   if (!strcmp("pce_fast.cdspeed", name))
-      return setting_pce_fast_cdspeed;
-   if (!strcmp("pce_fast.ocmultiplier", name))
+   if (!strcmp("pce.cddavolume", name))
+      return setting_pce_cddavolume;
+   if (!strcmp("pce.adpcmvolume", name))
+      return setting_pce_adpcmvolume;
+   if (!strcmp("pce.cdpsgvolume", name))
+      return setting_pce_cdpsgvolume;
+   if (!strcmp("pce.cdspeed", name))
+      return setting_pce_cdspeed;
+   if (!strcmp("pce.ocmultiplier", name))
       return setting_pce_overclocked;
-   if (!strcmp("pce_fast.slstart", name))
-      return setting_initial_scanline;
-   if (!strcmp("pce_fast.slend", name))
-      return setting_last_scanline; 
-   if (!strcmp("pce_fast.hoverscan", name))
+   if (!strcmp("pce.slstart", name))
+      return setting_pce_initial_scanline;
+   if (!strcmp("pce.slend", name))
+      return setting_pce_last_scanline; 
+   if (!strcmp("pce.hoverscan", name))
       return setting_pce_hoverscan; 
+   if (!strcmp("pce.resamp_quality", name))
+      return 3;
+   if (!strcmp("pce.vramsize", name))
+      return 32768;
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;
@@ -58,12 +63,20 @@ uint64 MDFN_GetSettingUI(const char *name)
 
 int64 MDFN_GetSettingI(const char *name)
 {
+   if (!strcmp("pce.psgrevision", name))
+      return PCE_PSG::_REVISION_COUNT;
+
    fprintf(stderr, "unhandled setting I: %s\n", name);
    return 0;
 }
 
 double MDFN_GetSettingF(const char *name)
 {
+   if (!strcmp("pce.resamp_rate_error", name))
+      return 0.0000009;
+   if (!strcmp("pce.mouse_sensitivity", name))
+      return 1.0;
+
    fprintf(stderr, "unhandled setting F: %s\n", name);
    return 0;
 }
@@ -75,17 +88,27 @@ bool MDFN_GetSettingB(const char *name)
    /* LIBRETRO */
    if (!strcmp("libretro.cd_load_into_ram", name))
       return 0;
-   if (!strcmp("pce_fast.input.multitap", name))
+   if (!strcmp("pce.input.multitap", name))
       return 1;
-   if (!strcmp("pce_fast.arcadecard", name))
+   if (!strcmp("pce.arcadecard", name))
       return 1;
-   if (!strcmp("pce_fast.nospritelimit", name))
-      return setting_pce_fast_nospritelimit;
-   if (!strcmp("pce_fast.forcemono", name))
+   if (!strcmp("pce.nospritelimit", name))
+      return setting_pce_nospritelimit;
+   if (!strcmp("pce.forcemono", name))
       return 0;
-   if (!strcmp("pce_fast.disable_softreset", name))
+   if (!strcmp("pce.disable_softreset", name))
       return 0;
-   if (!strcmp("pce_fast.adpcmlp", name))
+   if (!strcmp("pce.adpcmlp", name))
+      return 0;
+   if (!strcmp("pce.forcesgx", name))
+      return 0;
+   if (!strcmp("pce.h_overscan", name))
+      return 0;
+   if (!strcmp("pce.disable_bram_hucard", name))
+      return 0;
+   if (!strcmp("pce.disable_bram_cd", name))
+      return 0;
+   if (!strcmp("pce.adpcmextraprec", name))
       return 0;
    /* CDROM */
    if (!strcmp("cdrom.lec_eval", name))
@@ -103,8 +126,8 @@ extern std::string retro_base_directory;
 
 std::string MDFN_GetSettingS(const char *name)
 {
-   if (!strcmp("pce_fast.cdbios", name))
-      return setting_pce_fast_cdbios;
+   if (!strcmp("pce.cdbios", name))
+      return setting_pce_cdbios;
    /* FILESYS */
    if (!strcmp("filesys.path_firmware", name))
       return retro_base_directory;

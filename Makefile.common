@@ -4,17 +4,17 @@ SOURCES_C   :=
 DEPS_DIR     	  := $(CORE_DIR)/deps
 LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro-common
 MEDNAFEN_DIR      := $(CORE_DIR)/mednafen
-CORE_EMU_DIR      := $(MEDNAFEN_DIR)/pce_fast
+CORE_EMU_DIR      := $(MEDNAFEN_DIR)/pce
 CDROM_DIR         := $(MEDNAFEN_DIR)/cdrom
 
 INCFLAGS := -I$(CORE_DIR) \
-				-I$(MEDNAFEN_DIR) \
-				-I$(MEDNAFEN_DIR)/include \
-				-I$(MEDNAFEN_DIR)/hw_sound \
-				-I$(MEDNAFEN_DIR)/hw_cpu \
-				-I$(MEDNAFEN_DIR)/hw_misc \
-				-I$(LIBRETRO_COMM_DIR)/include \
-				-I$(DEPS_DIR)/zlib
+			-I$(MEDNAFEN_DIR) \
+			-I$(MEDNAFEN_DIR)/include \
+			-I$(MEDNAFEN_DIR)/hw_sound \
+			-I$(MEDNAFEN_DIR)/hw_cpu \
+			-I$(MEDNAFEN_DIR)/hw_misc \
+			-I$(LIBRETRO_COMM_DIR)/include \
+			-I$(DEPS_DIR)/zlib
 
 ifneq (,$(findstring msvc2003,$(platform)))
 INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
@@ -22,13 +22,21 @@ endif
 
 ifneq ($(HAVE_GRIFFIN),1)
    SOURCES_CXX += \
-	$(CORE_EMU_DIR)/huc6280.cpp \
-	$(CORE_EMU_DIR)/input.cpp \
-	$(CORE_EMU_DIR)/pcecd.cpp \
-	$(CORE_EMU_DIR)/pcecd_drive.cpp \
-	$(CORE_EMU_DIR)/psg.cpp \
-	$(CORE_EMU_DIR)/vdc.cpp \
-	$(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
+		$(CORE_DIR)/libretro.cpp \
+		$(CORE_EMU_DIR)/huc6280.cpp \
+		$(CORE_EMU_DIR)/huc.cpp \
+		$(CORE_EMU_DIR)/input.cpp \
+		$(CORE_EMU_DIR)/mcgenjin.cpp \
+		$(CORE_EMU_DIR)/pce.cpp \
+		$(CORE_EMU_DIR)/pcecd.cpp \
+		$(CORE_EMU_DIR)/tsushin.cpp \
+		$(CORE_EMU_DIR)/vce.cpp \
+		$(CORE_EMU_DIR)/input/gamepad.cpp \
+		$(CORE_EMU_DIR)/input/mouse.cpp \
+		$(CORE_EMU_DIR)/input/tsushinkb.cpp \
+		$(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp \
+		$(MEDNAFEN_DIR)/hw_sound/pce_psg/pce_psg.cpp \
+		$(MEDNAFEN_DIR)/hw_video/huc6270/vdc.cpp
 endif
 
 ifeq ($(NEED_BLIP), 1)
@@ -76,7 +84,8 @@ FLAGS += -D__LIBRETRO_CACHE_CD__
 endif
 
 ifneq ($(HAVE_GRIFFIN),1)
-SOURCES_CXX += $(CDROM_DIR)/CDAccess.cpp \
+SOURCES_CXX += \
+	$(CDROM_DIR)/CDAccess.cpp \
 	$(CDROM_DIR)/CDAccess_Image.cpp \
 	$(CDROM_DIR)/CDAccess_CCD.cpp \
 	$(CDROM_DIR)/CDAFReader.cpp \
@@ -87,7 +96,8 @@ SOURCES_CXX += $(CDROM_DIR)/CDAccess.cpp \
 	$(CDROM_DIR)/galois.cpp \
 	$(CDROM_DIR)/recover-raw.cpp \
 	$(CDROM_DIR)/l-ec.cpp \
-	$(CDROM_DIR)/edc_crc32.cpp
+	$(CDROM_DIR)/edc_crc32.cpp \
+	$(CDROM_DIR)/scsicd.cpp
 endif
    FLAGS += -DNEED_CD
 
@@ -100,25 +110,26 @@ ifeq ($(HAVE_CHD), 1)
    endif
 
 ifneq ($(STATIC_LINKING), 1)
-SOURCES_C += $(DEPS_DIR)/zlib/adler32.c \
-				 $(DEPS_DIR)/zlib/compress.c \
-				 $(DEPS_DIR)/zlib/crc32.c \
-				 $(DEPS_DIR)/zlib/deflate.c \
-				 $(DEPS_DIR)/zlib/gzclose.c \
-				 $(DEPS_DIR)/zlib/gzlib.c \
-				 $(DEPS_DIR)/zlib/gzread.c \
-				 $(DEPS_DIR)/zlib/gzwrite.c \
-				 $(DEPS_DIR)/zlib/inffast.c \
-				 $(DEPS_DIR)/zlib/inflate.c \
-				 $(DEPS_DIR)/zlib/inftrees.c \
-				 $(DEPS_DIR)/zlib/trees.c \
-				 $(DEPS_DIR)/zlib/uncompr.c \
-				 $(DEPS_DIR)/zlib/zutil.c
+SOURCES_C += \
+	$(DEPS_DIR)/zlib/adler32.c \
+	$(DEPS_DIR)/zlib/compress.c \
+	$(DEPS_DIR)/zlib/crc32.c \
+	$(DEPS_DIR)/zlib/deflate.c \
+	$(DEPS_DIR)/zlib/gzclose.c \
+	$(DEPS_DIR)/zlib/gzlib.c \
+	$(DEPS_DIR)/zlib/gzread.c \
+	$(DEPS_DIR)/zlib/gzwrite.c \
+	$(DEPS_DIR)/zlib/inffast.c \
+	$(DEPS_DIR)/zlib/inflate.c \
+	$(DEPS_DIR)/zlib/inftrees.c \
+	$(DEPS_DIR)/zlib/trees.c \
+	$(DEPS_DIR)/zlib/uncompr.c \
+	$(DEPS_DIR)/zlib/zutil.c
 endif
 
 ifeq ($(WINDOWS_VERSION), 1)
 	SOURCES_C += \
-					 $(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
+		$(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
 endif
 
    SOURCES_C += \
@@ -186,23 +197,25 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/state.cpp \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
 	$(MEDNAFEN_DIR)/okiadpcm.cpp \
-	$(CORE_DIR)/libretro.cpp
+	$(MEDNAFEN_DIR)/sound/OwlResampler.cpp
 
 SOURCES_C += \
 	$(MEDNAFEN_DIR)/file.c \
-	$(MEDNAFEN_DIR)/mednafen-endian.c
+	$(MEDNAFEN_DIR)/mednafen-endian.c \
+	$(MEDNAFEN_DIR)/cputest/cputest.c
 endif
 
 ifneq ($(STATIC_LINKING), 1)
-SOURCES_C += $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
-				 $(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
-				 $(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
-				 $(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
-				 $(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
-				 $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c \
-				 $(LIBRETRO_COMM_DIR)/string/stdstring.c
+SOURCES_C += \
+	$(LIBRETRO_COMM_DIR)/streams/file_stream.c \
+	$(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
+	$(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
+	$(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
+	$(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
+	$(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
+	$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
+	$(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c \
+	$(LIBRETRO_COMM_DIR)/string/stdstring.c
 endif

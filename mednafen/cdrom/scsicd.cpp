@@ -197,6 +197,9 @@ static void ChangePhase(const unsigned int new_phase);
 
 static void FixOPV(void)
 {
+ if(!cdda.CDDADivAccVolFudge)
+  cdda.CDDADivAccVolFudge = 100;
+
  for(int port = 0; port < 2; port++)
  {
   int32_t tmpvol = cdda.CDDAVolume[port] * 100 / (2 * cdda.CDDADivAccVolFudge);
@@ -3217,7 +3220,7 @@ int SCSICD_StateAction(StateMem* sm, const unsigned load, const bool data_only, 
   SFEND
  };
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, sname);
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, sname, false);
 
  if(load)
  {

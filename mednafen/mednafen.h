@@ -22,6 +22,26 @@
 #define GET_FSIZE_PTR(fp) (fp->size)
 #define GET_FEXTS_PTR(fp) (fp->ext)
 
+template <typename T> 
+static T min_T(T x, T y) 
+{ 
+	return (x < y) ? x : y; 
+}
+
+template <typename T> 
+static T max_T(T x, T y) 
+{ 
+	return (x > y) ? x : y; 
+}
+
+template<typename T>
+static void swap_T(T& t1, T& t2)
+{
+	T tmp(t1);
+    t1 = t2;
+    t2 = tmp;
+}
+
 extern MDFNGI *MDFNGameInfo;
 
 #include "settings.h"

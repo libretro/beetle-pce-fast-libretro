@@ -44,14 +44,14 @@ NEED_BLIP = 1
 NEED_CD = 1
 NEED_CRC32 = 1
 WANT_NEW_API = 1
-CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
+CORE_DEFINE := -DWANT_PCE_EMU -DWANT_STEREO_SOUND
 HAVE_CHD = 1
 
 prefix := /usr
 libdir := $(prefix)/lib
 
 LIBRETRO_INSTALL_DIR := libretro
-TARGET_NAME := mednafen_pce_fast
+TARGET_NAME := mednafen_pce
 
 # GIT HASH
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
