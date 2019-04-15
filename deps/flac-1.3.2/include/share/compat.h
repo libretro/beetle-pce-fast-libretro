@@ -46,22 +46,6 @@
 # include <unistd.h>
 #endif
 
-#if defined _MSC_VER || defined __BORLANDC__ || defined __MINGW32__
-#include <sys/types.h> /* for off_t */
-#define FLAC__off_t __int64 /* use this instead of off_t to fix the 2 GB limit */
-#if !defined __MINGW32__
-#define fseeko _fseeki64
-#define ftello _ftelli64
-#else /* MinGW */
-#if !defined(HAVE_FSEEKO)
-#define fseeko fseeko64
-#define ftello ftello64
-#endif
-#endif
-#else
-#define FLAC__off_t off_t
-#endif
-
 #if HAVE_INTTYPES_H
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
@@ -173,6 +157,22 @@
 #define flac_rename rename
 #define flac_stat stat
 
+#endif
+
+#if defined _MSC_VER || defined __BORLANDC__ || defined __MINGW32__
+#include <sys/types.h> /* for off_t */
+#define FLAC__off_t __int64 /* use this instead of off_t to fix the 2 GB limit */
+#if !defined __MINGW32__
+#define fseeko _fseeki64
+#define ftello _ftelli64
+#else /* MinGW */
+#if !defined(HAVE_FSEEKO)
+#define fseeko fseeko64
+#define ftello ftello64
+#endif
+#endif
+#else
+#define FLAC__off_t off_t
 #endif
 
 #ifdef _WIN32

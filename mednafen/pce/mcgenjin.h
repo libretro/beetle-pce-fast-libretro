@@ -166,7 +166,7 @@ private:
 
 	std::vector<uint8> rom;
 
-	std::unique_ptr<MCGenjin_CS_Device> cs[2];
+	MCGenjin_CS_Device* cs[2];
 
 	uint8 bank_select;
 	uint8 dlr;

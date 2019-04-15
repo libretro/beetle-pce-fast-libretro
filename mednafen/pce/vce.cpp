@@ -29,6 +29,7 @@
 #include "vce.h"
 #include <mednafen/hw_video/huc6270/vdc.h>
 #include "pcecd.h"
+#include <math.h>
 
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
 static int max_scanline_width, cur_scanline_width, last_scanline_start;

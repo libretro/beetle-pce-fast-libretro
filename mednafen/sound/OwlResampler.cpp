@@ -23,10 +23,8 @@
 #include "OwlResampler.h"
 #include "../cputest/cputest.h"
 
-#ifdef _MSC_VER
- #define _USE_MATH_DEFINES
- #include <math.h>
-#endif
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #if defined(ARCH_POWERPC_ALTIVEC) && defined(HAVE_ALTIVEC_H)
  #include <altivec.h>
@@ -590,7 +588,7 @@ static float FilterDenormal(float v)
 
 OwlResampler::OwlResampler(double input_rate, double output_rate, double rate_error, double debias_corner, int quality, double nyq_fudge)
 {
- std::unique_ptr<double[]> FilterBuf;
+ double* FilterBuf;
  double ratio = (double)output_rate / input_rate;
  double cutoff;
  double required_bandwidth;
@@ -801,7 +799,7 @@ OwlResampler::OwlResampler(double input_rate, double output_rate, double rate_er
 
  MDFN_printf("Impulse response table memory usage: %zu bytes\n", CoeffsBuffer.size() * sizeof(float));
 
- FilterBuf.reset(new double[NumCoeffs * NumPhases]);
+ FilterBuf = new double[NumCoeffs * NumPhases];
  gen_sinc(&FilterBuf[0], NumCoeffs * NumPhases, cutoff / NumPhases, k_beta);
  normalize(&FilterBuf[0], NumCoeffs * NumPhases); 
 
@@ -861,4 +859,6 @@ OwlResampler::OwlResampler(double input_rate, double output_rate, double rate_er
   abort();
  }
  #endif
+ 
+ delete[] FilterBuf;
 }

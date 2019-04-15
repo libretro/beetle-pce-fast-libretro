@@ -245,7 +245,9 @@ MCGenjin::MCGenjin(MDFNFILE* fp)
 		if((cs_di[i] >= 0x10 && cs_di[i] <= 0x18) || (cs_di[i] >= 0x20 && cs_di[i] <= 0x28))
 		{
 			MDFN_printf("CS%d: %uKiB %sRAM\n", i, 8 << (cs_di[i] & 0xF), (cs_di[i] & 0x20) ? "Nonvolatile " : "");
-			cs[i].reset(new MCGenjin_CS_Device_RAM(8192 << (cs_di[i] & 0xF), (bool)(cs_di[i] & 0x20)));
+			
+			if(cs[i]) delete cs[i];
+			cs[i] = new MCGenjin_CS_Device_RAM(8192 << (cs_di[i] & 0xF), (bool)(cs_di[i] & 0x20));
 		}
 		else switch(cs_di[i])
 		{
@@ -255,7 +257,9 @@ MCGenjin::MCGenjin(MDFNFILE* fp)
 
 		case 0x00:
 			MDFN_printf("CS%d: Unused\n", i);
-			cs[i].reset(new MCGenjin_CS_Device());
+			
+			if(cs[i]) delete cs[i];
+			cs[i] = new MCGenjin_CS_Device();
 			break;
 		}
 	}
@@ -263,7 +267,8 @@ MCGenjin::MCGenjin(MDFNFILE* fp)
 
 MCGenjin::~MCGenjin()
 {
-
+	if(cs[0]) delete cs[0];
+	if(cs[1]) delete cs[1];
 }
 
 int MCGenjin::StateAction(StateMem *sm, int load, int data_only)

@@ -313,7 +313,7 @@ MDFN_COLD int PCE_Load(MDFNFILE *fp)
 
 	crc = HuC_Load(fp, MDFN_GetSettingB("pce.disable_bram_hucard"));
 
-	if(fp->ext == "sgx")
+	if(!strcmp(fp->ext, "sgx"))
 		IsSGX = true;
 	else
 	{
