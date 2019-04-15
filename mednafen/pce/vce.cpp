@@ -30,6 +30,7 @@
 #include <mednafen/hw_video/huc6270/vdc.h>
 #include "pcecd.h"
 #include <math.h>
+#include <mednafen/settings.h>
 
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
 static int max_scanline_width, cur_scanline_width, last_scanline_start;
@@ -1009,7 +1010,7 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
 	DisplayRect->x = 0;
-	DisplayRect->w = max_scanline_width;
+	DisplayRect->w = (max_scanline_width == 341) ? setting_pce_hoverscan : max_scanline_width;
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
