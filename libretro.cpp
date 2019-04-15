@@ -24,16 +24,11 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
-//Each frame consists of exactly 262 scan lines, each line taking 1365 master clock cycles
-//with a single scan line every other frame shortened by 4 cycles, so each frame takes
-//(262*1364)-(4/2)=357366 clock cycles. The master clock runs at 21.4772727... MHz.
-//21.4772727 MHz/ 357366 cycles per frame is 60.0988 fps.
-
 #define MEDNAFEN_CORE_NAME_MODULE "pce"
 #define MEDNAFEN_CORE_NAME "Beetle PCE"
 #define MEDNAFEN_CORE_VERSION "v0.9.48"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|sgx"
-#define MEDNAFEN_CORE_TIMING_FPS 60.0988
+#define MEDNAFEN_CORE_TIMING_FPS 59.826098
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 224
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
