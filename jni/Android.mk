@@ -22,8 +22,8 @@ endif
 
 include $(CORE_DIR)/Makefile.common
 
-COREFLAGS := -funroll-loops $(INCFLAGS) -DMEDNAFEN_VERSION=\"0.9.26\" -DMEDNAFEN_VERSION_NUMERIC=926 -DPSS_STYLE=1 -D__LIBRETRO__ -D_LOW_ACCURACY_ -DINLINE="inline" $(FLAGS)
-COREFLAGS += -DWANT_PCE_FAST_EMU
+COREFLAGS := -funroll-loops $(INCFLAGS) -DMEDNAFEN_VERSION=\"0.9.48\" -DMEDNAFEN_VERSION_NUMERIC=948 -DPSS_STYLE=1 -D__LIBRETRO__ -D_LOW_ACCURACY_ -DINLINE="inline" $(FLAGS)
+COREFLAGS += -DWANT_PCE_FAST
 
 GIT_VERSION := " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
@@ -34,7 +34,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE       := retro
 LOCAL_SRC_FILES    := $(SOURCES_CXX) $(SOURCES_C)
 LOCAL_CFLAGS       := $(COREFLAGS)
-LOCAL_CXXFLAGS     := $(COREFLAGS)
+LOCAL_CXXFLAGS     := $(COREFLAGS) -std=c++11
 LOCAL_LDFLAGS      := -Wl,-version-script=$(CORE_DIR)/link.T
 LOCAL_CPP_FEATURES := exceptions
 include $(BUILD_SHARED_LIBRARY)
