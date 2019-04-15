@@ -266,6 +266,7 @@ else ifneq (,$(filter $(platform), ngc wii wiiu))
 else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
    STATIC_LINKING = 1
+   CXXFLAGS += -std=c++11
 
 # GCW Zero
 else ifeq ($(platform), gcw0)
