@@ -282,7 +282,7 @@ static void SetCDSettings(bool silent_status = false)
 	psg->SetVolume(0.678 * cdpsgvolume);
 }
 
-static void CDSettingChanged(const char *name)
+void CDSettingChanged(const char *name)
 {
 	SetCDSettings(true);
 }
@@ -743,7 +743,7 @@ void PCE_Power(void)
 	//printf("%d\n", HuCPU.Timestamp());
 }
 
-static void DoSimpleCommand(int cmd)
+void DoSimpleCommand(int cmd)
 {
 	switch(cmd)
 	{

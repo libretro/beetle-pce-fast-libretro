@@ -21,9 +21,12 @@ extern void PCE_Power(void);
 
 extern MDFN_COLD int PCE_Load(MDFNFILE *fp);
 extern MDFN_COLD int PCE_LoadCD(std::vector<CDIF *> *CDInterfaces);
+extern MDFN_COLD void PCE_CloseGame(void);
+
 extern void Emulate(EmulateSpecStruct *espec);
 extern int StateAction(StateMem *sm, int load, int data_only);
-extern MDFN_COLD void PCE_CloseGame(void);
+extern void DoSimpleCommand(int cmd);
+extern void CDSettingChanged(const char *name);
 
 extern uint8 MemRead(uint32 addr);
 

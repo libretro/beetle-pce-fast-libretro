@@ -394,7 +394,7 @@ void retro_init(void)
 		perf_get_cpu_features_cb = perf_cb.get_cpu_features;
 	else
 		perf_get_cpu_features_cb = NULL;
-   
+
 	bool yes = true;
 	environ_cb(RETRO_ENVIRONMENT_SET_SUPPORT_ACHIEVEMENTS, &yes);
    
@@ -402,15 +402,6 @@ void retro_init(void)
 	setting_pce_last_scanline = 242;
 
 	check_system_specs();
-}
-
-static void DoSimpleCommand(int cmd)
-{
-	switch(cmd)
-	{
-		case MDFN_MSC_RESET: PCE_Power(); break;
-		case MDFN_MSC_POWER: PCE_Power(); break;
-	}
 }
 
 void retro_reset(void)
@@ -421,16 +412,6 @@ void retro_reset(void)
 bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
 {
 	return false;
-}
-
-static void set_volume (uint32_t *ptr, unsigned number)
-{
-	switch(number)
-	{
-	default:
-		*ptr = number;
-		break;
-	}
 }
 
 #define MAX_PLAYERS 5
@@ -447,7 +428,7 @@ static int Turbo_Toggling = 1;
 static bool turbo_toggle_alt = false;
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
-static void check_variables(void)
+static void check_variables(bool loaded)
 {
 	struct retro_variable var = {0};
 
@@ -555,14 +536,11 @@ static void check_variables(void)
 		setting_pce_cdspeed = atoi(var.value);
 	}
 
-	if (do_cdsettings)
+	if (loaded && do_cdsettings)
 	{
-		PCECD_Settings settings = {0};
-		settings.CDDA_Volume = (double)setting_pce_cddavolume / 100;
-		settings.CD_Speed = setting_pce_cdspeed;
-		settings.ADPCM_Volume = (double)setting_pce_adpcmvolume / 100;
+		CDSettingChanged("cdrom");
 
-		if (PCECD_SetSettings(&settings) && log_cb)
+		if (log_cb)
 			log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
 	}
 
@@ -734,7 +712,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
 	environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
-	check_variables();
+	check_variables(false);
 
 	game = MDFNI_LoadGame(info->path);
 	if (!game)
@@ -918,7 +896,7 @@ void retro_run(void)
 	bool updated = false;
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
 	{
-		check_variables();
+		check_variables(true);
 		update_geometry(width, height);
 	}
 
