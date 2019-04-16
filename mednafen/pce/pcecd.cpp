@@ -512,12 +512,11 @@ uint8 MDFN_FASTCALL PCECD_Read(uint32 timestamp, uint32 A, int32 &next_event, co
 	{
 		switch (A & 0x18cf)
 		{
+			case 0x18c0: ret = 0x00; break;
 			case 0x18c1: ret = 0xaa; break;
 			case 0x18c2: ret = 0x55; break;
-			case 0x18c3: ret = 0x00; break;
-			case 0x18c5: ret = 0xaa; break;
-			case 0x18c6: ret = 0x55; break;
-			case 0x18c7: ret = 0x03; break;
+			case 0x18c3: ret = 0x03; break;
+			default: ret = 0xff; break;
 		}
 	}
 	else
