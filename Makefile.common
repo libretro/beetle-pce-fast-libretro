@@ -196,7 +196,7 @@ SOURCES_CXX += \
 	$(MEDNAFEN_DIR)/Stream.cpp \
 	$(MEDNAFEN_DIR)/state.cpp \
 	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/okiadpcm.cpp \
+	$(MEDNAFEN_DIR)/sound/okiadpcm.cpp \
 	$(MEDNAFEN_DIR)/sound/OwlResampler.cpp
 
 SOURCES_C += \
