@@ -30,9 +30,9 @@ int setting_pce_overclocked = 1;
 int setting_pce_cddavolume = 100;
 int setting_pce_adpcmvolume = 100;
 int setting_pce_cdpsgvolume = 100;
+int setting_pce_adpcmextraprec = 0;
 uint32_t setting_pce_cdspeed = 1;
 std::string setting_pce_cdbios = "syscard3.pce";
-bool OrderOfGriffonFix = false;
 
 uint64 MDFN_GetSettingUI(const char *name)
 {
@@ -109,7 +109,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce.disable_bram_cd", name))
       return 0;
    if (!strcmp("pce.adpcmextraprec", name))
-      return 0;
+      return setting_pce_adpcmextraprec;
    /* CDROM */
    if (!strcmp("cdrom.lec_eval", name))
       return 1;

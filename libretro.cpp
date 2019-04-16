@@ -536,6 +536,17 @@ static void check_variables(bool loaded)
 		setting_pce_cdspeed = atoi(var.value);
 	}
 
+	var.key = "pce_adpcmextraprec";
+	
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		do_cdsettings = true;
+		if (strcmp(var.value, "10-bit") == 0)
+			setting_pce_adpcmextraprec = 0;
+		else if (strcmp(var.value, "12-bit") == 0)
+			setting_pce_adpcmextraprec = 1;
+	}
+
 	if (loaded && do_cdsettings)
 	{
 		CDSettingChanged("cdrom");
@@ -988,6 +999,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
 		{ "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
 		{ "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
+		{ "pce_adpcmextraprec", "(CD) ADPCM precision; 10-bit|12-bit" },
 		{ "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
 		{ "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
 		{ "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
