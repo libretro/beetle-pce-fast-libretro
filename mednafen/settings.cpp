@@ -31,6 +31,7 @@ int setting_pce_cddavolume = 100;
 int setting_pce_adpcmvolume = 100;
 int setting_pce_cdpsgvolume = 100;
 int setting_pce_adpcmextraprec = 0;
+int setting_pce_multitap = 1;
 uint32_t setting_pce_cdspeed = 1;
 std::string setting_pce_cdbios = "syscard3.pce";
 
@@ -89,7 +90,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("libretro.cd_load_into_ram", name))
       return 0;
    if (!strcmp("pce.input.multitap", name))
-      return 1;
+      return setting_pce_multitap;
    if (!strcmp("pce.arcadecard", name))
       return 1;
    if (!strcmp("pce.nospritelimit", name))
