@@ -865,6 +865,7 @@ void SettingsChanged()
 	PCEINPUT_SettingChanged("input");
 
 	HuCPU.SetOverclock(MDFN_GetSettingUI("pce.ocmultiplier"));
+	vce->SetVDCUnlimitedSprites(MDFN_GetSettingB("pce.nospritelimit"));
 }
 
 MDFNGI EmulatedPCE =
