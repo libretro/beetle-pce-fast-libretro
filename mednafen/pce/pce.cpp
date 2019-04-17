@@ -287,7 +287,6 @@ void CDSettingChanged(const char *name)
 	SetCDSettings(true);
 }
 
-
 static const struct
 {
 	uint32 crc;
@@ -858,6 +857,14 @@ static bool SetSoundRate(double rate)
 	}
 
 	return(true);
+}
+
+void SettingsChanged()
+{
+	CDSettingChanged("cdrom");
+	PCEINPUT_SettingChanged("input");
+
+	HuCPU.SetOverclock(MDFN_GetSettingUI("pce.ocmultiplier"));
 }
 
 MDFNGI EmulatedPCE =

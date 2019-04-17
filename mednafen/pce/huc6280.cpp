@@ -455,8 +455,11 @@ void HuC6280::Init(const bool emulate_wai)
 	EmulateWAI = emulate_wai;
 
 	timestamp = 0;
+	timestamp_frac = 0;
 	next_user_event = 0;
 	next_event = 0;
+
+	overclock_rate = 1;
 
 	timer_lastts = 0;
 	timer_inreload = 0;

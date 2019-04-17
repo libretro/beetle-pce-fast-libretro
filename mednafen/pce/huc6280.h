@@ -143,6 +143,11 @@ public:
 	{
 		return(LastLogicalWriteAddr);
 	}
+	
+	void INLINE SetOverclock(uint32 rate)
+	{
+		overclock_rate = rate;
+	}
 
 private:
 	void FlushMPRCache(void);
@@ -201,9 +206,23 @@ private:
 
 	void LastCycle(void);
 
+	void INLINE Overclock(int &cycles)
+	{
+		timestamp_frac += cycles;
+		if(timestamp_frac >= overclock_rate)
+		{
+			cycles = timestamp_frac / overclock_rate;
+			timestamp_frac %= overclock_rate;
+		}
+		else
+			cycles = 0;
+	}
+
 	void INLINE ADDCYC(int x)
 	{
 		int master = (x * 3) << speed_shift_cache;
+		
+		Overclock(master);
 
 		timestamp += master;
 		next_event -= master;
@@ -215,6 +234,8 @@ private:
 
 	void INLINE ADDCYC_MASTER(int master)
 	{
+		Overclock(master);
+
 		timestamp += master;
 		next_event -= master;
 		next_user_event -= master;
@@ -251,10 +272,13 @@ private:
 
 private:
 	uint32 timestamp;
+	uint32 timestamp_frac;
 	int32 next_event;	// Next event, period.  Timer, user, ALIENS ARE INVADING SAVE ME HELP
 	int32 next_user_event;
 	int32 timer_lastts;
 	ehfunc EventHandler;
+	
+	uint32 overclock_rate;
 
 	uint32 PC;		// Program Counter(16-bit, but as a 32-bit variable for performance reasons)
 	uint8 A;		// Accumulator

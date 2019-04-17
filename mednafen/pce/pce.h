@@ -27,6 +27,7 @@ extern void Emulate(EmulateSpecStruct *espec);
 extern int StateAction(StateMem *sm, int load, int data_only);
 extern void DoSimpleCommand(int cmd);
 extern void CDSettingChanged(const char *name);
+extern void SettingsChanged();
 
 extern uint8 MemRead(uint32 addr);
 
