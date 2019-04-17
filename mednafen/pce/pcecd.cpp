@@ -406,6 +406,8 @@ bool PCECD_SetSettings(const PCECD_Settings *settings)
 	ADPCMExtraPrecision = settings ? settings->ADPCM_ExtraPrecision : false;
 	//ADPCMFancyLP = false;
 
+	SCSICD_SetTransferRate(126000 * (settings ? settings->CD_Speed : 1));
+
 	Fader_SyncWhich();
 	return true;
 }

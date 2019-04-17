@@ -267,6 +267,7 @@ static void SetCDSettings(bool silent_status = false)
 	cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce.cddavolume") / 100;
 	cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce.adpcmvolume") / 100;
 	cd_settings.ADPCM_ExtraPrecision = MDFN_GetSettingB("pce.adpcmextraprec");
+	cd_settings.CD_Speed = MDFN_GetSettingUI("pce.cdspeed");
 
 	if(!silent_status)
 	{
@@ -861,7 +862,9 @@ static bool SetSoundRate(double rate)
 
 void SettingsChanged()
 {
-	CDSettingChanged("cdrom");
+	if(PCE_IsCD)
+		CDSettingChanged("cdrom");
+
 	PCEINPUT_SettingChanged("input");
 
 	HuCPU.SetOverclock(MDFN_GetSettingUI("pce.ocmultiplier"));
