@@ -27,6 +27,7 @@ int setting_pce_last_scanline = 242;
 int setting_pce_hoverscan = 352;
 int setting_pce_nospritelimit = 0;
 int setting_pce_overclocked = 1;
+int setting_pce_psgrevision = 2;
 int setting_pce_cddavolume = 100;
 int setting_pce_adpcmvolume = 100;
 int setting_pce_cdpsgvolume = 100;
@@ -65,7 +66,7 @@ uint64 MDFN_GetSettingUI(const char *name)
 int64 MDFN_GetSettingI(const char *name)
 {
    if (!strcmp("pce.psgrevision", name))
-      return PCE_PSG::_REVISION_COUNT;
+      return setting_pce_psgrevision;
 
    fprintf(stderr, "unhandled setting I: %s\n", name);
    return 0;

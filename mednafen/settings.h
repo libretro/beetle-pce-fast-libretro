@@ -8,6 +8,7 @@ extern int setting_pce_last_scanline;
 extern int setting_pce_nospritelimit;
 extern int setting_pce_overclocked;
 extern int setting_pce_hoverscan;
+extern int setting_pce_psgrevision;
 extern int setting_pce_cddavolume;
 extern int setting_pce_adpcmvolume;
 extern int setting_pce_cdpsgvolume;
