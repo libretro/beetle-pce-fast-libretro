@@ -33,7 +33,7 @@
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 224
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (6.0 / 5.0)
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (MEDNAFEN_CORE_GEOMETRY_BASE_W * 8.0 / 7.0) / MEDNAFEN_CORE_GEOMETRY_BASE_H
 #define FB_WIDTH 1365
 #define FB_HEIGHT 270
 
@@ -855,7 +855,20 @@ void update_geometry(unsigned width, unsigned height)
 	system_av_info.geometry.base_height = height;
 	system_av_info.geometry.max_width = MEDNAFEN_CORE_GEOMETRY_MAX_W;
 	system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-	system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+
+	float dar, par;
+	if(width <= 256 + 24)
+		par = 8.0 / 7.0;
+	else if(width > 352 + 32)
+		par = 4.0 / 7.0;
+	else
+		par = 6.0 / 7.0;
+
+	dar = (width * par) / height;
+
+	log_cb(RETRO_LOG_INFO, "Resolution: %d %d | %f %f\n", width, height, par, dar);
+
+	system_av_info.geometry.aspect_ratio = dar;
 	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
@@ -869,7 +882,7 @@ void retro_run(void)
 
 	static int16_t sound_buf[0x10000];
 	static int32_t rects[FB_HEIGHT];
-	static unsigned width, height;
+	static unsigned width = 0, height = 0;
 	bool resolution_changed = false;
 	rects[0] = ~0;
 
@@ -900,7 +913,7 @@ void retro_run(void)
 
 	spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-	if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+	if (width != spec.DisplayRect.w || height != spec.DisplayRect.h)
 		resolution_changed = true;
 
 	width  = spec.DisplayRect.w;
