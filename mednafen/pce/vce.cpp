@@ -1031,14 +1031,22 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	switch(max_dot_rate)
 	{
 	case 4: max_scanline_width = 256; break;
-	case 3: max_scanline_width = 342; break;
+	case 3: max_scanline_width = 352; break;
 	case 2: max_scanline_width = 512; break;
 	case 1: max_scanline_width = 1024; break;
 	}
 
 
-	DisplayRect->x = 0;
-	DisplayRect->w = (max_scanline_width == 342) ? setting_pce_hoverscan : max_scanline_width;
+	if(max_scanline_width == 352)
+	{
+		DisplayRect->x = MDFN_GetSettingUI("pce.hoverscan_left");
+		DisplayRect->w = max_scanline_width - DisplayRect->x - MDFN_GetSettingUI("pce.hoverscan_right");
+	}
+	else
+	{
+		DisplayRect->x = 0;
+		DisplayRect->w = max_scanline_width;
+	}
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;

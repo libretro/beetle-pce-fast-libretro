@@ -20,11 +20,11 @@
 #include <string.h>
 #include <string>
 #include "settings.h"
-#include <mednafen/hw_sound/pce_psg/pce_psg.h>
 
 int setting_pce_initial_scanline = 0;
 int setting_pce_last_scanline = 242;
-int setting_pce_hoverscan = 352;
+int setting_pce_hoverscan_left = 0;
+int setting_pce_hoverscan_right = 0;
 int setting_pce_nospritelimit = 0;
 int setting_pce_overclocked = 1;
 int setting_pce_psgrevision = 2;
@@ -52,8 +52,10 @@ uint64 MDFN_GetSettingUI(const char *name)
       return setting_pce_initial_scanline;
    if (!strcmp("pce.slend", name))
       return setting_pce_last_scanline; 
-   if (!strcmp("pce.hoverscan", name))
-      return setting_pce_hoverscan; 
+   if (!strcmp("pce.hoverscan_left", name))
+      return setting_pce_hoverscan_left; 
+   if (!strcmp("pce.hoverscan_right", name))
+      return setting_pce_hoverscan_right; 
    if (!strcmp("pce.resamp_quality", name))
       return 3;
    if (!strcmp("pce.vramsize", name))
