@@ -36,98 +36,6 @@ static const int vce_ratios[4] = { 4, 3, 2, 2 };
 
 static int32 MDFN_FASTCALL NO_INLINE Sync(const int32 timestamp);
 
-static struct
-{
-	int line;
-	int rate;
-} dot_scanline[256];
-
-static int dot_scanline_count = 0;
-static int max_dot_rate;
-
-static void add_dot_scanline(int scanline, int dot_clock)
-{
-	if(scanline == 0)
-		dot_scanline_count = 0;
-
-	dot_scanline[dot_scanline_count].line = scanline;
-	dot_scanline[dot_scanline_count].rate = vce_ratios[dot_clock];
-
-	dot_scanline_count++;
-}
-
-static void fix_scanline(uint16_t *fb, uint16_t pitch)
-{
-	bool multires = false;
-	int rate = 0;
-
-	rate = dot_scanline[0].rate;
-	for(int lcv = 1; lcv < dot_scanline_count; lcv++)
-	{
-		if(rate != dot_scanline[lcv].rate)
-		{
-			multires = true;
-			break;
-		}
-	}
-
-	if(!multires)
-	{
-		max_dot_rate = rate;
-		return;
-	}
-
-	
-	const int new_rate = 1;  // 1024 mode
-		
-	for(int lcv = 0; lcv < dot_scanline_count - 1; lcv++)
-	{
-		int cur_scanline = dot_scanline[lcv].line;
-		int next_scanline = dot_scanline[lcv + 1].line;
-
-		while(cur_scanline < next_scanline)
-		{
-			uint16_t *scanline_ptr = &fb[cur_scanline * pitch];
-			int old_rate = dot_scanline[lcv].rate;
-			int old_pixel, new_pixel;
-
-			switch(old_rate)
-			{
-			case 4: old_pixel = 256 - 1; break;
-			case 3: old_pixel = 342 - 1; break;
-			case 2: old_pixel = 512 - 1; break;
-			}
-
-			switch(new_rate)
-			{
-			case 3: new_pixel = 342 - 1; break;
-			case 2: new_pixel = 512 - 1; break;
-			case 1: new_pixel = 1024 - 1; break;
-			}
-
-
-			// 341.33333333 * 3 = 1023 + 1 (pixel 342) = 1024
-			rate = (old_rate == 3) ? old_rate - new_rate : 0;
-			
-			while(new_pixel >= 0)
-			{
-				scanline_ptr[new_pixel--] = scanline_ptr[old_pixel];
-				rate += new_rate;								
-
-				if(rate >= old_rate)
-				{
-					rate -= old_rate;
-					old_pixel--;
-				}
-			}
-
-			cur_scanline++;
-		}
-	}
-
-	max_dot_rate = new_rate;
-}
-
 static void IRQChange_Hook(bool newstatus)
 {
 	extern VCE *vce; //HORRIBLE
@@ -573,8 +481,8 @@ void INLINE VCE::SyncSub(int32 clocks)
 						{ 8 + 24 - 12, 8 + 38 - 16, 8 + 96 - 24, 8 + 96 - 24 },
 					};
 					static const int w_cows[2][4] = {
-						{ 256,      352,      512,      512 },
-						{ 256 + 24, 352 + 21, 512 + 48, 512 + 48 },
+						{ 256,      341,      512,      512 },
+						{ 256 + 24, 341 + 32, 512 + 48, 512 + 48 },
 					};
 
 					int rect_x, rect_w;
@@ -641,9 +549,9 @@ int32 INLINE VCE::SyncReal(const int32 timestamp)
 		cd_event = PCECD_Run(timestamp);
 
 	if(sgfx)
-		SyncSub<true, false>(clocks);
+		SyncSub<true, true>(clocks);
 	else
-		SyncSub<false, false>(clocks);
+		SyncSub<false, true>(clocks);
 
 	//
 	//
@@ -704,8 +612,6 @@ void VCE::SetVCECR(uint8 V)
 
 	dot_clock = V & 0x3;
 	dot_clock_ratio = vce_ratios[dot_clock];
-
-	add_dot_scanline(scanline, dot_clock);
 
 	CR = V;
 }
@@ -1022,31 +928,8 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
-	add_dot_scanline(scanline, dot_clock);
-	fix_scanline(fb, pitch32);
-
-
-	int max_scanline_width;
-
-	switch(max_dot_rate)
-	{
-	case 4: max_scanline_width = 256; break;
-	case 3: max_scanline_width = 352; break;
-	case 2: max_scanline_width = 512; break;
-	case 1: max_scanline_width = 1024; break;
-	}
-
-
-	if(max_scanline_width == 352)
-	{
-		DisplayRect->x = MDFN_GetSettingUI("pce.hoverscan_left");
-		DisplayRect->w = max_scanline_width - DisplayRect->x - MDFN_GetSettingUI("pce.hoverscan_right");
-	}
-	else
-	{
-		DisplayRect->x = 0;
-		DisplayRect->w = max_scanline_width;
-	}
+	DisplayRect->x = 0;
+	DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;

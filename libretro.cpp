@@ -31,8 +31,8 @@
 #define MEDNAFEN_CORE_TIMING_FPS 7159090.90909090 / 455 / 263
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 224
-#define MEDNAFEN_CORE_GEOMETRY_MAX_W 1024
-#define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
+#define MEDNAFEN_CORE_GEOMETRY_MAX_W 1365
+#define MEDNAFEN_CORE_GEOMETRY_MAX_H 270
 #define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (MEDNAFEN_CORE_GEOMETRY_BASE_W * 8.0 / 7.0) / MEDNAFEN_CORE_GEOMETRY_BASE_H
 #define FB_WIDTH 1365
 #define FB_HEIGHT 270
@@ -879,11 +879,11 @@ void update_geometry(unsigned width, unsigned height)
 	system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
 
 	float dar, par;
-	if(width <= 256)
+	if(width <= 256 + 24)
 		par = 8.0;
-	else if(width <= 352)
+	else if(width <= 341 + 32)
 		par = 6.0;
-	else if(width <= 512)
+	else if(width <= 512 + 48)
 		par = 4.0;
 	else
 		par = 2.0;
