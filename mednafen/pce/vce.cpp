@@ -232,8 +232,6 @@ void VCE::StartFrame(MDFN_Surface *surface, MDFN_Rect *DisplayRect, int32 *LineW
 	}
 
 	skipframe = skip;
-
-	add_dot_scanline(0, dot_clock);
 }
 
 bool VCE::RunPartial(void)
