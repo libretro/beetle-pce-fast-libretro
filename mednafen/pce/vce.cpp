@@ -302,7 +302,7 @@ void VCE::StartFrame(MDFN_Surface *surface, MDFN_Rect *DisplayRect, int32 *LineW
 		DisplayRect->x = 0;
 		DisplayRect->w = 1365;
 		DisplayRect->y = 0 + 14;
-		DisplayRect->h = 240; //263 - 14;
+		DisplayRect->h = max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1); //263 - 14;
 
 		DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 		DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
@@ -549,12 +549,12 @@ void INLINE VCE::SyncSub(int32 clocks)
 				else
 					scanline++;
 
-				if(scanline == 14 + 240)
+				if(scanline == 14 + max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1))
 				{
 					FrameDone = true;
 				}
 
-				if((scanline == 14 + 240) || (scanline == 123))
+				if((scanline == 14 + max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1)) || (scanline == 123))
 				{
 					HuCPU.Exit();
 				}
