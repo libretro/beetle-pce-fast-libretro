@@ -33,86 +33,99 @@
 #include <mednafen/settings.h>
 
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
-static int max_scanline_width, cur_scanline_width, last_scanline_start;
 
 static int32 MDFN_FASTCALL NO_INLINE Sync(const int32 timestamp);
 
 static struct
 {
 	int line;
-	int width;
+	int rate;
 } dot_scanline[256];
 
 static int dot_scanline_count = 0;
+static int max_dot_rate;
 
 static void add_dot_scanline(int scanline, int dot_clock)
 {
-	int width;
-	
-	switch(dot_clock)
-	{
-	case 0: width = 256; break;
-	case 1: width = 341; break;
-	case 2:
-	case 3:	width = 512; break;
-	}
-
-
 	if(scanline == 0)
 		dot_scanline_count = 0;
 
 	dot_scanline[dot_scanline_count].line = scanline;
-	dot_scanline[dot_scanline_count].width = width;
+	dot_scanline[dot_scanline_count].rate = vce_ratios[dot_clock];
 
 	dot_scanline_count++;
 }
 
 static void fix_scanline(uint16_t *fb, uint16_t pitch)
 {
-	int max_width = 0;
+	bool multires = false;
+	int rate = 0;
 
-	for(int lcv = 0; lcv < dot_scanline_count; lcv++)
+	rate = dot_scanline[0].rate;
+	for(int lcv = 1; lcv < dot_scanline_count; lcv++)
 	{
-		max_width = max_T<int>(max_width, dot_scanline[lcv].width);
+		if(rate != dot_scanline[lcv].rate)
+		{
+			multires = true;
+			break;
+		}
 	}
-	max_scanline_width = max_width;
 
+	if(!multires)
+	{
+		max_dot_rate = rate;
+		return;
+	}
 
+	
+	const int new_rate = 1;  // 1024 mode
+		
 	for(int lcv = 0; lcv < dot_scanline_count - 1; lcv++)
 	{
-		int cur_width = dot_scanline[lcv].width;
-
 		int cur_scanline = dot_scanline[lcv].line;
-		int next_scanline = dot_scanline[lcv+1].line;
-
-		if(max_width == cur_width)
-			continue;
+		int next_scanline = dot_scanline[lcv + 1].line;
 
 		while(cur_scanline < next_scanline)
 		{
-			float xdelta = (float) cur_width / (float) max_width;
-
 			uint16_t *scanline_ptr = &fb[cur_scanline * pitch];
-			float xpos = 0.0;
+			int old_rate = dot_scanline[lcv].rate;
+			int old_pixel, new_pixel;
 
-			int pixel2 = max_width - 1;
-			int pixel1 = cur_width - 1;
-
-			while(pixel2 >= 0)
+			switch(old_rate)
 			{
-				scanline_ptr[pixel2--] = scanline_ptr[pixel1];
-				xpos += xdelta;								
+			case 4: old_pixel = 256 - 1; break;
+			case 3: old_pixel = 342 - 1; break;
+			case 2: old_pixel = 512 - 1; break;
+			}
 
-				if(xpos >= 1.0)
+			switch(new_rate)
+			{
+			case 3: new_pixel = 342 - 1; break;
+			case 2: new_pixel = 512 - 1; break;
+			case 1: new_pixel = 1024 - 1; break;
+			}
+
+
+			// 341.33333333 * 3 = 1023 + 1 (pixel 342) = 1024
+			rate = (old_rate == 3) ? old_rate - new_rate : 0;
+			
+			while(new_pixel >= 0)
+			{
+				scanline_ptr[new_pixel--] = scanline_ptr[old_pixel];
+				rate += new_rate;								
+
+				if(rate >= old_rate)
 				{
-					xpos -= 1.0;
-					if(pixel1 > 0) pixel1--;
+					rate -= old_rate;
+					old_pixel--;
 				}
 			}
 
 			cur_scanline++;
 		}
 	}
+
+	max_dot_rate = new_rate;
 }
 
 static void IRQChange_Hook(bool newstatus)
@@ -673,7 +686,7 @@ void VCE::FixPCache(int entry)
 	}
 
 	if(!(entry & 0xF))
-	return;
+		return;
 
 	color_table_cache[entry] = csl[color_table[entry]];
 }
@@ -1009,12 +1022,24 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
+	add_dot_scanline(scanline, dot_clock);
+	fix_scanline(fb, pitch32);
+
+
+	int max_scanline_width;
+
+	switch(max_dot_rate)
+	{
+	case 4: max_scanline_width = 256; break;
+	case 3: max_scanline_width = 342; break;
+	case 2: max_scanline_width = 512; break;
+	case 1: max_scanline_width = 1024; break;
+	}
+
+
 	DisplayRect->x = 0;
-	DisplayRect->w = (max_scanline_width == 341) ? setting_pce_hoverscan : max_scanline_width;
+	DisplayRect->w = (max_scanline_width == 342) ? setting_pce_hoverscan : max_scanline_width;
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
-
-	add_dot_scanline(scanline, dot_clock);
-	fix_scanline(fb, pitch32);
 }
