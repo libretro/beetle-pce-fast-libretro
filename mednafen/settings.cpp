@@ -23,6 +23,7 @@
 
 int setting_pce_initial_scanline = 0;
 int setting_pce_last_scanline = 242;
+int setting_pce_h_overscan = 0;
 int setting_pce_hoverscan_left = 0;
 int setting_pce_hoverscan_right = 0;
 int setting_pce_nospritelimit = 0;
@@ -108,7 +109,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce.forcesgx", name))
       return 0;
    if (!strcmp("pce.h_overscan", name))
-      return 0;
+      return setting_pce_h_overscan;
    if (!strcmp("pce.disable_bram_hucard", name))
       return 0;
    if (!strcmp("pce.disable_bram_cd", name))

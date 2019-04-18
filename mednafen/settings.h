@@ -7,6 +7,7 @@ extern int setting_pce_initial_scanline;
 extern int setting_pce_last_scanline;
 extern int setting_pce_nospritelimit;
 extern int setting_pce_overclocked;
+extern int setting_pce_h_overscan;
 extern int setting_pce_hoverscan_left;
 extern int setting_pce_hoverscan_right;
 extern int setting_pce_psgrevision;

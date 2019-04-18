@@ -482,6 +482,16 @@ static void check_variables(bool loaded)
 		setting_pce_overclocked = atoi(var.value);
 	}
 
+	var.key = "pce_h_overscan";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if (strcmp(var.value, "disabled") == 0)
+			setting_pce_h_overscan = 0;
+		else if (strcmp(var.value, "enabled") == 0)
+			setting_pce_h_overscan = 1;
+	}
+
 	var.key = "pce_hoverscan_left";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1034,8 +1044,9 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
 		{ "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
 		{ "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-		{ "pce_hoverscan_left", "Clip Left Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
-		{ "pce_hoverscan_right", "Clip Right Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
+		{ "pce_h_overscan", "Show Horizontal Overscan; disabled|enabled" },
+		{ "pce_hoverscan_left", "Crop Left Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
+		{ "pce_hoverscan_right", "Crop Right Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
 		{ "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
 		{ "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
 		{ "pce_psgrevision", "PSG audio chip (Restart); auto|HuC6280|HuC6280A" },
