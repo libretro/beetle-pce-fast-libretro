@@ -560,6 +560,15 @@ static void check_variables(bool loaded)
 			setting_pce_adpcmextraprec = 1;
 	}
 
+	var.key = "pce_resamp_quality";
+	
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		setting_pce_resamp_quality = atoi(var.value);
+		
+		last_sound_rate = 0;
+	}
+	
 	var.key = "pce_multitap";
 	
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1035,6 +1044,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
 		{ "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
 		{ "pce_adpcmextraprec", "(CD) ADPCM precision; 10-bit|12-bit" },
+		{ "pce_resamp_quality", "Owl resampler quality; 3|4|5|6|0|1|2" },
 		{ "pce_multitap", "Multitap 5-port controller; enabled|disabled" },
 		{ "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
 		{ "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },

@@ -14,6 +14,7 @@ extern int setting_pce_cddavolume;
 extern int setting_pce_adpcmvolume;
 extern int setting_pce_cdpsgvolume;
 extern int setting_pce_adpcmextraprec;
+extern int setting_pce_resamp_quality;
 extern int setting_pce_multitap;
 extern uint32_t setting_pce_cdspeed;
 extern std::string setting_pce_cdbios;

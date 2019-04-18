@@ -32,6 +32,7 @@ int setting_pce_cddavolume = 100;
 int setting_pce_adpcmvolume = 100;
 int setting_pce_cdpsgvolume = 100;
 int setting_pce_adpcmextraprec = 0;
+int setting_pce_resamp_quality = 3;
 int setting_pce_multitap = 1;
 uint32_t setting_pce_cdspeed = 1;
 std::string setting_pce_cdbios = "syscard3.pce";
@@ -57,7 +58,7 @@ uint64 MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce.hoverscan_right", name))
       return setting_pce_hoverscan_right; 
    if (!strcmp("pce.resamp_quality", name))
-      return 3;
+      return setting_pce_resamp_quality;
    if (!strcmp("pce.vramsize", name))
       return 32768;
 
