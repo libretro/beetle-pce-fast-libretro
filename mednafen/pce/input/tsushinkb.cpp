@@ -28,7 +28,7 @@ public:
 	virtual void Power(int32 timestamp);
 	virtual void Write(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR);
 	virtual uint8 Read(int32 timestamp);
-	virtual void Update(const void *data);
+	virtual void Update(const uint8 *data, bool start_frame);
 	virtual int StateAction(StateMem *sm, int load, int data_only, const char *section_name);
 
 private:
@@ -53,17 +53,16 @@ PCE_Input_TsushinKB::PCE_Input_TsushinKB()
 	Power(0);
 }
 
-void PCE_Input_TsushinKB::Update(const void *data)
+void PCE_Input_TsushinKB::Update(const uint8 *data, bool start_frame)
 {
-	uint8 *data_ptr = (uint8 *)data;
 	bool capslock = TsuKBState[0xE] & 0x10;
-	bool new_capslock = data_ptr[0xE] & 0x10;
+	bool new_capslock = data[0xE] & 0x10;
 
 	if(!last_capslock && new_capslock)
 		capslock ^= 1;
 
 	for(int i = 0; i < 16; i++)
-		TsuKBState[i] = data_ptr[i];
+		TsuKBState[i] = data[i];
 
 	TsuKBState[0xE] = (TsuKBState[0xE] & ~0x10) | (capslock ? 0x10 : 0x00);
 

@@ -610,12 +610,14 @@ void Emulate(EmulateSpecStruct *espec)
 	// Begin loop here:
 	//for(int i = 0; i < 2; i++)
 	bool rp_rv;
+	bool start_frame = true;
+
 	do
 	{
 		assert(HuCPU.Timestamp() < 12);
 		//printf("ST: %d\n", HuCPU.Timestamp());
 
-		INPUT_Frame();
+		INPUT_Frame(start_frame);
 
 		//vce->RunFrame(espec->surface, &espec->DisplayRect, espec->LineWidths, IsHES ? 1 : espec->skip);
 		do
@@ -692,6 +694,9 @@ void Emulate(EmulateSpecStruct *espec)
 
 		if(!rp_rv)
 			MDFN_MidSync(espec);
+		
+		
+		start_frame = false;
 	} while(!rp_rv);
 
 	//printf("%d\n", MDFND_GetTime() - t);

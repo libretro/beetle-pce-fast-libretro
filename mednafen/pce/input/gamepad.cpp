@@ -27,7 +27,7 @@ public:
 	virtual void Power(int32 timestamp) override;
 	virtual void Write(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR) override;
 	virtual uint8 Read(int32 timestamp) override;
-	virtual void Update(const void *data) override;
+	virtual void Update(const uint8 *data, bool start_frame) override;
 	virtual int StateAction(StateMem *sm, int load, int data_only, const char *section_name) override;
 
 private:
@@ -63,9 +63,9 @@ void PCE_Input_Gamepad::TransformInput(uint8* data, const bool DisableSR)
 	}
 }
 
-void PCE_Input_Gamepad::Update(const void *data)
+void PCE_Input_Gamepad::Update(const uint8 *data, bool start_frame)
 {
-	buttons = MDFN_de16lsb((uint8 *)data);
+	buttons = MDFN_de16lsb(data);
 }
 
 uint8 PCE_Input_Gamepad::Read(int32 timestamp)

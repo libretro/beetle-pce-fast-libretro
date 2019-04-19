@@ -68,7 +68,7 @@ uint8 PCE_Input_Device::Read(int32 timestamp)
 	return(0xF);
 }
 
-void PCE_Input_Device::Update(const void *data)
+void PCE_Input_Device::Update(const uint8 *data, bool start_frame)
 {
 
 }
@@ -155,11 +155,11 @@ void PCEINPUT_SetInput(unsigned port, const char *type, uint8 *ptr)
 	RemakeDevices(port);
 }
 
-void INPUT_Frame(void)
+void INPUT_Frame(bool start_frame)
 {
 	for(int i = 0; i < 5; i++)
 		if(devices[i])
-			devices[i]->Update(data_ptr[i]);
+			devices[i]->Update(data_ptr[i], start_frame);
 }
 
 void INPUT_AdjustTS(int32 delta_timestamp)
