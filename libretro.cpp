@@ -421,6 +421,8 @@ static unsigned int input_type[MAX_PLAYERS] = {0};
 
 static int16_t mousedata[MAX_PLAYERS][3] = {{0}};
 static float mouse_sensitivity = 1.0f;
+static bool disable_softreset = false;
+static bool up_down_allowed = false;
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
@@ -736,6 +738,20 @@ static void check_variables(bool loaded)
 		mouse_sensitivity = atof(var.value);
 	}
 
+	var.key = "pce_disable_softreset";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		disable_softreset = (strcmp(var.value, "enabled") == 0);
+	}
+
+	var.key = "pce_up_down_allowed";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		up_down_allowed = (strcmp(var.value, "enabled") == 0);
+	}
+
 	if (loaded)
 		SettingsChanged();
 }
@@ -882,6 +898,15 @@ static void update_input(void)
 				}
 				else
 					input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+			}
+
+			if (disable_softreset == true)
+				if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
+
+			if (up_down_allowed == false)
+			{
+				if ((input_state & 0x50) == 0x50) input_state &= ~0x50;
+				if ((input_state & 0xA0) == 0xA0) input_state &= ~0xA0;
 			}
 
 			// Input data must be little endian.
@@ -1069,7 +1094,7 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
 				break;
 	
 			case RETRO_DEVICE_MOUSE:
-				PCEINPUT_SetInput(in_port, "mouse", (uint8_t*) &mousedata[in_port][0]);
+				PCEINPUT_SetInput(in_port, "mouse", (uint8_t *) &mousedata[in_port][0]);
 				break;
 		}
 	}
@@ -1112,6 +1137,8 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_p4_turbo_I_enable", "P5 Turbo I; disabled|enabled" },
 		{ "pce_p4_turbo_II_enable", "P5 Turbo II; disabled|enabled" },
 		{ "pce_mouse_sensitivity", "Mouse Sensitivity; 1.25|1.50|1.75|2.00|2.25|2.50|2.75|3.00|3.25|3.50|3.75|4.00|4.25|4.50|4.75|5.00|0.125|0.250|0.375|0.500|0.625|0.750|0.875|1.000|1.125" },
+		{ "pce_disable_softreset", "Disable Soft Reset (RUN+SELECT); disabled|enabled" },
+		{ "pce_up_down_allowed", "Allow UP+DOWN/LEFT+RIGHT; disabled|enabled" },
 		{ NULL, NULL },
 	};
 
