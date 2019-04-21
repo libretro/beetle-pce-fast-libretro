@@ -585,6 +585,18 @@ static void check_variables(bool loaded)
 		setting_pce_multitap = (strcmp(var.value, "enabled") == 0);
 	}
 
+	var.key = "pce_scaling";
+	
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if(strcmp(var.value, "auto") == 0)
+			setting_pce_scaling = 0;
+		else if(strcmp(var.value, "lores") == 0)
+			setting_pce_scaling = 1;
+		else if(strcmp(var.value, "hires") == 0)
+			setting_pce_scaling = 2;
+	}
+
 	// Set Turbo_Toggling
 	var.key = "pce_Turbo_Toggling";
 
@@ -1079,6 +1091,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_adpcmextraprec", "(CD) ADPCM precision; 10-bit|12-bit" },
 		{ "pce_resamp_quality", "Owl resampler quality; 3|4|5|6|0|1|2" },
 		{ "pce_multitap", "Multitap 5-port controller; enabled|disabled" },
+		{ "pce_scaling", "Resolution scaling; auto|lores|hires"},
 		{ "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
 		{ "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
 		{ "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },

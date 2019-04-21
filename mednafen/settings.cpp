@@ -36,6 +36,7 @@ int setting_pce_cdpsgvolume = 100;
 int setting_pce_adpcmextraprec = 0;
 int setting_pce_resamp_quality = 3;
 int setting_pce_multitap = 1;
+int setting_pce_scaling = 0;
 uint32_t setting_pce_cdspeed = 1;
 std::string setting_pce_cdbios = "syscard3.pce";
 
@@ -63,6 +64,8 @@ uint64 MDFN_GetSettingUI(const char *name)
       return setting_pce_resamp_quality;
    if (!strcmp("pce.vramsize", name))
       return 32768;
+   if (!strcmp("pce.scaling", name))
+      return setting_pce_scaling;
 
    fprintf(stderr, "unhandled setting UI: %s\n", name);
    return 0;

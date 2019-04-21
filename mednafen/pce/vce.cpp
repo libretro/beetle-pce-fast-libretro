@@ -971,7 +971,14 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
-	vce_resolution.width = (vce_resolution.width + 1) * 8;
+	static const int horiz_multires_scale[] = { 4, 3, 2, 2 };
+
+	int rate = vce_resolution.rate;
+	int width = (vce_resolution.width + 1) * 8;
+	int start = vce_resolution.start * 8;
+
+
+	vce_resolution.width = width;
 
 	if(MDFN_GetSettingB("pce.crop_h_overscan"))
 	{
@@ -981,11 +988,6 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 
 		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
 		static const int horiz_adjust[] = { 32 - 24, 59 - 32, (160 - 48) + 16, (160 - 48) + 16 };
-		static const int horiz_multires_scale[] = { 4, 3, 2, 2 };
-
-		int rate = vce_resolution.rate;
-		int width = vce_resolution.width;
-		int start = vce_resolution.start * 8;
 
 		/*
 		Horizontal Overscan
@@ -1013,7 +1015,9 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		if(width >= horiz_width[rate])
 		{
 			if(width + start > horiz_over[rate])
+			{
 				width = horiz_over[rate] - start;
+			}
 
 			DisplayRect->x = start;
 			DisplayRect->w = width;
@@ -1028,17 +1032,57 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 
 		DisplayRect->x *= horiz_multires_scale[rate];
 		DisplayRect->w *= horiz_multires_scale[rate];
-
-		vce_resolution.max_rate = 4;
 	}
 	else
 	{
 		DisplayRect->x = 0;
 		DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
-
-		vce_resolution.max_rate = 4;
 	}
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
+
+	
+	int scaling_type = MDFN_GetSettingUI("pce.scaling");
+	bool scaling_hires = false;
+	
+	if(scaling_type == 2)
+	{
+		scaling_hires = true;
+	}
+	else
+	{
+		if(vce_resolution.multi_res == true && scaling_type == 0)
+		{
+			// TODO: Adjust for non-352 modes
+			scaling_hires = true;
+		}
+	}
+	
+	
+	if(scaling_hires)
+	{
+		// dot clock renderer = 1024 + overscan
+		vce_resolution.max_rate = 4;
+	}
+	else
+	{
+		int descale = horiz_multires_scale[vce_resolution.max_rate];
+
+		DisplayRect->w /= descale;
+
+		for(int line = 0; line < DisplayRect->h; line++)
+		{
+			uint16* in_ptr = &fb[(DisplayRect->y + line) * pitch32] + DisplayRect->x;
+			uint16* out_ptr = in_ptr;
+
+			for(int pixel = 0; pixel < DisplayRect->w; pixel++)
+			{
+				*out_ptr = *in_ptr;
+
+				out_ptr++;
+				in_ptr += descale;
+			}
+		}
+	}
 }
