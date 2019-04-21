@@ -5,6 +5,7 @@
 #include <string/stdstring.h>
 #include <encodings/crc32.h>
 #include <libretro.h>
+#include <math.h>
 
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
