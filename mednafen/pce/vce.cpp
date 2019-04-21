@@ -976,14 +976,16 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	if(MDFN_GetSettingB("pce.crop_h_overscan"))
 	{
 		static const int horiz_width[] = { 256, 304, 512 };
+		static const int horiz_over[]  = { 280, 376, 560 };
 		static const int horiz_start[] = { 16, 18, 20 };
 
 		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
 		static const int horiz_adjust[] = { 32 - 24, 59 - 32, (160 - 48) + 16, (160 - 48) + 16 };
 		static const int horiz_multires_scale[] = { 4, 3, 2, 2 };
 
-		const int rate = vce_resolution.rate;
-		const int width = vce_resolution.width;
+		int rate = vce_resolution.rate;
+		int width = vce_resolution.width;
+		int start = vce_resolution.start * 8;
 
 		/*
 		Horizontal Overscan
@@ -997,10 +999,10 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		3  5 39 6 `` 40 320 40 = 400 `` 26 320 27 = 373    240p test suite (*)
 		3  4 41 6 `` 32 336 32 = 400 `` 18 336 19 = 373    R-Type I (U)
 		3  3 43 6 `` 24 352 24 = 400 `` 10 352 11 = 373    Ninja Spirit
-		2  3 43 3 `` 24 352 24 = 400 `` 10 352 11 = 373    TV Sports Basketball  (16px left/right)
-		2  5 43 6 `` 40 352  8 = 400 `` xx 352 xx = 373    Asuka 120% dialogue   (8px right)
-		9  4 43 4 `` 32 352 16 = 400 `` xx 352 xx = 373    Addam's Family        (8px right)
-		2  4 45 6 `` 32 368  0 = 400 ``  2 368  3 = 373    Asuka 120%
+		2  3 43 3 `` 24 352 24 = 400 `` 10 352 11 = 373    TV Sports Basketball  (16px left/right crop)
+		9  4 43 4 `` 32 352 16 = 400 `` xx 352 xx = 373    Addams Family         (376 + overdraw)
+		2  5 43 6 `` 40 352  8 = 400 `` xx 352 xx = 373    Asuka 120% dialogue   (376 + overdraw)
+		2  4 45 6 `` 32 368  0 = 400 ``  2 368  3 = 373    Asuka 120% logo       (376 + overdraw)
 
 
 		5 10 63 8 `` 80 512 80 = 672 `` 24 512 24 = 560    240p test suite (*)
@@ -1010,7 +1012,10 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 
 		if(width >= horiz_width[rate])
 		{
-			DisplayRect->x = vce_resolution.start * 8;
+			if(width + start > horiz_over[rate])
+				width = horiz_over[rate] - start;
+
+			DisplayRect->x = start;
 			DisplayRect->w = width;
 		}
 		else
