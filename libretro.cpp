@@ -28,12 +28,12 @@
 #define MEDNAFEN_CORE_NAME "Beetle PCE"
 #define MEDNAFEN_CORE_VERSION "v0.9.48"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|sgx"
-#define MEDNAFEN_CORE_TIMING_FPS 7159090.90909090 / 455 / 263
+#define MEDNAFEN_CORE_TIMING_FPS 7159090.90909090f / 455.0f / 263.0f
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 224
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 1365
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 270
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO (MEDNAFEN_CORE_GEOMETRY_BASE_W * 8.0 / 7.0) / MEDNAFEN_CORE_GEOMETRY_BASE_H
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO 6.0f / 5.0f
 #define FB_WIDTH 1365
 #define FB_HEIGHT 270
 
@@ -475,10 +475,7 @@ static void check_variables(bool loaded)
 	
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "disabled") == 0)
-			setting_pce_nospritelimit = 0;
-		else if (strcmp(var.value, "enabled") == 0)
-			setting_pce_nospritelimit = 1;
+		setting_pce_nospritelimit = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_ocmultiplier";
@@ -492,10 +489,8 @@ static void check_variables(bool loaded)
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "disabled") == 0)
-			setting_pce_h_overscan = 0;
-		else if (strcmp(var.value, "enabled") == 0)
-			setting_pce_h_overscan = 1;
+		setting_pce_h_overscan = (strcmp(var.value, "disabled") != 0);
+		setting_pce_crop_h_overscan = (strcmp(var.value, "auto") == 0);
 	}
 
 	var.key = "pce_hoverscan_left";
@@ -570,10 +565,7 @@ static void check_variables(bool loaded)
 	
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "10-bit") == 0)
-			setting_pce_adpcmextraprec = 0;
-		else if (strcmp(var.value, "12-bit") == 0)
-			setting_pce_adpcmextraprec = 1;
+		setting_pce_adpcmextraprec = (strcmp(var.value, "12-bit") == 0);
 	}
 
 	var.key = "pce_resamp_quality";
@@ -581,7 +573,7 @@ static void check_variables(bool loaded)
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
 		setting_pce_resamp_quality = atoi(var.value);
-		
+
 		last_sound_rate = 0;
 	}
 	
@@ -589,10 +581,7 @@ static void check_variables(bool loaded)
 	
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "disabled") == 0)
-			setting_pce_multitap = 0;
-		else if (strcmp(var.value, "enabled") == 0)
-			setting_pce_multitap = 1;
+		setting_pce_multitap = (strcmp(var.value, "enabled") == 0);
 	}
 
 	// Set Turbo_Toggling
@@ -600,10 +589,7 @@ static void check_variables(bool loaded)
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			Turbo_Toggling = 1;
-		else
-			Turbo_Toggling = 0;
+		Turbo_Toggling = (strcmp(var.value, "enabled") == 0);
 	}
 
 	// Set TURBO_DELAY 
@@ -624,10 +610,7 @@ static void check_variables(bool loaded)
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_toggle_alt = true;
-		else
-			turbo_toggle_alt = false;
+		turbo_toggle_alt = (strcmp(var.value, "enabled") == 0);
 	}
 
 	// Enable turbo for each player's I+II buttons   
@@ -635,100 +618,70 @@ static void check_variables(bool loaded)
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[0][0] = 1;
-		else
-			turbo_enable[0][0] = 0;
+		turbo_enable[0][0] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p0_turbo_II_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[0][1] = 1;
-		else
-			turbo_enable[0][1] = 0;
+		turbo_enable[0][1] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p1_turbo_I_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[1][0] = 1;
-		else
-			turbo_enable[1][0] = 0;
+		turbo_enable[1][0] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p1_turbo_II_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[1][1] = 1;
-		else
-			turbo_enable[1][1] = 0;
+		turbo_enable[1][1] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p2_turbo_I_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[2][0] = 1;
-		else
-			turbo_enable[2][0] = 0;
+		turbo_enable[2][0] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p2_turbo_II_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[2][1] = 1;
-		else
-			turbo_enable[2][1] = 0;
+		turbo_enable[2][1] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p3_turbo_I_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[3][0] = 1;
-		else
-			turbo_enable[3][0] = 0;
+		turbo_enable[3][0] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p3_turbo_II_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[3][1] = 1;
-		else
-			turbo_enable[3][1] = 0;
+		turbo_enable[3][1] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p4_turbo_I_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[4][0] = 1;
-		else
-			turbo_enable[4][0] = 0;
+		turbo_enable[4][0] = (strcmp(var.value, "enabled") == 0);
 	}
 
 	var.key = "pce_p4_turbo_II_enable";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		if (strcmp(var.value, "enabled") == 0)
-			turbo_enable[4][1] = 1;
-		else
-			turbo_enable[4][1] = 0;
+		turbo_enable[4][1] = (strcmp(var.value, "enabled") == 0);
 	}
 	
 	var.key = "pce_mouse_sensitivity";
@@ -949,21 +902,23 @@ void update_geometry(unsigned width, unsigned height)
 	system_av_info.geometry.max_width = MEDNAFEN_CORE_GEOMETRY_MAX_W;
 	system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
 
-	float dar, par;
-	if(width <= 256 + 24)
-		par = 8.0;
-	else if(width <= 341 + 32)
-		par = 6.0;
-	else if(width <= 512 + 48)
-		par = 4.0;
-	else
-		par = 2.0;
 
-	dar = (width * par) / 7.0 / height;
+	extern vce_resolution_t vce_resolution;
+	float par;
+	
+	switch(vce_resolution.max_rate)
+	{
+		case 0: par = 8.0f / 7.0f; break;
+		case 1: par = 6.0f / 7.0f; break;
+		case 2:
+		case 3: par = 4.0f / 7.0f; break;
+		case 4: par = 2.0f / 7.0f; break;
+	}
 
-	log_cb(RETRO_LOG_INFO, "Resolution: %d %d | %f %f\n", width, height, par, dar);
 
-	system_av_info.geometry.aspect_ratio = dar;
+	log_cb(RETRO_LOG_INFO, "Resolution: %d %d\n", vce_resolution.width, height);
+
+	system_av_info.geometry.aspect_ratio = (float) width / (float) height * par;
 	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
@@ -1110,7 +1065,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
 		{ "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
 		{ "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-		{ "pce_h_overscan", "Show Horizontal Overscan; disabled|enabled" },
+		{ "pce_h_overscan", "Show Horizontal Overscan; auto|disabled|enabled" },
 		{ "pce_hoverscan_left", "Crop Left Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
 		{ "pce_hoverscan_right", "Crop Right Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
 		{ "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },

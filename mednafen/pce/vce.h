@@ -21,6 +21,21 @@
 #include "huc6280.h"
 #include <mednafen/hw_video/huc6270/vdc.h>
 
+typedef struct
+{
+	int pulse;
+	int start;
+	int width;
+	int end;
+	int rate;
+
+	int max_rate;
+	bool multi_res;
+	
+	float par;
+} vce_resolution_t;
+
+
 class VCE final
 {
 public:
@@ -83,6 +98,8 @@ private:
 
 	void FixPCache(int entry);
 	void SetVCECR(uint8 V);
+	
+	void update_resolution_info(void);
 	
 	int32 CalcNextEvent(void);
 	int32 child_event[2];

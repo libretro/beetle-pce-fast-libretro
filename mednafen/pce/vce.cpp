@@ -32,6 +32,10 @@
 #include <math.h>
 #include <mednafen/settings.h>
 
+
+vce_resolution_t vce_resolution;
+
+
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
 
 static int32 MDFN_FASTCALL NO_INLINE Sync(const int32 timestamp);
@@ -83,6 +87,45 @@ static bool WS_Hook_(int32 vdc_cycles)
 	extern VCE *vce;
 
 	return(vce->WS_Hook(vdc_cycles));
+}
+
+void VCE::update_resolution_info()
+{
+	int HSR, HDR;
+	int HSW, HDS, HDW, HDE;
+
+	if(scanline == 14 + MDFN_GetSettingUI("pce.slstart"))
+	{
+		memset(&vce_resolution, 0, sizeof(vce_resolution));
+		
+		vce_resolution.max_rate = dot_clock;
+	}
+
+	else if(scanline > 14 + MDFN_GetSettingUI("pce.slend"))
+		return;
+
+
+	HSR = vdc[0].GetRegister(VDC::GSREG_HSR, NULL, 0);
+	HDR = vdc[0].GetRegister(VDC::GSREG_HDR, NULL, 0);
+
+	HSW = (HSR >> 0) & 0x1f;
+	HDS = (HSR >> 8) & 0x7f;
+	HDW = (HDR >> 0) & 0x7f;
+	HDE = (HDR >> 8) & 0x7f;
+
+	if(HDW > vce_resolution.width)
+	{
+		vce_resolution.pulse = HSW;
+		vce_resolution.start = HDS;
+		vce_resolution.width = HDW;
+		vce_resolution.end = HDE;
+		vce_resolution.rate = dot_clock;
+	}
+
+	if(vce_resolution.max_rate != dot_clock)
+		vce_resolution.multi_res = true;
+
+	vce_resolution.max_rate = max_T<int>(vce_resolution.max_rate, dot_clock);
 }
 
 void VCE::IRQChangeCheck(void)
@@ -454,6 +497,8 @@ void INLINE VCE::SyncSub(int32 clocks)
 					scanline = 0;
 				else
 					scanline++;
+
+				update_resolution_info();
 
 				if(scanline == 14 + max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1))
 				{
@@ -926,8 +971,68 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
-	DisplayRect->x = 0;
-	DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+	vce_resolution.width = (vce_resolution.width + 1) * 8;
+
+	if(MDFN_GetSettingB("pce.crop_h_overscan"))
+	{
+		static const int horiz_width[] = { 256, 304, 512 };
+		static const int horiz_start[] = { 16, 18, 20 };
+
+		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
+		static const int horiz_adjust[] = { 32 - 24, 59 - 32, (160 - 48) + 16, (160 - 48) + 16 };
+		static const int horiz_multires_scale[] = { 4, 3, 2, 2 };
+
+		const int rate = vce_resolution.rate;
+		const int width = vce_resolution.width;
+
+		/*
+		Horizontal Overscan
+ 		2  2 31 3 `` 16 256 16 = 288 `` 12 256 12 = 280    Bonk's Adventure
+ 		2  2 31 4 `` 16 256 16 = 288 `` 12 256 12 = 280    240p test suite (*)
+		2  3 31 4 `` 24 256  8 = 288 `` 20 256  4 = 280    Super Darius
+        -----------------------------------------------    Final Blaster
+
+
+		3  6 37 7 `` 48 304 48 = 400 `` 34 304 35 = 373    Wizardry
+		3  5 39 6 `` 40 320 40 = 400 `` 26 320 27 = 373    240p test suite (*)
+		3  4 41 6 `` 32 336 32 = 400 `` 18 336 19 = 373    R-Type I (U)
+		3  3 43 6 `` 24 352 24 = 400 `` 10 352 11 = 373    Ninja Spirit
+		2  3 43 3 `` 24 352 24 = 400 `` 10 352 11 = 373    TV Sports Basketball  (16px left/right)
+		2  5 43 6 `` 40 352  8 = 400 `` xx 352 xx = 373    Asuka 120% dialogue   (8px right)
+		9  4 43 4 `` 32 352 16 = 400 `` xx 352 xx = 373    Addam's Family        (8px right)
+		2  4 45 6 `` 32 368  0 = 400 ``  2 368  3 = 373    Asuka 120%
+
+
+		5 10 63 8 `` 80 512 80 = 672 `` 24 512 24 = 560    240p test suite (*)
+		2 12 63 0 `` 96 512 64 = 672 `` 40 512  8 = 560    Asuka 120% multi-res
+		0  8 67 0 `` 64 544 64 = 672 ``  8 544  8 = 560    TV Sports Basketball
+		*/
+
+		if(width >= horiz_width[rate])
+		{
+			DisplayRect->x = vce_resolution.start * 8;
+			DisplayRect->w = width;
+		}
+		else
+		{
+			DisplayRect->x = horiz_start[rate];
+			DisplayRect->w = horiz_width[rate];
+		}
+
+		DisplayRect->x -= horiz_adjust[rate] / 2;
+
+		DisplayRect->x *= horiz_multires_scale[rate];
+		DisplayRect->w *= horiz_multires_scale[rate];
+
+		vce_resolution.max_rate = 4;
+	}
+	else
+	{
+		DisplayRect->x = 0;
+		DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+
+		vce_resolution.max_rate = 4;
+	}
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
