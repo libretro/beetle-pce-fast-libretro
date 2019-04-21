@@ -976,7 +976,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	if(MDFN_GetSettingB("pce.crop_h_overscan"))
 	{
 		static const int horiz_width[] = { 256, 304, 512 };
-		static const int horiz_over[]  = { 280, 376, 560 };
+		static const int horiz_over[]  = { 280, 376, 608 };
 		static const int horiz_start[] = { 16, 18, 20 };
 
 		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
