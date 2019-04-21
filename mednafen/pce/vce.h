@@ -35,6 +35,8 @@ typedef struct
 	float par;
 } vce_resolution_t;
 
+extern vce_resolution_t vce_resolution;
+
 
 class VCE final
 {
@@ -93,8 +95,8 @@ public:
 
 private:
 
-	template<bool TA_SuperGrafx, bool TA_AwesomeMode>
-	void SyncSub(int32 clocks);
+	template<bool TA_SuperGrafx>
+	void SyncSub(int32 clocks, bool AwesomeMode);
 
 	void FixPCache(int entry);
 	void SetVCECR(uint8 V);

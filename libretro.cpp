@@ -916,7 +916,6 @@ void update_geometry(unsigned width, unsigned height)
 	system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
 
 
-	extern vce_resolution_t vce_resolution;
 	float par;
 	
 	switch(vce_resolution.max_rate)
@@ -981,8 +980,8 @@ void retro_run(void)
 
 	width  = spec.DisplayRect.w;
 	height = spec.DisplayRect.h;
-	video_cb(surf->pixels + spec.DisplayRect.x + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
 
+	video_cb(surf->pixels + spec.DisplayRect.x + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
 	audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
 	bool updated = false;
@@ -1078,6 +1077,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
 		{ "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
 		{ "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
+		{ "pce_scaling", "Resolution scaling; auto|lores|hires"},
 		{ "pce_h_overscan", "Show Horizontal Overscan; auto|disabled|enabled" },
 		{ "pce_hoverscan_left", "Crop Left Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
 		{ "pce_hoverscan_right", "Crop Right Horizontal Overscan (352 Width Mode Only); 0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30" },
@@ -1091,7 +1091,6 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_adpcmextraprec", "(CD) ADPCM precision; 10-bit|12-bit" },
 		{ "pce_resamp_quality", "Owl resampler quality; 3|4|5|6|0|1|2" },
 		{ "pce_multitap", "Multitap 5-port controller; enabled|disabled" },
-		{ "pce_scaling", "Resolution scaling; auto|lores|hires"},
 		{ "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
 		{ "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
 		{ "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },

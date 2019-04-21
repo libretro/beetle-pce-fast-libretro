@@ -94,7 +94,11 @@ void VCE::update_resolution_info()
 	int HSR, HDR;
 	int HSW, HDS, HDW, HDE;
 
-	if(scanline == 14 + MDFN_GetSettingUI("pce.slstart"))
+
+	if(scanline < 14 + MDFN_GetSettingUI("pce.slstart"))
+		return;
+
+	else if(scanline == 14 + MDFN_GetSettingUI("pce.slstart"))
 	{
 		memset(&vce_resolution, 0, sizeof(vce_resolution));
 		
@@ -113,6 +117,7 @@ void VCE::update_resolution_info()
 	HDW = (HDR >> 0) & 0x7f;
 	HDE = (HDR >> 8) & 0x7f;
 
+
 	if(HDW > vce_resolution.width)
 	{
 		vce_resolution.pulse = HSW;
@@ -123,7 +128,11 @@ void VCE::update_resolution_info()
 	}
 
 	if(vce_resolution.max_rate != dot_clock)
+	{
 		vce_resolution.multi_res = true;
+
+		//printf("Multi-res: [%d] %d -> %d\n", scanline, vce_resolution.max_rate, dot_clock);
+	}
 
 	vce_resolution.max_rate = max_T<int>(vce_resolution.max_rate, dot_clock);
 }
@@ -342,8 +351,8 @@ int32 INLINE VCE::CalcNextEvent(void)
 	return next_event;
 }
 
-template<bool TA_SuperGrafx, bool TA_AwesomeMode>
-void INLINE VCE::SyncSub(int32 clocks)
+template<bool TA_SuperGrafx>
+void INLINE VCE::SyncSub(int32 clocks, bool AwesomeMode)
 {
 	while(clocks > 0)
 	{
@@ -430,7 +439,7 @@ void INLINE VCE::SyncSub(int32 clocks)
 						}
 						pix = color_table_cache[((vdc1_pixel & 0xF) ? vdc1_pixel : vdc2_pixel) & 0x1FF];
 
-						if(TA_AwesomeMode)
+						if(AwesomeMode)
 						{
 							for(int32 s_i = 0; s_i < dot_clock_ratio; s_i++)
 							{
@@ -447,7 +456,7 @@ void INLINE VCE::SyncSub(int32 clocks)
 				}
 				else
 				{
-					if(TA_AwesomeMode)
+					if(AwesomeMode)
 					{
 						for(int32 i = 0; MDFN_LIKELY(i < div_clocks); i++)
 						{
@@ -530,7 +539,7 @@ void INLINE VCE::SyncSub(int32 clocks)
 
 					int rect_x, rect_w;
 
-					if(TA_AwesomeMode)
+					if(AwesomeMode)
 					{
 						if(dot_clock >= 2)
 							rect_x = 208;
@@ -590,11 +599,13 @@ int32 INLINE VCE::SyncReal(const int32 timestamp)
 	cd_event -= clocks;
 	if(cd_event <= 0)
 		cd_event = PCECD_Run(timestamp);
+	
+	bool hires = MDFN_GetSettingUI("pce.scaling") == 2;
 
 	if(sgfx)
-		SyncSub<true, true>(clocks);
+		SyncSub<true>(clocks, hires);
 	else
-		SyncSub<false, true>(clocks);
+		SyncSub<false>(clocks, hires);
 
 	//
 	//
@@ -971,11 +982,12 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
-	static const int horiz_multires_scale[] = { 4, 3, 2, 2 };
-
-	int rate = vce_resolution.rate;
+	int rate = vce_resolution.max_rate;
 	int width = (vce_resolution.width + 1) * 8;
 	int start = vce_resolution.start * 8;
+
+	int scaling_mode = MDFN_GetSettingUI("pce.scaling");
+	bool hires = (scaling_mode == 2);
 
 
 	vce_resolution.width = width;
@@ -987,7 +999,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		static const int horiz_start[] = { 16, 40, 80 };
 
 		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
-		static const int horiz_adjust[] = { 32 - 24, 59 - 32, (160 - 48) + 16, (160 - 48) + 16 };
+		static const int horiz_adjust[] = { 32 - 24, (59 - 32) + 2, (160 - 48) + 16, (160 - 48) + 16 };
 
 		/*
 		Horizontal Overscan
@@ -1015,9 +1027,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		if(width >= horiz_width[rate])
 		{
 			if(width + start > horiz_over[rate])
-			{
 				width = horiz_over[rate] - start;
-			}
 
 			DisplayRect->x = start;
 			DisplayRect->w = width;
@@ -1030,44 +1040,56 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 
 		DisplayRect->x -= horiz_adjust[rate] / 2;
 
-		DisplayRect->x *= horiz_multires_scale[rate];
-		DisplayRect->w *= horiz_multires_scale[rate];
+
+		if(hires)
+		{
+			DisplayRect->x *= vce_ratios[rate];
+			DisplayRect->w *= vce_ratios[rate];
+
+			if(rate == 1)
+				DisplayRect->x += 2;
+		}
 	}
 	else
 	{
 		DisplayRect->x = 0;
-		DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+		
+		if(hires)
+		{
+			DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+		}
+		else
+		{
+			switch(rate)
+			{
+				case 0: DisplayRect->w = 256 + (ShowHorizOS ? 24 : 0); break;
+				case 1: DisplayRect->w = 341 + (ShowHorizOS ? 32 : 0); break;
+				case 2:
+				case 3: DisplayRect->w = 512 + (ShowHorizOS ? 48 : 0); break;
+			}
+		}
 	}
 
 	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
 	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
 
-	
-	int scaling_type = MDFN_GetSettingUI("pce.scaling");
-	bool scaling_hires = false;
-	
-	if(scaling_type == 2)
+
+	if(vce_resolution.multi_res == true && scaling_mode == 0)
 	{
-		scaling_hires = true;
+		// TODO: Adjust for non-352 modes
+		//hires = true;
 	}
-	else
-	{
-		if(vce_resolution.multi_res == true && scaling_type == 0)
-		{
-			// TODO: Adjust for non-352 modes
-			scaling_hires = true;
-		}
-	}
-	
-	
-	if(scaling_hires)
+
+
+	if(hires)
 	{
 		// dot clock renderer = 1024 + overscan
 		vce_resolution.max_rate = 4;
 	}
 	else
 	{
-		int descale = horiz_multires_scale[vce_resolution.max_rate];
+		/*
+		int descale = vce_ratios[vce_resolution.max_rate];
 
 		DisplayRect->w /= descale;
 
@@ -1084,5 +1106,6 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 				in_ptr += descale;
 			}
 		}
+		*/
 	}
 }
