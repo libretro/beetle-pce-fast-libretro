@@ -351,8 +351,8 @@ int32 INLINE VCE::CalcNextEvent(void)
 	return next_event;
 }
 
-template<bool TA_SuperGrafx>
-void INLINE VCE::SyncSub(int32 clocks, bool AwesomeMode)
+template<bool TA_SuperGrafx, bool TA_AwesomeMode>
+void INLINE VCE::SyncSub(int32 clocks)
 {
 	while(clocks > 0)
 	{
@@ -439,7 +439,7 @@ void INLINE VCE::SyncSub(int32 clocks, bool AwesomeMode)
 						}
 						pix = color_table_cache[((vdc1_pixel & 0xF) ? vdc1_pixel : vdc2_pixel) & 0x1FF];
 
-						if(AwesomeMode)
+						if(TA_AwesomeMode)
 						{
 							for(int32 s_i = 0; s_i < dot_clock_ratio; s_i++)
 							{
@@ -456,7 +456,7 @@ void INLINE VCE::SyncSub(int32 clocks, bool AwesomeMode)
 				}
 				else
 				{
-					if(AwesomeMode)
+					if(TA_AwesomeMode)
 					{
 						for(int32 i = 0; MDFN_LIKELY(i < div_clocks); i++)
 						{
@@ -539,7 +539,7 @@ void INLINE VCE::SyncSub(int32 clocks, bool AwesomeMode)
 
 					int rect_x, rect_w;
 
-					if(AwesomeMode)
+					if(TA_AwesomeMode)
 					{
 						if(dot_clock >= 2)
 							rect_x = 208;
@@ -602,10 +602,20 @@ int32 INLINE VCE::SyncReal(const int32 timestamp)
 	
 	bool hires = MDFN_GetSettingUI("pce.scaling") == 2;
 
-	if(sgfx)
-		SyncSub<true>(clocks, hires);
+	if(hires)
+	{
+		if(sgfx)
+			SyncSub<true, true>(clocks);
+		else
+			SyncSub<false, true>(clocks);
+	}
 	else
-		SyncSub<false>(clocks, hires);
+	{
+		if(sgfx)
+			SyncSub<true, false>(clocks);
+		else
+			SyncSub<false, false>(clocks);
+	}
 
 	//
 	//

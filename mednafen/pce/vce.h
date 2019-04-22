@@ -95,8 +95,8 @@ public:
 
 private:
 
-	template<bool TA_SuperGrafx>
-	void SyncSub(int32 clocks, bool AwesomeMode);
+	template<bool TA_SuperGrafx, bool TA_AwesomeMode>
+	void SyncSub(int32 clocks);
 
 	void FixPCache(int entry);
 	void SetVCECR(uint8 V);
