@@ -35,6 +35,9 @@
 
 vce_resolution_t vce_resolution;
 
+static bool hires;
+static int scanline_start, scanline_end;
+
 
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
 
@@ -89,23 +92,23 @@ static bool WS_Hook_(int32 vdc_cycles)
 	return(vce->WS_Hook(vdc_cycles));
 }
 
-void VCE::update_resolution_info()
+void INLINE VCE::update_resolution_info()
 {
 	int HSR, HDR;
 	int HSW, HDS, HDW, HDE;
 
 
-	if(scanline < 14 + MDFN_GetSettingUI("pce.slstart"))
+	if(scanline < 14 + scanline_start)
 		return;
 
-	else if(scanline == 14 + MDFN_GetSettingUI("pce.slstart"))
+	else if(scanline == 14 + scanline_start)
 	{
 		memset(&vce_resolution, 0, sizeof(vce_resolution));
-		
+
 		vce_resolution.max_rate = dot_clock;
 	}
 
-	else if(scanline > 14 + MDFN_GetSettingUI("pce.slend"))
+	else if(scanline > 14 + scanline_end)
 		return;
 
 
@@ -257,15 +260,21 @@ void VCE::StartFrame(MDFN_Surface *surface, MDFN_Rect *DisplayRect, int32 *LineW
 
 	color_table_cache[0x200] = color_table_cache[0x300] = MAKECOLOR(0x00, 0xFE, 0x00, 0);
 
+
+	hires = MDFN_GetSettingUI("pce.scaling") == 2;
+	scanline_start = MDFN_GetSettingUI("pce.slstart");
+	scanline_end = MDFN_GetSettingUI("pce.slend");
+
+
 	if(!skip)
 	{
 		DisplayRect->x = 0;
 		DisplayRect->w = 1365;
 		DisplayRect->y = 0 + 14;
-		DisplayRect->h = max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1); //263 - 14;
+		DisplayRect->h = max_T<uint32>(240, scanline_end + 1); //263 - 14;
 
-		DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
-		DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
+		DisplayRect->y = 14 + scanline_start;
+		DisplayRect->h = scanline_end - scanline_start + 1;
 
 		for(int y = 0; y < 263; y++)
 			LineWidths[y] = 0;
@@ -509,12 +518,12 @@ void INLINE VCE::SyncSub(int32 clocks)
 
 				update_resolution_info();
 
-				if(scanline == 14 + max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1))
+				if(scanline == 14 + max_T<uint32>(240, scanline_end + 1))
 				{
 					FrameDone = true;
 				}
 
-				if((scanline == 14 + max_T<uint32>(240, MDFN_GetSettingUI("pce.slend") + 1)) || (scanline == 123))
+				if((scanline == 14 + max_T<uint32>(240, scanline_end + 1)) || (scanline == 123))
 				{
 					HuCPU.Exit();
 				}
@@ -599,22 +608,20 @@ int32 INLINE VCE::SyncReal(const int32 timestamp)
 	cd_event -= clocks;
 	if(cd_event <= 0)
 		cd_event = PCECD_Run(timestamp);
-	
-	bool hires = MDFN_GetSettingUI("pce.scaling") == 2;
 
-	if(hires)
-	{
-		if(sgfx)
-			SyncSub<true, true>(clocks);
-		else
-			SyncSub<false, true>(clocks);
-	}
-	else
+	if(!hires)
 	{
 		if(sgfx)
 			SyncSub<true, false>(clocks);
 		else
 			SyncSub<false, false>(clocks);
+	}
+	else
+	{
+		if(sgfx)
+			SyncSub<true, true>(clocks);
+		else
+			SyncSub<false, true>(clocks);
 	}
 
 	//
@@ -997,7 +1004,6 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	int start = vce_resolution.start * 8;
 
 	int scaling_mode = MDFN_GetSettingUI("pce.scaling");
-	bool hires = (scaling_mode == 2);
 
 
 	vce_resolution.width = width;
@@ -1064,11 +1070,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	{
 		DisplayRect->x = 0;
 		
-		if(hires)
-		{
-			DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
-		}
-		else
+		if(!hires)
 		{
 			switch(rate)
 			{
@@ -1078,10 +1080,14 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 				case 3: DisplayRect->w = 512 + (ShowHorizOS ? 48 : 0); break;
 			}
 		}
+		else
+		{
+			DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+		}
 	}
 
-	DisplayRect->y = 14 + MDFN_GetSettingUI("pce.slstart");
-	DisplayRect->h = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
+	DisplayRect->y = 14 + scanline_start;
+	DisplayRect->h = scanline_end - scanline_start + 1;
 
 
 	if(vce_resolution.multi_res == true && scaling_mode == 0)
@@ -1091,12 +1097,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 	}
 
 
-	if(hires)
-	{
-		// dot clock renderer = 1024 + overscan
-		vce_resolution.max_rate = 4;
-	}
-	else
+	if(!hires)
 	{
 		/*
 		int descale = vce_ratios[vce_resolution.max_rate];
@@ -1117,5 +1118,10 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 			}
 		}
 		*/
+	}
+	else
+	{
+		// dot clock renderer = 1024 + overscan
+		vce_resolution.max_rate = 4;
 	}
 }
