@@ -38,6 +38,19 @@ vce_resolution_t vce_resolution;
 static bool hires;
 static int scanline_start, scanline_end;
 
+static struct
+{
+	int pulse;
+	int start;
+	int width;
+	int end;
+
+	int rate;
+	int line;
+} scanline_info[10];
+
+static int scanline_info_count;
+
 
 static const int vce_ratios[4] = { 4, 3, 2, 2 };
 
@@ -92,24 +105,18 @@ static bool WS_Hook_(int32 vdc_cycles)
 	return(vce->WS_Hook(vdc_cycles));
 }
 
-void INLINE VCE::update_resolution_info()
+void VCE::write_scanline_info()
 {
 	int HSR, HDR;
 	int HSW, HDS, HDW, HDE;
 
 
-	if(scanline < 14 + scanline_start)
-		return;
-
-	else if(scanline == 14 + scanline_start)
+	if(NeedSLReset || scanline_info_count == 0)
 	{
+		scanline_info_count = 0;
+
 		memset(&vce_resolution, 0, sizeof(vce_resolution));
-
-		vce_resolution.max_rate = dot_clock;
 	}
-
-	else if(scanline > 14 + scanline_end)
-		return;
 
 
 	HSR = vdc[0].GetRegister(VDC::GSREG_HSR, NULL, 0);
@@ -120,24 +127,38 @@ void INLINE VCE::update_resolution_info()
 	HDW = (HDR >> 0) & 0x7f;
 	HDE = (HDR >> 8) & 0x7f;
 
+	
+	scanline_info[scanline_info_count].pulse = HSW;
+	scanline_info[scanline_info_count].start = HDS;
+	scanline_info[scanline_info_count].width = HDW;
+	scanline_info[scanline_info_count].end = HDE;
 
-	if(HDW > vce_resolution.width)
+	scanline_info[scanline_info_count].rate = dot_clock;
+	scanline_info[scanline_info_count].line = scanline;
+	scanline_info_count++;
+
+
+	if((dot_clock > vce_resolution.max_rate) || (vce_resolution.width == 0))
 	{
-		vce_resolution.pulse = HSW;
+		switch(dot_clock)
+		{
+			case 0: vce_resolution.res_256 = 1; break;
+			case 1: vce_resolution.res_352 = 1; break;
+			case 2:
+			case 3: vce_resolution.res_512 = 1; break;
+		}
+
+		//printf("[%d] max rate = %d %d %d\n", scanline, dot_clock, HDW, vce_resolution.width);
+
+		
+		vce_resolution.max_rate = dot_clock;
+
 		vce_resolution.start = HDS;
 		vce_resolution.width = HDW;
+		
+		vce_resolution.pulse = HSW;
 		vce_resolution.end = HDE;
-		vce_resolution.rate = dot_clock;
 	}
-
-	if(vce_resolution.max_rate != dot_clock)
-	{
-		vce_resolution.multi_res = true;
-
-		//printf("Multi-res: [%d] %d -> %d\n", scanline, vce_resolution.max_rate, dot_clock);
-	}
-
-	vce_resolution.max_rate = max_T<int>(vce_resolution.max_rate, dot_clock);
 }
 
 void VCE::IRQChangeCheck(void)
@@ -512,11 +533,13 @@ void INLINE VCE::SyncSub(int32 clocks)
 				}
 
 				if(NeedSLReset)
+				{
 					scanline = 0;
+					
+					write_scanline_info();
+				}
 				else
 					scanline++;
-
-				update_resolution_info();
 
 				if(scanline == 14 + max_T<uint32>(240, scanline_end + 1))
 				{
@@ -683,8 +706,10 @@ void VCE::SetVCECR(uint8 V)
 
 	dot_clock = V & 0x3;
 	dot_clock_ratio = vce_ratios[dot_clock];
-
+	
 	CR = V;
+
+	write_scanline_info();
 }
 
 void VCE::SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMapLen)
@@ -999,20 +1024,115 @@ int VCE::StateAction(StateMem *sm, const unsigned load, const bool data_only)
 
 void VCE::EndFrame(MDFN_Rect *DisplayRect)
 {
+	bool scale_hires = hires;
+	bool scale_lores = MDFN_GetSettingUI("pce.scaling") == 1;
+
+
+	write_scanline_info();
+
+
+	if(!scale_hires && (vce_resolution.res_256 + vce_resolution.res_352 + vce_resolution.res_512) > 1)
+	{
+		static const int horiz_draw[2][4] = {
+			{ 256, 341, 512, 512 },
+			{ 256 + 24, 341 + 32, 512 + 48, 512 + 48 }
+		};
+
+		for(int lcv = 0; lcv < scanline_info_count - 1; lcv++)
+		{
+			int scale, width;
+			int rate = scanline_info[lcv].rate;
+
+			if(!vce_resolution.res_352)
+			{
+				// 512 multi-res
+				if(rate == 0)
+					scale = 2;
+				else
+					continue;
+			}
+			else if(scale_lores)
+			{
+				if(rate == 0)
+					scale = 1;
+				else
+					continue;
+			}
+			else
+			{
+				// 1024 multi-res
+				scale = vce_ratios[rate];
+				scale_hires = true;
+			}
+
+			width = horiz_draw[ShowHorizOS][rate];
+
+
+			int start_y = scanline_info[lcv].line;
+			int end_y = scanline_info[lcv + 1].line;
+
+			for(int line = end_y - start_y - 1; line >= 0; line--)
+			{
+				uint16* line_ptr = &fb[(start_y + line) * pitch32];
+
+				switch(scale)
+				{
+					case 4:
+						for(int pixel = width - 1; pixel >= 0; pixel--)
+						{
+							line_ptr[pixel * 4 + 0] = line_ptr[pixel];
+							line_ptr[pixel * 4 + 1] = line_ptr[pixel];
+							line_ptr[pixel * 4 + 2] = line_ptr[pixel];
+							line_ptr[pixel * 4 + 3] = line_ptr[pixel];
+						}
+						break;
+
+					case 3:
+						for(int pixel = width - 1; pixel >= 0; pixel--)
+						{
+							line_ptr[pixel * 3 + 0] = line_ptr[pixel];
+							line_ptr[pixel * 3 + 1] = line_ptr[pixel];
+							line_ptr[pixel * 3 + 2] = line_ptr[pixel];
+						}
+						break;
+
+					case 2:
+						for(int pixel = width - 1; pixel >= 0; pixel--)
+						{
+							line_ptr[pixel * 2 + 0] = line_ptr[pixel];
+							line_ptr[pixel * 2 + 1] = line_ptr[pixel];
+						}
+						break;
+
+					case 1:
+					{
+						int adjust = (horiz_draw[ShowHorizOS][1] - horiz_draw[ShowHorizOS][0]) / 2;
+
+						memmove(line_ptr + adjust, line_ptr, width * sizeof(*fb));
+						memset(line_ptr, 0, adjust * sizeof(*fb));
+						memset(line_ptr + width + adjust, 0, (adjust + 1) * sizeof(*fb));
+						break;
+					}
+				}
+			}
+		} // scanline_info_count
+	} // !hires && multi_res
+
+
 	int rate = vce_resolution.max_rate;
 	int width = (vce_resolution.width + 1) * 8;
 	int start = vce_resolution.start * 8;
 
-	int scaling_mode = MDFN_GetSettingUI("pce.scaling");
+	//printf("%d %d %d %d %d\n", rate, vce_resolution.pulse, vce_resolution.start, vce_resolution.width, vce_resolution.end);
 
 
 	vce_resolution.width = width;
 
 	if(MDFN_GetSettingB("pce.crop_h_overscan"))
 	{
+		static const int horiz_start[] = { 16, 40, 80 };
 		static const int horiz_width[] = { 256, 320, 512 };
 		static const int horiz_over[]  = { 280, 376, 608 };
-		static const int horiz_start[] = { 16, 40, 80 };
 
 		// Mednafen overscan: 256 - 341.3 - 512 // 280 - 373.3 - 560 = clean 1024 dot clock scaling math
 		static const int horiz_adjust[] = { 32 - 24, (59 - 32) + 2, (160 - 48) + 16, (160 - 48) + 16 };
@@ -1057,25 +1177,27 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		DisplayRect->x -= horiz_adjust[rate] / 2;
 
 
-		if(hires)
+		if(scale_hires)
 		{
 			DisplayRect->x *= vce_ratios[rate];
 			DisplayRect->w *= vce_ratios[rate];
 
 			if(rate == 1)
 				DisplayRect->x += 2;
+
+			vce_resolution.max_rate = 4;
 		}
 	}
 	else
 	{
 		DisplayRect->x = 0;
-		
-		if(!hires)
+
+		if(!scale_hires)
 		{
 			switch(rate)
 			{
 				case 0: DisplayRect->w = 256 + (ShowHorizOS ? 24 : 0); break;
-				case 1: DisplayRect->w = 341 + (ShowHorizOS ? 32 : 0); break;
+				case 1: DisplayRect->w = 341 + (ShowHorizOS ? 32 : 0) + 2; break;
 				case 2:
 				case 3: DisplayRect->w = 512 + (ShowHorizOS ? 48 : 0); break;
 			}
@@ -1083,45 +1205,11 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 		else
 		{
 			DisplayRect->w = 1024 + (ShowHorizOS ? 96 : 0);
+
+			vce_resolution.max_rate = 4;
 		}
 	}
 
 	DisplayRect->y = 14 + scanline_start;
 	DisplayRect->h = scanline_end - scanline_start + 1;
-
-
-	if(vce_resolution.multi_res == true && scaling_mode == 0)
-	{
-		// TODO: Adjust for non-352 modes
-		//hires = true;
-	}
-
-
-	if(!hires)
-	{
-		/*
-		int descale = vce_ratios[vce_resolution.max_rate];
-
-		DisplayRect->w /= descale;
-
-		for(int line = 0; line < DisplayRect->h; line++)
-		{
-			uint16* in_ptr = &fb[(DisplayRect->y + line) * pitch32] + DisplayRect->x;
-			uint16* out_ptr = in_ptr;
-
-			for(int pixel = 0; pixel < DisplayRect->w; pixel++)
-			{
-				*out_ptr = *in_ptr;
-
-				out_ptr++;
-				in_ptr += descale;
-			}
-		}
-		*/
-	}
-	else
-	{
-		// dot clock renderer = 1024 + overscan
-		vce_resolution.max_rate = 4;
-	}
 }

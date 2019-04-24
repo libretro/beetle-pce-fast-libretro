@@ -23,14 +23,15 @@
 
 typedef struct
 {
-	int pulse;
-	int start;
-	int width;
-	int end;
-	int rate;
+	uint16 pulse;
+	uint16 start;
+	uint16 width;
+	uint16 end;
+	uint8 max_rate;
 
-	int max_rate;
-	bool multi_res;
+	uint8 res_256;
+	uint8 res_352;
+	uint8 res_512;
 	
 	float par;
 } vce_resolution_t;
@@ -101,7 +102,7 @@ private:
 	void FixPCache(int entry);
 	void SetVCECR(uint8 V);
 	
-	void update_resolution_info(void);
+	void write_scanline_info(void);
 	
 	int32 CalcNextEvent(void);
 	int32 child_event[2];
