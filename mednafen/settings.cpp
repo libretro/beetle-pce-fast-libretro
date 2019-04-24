@@ -21,12 +21,11 @@
 #include <string>
 #include "settings.h"
 
+int setting_pce_arcadecard = 1;
 int setting_pce_initial_scanline = 0;
 int setting_pce_last_scanline = 242;
 int setting_pce_h_overscan = 0;
 int setting_pce_crop_h_overscan = 0;
-int setting_pce_hoverscan_left = 0;
-int setting_pce_hoverscan_right = 0;
 int setting_pce_nospritelimit = 0;
 int setting_pce_overclocked = 1;
 int setting_pce_psgrevision = 2;
@@ -56,10 +55,6 @@ uint64 MDFN_GetSettingUI(const char *name)
       return setting_pce_initial_scanline;
    if (!strcmp("pce.slend", name))
       return setting_pce_last_scanline; 
-   if (!strcmp("pce.hoverscan_left", name))
-      return setting_pce_hoverscan_left; 
-   if (!strcmp("pce.hoverscan_right", name))
-      return setting_pce_hoverscan_right; 
    if (!strcmp("pce.resamp_quality", name))
       return setting_pce_resamp_quality;
    if (!strcmp("pce.vramsize", name))
@@ -101,7 +96,7 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce.input.multitap", name))
       return setting_pce_multitap;
    if (!strcmp("pce.arcadecard", name))
-      return 1;
+      return setting_pce_arcadecard;
    if (!strcmp("pce.nospritelimit", name))
       return setting_pce_nospritelimit;
    if (!strcmp("pce.forcemono", name))

@@ -474,6 +474,13 @@ static void check_variables(bool loaded)
 			setting_pce_cdbios = "syscard2u.pce";
 	}
 
+	var.key = "pce_arcadecard";
+	
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		setting_pce_arcadecard = (strcmp(var.value, "enabled") == 0);
+	}
+
 	var.key = "pce_nospritelimit";
 	
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -494,20 +501,6 @@ static void check_variables(bool loaded)
 	{
 		setting_pce_h_overscan = (strcmp(var.value, "disabled") != 0);
 		setting_pce_crop_h_overscan = (strcmp(var.value, "auto") == 0);
-	}
-
-	var.key = "pce_hoverscan_left";
-
-	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-	{
-		setting_pce_hoverscan_left = atoi(var.value);
-	}
-
-	var.key = "pce_hoverscan_right";
-
-	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-	{
-		setting_pce_hoverscan_right = atoi(var.value);
 	}
 
 	var.key = "pce_initial_scanline";
@@ -1115,6 +1108,7 @@ void retro_set_environment(retro_environment_t cb)
 	static const struct retro_variable vars[] = {
 		{ "pce_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
 		{ "pce_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
+		{ "pce_arcadecard", "Arcade Card (Restart); enabled|disabled"},
 		{ "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
 		{ "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
 		{ "pce_scaling", "Resolution scaling; auto|lores|hires"},
