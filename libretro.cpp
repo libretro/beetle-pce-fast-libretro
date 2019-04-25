@@ -429,6 +429,9 @@ static float mouse_sensitivity = 1.0f;
 static bool disable_softreset = false;
 static bool up_down_allowed = false;
 
+static int avpad6_enable[MAX_PLAYERS] = {0};
+static bool avpad6_toggle_down[MAX_PLAYERS] = {0};
+
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
 // Array to keep track of each buttons turbo status
@@ -861,6 +864,7 @@ static void update_input(void)
 		if (input_type[j] == RETRO_DEVICE_JOYPAD)             // Joypad
 		{
 			uint16_t input_state = 0;
+
 			for (unsigned i = 0; i < MAX_BUTTONS; i++)
 			{
 				if (turbo_enable[j][i] == 1) //Check whether a given button is turbo-capable
@@ -869,15 +873,15 @@ static void update_input(void)
 
 					if (turbo_counter[j][i] > (Turbo_Delay)) //When the counter exceeds turbo delay, fire and return to zero
 					{
-						if(Turbo_Toggling != 2)
-							input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-						else if(i == 8 || i == 9)
+						if(Turbo_Toggling == 2 && (i == 8 || i == 9) && !avpad6_enable[j])
 							input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << turbo_map[i]) : 0;
+						else
+							input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
 
 						turbo_counter[j][i] = 0;
 					}
 				}
-				else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && Turbo_Toggling)
+				else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && Turbo_Toggling == 1 && !avpad6_enable[j])
 				{
 					if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
 					{
@@ -892,6 +896,31 @@ static void update_input(void)
 					}
 					else
 						turbo_toggle_down[j][i] = 0;	
+				}
+				else if(i == 12)
+				{
+					if(input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
+					{
+						if (avpad6_toggle_down[j] == 0)
+						{
+							avpad6_toggle_down[j] = 1;
+							avpad6_enable[j] ^= (1 << 12);
+
+							MDFN_DispMessage("Pad %i %s", j + 1, avpad6_enable[j] ? "6-buttons" : "2-buttons" );
+
+
+							int mode = !avpad6_enable[j] && (Turbo_Toggling == 2);
+							for(int lcv = 0; lcv < MAX_PLAYERS; lcv++)
+							{
+								turbo_enable[lcv][8] = mode;
+								turbo_enable[lcv][9] = mode;
+							}
+						}
+					}
+					else
+						avpad6_toggle_down[j] = 0;
+
+					input_state |= avpad6_enable[j];
 				}
 				else
 					input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
@@ -1034,7 +1063,6 @@ static void hires_blending(uint16 *fb, int width, int height, int pitch)
 		}
 	}
 }
-
 void retro_run(void)
 {
 	MDFNGI *curgame = (MDFNGI*)game;
