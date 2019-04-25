@@ -991,35 +991,35 @@ void update_geometry(unsigned width, unsigned height)
 
 static void hires_blending(uint16 *fb, int width, int height, int pitch)
 {
-   int x, y, z;
+	int x, y, z;
 #define AVERAGE_565(el0, el1) (((el0) & (el1)) + ((((el0) ^ (el1)) & 0xF7DE) >> 1))
 
 	if (vce_resolution.max_rate == 4 && hires_blend == 1) /* Blur method */
 	{
-		for (y = height - 1; y >= 0; y--)
+		for (z = 0; z < blur_passes; z++)
 		{
-			uint16 *input = &fb[y * pitch];
-			uint16 *output = &fb[y * pitch];
-			uint16 l, r;
+			for (y = height - 1; y >= 0; y--)
+			{
+				uint16 *input = &fb[y * pitch];
+				uint16 *output = &fb[y * pitch];
+				uint16 l, r;
 
-			l = 0;
-         for (z = 0; z < blur_passes; z++)
-         {
-               r = *input++;
-               *output++ = AVERAGE_565 (r, r);
-               l = r;
+				l = 0;
+				r = *input++;
+				*output++ = AVERAGE_565 (r, r);
+				l = r;
 
-            for (x = 0; x < (width/2)-1; x++)
-            {
-               r = *input++;
-               *output++ = AVERAGE_565 (l, r);
-               l = r;
+				for (x = 0; x < (width/2)-1; x++)
+				{
+					r = *input++;
+					*output++ = AVERAGE_565 (l, r);
+					l = r;
 
-               r = *input++;
-               *output++ = AVERAGE_565 (l, r);
-               l = r;
-            }
-         }
+					r = *input++;
+					*output++ = AVERAGE_565 (l, r);
+					l = r;
+				}
+			}
 		}
 	}
 }
