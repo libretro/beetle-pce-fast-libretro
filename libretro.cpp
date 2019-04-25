@@ -29,12 +29,12 @@
 #define MEDNAFEN_CORE_NAME "Beetle PCE"
 #define MEDNAFEN_CORE_VERSION "v0.9.48"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|sgx"
-#define MEDNAFEN_CORE_TIMING_FPS 7159090.90909090f / 455.0f / 263.0f
+#define MEDNAFEN_CORE_TIMING_FPS 7159090.90909090 / 455.0 / 263.0
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 224
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 1365
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 270
-#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO 6.0f / 5.0f
+#define MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO 6.0 / 5.0
 #define FB_WIDTH 1365
 #define FB_HEIGHT 270
 
@@ -45,6 +45,7 @@ MDFNGI *MDFNGameInfo = &EmulatedPCE;
 
 static int hires_blend = 0;
 static int blur_passes = 1;
+static int aspect_ratio = 0;
 
 
 static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
@@ -496,12 +497,35 @@ static void check_variables(bool loaded)
 		setting_pce_overclocked = atoi(var.value);
 	}
 
+	var.key = "pce_aspect_ratio";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		if (strcmp(var.value, "auto") == 0)
+			aspect_ratio = 0;
+		else if (strcmp(var.value, "6:5") == 0)
+			aspect_ratio = 1;
+		else if (strcmp(var.value, "4:3") == 0)
+			aspect_ratio = 2;
+		else if (strcmp(var.value, "uncorrected") == 0)
+			aspect_ratio = 3;
+	}
+
 	var.key = "pce_h_overscan";
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
 		setting_pce_h_overscan = (strcmp(var.value, "disabled") != 0);
 		setting_pce_crop_h_overscan = (strcmp(var.value, "auto") == 0);
+	}
+
+	var.key = "pce_hires_blend";
+
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+	{
+		hires_blend = !(strcmp(var.value, "disabled") == 0);
+		if (hires_blend)
+			blur_passes = atoi(var.value);
 	}
 
 	var.key = "pce_initial_scanline";
@@ -516,15 +540,6 @@ static void check_variables(bool loaded)
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
 		setting_pce_last_scanline = atoi(var.value);
-	}
-
-	var.key = "pce_hires_blend";
-
-	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-	{
-		hires_blend = !(strcmp(var.value, "disabled") == 0);
-      if (hires_blend)
-         blur_passes = atoi(var.value);
 	}
 
 	var.key = "pce_psgrevision";
@@ -912,30 +927,65 @@ static void update_input(void)
 
 static uint64_t video_frames, audio_frames;
 
+#define PAR_4_3      (4.0 / 3.0)
+#define PAR_6_5      (6.0 / 5.0)
+#define CLOCK_FREQ_NTSC  (135.0 / 11.0 * 1000000.0) // NTSC Square Interlaced Pixels
+
+static float get_aspect_ratio(unsigned width, unsigned height)
+{
+	log_cb(RETRO_LOG_INFO, "Resolution: %d %d\n", vce_resolution.width, height);
+
+	if(aspect_ratio == 0)
+	{
+		float par = (CLOCK_FREQ_NTSC / 2.0);
+
+		switch(vce_resolution.max_rate)
+		{
+			case 0: par /= 5369317.5; break;
+			case 1: par /= 7159090.0; break;
+			case 2:
+			case 3: par /= 10738635.0; break;
+			case 4: par /= 21477270.0; break;
+		}
+		
+		return (float) width / (float) height * par;
+	}
+	else if(aspect_ratio == 1)
+	{
+		return 6.0 / 5.0;
+	}
+	else if(aspect_ratio == 2)
+	{
+		return 4.0 / 3.0;
+	}
+	else if(aspect_ratio == 3)
+	{
+		float aspect = (float) width / (float) height;
+
+		if(vce_resolution.max_rate == 4)
+		{
+			if(vce_resolution.res_512)
+				aspect /= 2.0;
+
+			else if(vce_resolution.res_352)
+				aspect /= 3.0;
+
+			else
+				aspect /= 4.0;
+		}
+
+		return aspect;
+	}
+}
+
 void update_geometry(unsigned width, unsigned height)
 {
 	struct retro_system_av_info system_av_info;
+
 	system_av_info.geometry.base_width = width;
 	system_av_info.geometry.base_height = height;
-	system_av_info.geometry.max_width = MEDNAFEN_CORE_GEOMETRY_MAX_W;
-	system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
+	system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
 
-
-	float par;
-	
-	switch(vce_resolution.max_rate)
-	{
-		case 0: par = 8.0f / 7.0f; break;
-		case 1: par = 6.0f / 7.0f; break;
-		case 2:
-		case 3: par = 4.0f / 7.0f; break;
-		case 4: par = 2.0f / 7.0f; break;
-	}
-
-
-	log_cb(RETRO_LOG_INFO, "Resolution: %d %d\n", vce_resolution.width, height);
-
-	system_av_info.geometry.aspect_ratio = (float) width / (float) height * par;
 	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
@@ -1122,9 +1172,10 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_arcadecard", "Arcade Card (Restart); enabled|disabled"},
 		{ "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
 		{ "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-		{ "pce_scaling", "Resolution scaling; auto|lores|hires"},
+		{ "pce_aspect_ratio", "Aspect ratio; auto|6:5|4:3|uncorrected" },
+		{ "pce_scaling", "Resolution scaling; auto|lores|hires" },
 		{ "pce_h_overscan", "Show Horizontal Overscan; auto|disabled|enabled" },
-		{ "pce_hires_blend", "Hires blending strenght; disabled|1|2|3|4|5|6|7|8"},
+		{ "pce_hires_blend", "Hires blending strenght; disabled|1|2|3|4|5|6|7|8" },
 		{ "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
 		{ "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
 		{ "pce_psgrevision", "PSG audio chip (Restart); HuC6280A|auto|HuC6280" },
