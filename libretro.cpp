@@ -622,7 +622,20 @@ static void check_variables(bool loaded)
 
 	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
 	{
-		Turbo_Toggling = (strcmp(var.value, "enabled") == 0);
+		if(strcmp(var.value, "disabled") == 0)
+			Turbo_Toggling = 0;
+		else if(strcmp(var.value, "toggle") == 0)
+			Turbo_Toggling = 1;
+		else if(strcmp(var.value, "always") == 0)
+			Turbo_Toggling = 2;
+
+
+		int mode = (Turbo_Toggling == 2);
+		for(int lcv = 0; lcv < MAX_PLAYERS; lcv++)
+		{
+			turbo_enable[lcv][8] = mode;
+			turbo_enable[lcv][9] = mode;
+		}
 	}
 
 	// Set TURBO_DELAY 
@@ -852,17 +865,15 @@ static void update_input(void)
 			{
 				if (turbo_enable[j][i] == 1) //Check whether a given button is turbo-capable
 				{
-					if (turbo_counter[j][i] == (Turbo_Delay+1)) //Turbo buttons only fire when their counter exceeds the turbo delay
-					{
-						input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-					}
-					else
-					{
-						turbo_counter[j][i]++; //Otherwise, their counter is incremented by 1
-					}
+					turbo_counter[j][i]++;
+
 					if (turbo_counter[j][i] > (Turbo_Delay)) //When the counter exceeds turbo delay, fire and return to zero
 					{
-						input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+						if(Turbo_Toggling != 2)
+							input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+						else if(i == 8 || i == 9)
+							input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << turbo_map[i]) : 0;
+
 						turbo_counter[j][i] = 0;
 					}
 				}
@@ -1187,7 +1198,7 @@ void retro_set_environment(retro_environment_t cb)
 		{ "pce_resamp_quality", "Owl resampler quality; 3|4|5|6|0|1|2" },
 		{ "pce_multitap", "Multitap 5-port controller; enabled|disabled" },
 		{ "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
-		{ "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
+		{ "pce_Turbo_Toggling", "Turbo Hotkey; disabled|toggle|always" },
 		{ "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
 		{ "pce_p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
 		{ "pce_p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
