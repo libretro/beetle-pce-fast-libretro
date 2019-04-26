@@ -416,11 +416,16 @@ void INLINE VCE::SyncSub(int32 clocks)
 
 		if(div_clocks > 0)
 		{
-			child_event[0] = vdc[0].Run(div_clocks, pixel_buffer[0], skipframe);
-			if(TA_SuperGrafx)
-				child_event[1] = vdc[1].Run(div_clocks, pixel_buffer[1], skipframe);
+			bool skipline = false;
 
-			if(!skipframe)
+			if((scanline < 14 + scanline_start) || (scanline > 14 + scanline_end))
+				skipline = true;
+
+			child_event[0] = vdc[0].Run(div_clocks, pixel_buffer[0], skipline);
+			if(TA_SuperGrafx)
+				child_event[1] = vdc[1].Run(div_clocks, pixel_buffer[1], skipline);
+
+			if(!skipline)
 			{
 				if(TA_SuperGrafx)
 				{
