@@ -69,9 +69,9 @@ ifneq (,$(findstring unix,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   CXXFLAGS += -fpermissive -std=c++11
    ifneq (,$(findstring Haiku,$(shell uname -s)))
    LDFLAGS += -lroot
-   CXXFLAGS += -fpermissive -std=c++11
    else
    LDFLAGS += -lrt
    endif
