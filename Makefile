@@ -71,7 +71,7 @@ ifneq (,$(findstring unix,$(platform)))
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    ifneq (,$(findstring Haiku,$(shell uname -s)))
    LDFLAGS += -lroot
-   CXXFLAGS += -fpermissive
+   CXXFLAGS += -fpermissive -std=c++11
    else
    LDFLAGS += -lrt
    endif
@@ -133,6 +133,7 @@ else ifeq ($(platform), osx)
    OSXVER = `sw_vers -productVersion | cut -d. -f 2`
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
    fpic += -mmacosx-version-min=10.1
+   CXXFLAGS += -fpermissive -std=c++11
 
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
@@ -154,6 +155,7 @@ else ifneq (,$(findstring ios,$(platform)))
    FLAGS += $(IPHONEMINVER)
    CC += $(IPHONEMINVER)
    CXX += $(IPHONEMINVER)
+   CXXFLAGS += -fpermissive -std=c++11
 
 # QNX
 else ifeq ($(platform), qnx)
