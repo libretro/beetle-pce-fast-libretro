@@ -21,6 +21,7 @@
 #include "scsicd.h"
 #include "cdromif.h"
 #include "SimpleFIFO.h"
+#include <compat/msvc.h>
 
 #if defined(__SSE2__)
 #include <xmmintrin.h>

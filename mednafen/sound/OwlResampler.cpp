@@ -22,6 +22,7 @@
 #include <mednafen/state.h>
 #include "OwlResampler.h"
 #include "../cputest/cputest.h"
+#include <compat/msvc.h>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
