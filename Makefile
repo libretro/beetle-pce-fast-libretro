@@ -69,7 +69,6 @@ ifneq (,$(findstring unix,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    fpic := -fPIC
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
-   CXXFLAGS += -fpermissive -std=c++11
    ifneq (,$(findstring Haiku,$(shell uname -s)))
    LDFLAGS += -lroot
    else
@@ -133,7 +132,6 @@ else ifeq ($(platform), osx)
    OSXVER = `sw_vers -productVersion | cut -d. -f 2`
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
    fpic += -mmacosx-version-min=10.1
-   CXXFLAGS += -fpermissive -std=c++11
 
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
@@ -155,7 +153,6 @@ else ifneq (,$(findstring ios,$(platform)))
    FLAGS += $(IPHONEMINVER)
    CC += $(IPHONEMINVER)
    CXX += $(IPHONEMINVER)
-   CXXFLAGS += -fpermissive -std=c++11
 
 # QNX
 else ifeq ($(platform), qnx)
@@ -236,7 +233,7 @@ include $(DEVKITPRO)/libnx/switch_rules
     CFLAGS  :=  $(DEFINES) -g -O2 -fPIE -I$(LIBNX)/include/ -ffunction-sections -fdata-sections -ftls-model=local-exec -Wl,--allow-multiple-definition -specs=$(LIBNX)/switch.specs
     CFLAGS += $(INCDIRS)
     CFLAGS  += $(INCLUDE)  -D__SWITCH__
-    CXXFLAGS := $(ASFLAGS) $(CFLAGS) -fexceptions -fno-rtti -std=gnu++11 
+    CXXFLAGS := $(ASFLAGS) $(CFLAGS) -fexceptions -fno-rtti 
     CFLAGS += -std=gnu11
     STATIC_LINKING = 1
 
@@ -268,7 +265,6 @@ else ifneq (,$(filter $(platform), ngc wii wiiu))
 else ifeq ($(platform), emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
    STATIC_LINKING = 1
-   CXXFLAGS += -std=c++11
 
 # GCW Zero
 else ifeq ($(platform), gcw0)

@@ -39,7 +39,7 @@ typedef struct
 extern vce_resolution_t vce_resolution;
 
 
-class VCE final
+class VCE
 {
 public:
 
