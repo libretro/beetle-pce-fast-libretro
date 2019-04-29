@@ -23,12 +23,12 @@ class PCE_Input_Gamepad : public PCE_Input_Device
 {
 public:
 	PCE_Input_Gamepad();
-	virtual void TransformInput(uint8* data, const bool DisableSR) override;
-	virtual void Power(int32 timestamp) override;
-	virtual void Write(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR) override;
-	virtual uint8 Read(int32 timestamp) override;
-	virtual void Update(const uint8 *data, bool start_frame) override;
-	virtual int StateAction(StateMem *sm, int load, int data_only, const char *section_name) override;
+	virtual void TransformInput(uint8* data, const bool DisableSR);
+	virtual void Power(int32 timestamp);
+	virtual void Write(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR);
+	virtual uint8 Read(int32 timestamp);
+	virtual void Update(const uint8 *data, bool start_frame);
+	virtual int StateAction(StateMem *sm, int load, int data_only, const char *section_name);
 
 private:
 	bool SEL, CLR;

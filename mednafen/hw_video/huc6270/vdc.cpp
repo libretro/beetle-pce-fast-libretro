@@ -1025,7 +1025,7 @@ void VDC::FetchSpriteData(void)
 
 void VDC::DrawSprites(uint16 *target, int enabled)
 {
-	alignas(16) uint16 sprite_line_buf[1024];
+	MDFN_ALIGN(16) uint16 sprite_line_buf[1024];
 
 	uint32 display_width, start, end;
 

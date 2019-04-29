@@ -1,7 +1,7 @@
 #ifndef __MDFN_PCE_HUC6280_H
 #define __MDFN_PCE_HUC6280_H
 
-class alignas(128) HuC6280
+class MDFN_ALIGN(128) HuC6280
 {
 public:
 

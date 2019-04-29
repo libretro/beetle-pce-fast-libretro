@@ -86,12 +86,12 @@ public:
 		nonvolatile = nv;
 	}
 
-	virtual ~MCGenjin_CS_Device_RAM() override
+	virtual ~MCGenjin_CS_Device_RAM()
 	{
 
 	}
 
-	virtual void Power(void) override
+	virtual void Power(void)
 	{
 		if(!nonvolatile)
 			ram.assign(ram.size(), 0xFF);
@@ -99,7 +99,7 @@ public:
 		bank_select = 0;
 	}
 
-	virtual int StateAction(StateMem *sm, int load, int data_only, const char *sname) override
+	virtual int StateAction(StateMem *sm, int load, int data_only, const char *sname)
 	{
 		SFORMAT StateRegs[] = 
 		{
@@ -115,12 +115,12 @@ public:
 	}
 
 
-	virtual uint8 Read(int32 timestamp, uint32 A) override
+	virtual uint8 Read(int32 timestamp, uint32 A)
 	{
 		return ram[(A | (bank_select << 18)) & (ram.size() - 1)];
 	}
 
-	virtual void Write(int32 timestamp, uint32 A, uint8 V) override
+	virtual void Write(int32 timestamp, uint32 A, uint8 V)
 	{
 		if(!A)
 			bank_select = V;
@@ -128,17 +128,17 @@ public:
 		ram[(A | (bank_select << 18)) & (ram.size() - 1)] = V;
 	}
 
-	virtual uint32 GetNVSize(void) const override
+	virtual uint32 GetNVSize(void) const
 	{
 		return nonvolatile ? ram.size() : 0;
 	}
 
-	virtual const uint8* ReadNV(void) const override
+	virtual const uint8* ReadNV(void) const
 	{
 		return &ram[0];
 	}
 
-	virtual void WriteNV(const uint8 *buffer, uint32 offset, uint32 count) override
+	virtual void WriteNV(const uint8 *buffer, uint32 offset, uint32 count)
 	{
 		while(count)
 		{
