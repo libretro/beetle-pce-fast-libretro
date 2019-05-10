@@ -38,6 +38,7 @@ int setting_pce_multitap = 1;
 int setting_pce_scaling = 0;
 uint32_t setting_pce_cdspeed = 1;
 std::string setting_pce_cdbios = "syscard3.pce";
+std::string setting_pce_gecdbios = "gexpress.pce";
 
 uint64 MDFN_GetSettingUI(const char *name)
 {
@@ -135,6 +136,8 @@ std::string MDFN_GetSettingS(const char *name)
 {
    if (!strcmp("pce.cdbios", name))
       return setting_pce_cdbios;
+   if (!strcmp("pce.gecdbios", name))
+      return setting_pce_gecdbios;
    /* FILESYS */
    if (!strcmp("filesys.path_firmware", name))
       return retro_base_directory;

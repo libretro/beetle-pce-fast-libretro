@@ -20,6 +20,7 @@ extern int setting_pce_multitap;
 extern int setting_pce_scaling;
 extern uint32_t setting_pce_cdspeed;
 extern std::string setting_pce_cdbios;
+extern std::string setting_pce_gecdbios;
 
 // This should assert() or something if the setting isn't found, since it would
 // be a totally tubular error!
