@@ -1292,24 +1292,33 @@ void retro_set_video_refresh(retro_video_refresh_t cb)
 	video_cb = cb;
 }
 
-static size_t serialize_size;
-
 size_t retro_serialize_size(void)
 {
-	StateMem st;
+   StateMem st;
+   size_t serialize_size;
 
-	st.data           = NULL;
-	st.loc            = 0;
-	st.len            = 0;
-	st.malloced       = 0;
-	st.initial_malloc = 0;
+   st.data           = NULL;
+   st.loc            = 0;
+   st.len            = 0;
+   st.malloced       = 0;
+   st.initial_malloc = 0;
 
-	if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
-		return 0;
+   if (!MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL))
+      return 0;
 
-	free(st.data);
+   free(st.data);
 
-	return serialize_size = st.len;
+   serialize_size = st.len;
+
+   int runahead = -1;
+   if(environ_cb(RETRO_ENVIRONMENT_GET_AUDIO_VIDEO_ENABLE, &runahead))
+   {
+      // future expanding size
+      if(runahead & 4)
+         serialize_size += 0x280000;
+   }
+
+   return serialize_size;
 }
 
 bool retro_serialize(void *data, size_t size)
