@@ -1020,13 +1020,19 @@ static float get_aspect_ratio(unsigned width, unsigned height)
 
 void update_geometry(unsigned width, unsigned height)
 {
-   struct retro_system_av_info system_av_info;
+   struct retro_system_av_info info;
 
-   system_av_info.geometry.base_width = width;
-   system_av_info.geometry.base_height = height;
-   system_av_info.geometry.aspect_ratio = get_aspect_ratio(width, height);
+   memset(&info, 0, sizeof(info));
+   info.timing.fps            = MEDNAFEN_CORE_TIMING_FPS;
+   info.timing.sample_rate    = 44100;
+   info.geometry.max_width    = MEDNAFEN_CORE_GEOMETRY_MAX_W;
+   info.geometry.max_height   = MEDNAFEN_CORE_GEOMETRY_MAX_H;
 
-   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
+   info.geometry.base_width   = width;
+   info.geometry.base_height  = height;
+   info.geometry.aspect_ratio = get_aspect_ratio(width, height);
+
+   environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &info);
 }
 
 static void hires_blending(uint16 *fb, int width, int height, int pitch)
