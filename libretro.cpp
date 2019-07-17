@@ -5,6 +5,7 @@
 #include <string/stdstring.h>
 #include <encodings/crc32.h>
 #include <libretro.h>
+#include "libretro_core_options.h"
 #include <math.h>
 
 #include "mednafen/mednafen.h"
@@ -39,6 +40,7 @@
 #define FB_HEIGHT 270
 
 static bool old_cdimagecache = false;
+static bool show_advanced_input_settings = true;
 
 extern MDFNGI EmulatedPCE;
 MDFNGI *MDFNGameInfo = &EmulatedPCE;
@@ -754,6 +756,50 @@ static void check_variables(bool loaded)
       up_down_allowed = (strcmp(var.value, "enabled") == 0);
    }
 
+   var.key = "pce_show_advanced_input_settings";
+    var.value = NULL;
+
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+    {
+        bool show_advanced_input_settings_prev = show_advanced_input_settings;
+
+        show_advanced_input_settings = true;
+        if (strcmp(var.value, "disabled") == 0)
+            show_advanced_input_settings = false;
+
+        if (show_advanced_input_settings != show_advanced_input_settings_prev)
+        {
+            size_t i;
+            struct retro_core_option_display option_display;
+            char av_keys[17][32] = {
+                "pce_multitap",
+                "pce_mouse_sensitivity",
+                "pce_disable_softreset",
+                "pce_up_down_allowed",
+                "pce_Turbo_Delay",
+                "pce_Turbo_Toggling",
+                "pce_turbo_toggle_hotkey",
+                "pce_p0_turbo_I_enable",
+                "pce_p0_turbo_II_enable",
+                "pce_p1_turbo_I_enable",
+                "pce_p1_turbo_II_enable",
+                "pce_p2_turbo_I_enable",
+                "pce_p2_turbo_II_enable",
+                "pce_p3_turbo_I_enable",
+                "pce_p3_turbo_II_enable",
+                "pce_p4_turbo_I_enable",
+                "pce_p4_turbo_II_enable",
+            };
+
+            option_display.visible = show_advanced_input_settings;
+
+            for (i = 0; i < 17; i++)
+            {
+                option_display.key = av_keys[i];
+                environ_cb(RETRO_ENVIRONMENT_SET_CORE_OPTIONS_DISPLAY, &option_display);
+            }
+        }
+    }
    if (loaded)
       SettingsChanged();
 }
@@ -1211,45 +1257,6 @@ void retro_set_environment(retro_environment_t cb)
    struct retro_vfs_interface_info vfs_iface_info;
    environ_cb = cb;
 
-   static const struct retro_variable vars[] = {
-      { "pce_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "pce_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
-      { "pce_arcadecard", "Arcade Card (Restart); enabled|disabled"},
-      { "pce_nospritelimit", "No Sprite Limit; disabled|enabled" },
-      { "pce_ocmultiplier", "CPU Overclock Multiplier; 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-      { "pce_aspect_ratio", "Aspect Ratio; auto|6:5|4:3|uncorrected" },
-      { "pce_scaling", "Resolution Scaling; auto|lores|hires" },
-      { "pce_h_overscan", "Show Horizontal Overscan; auto|disabled|enabled" },
-      { "pce_hires_blend", "Hires Blending Strength; disabled|1|2|3|4|5|6|7|8" },
-      { "pce_initial_scanline", "Initial Scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "pce_last_scanline", "Last Scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
-      { "pce_psgrevision", "PSG Audio Chip (Restart); HuC6280A|auto|HuC6280" },
-      { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
-      { "pce_adpcmextraprec", "(CD) ADPCM precision; 10-bit|12-bit" },
-      { "pce_resamp_quality", "Owl Resampler Quality; 3|4|5|6|0|1|2" },
-      { "pce_multitap", "Multitap 5-port Controller; enabled|disabled" },
-      { "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
-      { "pce_Turbo_Toggling", "Turbo Hotkey; disabled|toggle|always" },
-      { "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
-      { "pce_p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
-      { "pce_p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
-      { "pce_p1_turbo_I_enable", "P2 Turbo I; disabled|enabled" },
-      { "pce_p1_turbo_II_enable", "P2 Turbo II; disabled|enabled" },
-      { "pce_p2_turbo_I_enable", "P3 Turbo I; disabled|enabled" },
-      { "pce_p2_turbo_II_enable", "P3 Turbo II; disabled|enabled" },
-      { "pce_p3_turbo_I_enable", "P4 Turbo I; disabled|enabled" },
-      { "pce_p3_turbo_II_enable", "P4 Turbo II; disabled|enabled" },
-      { "pce_p4_turbo_I_enable", "P5 Turbo I; disabled|enabled" },
-      { "pce_p4_turbo_II_enable", "P5 Turbo II; disabled|enabled" },
-      { "pce_mouse_sensitivity", "Mouse Sensitivity; 1.25|1.50|1.75|2.00|2.25|2.50|2.75|3.00|3.25|3.50|3.75|4.00|4.25|4.50|4.75|5.00|0.125|0.250|0.375|0.500|0.625|0.750|0.875|1.000|1.125" },
-      { "pce_disable_softreset", "Disable Soft Reset (RUN+SELECT); disabled|enabled" },
-      { "pce_up_down_allowed", "Allow UP+DOWN/LEFT+RIGHT; disabled|enabled" },
-      { NULL, NULL },
-   };
-
    static const struct retro_controller_description pads[] = {
       { "PCE Joypad", RETRO_DEVICE_JOYPAD },
       { "PCE Mouse", RETRO_DEVICE_MOUSE },
@@ -1264,7 +1271,7 @@ void retro_set_environment(retro_environment_t cb)
       { 0 },
    };
 
-   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
+   libretro_set_core_options(environ_cb);
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
 
    vfs_iface_info.required_interface_version = 1;
