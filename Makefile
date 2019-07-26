@@ -14,15 +14,15 @@ unixcygpath = /$(subst :,,$(call unixpath,$1))
 
 ifeq ($(platform),)
    platform = unix
-   ifeq ($(shell uname -a),)
+   ifeq ($(shell uname -s),)
       platform = win
-   else ifneq ($(findstring Darwin,$(shell uname -a)),)
+   else ifneq ($(findstring Darwin,$(shell uname -s)),)
       platform = osx
       arch = intel
       ifeq ($(shell uname -p),powerpc)
          arch = ppc
       endif
-   else ifneq ($(findstring MINGW,$(shell uname -a)),)
+   else ifneq ($(findstring MINGW,$(shell uname -s)),)
       platform = win
    endif
 else ifneq (,$(findstring armv,$(platform)))
@@ -46,6 +46,7 @@ NEED_CRC32 = 1
 WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_PCE_EMU -DWANT_STEREO_SOUND
 HAVE_CHD = 1
+HAVE_CDROM = 0
 
 prefix := /usr
 libdir := $(prefix)/lib
@@ -75,6 +76,10 @@ ifneq (,$(findstring unix,$(platform)))
    LDFLAGS += -lrt
    endif
    
+   ifneq ($(findstring Linux,$(shell uname -s)),)
+     HAVE_CDROM = 1
+   endif
+
    # Raspberry Pi
    ifneq (,$(findstring rpi,$(platform)))
       FLAGS += -fomit-frame-pointer -ffast-math
@@ -356,6 +361,8 @@ else ifneq (,$(findstring windows_msvc2017,$(platform)))
 		VCCompilerToolsBinDir := $(VcCompilerToolsDir)\bin\HostX86
 	endif
 
+	HAVE_CDROM = 1
+
 	PATH := $(shell IFS=$$'\n'; cygpath "$(VCCompilerToolsBinDir)/$(TargetArchMoniker)"):$(PATH)
 	PATH := $(PATH):$(shell IFS=$$'\n'; cygpath "$(VsInstallRoot)/Common7/IDE")
 	INCLUDE := $(shell IFS=$$'\n'; cygpath -w "$(VcCompilerToolsDir)/include")
@@ -387,6 +394,7 @@ WindowsSdkDir ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windo
 WindowsSdkDirInc := $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 WindowsSdkDirInc ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 
+HAVE_CDROM = 1
 
 INCFLAGS_PLATFORM = -I"$(WindowsSdkDirInc)"
 export INCLUDE := $(INCLUDE)
@@ -412,6 +420,7 @@ WindowsSdkDir ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windo
 WindowsSdkDirInc := $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.0A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 WindowsSdkDirInc ?= $(shell reg query "HKLM\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A" -v "InstallationFolder" | grep -o '[A-Z]:\\.*')Include
 
+HAVE_CDROM = 1
 
 INCFLAGS_PLATFORM = -I"$(WindowsSdkDirInc)"
 export INCLUDE := $(INCLUDE)
@@ -433,6 +442,8 @@ LIB := $(shell IFS=$$'\n'; cygpath -w "$(VS80COMNTOOLS)../../VC/lib")
 BIN := $(shell IFS=$$'\n'; cygpath "$(VS80COMNTOOLS)../../VC/bin")
 
 WindowsSdkDir := $(INETSDK)
+
+HAVE_CDROM = 1
 
 export INCLUDE := $(INCLUDE);$(INETSDK)/Include;libretro-common/include/compat/msvc
 export LIB := $(LIB);$(WindowsSdkDir);$(INETSDK)/Lib
@@ -464,6 +475,7 @@ else ifeq ($(platform), windows_msvc2003_x86)
 	CC  = cl.exe
 	CXX = cl.exe
 
+HAVE_CDROM = 1
 PATH := $(shell IFS=$$'\n'; cygpath "$(VS71COMNTOOLS)../../Vc7/bin"):$(PATH)
 PATH := $(PATH):$(shell IFS=$$'\n'; cygpath "$(VS71COMNTOOLS)../IDE")
 INCLUDE := $(shell IFS=$$'\n'; cygpath "$(VS71COMNTOOLS)../../Vc7/include")
@@ -487,6 +499,7 @@ else
    CXX = g++
    SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
    LDFLAGS += -static-libgcc -static-libstdc++ -lwinmm
+HAVE_CDROM = 1
 WINDOWS_VERSION=1
 
 endif
@@ -547,6 +560,13 @@ endif
 
 ifeq ($(WANT_NEW_API), 1)
 FLAGS += -DWANT_NEW_API
+endif
+
+ifeq ($(HAVE_CDROM), 1)
+   FLAGS += -DHAVE_CDROM
+ifeq ($(CDROM_DEBUG), 1)
+   FLAGS += -DCDROM_DEBUG
+endif
 endif
 
 CXXFLAGS += $(FLAGS)
