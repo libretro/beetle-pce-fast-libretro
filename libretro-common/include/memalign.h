@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2018 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (crc32.h).
+ * The following license statement only applies to this file (memalign.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,18 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _LIBRETRO_ENCODINGS_CRC32_H
-#define _LIBRETRO_ENCODINGS_CRC32_H
+#ifndef _LIBRETRO_MEMALIGN_H
+#define _LIBRETRO_MEMALIGN_H
 
-#include <stdint.h>
 #include <stddef.h>
 
 #include <retro_common_api.h>
 
 RETRO_BEGIN_DECLS
 
-uint32_t encoding_crc32(uint32_t crc, const uint8_t *buf, size_t len);
-uint32_t file_crc32(uint32_t crc, const char *path);
+void *memalign_alloc(size_t boundary, size_t size);
+
+void *memalign_alloc_aligned(size_t size);
+
+void memalign_free(void *ptr);
 
 RETRO_END_DECLS
 
