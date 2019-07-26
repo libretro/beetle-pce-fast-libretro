@@ -1044,7 +1044,7 @@ void MDFN_printf(const char *format, ...)
 
    format_temp[newlen] = 0;
 
-   temp = new char[4096];
+   temp = (char*)malloc(4096 * sizeof(char));
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
@@ -1062,7 +1062,7 @@ void MDFN_PrintError(const char *format, ...)
 
  va_start(ap, format);
 
- temp = new char[4096];
+ temp = (char*)malloc(4096 * sizeof(char));
  vsnprintf(temp, 4096, format, ap);
  MDFND_PrintError(temp);
  free(temp);
@@ -1078,7 +1078,7 @@ void MDFN_DebugPrintReal(const char *file, const int line, const char *format, .
 
  va_start(ap, format);
 
- temp = new char[4096];
+ temp = (char*)malloc(4096 * sizeof(char));
  vsnprintf(temp, 4096, format, ap);
  fprintf(stderr, "%s:%d  %s\n", file, line, temp);
  free(temp);
@@ -1987,7 +1987,7 @@ void MDFN_DispMessage(const char *format, ...)
    struct retro_message msg;
    va_list ap;
    va_start(ap,format);
-   char *str = new char[4096];
+   char *str        = (char*)malloc(4096 * sizeof(char));
    const char *strc = NULL;
 
    vsnprintf(str, 4096, format,ap);
