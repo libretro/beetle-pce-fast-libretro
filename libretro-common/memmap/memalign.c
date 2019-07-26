@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2018 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (crc32.h).
+ * The following license statement only applies to this file (memalign.c).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,19 +20,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _LIBRETRO_ENCODINGS_CRC32_H
-#define _LIBRETRO_ENCODINGS_CRC32_H
-
 #include <stdint.h>
-#include <stddef.h>
+#include <stdlib.h>
 
-#include <retro_common_api.h>
+#include <memalign.h>
 
-RETRO_BEGIN_DECLS
+void *memalign_alloc(size_t boundary, size_t size)
+{
+   void **place   = NULL;
+   uintptr_t addr = 0;
+   void *ptr      = (void*)malloc(boundary + size + sizeof(uintptr_t));
+   if (!ptr)
+      return NULL;
 
-uint32_t encoding_crc32(uint32_t crc, const uint8_t *buf, size_t len);
-uint32_t file_crc32(uint32_t crc, const char *path);
+   addr           = ((uintptr_t)ptr + sizeof(uintptr_t) + boundary)
+      & ~(boundary - 1);
+   place          = (void**)addr;
+   place[-1]      = ptr;
 
-RETRO_END_DECLS
+   return (void*)addr;
+}
 
+void memalign_free(void *ptr)
+{
+   void **p = NULL;
+   if (!ptr)
+      return;
+
+   p = (void**)ptr;
+   free(p[-1]);
+}
+
+void *memalign_alloc_aligned(size_t size)
+{
+#if defined(__x86_64__) || defined(__LP64) || defined(__IA64__) || defined(_M_X64) || defined(_M_X64) || defined(_WIN64)
+   return memalign_alloc(64, size);
+#elif defined(__i386__) || defined(__i486__) || defined(__i686__) || defined(GEKKO) || defined(_M_IX86)
+   return memalign_alloc(32, size);
+#else
+   return memalign_alloc(32, size);
 #endif
+}
