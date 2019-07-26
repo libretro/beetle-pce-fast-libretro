@@ -1,7 +1,7 @@
 /* Copyright  (C) 2010-2018 The RetroArch team
  *
  * ---------------------------------------------------------------------------------------
- * The following license statement only applies to this file (crc32.h).
+ * The following license statement only applies to this file (retro_assert.h).
  * ---------------------------------------------------------------------------------------
  *
  * Permission is hereby granted, free of charge,
@@ -20,19 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef _LIBRETRO_ENCODINGS_CRC32_H
-#define _LIBRETRO_ENCODINGS_CRC32_H
+#ifndef __RETRO_ASSERT_H
+#define __RETRO_ASSERT_H
 
-#include <stdint.h>
-#include <stddef.h>
+#include <assert.h>
 
-#include <retro_common_api.h>
-
-RETRO_BEGIN_DECLS
-
-uint32_t encoding_crc32(uint32_t crc, const uint8_t *buf, size_t len);
-uint32_t file_crc32(uint32_t crc, const char *path);
-
-RETRO_END_DECLS
+#ifdef RARCH_INTERNAL
+#include <stdio.h>
+#define retro_assert(cond) do { \
+   if (!(cond)) { printf("Assertion failed at %s:%d.\n", __FILE__, __LINE__); abort(); } \
+} while(0)
+#else
+#define retro_assert(cond) assert(cond)
+#endif
 
 #endif
