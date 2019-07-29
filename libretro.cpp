@@ -1980,6 +1980,7 @@ void MDFND_DispMessage(unsigned char *str)
    };
 
    environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
+   free(str);
 }
 
 void MDFN_DispMessage(const char *format, ...)
