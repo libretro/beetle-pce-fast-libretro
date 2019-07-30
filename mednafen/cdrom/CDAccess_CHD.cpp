@@ -192,8 +192,6 @@ bool CDAccess_CHD::Load(const std::string &path, bool image_memcache)
         Tracks[x].index[i] = INT32_MAX;
       else
         Tracks[x].index[i] = Tracks[x].LBA + (Tracks[x].index[i] - base);
-
-      assert(Tracks[x].index[i] >= 0);
     }
   }
 

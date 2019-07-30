@@ -1,7 +1,6 @@
 #ifndef __MDFN_TYPES
 #define __MDFN_TYPES
 
-#include <assert.h>
 #include <stdint.h>
 #include <retro_inline.h>
 

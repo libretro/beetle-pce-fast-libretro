@@ -53,8 +53,6 @@ void PCEINPUT_Init(void)
 
 void PCEINPUT_SetInput(int port, const char *type, void *ptr)
 {
-   assert(port < 5);
-
    if(!strcasecmp(type, "gamepad"))
       InputTypes[port] = 1;
    else if(!strcasecmp(type, "mouse"))

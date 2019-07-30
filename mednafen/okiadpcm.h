@@ -38,8 +38,6 @@ class OKIADPCM_Decoder
 
  OKIADPCM_Decoder()
  {
-  assert(CHIP_TYPE < OKIADPCM_COUNT);
-
   CurSample = 0x0800;
 
   StepSizeIndex = 0;
@@ -56,7 +54,6 @@ class OKIADPCM_Decoder
 
  INLINE void SetSample(uint16 new_sample)
  {
-  assert(new_sample <= 0xFFF);
   CurSample = new_sample;
  }
 
@@ -67,7 +64,6 @@ class OKIADPCM_Decoder
 
  INLINE void SetSSI(uint8 new_ssi)
  {
-  assert(new_ssi <= 48);
   StepSizeIndex = new_ssi;
  }
 
