@@ -25,6 +25,8 @@
 #include "mednafen/cdrom/cdromif.h"
 #include "mednafen/cdrom/CDUtility.h"
 
+#include "libretro_core_options.h"
+
 #ifdef _MSC_VER
 #include "mednafen/msvc_compat.h"
 #endif
@@ -1749,34 +1751,6 @@ void retro_set_environment(retro_environment_t cb)
    struct retro_vfs_interface_info vfs_iface_info;
    environ_cb = cb;
 
-   static const struct retro_variable vars[] = {
-      { "pce_fast_cdimagecache", "CD Image Cache (Restart); disabled|enabled" },
-      { "pce_fast_cdbios", "CD Bios (Restart); System Card 3|Games Express|System Card 1|System Card 2|System Card 2 US|System Card 3 US" },
-      { "pce_nospritelimit", "No Sprite Limit (Restart); disabled|enabled" },
-      { "pce_ocmultiplier", "CPU Overclock Multiplier (Restart); 1|2|3|4|5|6|7|8|9|10|20|30|40|50" },
-      { "pce_hoverscan", "Horizontal Overscan (352 Width Mode Only); 352|300|302|304|306|308|310|312|314|316|318|320|322|324|326|328|330|332|334|336|338|340|342|344|346|348|350" },
-      { "pce_initial_scanline", "Initial scanline; 3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|0|1|2" },
-      { "pce_last_scanline", "Last scanline; 242|208|209|210|211|212|213|214|215|216|217|218|219|220|221|222|223|224|225|226|227|228|229|230|231|232|233|234|235|236|237|238|239|240|241" },
-      { "pce_cddavolume", "(CD) CDDA Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_adpcmvolume", "(CD) ADPCM Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdpsgvolume", "(CD) CD PSG Volume %; 100|110|120|130|140|150|160|170|180|190|200|0|10|20|30|40|50|60|70|80|90" },
-      { "pce_cdspeed", "(CD) CD Speed; 1|2|4|8" },
-      { "pce_Turbo_Delay", "Turbo Delay; Fast|Medium|Slow" },
-      { "pce_Turbo_Toggling", "Turbo ON/OFF Toggle; disabled|enabled" },
-      { "pce_turbo_toggle_hotkey", "Alternate Turbo Hotkey; disabled|enabled" },
-      { "pce_p0_turbo_I_enable", "P1 Turbo I; disabled|enabled" },
-      { "pce_p0_turbo_II_enable", "P1 Turbo II; disabled|enabled" },
-      { "pce_p1_turbo_I_enable", "P2 Turbo I; disabled|enabled" },
-      { "pce_p1_turbo_II_enable", "P2 Turbo II; disabled|enabled" },
-      { "pce_p2_turbo_I_enable", "P3 Turbo I; disabled|enabled" },
-      { "pce_p2_turbo_II_enable", "P3 Turbo II; disabled|enabled" },
-      { "pce_p3_turbo_I_enable", "P4 Turbo I; disabled|enabled" },
-      { "pce_p3_turbo_II_enable", "P4 Turbo II; disabled|enabled" },
-      { "pce_p4_turbo_I_enable", "P5 Turbo I; disabled|enabled" },
-      { "pce_p4_turbo_II_enable", "P5 Turbo II; disabled|enabled" },
-      { NULL, NULL },
-   };
-
    static const struct retro_controller_description pads[] = {
       { "PCE Joypad", RETRO_DEVICE_JOYPAD },
       { "Mouse", RETRO_DEVICE_MOUSE },
@@ -1788,7 +1762,7 @@ void retro_set_environment(retro_environment_t cb)
       { 0 },
    };
 
-   cb(RETRO_ENVIRONMENT_SET_VARIABLES, (void*)vars);
+   libretro_set_core_options(cb);
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
 
    vfs_iface_info.required_interface_version = 1;
