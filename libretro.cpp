@@ -36,7 +36,7 @@
 #define MEDNAFEN_CORE_VERSION "v0.9.38.7"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
-#define MEDNAFEN_CORE_GEOMETRY_BASE_W 512
+#define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
 #define MEDNAFEN_CORE_GEOMETRY_MAX_W 512
 #define MEDNAFEN_CORE_GEOMETRY_MAX_H 243
@@ -1614,7 +1614,7 @@ void update_geometry(unsigned width, unsigned height)
    system_av_info.geometry.base_height = height;
    system_av_info.geometry.max_width = MEDNAFEN_CORE_GEOMETRY_MAX_W;
    system_av_info.geometry.max_height = MEDNAFEN_CORE_GEOMETRY_MAX_H;
-   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
+   system_av_info.geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO * ((float) MEDNAFEN_CORE_GEOMETRY_BASE_H / height);
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &system_av_info);
 }
 
