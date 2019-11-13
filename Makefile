@@ -627,17 +627,22 @@ ifeq ($(platform), emscripten)
 else ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
-	$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
+	@$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
+	@echo "LD $(TARGET)"
 endif
 
 %.o: %.cpp
-	$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
+	@$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
+	@echo "CXX $<"
 
 %.o: %.c
-	$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
+	@$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
+	@echo "CC $<"
 
 clean:
-	rm -f $(TARGET) $(OBJECTS)
+	@rm -f $(OBJECTS)
+	@echo rm -f *.o
+	rm -f $(TARGET)
 
 install:
 	install -D -m 755 $(TARGET) $(DESTDIR)$(libdir)/$(LIBRETRO_INSTALL_DIR)/$(TARGET)
