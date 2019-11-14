@@ -1078,7 +1078,7 @@ void VCE::EndFrame(MDFN_Rect *DisplayRect)
 
 			for(int line = end_y - start_y - 1; line >= 0; line--)
 			{
-				uint16* line_ptr = &fb[(start_y + line) * pitch32];
+				bpp_t* line_ptr = &fb[(start_y + line) * pitch32];
 
 				switch(scale)
 				{
