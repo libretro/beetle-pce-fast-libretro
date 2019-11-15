@@ -38,7 +38,7 @@ endif
 CACHE_CD = 0
 
 HAVE_HES = 0
-NEED_BPP = 32
+NEED_BPP = 16
 NEED_TREMOR = 1
 NEED_BLIP = 1
 NEED_CD = 1
@@ -552,6 +552,10 @@ endif
 
 ifeq ($(NEED_BPP), 16)
 FLAGS += -DWANT_16BPP
+endif
+
+ifeq ($(NEED_BPP), 32)
+FLAGS += -DWANT_32BPP
 endif
 
 ifeq ($(FRONTEND_SUPPORTS_RGB565), 1)

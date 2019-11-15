@@ -393,9 +393,19 @@ void retro_init(void)
       failed_init = true;
    }
    
+#if defined(WANT_16BPP) && defined(FRONTEND_SUPPORTS_RGB565)
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
       log_cb(RETRO_LOG_INFO, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
+#elif defined(WANT_32BPP)
+   enum retro_pixel_format rgb888 = RETRO_PIXEL_FORMAT_XRGB8888;
+   if (!environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb888))
+   {
+      if (log_cb)
+         log_cb(RETRO_LOG_ERROR, "Pixel format XRGB8888 not supported by platform, cannot use %s.\n", MEDNAFEN_CORE_NAME);
+      return;
+   }
+#endif
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_PERF_INTERFACE, &perf_cb))
       perf_get_cpu_features_cb = perf_cb.get_cpu_features;
@@ -849,7 +859,7 @@ bool retro_load_game(const struct retro_game_info *info)
    surf->width  = FB_WIDTH;
    surf->height = FB_HEIGHT;
    surf->pitch  = FB_WIDTH;
-   surf->pixels = (uint16_t*) calloc(2, FB_WIDTH * FB_HEIGHT);
+   surf->pixels = (bpp_t*) calloc(sizeof(bpp_t), FB_WIDTH * FB_HEIGHT);
 
    if (!surf->pixels)
    {
@@ -1081,10 +1091,15 @@ void update_geometry(unsigned width, unsigned height)
    environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &info);
 }
 
-static void hires_blending(uint16 *fb, int width, int height, int pitch)
+static void hires_blending(bpp_t *fb, int width, int height, int pitch)
 {
    int x, y, z;
-#define AVERAGE_565(el0, el1) (((el0) & (el1)) + ((((el0) ^ (el1)) & 0xF7DE) >> 1))
+
+#if defined(WANT_32BPP)
+  #define AVERAGE_565(el0, el1) ((el0 + el1) >> 1)
+#else
+  #define AVERAGE_565(el0, el1) (((el0) & (el1)) + ((((el0) ^ (el1)) & 0xF7DE) >> 1))
+#endif
 
    if (vce_resolution.max_rate == 4 && hires_blend == 1) /* Blur method */
    {
@@ -1092,9 +1107,9 @@ static void hires_blending(uint16 *fb, int width, int height, int pitch)
       {
          for (y = height - 1; y >= 0; y--)
          {
-            uint16 *input = &fb[y * pitch];
-            uint16 *output = &fb[y * pitch];
-            uint16 l, r;
+            bpp_t *input = &fb[y * pitch];
+            bpp_t *output = &fb[y * pitch];
+            bpp_t l, r;
 
             l = 0;
             r = *input++;
@@ -1162,11 +1177,11 @@ void retro_run(void)
    width  = spec.DisplayRect.w;
    height = spec.DisplayRect.h;
    
-   uint16 *fb = surf->pixels + spec.DisplayRect.x + surf->pitch * spec.DisplayRect.y;
+   bpp_t *fb = surf->pixels + spec.DisplayRect.x + surf->pitch * spec.DisplayRect.y;
    
    hires_blending(fb, width, height, FB_WIDTH);
 
-   video_cb(fb, width, height, FB_WIDTH * 2);
+   video_cb(fb, width, height, FB_WIDTH * sizeof(bpp_t));
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
    bool updated = false;

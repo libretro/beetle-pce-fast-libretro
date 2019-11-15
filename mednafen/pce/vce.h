@@ -109,7 +109,7 @@ private:
 
 	int32 cd_event;
 
-	uint16 *fb;			// Pointer to the framebuffer.
+	bpp_t *fb;			// Pointer to the framebuffer.
 	uint16 pitch32;		// Pitch(in 16-bit pixels)
 	bool FrameDone;
 	bool ShowHorizOS;
@@ -122,7 +122,7 @@ private:
 	int32 clock_divider;
 
 	int32 scanline;
-	uint16 *scanline_out_ptr;	// Pointer into fb
+	bpp_t *scanline_out_ptr;	// Pointer into fb
 	int32 pixel_offset;
 
 	int32 hblank_counter;
