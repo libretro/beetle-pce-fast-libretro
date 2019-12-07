@@ -1454,7 +1454,6 @@ static void check_variables(void)
 	  else
 		turbo_enable[4][1] = 0;
    }
-	  
 }
 
 bool retro_load_game(const struct retro_game_info *info)
@@ -1515,6 +1514,54 @@ bool retro_load_game(const struct retro_game_info *info)
       PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
 
    VDC_SetPixelFormat();
+
+   struct retro_memory_descriptor descs[8];
+   struct retro_memory_map        mmaps;
+   int i = 0;
+
+   memset(descs, 0, sizeof(descs));
+
+   descs[i].ptr    = (uint8_t*)BaseRAM;
+   descs[i].start  = 0xf8 * 8192;
+   descs[i].len    = 8192;
+   descs[i].select = 0xFFFFE000;
+   i++;
+
+   if (IsPopulous)
+   {
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x40 * 8192);
+      descs[i].start  = 0x40 * 8192;
+      descs[i].len    = 8192 * 4;
+      i++;
+   }
+   else
+   {
+      descs[i].ptr    = (uint8_t*)SaveRAM;
+      descs[i].start  = 0xf7 * 8192;
+      descs[i].len    = 2048;
+      i++;
+   }
+
+   if (PCE_IsCD)
+   {
+      // Super System Card RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x68 * 8192);
+      descs[i].start  = 0x68 * 8192;
+      descs[i].len    = 8192 * 24;
+      descs[i].select = 0xFFFD0000;
+      i++;
+      
+      // CD RAM
+      descs[i].ptr    = (uint8_t*)(ROMSpace + 0x80 * 8192);
+      descs[i].start  = 0x80 * 8192;
+      descs[i].len    = 8192 * 8;
+      descs[i].select = 0xFFFF0000;
+      i++;
+   }
+
+   mmaps.descriptors = descs;
+   mmaps.num_descriptors = i;
+   environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
 
    return game;
 }
@@ -1879,7 +1926,7 @@ size_t retro_get_memory_size(unsigned type)
             return 32768;
          return 2048;
       case RETRO_MEMORY_SYSTEM_RAM:
-         return sizeof(BaseRAM) - 8192;
+         return 8192;
       default:
          break;
    }
