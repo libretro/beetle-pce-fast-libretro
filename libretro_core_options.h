@@ -325,12 +325,24 @@ struct retro_core_option_definition option_defs_us[] = {
       "Turbo Delay",
       "Adjust turbo delay.",
       {
-         { "Fast", NULL },
-         { "Medium", NULL },
-         { "Slow", NULL },
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  NULL },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
          { NULL, NULL },
       },
-      "Fast"
+      "3"
    },
    {
       "pce_turbo_toggling",
@@ -354,116 +366,7 @@ struct retro_core_option_definition option_defs_us[] = {
       },
       "disabled"
    },
-   {
-      "pce_p0_turbo_I_enable",
-      "P1 Turbo I",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p0_turbo_II_enable",
-      "P1 Turbo II",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p1_turbo_I_enable",
-      "P2 Turbo I",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p1_turbo_II_enable",
-      "P2 Turbo II",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p2_turbo_I_enable",
-      "P3 Turbo I",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p2_turbo_II_enable",
-      "P3 Turbo II",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p3_turbo_I_enable",
-      "P4 Turbo I",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p3_turbo_II_enable",
-      "P4 Turbo II",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p4_turbo_I_enable",
-      "P5 Turbo I",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_p4_turbo_II_enable",
-      "P5 Turbo II",
-      "",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
+
    { NULL, NULL, NULL, {{0}}, NULL },
 };
 

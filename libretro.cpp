@@ -123,7 +123,7 @@ static DECLFR(IORead)
 static DECLFW(IOWrite)
 {
  A &= 0x1FFF;
-  
+
  switch(A >> 10)
  {
   case 0: HuC6280_StealCycle();
@@ -144,7 +144,7 @@ static DECLFW(IOWrite)
 
   case 4: PCEIODataBuffer = V; INPUT_Write(A, V); break;
   case 5: PCEIODataBuffer = V; HuC6280_IRQStatusWrite(A, V); break;
-  case 6: 
+  case 6:
 	  if(!PCE_IsCD)
 	   break;
 
@@ -249,7 +249,7 @@ static void LoadCommonPre(void)
 }
 
 static int LoadCommon(void)
-{ 
+{
  VDC_Init(false);
 
  {
@@ -347,7 +347,7 @@ static void Emulate(EmulateSpecStruct *espec)
   nf.Gshift = 5;
   nf.Bshift = 0;
   nf.Ashift = 16;
-  
+
   nf.Rprec = 5;
   nf.Gprec = 6;
   nf.Bprec = 5;
@@ -457,7 +457,7 @@ static void DoSimpleCommand(int cmd)
  }
 }
 
-static MDFNSetting PCESettings[] = 
+static MDFNSetting PCESettings[] =
 {
   { "pce_fast.slstart", MDFNSF_NOFLAGS, "First rendered scanline.", NULL, MDFNST_UINT, "4", "0", "239" },
   { "pce_fast.slend", MDFNSF_NOFLAGS, "Last rendered scanline.", NULL, MDFNST_UINT, "235", "0", "239" },
@@ -629,7 +629,7 @@ int HuCLoad(const uint8 *data, uint32 len)
  if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
  {
   uint8 *PopRAM = ROMSpace + 0x40 * 8192;
-  
+
   memset(PopRAM, 0xFF, 32768);
 
   IsPopulous = 1;
@@ -671,7 +671,7 @@ int HuCLoad(const uint8 *data, uint32 len)
 
  return(1);
 }
- 
+
 bool IsBRAMUsed(void)
 {
  if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
@@ -709,7 +709,7 @@ int HuCLoadCD(const char *bios_path)
  PCE_IsCD = 1;
  PCE_InitCD();
 
- MDFN_printf("Arcade Card Emulation:  %s\n", PCE_ACEnabled ? "Enabled" : "Disabled"); 
+ MDFN_printf("Arcade Card Emulation:  %s\n", PCE_ACEnabled ? "Enabled" : "Disabled");
  for(int x = 0; x < 0x40; x++)
  {
   HuCPUFastMap[x] = ROMSpace;
@@ -754,7 +754,7 @@ int HuCLoadCD(const char *bios_path)
 
 int HuC_StateAction(StateMem *sm, int load, int data_only)
 {
- SFORMAT StateRegs[] = 
+ SFORMAT StateRegs[] =
  {
   SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
   SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
@@ -800,7 +800,7 @@ MDFNGI EmulatedPCE_Fast =
  true,  // Multires possible?
 
  0,   // lcm_width
- 0,   // lcm_height           
+ 0,   // lcm_height
  NULL,  // Dummy
 
  MEDNAFEN_CORE_GEOMETRY_BASE_W,   // Nominal width
@@ -1122,7 +1122,7 @@ void retro_init(void)
    struct retro_log_callback log;
    if (environ_cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &log))
       log_cb = log.log;
-   else 
+   else
       log_cb = NULL;
 
    CDUtility_Init();
@@ -1146,7 +1146,7 @@ void retro_init(void)
          log_cb(RETRO_LOG_WARN, "System directory is not defined. Fallback on using same dir as ROM for system directory later ...\n");
       failed_init = true;
    }
-   
+
    enum retro_pixel_format rgb565 = RETRO_PIXEL_FORMAT_RGB565;
    if (environ_cb(RETRO_ENVIRONMENT_SET_PIXEL_FORMAT, &rgb565) && log_cb)
       log_cb(RETRO_LOG_INFO, "Frontend supports RGB565 - will use that instead of XRGB1555.\n");
@@ -1155,10 +1155,10 @@ void retro_init(void)
       perf_get_cpu_features_cb = perf_cb.get_cpu_features;
    else
       perf_get_cpu_features_cb = NULL;
-   
+
    bool yes = true;
    environ_cb(RETRO_ENVIRONMENT_SET_SUPPORT_ACHIEVEMENTS, &yes);
-   
+
    setting_initial_scanline = 0;
    setting_last_scanline = 242;
 
@@ -1234,7 +1234,7 @@ static void check_variables(void)
          setting_pce_fast_cdbios = "syscard3u.pce";
       else if (strcmp(var.value, "System Card 2 US") == 0)
          setting_pce_fast_cdbios = "syscard2u.pce";
-      
+
    }
 
    var.key = "pce_nospritelimit";
@@ -1246,21 +1246,21 @@ static void check_variables(void)
       else if (strcmp(var.value, "enabled") == 0)
          setting_pce_fast_nospritelimit = 1;
    }
-   
+
    var.key = "pce_ocmultiplier";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_overclocked = atoi(var.value);
    }
-   	
+
 	var.key = "pce_hoverscan";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_hoverscan = atoi(var.value);
    }
-	
+
    var.key = "pce_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1320,7 +1320,7 @@ static void check_variables(void)
    }
 
    // Set Turbo_Toggling
-   var.key = "pce_Turbo_Toggling";
+   var.key = "pce_turbo_toggling";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1330,17 +1330,12 @@ static void check_variables(void)
          Turbo_Toggling = 0;
    }
 
-   // Set TURBO_DELAY 
-   var.key = "pce_Turbo_Delay";
-   
+   // Set TURBO_DELAY
+   var.key = "pce_turbo_delay";
+
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
-      if (strcmp(var.value, "Fast") == 0)
-      Turbo_Delay = 3;
-      else if (strcmp(var.value, "Medium") == 0)
-      Turbo_Delay = 8;
-      else if (strcmp(var.value, "Slow") == 0)
-      Turbo_Delay = 15;
+      Turbo_Delay = atoi(var.value);
    }
 
    //  False sets turbo hotkey X/Y, true assigns hotkey to L3/R3
@@ -1352,107 +1347,6 @@ static void check_variables(void)
          turbo_toggle_alt = true;
       else
          turbo_toggle_alt = false;
-   }
-
-   // Enable turbo for each player's I+II buttons   
-   var.key = "pce_p0_turbo_I_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[0][0] = 1;
-	  else
-		turbo_enable[0][0] = 0;
-   }
-   
-   var.key = "pce_p0_turbo_II_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[0][1] = 1;
-	  else
-		turbo_enable[0][1] = 0;
-   }
-   
-   var.key = "pce_p1_turbo_I_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[1][0] = 1;
-  	  else
-		turbo_enable[1][0] = 0;
-   }
-   
-   var.key = "pce_p1_turbo_II_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[1][1] = 1;
-	  else
-		turbo_enable[1][1] = 0;
-   }
-   
-   var.key = "pce_p2_turbo_I_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[2][0] = 1;
-	  else
-		turbo_enable[2][0] = 0;
-   }
-   
-   var.key = "pce_p2_turbo_II_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[2][1] = 1;
-	  else
-		turbo_enable[2][1] = 0;
-   }
-   
-      var.key = "pce_p3_turbo_I_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[3][0] = 1;
-	  else
-		turbo_enable[3][0] = 0;
-   }
-   
-   var.key = "pce_p3_turbo_II_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[3][1] = 1;
-	  else
-		turbo_enable[3][1] = 0;
-   }
-   
-   var.key = "pce_p4_turbo_I_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[4][0] = 1;
-	  else
-		turbo_enable[4][0] = 0;
-   }
-   
-   var.key = "pce_p4_turbo_II_enable";
-   
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "enabled") == 0)
-		turbo_enable[4][1] = 1;
-	  else
-		turbo_enable[4][1] = 0;
    }
 }
 
@@ -1478,7 +1372,7 @@ bool retro_load_game(const struct retro_game_info *info)
       button_ids(2)
       button_ids(3)
       button_ids(4)
-	  
+
       { 0 },
    };
 
@@ -1497,7 +1391,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    if (!surf)
       return false;
-   
+
    surf->width  = FB_WIDTH;
    surf->height = FB_HEIGHT;
    surf->pitch  = FB_WIDTH;
@@ -1550,7 +1444,7 @@ bool retro_load_game(const struct retro_game_info *info)
       descs[i].len    = 8192 * 24;
       descs[i].select = 0xFFFD0000;
       i++;
-      
+
       // CD RAM
       descs[i].ptr    = (uint8_t*)(ROMSpace + 0x80 * 8192);
       descs[i].start  = 0x80 * 8192;
@@ -1588,6 +1482,7 @@ static void update_input(void)
 {
    static int turbo_map[]     = { -1,-1,-1,-1,-1,-1,-1,-1, 1, 0,-1,-1,-1,-1,-1 };
    static int turbo_map_alt[] = { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 0 };
+   int *turbo_map_selected    = (!turbo_toggle_alt ? turbo_map : turbo_map_alt);
    static unsigned map[] = {
       RETRO_DEVICE_ID_JOYPAD_A,
       RETRO_DEVICE_ID_JOYPAD_B,
@@ -1609,41 +1504,47 @@ static void update_input(void)
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
       uint16_t input_state = 0;
+
+      // read normal inputs
       for (unsigned i = 0; i < MAX_BUTTONS; i++)
       {
-         if (turbo_enable[j][i] == 1) //Check whether a given button is turbo-capable
+         input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+
+         // handle turbo buttons
+         if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
          {
-            if (turbo_counter[j][i] == (Turbo_Delay+1)) //Turbo buttons only fire when their counter exceeds the turbo delay
+            if (input_state & (1 << i))
             {
-               input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+               if (turbo_counter[j][i] < 2)              // Some PCE games needs 2 frames to react to button presses, so
+                  input_state |= 1 << i;                 // trigger turbo button at counter 0 and 1
+               else
+                  input_state &= ~(1 << i);
+               turbo_counter[j][i]++;                    // Counter is incremented by 1
+               if (turbo_counter[j][i] > Turbo_Delay)    // When the counter exceeds turbo delay, reset counter to zero
+                  turbo_counter[j][i] = 0;
             }
             else
-            {
-               turbo_counter[j][i]++; //Otherwise, their counter is incremented by 1
-            }
-            if (turbo_counter[j][i] > (Turbo_Delay)) //When the counter exceeds turbo delay, fire and return to zero
-            {
-               input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
-               turbo_counter[j][i] = 0;
-            }
+               turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
          }
-         else if ((!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i]) != -1 && Turbo_Toggling && !AVPad6Enabled[j])
+         else
+            turbo_counter[j][i] = 0;                     // Reset counter if button is not pressed.
+
+         // handle 2/6 button mode switching
+         if (turbo_map_selected[i] != -1 && Turbo_Toggling && !AVPad6Enabled[j])
          {
             if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
             {
                if (turbo_toggle_down[j][i] == 0)
                {
                   turbo_toggle_down[j][i] = 1;
-                  turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] = turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ^ 1;
+                  turbo_enable[j][turbo_map_selected[i]] = turbo_enable[j][turbo_map_selected[i]] ^ 1;
                   MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
                      i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
-                     turbo_enable[j][(!turbo_toggle_alt ? turbo_map[i] : turbo_map_alt[i])] ? "ON" : "OFF" );
+                     turbo_enable[j][turbo_map_selected[i]] ? "ON" : "OFF" );
                }
             }
             else turbo_toggle_down[j][i] = 0;
-
          }
-         else input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
       }
 
       // Input data must be little endian.
@@ -1723,7 +1624,7 @@ void retro_run(void)
       }
       update_geometry(width, height);
    }
-   
+
    if (resolution_changed)
       update_geometry(width, height);
    video_frames++;
@@ -1968,7 +1869,7 @@ std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
          sanitize_path(ret); // Because Windows path handling is mongoloid.
 #endif
          break;
-      default:	  
+      default:
          break;
    }
 
