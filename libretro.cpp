@@ -1320,7 +1320,7 @@ static void check_variables(void)
    }
 
    // Set Turbo_Toggling
-   var.key = "pce_Turbo_Toggling";
+   var.key = "pce_turbo_toggling";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1331,7 +1331,7 @@ static void check_variables(void)
    }
 
    // Set TURBO_DELAY 
-   var.key = "pce_Turbo_Delay";
+   var.key = "pce_turbo_delay";
    
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
