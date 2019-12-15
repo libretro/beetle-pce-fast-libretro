@@ -81,8 +81,6 @@ uint8 ROMSpace[0x88 * 8192 + 8192];	// + 8192 for PC-as-pointer safety padding
 uint8 BaseRAM[32768 + 8192]; // 8KB for PCE, 32KB for Super Grafx // + 8192 for PC-as-pointer safety padding
 
 uint8 PCEIODataBuffer;
-readfunc PCERead[0x100];
-writefunc PCEWrite[0x100];
 
 static DECLFR(PCEBusRead)
 {
@@ -97,7 +95,7 @@ static DECLFW(PCENullWrite)
 
 static DECLFR(BaseRAMRead)
 {
- return((BaseRAM - (0xF8 * 8192))[A]);
+ return BaseRAM[(size_t)A - (0xF8 * 8192)];
 }
 
 static DECLFR(BaseRAMRead_Mirrored)
@@ -107,7 +105,7 @@ static DECLFR(BaseRAMRead_Mirrored)
 
 static DECLFW(BaseRAMWrite)
 {
- (BaseRAM - (0xF8 * 8192))[A] = V;
+ BaseRAM[(size_t)A - (0xF8 * 8192)] = V;
 }
 
 static DECLFW(BaseRAMWrite_Mirrored)
@@ -191,7 +189,6 @@ bool PCE_InitCD(void)
  return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
 }
 
-
 static int LoadCommon(void);
 static void LoadCommonPre(void);
 
@@ -212,13 +209,13 @@ static int Load(const char *name, MDFNFILE *fp)
 
  for(int x = 0; x < 0x100; x++)
  {
-  PCERead[x] = PCEBusRead;
-  PCEWrite[x] = PCENullWrite;
+      HuCPU.PCERead[x] = PCEBusRead;
+      HuCPU.PCEWrite[x] = PCENullWrite;
  }
 
  uint32 crc = encoding_crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
 
-  HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
+  HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
 
  if(crc == 0xfae0fc60)
   OrderOfGriffonFix = true;
@@ -228,6 +225,8 @@ static int Load(const char *name, MDFNFILE *fp)
 
 static void LoadCommonPre(void)
 {
+ HuC6280_Init();
+
  // FIXME:  Make these globals less global!
  pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
  PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
@@ -238,11 +237,10 @@ static void LoadCommonPre(void)
  if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
   MDFN_printf("CD-ROM speed:  %ux\n", (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
 
- memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
  for(int x = 0; x < 0x100; x++)
  {
-  PCERead[x] = PCEBusRead;
-  PCEWrite[x] = PCENullWrite;
+  HuCPU.PCERead[x] = PCEBusRead;
+  HuCPU.PCEWrite[x] = PCENullWrite;
  }
 
  MDFNMP_Init(1024, (1 << 21) / 1024);
@@ -253,23 +251,21 @@ static int LoadCommon(void)
  VDC_Init(false);
 
  {
-  PCERead[0xF8] = BaseRAMRead;
-  PCERead[0xF9] = PCERead[0xFA] = PCERead[0xFB] = BaseRAMRead_Mirrored;
+  HuCPU.PCERead[0xF8] = BaseRAMRead;
+  HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMRead_Mirrored;
 
-  PCEWrite[0xF8] = BaseRAMWrite;
-  PCEWrite[0xF9] = PCEWrite[0xFA] = PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
+  HuCPU.PCEWrite[0xF8] = BaseRAMWrite;
+  HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
 
   for(int x = 0xf8; x < 0xfb; x++)
-   HuCPUFastMap[x] = BaseRAM - x * 8192;
+   HuCPU.FastMap[x] = &BaseRAM[0];
 
-  PCERead[0xFF] = IORead;
+  HuCPU.PCERead[0xFF] = IORead;
  }
 
  MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
 
- PCEWrite[0xFF] = IOWrite;
-
- HuC6280_Init();
+ HuCPU.PCEWrite[0xFF] = IOWrite;
 
  psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
 
@@ -480,7 +476,7 @@ static MDFNSetting PCESettings[] =
 
 uint8 MemRead(uint32 addr)
 {
- return(PCERead[(addr / 8192) & 0xFF](addr));
+ return(HuCPU.PCERead[(addr / 8192) & 0xFF](addr));
 }
 
 static const FileExtensionSpecStruct KnownExtensions[] =
@@ -569,8 +565,9 @@ static void Cleanup(void)
    HuCROM = NULL;
 }
 
-int HuCLoad(const uint8 *data, uint32 len)
+int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
 {
+ uint32 crc = 0;
  uint32 sf2_threshold = 2048 * 1024;
  uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
  uint32 m_len = (len + 8191)&~8191;
@@ -587,13 +584,11 @@ int HuCLoad(const uint8 *data, uint32 len)
  IsPopulous = 0;
  PCE_IsCD = 0;
 
-
  MDFN_printf("ROM:       %dKiB\n", (len + 1023) / 1024);
+ MDFN_printf("ROM CRC32: 0x%04x\n", crc32);
 
  if(!(HuCROM = (uint8 *)malloc(m_len)))
- {
   return(0);
- }
 
  memset(HuCROM, 0xFF, m_len);
  memcpy(HuCROM, data, (m_len < len) ? m_len : len);
@@ -622,8 +617,8 @@ int HuCLoad(const uint8 *data, uint32 len)
 
  for(int x = 0x00; x < 0x80; x++)
  {
-  HuCPUFastMap[x] = ROMSpace;
-  PCERead[x] = HuCRead;
+  HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+  HuCPU.PCERead[x] = HuCRead;
  }
 
  if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
@@ -638,9 +633,9 @@ int HuCLoad(const uint8 *data, uint32 len)
 
   for(int x = 0x40; x < 0x44; x++)
   {
-   HuCPUFastMap[x] = &PopRAM[(x & 3) * 8192] - x * 8192;
-   PCERead[x] = HuCRead;
-   PCEWrite[x] = HuCRAMWrite;
+   HuCPU.FastMap[x] = &PopRAM[(x & 3) * 8192];
+   HuCPU.PCERead[x] = HuCRead;
+   HuCPU.PCEWrite[x] = HuCRAMWrite;
   }
   MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
  }
@@ -649,8 +644,8 @@ int HuCLoad(const uint8 *data, uint32 len)
   memset(SaveRAM, 0x00, 2048);
   memcpy(SaveRAM, BRAM_Init_String, 8);    // So users don't have to manually intialize the file cabinet
                                                 // in the CD BIOS screen.
-  PCEWrite[0xF7] = SaveRAMWrite;
-  PCERead[0xF7] = SaveRAMRead;
+  HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
+  HuCPU.PCERead[0xF7] = SaveRAMRead;
   MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
  }
 
@@ -660,11 +655,9 @@ int HuCLoad(const uint8 *data, uint32 len)
  {
   for(int x = 0x40; x < 0x80; x++)
   {
-   // FIXME: PCE_FAST
-   HuCPUFastMap[x] = NULL; // Make sure our reads go through our read function, and not a table lookup
-   PCERead[x] = HuCSF2Read;
+   HuCPU.PCERead[x] = HuCSF2Read;
   }
-  PCEWrite[0] = HuCSF2Write;
+  HuCPU.PCEWrite[0] = HuCSF2Write;
   MDFN_printf("Street Fighter 2 Mapper\n");
   HuCSF2Latch = 0;
  }
@@ -712,17 +705,17 @@ int HuCLoadCD(const char *bios_path)
  MDFN_printf("Arcade Card Emulation:  %s\n", PCE_ACEnabled ? "Enabled" : "Disabled");
  for(int x = 0; x < 0x40; x++)
  {
-  HuCPUFastMap[x] = ROMSpace;
-  PCERead[x] = HuCRead;
+      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+      HuCPU.PCERead[x] = HuCRead;
  }
 
  for(int x = 0x68; x < 0x88; x++)
  {
-  HuCPUFastMap[x] = ROMSpace;
-  PCERead[x] = HuCRead;
-  PCEWrite[x] = HuCRAMWrite;
+      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+      HuCPU.PCERead[x] = HuCRead;
+      HuCPU.PCEWrite[x] = HuCRAMWrite;
  }
- PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
+   HuCPU.PCEWrite[0x80] = HuCRAMWriteCDSpecial; 	// Hyper Dyne Special hack
  MDFNMP_AddRAM(262144, 0x68 * 8192, ROMSpace + 0x68 * 8192);
 
  if(PCE_ACEnabled)
@@ -736,9 +729,8 @@ int HuCLoadCD(const char *bios_path)
 
     for(int x = 0x40; x < 0x44; x++)
     {
-       HuCPUFastMap[x] = NULL;
-       PCERead[x] = ACPhysRead;
-       PCEWrite[x] = ACPhysWrite;
+         HuCPU.PCERead[x] = ACPhysRead;
+         HuCPU.PCEWrite[x] = ACPhysWrite;
     }
  }
 
@@ -746,8 +738,8 @@ int HuCLoadCD(const char *bios_path)
  memcpy(SaveRAM, BRAM_Init_String, 8);	// So users don't have to manually intialize the file cabinet
 						// in the CD BIOS screen.
 
- PCEWrite[0xF7] = SaveRAMWrite;
- PCERead[0xF7] = SaveRAMRead;
+   HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
+   HuCPU.PCERead[0xF7] = SaveRAMRead;
  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
  return(1);
 }
@@ -1187,7 +1179,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2] = {0};
+static uint8_t input_buf[MAX_PLAYERS][2] = {};
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
