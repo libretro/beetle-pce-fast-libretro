@@ -1,4 +1,4 @@
-int HuCLoad(const uint8 *data, uint32 len) MDFN_COLD;
+int HuCLoad(const uint8 *data, uint32 len, uint32 crc32) MDFN_COLD;
 int HuCLoadCD(const char *bios_path) MDFN_COLD;
 void HuC_Close(void) MDFN_COLD;
 int HuC_StateAction(StateMem *sm, int load, int data_only);

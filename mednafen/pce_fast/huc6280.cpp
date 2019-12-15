@@ -18,8 +18,8 @@
 #include "pce.h"
 #include "vdc.h"
 
+static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
 HuC6280 HuCPU;
-uint8 *HuCPUFastMap[0x100];
 
 #define HU_PC              PC_local //HuCPU.PC
 #define HU_PC_base	 HuCPU.PC_base
@@ -40,7 +40,7 @@ uint8 *HuCPUFastMap[0x100];
 
 
 #ifdef HUC6280_CRAZY_VERSION
-#define LOAD_LOCALS_PC()        uint8 *PC_local = HuCPU.PC;
+#define LOAD_LOCALS_PC()        uintptr_t PC_local = HuCPU.PC;
 #else
 #define LOAD_LOCALS_PC()        uint32 PC_local /*asm ("edi")*/ = HuCPU.PC; // asm ("edi") = HuCPU.PC;
 #endif
@@ -76,10 +76,10 @@ uint8 *HuCPUFastMap[0x100];
 #endif
 
 #ifdef HUC6280_CRAZY_VERSION
- #define SetPC(value) { unsigned int tempmoo = value; HU_PC = &HuCPU.FastPageR[tempmoo >> 13][tempmoo]; 	\
+ #define SetPC(value) { unsigned int tempmoo = value; HU_PC = HuCPU.FastPageR[tempmoo >> 13] + tempmoo; 	\
 	HU_PC_base = HU_PC - tempmoo; }
  #define SetPC_EXTERNAL(value) { unsigned int tempmoo = value; 	\
-	HuCPU.PC = &HuCPU.FastPageR[tempmoo >> 13][tempmoo]; HuCPU.PC_base = HuCPU.PC - tempmoo; }
+	HuCPU.PC = HuCPU.FastPageR[tempmoo >> 13] + tempmoo; HuCPU.PC_base = HuCPU.PC - tempmoo; }
 #else
  #define SetPC(value) { HU_PC = (value); }
  #define SetPC_EXTERNAL(value) { HuCPU.PC = (value); }
@@ -104,27 +104,23 @@ uint8 *HuCPUFastMap[0x100];
 #endif
 
 #ifdef HUC6280_CRAZY_VERSION
- #define RdAtPC() (*HU_PC)
- //#define RdAtAndIncPC_16() (HU_PC += 2, *(uint16 *)(HU_PC - 2))
+ #define RdAtPC() (*(uint8*)HU_PC)
 #else
  #define RdAtPC() RdOp(HU_PC)
- //#define RdAtAndIncPC_16() (RdOp(HU_PC++) | ((RdOp(HU_PC++) << 8)))
 #endif
 
 // If we change this definition, we'll need to also fix HuC6280_StealCycle() in huc6280.h
 #define ADDCYC(x) { HuCPU.timestamp += x; }
-
-static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
 
 #define SET_MPR(arg_i, arg_v)				\
 {							\
  const unsigned int wmpr = arg_i, wbank = arg_v;	\
  if(wmpr == 1)						\
  {							\
-  HU_Page1 = HuCPUFastMap[wbank] ? HuCPUFastMap[wbank] + wbank * 8192 : dummy_bank;	\
+  HU_Page1 = HuCPU.FastMap[wbank];    \
  }							\
  HuCPU.MPR[wmpr] = wbank;					\
- HuCPU.FastPageR[wmpr] = HuCPUFastMap[wbank] ? (HuCPUFastMap[wbank] + wbank * 8192) - wmpr * 8192 : (dummy_bank - wmpr * 8192);	\
+ HuCPU.FastPageR[wmpr] = (uintptr_t)HuCPU.FastMap[wbank] - wmpr * 8192;        \
 }
 
 void HuC6280_SetMPR(int i, int v)
@@ -146,23 +142,28 @@ static void HuC6280_FlushMPRCache(void)
 static INLINE uint8 RdMem(unsigned int A)
 {
    uint8 wmpr = HuCPU.MPR[A >> 13];
-   return(PCERead[wmpr]((wmpr << 13) | (A & 0x1FFF)));
+ return(HuCPU.PCERead[wmpr]((wmpr << 13) | (A & 0x1FFF)));
 }
 
 static INLINE uint16 RdMem16(unsigned int A)
 {
-   return(RdMem(A) | (RdMem(A + 1) << 8));
+ uint16 ret;
+
+ ret = RdMem(A);
+ ret |= RdMem(A + 1) << 8;
+
+ return(ret);
 }
 
 static INLINE void WrMem(unsigned int A, uint8 V)
 {
    uint8 wmpr = HuCPU.MPR[A >> 13];
-   PCEWrite[wmpr]((wmpr << 13) | (A & 0x1FFF), V);
+ HuCPU.PCEWrite[wmpr]((wmpr << 13) | (A & 0x1FFF), V);
 }
 
 static INLINE uint8 RdOp(unsigned int A)
 {
-   return(HuCPU.FastPageR[A >> 13][A]);
+ return *(uint8*)(HuCPU.FastPageR[A >> 13] + A);
 }
 
 #define PUSH(V) \
@@ -243,7 +244,6 @@ static uint8 ZNTable[256];
 /*  All of the freaky arithmetic operations. */
 #define AND        HU_A&=x;X_ZN(HU_A);
 
-// FIXME:
 #define BIT        HU_P&=~V_FLAG; X_ZN_BIT(x & HU_A, x); HU_P |= x & V_FLAG;
 #define EOR        HU_A^=x;X_ZN(HU_A);
 #define ORA        HU_A|=x;X_ZN(HU_A);
@@ -322,7 +322,6 @@ static uint8 ZNTable[256];
 #define RMB(bitto)	x &= ~(1 << (bitto & 7))
 #define SMB(bitto)	x |= 1 << (bitto & 7)
 
-// FIXME
 #define TSB   { HU_P &= ~V_FLAG; X_ZN_BIT(x | HU_A, x); HU_P |= x & V_FLAG; x |= HU_A; }
 #define TRB     { HU_P &= ~V_FLAG; X_ZN_BIT(x & ~HU_A, x); HU_P |= x & V_FLAG; x &= ~HU_A; }
 #define TST	{ HU_P &= ~V_FLAG; X_ZN_BIT(x & zoomhack, x); HU_P |= x & V_FLAG; }
@@ -498,8 +497,7 @@ static const uint8 CycTable[256] =
    /*0xF0*/ 2, 7, 7, 17, 2, 4, 6, 7, 2, 5, 4, 2, 2, 5, 7, 6, 
 };
 #if 0
-static bool WillIRQOccur(void) NO_INLINE;
-static bool WillIRQOccur(void)
+static NO_INLINE bool WillIRQOccur(void)
 {
    bool ret = false;
 
@@ -519,16 +517,6 @@ static bool WillIRQOccur(void)
    return(true);
 }
 #endif
-
-void HuC6280_IRQBegin(int w)
-{
-   HU_IRQlow|=w;
-}
-
-void HuC6280_IRQEnd(int w)
-{
-   HU_IRQlow&=~w;
-}
 
 void HuC6280_Reset(void)
 {
@@ -564,21 +552,26 @@ void HuC6280_Reset(void)
 
 void HuC6280_Init(void)
 {
-   memset((void *)&HuCPU,0,sizeof(HuCPU));
-   memset(dummy_bank, 0, sizeof(dummy_bank));
+	memset(&HuCPU,0,sizeof(HuCPU));
 
 #ifdef HUC6280_LAZY_FLAGS
-
 #else
    for(int x=0; x < 256; x++)
+ {
       if(!x) ZNTable[x]=Z_FLAG;
       else if (x&0x80) ZNTable[x]=N_FLAG;
       else ZNTable[x]=0;
+ }
 #endif
+
+ for (unsigned i = 0; i < 0x100; i++)
+  HuCPU.FastMap[i] = dummy_bank;
 }
 
 void HuC6280_Power(void)
 {
+ memset(dummy_bank, 0, sizeof(dummy_bank));
+
    HuCPU.IRQlow = 0;
 
    HuCPU.A = 0;
@@ -599,7 +592,7 @@ void HuC6280_Power(void)
    for(int i = 0; i < 9; i++)
    {
       HuCPU.MPR[i] = 0;
-      HuCPU.FastPageR[i] = NULL;
+  HuCPU.FastPageR[i] = 0;
    }  
    HuC6280_Reset();
 }
