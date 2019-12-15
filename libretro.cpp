@@ -1187,7 +1187,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2] = {0};
+static uint8_t input_buf[MAX_PLAYERS][2] = {};
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
