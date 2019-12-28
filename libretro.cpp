@@ -1179,7 +1179,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
-static uint8_t input_buf[MAX_PLAYERS][2] = {};
+static uint8_t input_buf[MAX_PLAYERS][5] = {};
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
@@ -1397,7 +1397,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    // Possible endian bug ...
    for (unsigned i = 0; i < MAX_PLAYERS; i++)
-      PCEINPUT_SetInput(i, "gamepad", &input_buf[i][0]);
+      PCEINPUT_SetInput(i, "gamepad", (uint8_t*)&input_buf[i][0]);
 
    VDC_SetPixelFormat();
 
@@ -1678,10 +1678,10 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
    switch(device)
    {
       case RETRO_DEVICE_JOYPAD:
-         PCEINPUT_SetInput(in_port, "gamepad", &input_buf[in_port][0]);
+         PCEINPUT_SetInput(in_port, "gamepad", (uint8_t*)&input_buf[in_port][0]);
          break;
       case RETRO_DEVICE_MOUSE:
-         PCEINPUT_SetInput(in_port, "mouse", &input_buf[in_port][0]);
+         PCEINPUT_SetInput(in_port, "mouse", (uint8_t*)&input_buf[in_port][0]);
          break;
    }
 }
@@ -1697,6 +1697,9 @@ void retro_set_environment(retro_environment_t cb)
    };
 
    static const struct retro_controller_info ports[] = {
+      { pads, 2 },
+      { pads, 2 },
+      { pads, 2 },
       { pads, 2 },
       { pads, 2 },
       { 0 },
