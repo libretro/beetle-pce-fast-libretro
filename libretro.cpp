@@ -1179,7 +1179,9 @@ static void set_volume (uint32_t *ptr, unsigned number)
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
+static uint8_t input_type[MAX_PLAYERS] = {};
 static uint8_t input_buf[MAX_PLAYERS][5] = {};
+static float mouse_sensitivity = 1.0f;
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
@@ -1340,6 +1342,13 @@ static void check_variables(void)
       else
          turbo_toggle_alt = false;
    }
+
+   var.key = "pce_mouse_sensitivity";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      mouse_sensitivity = atof(var.value);
+   }
 }
 
 bool retro_load_game(const struct retro_game_info *info)
@@ -1396,8 +1405,10 @@ bool retro_load_game(const struct retro_game_info *info)
    }
 
    // Possible endian bug ...
-   for (unsigned i = 0; i < MAX_PLAYERS; i++)
+   for (unsigned i = 0; i < MAX_PLAYERS; i++) {
+      input_type[i] = RETRO_DEVICE_JOYPAD;
       PCEINPUT_SetInput(i, "gamepad", (uint8_t*)&input_buf[i][0]);
+   }
 
    VDC_SetPixelFormat();
 
@@ -1495,53 +1506,93 @@ static void update_input(void)
 
    for (unsigned j = 0; j < MAX_PLAYERS; j++)
    {
-      uint16_t input_state = 0;
-
-      // read normal inputs
-      for (unsigned i = 0; i < MAX_BUTTONS; i++)
+      
+      switch (input_type[j])
       {
-         input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+      case RETRO_DEVICE_JOYPAD:
+      {
+         uint16_t input_state = 0;
 
-         // handle turbo buttons
-         if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
+         // read normal inputs
+         for (unsigned i = 0; i < MAX_BUTTONS; i++)
          {
-            if (input_state & (1 << i))
+            input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+
+            // handle turbo buttons
+            if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
             {
-               if (turbo_counter[j][i] < 2)              // Some PCE games needs 2 frames to react to button presses, so
-                  input_state |= 1 << i;                 // trigger turbo button at counter 0 and 1
+               if (input_state & (1 << i))
+               {
+                  if (turbo_counter[j][i] < 2)              // Some PCE games needs 2 frames to react to button presses, so
+                     input_state |= 1 << i;                 // trigger turbo button at counter 0 and 1
+                  else
+                     input_state &= ~(1 << i);
+                  turbo_counter[j][i]++;                    // Counter is incremented by 1
+                  if (turbo_counter[j][i] > Turbo_Delay)    // When the counter exceeds turbo delay, reset counter to zero
+                     turbo_counter[j][i] = 0;
+               }
                else
-                  input_state &= ~(1 << i);
-               turbo_counter[j][i]++;                    // Counter is incremented by 1
-               if (turbo_counter[j][i] > Turbo_Delay)    // When the counter exceeds turbo delay, reset counter to zero
-                  turbo_counter[j][i] = 0;
+                  turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
             }
             else
-               turbo_counter[j][i] = 0;                  // Reset counter if button is not pressed.
-         }
-         else
-            turbo_counter[j][i] = 0;                     // Reset counter if button is not pressed.
+               turbo_counter[j][i] = 0;                     // Reset counter if button is not pressed.
 
-         // handle 2/6 button mode switching
-         if (turbo_map_selected[i] != -1 && Turbo_Toggling && !AVPad6Enabled[j])
-         {
-            if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
+            // handle 2/6 button mode switching
+            if (turbo_map_selected[i] != -1 && Turbo_Toggling && !AVPad6Enabled[j])
             {
-               if (turbo_toggle_down[j][i] == 0)
+               if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]))
                {
-                  turbo_toggle_down[j][i] = 1;
-                  turbo_enable[j][turbo_map_selected[i]] = turbo_enable[j][turbo_map_selected[i]] ^ 1;
-                  MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
-                     i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
-                     turbo_enable[j][turbo_map_selected[i]] ? "ON" : "OFF" );
+                  if (turbo_toggle_down[j][i] == 0)
+                  {
+                     turbo_toggle_down[j][i] = 1;
+                     turbo_enable[j][turbo_map_selected[i]] = turbo_enable[j][turbo_map_selected[i]] ^ 1;
+                     MDFN_DispMessage("Pad %i Button %s Turbo %s", j + 1,
+                        i == (!turbo_toggle_alt ? 9 : 14) ? "I" : "II",
+                        turbo_enable[j][turbo_map_selected[i]] ? "ON" : "OFF" );
+                  }
                }
+               else turbo_toggle_down[j][i] = 0;
             }
-            else turbo_toggle_down[j][i] = 0;
          }
-      }
 
-      // Input data must be little endian.
-      input_buf[j][0] = (input_state >> 0) & 0xff;
-      input_buf[j][1] = (input_state >> 8) & 0xff;
+         // Input data must be little endian.
+         input_buf[j][0] = (input_state >> 0) & 0xff;
+         input_buf[j][1] = (input_state >> 8) & 0xff;
+      } break;
+
+      case RETRO_DEVICE_MOUSE:
+      {
+         int16_t raw_x = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_X);
+         int16_t raw_y = input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_Y);
+
+         int16_t x = (int16_t)roundf((float)raw_x * mouse_sensitivity);
+         int16_t y = (int16_t)roundf((float)raw_y * mouse_sensitivity);
+
+         input_buf[j][0] = (x >> 0) & 0xff;
+         input_buf[j][1] = (x >> 8) & 0xff;
+         input_buf[j][2] = (y >> 0) & 0xff;
+         input_buf[j][3] = (y >> 8) & 0xff;
+
+         input_buf[j][4] = 0;
+
+         // left mouse button
+         if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_LEFT))
+            input_buf[j][4] |= (1 << 0);
+
+         // right mouse button
+         if (input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_RIGHT))
+            input_buf[j][4] |= (1 << 1);
+
+         // select
+         if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
+            input_buf[j][4] |= (1 << 2);
+
+         // start
+         if (input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START) ||
+             input_state_cb(j, RETRO_DEVICE_MOUSE, 0, RETRO_DEVICE_ID_MOUSE_MIDDLE))
+            input_buf[j][4] |= (1 << 3);
+      } break;
+      } // case
    }
 }
 
@@ -1675,13 +1726,21 @@ unsigned retro_api_version(void)
 
 void retro_set_controller_port_device(unsigned in_port, unsigned device)
 {
+   if (in_port > 4)
+      return;
+
    switch(device)
    {
       case RETRO_DEVICE_JOYPAD:
+         input_type[in_port] = RETRO_DEVICE_JOYPAD;
          PCEINPUT_SetInput(in_port, "gamepad", (uint8_t*)&input_buf[in_port][0]);
          break;
       case RETRO_DEVICE_MOUSE:
+         input_type[in_port] = RETRO_DEVICE_MOUSE;
          PCEINPUT_SetInput(in_port, "mouse", (uint8_t*)&input_buf[in_port][0]);
+         break;
+      default:
+         input_type[in_port] = RETRO_DEVICE_NONE;
          break;
    }
 }
