@@ -931,23 +931,23 @@ int cdrom_read_subq(libretro_vfs_implementation_file *stream, unsigned char *buf
       if (/*(control == 4 || control == 6) && */adr == 1 && tno == 0 && point >= 1 && point <= 99)
       {
          printf("[CDROM] - Session#: %d TNO %d POINT %d ", session_num, tno, point);
-         printf("[CDROM] Track start time: (MSF %02u:%02u:%02u) ", (unsigned)pmin, (unsigned)psec, (unsigned)pframe);
+         printf("Track start time: (aMSF %02u:%02u:%02u) ", (unsigned)pmin, (unsigned)psec, (unsigned)pframe);
       }
       else if (/*(control == 4 || control == 6) && */adr == 1 && tno == 0 && point == 0xA0)
       {
          printf("[CDROM] - Session#: %d TNO %d POINT %d ", session_num, tno, point);
-         printf("[CDROM] First Track Number: %d ", pmin);
-         printf("[CDROM] Disc Type: %d ", psec);
+         printf("First Track Number: %d ", pmin);
+         printf("Disc Type: %d ", psec);
       }
       else if (/*(control == 4 || control == 6) && */adr == 1 && tno == 0 && point == 0xA1)
       {
          printf("[CDROM] - Session#: %d TNO %d POINT %d ", session_num, tno, point);
-         printf("[CDROM] Last Track Number: %d ", pmin);
+         printf("Last Track Number: %d ", pmin);
       }
       else if (/*(control == 4 || control == 6) && */adr == 1 && tno == 0 && point == 0xA2)
       {
          printf("[CDROM] - Session#: %d TNO %d POINT %d ", session_num, tno, point);
-         printf("[CDROM] Lead-out runtime: (MSF %02u:%02u:%02u) ", (unsigned)pmin, (unsigned)psec, (unsigned)pframe);
+         printf("Lead-out start time: (aMSF %02u:%02u:%02u) ", (unsigned)pmin, (unsigned)psec, (unsigned)pframe);
       }
 
       printf("\n");
@@ -1494,9 +1494,7 @@ bool cdrom_is_media_inserted(libretro_vfs_implementation_file *stream)
 bool cdrom_drive_has_media(const char drive)
 {
    RFILE *file;
-   char cdrom_path_bin[256];
-
-   cdrom_path_bin[0] = '\0';
+   char cdrom_path_bin[256] = {0};
 
    cdrom_device_fillpath(cdrom_path_bin, sizeof(cdrom_path_bin), drive, 1, false);
 
@@ -1690,8 +1688,11 @@ void cdrom_device_fillpath(char *path, size_t len, char drive, unsigned char tra
 #ifdef __linux__
       pos = strlcpy(path, "cdrom://drive", len);
 
-      if (len > pos)
+      if (len > pos + 1)
+      {
          path[pos++] = drive;
+         path[pos] = '\0';
+      }
 
       pos = strlcat(path, ".cue", len);
 #endif
@@ -1702,8 +1703,11 @@ void cdrom_device_fillpath(char *path, size_t len, char drive, unsigned char tra
 #ifdef _WIN32
       pos = strlcpy(path, "cdrom://", len);
 
-      if (len > pos)
+      if (len > pos + 1)
+      {
          path[pos++] = drive;
+         path[pos] = '\0';
+      }
 
       pos += snprintf(path + pos, len - pos, ":/drive-track%02d.bin", track);
 #else

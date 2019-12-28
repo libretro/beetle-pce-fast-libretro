@@ -26,7 +26,6 @@
 #ifdef _MSC_VER
 
 #ifdef __cplusplus
-#include <complex>
 extern "C"  {
 #endif
 

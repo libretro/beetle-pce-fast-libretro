@@ -3,7 +3,7 @@
 
 void PCEINPUT_Init(void);
 void PCEINPUT_SettingChanged(const char *name);
-void PCEINPUT_SetInput(int port, const char *type, void *ptr);
+void PCEINPUT_SetInput(unsigned port, const char *type, uint8 *ptr);
 uint8 INPUT_Read(unsigned int A);
 void INPUT_Write(unsigned int A, uint8 V);
 void INPUT_Frame(void);
