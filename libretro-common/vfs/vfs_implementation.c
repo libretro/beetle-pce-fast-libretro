@@ -172,7 +172,7 @@
 
 #endif
 
-#if defined(_WIN32) && !defined(_XBOX)
+#if defined(_WIN32)
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && _MSC_VER >= 1400)
 #define ATLEAST_VC2005
 #endif
@@ -938,7 +938,9 @@ int retro_vfs_stat_impl(const char *path, int32_t *size)
       /* if fileXioGetStat fails */
       int dir_ret = fileXioDopen(path);
       is_dir      =  dir_ret > 0;
-      fileXioDclose(dir_ret);
+      if (is_dir) {
+         fileXioDclose(dir_ret);
+      }
    }
    else
       is_dir = FIO_S_ISDIR(buf.mode);
@@ -1117,11 +1119,13 @@ static bool dirent_check_error(libretro_vfs_implementation_dir *rdir)
 #endif
 }
 
-libretro_vfs_implementation_dir *retro_vfs_opendir_impl(const char *name, bool include_hidden)
+libretro_vfs_implementation_dir *retro_vfs_opendir_impl(
+      const char *name, bool include_hidden)
 {
 #if defined(_WIN32)
    unsigned path_len;
    char path_buf[1024];
+   size_t copied      = 0;
 #if defined(LEGACY_WIN32)
    char *path_local   = NULL;
 #else
@@ -1145,21 +1149,24 @@ libretro_vfs_implementation_dir *retro_vfs_opendir_impl(const char *name, bool i
    path_buf[0]           = '\0';
    path_len              = strlen(name);
 
+   copied                = strlcpy(path_buf, name, sizeof(path_buf));
+
    /* Non-NT platforms don't like extra slashes in the path */
-   if (name[path_len - 1] == '\\')
-      snprintf(path_buf, sizeof(path_buf), "%s*", name);
-   else
-      snprintf(path_buf, sizeof(path_buf), "%s\\*", name);
+   if (name[path_len - 1] != '\\')
+      path_buf[copied++]   = '\\';
+
+   path_buf[copied]        = '*';
+   path_buf[copied+1]      = '\0';
 
 #if defined(LEGACY_WIN32)
-   path_local            = utf8_to_local_string_alloc(path_buf);
-   rdir->directory       = FindFirstFile(path_local, &rdir->entry);
+   path_local              = utf8_to_local_string_alloc(path_buf);
+   rdir->directory         = FindFirstFile(path_local, &rdir->entry);
 
    if (path_local)
       free(path_local);
 #else
-   path_wide             = utf8_to_utf16_string_alloc(path_buf);
-   rdir->directory       = FindFirstFileW(path_wide, &rdir->entry);
+   path_wide               = utf8_to_utf16_string_alloc(path_buf);
+   rdir->directory         = FindFirstFileW(path_wide, &rdir->entry);
 
    if (path_wide)
       free(path_wide);
@@ -1229,19 +1236,23 @@ const char *retro_vfs_dirent_get_name_impl(libretro_vfs_implementation_dir *rdir
 {
 #if defined(_WIN32)
 #if defined(LEGACY_WIN32)
-   char *name_local = local_to_utf8_string_alloc(rdir->entry.cFileName);
-   memset(rdir->entry.cFileName, 0, sizeof(rdir->entry.cFileName));
-   strlcpy(rdir->entry.cFileName, name_local, sizeof(rdir->entry.cFileName));
+   {
+      char *name_local = local_to_utf8_string_alloc(rdir->entry.cFileName);
+      memset(rdir->entry.cFileName, 0, sizeof(rdir->entry.cFileName));
+      strlcpy(rdir->entry.cFileName, name_local, sizeof(rdir->entry.cFileName));
 
-   if (name_local)
-      free(name_local);
+      if (name_local)
+         free(name_local);
+   }
 #else
-   char *name       = utf16_to_utf8_string_alloc(rdir->entry.cFileName);
-   memset(rdir->entry.cFileName, 0, sizeof(rdir->entry.cFileName));
-   strlcpy((char*)rdir->entry.cFileName, name, sizeof(rdir->entry.cFileName));
+   {
+      char *name       = utf16_to_utf8_string_alloc(rdir->entry.cFileName);
+      memset(rdir->entry.cFileName, 0, sizeof(rdir->entry.cFileName));
+      strlcpy((char*)rdir->entry.cFileName, name, sizeof(rdir->entry.cFileName));
 
-   if (name)
-      free(name);
+      if (name)
+         free(name);
+   }
 #endif
    return (char*)rdir->entry.cFileName;
 #elif defined(VITA) || defined(PSP) || defined(__CELLOS_LV2__) || defined(ORBIS)
@@ -1249,7 +1260,8 @@ const char *retro_vfs_dirent_get_name_impl(libretro_vfs_implementation_dir *rdir
 #elif defined(PS2)
    return rdir->entry.name;
 #else
-
+   if (!rdir || !rdir->entry)
+      return NULL;
    return rdir->entry->d_name;
 #endif
 }
