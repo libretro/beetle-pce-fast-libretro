@@ -1182,6 +1182,7 @@ static void set_volume (uint32_t *ptr, unsigned number)
 static uint8_t input_type[MAX_PLAYERS] = {};
 static uint8_t input_buf[MAX_PLAYERS][5] = {};
 static float mouse_sensitivity = 1.0f;
+static bool disable_softreset = false;
 
 // Array to keep track of whether a given player's button is turbo
 static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
@@ -1343,6 +1344,13 @@ static void check_variables(void)
          turbo_toggle_alt = false;
    }
 
+   var.key = "pce_disable_softreset";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      disable_softreset = (strcmp(var.value, "enabled") == 0);
+   }
+   
    var.key = "pce_mouse_sensitivity";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -1517,6 +1525,10 @@ static void update_input(void)
          for (unsigned i = 0; i < MAX_BUTTONS; i++)
          {
             input_state |= input_state_cb(j, RETRO_DEVICE_JOYPAD, 0, map[i]) ? (1 << i) : 0;
+
+            // disable soft reset
+            if (disable_softreset == true)
+               if ((input_state & 0xC) == 0xC) input_state &= ~0xC;
 
             // handle turbo buttons
             if (turbo_enable[j][i] == 1)                    // Check whether a given button is turbo-capable
