@@ -1729,6 +1729,10 @@ void retro_set_controller_port_device(unsigned in_port, unsigned device)
    if (in_port > 4)
       return;
 
+   // Filter out other device types, otherwise we can
+   // accidentally skip devices like joypad+analog.
+   device &= RETRO_DEVICE_JOYPAD | RETRO_DEVICE_MOUSE;
+
    switch(device)
    {
       case RETRO_DEVICE_JOYPAD:
