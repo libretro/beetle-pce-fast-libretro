@@ -218,6 +218,17 @@ struct retro_core_option_definition option_defs_us[] = {
       "242"
    },
    {
+      "pce_disable_softreset",
+      "Disable Soft Reset (RUN+SELECT)",
+      "If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily.",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_cddavolume",
       "(CD) CDDA Volume %",
       "Modify CDDA Volume %.",
