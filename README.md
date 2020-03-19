@@ -3,14 +3,18 @@
 
 # Beetle PC Engine Fast libretro
 
-Beetle PC Engine Fast is a port/fork of Mednafen's PC Engine Fast module to the libretro API. This libretro core contains CD-ROM<sup>2</sup> support but unlike Mednafen's PCE Fast module, lacks SuperGrafx support. A separate libretro PC Engine core with SuperGrafx support can be found here: https://github.com/libretro/beetle-supergrafx-libretro
-
-This repository also contains a port/fork of Mednafen's PC Engine module on the `pce` branch. This PC Engine module is more accurate than the Fast module, which trades away typically unneeded accuracy in favor of speed. Unlike the Fast module however, this module fork retains built-in SuperGrafx support.
+Beetle PC Engine Fast is a port/fork of Mednafen's PC Engine Fast "pce_fast" module to the libretro API. This libretro core contains CD-ROM<sup>2</sup> support but unlike Mednafen's PCE Fast module, lacks SuperGrafx support. SuperGrafx support is available in the [Beetle SuperGrafx core](https://github.com/libretro/beetle-supergrafx-libretro) or the [Beetle PC Engine "pce" core](https://github.com/libretro/beetle-pce-libretro).
 
 ## Building
 
-The PCE Fast core can be built with `make` in the `master` branch while the PCE "non-Fast" core can be built with `make` in the `pce` branch.
+This core can be built with `make`.
 
 ## Documentation
 
 https://docs.libretro.com/library/beetle_pce_fast/
+
+## Related Cores
+
+Beetle PC Engine: https://github.com/libretro/beetle-pce-libretro
+
+Beetle SuperGrafx: https://github.com/libretro/beetle-supergrafx-libretro
