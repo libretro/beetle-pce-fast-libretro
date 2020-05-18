@@ -823,7 +823,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          DisplayRect->w = defined_width[vce.dot_clock];
       }
 
+#if 0
       int chip = 0;
+#endif
       {
          if(frame_counter == 0)
          {
@@ -870,7 +872,9 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
 
+#if 0
       chip = 0;
+#endif
       {
          MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
          MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
