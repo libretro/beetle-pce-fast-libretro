@@ -417,7 +417,6 @@ int32_t CDAccess_CHD::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
   uint8_t pause_or = 0x00;
   bool track_found = false;
 
-#if 0
   for (track = FirstTrack; track < (FirstTrack + NumTracks); track++)
   {
     if (lba >= (Tracks[track].LBA - Tracks[track].pregap_dv - Tracks[track].pregap) && lba < (Tracks[track].LBA + Tracks[track].sectors + Tracks[track].postgap))
@@ -429,7 +428,6 @@ int32_t CDAccess_CHD::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
 
   if (!track_found)
     printf("Could not find track for sector %d\n!", lba);
-#endif
 
   if (lba < Tracks[track].LBA)
     lba_relative = Tracks[track].LBA - 1 - lba;
