@@ -13,20 +13,84 @@ INCFLAGS := -I$(CORE_DIR) \
 				-I$(MEDNAFEN_DIR)/hw_sound \
 				-I$(MEDNAFEN_DIR)/hw_cpu \
 				-I$(MEDNAFEN_DIR)/hw_misc \
-				-I$(LIBRETRO_COMM_DIR)/include \
-				-I$(DEPS_DIR)/zlib
+				-I$(LIBRETRO_COMM_DIR)/include
+
+LIBCHDR_INCFLAGS = \
+	-I$(DEPS_DIR)/crypto \
+	-I$(DEPS_DIR)/flac-1.3.2/include \
+	-I$(DEPS_DIR)/flac-1.3.2/src/libFLAC/include \
+	-I$(DEPS_DIR)/lzma-16.04/C \
+	-I$(DEPS_DIR)/libchdr
+LIBCHDR_SOURCES_C = \
+	$(DEPS_DIR)/crypto/md5.c \
+	$(DEPS_DIR)/crypto/sha1.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/bitmath.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/bitreader.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/cpu.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/crc.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed_intrin_sse2.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed_intrin_ssse3.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/float.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/format.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_avx2.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse2.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse41.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/md5.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/memory.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/metadata_iterators.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/metadata_object.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/stream_decoder.c \
+	$(DEPS_DIR)/flac-1.3.2/src/libFLAC/window.c \
+	$(DEPS_DIR)/lzma-16.04/C/Alloc.c \
+	$(DEPS_DIR)/lzma-16.04/C/Bra86.c \
+	$(DEPS_DIR)/lzma-16.04/C/Bra.c \
+	$(DEPS_DIR)/lzma-16.04/C/BraIA64.c \
+	$(DEPS_DIR)/lzma-16.04/C/CpuArch.c \
+	$(DEPS_DIR)/lzma-16.04/C/Delta.c \
+	$(DEPS_DIR)/lzma-16.04/C/LzFind.c \
+	$(DEPS_DIR)/lzma-16.04/C/Lzma86Dec.c \
+	$(DEPS_DIR)/lzma-16.04/C/Lzma86Enc.c \
+	$(DEPS_DIR)/lzma-16.04/C/LzmaDec.c \
+	$(DEPS_DIR)/lzma-16.04/C/LzmaEnc.c \
+	$(DEPS_DIR)/lzma-16.04/C/LzmaLib.c \
+	$(DEPS_DIR)/lzma-16.04/C/Sort.c \
+	$(DEPS_DIR)/libchdr/bitstream.c \
+	$(DEPS_DIR)/libchdr/cdrom.c \
+	$(DEPS_DIR)/libchdr/chd.c \
+	$(DEPS_DIR)/libchdr/flac.c \
+	$(DEPS_DIR)/libchdr/huffman.c
+
+ZLIB_INCFLAGS = -I$(DEPS_DIR)/zlib
+ZLIB_SOURCES_C = \
+	$(DEPS_DIR)/zlib/adler32.c \
+	$(DEPS_DIR)/zlib/compress.c \
+	$(DEPS_DIR)/zlib/crc32.c \
+	$(DEPS_DIR)/zlib/deflate.c \
+	$(DEPS_DIR)/zlib/gzclose.c \
+	$(DEPS_DIR)/zlib/gzlib.c \
+	$(DEPS_DIR)/zlib/gzread.c \
+	$(DEPS_DIR)/zlib/gzwrite.c \
+	$(DEPS_DIR)/zlib/inffast.c \
+	$(DEPS_DIR)/zlib/inflate.c \
+	$(DEPS_DIR)/zlib/inftrees.c \
+	$(DEPS_DIR)/zlib/trees.c \
+	$(DEPS_DIR)/zlib/uncompr.c \
+	$(DEPS_DIR)/zlib/zutil.c
 
 ifneq (,$(findstring msvc2003,$(platform)))
-INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+	INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
 endif
 
 ifeq ($(HAVE_CDROM), 1)
-SOURCES_C += \
-				 $(LIBRETRO_COMM_DIR)/cdrom/cdrom.c \
-				 $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_cdrom.c
+	SOURCES_C += \
+					$(LIBRETRO_COMM_DIR)/cdrom/cdrom.c \
+					$(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_cdrom.c
 endif
 
-ifneq ($(HAVE_GRIFFIN),1)
+ifneq ($(HAVE_GRIFFIN), 1)
    SOURCES_CXX += \
 	$(CORE_EMU_DIR)/huc6280.cpp \
 	$(CORE_EMU_DIR)/input.cpp \
@@ -38,7 +102,7 @@ ifneq ($(HAVE_GRIFFIN),1)
 endif
 
 ifeq ($(NEED_BLIP), 1)
-SOURCES_C += $(MEDNAFEN_DIR)/sound/Blip_Buffer.c
+	SOURCES_C += $(MEDNAFEN_DIR)/sound/Blip_Buffer.c
 endif
 
 ifeq ($(HAVE_HES), 1)
@@ -46,179 +110,129 @@ ifeq ($(HAVE_HES), 1)
 endif
 
 ifeq ($(NEED_DEINTERLACER), 1)
-   FLAGS += -DNEED_DEINTERLACER
+	FLAGS += -DNEED_DEINTERLACER
 endif
 
 ifeq ($(NEED_BPP), 8)
-FLAGS += -DWANT_8BPP
+	FLAGS += -DWANT_8BPP
 endif
 
 ifeq ($(NEED_BPP), 16)
-FLAGS += -DWANT_16BPP
+	FLAGS += -DWANT_16BPP
 endif
 
 ifeq ($(NEED_BPP), 32)
-FLAGS += -DWANT_32BPP
+	FLAGS += -DWANT_32BPP
 endif
 
 ifeq ($(WANT_NEW_API), 1)
-FLAGS += -DWANT_NEW_API
+	FLAGS += -DWANT_NEW_API
 endif
 
 ifeq ($(NO_COMPUTED_GOTO), 1)
-FLAGS += -DNO_COMPUTED_GOTO
+	FLAGS += -DNO_COMPUTED_GOTO
 endif
 
 ifeq ($(NEED_STEREO_SOUND), 1)
-FLAGS += -DWANT_STEREO_SOUND
+	FLAGS += -DWANT_STEREO_SOUND
 endif
 
 ifeq ($(FRONTEND_SUPPORTS_RGB565), 1)
-FLAGS += -DFRONTEND_SUPPORTS_RGB565
+	FLAGS += -DFRONTEND_SUPPORTS_RGB565
 endif
 
 ifeq ($(CACHE_CD), 1)
-FLAGS += -D__LIBRETRO_CACHE_CD__
+	FLAGS += -D__LIBRETRO_CACHE_CD__
 endif
 
 ifneq ($(HAVE_GRIFFIN),1)
-SOURCES_CXX += $(CDROM_DIR)/CDAccess.cpp \
-	$(CDROM_DIR)/CDAccess_Image.cpp \
-	$(CDROM_DIR)/CDAccess_CCD.cpp \
-	$(CDROM_DIR)/CDAFReader.cpp \
-	$(CDROM_DIR)/CDAFReader_Vorbis.cpp \
-	$(CDROM_DIR)/cdromif.cpp \
-	$(CDROM_DIR)/CDUtility.cpp \
-	$(CDROM_DIR)/lec.cpp \
-	$(CDROM_DIR)/galois.cpp \
-	$(CDROM_DIR)/recover-raw.cpp \
-	$(CDROM_DIR)/l-ec.cpp \
-	$(CDROM_DIR)/edc_crc32.cpp
+	SOURCES_CXX += \
+		$(CDROM_DIR)/CDAccess.cpp \
+		$(CDROM_DIR)/CDAccess_Image.cpp \
+		$(CDROM_DIR)/CDAccess_CCD.cpp \
+		$(CDROM_DIR)/CDAFReader.cpp \
+		$(CDROM_DIR)/CDAFReader_Vorbis.cpp \
+		$(CDROM_DIR)/cdromif.cpp \
+		$(CDROM_DIR)/CDUtility.cpp \
+		$(CDROM_DIR)/lec.cpp \
+		$(CDROM_DIR)/galois.cpp \
+		$(CDROM_DIR)/recover-raw.cpp \
+		$(CDROM_DIR)/l-ec.cpp \
+		$(CDROM_DIR)/edc_crc32.cpp
 endif
-   FLAGS += -DNEED_CD
+FLAGS += -DNEED_CD
 
 ifeq ($(HAVE_CHD), 1)
-   FLAGS += -DHAVE_CHD -D_7ZIP_ST -DPACKAGE_VERSION=\"1.3.2\" -DFLAC_API_EXPORTS -DFLAC__HAS_OGG=0 -DHAVE_LROUND -DHAVE_STDINT_H -DHAVE_STDLIB_H -DHAVE_SYS_PARAM_H
-   INCFLAGS += -I$(DEPS_DIR)/crypto -I$(DEPS_DIR)/flac-1.3.2/include -I$(DEPS_DIR)/flac-1.3.2/src/libFLAC/include -I$(DEPS_DIR)/lzma-16.04/C -I$(DEPS_DIR)/libchdr
+	FLAGS += -DHAVE_CHD -D_7ZIP_ST -DPACKAGE_VERSION=\"1.3.2\" -DFLAC_API_EXPORTS -DFLAC__HAS_OGG=0 -DHAVE_LROUND -DHAVE_STDINT_H -DHAVE_STDLIB_H -DHAVE_SYS_PARAM_H
+	ifeq ($(platform), win)
+		FLAGS += -DHAVE_FSEEKO
+	endif
 
-   ifeq ($(platform), win)
-       FLAGS += -DHAVE_FSEEKO
-   endif
+	ifeq ($(SYSTEM_LIBCHDR), 1)
+		INCFLAGS += $(shell pkg-config --cflags libchdr)
+		LIBS += $(shell pkg-config --libs libchdr)
+	else
+		INCFLAGS += $(LIBCHDR_INCFLAGS)
+		SOURCES_C += $(LIBCHDR_SOURCES_C)
+		ifeq ($(platform), win)
+			SOURCES_C += $(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
+		endif
+	endif
 
-ifneq ($(STATIC_LINKING), 1)
-SOURCES_C += $(DEPS_DIR)/zlib/adler32.c \
-				 $(DEPS_DIR)/zlib/compress.c \
-				 $(DEPS_DIR)/zlib/crc32.c \
-				 $(DEPS_DIR)/zlib/deflate.c \
-				 $(DEPS_DIR)/zlib/gzclose.c \
-				 $(DEPS_DIR)/zlib/gzlib.c \
-				 $(DEPS_DIR)/zlib/gzread.c \
-				 $(DEPS_DIR)/zlib/gzwrite.c \
-				 $(DEPS_DIR)/zlib/inffast.c \
-				 $(DEPS_DIR)/zlib/inflate.c \
-				 $(DEPS_DIR)/zlib/inftrees.c \
-				 $(DEPS_DIR)/zlib/trees.c \
-				 $(DEPS_DIR)/zlib/uncompr.c \
-				 $(DEPS_DIR)/zlib/zutil.c
-endif
+	ifeq ($(SYSTEM_ZLIB), 1)
+		INCFLAGS += $(shell pkg-config --cflags zlib)
+		LIBS += $(shell pkg-config --libs zlib)
+	else
+		INCFLAGS += $(ZLIB_INCFLAGS)
+		SOURCES_C += $(ZLIB_SOURCES_C)
+	endif
 
-ifeq ($(WINDOWS_VERSION), 1)
-	SOURCES_C += \
-					 $(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
-endif
-
-   SOURCES_C += \
-        $(DEPS_DIR)/crypto/md5.c \
-        $(DEPS_DIR)/crypto/sha1.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/bitmath.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/bitreader.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/cpu.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/crc.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed_intrin_sse2.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/fixed_intrin_ssse3.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/float.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/format.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_avx2.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse2.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse41.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/lpc_intrin_sse.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/md5.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/memory.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/metadata_iterators.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/metadata_object.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/stream_decoder.c \
-        $(DEPS_DIR)/flac-1.3.2/src/libFLAC/window.c \
-        $(DEPS_DIR)/lzma-16.04/C/Alloc.c \
-        $(DEPS_DIR)/lzma-16.04/C/Bra86.c \
-        $(DEPS_DIR)/lzma-16.04/C/Bra.c \
-        $(DEPS_DIR)/lzma-16.04/C/BraIA64.c \
-        $(DEPS_DIR)/lzma-16.04/C/CpuArch.c \
-        $(DEPS_DIR)/lzma-16.04/C/Delta.c \
-        $(DEPS_DIR)/lzma-16.04/C/LzFind.c \
-        $(DEPS_DIR)/lzma-16.04/C/Lzma86Dec.c \
-        $(DEPS_DIR)/lzma-16.04/C/Lzma86Enc.c \
-        $(DEPS_DIR)/lzma-16.04/C/LzmaDec.c \
-        $(DEPS_DIR)/lzma-16.04/C/LzmaEnc.c \
-        $(DEPS_DIR)/lzma-16.04/C/LzmaLib.c \
-        $(DEPS_DIR)/lzma-16.04/C/Sort.c \
-        $(DEPS_DIR)/libchdr/bitstream.c \
-        $(DEPS_DIR)/libchdr/cdrom.c \
-        $(DEPS_DIR)/libchdr/chd.c \
-        $(DEPS_DIR)/libchdr/flac.c \
-        $(DEPS_DIR)/libchdr/huffman.c
-
-   SOURCES_CXX += \
-        $(CDROM_DIR)/CDAccess_CHD.cpp
-
-   ifeq ($(platform), win)
-       SOURCES_C += $(DEPS_DIR)/flac-1.3.2/src/libFLAC/windows_unicode_filenames.c
-   endif
+	SOURCES_CXX += $(CDROM_DIR)/CDAccess_CHD.cpp
 endif
 
 ifeq ($(NEED_TREMOR), 1)
-   SOURCES_C += $(sort $(filter-out %ivorbisfile_example.c, $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)))
-   FLAGS += -DNEED_TREMOR
+    SOURCES_C += $(sort $(filter-out %ivorbisfile_example.c, $(wildcard $(MEDNAFEN_DIR)/tremor/*.c)))
+    FLAGS += -DNEED_TREMOR
 endif
 
 ifneq ($(HAVE_GRIFFIN), 1)
-SOURCES_CXX += \
-	$(MEDNAFEN_DIR)/settings.cpp \
-	$(MEDNAFEN_DIR)/general.cpp \
-	$(MEDNAFEN_DIR)/FileStream.cpp \
-	$(MEDNAFEN_DIR)/MemoryStream.cpp \
-	$(MEDNAFEN_DIR)/Stream.cpp \
-	$(MEDNAFEN_DIR)/state.cpp \
-	$(MEDNAFEN_DIR)/mempatcher.cpp \
-	$(MEDNAFEN_DIR)/okiadpcm.cpp \
-	$(CORE_DIR)/libretro.cpp
+	SOURCES_CXX += \
+		$(MEDNAFEN_DIR)/settings.cpp \
+		$(MEDNAFEN_DIR)/general.cpp \
+		$(MEDNAFEN_DIR)/FileStream.cpp \
+		$(MEDNAFEN_DIR)/MemoryStream.cpp \
+		$(MEDNAFEN_DIR)/Stream.cpp \
+		$(MEDNAFEN_DIR)/state.cpp \
+		$(MEDNAFEN_DIR)/mempatcher.cpp \
+		$(MEDNAFEN_DIR)/okiadpcm.cpp \
+		$(CORE_DIR)/libretro.cpp
 
-SOURCES_C += \
-	$(MEDNAFEN_DIR)/file.c \
-	$(MEDNAFEN_DIR)/mednafen-endian.c
+	SOURCES_C += \
+		$(MEDNAFEN_DIR)/file.c \
+		$(MEDNAFEN_DIR)/mednafen-endian.c
 endif
 
 ifneq ($(STATIC_LINKING), 1)
-SOURCES_C += $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
-				 $(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
-         $(LIBRETRO_COMM_DIR)/file/file_path.c \
-         $(LIBRETRO_COMM_DIR)/file/retro_dirent.c \
-         $(LIBRETRO_COMM_DIR)/lists/string_list.c \
-         $(LIBRETRO_COMM_DIR)/lists/dir_list.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
-				 $(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
-				 $(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
-				 $(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
-				 $(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
-				 $(LIBRETRO_COMM_DIR)/memmap/memalign.c \
-				 $(LIBRETRO_COMM_DIR)/string/stdstring.c
+	SOURCES_C += \
+					$(LIBRETRO_COMM_DIR)/streams/file_stream.c \
+					$(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
+					$(LIBRETRO_COMM_DIR)/file/file_path.c \
+					$(LIBRETRO_COMM_DIR)/file/retro_dirent.c \
+					$(LIBRETRO_COMM_DIR)/lists/string_list.c \
+					$(LIBRETRO_COMM_DIR)/lists/dir_list.c \
+					$(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
+					$(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
+					$(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
+					$(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
+					$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
+					$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
+					$(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
+					$(LIBRETRO_COMM_DIR)/memmap/memalign.c \
+					$(LIBRETRO_COMM_DIR)/string/stdstring.c
 
-ifneq (,$(findstring uwp,$(PlatformSuffix)))
-SOURCES_CXX += $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_uwp.cpp
-else
-SOURCES_C += $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c
-endif
+	ifneq (,$(findstring uwp,$(PlatformSuffix)))
+		SOURCES_CXX += $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_uwp.cpp
+	else
+		SOURCES_C += $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c
+	endif
 endif
