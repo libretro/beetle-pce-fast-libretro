@@ -116,7 +116,7 @@ int smem_read32le(StateMem *st, uint32_t *b)
    return(4);
 }
 
-static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix = NULL)
+static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix)
 {
    while(sf->size || sf->name)	// Size can sometimes be zero, so also check for the text name.  These two should both be zero only at the end of a struct.
    {
@@ -226,7 +226,7 @@ static int WriteStateChunk(StateMem *st, const char *sname, SFORMAT *sf)
 
    data_start_pos = st->loc;
 
-   if(!SubWrite(st, sf))
+   if(!SubWrite(st, sf, NULL))
       return(0);
 
    end_pos = st->loc;
