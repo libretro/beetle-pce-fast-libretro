@@ -19,11 +19,14 @@
 
 #include <boolean.h>
 
+#include <compat/strl.h>
+
 #include "mednafen.h"
 #include "driver.h"
 #include "general.h"
 #include "state.h"
 #include "video.h"
+
 #include <compat/msvc.h>
 
 #define RLSB 		MDFNSTATE_RLSB	//0x80000000
@@ -134,14 +137,14 @@ static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix = NULL)
 
       int32_t bytesize = sf->size;
 
-      char nameo[1 + 256];
       int slen;
-
-      slen = snprintf(nameo + 1, 256, "%s%s", name_prefix ? name_prefix : "", sf->name);
+      char nameo[1 + 256];
+      if (name_prefix)
+         slen  = snprintf(nameo + 1,
+               256, "%s%s", name_prefix, sf->name);
+      else
+         slen  = strlcpy(nameo + 1, sf->name, 256);
       nameo[0] = slen;
-
-      if(slen >= 255)
-         slen = 255;
 
       smem_write(st, nameo, 1 + nameo[0]);
       smem_write32le(st, bytesize);
