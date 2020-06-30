@@ -139,12 +139,16 @@ static bool SubWrite(StateMem *st, SFORMAT *sf, const char *name_prefix = NULL)
 
       int slen;
       char nameo[1 + 256];
+
       if (name_prefix)
-         slen  = snprintf(nameo + 1,
-               256, "%s%s", name_prefix, sf->name);
+         slen       = snprintf(
+               nameo + 1, 256, "%s%s", name_prefix, sf->name);
       else
-         slen  = strlcpy(nameo + 1, sf->name, 256);
-      nameo[0] = slen;
+      {
+         slen       = strlcpy(nameo + 1, sf->name, 256);
+         nameo[256] = 0;
+      }
+      nameo[0]      = slen;
 
       smem_write(st, nameo, 1 + nameo[0]);
       smem_write32le(st, bytesize);
