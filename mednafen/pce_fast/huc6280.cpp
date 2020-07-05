@@ -17,6 +17,7 @@
 
 #include "pce.h"
 #include "vdc.h"
+#include "../state_helpers.h"
 
 static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
 HuC6280 HuCPU;

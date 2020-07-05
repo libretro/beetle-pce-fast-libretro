@@ -10,7 +10,7 @@
 #include "mednafen/mednafen.h"
 #include "mednafen/git.h"
 #include "mednafen/general.h"
-
+#include "mednafen/state_helpers.h"
 
 #include "mednafen/pce_fast/pce.h"
 #include "mednafen/pce_fast/vdc.h"
@@ -395,33 +395,33 @@ static void Emulate(EmulateSpecStruct *espec)
   PCECD_ResetTS();
 }
 
-int StateAction(StateMem *sm, int load, int data_only)
+extern "C" int StateAction(StateMem *sm, int load, int data_only)
 {
- SFORMAT StateRegs[] =
- {
-  SFARRAY(BaseRAM, 8192),
-  SFVAR(PCEIODataBuffer),
-  SFEND
- };
+   SFORMAT StateRegs[] =
+   {
+      SFARRAY(BaseRAM, 8192),
+      SFVAR(PCEIODataBuffer),
+      SFEND
+   };
 
- //for(int i = 8192; i < 32768; i++)
- // if(BaseRAM[i] != 0xFF)
- //  printf("%d %02x\n", i, BaseRAM[i]);
+   //for(int i = 8192; i < 32768; i++)
+   // if(BaseRAM[i] != 0xFF)
+   //  printf("%d %02x\n", i, BaseRAM[i]);
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
+   int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
 
- ret &= HuC6280_StateAction(sm, load, data_only);
- ret &= VDC_StateAction(sm, load, data_only);
- ret &= psg->StateAction(sm, load, data_only);
- ret &= INPUT_StateAction(sm, load, data_only);
- ret &= HuC_StateAction(sm, load, data_only);
+   ret &= HuC6280_StateAction(sm, load, data_only);
+   ret &= VDC_StateAction(sm, load, data_only);
+   ret &= psg->StateAction(sm, load, data_only);
+   ret &= INPUT_StateAction(sm, load, data_only);
+   ret &= HuC_StateAction(sm, load, data_only);
 
- if(load)
- {
+   if(load)
+   {
 
- }
+   }
 
- return(ret);
+   return(ret);
 }
 
 void PCE_Power(void)

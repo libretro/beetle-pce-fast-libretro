@@ -30,6 +30,7 @@
 
 #include "pcecd.h"
 #include "../cdrom/SimpleFIFO.h"
+#include "../state_helpers.h"
 
 //#define PCECD_DEBUG
 

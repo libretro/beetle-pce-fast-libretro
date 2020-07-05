@@ -351,7 +351,13 @@ static INLINE uint32 round_up_pow2(uint32 v)
    return(v);
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 int StateAction(StateMem *sm, int load, int data_only);
+#ifdef __cplusplus
+}
+#endif
 uint8 MemRead(uint32 addr);
 
 extern retro_log_printf_t log_cb;

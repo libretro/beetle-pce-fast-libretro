@@ -25,13 +25,15 @@ of samples between the ~60Hz peaks(just to verify that the math shown below is r
 The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cycles per scanline)"
 */
 
+#include <math.h>
+
 #include "pce.h"
 #include "../video.h"
 #include "vdc.h"
 #include "huc.h"
 #include "pcecd.h"
 #include "../FileStream.h"
-#include <math.h>
+#include "../state_helpers.h"
 
 static uint32 userle; // User layer enable.
 static uint32 disabled_layer_color;

@@ -202,13 +202,13 @@ ifneq ($(HAVE_GRIFFIN), 1)
 		$(MEDNAFEN_DIR)/FileStream.cpp \
 		$(MEDNAFEN_DIR)/MemoryStream.cpp \
 		$(MEDNAFEN_DIR)/Stream.cpp \
-		$(MEDNAFEN_DIR)/state.cpp \
 		$(MEDNAFEN_DIR)/mempatcher.cpp \
 		$(MEDNAFEN_DIR)/okiadpcm.cpp \
 		$(CORE_DIR)/libretro.cpp
 
 	SOURCES_C += \
 		$(MEDNAFEN_DIR)/file.c \
+		$(MEDNAFEN_DIR)/state.c \
 		$(MEDNAFEN_DIR)/mednafen-endian.c
 endif
 

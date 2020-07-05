@@ -18,14 +18,14 @@
  Arcade Card emulation based on information provided by Ki and David Shadoff
 */
 
-#include "../../mednafen.h"
+#include <errno.h>
+#include <string.h>
 
 //#include "pce.h"
 //#include "huc.h"
+#include "../../mednafen.h"
+#include "../../state_helpers.h"
 #include "arcade_card.h"
-
-#include <errno.h>
-#include <string.h>
 
 static INLINE void ACAutoIncrement(ACPort_t *port)
 {
