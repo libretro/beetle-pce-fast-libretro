@@ -223,15 +223,10 @@ static int WriteStateChunk(StateMem *st, const char *sname, SFORMAT *sf)
    int32_t end_pos;
 
    uint8_t sname_tmp[32];
-    size_t sname_len = strlen(sname);
+   size_t sname_len = strlen(sname);
 
    memset(sname_tmp, 0, sizeof(sname_tmp));
    memcpy((char *)sname_tmp, sname, (sname_len < 32) ? sname_len : 32);
-
-#ifndef NDEBUG
-   if(sname_len > 32)
-      printf("Warning: section name is too long: %s\n", sname);
-#endif
 
    smem_write(st, sname_tmp, 32);
 
