@@ -33,7 +33,7 @@ uint32_t setting_pce_fast_cdspeed = 1;
 std::string setting_pce_fast_cdbios = "syscard3.pce";
 bool OrderOfGriffonFix = false;
 
-uint64 MDFN_GetSettingUI(const char *name)
+uint64_t MDFN_GetSettingUI(const char *name)
 {
    if (!strcmp("pce_fast.cddavolume", name))
       return setting_pce_fast_cddavolume;
@@ -56,7 +56,7 @@ uint64 MDFN_GetSettingUI(const char *name)
    return 0;
 }
 
-int64 MDFN_GetSettingI(const char *name)
+int64_t MDFN_GetSettingI(const char *name)
 {
    fprintf(stderr, "unhandled setting I: %s\n", name);
    return 0;
@@ -93,8 +93,6 @@ bool MDFN_GetSettingB(const char *name)
    /* FILESYS */
    if (!strcmp("filesys.untrusted_fip_check", name))
       return 0;
-   if (!strcmp("filesys.disablesavegz", name))
-      return 1;
    fprintf(stderr, "unhandled setting B: %s\n", name);
    return 0;
 }
@@ -105,36 +103,6 @@ std::string MDFN_GetSettingS(const char *name)
 {
    if (!strcmp("pce_fast.cdbios", name))
       return setting_pce_fast_cdbios;
-   /* FILESYS */
-   if (!strcmp("filesys.path_firmware", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_palette", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_sav", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_state", name))
-      return retro_base_directory;
-   if (!strcmp("filesys.path_cheat", name))
-      return retro_base_directory;
    fprintf(stderr, "unhandled setting S: %s\n", name);
    return 0;
-}
-
-bool MDFNI_SetSetting(const char *name, const char *value, bool NetplayOverride)
-{
-   return false;
-}
-
-bool MDFNI_SetSettingB(const char *name, bool value)
-{
-   return false;
-}
-
-bool MDFNI_SetSettingUI(const char *name, uint64 value)
-{
-   return false;
-}
-
-void MDFNI_DumpSettingsDef(const char *path)
-{
 }
