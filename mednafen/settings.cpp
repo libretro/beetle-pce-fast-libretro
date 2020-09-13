@@ -87,17 +87,12 @@ bool MDFN_GetSettingB(const char *name)
       return 0;
    if (!strcmp("pce_fast.adpcmlp", name))
       return 0;
-   /* CDROM */
-   if (!strcmp("cdrom.lec_eval", name))
-      return 1;
    /* FILESYS */
    if (!strcmp("filesys.untrusted_fip_check", name))
       return 0;
    fprintf(stderr, "unhandled setting B: %s\n", name);
    return 0;
 }
-
-extern std::string retro_base_directory;
 
 std::string MDFN_GetSettingS(const char *name)
 {
