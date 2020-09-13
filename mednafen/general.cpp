@@ -45,30 +45,6 @@ static bool IsAbsolutePath(const char *path)
    return(FALSE);
 }
 
-bool MDFN_IsFIROPSafe(const std::string &path)
-{
- // We could make this more OS-specific, but it shouldn't hurt to try to weed out usage of characters that are path
- // separators in one OS but not in another, and we'd also run more of a risk of missing a special path separator case
- // in some OS.
-
- if(!MDFN_GetSettingB("filesys.untrusted_fip_check"))
-  return(true);
-
- if(path.find('\0') != string::npos)
-  return(false);
-
- if(path.find(':') != string::npos)
-  return(false);
-
- if(path.find('\\') != string::npos)
-  return(false);
-
- if(path.find('/') != string::npos)
-  return(false);
-
- return(true);
-}
-
 void MDFN_GetFilePathComponents(const std::string &file_path, 
       std::string *dir_path_out, std::string *file_base_out, 
       std::string *file_ext_out)
