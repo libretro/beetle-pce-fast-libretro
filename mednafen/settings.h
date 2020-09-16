@@ -1,7 +1,7 @@
 #ifndef MDFN_SETTINGS_H
 #define MDFN_SETTINGS_H
 
-#include <stdint.h>
+#include "mednafen-types.h"
 
 extern int setting_initial_scanline;
 extern int setting_last_scanline;
@@ -14,10 +14,21 @@ extern int setting_pce_fast_cdpsgvolume;
 extern uint32_t setting_pce_fast_cdspeed;
 extern bool OrderOfGriffonFix;
 
-// This should assert() or something if the setting isn't found, since it would
-// be a totally tubular error!
+/* This should assert() or something if the setting isn't found, 
+ * since it would
+ * be a totally tubular error! */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 uint64 MDFN_GetSettingUI(const char *name);
 int64 MDFN_GetSettingI(const char *name);
 double MDFN_GetSettingF(const char *name);
 bool MDFN_GetSettingB(const char *name);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
