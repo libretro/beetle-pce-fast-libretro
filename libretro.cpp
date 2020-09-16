@@ -19,7 +19,7 @@
 #include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
-#include "mednafen/settings-driver.h"
+#include "mednafen/settings-common.h"
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mempatcher.h"
 #include "mednafen/cdrom/cdromif.h"
