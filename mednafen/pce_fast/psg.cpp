@@ -19,8 +19,9 @@
 #include <math.h>
 
 #include "../mednafen.h"
-#include "psg.h"
 #include "../state_helpers.h"
+
+#include "psg.h"
 
 void PCEFast_PSG::SetVolume(double new_volume)
 {

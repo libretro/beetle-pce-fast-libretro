@@ -24,13 +24,12 @@
 */
 
 #include "../mednafen.h"
-#include "../cdrom/cdromif.h"
-#include "pcecd_drive.h"
 #include "../okiadpcm.h"
-
-#include "pcecd.h"
 #include "../cdrom/SimpleFIFO.h"
 #include "../state_helpers.h"
+
+#include "pcecd_drive.h"
+#include "pcecd.h"
 
 //#define PCECD_DEBUG
 

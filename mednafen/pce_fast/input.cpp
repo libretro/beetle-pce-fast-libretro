@@ -19,12 +19,10 @@
 
 #include "../mednafen-types.h"
 #include "../mednafen-driver.h"
-#include "../mednafen-endian.h"
 #include "../state_helpers.h"
 #include "../mednafen.h"
 
 #include "pce.h"
-#include "input.h"
 #include "huc.h"
 #include "huc6280.h"
 
