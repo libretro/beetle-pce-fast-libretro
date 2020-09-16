@@ -46,6 +46,8 @@
 
 static bool old_cdimagecache = false;
 
+std::string setting_pce_fast_cdbios = "syscard3.pce";
+
 extern MDFNGI EmulatedPCE_Fast;
 MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
 
@@ -297,7 +299,7 @@ static int LoadCommon(void)
 
 static int LoadCD(std::vector<CDIF *> *CDInterfaces)
 {
- std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("pce_fast.cdbios").c_str() );
+ std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, setting_pce_fast_cdbios.c_str() );
 
  LoadCommonPre();
 

@@ -18,7 +18,6 @@
 #include "mednafen.h"
 #include <errno.h>
 #include <string.h>
-#include <string>
 #include "settings.h"
 
 int setting_initial_scanline = 0;
@@ -30,7 +29,6 @@ int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
 int setting_pce_fast_cdpsgvolume = 100;
 uint32_t setting_pce_fast_cdspeed = 1;
-std::string setting_pce_fast_cdbios = "syscard3.pce";
 bool OrderOfGriffonFix = false;
 
 uint64_t MDFN_GetSettingUI(const char *name)
@@ -88,13 +86,5 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce_fast.adpcmlp", name))
       return 0;
    fprintf(stderr, "unhandled setting B: %s\n", name);
-   return 0;
-}
-
-std::string MDFN_GetSettingS(const char *name)
-{
-   if (!strcmp("pce_fast.cdbios", name))
-      return setting_pce_fast_cdbios;
-   fprintf(stderr, "unhandled setting S: %s\n", name);
    return 0;
 }
