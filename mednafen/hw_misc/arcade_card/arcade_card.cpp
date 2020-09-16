@@ -21,8 +21,6 @@
 #include <errno.h>
 #include <string.h>
 
-//#include "pce.h"
-//#include "huc.h"
 #include "../../mednafen.h"
 #include "../../state_helpers.h"
 #include "arcade_card.h"

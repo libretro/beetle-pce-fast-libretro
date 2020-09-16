@@ -20,7 +20,6 @@
 #include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
-#include "../msvc_compat.h"
 #include "../state_helpers.h"
 
 static inline void SCSIDBG(const char *format, ...)

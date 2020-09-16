@@ -20,9 +20,6 @@
 #include <sys/types.h>
 #include "cdromif.h"
 #include "CDAccess.h"
-#include "../general.h"
-
-#include <algorithm>
 
 #include <boolean.h>
 #include <retro_miscellaneous.h>
