@@ -24,6 +24,4 @@ void MDFNMP_RemoveReadPatches(void);
 
 void MDFNMP_ApplyPeriodicCheats(void);
 
-extern MDFNSetting MDFNMP_Settings[];
-
 #endif

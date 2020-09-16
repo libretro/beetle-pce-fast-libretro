@@ -667,10 +667,3 @@ static void SettingChanged(const char *name)
 
  MDFNMP_InstallReadPatches();
 }
-
-
-MDFNSetting MDFNMP_Settings[] =
-{
- { "cheats", MDFNSF_NOFLAGS, "Enable cheats.", NULL, MDFNST_BOOL, "1", NULL, NULL, NULL, SettingChanged },
- { NULL}
-};
