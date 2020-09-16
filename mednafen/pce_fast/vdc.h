@@ -1,6 +1,10 @@
 #ifndef _PCE_VDC_H
 #define _PCE_VDC_H
 
+#include "../git.h"
+
+#include "huc6280.h"
+
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 

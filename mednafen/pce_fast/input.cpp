@@ -15,11 +15,18 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <string.h>
+
+#include "../mednafen-types.h"
+#include "../mednafen-driver.h"
+#include "../mednafen-endian.h"
+#include "../state_helpers.h"
+#include "../mednafen.h"
+
 #include "pce.h"
 #include "input.h"
 #include "huc.h"
-#include "../mednafen-endian.h"
-#include "../state_helpers.h"
+#include "huc6280.h"
 
 static int InputTypes[5];
 static uint8 *data_ptr[5];

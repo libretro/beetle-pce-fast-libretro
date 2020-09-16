@@ -2,9 +2,6 @@
 #define _PCE_H
 
 #include "../mednafen-types.h"
-#include "../mednafen.h"
-#include "../state.h"
-#include "../general.h"
 
 #define PCE_MASTER_CLOCK        21477272.727273
 
@@ -26,7 +23,5 @@ void PCE_Power(void) MDFN_COLD;
 extern int pce_overclocked;
 
 extern uint8 BaseRAM[32768 + 8192];
-
-#include "huc6280.h"
 
 #endif
