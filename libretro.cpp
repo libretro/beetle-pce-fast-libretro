@@ -498,12 +498,6 @@ uint8 MemRead(uint32 addr)
  return(HuCPU.PCERead[(addr / 8192) & 0xFF](addr));
 }
 
-static const FileExtensionSpecStruct KnownExtensions[] =
-{
- { ".pce", "PC Engine ROM Image" },
- { NULL, NULL }
-};
-
 static const uint8 BRAM_Init_String[8] = { 'H', 'U', 'B', 'M', 0x00, 0x88, 0x10, 0x80 }; //"HUBM\x00\x88\x10\x80";
 
 ArcadeCard *arcade_card = NULL;
@@ -697,14 +691,6 @@ bool IsBRAMUsed(void)
 
 int HuCLoadCD(const char *bios_path)
 {
- static const FileExtensionSpecStruct KnownBIOSExtensions[] =
- {
-  { ".pce", "PC Engine ROM Image" },
-  { ".bin", "PC Engine ROM Image" },
-  { ".bios", "BIOS Image" },
-  { NULL, NULL }
- };
-
  MDFNFILE *fp = file_open(bios_path);
 
  if(!fp)
@@ -954,7 +940,6 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
 
 static MDFNGI *MDFNI_LoadGame(const char *name)
 {
-   std::vector<FileExtensionSpecStruct> valid_iae;
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
@@ -964,15 +949,6 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    MDFN_printf("Loading %s...\n",name);
 
    MDFN_indent(1);
-
-   // Construct a NULL-delimited list of known file extensions for MDFN_fopen()
-   const FileExtensionSpecStruct *curexts = KnownExtensions;
-
-   while(curexts->extension && curexts->description)
-   {
-      valid_iae.push_back(*curexts);
-      curexts++;
-   }
 
    GameFile = file_open(name);
 
@@ -1061,7 +1037,8 @@ void MDFN_printf(const char *format, ...)
    vsnprintf(temp, 4096, format_temp, ap);
    free(format_temp);
 
-   MDFND_Message(temp);
+   if (log_cb)
+      log_cb(RETRO_LOG_INFO, "%s\n", temp);
    free(temp);
 
    va_end(ap);
@@ -1077,7 +1054,8 @@ void MDFN_PrintError(const char *format, ...)
 
  temp = (char*)malloc(4096 * sizeof(char));
  vsnprintf(temp, 4096, format, ap);
- MDFND_PrintError(temp);
+ if (log_cb)
+    log_cb(RETRO_LOG_ERROR, "%s\n", temp);
  free(temp);
 
  va_end(ap);
@@ -1958,18 +1936,6 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {}
-
-void MDFND_Message(const char *str)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", str);
-}
-
-void MDFND_PrintError(const char* err)
-{
-   if (log_cb)
-      log_cb(RETRO_LOG_ERROR, "%s\n", err);
-}
 
 /* forward declarations */
 extern void MDFND_DispMessage(unsigned char *str);

@@ -12,12 +12,6 @@
 template<typename T> void showtype(T foo);
 #endif
 
-typedef struct
-{
- const char *extension; // Example ".nes"
- const char *description; // Example "iNES Format ROM Image"
-} FileExtensionSpecStruct;
-
 enum
 {
  MDFN_ROTATE0 = 0,
