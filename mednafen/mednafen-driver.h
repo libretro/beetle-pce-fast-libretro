@@ -3,8 +3,6 @@
 
 #include <stdio.h>
 
-#include "settings-common.h"
-
 /* Indent stdout newlines +- "indent" amount */
 void MDFN_indent(int indent);
 void MDFN_printf(const char *format, ...);

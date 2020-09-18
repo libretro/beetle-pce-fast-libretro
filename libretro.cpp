@@ -19,7 +19,6 @@
 #include "mednafen/pce_fast/huc.h"
 #include "mednafen/pce_fast/pcecd.h"
 #include "mednafen/pce_fast/pcecd_drive.h"
-#include "mednafen/settings-common.h"
 #include "mednafen/hw_misc/arcade_card/arcade_card.h"
 #include "mednafen/mempatcher.h"
 #include "mednafen/cdrom/cdromif.h"
@@ -455,27 +454,6 @@ static void DoSimpleCommand(int cmd)
  }
 }
 
-static MDFNSetting PCESettings[] =
-{
-  { "pce_fast.slstart", MDFNSF_NOFLAGS, "First rendered scanline.", NULL, MDFNST_UINT, "4", "0", "239" },
-  { "pce_fast.slend", MDFNSF_NOFLAGS, "Last rendered scanline.", NULL, MDFNST_UINT, "235", "0", "239" },
-  { "pce_fast.mouse_sensitivity", MDFNSF_NOFLAGS, "Mouse sensitivity.", NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce_fast.disable_softreset", MDFNSF_NOFLAGS, "If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily.", NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce_fast.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "Enable Arcade Card emulation.", NULL, MDFNST_BOOL, "1" },
-  { "pce_fast.ocmultiplier", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CPU overclock multiplier.", NULL, MDFNST_UINT, "1", "1", "100"},
-  { "pce_fast.cdspeed", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, "CD-ROM data transfer speed multiplier.", NULL, MDFNST_UINT, "1", "1", "100" },
-  { "pce_fast.nospritelimit", MDFNSF_NOFLAGS, "Remove 16-sprites-per-scanline hardware limit.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.hoverscan", MDFNSF_NOFLAGS, "Reduce 352 pixels width overscan.", NULL, MDFNST_UINT, "300", "300", "352" },
-
-  { "pce_fast.cdbios", MDFNSF_EMU_STATE, "Path to the CD BIOS", NULL, MDFNST_STRING, "syscard3.pce" },
-
-  { "pce_fast.adpcmlp", MDFNSF_NOFLAGS, "Enable dynamic ADPCM lowpass filter.", NULL, MDFNST_BOOL, "0" },
-  { "pce_fast.cdpsgvolume", MDFNSF_NOFLAGS, "PSG volume when playing a CD game.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { "pce_fast.cddavolume", MDFNSF_NOFLAGS, "CD-DA volume.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { "pce_fast.adpcmvolume", MDFNSF_NOFLAGS, "ADPCM volume.", NULL, MDFNST_UINT, "100", "0", "200" },
-  { NULL }
-};
-
 uint8 MemRead(uint32 addr)
 {
  return(HuCPU.PCERead[(addr / 8192) & 0xFF](addr));
@@ -787,7 +765,6 @@ void HuC_Power(void)
 
 MDFNGI EmulatedPCE_Fast =
 {
- PCESettings,
  MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
  0,
 
