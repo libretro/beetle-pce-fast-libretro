@@ -319,6 +319,72 @@ struct retro_core_option_definition option_defs_us[] = {
       "100"
    },
    {
+      "pce_disable_sound_channel_0",
+      "Disable Sound Channel 0",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_disable_sound_channel_1",
+      "Disable Sound Channel 1",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_disable_sound_channel_2",
+      "Disable Sound Channel 2",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_disable_sound_channel_3",
+      "Disable Sound Channel 3",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_disable_sound_channel_4",
+      "Disable Sound Channel 4",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_disable_sound_channel_5",
+      "Disable Sound Channel 5",
+      "",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_cdspeed",
       "(CD) CD Speed",
       "Set the speed of the emulated CD drive.",

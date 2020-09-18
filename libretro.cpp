@@ -1199,6 +1199,7 @@ static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int Turbo_Delay;
 static int Turbo_Toggling = 1;
 static bool turbo_toggle_alt = false;
+static bool disabled_channels[6] = { false };
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 static void check_variables(void)
@@ -1320,7 +1321,20 @@ static void check_variables(void)
       if (PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
-
+   
+   char pce_disable_sound_channel_base_str[] = "pce_disable_sound_channel_0";
+   var.key = pce_disable_sound_channel_base_str;
+   for (unsigned c = 0; c < 6; c++) {;
+       pce_disable_sound_channel_base_str[26] = c+'0';
+       if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+       {
+          if (strcmp(var.value, "enabled") == 0)
+             disabled_channels[c] = true;
+          else
+             disabled_channels[c] = false;
+       }
+   }
+ 
    // Set Turbo_Toggling
    var.key = "pce_turbo_toggling";
 
@@ -1469,6 +1483,13 @@ bool retro_load_game(const struct retro_game_info *info)
       descs[i].len    = 8192 * 8;
       descs[i].select = 0xFFFF0000;
       i++;
+   }
+   
+   for (unsigned c = 0; c < 6; c++) {
+      if(disabled_channels[c]) 
+          psg->DisableChannel(c);
+      else
+          psg->EnableChannel(c);
    }
 
    mmaps.descriptors = descs;
@@ -1697,9 +1718,17 @@ void retro_run(void)
       if(PCE_IsCD){
             psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
+      
+      for (unsigned c = 0; c < 6; c++) {
+          if(disabled_channels[c]) 
+              psg->DisableChannel(c);
+          else
+              psg->EnableChannel(c);
+      }
+
       update_geometry(width, height);
    }
-
+        
    if (resolution_changed)
       update_geometry(width, height);
    video_frames++;

@@ -30,6 +30,25 @@ void PCEFast_PSG::SetVolume(double new_volume)
    Blip_Synth_set_volume(&Synth, OutputVolume / 6, 8192);
 }
 
+
+void PCEFast_PSG::DisableChannel(int chnum)
+{
+   psg_channel *ch = &channel[chnum];
+   if(! ch ) return;
+   //printf("Disabled channel: %d\n", chnum);
+   if(chnum < 6)
+        ch->disabled = 1;
+}
+
+void PCEFast_PSG::EnableChannel(int chnum)
+{
+    //printf("Enabled channel: %d\n", chnum);
+    psg_channel *ch = &channel[chnum];
+    if(! ch ) return;
+    if(chnum < 6)
+        ch->disabled = 0;
+}
+
 void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
 {
    int32 samp[2];
@@ -226,6 +245,8 @@ void PCEFast_PSG::Write(int32 timestamp, uint8 A, uint8 V)
    Update(timestamp);
 
    psg_channel *ch = &channel[select];
+   
+   //if(ch->disabled) return;
 
    //if(A == 0x01 || select == 5)
    // printf("Write Ch: %d %04x %02x, %d\n", select, A, V, timestamp);
@@ -353,6 +374,8 @@ void PCEFast_PSG::RunChannel(int chc, int32 timestamp)
 
    ch->lastts = timestamp;
 
+   if(ch->disabled) return;
+   
    if(!run_time)
       return;
 
@@ -555,6 +578,7 @@ void PCEFast_PSG::Power(const int32 timestamp)
       channel[ch].frequency = 0;
       channel[ch].control = 0x00;
       channel[ch].balance = 0;
+      channel[ch].disabled = 0;
       memset(channel[ch].waveform, 0, 32);
       channel[ch].samp_accum = 0;
 

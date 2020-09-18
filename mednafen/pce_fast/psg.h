@@ -30,6 +30,8 @@ struct psg_channel
 
    uint16 frequency;       /* Channel frequency */
    uint8 balance;          /* Channel balance */
+   
+   bool disabled;
 };
 
 class PCEFast_PSG
@@ -45,6 +47,8 @@ class PCEFast_PSG
       void Write(int32 timestamp, uint8 A, uint8 V);
 
       void SetVolume(double new_volume) MDFN_COLD;
+      void EnableChannel(int chnum) MDFN_COLD;
+      void DisableChannel(int chnum) MDFN_COLD;
 
       void EndFrame(int32 timestamp);
 
