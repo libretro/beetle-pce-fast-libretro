@@ -3,12 +3,6 @@
 
 #include <string>
 
-extern uint32 MDFN_RoundUpPow2(uint32);
-
-void GetFileBase(const char *f);
-
-std::string MDFN_MakeFName(int type, int id1, const char *cd1);
-
 void MDFN_ltrim(std::string &string);
 void MDFN_rtrim(std::string &string);
 void MDFN_trim(std::string &string);
@@ -26,8 +20,6 @@ typedef enum
  MDFNMKF_CHEAT_TMP,
  MDFNMKF_FIRMWARE
 } MakeFName_Type;
-
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1);
 
 void MDFN_GetFilePathComponents(const std::string &file_path, std::string *dir_path_out, std::string *file_base_out = NULL, std::string *file_ext_out = NULL);
 std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_path, bool skip_safety_check = false);

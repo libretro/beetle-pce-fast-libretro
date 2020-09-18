@@ -30,6 +30,8 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
+std::string retro_base_directory;
+
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
 #define MEDNAFEN_CORE_VERSION "v0.9.38.7"
@@ -294,6 +296,43 @@ static int LoadCommon(void)
 #endif
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
  return(1);
+}
+
+#ifdef _WIN32
+static void sanitize_path(std::string &path)
+{
+   size_t size = path.size();
+   for (size_t i = 0; i < size; i++)
+      if (path[i] == '/')
+         path[i] = '\\';
+}
+#endif
+
+
+// Use a simpler approach to make sure that things go right for libretro.
+static std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
+{
+#ifdef _WIN32
+   char slash = '\\';
+#else
+   char slash = '/';
+#endif
+   std::string ret;
+   switch (type)
+   {
+      case MDFNMKF_FIRMWARE:
+         ret = retro_base_directory + slash + std::string(cd1);
+#ifdef _WIN32
+         sanitize_path(ret); // Because Windows path handling is mongoloid.
+#endif
+         break;
+      default:
+         break;
+   }
+
+   if (log_cb)
+      log_cb(RETRO_LOG_INFO, "MDFN_MakeFName: %s\n", ret.c_str());
+   return ret;
 }
 
 static int LoadCD(std::vector<CDIF *> *CDInterfaces)
@@ -1062,8 +1101,6 @@ static bool libretro_supports_bitmasks = false;
 static MDFN_Surface *surf;
 
 static bool failed_init;
-
-std::string retro_base_directory;
 
 #include "mednafen/pce_fast/pcecd.h"
 
@@ -1921,43 +1958,6 @@ void retro_cheat_reset(void)
 
 void retro_cheat_set(unsigned, bool, const char *)
 {}
-
-#ifdef _WIN32
-static void sanitize_path(std::string &path)
-{
-   size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
-      if (path[i] == '/')
-         path[i] = '\\';
-}
-#endif
-
-// Use a simpler approach to make sure that things go right for libretro.
-std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
-{
-   char slash;
-#ifdef _WIN32
-   slash = '\\';
-#else
-   slash = '/';
-#endif
-   std::string ret;
-   switch (type)
-   {
-      case MDFNMKF_FIRMWARE:
-         ret = retro_base_directory + slash + std::string(cd1);
-#ifdef _WIN32
-         sanitize_path(ret); // Because Windows path handling is mongoloid.
-#endif
-         break;
-      default:
-         break;
-   }
-
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "MDFN_MakeFName: %s\n", ret.c_str());
-   return ret;
-}
 
 void MDFND_Message(const char *str)
 {
