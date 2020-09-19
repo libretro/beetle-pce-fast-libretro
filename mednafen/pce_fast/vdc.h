@@ -110,7 +110,7 @@ typedef struct
 
 extern vdc_t *vdc;
 
-void VDC_SetPixelFormat(void);
+void VDC_SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMapLen);
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
 void VDC_SetLayerEnableMask(uint64 mask);
 

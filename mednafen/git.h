@@ -206,6 +206,17 @@ typedef struct
 	// you can ignore this.  If you do wish to use this, you must set all elements every frame.
 	int32_t *LineWidths;
 
+	// Pointer to an array of uint8, 3 * CustomPaletteEntries.
+	// CustomPalette must be NULL and CustomPaletteEntries mujst be 0 if no custom palette is specified/available;
+	// otherwise, CustomPalette must be non-NULL and CustomPaletteEntries must be equal to a non-zero "num_entries" member of a CustomPalette_Spec
+	// entry of MDFNGI::CPInfo.
+	//
+	// Set and used internally if driver-side code hasn't specified a non-NULL value for CustomPalette.  If driver side uses it, driver side should
+	// set VideoFormatChanged to true whenever the custom palette changes.
+	//
+	uint8 *CustomPalette = NULL;
+	uint32 CustomPaletteNumEntries = 0;
+
 	// TODO
 	bool *IsFMV;
 
