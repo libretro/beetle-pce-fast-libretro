@@ -30,23 +30,11 @@ void PCEFast_PSG::SetVolume(double new_volume)
    Blip_Synth_set_volume(&Synth, OutputVolume / 6, 8192);
 }
 
-
-void PCEFast_PSG::DisableChannel(int chnum)
+void PCEFast_PSG::SetChannelUserVolume(int chnum, uint8 new_volume)
 {
-   psg_channel *ch = &channel[chnum];
-   if(! ch ) return;
-   //printf("Disabled channel: %d\n", chnum);
-   if(chnum < 6)
-        ch->disabled = 1;
-}
-
-void PCEFast_PSG::EnableChannel(int chnum)
-{
-    //printf("Enabled channel: %d\n", chnum);
+    if(chnum >=6 || new_volume > 100) return;  // check valid args
     psg_channel *ch = &channel[chnum];
-    if(! ch ) return;
-    if(chnum < 6)
-        ch->disabled = 0;
+    ch->user_volume = new_volume;
 }
 
 void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
@@ -57,8 +45,8 @@ void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100, sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100, sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -72,8 +60,8 @@ void PCEFast_PSG::UpdateOutput_Noise(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100, sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100, sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -85,8 +73,8 @@ void PCEFast_PSG::UpdateOutput_Off(const int32 timestamp, psg_channel *ch)
 
    samp[0] = samp[1] = 0;
 
-   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100, sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100, sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -100,8 +88,8 @@ void PCEFast_PSG::UpdateOutput_Accum(const int32 timestamp, psg_channel *ch)
    samp[0] = ((int32)dbtable_volonly[ch->vl[0]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
    samp[1] = ((int32)dbtable_volonly[ch->vl[1]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
 
-   Blip_Synth_offset(&Synth, timestamp, samp[0] - ch->blip_prev_samp[0], sbuf[0]);
-   Blip_Synth_offset(&Synth, timestamp, samp[1] - ch->blip_prev_samp[1], sbuf[1]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100, sbuf[0]);
+   Blip_Synth_offset(&Synth, timestamp, (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100, sbuf[1]);
 
    ch->blip_prev_samp[0] = samp[0];
    ch->blip_prev_samp[1] = samp[1];
@@ -246,8 +234,6 @@ void PCEFast_PSG::Write(int32 timestamp, uint8 A, uint8 V)
 
    psg_channel *ch = &channel[select];
    
-   //if(ch->disabled) return;
-
    //if(A == 0x01 || select == 5)
    // printf("Write Ch: %d %04x %02x, %d\n", select, A, V, timestamp);
 
@@ -373,8 +359,6 @@ void PCEFast_PSG::RunChannel(int chc, int32 timestamp)
    int32 run_time = timestamp - ch->lastts;
 
    ch->lastts = timestamp;
-
-   if(ch->disabled) return;
    
    if(!run_time)
       return;
@@ -578,7 +562,7 @@ void PCEFast_PSG::Power(const int32 timestamp)
       channel[ch].frequency = 0;
       channel[ch].control = 0x00;
       channel[ch].balance = 0;
-      channel[ch].disabled = 0;
+      channel[ch].user_volume = 100;
       memset(channel[ch].waveform, 0, 32);
       channel[ch].samp_accum = 0;
 
