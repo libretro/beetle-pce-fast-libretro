@@ -1174,7 +1174,7 @@ static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int Turbo_Delay;
 static int Turbo_Toggling = 1;
 static bool turbo_toggle_alt = false;
-static int psg_channels_volume[6] = { 100 };
+static int psg_channels_volume[6] = { 100, 100, 100, 100, 100, 100 };
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 static void check_variables(void)

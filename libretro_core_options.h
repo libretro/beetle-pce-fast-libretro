@@ -229,6 +229,19 @@ struct retro_core_option_definition option_defs_us[] = {
       "disabled"
    },
    {
+      "pce_cdspeed",
+      "(CD) CD Speed",
+      "Set the speed of the emulated CD drive.",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "4", NULL },
+         { "8", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
       "pce_cddavolume",
       "(CD) CDDA Volume %",
       "Modify CDDA Volume %.",
@@ -437,19 +450,6 @@ struct retro_core_option_definition option_defs_us[] = {
          { NULL, NULL },
       },
       "100"
-   },
-   {
-      "pce_cdspeed",
-      "(CD) CD Speed",
-      "Set the speed of the emulated CD drive.",
-      {
-         { "1", NULL },
-         { "2", NULL },
-         { "4", NULL },
-         { "8", NULL },
-         { NULL, NULL },
-      },
-      "1"
    },
    {
       "pce_mouse_sensitivity",
