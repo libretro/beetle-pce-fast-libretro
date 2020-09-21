@@ -1174,7 +1174,7 @@ static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
 static int Turbo_Delay;
 static int Turbo_Toggling = 1;
 static bool turbo_toggle_alt = false;
-static bool disabled_channels[6] = { false };
+static int psg_channels_volume[6] = { 100, 100, 100, 100, 100, 100 };
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
 static void check_variables(void)
@@ -1297,16 +1297,13 @@ static void check_variables(void)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
    
-   char pce_disable_sound_channel_base_str[] = "pce_disable_sound_channel_0";
-   var.key = pce_disable_sound_channel_base_str;
+   char pce_sound_channel_volume_base_str[] = "pce_sound_channel_0_volume";
+   var.key = pce_sound_channel_volume_base_str;
    for (unsigned c = 0; c < 6; c++) {;
-       pce_disable_sound_channel_base_str[26] = c+'0';
+       pce_sound_channel_volume_base_str[18] = c+'0';
        if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
        {
-          if (strcmp(var.value, "enabled") == 0)
-             disabled_channels[c] = true;
-          else
-             disabled_channels[c] = false;
+           psg_channels_volume[c] = atoi(var.value);
        }
    }
  
@@ -1461,10 +1458,7 @@ bool retro_load_game(const struct retro_game_info *info)
    }
    
    for (unsigned c = 0; c < 6; c++) {
-      if(disabled_channels[c]) 
-          psg->DisableChannel(c);
-      else
-          psg->EnableChannel(c);
+       psg->SetChannelUserVolume(c, psg_channels_volume[c]);
    }
 
    mmaps.descriptors = descs;
@@ -1694,12 +1688,9 @@ void retro_run(void)
             psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
       
-      for (unsigned c = 0; c < 6; c++) {
-          if(disabled_channels[c]) 
-              psg->DisableChannel(c);
-          else
-              psg->EnableChannel(c);
-      }
+       for (unsigned c = 0; c < 6; c++) {
+           psg->SetChannelUserVolume(c, psg_channels_volume[c]);
+       }
 
       update_geometry(width, height);
    }

@@ -229,6 +229,19 @@ struct retro_core_option_definition option_defs_us[] = {
       "disabled"
    },
    {
+      "pce_cdspeed",
+      "(CD) CD Speed",
+      "Set the speed of the emulated CD drive.",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "4", NULL },
+         { "8", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
       "pce_cddavolume",
       "(CD) CDDA Volume %",
       "Modify CDDA Volume %.",
@@ -319,83 +332,124 @@ struct retro_core_option_definition option_defs_us[] = {
       "100"
    },
    {
-      "pce_disable_sound_channel_0",
-      "Disable Sound Channel 0",
-      "",
+      "pce_sound_channel_0_volume",
+      "PSG Sound Channel 0 Volume %",
+      "Modify PSG Sound Channel 0 Volume %",
       {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_disable_sound_channel_1",
-      "Disable Sound Channel 1",
-      "",
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_disable_sound_channel_2",
-      "Disable Sound Channel 2",
-      "",
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_disable_sound_channel_3",
-      "Disable Sound Channel 3",
-      "",
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_disable_sound_channel_4",
-      "Disable Sound Channel 4",
-      "",
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_disable_sound_channel_5",
-      "Disable Sound Channel 5",
-      "",
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_cdspeed",
-      "(CD) CD Speed",
-      "Set the speed of the emulated CD drive.",
-      {
-         { "1", NULL },
-         { "2", NULL },
-         { "4", NULL },
-         { "8", NULL },
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
          { NULL, NULL },
       },
-      "1"
+      "100"
+   },
+   {
+      "pce_sound_channel_1_volume",
+      "PSG Sound Channel 1 Volume %",
+      "Modify PSG Sound Channel 1 Volume %",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_sound_channel_2_volume",
+      "PSG Sound Channel 2 Volume %",
+      "Modify PSG Sound Channel 2 Volume %",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_sound_channel_3_volume",
+      "PSG Sound Channel 3 Volume %",
+      "Modify PSG Sound Channel 3 Volume %",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_sound_channel_4_volume",
+      "PSG Sound Channel 4 Volume %",
+      "Modify PSG Sound Channel 4 Volume %",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_sound_channel_5_volume",
+      "PSG Sound Channel 5 Volume %",
+      "Modify PSG Sound Channel 5 Volume %",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
    },
    {
       "pce_mouse_sensitivity",
