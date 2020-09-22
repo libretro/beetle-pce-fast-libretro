@@ -28,6 +28,17 @@ extern "C" {
 
 struct retro_core_option_definition option_defs_us[] = {
    {
+      "pce_fast_palette",
+      "Colour Palette",
+      "Composite tries to recreate the original console output and can show more details in some games.",
+      {
+         { "RGB", NULL },
+         { "Composite", NULL },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
       "pce_fast_cdimagecache",
       "CD Image Cache (Restart)",
       "Loads the complete image in memory at startup. Can potentially decrease loading times at the cost of increased startup time.",
