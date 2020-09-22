@@ -2188,7 +2188,7 @@ void retro_run(void)
 
    rects[0] = ~0;
 
-   EmulateSpecStruct spec = {0};
+   EmulateSpecStruct spec = { { 0 } };
    spec.surface = surf;
    spec.SoundRate = 44100;
    spec.SoundBuf = sound_buf;

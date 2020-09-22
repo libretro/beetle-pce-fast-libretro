@@ -214,8 +214,8 @@ typedef struct
 	// Set and used internally if driver-side code hasn't specified a non-NULL value for CustomPalette.  If driver side uses it, driver side should
 	// set VideoFormatChanged to true whenever the custom palette changes.
 	//
-	uint8 *CustomPalette = NULL;
-	uint32 CustomPaletteNumEntries = 0;
+	uint8 *CustomPalette;
+	uint32 CustomPaletteNumEntries;
 
 	// TODO
 	bool *IsFMV;
