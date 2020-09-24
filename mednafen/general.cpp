@@ -22,28 +22,14 @@
 
 #include <sys/types.h>
 
+#include <file/file_path.h>
+
 #include <string>
 
 #include "general.h"
 #include "state.h"
 
 using namespace std;
-
-static bool IsAbsolutePath(const char *path)
-{
-   if (path[0] == '\\' || path[0] == '/')
-      return(TRUE);
-
-#if defined(_WIN32) || defined(DOS)
-   if((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
-   {
-      if(path[1] == ':')
-         return(TRUE);
-   }
-#endif
-
-   return(FALSE);
-}
 
 void MDFN_GetFilePathComponents(const std::string &file_path, 
       std::string *dir_path_out, std::string *file_base_out, 
@@ -107,7 +93,7 @@ std::string MDFN_EvalFIP(const std::string &dir_path, const std::string &rel_pat
    char slash = '/';
 #endif
 
-   if(IsAbsolutePath(rel_path.c_str()))
+   if(path_is_absolute(rel_path.c_str()))
       return(rel_path);
    return(dir_path + slash + rel_path);
 }
