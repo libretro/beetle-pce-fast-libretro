@@ -393,6 +393,7 @@ else ifneq (,$(findstring windows_msvc2017,$(platform)))
 	TARGET := $(TARGET_NAME)_libretro.dll
 	PSS_STYLE :=2
 	LDFLAGS += -DLL
+WINDOWS_VERSION=1
 
 # Windows MSVC 2010 x64
 else ifeq ($(platform), windows_msvc2010_x64)
@@ -632,16 +633,13 @@ else
 endif
 
 %.o: %.cpp
-	@$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
-	@echo "CXX $<"
+	$(CXX) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CXXFLAGS)
 
 %.o: %.c
-	@$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
-	@echo "CC $<"
+	$(CC) -c $(OBJOUT)$@ $< $(CPPFLAGS) $(CFLAGS)
 
 clean:
-	@rm -f $(OBJECTS)
-	@echo rm -f *.o
+	rm -f $(OBJECTS)
 	rm -f $(TARGET)
 
 install:
