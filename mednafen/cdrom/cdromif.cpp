@@ -24,36 +24,6 @@
 #include <boolean.h>
 #include <retro_miscellaneous.h>
 
-enum
-{
-   /* Status/Error messages */
-   CDIF_MSG_DONE = 0,		   /* Read -> emu. args: No args. */
-   CDIF_MSG_INFO,			      /* Read -> emu. args: str_message */
-   CDIF_MSG_FATAL_ERROR,		/* Read -> emu. args: *TODO ARGS* */
-
-   /* Command messages. */
-   CDIF_MSG_DIEDIEDIE,		   /* Emu -> read */
-
-   CDIF_MSG_READ_SECTOR		   /* Emu -> read
-                              args[0] = lba
-                              */
-};
-
-class CDIF_Message
-{
-   public:
-
-      CDIF_Message();
-      CDIF_Message(unsigned int message_, uint32_t arg0 = 0, uint32_t arg1 = 0, uint32_t arg2 = 0, uint32_t arg3 = 0);
-      CDIF_Message(unsigned int message_, const std::string &str);
-      ~CDIF_Message();
-
-      unsigned int message;
-      uint32_t args[4];
-      void *parg;
-      std::string str_message;
-};
-
 typedef struct
 {
    bool valid;
@@ -88,33 +58,6 @@ CDIF::~CDIF()
 
 }
 
-
-CDIF_Message::CDIF_Message()
-{
-   message = 0;
-
-   memset(args, 0, sizeof(args));
-}
-
-CDIF_Message::CDIF_Message(unsigned int message_, uint32_t arg0, uint32_t arg1, uint32_t arg2, uint32_t arg3)
-{
-   message = message_;
-   args[0] = arg0;
-   args[1] = arg1;
-   args[2] = arg2;
-   args[3] = arg3;
-}
-
-CDIF_Message::CDIF_Message(unsigned int message_, const std::string &str)
-{
-   message = message_;
-   str_message = str;
-}
-
-CDIF_Message::~CDIF_Message()
-{
-
-}
 
 bool CDIF::ValidateRawSector(uint8_t *buf)
 {
