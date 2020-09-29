@@ -2464,10 +2464,81 @@ size_t retro_get_memory_size(unsigned type)
 }
 
 void retro_cheat_reset(void)
-{}
+{
+   MDFN_FlushGameCheats(0);
+}
 
-void retro_cheat_set(unsigned, bool, const char *)
-{}
+void retro_cheat_set(unsigned index, bool enabled, const char *code)
+{
+   char name[256];
+   char temp[256];
+   char *codepart;
+
+   if (code == NULL)
+      return;
+
+   sprintf(name, "N/A");
+   strcpy(temp, code);
+   codepart = strtok(temp, "+,;._ ");
+
+   while (codepart)
+   {
+      // Cheat references are based on
+      // https://gamehacking.org/system/pce
+      // https://gamehacking.org/system/pcd
+      //
+      // accepts 1Fxxxx:xx raw format (ram)      
+      // accepts 10xxxx:xx raw format (cd-ram)
+      // accepts F8xxxx:xx physical address format (ram)
+      if ((strlen(codepart) == 9) && (codepart[6]==':'))
+      {
+         uint32 a;
+         uint64 v;
+
+         codepart[6] = '\0';
+
+         a = strtoul(codepart, NULL, 16);
+         v = strtoul(codepart + 7, NULL, 16);
+
+         // RAM region (0x1F0000 - 0x1F2000)
+         //translate physical address to raw address format
+         if ((a & 0xFFE000) == 0xF82000)
+         {
+            a &= 0x1FFF;
+            a |= 0x1F0000;
+         }
+
+         // CD-RAM region (0x100000 - 0x110000)
+         // translate physical address to raw address format
+         // this is just guess-work and assumed the target address is always 0x10Axxx,
+         // better use raw formats if possible
+         if ((a & 0xFFC000) == 0x80C000)
+         {
+            a &= 0x1FFF;
+            a |= 0x10A000;
+         }
+         
+         // only accept codes in of valid address range
+         // raw address = 0x1F0000 - 0x1F1FFF or physical address 0xF82xxx - 0xF83xxx (RAM) 
+         // raw address = 0x0D0000 - 0x10FFFF (SYSTEM CARD RAM / CD-RAM)
+         if (((a >= 0x1F0000) && (a < 0x1F2000)) ||  // main RAM
+            ((a >= 0x100000) && (a < 0x110000))  ||  // CD RAM
+            ((a >= 0x00D000) && (a < 0x10FFFF)))     // System Card RAM
+         {
+            if (!MDFNI_AddCheat(name, a, v, 0, 'R', 1, 0))
+               log_cb(RETRO_LOG_DEBUG, "Failed to set code: '%s:%02x'\n", codepart,v);
+            else
+               log_cb(RETRO_LOG_DEBUG, "Code set: '%s:%02x'\n", codepart,v);
+         }
+         else
+            log_cb(RETRO_LOG_DEBUG, "Invalid or unknown code: '%s:%02x'\n", codepart,v);
+         /* log_cb(RETRO_LOG_DEBUG, "address=%08x v=%02x\n", a, v); */
+      }
+      else
+         log_cb(RETRO_LOG_DEBUG, "Invalid or unknown code: '%s'\n", codepart);
+      codepart = strtok(NULL,"+,;._ ");
+   }
+}
 
 /* forward declarations */
 extern void MDFND_DispMessage(unsigned char *str);
