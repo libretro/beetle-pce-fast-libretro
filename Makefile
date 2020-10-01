@@ -246,6 +246,19 @@ else ifeq ($(platform), xenon)
    ENDIANNESS_DEFINES += -D__LIBXENON__ -m32 -D__ppc__ -DMSB_FIRST -DBYTE_ORDER=BIG_ENDIAN
    STATIC_LINKING = 1
 
+# CTR (3DS)
+else ifeq ($(platform), ctr)
+	TARGET := $(TARGET_NAME)_libretro_$(platform).a
+	CC = $(DEVKITARM)/bin/arm-none-eabi-gcc$(EXE_EXT)
+	CXX = $(DEVKITARM)/bin/arm-none-eabi-g++$(EXE_EXT)
+	AR = $(DEVKITARM)/bin/arm-none-eabi-ar$(EXE_EXT)
+	CFLAGS += -D_3DS
+	CFLAGS += -march=armv6k -mtune=mpcore -mfloat-abi=hard -marm -mfpu=vfp -mtp=soft
+	CFLAGS += -Wall -mword-relocations
+	CFLAGS += -fomit-frame-pointer -ffast-math
+	CXXFLAGS := $(ASFLAGS) $(CFLAGS) -fexceptions -fno-rtti
+	STATIC_LINKING = 1
+
 # Nintendo Switch (libnx)
 else ifeq ($(platform), libnx)
 include $(DEVKITPRO)/libnx/switch_rules
