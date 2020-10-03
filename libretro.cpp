@@ -571,6 +571,10 @@ static uint8_t composite_palette[] = {
    255, 255, 255
 };
 
+/* Forward declarations */
+static void MDFN_printf(const char *format, ...);
+void MDFN_indent(int indent);
+
 /* Mednafen - Multi-system Emulator
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1476,9 +1480,6 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    if(!GameFile)
       goto error;
 
-   MDFN_printf("Using module: pce_fast.\n\n");
-   MDFN_indent(1);
-
    //
    // Load per-game settings
    //
@@ -1507,12 +1508,12 @@ static int curindent = 0;
 
 void MDFN_indent(int indent)
 {
- curindent += indent;
+   curindent += indent;
 }
 
 static uint8 lastchar = 0;
 
-void MDFN_printf(const char *format, ...)
+static void MDFN_printf(const char *format, ...)
 {
    char *format_temp;
    char *temp;
@@ -1520,7 +1521,6 @@ void MDFN_printf(const char *format, ...)
 
    va_list ap;
    va_start(ap,format);
-
 
    // First, determine how large our format_temp buffer needs to be.
    uint8 lastchar_backup = lastchar; // Save lastchar!
