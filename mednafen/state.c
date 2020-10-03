@@ -32,6 +32,30 @@
 /* Forward declaration */
 int StateAction(StateMem *sm, int load, int data_only);
 
+static int write32le(uint32_t b, FILE *fp)
+{
+   uint8_t s[4];
+   s[0]=b;
+   s[1]=b>>8;
+   s[2]=b>>16;
+   s[3]=b>>24;
+   return((fwrite(s,1,4,fp)<4)?0:4);
+}
+
+static int read32le(uint32_t *Bufo, FILE *fp)
+{
+   uint32_t buf;
+   if(fread(&buf,1,4,fp)<4)
+      return 0;
+#ifdef MSB_FIRST
+   *(uint32_t*)Bufo=((buf&0xFF)<<24)|((buf&0xFF00)<<8)|((buf&0xFF0000)>>8)|((buf&0xFF000000)>>24);
+#else
+   *(uint32_t*)Bufo=buf;
+#endif
+   return 1;
+}
+
+
 int32_t smem_read(StateMem *st, void *buffer, uint32_t len)
 {
    if ((len + st->loc) > st->len)
