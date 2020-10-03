@@ -19,7 +19,6 @@ extern uint32_t setting_pce_fast_cdspeed;
 extern bool OrderOfGriffonFix;
 
 uint64 MDFN_GetSettingUI(const char *name);
-int64 MDFN_GetSettingI(const char *name);
 double MDFN_GetSettingF(const char *name);
 bool MDFN_GetSettingB(const char *name);
 

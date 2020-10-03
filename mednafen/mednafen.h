@@ -11,9 +11,7 @@
 #include "math_ops.h"
 #include "git.h"
 #include "settings.h"
-#include "mednafen-driver.h"
 #include "mednafen-endian.h"
-
 
 #ifdef _WIN32
 #define strcasecmp _stricmp

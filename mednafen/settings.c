@@ -17,7 +17,6 @@
 
 #include <boolean.h>
 
-#include <stdio.h>
 #include <errno.h>
 #include <string.h>
 #include "settings.h"
@@ -52,19 +51,12 @@ uint64_t MDFN_GetSettingUI(const char *name)
    if (!strcmp("pce_fast.hoverscan", name))
       return setting_pce_hoverscan; 
 
-   fprintf(stderr, "unhandled setting UI: %s\n", name);
-   return 0;
-}
-
-int64_t MDFN_GetSettingI(const char *name)
-{
-   fprintf(stderr, "unhandled setting I: %s\n", name);
    return 0;
 }
 
 double MDFN_GetSettingF(const char *name)
 {
-   fprintf(stderr, "unhandled setting F: %s\n", name);
+   /* TODO/FIXME - handle 'pce_fast.mouse_sensitivity' */
    return 0;
 }
 
@@ -91,6 +83,5 @@ bool MDFN_GetSettingB(const char *name)
       return 0;
    if (!strcmp("pce_fast.adpcmlp", name))
       return 0;
-   fprintf(stderr, "unhandled setting B: %s\n", name);
    return 0;
 }

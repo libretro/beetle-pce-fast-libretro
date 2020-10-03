@@ -18,7 +18,6 @@
 #include <string.h>
 
 #include "../mednafen-types.h"
-#include "../mednafen-driver.h"
 #include "../state_helpers.h"
 #include "../mednafen.h"
 
