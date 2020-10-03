@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define _(String) (String)
-
 #include "math_ops.h"
 #include "git.h"
 #include "settings.h"

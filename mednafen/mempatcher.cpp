@@ -159,7 +159,7 @@ void MDFNMP_RemoveReadPatches(void)
 
 static void CheatMemErr(void)
 {
- MDFN_PrintError(_("Error allocating memory for cheat data."));
+ MDFN_PrintError("Error allocating memory for cheat data.");
 }
 
 /* This function doesn't allocate any memory for "name" */
