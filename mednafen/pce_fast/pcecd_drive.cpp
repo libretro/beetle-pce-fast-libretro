@@ -16,6 +16,7 @@
  */
 
 #include "../mednafen.h"
+#include "../mednafen-endian.h"
 #include <math.h>
 #include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"

@@ -5,10 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "math_ops.h"
 #include "git.h"
 #include "settings.h"
-#include "mednafen-endian.h"
 
 #ifdef _WIN32
 #define strcasecmp _stricmp

@@ -20,6 +20,7 @@
 #include "../mednafen-types.h"
 #include "../state_helpers.h"
 #include "../mednafen.h"
+#include "../mednafen-endian.h"
 
 #include "pce.h"
 #include "huc.h"
