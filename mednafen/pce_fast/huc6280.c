@@ -17,11 +17,13 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <boolean.h>
 
 #include "pce.h"
 #include "vdc.h"
 #include "../state_helpers.h"
 
+bool PCE_IsCD;
 int pce_overclocked;
 static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
 struct HuC6280 HuCPU;

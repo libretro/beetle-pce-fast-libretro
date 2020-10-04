@@ -19,15 +19,23 @@
 #define GET_FSIZE_PTR(fp) (fp->size)
 #define GET_FEXTS_PTR(fp) (fp->ext)
 
-extern MDFNGI *MDFNGameInfo;
-
 void MDFN_PrintError(const char *format, ...);
-void MDFN_DispMessage(const char *format, ...);
 
 void MDFN_LoadGameCheats(void *override);
 void MDFN_FlushGameCheats(int nosave);
 
 void MDFN_MidSync(EmulateSpecStruct *espec);
 void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern MDFNGI *MDFNGameInfo;
+void MDFN_DispMessage(const char *format, ...);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

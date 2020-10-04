@@ -1,8 +1,14 @@
 #ifndef __PCE_INPUT_H
 #define __PCE_INPUT_H
 
+#include <boolean.h>
 #include "../git.h"
+#include "../mednafen-types.h"
 #include "../state.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void PCEINPUT_Init(void);
 void PCEINPUT_SettingChanged(const char *name);
@@ -14,5 +20,9 @@ int INPUT_StateAction(StateMem *sm, int load, int data_only);
 extern InputInfoStruct PCEInputInfo;
 void INPUT_FixTS(void);
 extern bool AVPad6Enabled[5];
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

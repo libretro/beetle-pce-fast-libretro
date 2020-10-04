@@ -110,15 +110,20 @@ static INLINE bool CheckLM(int n)
 {
    if((int64)HuCPU.timestamp - mouse_last_meow[n] > 10000)
    {
+      int32 rel_x, rel_y;
       mouse_last_meow[n] = HuCPU.timestamp;
 
-      int32 rel_x = (int32)((0-mouse_x[n]));
-      int32 rel_y = (int32)((0-mouse_y[n]));
+      rel_x = (int32)((0-mouse_x[n]));
+      rel_y = (int32)((0-mouse_y[n]));
 
-      if(rel_x < -127) rel_x = -127;
-      if(rel_x > 127) rel_x = 127;
-      if(rel_y < -127) rel_y = -127;
-      if(rel_y > 127) rel_y = 127;
+      if(rel_x < -127)
+         rel_x = -127;
+      if(rel_x > 127)
+         rel_x = 127;
+      if(rel_y < -127)
+         rel_y = -127;
+      if(rel_y > 127)
+         rel_y = 127;
 
       mouse_rel[n] = ((rel_x & 0xF0) >> 4) | ((rel_x & 0x0F) << 4);
       mouse_rel[n] |= (((rel_y & 0xF0) >> 4) | ((rel_y & 0x0F) << 4)) << 8;
