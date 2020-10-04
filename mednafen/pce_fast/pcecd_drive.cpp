@@ -150,7 +150,7 @@ static pcecd_drive_t cd;
 pcecd_drive_bus_t cd_bus;
 static cdda_t cdda;
 
-static SimpleFIFO<uint8> din(2048);
+static SimpleFIFO din(2048);
 
 static TOC toc;
 
@@ -1224,7 +1224,7 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  monotonic_timestamp = 0;
  lastts = 0;
 
- //din = new SimpleFIFO<uint8>(2048);
+ //din = new SimpleFIFO(2048);
  
  cdda.CDDATimeDiv = cdda_time_div;
 

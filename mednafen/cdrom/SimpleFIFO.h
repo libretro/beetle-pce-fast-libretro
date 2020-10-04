@@ -2,9 +2,9 @@
 #define __MDFN_SIMPLEFIFO_H
 
 #include <vector>
+#include <stdint.h>
 #include <assert.h>
 
-template<typename T>
 class SimpleFIFO
 {
  public:
@@ -37,13 +37,9 @@ class SimpleFIFO
   return(size - in_count);
  }
 
- INLINE T ReadUnit(bool peek = false)
+ INLINE uint8_t ReadUnit(bool peek = false)
  {
-  T ret;
-
-  assert(in_count > 0);
-
-  ret = data[read_pos];
+  uint8_t ret = data[read_pos];
 
   if(!peek)
   {
@@ -54,14 +50,14 @@ class SimpleFIFO
   return(ret);
  }
 
- INLINE uint8 ReadByte(bool peek = false)
+ INLINE uint8_t ReadByte(bool peek = false)
  {
-  assert(sizeof(T) == 1);
+  assert(sizeof(uint8_t) == 1);
 
   return(ReadUnit(peek));
  }
 
- INLINE void Write(const T *happy_data, uint32 happy_count)
+ INLINE void Write(const uint8_t *happy_data, uint32 happy_count)
  {
   assert(CanWrite() >= happy_count);
 
@@ -76,14 +72,14 @@ class SimpleFIFO
   }
  }
 
- INLINE void WriteUnit(const T& wr_data)
+ INLINE void WriteUnit(const uint8_t& wr_data)
  {
   Write(&wr_data, 1);
  }
 
- INLINE void WriteByte(const T& wr_data)
+ INLINE void WriteByte(const uint8_t& wr_data)
  {
-  assert(sizeof(T) == 1);
+  assert(sizeof(uint8_t) == 1);
   Write(&wr_data, 1);
  }
 
@@ -96,7 +92,7 @@ class SimpleFIFO
  }
 
  //private:
- std::vector<T> data;
+ std::vector<uint8_t> data;
  uint32 size;
  uint32 read_pos; // Read position
  uint32 write_pos; // Write position

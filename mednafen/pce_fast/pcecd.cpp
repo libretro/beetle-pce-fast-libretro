@@ -43,7 +43,7 @@ static bool	bBRAMEnabled;
 static uint8	_Port[15];
 static uint8 	ACKStatus;
 
-static SimpleFIFO<uint8> SubChannelFIFO(16);
+static SimpleFIFO SubChannelFIFO(16);
 
 static Blip_Buffer *sbuf[2];
 static int16 RawPCMVolumeCache[2];

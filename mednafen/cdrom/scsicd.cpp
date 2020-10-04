@@ -168,7 +168,7 @@ scsicd_t cd;
 scsicd_bus_t cd_bus;
 static cdda_t cdda;
 
-static SimpleFIFO<uint8_t> *din = NULL;
+static SimpleFIFO *din = NULL;
 
 static TOC toc;
 
@@ -3100,9 +3100,9 @@ void SCSICD_Init(int type, int cdda_time_div, int32_t* left_hrbuf, int32_t* righ
  SCSILog = NULL;
 
  if(type == SCSICD_PCFX)
-  din = new SimpleFIFO<uint8_t>(65536);	//4096);
+  din = new SimpleFIFO(65536);	//4096);
  else
-  din = new SimpleFIFO<uint8_t>(2048); //8192); //1024); /2048);
+  din = new SimpleFIFO(2048); //8192); //1024); /2048);
 
  WhichSystem = type;
 
