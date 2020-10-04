@@ -168,10 +168,6 @@ static INLINE void Blip_Synth_offset(Blip_Synth* synth, blip_time_t t, int delta
 // Get value to pass to BLIP_READER_NEXT()
 #define BLIP_READER_BASS( blip_buffer ) ((blip_buffer).bass_shift)
 
-// Constant value to use instead of BLIP_READER_BASS(), for slightly more optimal
-// code at the cost of having no bass control
-int const blip_reader_default_bass = 9;
-
 // Current sample
 #define BLIP_READER_READ( name )        (name##_reader_accum >> (blip_sample_bits - 16))
 

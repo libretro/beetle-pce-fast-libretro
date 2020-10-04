@@ -13,7 +13,16 @@ typedef struct
 	bool ADPCM_LPF;
 } PCECD_Settings;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void PCECD_Run(uint32 in_timestamp);
+
+#ifdef __cplusplus
+}
+#endif
+
 void PCECD_ResetTS(void);
 
 bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double master_clock, unsigned int ocm, Blip_Buffer *soundbuf_l, Blip_Buffer *soundbuf_r) MDFN_COLD;

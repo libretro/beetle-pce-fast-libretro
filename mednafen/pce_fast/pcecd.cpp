@@ -815,7 +815,7 @@ static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
    UpdateADPCMIRQState();
 }
 
-void PCECD_Run(uint32 in_timestamp)
+extern "C" void PCECD_Run(uint32 in_timestamp)
 {
    int32 clocks = in_timestamp - lastts;
    int32 running_ts = lastts;

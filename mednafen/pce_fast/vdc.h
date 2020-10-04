@@ -13,6 +13,10 @@
 #define VDC_UNDEFINED(x) { }
 //{ printf("%s: %d\n", x, vdc->display_counter); }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 static const uint8 vram_inc_tab[4] = { 1, 32, 64, 128 };
 
 typedef struct
@@ -124,35 +128,33 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
    int msb = A & 1;
    int chip = 0;
 
-   {
-      A &= 0x3;
-   }
+   A &= 0x3;
 
    switch(A)
    {
-      case 0x0: ret = vdc->status;
+      case 0x0:
+         ret = vdc->status;
+         vdc->status &= ~0x3F;
 
-                vdc->status &= ~0x3F;
+         HuC6280_IRQEnd(MDFN_IQIRQ1); // Clear VDC IRQ line
 
-                HuC6280_IRQEnd(MDFN_IQIRQ1); // Clear VDC IRQ line
-
-                break;
+         break;
 
       case 0x2:
       case 0x3:
-                ret = REGGETP(vdc->read_buffer, msb);
-                if(vdc->select == 0x2) // VRR - VRAM Read Register
-                {
-                   if(msb)
-                   {
-                      vdc->MARR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
+         ret = REGGETP(vdc->read_buffer, msb);
+         if(vdc->select == 0x2) // VRR - VRAM Read Register
+         {
+            if(msb)
+            {
+               vdc->MARR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
 
-                      if(vdc->MARR >= VRAM_Size)
-                         VDC_UNDEFINED("Unmapped VRAM VRR read"); 
-                      vdc->read_buffer = vdc->VRAM[vdc->MARR & VRAM_SizeMask];
-                   }
-                }
-                break;
+               if(vdc->MARR >= VRAM_Size)
+                  VDC_UNDEFINED("Unmapped VRAM VRR read"); 
+               vdc->read_buffer = vdc->VRAM[vdc->MARR & VRAM_SizeMask];
+            }
+         }
+         break;
    }
 
    //if(HuCPU.isopread && (A == 1 || A == 3)) //(A == 2 || A == 3)) // && A == 1)
@@ -175,10 +177,6 @@ void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;
 
 int VDC_StateAction(StateMem *sm, int load, int data_only);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V);
 

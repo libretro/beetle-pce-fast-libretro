@@ -95,11 +95,11 @@ ifneq ($(HAVE_GRIFFIN), 1)
 	$(CORE_EMU_DIR)/pcecd.cpp \
 	$(CORE_EMU_DIR)/pcecd_drive.cpp \
 	$(CORE_EMU_DIR)/psg.cpp \
-	$(CORE_EMU_DIR)/vdc.cpp \
 	$(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.cpp
    SOURCES_C += \
 	$(CORE_EMU_DIR)/huc6280.c \
-	$(CORE_EMU_DIR)/input.c
+	$(CORE_EMU_DIR)/input.c \
+	$(CORE_EMU_DIR)/vdc.c
 endif
 
 ifeq ($(NEED_BLIP), 1)

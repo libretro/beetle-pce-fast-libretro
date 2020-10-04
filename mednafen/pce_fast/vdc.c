@@ -25,14 +25,16 @@ of samples between the ~60Hz peaks(just to verify that the math shown below is r
 The spectrum peaked at 15734 Hz.  21477272.727272... / 3 / 15734 = 455.00(CPU cycles per scanline)"
 */
 
+#include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #include "pce.h"
 #include "../video.h"
 #include "vdc.h"
 #include "huc.h"
 #include "pcecd.h"
-#include "../FileStream.h"
+#include "../settings.h"
 #include "../state_helpers.h"
 
 static uint16 systemColorMap16[2][512];	// 0 = normal, 1 = strip colorburst
@@ -80,8 +82,9 @@ static INLINE void FixPCache(int entry)
 
    if(!(entry & 0xFF))
    {
+      int x;
       uint16_t color0 = cm16[vce.color_table[entry & 0x100]];
-      for(int x = 0; x < 16; x++)
+      for(x = 0; x < 16; x++)
          vce.color_table_cache[entry + (x << 4)] = color0 ;
       return;
    }
@@ -92,6 +95,7 @@ static INLINE void FixPCache(int entry)
 
 static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
 {
+   int x;
    uint32 charname = (A >> 4);
    uint32 y = (A & 0x7);
    uint64 *tc = &which_vdc->bg_tile_cache[charname][y];
@@ -101,7 +105,7 @@ static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
 
    *tc = 0;
 
-   for(int x = 0; x < 8; x++)
+   for(x = 0; x < 8; x++)
    {
       uint32 raw_pixel = ((bitplane01 >> x) & 1);
       raw_pixel |= ((bitplane01 >> (x + 8)) & 1) << 1;
@@ -134,14 +138,16 @@ static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 s
    }
    else if(special)
    {
-      for(int y = 0; y < 16; y++)
+      int y;
+      for(y = 0; y < 16; y++)
       {
+         int x;
          uint8 *tc = which_vdc->spr_tile_cache[no][y];
 
          uint32 bitplane0 = which_vdc->VRAM[y + 0x00 + no * 0x40 + ((special & 1) << 5)];
          uint32 bitplane1 = which_vdc->VRAM[y + 0x10 + no * 0x40 + ((special & 1) << 5)];
 
-         for(int x = 0; x < 16; x++)
+         for(x = 0; x < 16; x++)
          {
             uint32 raw_pixel;
             raw_pixel = ((bitplane0 >> x) & 1) << 0;
@@ -152,8 +158,10 @@ static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 s
    }
    else
    {
-      for(int y = 0; y < 16; y++)
+      int y;
+      for(y = 0; y < 16; y++)
       {
+         int x;
          uint8 *tc = which_vdc->spr_tile_cache[no][y];
 
          uint32 bitplane0 = which_vdc->VRAM[y + 0x00 + no * 0x40];
@@ -161,7 +169,7 @@ static INLINE void CheckFixSpriteTileCache(vdc_t *which_vdc, uint16 no, uint32 s
          uint32 bitplane2 = which_vdc->VRAM[y + 0x20 + no * 0x40];
          uint32 bitplane3 = which_vdc->VRAM[y + 0x30 + no * 0x40];
 
-         for(int x = 0; x < 16; x++)
+         for(x = 0; x < 16; x++)
          {
             uint32 raw_pixel;
             raw_pixel = ((bitplane0 >> x) & 1) << 0;
@@ -181,8 +189,9 @@ static INLINE void SetVCECR(uint8 V)
 {
    if(((V & 0x80) >> 7) != vce.bw)
    {
+      int x;
       vce.bw = V & 0x80;
-      for(int x = 0; x < 512; x++)
+      for(x = 0; x < 512; x++)
          FixPCache(x);
    }
 
@@ -221,7 +230,8 @@ vpc_t vpc;
 
 void VDC_SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMapLen)
 {
-   for(int x = 0; x < 512; x++)
+   int x;
+   for(x = 0; x < 512; x++)
    {
       int r, g, b;
       int sc_r, sc_g, sc_b;
@@ -264,7 +274,7 @@ void VDC_SetPixelFormat(const uint8* CustomColorMap, const uint32 CustomColorMap
    }
    // I know the temptation is there, but don't combine these two loops just
    // because they loop 512 times ;)
-   for(int x = 0; x < 512; x++)
+   for(x = 0; x < 512; x++)
       FixPCache(x);
 
    disabled_layer_color = MAKECOLOR(0x00, 0xFE, 0x00, 0);
@@ -315,7 +325,7 @@ void VDC_SetLayerEnableMask(uint64 mask)
    userle = mask;
 }
 
-extern "C" void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V)
+void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V)
 {
    //printf("WriteST: %04x %02x\n", A, V);
    VDC_Write(A, V);
@@ -323,8 +333,9 @@ extern "C" void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V)
 
 static void DoDMA(vdc_t *vdc)
 {
+   int i;
    // Assuming one cycle for reads, one cycle for write, with DMA?
-   for(int i = 0; i < 455; i++)
+   for(i = 0; i < 455; i++)
    {
       if(!vdc->DMAReadWrite)
       {
@@ -466,6 +477,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
    uint64 *target64 = (uint64 *)target;
 
    {
+      int x;
       int bat_y = ((vdc->BG_YOffset >> 3) & bat_height_mask) << bat_width_shift;
 
       int bat_boom = (vdc->BG_XOffset >> 3) & bat_width_mask;
@@ -479,7 +491,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
       if((vdc->MWR & 0x3) == 0x3)
          cg_mask = (vdc->MWR & 0x80) ? 0xCCCCCCCCCCCCCCCCULL : 0x3333333333333333ULL;
 
-      for(int x = count - 1; x >= 0; x -= 8)
+      for(x = count - 1; x >= 0; x -= 8)
       {
          const uint16 bat = BAT_Base[bat_boom];
          const uint64 color_or = cblock_exlut[bat >> 12];
@@ -585,12 +597,13 @@ typedef struct
 static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf) NO_INLINE;
 static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 {
+   int i;
    int active_sprites = 0;
    SPRLE SpriteList[64 * 2]; // (see unlimited_sprites option, *2 to accomodate 32-pixel-width sprites ) //16];
 
    // First, grab the up to 16(or 128 for unlimited_sprites) sprite units(16xWHATEVER; each 32xWHATEVER sprite counts as 2 sprite units when
    // rendering a scanline) for this scanline.
-   for(int i = 0; i < vdc->SAT_Cache_Valid; i++)
+   for(i = 0; i < vdc->SAT_Cache_Valid; i++)
    {
       const SAT_Cache_t *SATR = &vdc->SAT_Cache[i];
 
@@ -652,8 +665,11 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
    if(!active_sprites)
       return;
 
-   for(int i = (active_sprites - 1) ; i >= 0; i--)
+   for(i = (active_sprites - 1) ; i >= 0; i--)
    {
+      int increment  = -1;
+      int32 x_second = 15;
+      const uint8 *pix_source;
       int32 pos = SpriteList[i].x - 0x20;
       uint32 prio_or;
       uint16 *dest_pix;
@@ -668,9 +684,7 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       if(SpriteList[i].flags & SPRF_PRIORITY)
          prio_or |= SPR_HPMASK;
 
-      const uint8 *pix_source = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
-      int increment = -1;
-      int32 x_second = 15;
+      pix_source     = vdc->spr_tile_cache[SpriteList[i].no][SpriteList[i].sub_y];
 
       if(SpriteList[i].flags & SPRF_HFLIP)
       {
@@ -680,7 +694,8 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 
       if((SpriteList[i].flags & SPRF_SPRITE0) && (vdc->CR & 0x01))
       {
-         for(int32 x = 0; x < 16; x++, x_second += increment)
+         int32 x;
+         for(x = 0; x < 16; x++, x_second += increment)
          {
             const uint32 raw_pixel = pix_source[x_second];
             if(raw_pixel)
@@ -700,10 +715,11 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
       } // End sprite0 handling
       else // No sprite0 hit:
       {
+         int32 x;
          // x must be signed, for "pos + x" to not be promoted to unsigned, which will cause a stack overflow.
          //
 
-         for(int32 x = 0; x < 16; x++, x_second += increment)
+         for(x = 0; x < 16; x++, x_second += increment)
          {
             const uint32 raw_pixel = pix_source[x_second];
             if(raw_pixel)
@@ -716,7 +732,8 @@ static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 
 static INLINE void MixBGSPR(const uint32 count_in, const uint8 *bg_linebuf_in, const uint16 *spr_linebuf_in, uint16_t *target_in)
 {   
-   for(unsigned int x = 0; x < count_in; x++)
+   unsigned int x;
+   for(x = 0; x < count_in; x++)
    {
       const uint32 bg_pixel = bg_linebuf_in[x];
       const uint32 spr_pixel = spr_linebuf_in[x];
@@ -754,7 +771,7 @@ static void MixNone(const uint32 count, uint16_t *target)
       target[x] = bg_color;
 }
 
-void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full = true, const int32 vpl = 0, const int32 vpr = 0)
+static void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const bool full, const int32 vpl, const int32 vpr)
 {
    uint32 os_color = vce.color_table_cache[0x100];
 
@@ -775,6 +792,7 @@ void DrawOverscan(const vdc_t *vdc, uint16_t *target, const MDFN_Rect *lw, const
 
 void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 {
+   bool fc_vrm;
    int max_dc = 0;
    MDFN_Surface *surface = espec->surface;
    MDFN_Rect *DisplayRect = &espec->DisplayRect;
@@ -873,6 +891,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       int chip = 0;
 #endif
       {
+         int have_free_time = 1;
          if(frame_counter == 0)
          {
             vdc->display_counter = 0;
@@ -884,7 +903,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
             vdc->burst_mode = !(vdc->CR & 0xC0);
             vdc->RCRCount = 0;
          }
-         int have_free_time = 1;
 
          if(!vdc->burst_mode && vdc->display_counter >= (VDS + VSW) && vdc->display_counter < (VDS + VSW + VDW + 1))
             have_free_time = 0;
@@ -916,7 +934,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       HuC6280_Run(line_leadin1);
 
-      const bool fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
+      fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
 
 #if 0
       chip = 0;
@@ -934,7 +952,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          {
             if(fc_vrm && SHOULD_DRAW)
             {
-               DrawOverscan(vdc, target_ptr16, DisplayRect);
+               DrawOverscan(vdc, target_ptr16, DisplayRect, true, 0, 0);
             }
          }
          else if(vdc->display_counter >= (VDS + VSW) && vdc->display_counter < (VDS + VSW + VDW + 1))
@@ -1041,7 +1059,7 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          else if(SHOULD_DRAW && fc_vrm) // Hmm, overscan...
          {
             //else if(target_ptr16)
-            DrawOverscan(vdc, target_ptr16, DisplayRect);
+            DrawOverscan(vdc, target_ptr16, DisplayRect, true, 0, 0);
          }
       }
 
@@ -1209,12 +1227,13 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
       if(load)
       {
-         for(int x = 0; x < VRAM_Size; x++)
+         int x;
+         for(x = 0; x < VRAM_Size; x++)
          {
             FixTileCache(vdc, x);
             vdc->spr_tile_clean[x >> 6] = 0;
          }
-         for(int x = 0; x < 512; x++)
+         for(x = 0; x < 512; x++)
             FixPCache(x);
          RebuildSATCache(vdc);
       }
