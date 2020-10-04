@@ -25,8 +25,8 @@ typedef struct
 extern vpc_t vpc;
 
 static const int VRAM_Size = 0x8000;
-static const int VRAM_SizeMask = VRAM_Size - 1; //0x7FFF;
-static const int VRAM_BGTileNoMask = VRAM_SizeMask / 16; //0x7FF;
+static const int VRAM_SizeMask = 0x8000 - 1; //0x7FFF;
+static const int VRAM_BGTileNoMask = (0x8000 - 1) / 16; //0x7FF;
 
 typedef struct
 {
@@ -115,7 +115,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES);
 void VDC_SetLayerEnableMask(uint64 mask);
 
 DECLFW(VDC_Write);
-DECLFW(VDC_Write_ST);
 
 DECLFR(VCE_Read);
 
@@ -176,5 +175,15 @@ void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;
 
 int VDC_StateAction(StateMem *sm, int load, int data_only);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

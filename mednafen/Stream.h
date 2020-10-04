@@ -9,6 +9,7 @@
 #include <errno.h>
 
 #include <stdio.h>	// For SEEK_* defines, which we will use in Stream out of FORCE OF HABIT.
+#include <string>
 
 #define MODE_READ       0
 #define MODE_WRITE      1

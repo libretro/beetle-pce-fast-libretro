@@ -1,6 +1,7 @@
 #ifndef _PCE_H
 #define _PCE_H
 
+#include <boolean.h>
 #include "../mednafen-types.h"
 
 #define PCE_MASTER_CLOCK        21477272.727273
@@ -20,8 +21,12 @@ bool PCE_InitCD(void) MDFN_COLD;
 extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
 void PCE_Power(void) MDFN_COLD;
 
-extern int pce_overclocked;
-
 extern uint8 BaseRAM[32768 + 8192];
+
+#ifdef __cplusplus
+extern "C" int pce_overclocked;
+#else
+extern int pce_overclocked;
+#endif
 
 #endif

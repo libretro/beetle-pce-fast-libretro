@@ -1,7 +1,6 @@
 #ifndef _GIT_H
 #define _GIT_H
 
-#include <string>
 #include <libretro.h>
 
 #include "file.h"
@@ -104,20 +103,13 @@ struct CheatFormatStruct
 {
  const char *FullName;		//"Game Genie", "GameShark", "Pro Action Catplay", etc.
  const char *Description;	// Whatever?
-
- bool (*DecodeCheat)(const std::string& cheat_string, MemoryPatch* patch);	// *patch should be left as initialized by MemoryPatch::MemoryPatch(), unless this is the
-										// second(or third or whatever) part of a multipart cheat.
-										//
-										// Will throw an std::exception(or derivative) on format error.
-										//
-										// Will return true if this is part of a multipart cheat.
 };
 
 struct CheatFormatInfoStruct
 {
  unsigned NumFormats;
 
- CheatFormatStruct *Formats;
+ struct CheatFormatStruct *Formats;
 };
 
 // Miscellaneous system/simple commands(power, reset, dip switch toggles, coin insert, etc.)
@@ -279,8 +271,6 @@ typedef enum
  MODPRIO_INTERNAL_HIGH = 30,
  MODPRIO_EXTERNAL_HIGH = 40
 } ModPrio;
-
-class CDIF;
 
 #define MDFN_MASTERCLOCK_FIXED(n)	((int64)((double)(n) * (1LL << 32)))
 

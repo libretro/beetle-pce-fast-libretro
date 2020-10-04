@@ -315,7 +315,7 @@ void VDC_SetLayerEnableMask(uint64 mask)
    userle = mask;
 }
 
-DECLFW(VDC_Write_ST)
+extern "C" void MDFN_FASTCALL VDC_Write_ST(uint32 A, uint8 V)
 {
    //printf("WriteST: %04x %02x\n", A, V);
    VDC_Write(A, V);

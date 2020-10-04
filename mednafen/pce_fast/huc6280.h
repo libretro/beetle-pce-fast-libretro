@@ -1,9 +1,16 @@
 #ifndef _HuC6280H
+#define _HuC6280H
 
 #define HUC6280_CRAZY_VERSION
 //#define HUC6280_EXTRA_CRAZY
 
 #define HUC6280_LAZY_FLAGS
+
+#include <retro_inline.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct HuC6280
 {
@@ -52,7 +59,7 @@ struct HuC6280
 void HuC6280_Run(int32 cycles);
 void HuC6280_ResetTS(void);
 
-extern HuC6280 HuCPU;
+extern struct HuC6280 HuCPU;
 
 #define N_FLAG  0x80
 #define V_FLAG  0x40
@@ -156,5 +163,8 @@ static INLINE void HuC6280_IRQStatusWrite(unsigned int A, uint8 V)
  }
 }
 
-#define _HuC6280H
+#ifdef __cplusplus
+}
+#endif
+
 #endif

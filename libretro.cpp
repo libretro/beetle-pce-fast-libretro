@@ -599,8 +599,6 @@ static Blip_Buffer sbuf[2];
 
 bool PCE_ACEnabled;
 
-int pce_overclocked;
-
 // Statically allocated for speed...or something.
 uint8 ROMSpace[0x88 * 8192 + 8192];	// + 8192 for PC-as-pointer safety padding
 

@@ -22,8 +22,9 @@
 #include "vdc.h"
 #include "../state_helpers.h"
 
+int pce_overclocked;
 static uint8 dummy_bank[8192 + 8192];  // + 8192 for PC-as-ptr safety padding
-HuC6280 HuCPU;
+struct HuC6280 HuCPU;
 
 #define HU_PC              PC_local //HuCPU.PC
 #define HU_PC_base	 HuCPU.PC_base
@@ -50,11 +51,6 @@ HuC6280 HuCPU;
 #endif
 
 #define LOAD_LOCALS()				\
-	LOAD_LOCALS_PC();			\
-        uint8 X_local = HuCPU.X;		\
-        uint8 Y_local = HuCPU.Y;		\
-        uint8 P_local = HuCPU.P;		\
-	uint8 *Page1_local = HuCPU.Page1;
 
 #define SAVE_LOCALS()	HuCPU.PC = PC_local;	\
 			HuCPU.X = X_local;	\
@@ -139,7 +135,8 @@ void HuC6280_SetMPR(int i, int v)
 
 static void HuC6280_FlushMPRCache(void)
 {
-   for(int x = 0; x < 9; x++)
+   int x;
+   for(x = 0; x < 9; x++)
       HuC6280_SetMPR(x, HuCPU.MPR[x & 0x7]);
 }
 
@@ -308,14 +305,16 @@ static uint8 ZNTable[256];
    HU_P|=((t>>8)&C_FLAG)^C_FLAG;	\
 }
 
-#define TAM     for(int i = 0; i < 8; i ++) {               \
+#define TAM \
+   for(i = 0; i < 8; i ++) {               \
    if(x & (1 << i))        \
    {	\
       SET_MPR(i, HU_A);	\
    }	\
 } SET_MPR(8, HuCPU.MPR[0]);
 
-#define TMA	for(int i = 0; i < 8; i ++) {		\
+#define TMA	\
+   for(i = 0; i < 8; i ++) {		\
    if(x & (1 << i))	\
    HU_A = HuCPU.MPR[i];	\
 }	
@@ -524,6 +523,8 @@ static NO_INLINE bool WillIRQOccur(void)
 
 void HuC6280_Reset(void)
 {
+   int i;
+   unsigned int npc;
    HuCPU.timer_next_timestamp = HuCPU.timestamp + 1024;
 
    HuCPU.timer_load = 0;
@@ -531,15 +532,13 @@ void HuC6280_Reset(void)
    HuCPU.timer_status = 0;
    HuCPU.in_block_move = 0;
 
-   unsigned int npc;
-
    HuCPU.IRQMask = HuCPU.IRQMaskDelay = 7;
 
    HuC6280_SetMPR(0, 0xFF);
    HuC6280_SetMPR(8, 0xFF);
    HuC6280_SetMPR(1, 0xF8);
 
-   for(int i = 2; i < 8; i++)
+   for(i = 2; i < 8; i++)
       HuC6280_SetMPR(i, 0);
 
    npc = RdMem16(0xFFFE);
@@ -556,25 +555,28 @@ void HuC6280_Reset(void)
 
 void HuC6280_Init(void)
 {
-	memset(&HuCPU,0,sizeof(HuCPU));
+   int x;
+   unsigned i;
+   memset(&HuCPU,0,sizeof(HuCPU));
 
 #ifdef HUC6280_LAZY_FLAGS
 #else
-   for(int x=0; x < 256; x++)
- {
+   for(x=0; x < 256; x++)
+   {
       if(!x) ZNTable[x]=Z_FLAG;
       else if (x&0x80) ZNTable[x]=N_FLAG;
       else ZNTable[x]=0;
- }
+   }
 #endif
 
- for (unsigned i = 0; i < 0x100; i++)
-  HuCPU.FastMap[i] = dummy_bank;
+   for (i = 0; i < 0x100; i++)
+      HuCPU.FastMap[i] = dummy_bank;
 }
 
 void HuC6280_Power(void)
 {
- memset(dummy_bank, 0, sizeof(dummy_bank));
+   int i;
+   memset(dummy_bank, 0, sizeof(dummy_bank));
 
    HuCPU.IRQlow = 0;
 
@@ -593,125 +595,135 @@ void HuC6280_Power(void)
 
    HuCPU.timestamp = 0;
 
-   for(int i = 0; i < 9; i++)
+   for (i = 0; i < 9; i++)
    {
       HuCPU.MPR[i] = 0;
-  HuCPU.FastPageR[i] = 0;
+      HuCPU.FastPageR[i] = 0;
    }  
    HuC6280_Reset();
 }
 
 void HuC6280_Run(int32 cycles)
 {
+   int i;
+   int32 next_event;
    const int32 next_user_event = HuCPU.previous_next_user_event + cycles * pce_overclocked;
 
    HuCPU.previous_next_user_event = next_user_event;
 
-   LOAD_LOCALS();
-
-   if(HuCPU.timestamp >= next_user_event)
-      return;
-
-   int32 next_event;
-
-   if(HuCPU.in_block_move)
    {
-      next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
-
-      switch(HuCPU.in_block_move)
-      {
-         case IBM_TIA: goto continue_the_TIA;
-         case IBM_TAI: goto continue_the_TAI;
-         case IBM_TDD: goto continue_the_TDD;
-         case IBM_TII: goto continue_the_TII;
-         case IBM_TIN:	goto continue_the_TIN;
-      }
-   }
-
-   while(MDFN_LIKELY(HuCPU.timestamp < next_user_event))
-   {
-      next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
-
-      while(MDFN_LIKELY(HuCPU.timestamp < next_event))
-      {
-         uint8 b1;
-
-         if(HU_IRQlow)
-         {
-            if(!(HU_PI&I_FLAG))
-            {
-               uint32 tmpa = 0;
-
-               if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
-                  tmpa = 0xFFFA;
-               else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
-                  tmpa = 0xFFF8;
-               else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
-                  tmpa = 0xFFF6;
-
-               if(tmpa)
-               {
-                  unsigned int npc;
-
-                  ADDCYC(8);
-                  PUSH_PC();
-
-                  COMPRESS_FLAGS();
-                  PUSH((HU_P&~B_FLAG));
-                  HU_P |= I_FLAG;
-                  HU_P &= ~(T_FLAG | D_FLAG);
-                  HU_PI = HU_P;
-
-                  npc = RdMem16(tmpa);
-                  SetPC(npc);
-
-                  if(tmpa == 0xFFF8)
-                     HU_IRQlow &= ~0x200;
-
-                  continue;
-               }
-            }
-         }	// end if(HU_IRQlow)
-
-         //printf("%04x\n", GetRealPC());
-         HU_PI = HU_P;
-         HuCPU.IRQMaskDelay = HuCPU.IRQMask;
-
-         b1 = RdAtPC();
-
-         ADDCYC(CycTable[b1]);
-
-         IncPC();
-
-         switch(b1)
-         {
-#include "huc6280_ops.inc"
-         } 
-
-#ifndef HUC6280_EXTRA_CRAZY
-         FixPC_PC();
+#ifdef HUC6280_CRAZY_VERSION
+      uintptr_t PC_local = HuCPU.PC;
+#else
+      uint32 PC_local = HuCPU.PC;
 #endif
-      }	// end while(HuCPU.timestamp < next_event)
+      uint8 X_local = HuCPU.X;
+      uint8 Y_local = HuCPU.Y;
+      uint8 P_local = HuCPU.P;
+      uint8 *Page1_local = HuCPU.Page1;
 
-      while(HuCPU.timestamp >= HuCPU.timer_next_timestamp)
+      if(HuCPU.timestamp >= next_user_event)
+         return;
+
+      if(HuCPU.in_block_move)
       {
-         HuCPU.timer_next_timestamp += 1024 * pce_overclocked;
+         next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
 
-         if(HuCPU.timer_status)
+         switch(HuCPU.in_block_move)
          {
-            HuCPU.timer_value --;
-            if(HuCPU.timer_value < 0)
-            {
-               HuCPU.timer_value = HuCPU.timer_load;
-               HuC6280_IRQBegin(MDFN_IQTIMER);
-            }
+            case IBM_TIA: goto continue_the_TIA;
+            case IBM_TAI: goto continue_the_TAI;
+            case IBM_TDD: goto continue_the_TDD;
+            case IBM_TII: goto continue_the_TII;
+            case IBM_TIN:	goto continue_the_TIN;
          }
       }
-   } // end while(HuCPU.timestamp < next_user_event)
+
+      while(MDFN_LIKELY(HuCPU.timestamp < next_user_event))
+      {
+         next_event = (next_user_event < HuCPU.timer_next_timestamp) ? next_user_event : HuCPU.timer_next_timestamp;
+
+         while(MDFN_LIKELY(HuCPU.timestamp < next_event))
+         {
+            uint8 b1;
+
+            if(HU_IRQlow)
+            {
+               if(!(HU_PI&I_FLAG))
+               {
+                  uint32 tmpa = 0;
+
+                  if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
+                     tmpa = 0xFFFA;
+                  else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
+                     tmpa = 0xFFF8;
+                  else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
+                     tmpa = 0xFFF6;
+
+                  if(tmpa)
+                  {
+                     unsigned int npc;
+
+                     ADDCYC(8);
+                     PUSH_PC();
+
+                     COMPRESS_FLAGS();
+                     PUSH((HU_P&~B_FLAG));
+                     HU_P |= I_FLAG;
+                     HU_P &= ~(T_FLAG | D_FLAG);
+                     HU_PI = HU_P;
+
+                     npc = RdMem16(tmpa);
+                     SetPC(npc);
+
+                     if(tmpa == 0xFFF8)
+                        HU_IRQlow &= ~0x200;
+
+                     continue;
+                  }
+               }
+            }	// end if(HU_IRQlow)
+
+            //printf("%04x\n", GetRealPC());
+            HU_PI = HU_P;
+            HuCPU.IRQMaskDelay = HuCPU.IRQMask;
+
+            b1 = RdAtPC();
+
+            ADDCYC(CycTable[b1]);
+
+            IncPC();
+
+            switch(b1)
+            {
+#include "huc6280_ops.inc"
+            } 
+
+#ifndef HUC6280_EXTRA_CRAZY
+            FixPC_PC();
+#endif
+         }	// end while(HuCPU.timestamp < next_event)
+
+         while(HuCPU.timestamp >= HuCPU.timer_next_timestamp)
+         {
+            HuCPU.timer_next_timestamp += 1024 * pce_overclocked;
+
+            if(HuCPU.timer_status)
+            {
+               HuCPU.timer_value --;
+               if(HuCPU.timer_value < 0)
+               {
+                  HuCPU.timer_value = HuCPU.timer_load;
+                  HuC6280_IRQBegin(MDFN_IQTIMER);
+               }
+            }
+         }
+      } // end while(HuCPU.timestamp < next_user_event)
 
 GetOutBMT:
 
-   SAVE_LOCALS();
+      SAVE_LOCALS();
+   }
 }
 
 void HuC6280_ResetTS(void)
@@ -723,56 +735,59 @@ void HuC6280_ResetTS(void)
 
 int HuC6280_StateAction(StateMem *sm, int load, int data_only)
 {
+   int ret;
    uint16 tmp_PC = GetRealPC_EXTERNAL();
 
 #define P_local HuCPU.P
    COMPRESS_FLAGS();
 
-   SFORMAT SFCPU[]=
    {
-      SFVARN(tmp_PC, "PC"),
-      SFVARN(HuCPU.A, "A"),
-      SFVARN(HuCPU.P, "P"),
-      SFVARN(HuCPU.X, "X"),
-      SFVARN(HuCPU.Y, "Y"),
-      SFVARN(HuCPU.S, "S"),
-      SFVARN(HuCPU.mooPI, "PI"),
+      SFORMAT SFCPU[]=
+      {
+         SFVARN(tmp_PC, "PC"),
+         SFVARN(HuCPU.A, "A"),
+         SFVARN(HuCPU.P, "P"),
+         SFVARN(HuCPU.X, "X"),
+         SFVARN(HuCPU.Y, "Y"),
+         SFVARN(HuCPU.S, "S"),
+         SFVARN(HuCPU.mooPI, "PI"),
 
-      SFVARN(HuCPU.IRQMask, "IRQMask"),
-      SFVARN(HuCPU.IRQMaskDelay, "IRQMaskDelay"),
-      SFARRAYN(HuCPU.MPR, 8, "MPR"),
-      SFVARN(HuCPU.timer_status, "timer_status"),
-      SFVARN(HuCPU.timer_value, "timer_value"),
-      SFVARN(HuCPU.timer_load, "timer_load"),
+         SFVARN(HuCPU.IRQMask, "IRQMask"),
+         SFVARN(HuCPU.IRQMaskDelay, "IRQMaskDelay"),
+         SFARRAYN(HuCPU.MPR, 8, "MPR"),
+         SFVARN(HuCPU.timer_status, "timer_status"),
+         SFVARN(HuCPU.timer_value, "timer_value"),
+         SFVARN(HuCPU.timer_load, "timer_load"),
 
 
-      SFVARN(HuCPU.IRQlow, "IRQlow"),
-      SFVARN(HuCPU.in_block_move, "IBM"),
-      SFVARN(HuCPU.bmt_src, "IBM_SRC"),
-      SFVARN(HuCPU.bmt_dest, "IBM_DEST"),
-      SFVARN(HuCPU.bmt_length, "IBM_LENGTH"),
-      SFVARN(HuCPU.bmt_alternate, "IBM_ALTERNATE"),
+         SFVARN(HuCPU.IRQlow, "IRQlow"),
+         SFVARN(HuCPU.in_block_move, "IBM"),
+         SFVARN(HuCPU.bmt_src, "IBM_SRC"),
+         SFVARN(HuCPU.bmt_dest, "IBM_DEST"),
+         SFVARN(HuCPU.bmt_length, "IBM_LENGTH"),
+         SFVARN(HuCPU.bmt_alternate, "IBM_ALTERNATE"),
 
-      SFVARN(HuCPU.timestamp, "timestamp"),
-      SFVARN(HuCPU.timer_next_timestamp, "timer_next_timestamp"),
-      SFVARN(HuCPU.previous_next_user_event, "previous_next_user_event"),
+         SFVARN(HuCPU.timestamp, "timestamp"),
+         SFVARN(HuCPU.timer_next_timestamp, "timer_next_timestamp"),
+         SFVARN(HuCPU.previous_next_user_event, "previous_next_user_event"),
 
-      SFEND
-   };
+         SFEND
+      };
 
-   int ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU", false);
+      ret = MDFNSS_StateAction(sm, load, data_only, SFCPU, "CPU", false);
 
-   if(load)
-   {
-      // Update MPR cache
-      HuC6280_FlushMPRCache();
+      if(load)
+      {
+         // Update MPR cache
+         HuC6280_FlushMPRCache();
 
-      // This must be after the MPR cache is updated:
-      SetPC_EXTERNAL(tmp_PC);
-   }
+         // This must be after the MPR cache is updated:
+         SetPC_EXTERNAL(tmp_PC);
+      }
 
-   EXPAND_FLAGS();
+      EXPAND_FLAGS();
 #undef P_local
+   }
 
    return(ret);
 }

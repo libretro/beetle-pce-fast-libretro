@@ -5,6 +5,8 @@
 
 typedef int32 pcecd_drive_timestamp_t;
 
+class CDIF;
+
 struct pcecd_drive_bus_t
 {
  // Data bus(FIXME: we should have a variable for the target and the initiator, and OR them together to be truly accurate).
