@@ -296,7 +296,7 @@ int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT ACUsedRegs[] = 
  {
-  SFVAR(ACRAMUsed),
+  SFVARN_BOOL(ACRAMUsed, "ACRAMUsed"),
   SFEND
  };
 
@@ -305,18 +305,22 @@ int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
 
  SFORMAT ACStateRegs[] =
  {
-  SFVARN(AC.ports[0].base, "AC[0].base"), SFVARN(AC.ports[0].offset, "AC[0].offset"),
-  SFVARN(AC.ports[0].increment, "AC[0].increment"), SFVARN(AC.ports[0].control, "AC[0].control"),
-
-  SFVARN(AC.ports[1].base, "AC[1].base"), SFVARN(AC.ports[1].offset, "AC[1].offset"),
-  SFVARN(AC.ports[1].increment, "AC[1].increment"), SFVARN(AC.ports[1].control, "AC[1].control"),
-
-  SFVARN(AC.ports[2].base, "AC[2].base"), SFVARN(AC.ports[2].offset, "AC[2].offset"),
-  SFVARN(AC.ports[2].increment, "AC[2].increment"), SFVARN(AC.ports[2].control, "AC[2].control"),
-
-  SFVARN(AC.ports[3].base, "AC[3].base"), SFVARN(AC.ports[3].offset, "AC[3].offset"),
-  SFVARN(AC.ports[3].increment, "AC[3].increment"), SFVARN(AC.ports[3].control, "AC[3].control"),
-
+  SFVARN(AC.ports[0].base, "AC[0].base"),
+  SFVARN(AC.ports[0].offset, "AC[0].offset"),
+  SFVARN(AC.ports[0].increment, "AC[0].increment"),
+  SFVARN(AC.ports[0].control, "AC[0].control"),
+  SFVARN(AC.ports[1].base, "AC[1].base"),
+  SFVARN(AC.ports[1].offset, "AC[1].offset"),
+  SFVARN(AC.ports[1].increment, "AC[1].increment"),
+  SFVARN(AC.ports[1].control, "AC[1].control"),
+  SFVARN(AC.ports[2].base, "AC[2].base"),
+  SFVARN(AC.ports[2].offset, "AC[2].offset"),
+  SFVARN(AC.ports[2].increment, "AC[2].increment"),
+  SFVARN(AC.ports[2].control, "AC[2].control"),
+  SFVARN(AC.ports[3].base, "AC[3].base"),
+  SFVARN(AC.ports[3].offset, "AC[3].offset"),
+  SFVARN(AC.ports[3].increment, "AC[3].increment"),
+  SFVARN(AC.ports[3].control, "AC[3].control"),
   SFVARN(AC.shift_bits, "ACShiftBits"),
   SFVARN(AC.shift_latch, "ACShift"),
   SFVARN(AC.rotate_bits, "ACRotateBits"),

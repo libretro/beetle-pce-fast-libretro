@@ -965,7 +965,7 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
    SFORMAT StateRegs[] =
    {
       SFARRAY(BaseRAM, 8192),
-      SFVAR(PCEIODataBuffer),
+      SFVARN(PCEIODataBuffer, "PCEIODataBuffer"),
       SFEND
    };
 
@@ -1281,7 +1281,7 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
   SFARRAY(ROMSpace + 0x40 * 8192, IsPopulous ? 32768 : 0),
   SFARRAY(SaveRAM, IsPopulous ? 0 : 2048),
   SFARRAY(ROMSpace + 0x68 * 8192, PCE_IsCD ? 262144 : 0),
-  SFVAR(HuCSF2Latch),
+  SFVARN(HuCSF2Latch, "HuCSF2Latch"),
   SFEND
  };
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "HuC", false);

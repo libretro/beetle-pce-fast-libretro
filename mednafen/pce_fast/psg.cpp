@@ -623,14 +623,14 @@ int PCEFast_PSG::StateAction(StateMem *sm, int load, int data_only)
 
    SFORMAT PSG_StateRegs[] =
    {
-      SFVAR(select),
-      SFVAR(globalbalance),
-      SFVAR(lfofreq),
-      SFVAR(lfoctrl),
+      SFVARN(select, "select"),
+      SFVARN(globalbalance, "globalbalance"),
+      SFVARN(lfofreq, "lfofreq"),
+      SFVARN(lfoctrl, "lfoctrl"),
 
-      SFVAR(vol_update_counter),
-      SFVAR(vol_update_which),
-      SFVAR(vol_pending),
+      SFVARN(vol_update_counter, "vol_update_counter"),
+      SFVARN(vol_update_which, "vol_update_which"),
+      SFVARN_BOOL(vol_pending, "vol_pending"),
       SFEND
    };
 

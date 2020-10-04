@@ -4,10 +4,8 @@
 #include <stdint.h>
 #include <retro_inline.h>
 
-INLINE bool SF_IS_BOOL(bool *) { return(1); }
-INLINE bool SF_IS_BOOL(void *) { return(0); }
-
-#define SFVARN(x, n) { &(x), SF_IS_BOOL(&(x)) ? 1 : (uint32_t)sizeof(x), MDFNSTATE_RLSB | (SF_IS_BOOL(&(x)) ? MDFNSTATE_BOOL : 0), n }
+#define SFVARN_BOOL(x, n) { &(x), 1, MDFNSTATE_RLSB | MDFNSTATE_BOOL, n }
+#define SFVARN(x, n) { &(x), (uint32_t)sizeof(x), MDFNSTATE_RLSB, n }
 #define SFVAR(x) SFVARN((x), #x)
 
 #define SFARRAYN(x, l, n) { (x), (uint32_t)(l), 0, n }

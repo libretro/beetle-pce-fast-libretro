@@ -888,9 +888,9 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
       SFVAR(ADPCM.WritePending),
       SFVAR(ADPCM.WritePendingValue),
 
-      SFVAR(ADPCM.HalfReached),
-      SFVAR(ADPCM.EndReached),
-      SFVAR(ADPCM.Playing),
+      SFVARN_BOOL(ADPCM.HalfReached, "ADPCM.HalfReached"),
+      SFVARN_BOOL(ADPCM.EndReached, "ADPCM.EndReached"),
+      SFVARN_BOOL(ADPCM.Playing, "ADPCM.Playing"),
 
       SFVAR(ADPCM.PlayNibble),
 
@@ -922,7 +922,7 @@ int PCECD_StateAction(StateMem *sm, int load, int data_only)
       SFVAR(Fader.Volume),
       SFVAR(Fader.CycleCounter),
       SFVAR(Fader.CountValue),
-      SFVAR(Fader.Clocked),
+      SFVARN_BOOL(Fader.Clocked, "Fader.Clocked"),
 
       SFARRAY(&SubChannelFIFO.data[0], SubChannelFIFO.size),
       SFVAR(SubChannelFIFO.read_pos),
