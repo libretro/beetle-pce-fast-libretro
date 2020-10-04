@@ -4,8 +4,6 @@
 #include <vector>
 #include <assert.h>
 
-#include "../math_ops.h"
-
 template<typename T>
 class SimpleFIFO
 {
