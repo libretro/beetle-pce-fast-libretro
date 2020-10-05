@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <string.h>
 #include "MemoryStream.h"
 
 #ifdef _XBOX
