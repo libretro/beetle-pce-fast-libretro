@@ -23,6 +23,7 @@
    PCE_FAST(less accurate, faster, etc.) fork from PCE module "pcecd.cpp".
 */
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "../mednafen-types.h"
