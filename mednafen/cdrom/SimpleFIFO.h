@@ -2,7 +2,7 @@
 #define __MDFN_SIMPLEFIFO_H
 
 #include <stdint.h>
-#include <assert.h>
+#include <stdlib.h>
 
 class SimpleFIFO
 {
@@ -11,9 +11,6 @@ class SimpleFIFO
  // Constructor
  SimpleFIFO(uint32 the_size)
  {
-    /* Size should be a power of 2! */
-    assert(the_size && !(the_size & (the_size - 1)));
-
     data      = (uint8_t*)malloc(the_size * sizeof(uint8_t));
     size      = the_size;
     read_pos  = 0;
@@ -48,15 +45,11 @@ class SimpleFIFO
 
  INLINE uint8_t ReadByte(bool peek = false)
  {
-    assert(sizeof(uint8_t) == 1);
-
     return(ReadUnit(peek));
  }
 
  INLINE void Write(const uint8_t *happy_data, uint32 happy_count)
  {
-    assert(CanWrite() >= happy_count);
-
     while(happy_count)
     {
        data[write_pos] = *happy_data;
@@ -75,7 +68,6 @@ class SimpleFIFO
 
  INLINE void WriteByte(const uint8_t& wr_data)
  {
-    assert(sizeof(uint8_t) == 1);
     Write(&wr_data, 1);
  }
 
