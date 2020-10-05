@@ -17,13 +17,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-
-#include "mednafen.h"
-#include "Stream.h"
-#include "FileStream.h"
-
 #include <stdarg.h>
 #include <string.h>
+
+#include "Stream.h"
+#include "FileStream.h"
 
 FileStream::FileStream(const char *path, const int mode)
 {

@@ -23,7 +23,10 @@
    PCE_FAST(less accurate, faster, etc.) fork from PCE module "pcecd.cpp".
 */
 
-#include "../mednafen.h"
+#include <string.h>
+
+#include "../mednafen-types.h"
+#include "../state.h"
 #include "../okiadpcm.h"
 #include "../cdrom/SimpleFIFO.h"
 #include "../state_helpers.h"

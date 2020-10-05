@@ -21,7 +21,8 @@
 #include <errno.h>
 #include <string.h>
 
-#include "../../mednafen.h"
+#include "../../mednafen-types.h"
+#include "../../state.h"
 #include "../../state_helpers.h"
 #include "arcade_card.h"
 

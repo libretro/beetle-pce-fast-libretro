@@ -22,7 +22,7 @@
 #ifndef __MDFN_CDAFREADER_H
 #define __MDFN_CDAFREADER_H
 
-#include <mednafen/Stream.h>
+#include "../Stream.h"
 
 class CDAFReader
 {

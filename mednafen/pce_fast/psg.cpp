@@ -18,7 +18,8 @@
 #include <string.h>
 #include <math.h>
 
-#include "../mednafen.h"
+#include "../mednafen-types.h"
+#include "../state.h"
 #include "../state_helpers.h"
 
 #include "psg.h"

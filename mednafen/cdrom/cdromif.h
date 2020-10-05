@@ -18,10 +18,10 @@
 #ifndef __MDFN_CDROM_CDROMIF_H
 #define __MDFN_CDROM_CDROMIF_H
 
-#include "CDUtility.h"
-#include <mednafen/Stream.h>
-
 #include <queue>
+
+#include "CDUtility.h"
+#include "../Stream.h"
 
 class CDIF
 {

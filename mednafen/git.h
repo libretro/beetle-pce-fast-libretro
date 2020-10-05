@@ -324,23 +324,6 @@ typedef struct
  double mouse_sensitivity;
 } MDFNGI;
 
-// Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-// Rounds up to the nearest power of 2.
-static INLINE uint32 round_up_pow2(uint32 v)
-{
-   v--;
-   v |= v >> 1;
-   v |= v >> 2;
-   v |= v >> 4;
-   v |= v >> 8;
-   v |= v >> 16;
-   v++;
-
-   v += (v == 0);
-
-   return(v);
-}
-
 #ifdef __cplusplus
 extern "C" {
 #endif

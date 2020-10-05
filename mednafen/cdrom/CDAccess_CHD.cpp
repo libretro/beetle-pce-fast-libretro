@@ -19,8 +19,9 @@
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#include "../mednafen.h"
+#include "../mednafen-types.h"
 #include "../mednafen-endian.h"
+#include "../git.h"
 #include "../general.h"
 
 #include "CDAccess_CHD.h"

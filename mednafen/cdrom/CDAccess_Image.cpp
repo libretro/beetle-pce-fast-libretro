@@ -28,8 +28,6 @@
 	it will be added onto the implicit default 00:02:00 of pregap.
 */
 
-#include "../mednafen.h"
-
 #include <stdint.h>
 
 #include <string.h>
@@ -37,7 +35,9 @@
 #include <time.h>
 #include <memory>
 
+#include "../mednafen-types.h"
 #include "../general.h"
+#include "../git.h"
 #include "../mednafen-endian.h"
 #include "../FileStream.h"
 #include "../MemoryStream.h"

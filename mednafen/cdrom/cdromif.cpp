@@ -15,14 +15,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "../mednafen.h"
+#include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
-#include "cdromif.h"
-#include "CDAccess.h"
 
 #include <boolean.h>
 #include <retro_miscellaneous.h>
+
+#include "cdromif.h"
+#include "CDAccess.h"
+#include "../mednafen.h"
 
 typedef struct
 {

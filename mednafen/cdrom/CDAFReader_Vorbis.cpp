@@ -18,12 +18,12 @@
 ** along with this program; if not, write to the Free Software Foundation, Inc.,
 ** 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
+#include <string.h>
 
-#include <mednafen/mednafen.h>
 #include "CDAFReader.h"
 #include "CDAFReader_Vorbis.h"
 
-#include <mednafen/tremor/ivorbisfile.h>
+#include "../tremor/ivorbisfile.h"
 
 class CDAFReader_Vorbis : public CDAFReader
 {
