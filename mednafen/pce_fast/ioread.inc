@@ -104,10 +104,9 @@
 
                if((A & 0x1E00) == 0x1A00)
                {
-                if(arcade_card)
-                 return(arcade_card->Read(A & 0x1FFF));
-                else
-                 return(0);
+                  if(arcade_card)
+                     return(arcade_card->Read(A & 0x1FFF, false));
+                  return(0);
                }
                else
 	       {

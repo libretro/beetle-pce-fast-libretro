@@ -27,7 +27,7 @@ class ArcadeCard
  void Power(void);
  int StateAction(StateMem *sm, int load, int data_only);
 
- uint8 Read(uint32 A, bool peek = false);	// Pass peek as true if you don't want side-effects from this read(IE in a debugger).
+ uint8 Read(uint32 A, bool peek);	// Pass peek as true if you don't want side-effects from this read(IE in a debugger).
  void Write(uint32 A, uint8 V);
 
  INLINE void PhysWrite(uint32 A, uint8 V)
