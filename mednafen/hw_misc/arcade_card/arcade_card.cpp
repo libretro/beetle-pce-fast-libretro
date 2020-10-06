@@ -297,7 +297,7 @@ int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT ACUsedRegs[] = 
  {
-  SFVARN_BOOL(ACRAMUsed, "ACRAMUsed"),
+  SFVAR_BOOL(ACRAMUsed),
   SFEND
  };
 

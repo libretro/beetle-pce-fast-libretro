@@ -1152,8 +1152,8 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
    SFORMAT VCE_StateRegs[] =
    {
       SFVARN(vce.CR, "VCECR"),
-      SFVARN_BOOL(vce.lc263, "lc263"),
-      SFVARN_BOOL(vce.bw, "bw"),
+      SFVAR_BOOL(vce.lc263),
+      SFVAR_BOOL(vce.bw),
       SFVARN(vce.dot_clock, "dot clock"),
       SFVARN(vce.ctaddress, "ctaddress"),
       SFARRAY16N(vce.color_table, 0x200, "color_table"),
@@ -1202,10 +1202,10 @@ int VDC_StateAction(StateMem *sm, int load, int data_only)
 
          SFARRAY16N(vdc->VRAM, VRAM_Size, "VRAM"),
          SFVARN(vdc->DMAReadBuffer, "DMAReadBuffer"),
-         SFVARN_BOOL(vdc->DMAReadWrite, "DMAReadWrite"),
-         SFVARN_BOOL(vdc->DMARunning, "DMARunning"),
-         SFVARN_BOOL(vdc->SATBPending, "SATBPending"),
-         SFVARN_BOOL(vdc->burst_mode, "burst_mode"),
+         SFVAR_BOOL(vdc->DMAReadWrite),
+         SFVAR_BOOL(vdc->DMARunning),
+         SFVAR_BOOL(vdc->SATBPending),
+         SFVAR_BOOL(vdc->burst_mode),
 
          SFVARN(vdc->BG_YOffset, "BG_YOffset"),
          SFVARN(vdc->BG_XOffset, "BG_XOffset"),

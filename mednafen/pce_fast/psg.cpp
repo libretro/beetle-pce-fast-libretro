@@ -631,7 +631,7 @@ int PCEFast_PSG::StateAction(StateMem *sm, int load, int data_only)
 
       SFVARN(vol_update_counter, "vol_update_counter"),
       SFVARN(vol_update_which, "vol_update_which"),
-      SFVARN_BOOL(vol_pending, "vol_pending"),
+      SFVAR_BOOL(vol_pending),
       SFEND
    };
 

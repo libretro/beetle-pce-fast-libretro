@@ -6,6 +6,7 @@
 
 #define SFVARN_BOOL(x, n) { &(x), 1, MDFNSTATE_RLSB | MDFNSTATE_BOOL, n }
 #define SFVARN(x, n) { &(x), (uint32_t)sizeof(x), MDFNSTATE_RLSB, n }
+#define SFVAR_BOOL(x) SFVARN_BOOL((x), #x)
 #define SFVAR(x) SFVARN((x), #x)
 
 #define SFARRAYN(x, l, n) { (x), (uint32_t)(l), 0, n }

@@ -1252,10 +1252,10 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
   SFVARN(cd_bus.signals, "Signals"),
   SFVARN(CurrentPhase, "CurrentPhase"),
 
-  SFVARN_BOOL(cd.last_RST_signal, "last_RST"),
+  SFVAR_BOOL(cd.last_RST_signal),
   SFVARN(cd.message_pending, "message_pending"),
-  SFVARN_BOOL(cd.status_sent, "status_sent"),
-  SFVARN_BOOL(cd.message_sent, "message_sent"),
+  SFVAR_BOOL(cd.status_sent),
+  SFVAR_BOOL(cd.message_sent),
   SFVARN(cd.key_pending, "key_pending"),
   SFVARN(cd.asc_pending, "asc_pending"),
   SFVARN(cd.ascq_pending, "ascq_pending"),
@@ -1269,10 +1269,10 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
   SFARRAYN(&din.data[0], din.size, "din_fifo"),
   SFVARN(din.read_pos, "din_read_pos"),
   SFVARN(din.in_count, "din_in_count"),
-  SFVARN_BOOL(cd.data_transfer_done, "data_transfer_done"),
+  SFVAR_BOOL(cd.data_transfer_done),
 
-  SFVARN_BOOL(cd.TrayOpen, "TrayOpen"),
-  SFVARN_BOOL(cd.DiscChanged, "DiscChanged"),
+  SFVAR_BOOL(cd.TrayOpen),
+  SFVAR_BOOL(cd.DiscChanged),
 
   SFVAR(cdda.PlayMode),
   SFARRAY16(cdda.CDDASectorBuffer, 1176),
