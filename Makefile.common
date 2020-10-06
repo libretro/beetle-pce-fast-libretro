@@ -114,18 +114,6 @@ ifeq ($(NEED_DEINTERLACER), 1)
 	FLAGS += -DNEED_DEINTERLACER
 endif
 
-ifeq ($(NEED_BPP), 8)
-	FLAGS += -DWANT_8BPP
-endif
-
-ifeq ($(NEED_BPP), 16)
-	FLAGS += -DWANT_16BPP
-endif
-
-ifeq ($(NEED_BPP), 32)
-	FLAGS += -DWANT_32BPP
-endif
-
 ifeq ($(WANT_NEW_API), 1)
 	FLAGS += -DWANT_NEW_API
 endif
