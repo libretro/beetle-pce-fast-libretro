@@ -35,7 +35,7 @@ class ArcadeCard
   Write(0x1a00 | ((A >> 9) & 0x30), V);
  }
 
- INLINE uint8 PhysRead(uint32 A, bool peek = false)
+ INLINE uint8 PhysRead(uint32 A, bool peek)
  {
   return(Read(0x1a00 | ((A >> 9) & 0x30), peek));
  }

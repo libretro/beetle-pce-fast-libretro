@@ -633,7 +633,7 @@ static DECLFW(ACPhysWrite)
 
 static DECLFR(ACPhysRead)
 {
-   return(arcade_card->PhysRead(A));
+   return(arcade_card->PhysRead(A, false));
 }
 
 static DECLFR(SaveRAMRead)
