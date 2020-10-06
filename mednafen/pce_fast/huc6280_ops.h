@@ -21,43 +21,41 @@
 #define TEST_WEIRD_TFLAG(n) { /* if(HU_P & T_FLAG) puts("RAWR" n); */}
 
 case 0x00:  /* BRK */
-            IncPC();
+       IncPC();
 	    HU_P &= ~T_FLAG;
 	    PUSH_PC();
 
-            COMPRESS_FLAGS();
-            PUSH(HU_P|B_FLAG);
+       COMPRESS_FLAGS();
+       PUSH(HU_P|B_FLAG);
 	    HU_P|=I_FLAG;
 	    HU_P &= ~D_FLAG;
 	    HU_PI|=I_FLAG;
 	    {
-	     unsigned int npc;
-
-             npc=RdOp(0xFFF6);
-             npc|=RdOp(0xFFF7)<<8;
+        unsigned int npc = RdOp(0xFFF6);
+        npc|=RdOp(0xFFF7)<<8;
 
 	     SetPC(npc);
 	    }
-            break;
+       break;
 
 case 0x40:  /* RTI */
-            HU_P = POP();
-	    EXPAND_FLAGS();
+       HU_P = POP();
+       EXPAND_FLAGS();
 	    /* HU_PI=HU_P; This is probably incorrect, so it's commented out. */
 	    HU_PI = HU_P;
 	    POP_PC();
 
 	    // T-flag handling here:
 	    TEST_WEIRD_TFLAG("RTI");
-            break;
+       break;
             
 case 0x60:  /* RTS */
 	    POP_PC_AP();
-            break;
+       break;
 
 case 0x48: /* PHA */
-           PUSH(HU_A);
-           break;
+       PUSH(HU_A);
+       break;
 
 case 0x08: /* PHP */
 	   HU_P &= ~T_FLAG;
@@ -139,9 +137,7 @@ case 0x7C: // JMP Indirect X - 65C02
 
 case 0x20: /* JSR */
 	   {
-	    unsigned int npc;
-
-	    npc = RdAtPC();
+	    unsigned int npc = RdAtPC();
 
 	    IncPC();
 	    PUSH_PC();
@@ -618,12 +614,11 @@ case 0xF4: /* SET */
 	    HU_Page1[HU_X] /*PAGE1_W[HU_X]*/ =  HU_A;
 	    HU_A = Abackup;
 	   }
-           break;
+      break;
 
 case 0xFC: 
 	   {
-	    int32 ec_tmp;
-	    ec_tmp = next_event - HuCPU.timestamp;
+	    int32 ec_tmp = next_event - HuCPU.timestamp;
 	    if(ec_tmp > 0)
 	    {
 	     ADDCYC(ec_tmp);

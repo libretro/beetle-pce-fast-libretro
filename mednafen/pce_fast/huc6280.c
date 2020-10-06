@@ -94,16 +94,7 @@ struct HuC6280 HuCPU;
  #define FixPC_PC()
 #endif
 
-//#define IncPC() { HU_PC++; if(!(GetRealPC() & 0x1FFF)) printf("Bank crossing: %04x\n", GetRealPC()); }
-//#define IncPC() HU_PC++;
-#if 0
-#define IncPC() { HU_PC++; if(!(GetRealPC() & 0x1FFF) && 	\
-	HuCPU.MPR[(GetRealPC() - 1) >> 13] != (HuCPU.MPR[(GetRealPC()) >> 13] - 1)) \
-	printf("Bank crossing: %04x, %02x, %02x\n", GetRealPC(), HuCPU.MPR[(GetRealPC() - 1) >> 13], 	\
-	HuCPU.MPR[GetRealPC() >> 13]); }
-#else
 #define IncPC() HU_PC++;
-#endif
 
 #ifdef HUC6280_CRAZY_VERSION
  #define RdAtPC() (*(uint8*)HU_PC)
@@ -698,7 +689,7 @@ void HuC6280_Run(int32 cycles)
 
             switch(b1)
             {
-#include "huc6280_ops.inc"
+#include "huc6280_ops.h"
             } 
 
 #ifndef HUC6280_EXTRA_CRAZY
