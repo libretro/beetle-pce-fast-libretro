@@ -71,7 +71,7 @@ enum
  PCECD_Drive_IRQ_MAGICAL_REQ,
 };
 
-void PCECD_Drive_GetCDDAValues(int16 &left, int16 &right);
+void PCECD_Drive_GetCDDAValues(int16 *left, int16 *right);
 
 void PCECD_Drive_SetLog(void (*logfunc)(const char *, const char *, ...)) MDFN_COLD;
 void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer *leftbuf, Blip_Buffer *rightbuf, uint32 TransferRate, uint32 SystemClock, void (*IRQFunc)(int), void (*SSCFunc)(uint8, int)) MDFN_COLD;
@@ -81,6 +81,6 @@ void PCECD_Drive_SetTransferRate(uint32 TransferRate);
 void PCECD_Drive_SetCDDAVolume(unsigned vol); // vol of 65536 = 1.0 = maximum.
 int PCECD_Drive_StateAction(StateMem *sm, int load, int data_only, const char *sname);
 
-void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects = false) MDFN_COLD;
+void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects) MDFN_COLD;
 
 #endif

@@ -537,7 +537,7 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       case 0x6:
          {
             int16 left, right;
-            PCECD_Drive_GetCDDAValues(left, right);
+            PCECD_Drive_GetCDDAValues(&left, &right);
             RawPCMVolumeCache[0] = ((int64)abs(left) * CDDAFadeVolume) >> 16;
             RawPCMVolumeCache[1] = ((int64)abs(right) * CDDAFadeVolume) >> 16;
          }
