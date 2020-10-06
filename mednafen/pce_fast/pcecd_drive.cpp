@@ -427,14 +427,13 @@ static bool ValidateRawDataSector(uint8 *data, const uint32 lba)
 {
  if(!edc_lec_check_and_correct(data, false))
  {
-  MDFN_DispMessage("Uncorrectable data at sector %u", lba);
-  MDFN_PrintError("Uncorrectable data at sector %u", lba);
+    MDFN_DispMessage("Uncorrectable data at sector %u", lba);
 
-  din.Flush();
-  cd.data_transfer_done = false;
+    din.Flush();
+    cd.data_transfer_done = false;
 
-  CommandCCError(SENSEKEY_MEDIUM_ERROR, AP_LEC_UNCORRECTABLE_ERROR);
-  return(false);
+    CommandCCError(SENSEKEY_MEDIUM_ERROR, AP_LEC_UNCORRECTABLE_ERROR);
+    return(false);
  }
 
  return(true);

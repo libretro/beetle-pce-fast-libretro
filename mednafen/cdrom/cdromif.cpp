@@ -94,10 +94,7 @@ int CDIF::ReadSector(uint8_t* buf, int32_t lba, uint32_t sector_count, bool supp
       if(!ValidateRawSector(tmpbuf))
       {
          if(!suppress_uncorrectable_message)
-         {
             MDFN_DispMessage("Uncorrectable data at sector %d", lba);
-            MDFN_PrintError("Uncorrectable data at sector %d", lba);
-         }
 
          return(false);
       }

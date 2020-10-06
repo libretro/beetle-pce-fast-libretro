@@ -830,53 +830,58 @@ static DECLFR(IORead)
 
 static DECLFW(IOWrite)
 {
- A &= 0x1FFF;
+   A &= 0x1FFF;
 
- switch(A >> 10)
- {
-  case 0: HuC6280_StealCycle();
-	       VDC_Write(A, V);
-	       break;
+   switch(A >> 10)
+   {
+      case 0:
+         HuC6280_StealCycle();
+         VDC_Write(A, V);
+         break;
+      case 1:
+         HuC6280_StealCycle();
+         VCE_Write(A, V);
+         break;
+      case 2:
+         PCEIODataBuffer = V;
+         psg->Write(HuCPU.timestamp / pce_overclocked, A, V);
+         break;
+      case 3:
+         PCEIODataBuffer = V;
+         HuC6280_TimerWrite(A, V);
+         break;
+      case 4:
+         PCEIODataBuffer = V;
+         INPUT_Write(A, V);
+         break;
+      case 5:
+         PCEIODataBuffer = V;
+         HuC6280_IRQStatusWrite(A, V);
+         break;
+      case 6:
+         if(!PCE_IsCD)
+            break;
 
-  case 1: HuC6280_StealCycle();
-	       VCE_Write(A, V);
-	       break;
+         if((A & 0x1E00) == 0x1A00)
+         {
+            if(arcade_card)
+               arcade_card->Write(A & 0x1FFF, V);
+         }
+         else
+            PCECD_Write(HuCPU.timestamp * 3, A, V);
+         break;
 
-  case 2: PCEIODataBuffer = V;
-	       psg->Write(HuCPU.timestamp / pce_overclocked, A, V);
-	       break;
-
-  case 3: PCEIODataBuffer = V;
-	       HuC6280_TimerWrite(A, V);
-	       break;
-
-  case 4: PCEIODataBuffer = V; INPUT_Write(A, V); break;
-  case 5: PCEIODataBuffer = V; HuC6280_IRQStatusWrite(A, V); break;
-  case 6:
-	  if(!PCE_IsCD)
-	   break;
-
-	  if((A & 0x1E00) == 0x1A00)
-	  {
-	   if(arcade_card)
-	    arcade_card->Write(A & 0x1FFF, V);
-	  }
-	  else
-	  {
-	   PCECD_Write(HuCPU.timestamp * 3, A, V);
-	  }
-	  break;
-
-  case 7: break;	// Expansion.
- }
+      case 7:
+         break;	// Expansion.
+   }
 }
 
 static void PCECDIRQCB(bool asserted)
 {
- if(asserted)
-  HuC6280_IRQBegin(MDFN_IQIRQ2);
- else
-  HuC6280_IRQEnd(MDFN_IQIRQ2);
+   if(asserted)
+      HuC6280_IRQBegin(MDFN_IQIRQ2);
+   else
+      HuC6280_IRQEnd(MDFN_IQIRQ2);
 }
 
 bool PCE_InitCD(void)
@@ -998,10 +1003,8 @@ static int Load(const char *name, MDFNFILE *fp)
 
    LoadCommonPre();
 
-   {
-      if(GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
-         headerlen = 512;
-   }
+   if(GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
+      headerlen = 512;
 
    r_size = GET_FSIZE_PTR(fp) - headerlen;
    if(r_size > 4096 * 1024) r_size = 4096 * 1024;
@@ -1029,7 +1032,7 @@ static void LoadCommonPre(void)
 
    // FIXME:  Make these globals less global!
    pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
-   PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
+   PCE_ACEnabled   = MDFN_GetSettingB("pce_fast.arcadecard");
 
    for(x = 0; x < 0x100; x++)
    {
@@ -1087,8 +1090,9 @@ static int LoadCommon(void)
 #ifdef _WIN32
 static void sanitize_path(std::string &path)
 {
+   size_t i;
    size_t size = path.size();
-   for (size_t i = 0; i < size; i++)
+   for (i = 0; i < size; i++)
       if (path[i] == '/')
          path[i] = '\\';
 }
@@ -1173,7 +1177,6 @@ static int HuCLoadCD(const char *bios_path)
    {
       if (!(arcade_card = new ArcadeCard()))
       {
-         MDFN_PrintError("Error creating %s object.\n", "ArcadeCard");
          Cleanup();
          return(0);
       }
@@ -1571,23 +1574,6 @@ error:
 }
 
 static uint8 lastchar = 0;
-
-void MDFN_PrintError(const char *format, ...)
-{
- char *temp;
-
- va_list ap;
-
- va_start(ap, format);
-
- temp = (char*)malloc(4096 * sizeof(char));
- vsnprintf(temp, 4096, format, ap);
- if (log_cb)
-    log_cb(RETRO_LOG_ERROR, "%s\n", temp);
- free(temp);
-
- va_end(ap);
-}
 
 static MDFNGI *game;
 
