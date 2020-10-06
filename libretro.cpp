@@ -1485,7 +1485,7 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
-static MDFNGI *MDFNI_LoadCD(const char *devicename)
+static bool MDFNI_LoadCD(const char *devicename)
 {
    bool ret = false;
    log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
@@ -1517,17 +1517,18 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
    if (!ret)
    {
       log_cb(RETRO_LOG_ERROR, "Error opening CD.\n");
-      return NULL;
+      return false;
    }
 
    if(!(LoadCD(&CDInterfaces)))
    {
-      for(unsigned i = 0; i < CDInterfaces.size(); i++)
+      unsigned i;
+      for(i = 0; i < CDInterfaces.size(); i++)
          delete CDInterfaces[i];
       CDInterfaces.clear();
 
       MDFNGameInfo = NULL;
-      return(0);
+      return false;
    }
 
    //MDFNI_SetLayerEnableMask(~0ULL);
@@ -1535,16 +1536,16 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   return(MDFNGameInfo);
+   return true;
 }
 
-static MDFNGI *MDFNI_LoadGame(const char *name)
+static bool MDFNI_LoadGame(const char *name)
 {
    MDFNFILE *GameFile = NULL;
    MDFNGameInfo = &EmulatedPCE_Fast;
 
    if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-      return(MDFNI_LoadCD(name));
+      return MDFNI_LoadCD(name);
 
    GameFile = file_open(name);
 
@@ -1564,18 +1565,16 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   return(MDFNGameInfo);
+   return true;
 
 error:
    if (GameFile)
       file_close(GameFile);
    MDFNGameInfo = NULL;
-   return NULL;
+   return false;
 }
 
 static uint8 lastchar = 0;
-
-static MDFNGI *game;
 
 struct retro_perf_callback perf_cb;
 retro_get_cpu_features_t perf_get_cpu_features_cb = NULL;
@@ -1878,6 +1877,7 @@ static void check_variables(void)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+   unsigned c;
    struct retro_input_descriptor desc[] = {
       #define button_ids(INDEX) \
       { INDEX, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "D-Pad Left" },\
@@ -1909,8 +1909,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables();
 
-   game = MDFNI_LoadGame(info->path);
-   if (!game)
+   if (!MDFNI_LoadGame(info->path))
       return false;
 
    surf = (MDFN_Surface*)calloc(1, sizeof(*surf));
@@ -1981,19 +1980,19 @@ bool retro_load_game(const struct retro_game_info *info)
       i++;
    }
    
-   for (unsigned c = 0; c < 6; c++) {
+   for (c = 0; c < 6; c++)
        psg->SetChannelUserVolume(c, psg_channels_volume[c]);
-   }
 
    mmaps.descriptors = descs;
    mmaps.num_descriptors = i;
    environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
 
-   return game;
+   return true;
 }
 
 void retro_unload_game(void)
 {
+   unsigned i;
    if(!MDFNGameInfo)
       return;
 
@@ -2005,7 +2004,7 @@ void retro_unload_game(void)
 
    MDFNGameInfo = NULL;
 
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
+   for(i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
 }
@@ -2157,8 +2156,6 @@ void update_geometry(unsigned width, unsigned height)
 
 void retro_run(void)
 {
-   MDFNGI *curgame = (MDFNGI*)game;
-
    input_poll_cb();
 
    update_input();
@@ -2199,7 +2196,7 @@ void retro_run(void)
 
    Emulate(&spec);
 
-   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * curgame->soundchan;
+   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * 2; /* 2 sound channels */
    int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
    const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
 
@@ -2217,14 +2214,14 @@ void retro_run(void)
    bool updated = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
    {
+      unsigned c;
       check_variables();
       if(PCE_IsCD){
-            psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
-      
-       for (unsigned c = 0; c < 6; c++) {
-           psg->SetChannelUserVolume(c, psg_channels_volume[c]);
-       }
+
+      for (c = 0; c < 6; c++)
+         psg->SetChannelUserVolume(c, psg_channels_volume[c]);
 
       update_geometry(width, height);
    }
@@ -2365,8 +2362,6 @@ void retro_set_video_refresh(retro_video_refresh_t cb)
    video_cb = cb;
 }
 
-static size_t serialize_size;
-
 size_t retro_serialize_size(void)
 {
    StateMem st;
@@ -2382,7 +2377,7 @@ size_t retro_serialize_size(void)
 
    free(st.data);
 
-   return serialize_size = st.len;
+   return st.len;
 }
 
 bool retro_serialize(void *data, size_t size)

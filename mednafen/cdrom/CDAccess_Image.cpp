@@ -35,6 +35,8 @@
 #include <time.h>
 #include <memory>
 
+#include <compat/posix_string.h>
+
 #include "../mednafen-types.h"
 #include "../general.h"
 #include "../git.h"
