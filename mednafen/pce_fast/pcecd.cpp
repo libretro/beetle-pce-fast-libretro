@@ -35,8 +35,6 @@
 #include "pcecd_drive.h"
 #include "pcecd.h"
 
-//#define PCECD_DEBUG
-
 static unsigned int OC_Multiplier;
 
 static void (*IRQCB)(bool asserted);
@@ -188,10 +186,6 @@ static void StuffSubchannel(uint8 meow, int subindex)
 
 static void CDIRQ(int type)
 {
-#ifdef PCECD_DEBUG
-   if(type != 0x8000 || _Port[0x3] & 0x60)
-      printf("CDIRQ: %d\n", type);
-#endif
    if(type & 0x8000)
    {
       type &= 0x7FFF;
@@ -450,10 +444,6 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
       }
    }
 
-#ifdef PCECD_DEBUG
-   printf("Read: %04x %02x, %d\n", A, ret, timestamp);
-#endif
-
    return(ret);
 }
 
@@ -479,10 +469,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 {
    const uint8 V = data;
 
-#ifdef PCECD_DEBUG
-   printf("Write: (PC=%04x, t=%6d) %04x %02x; MSG: %d, REQ: %d, ACK: %d, CD: %d, IO: %d, BSY: %d, SEL: %d\n", HuCPU.PC, timestamp, physAddr, data, PCECD_Drive_GetMSG(), PCECD_Drive_GetREQ(), PCECD_Drive_GetACK(), PCECD_Drive_GetCD(), PCECD_Drive_GetIO(), PCECD_Drive_GetBSY(), PCECD_Drive_GetSEL());
-#endif
-
    PCECD_Run(timestamp);
 
    switch (physAddr & 0xf)
@@ -505,12 +491,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
          break;
 
       case 0x2:		// $1802
-#ifdef PCECD_DEBUG
-         if(!(_Port[0x3] & _Port[2] & 0x40) && (_Port[0x3] & data & 0x40))
-            puts("IRQ on waah 0x40");
-         if(!(_Port[0x3] & _Port[2] & 0x20) && (_Port[0x3] & data & 0x20))
-            puts("IRQ on waah 0x20");
-#endif
 
          PCECD_Drive_SetACK(data & 0x80);
          pcecd_drive_ne = PCECD_Drive_Run(timestamp);
@@ -678,10 +658,6 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
       case 0xf:
          Fader.Command = V;
 
-#ifdef PCECD_DEBUG
-         printf("Fade: %02x\n", data);
-#endif
-
          // Cancel fade
          if(!(V & 0x8))
          {
@@ -844,9 +820,6 @@ extern "C" void PCECD_Run(uint32 in_timestamp)
             if(PCECD_Drive_GetCD())
             {
                _Port[0xb] &= ~1;
-#ifdef PCECD_DEBUG
-               puts("DMA End");
-#endif
             }
          }
       }
