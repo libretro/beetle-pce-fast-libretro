@@ -586,10 +586,6 @@ static uint8_t composite_palette[] = {
    255, 255, 255
 };
 
-/* Forward declarations */
-static void MDFN_printf(const char *format, ...);
-void MDFN_indent(int indent);
-
 /* Mednafen - Multi-system Emulator
  *
  * This program is free software; you can redistribute it and/or modify
@@ -768,22 +764,16 @@ static void PCECDIRQCB(bool asserted)
 
 bool PCE_InitCD(void)
 {
- PCECD_Settings cd_settings;
- memset(&cd_settings, 0, sizeof(PCECD_Settings));
+   PCECD_Settings cd_settings;
+   memset(&cd_settings, 0, sizeof(PCECD_Settings));
 
- cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce_fast.cddavolume") / 100;
- cd_settings.CD_Speed = MDFN_GetSettingUI("pce_fast.cdspeed");
+   cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce_fast.cddavolume") / 100;
+   cd_settings.CD_Speed = MDFN_GetSettingUI("pce_fast.cdspeed");
 
- cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") / 100;
- cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
+   cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce_fast.adpcmvolume") / 100;
+   cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce_fast.adpcmlp");
 
- if(cd_settings.CDDA_Volume != 1.0)
-  MDFN_printf("CD-DA Volume: %d%%\n", (int)(100 * cd_settings.CDDA_Volume));
-
- if(cd_settings.ADPCM_Volume != 1.0)
-  MDFN_printf("ADPCM Volume: %d%%\n", (int)(100 * cd_settings.ADPCM_Volume));
-
- return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
+   return(PCECD_Init(&cd_settings, PCECDIRQCB, PCE_MASTER_CLOCK, pce_overclocked, &sbuf[0], &sbuf[1]));
 }
 
 static int LoadCommon(void);
@@ -791,106 +781,101 @@ static void LoadCommonPre(void);
 
 static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
 {
- uint32 crc = 0;
- uint32 sf2_threshold = 2048 * 1024;
- uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
- uint32 m_len = (len + 8191)&~8191;
- bool sf2_mapper = FALSE;
+   int x;
+   uint32 crc = 0;
+   uint32 sf2_threshold     = 2048 * 1024;
+   uint32 sf2_required_size = 2048 * 1024 + 512 * 1024;
+   uint32 m_len             = (len + 8191)&~8191;
+   bool sf2_mapper          = false;
 
- if(m_len >= sf2_threshold)
- {
-  sf2_mapper = TRUE;
+   if(m_len >= sf2_threshold)
+   {
+      sf2_mapper              = true;
 
-  if(m_len != sf2_required_size)
-   m_len = sf2_required_size;
- }
+      if(m_len != sf2_required_size)
+         m_len = sf2_required_size;
+   }
 
- IsPopulous = 0;
- PCE_IsCD = 0;
+   IsPopulous = 0;
+   PCE_IsCD = 0;
 
- MDFN_printf("ROM:       %dKiB\n", (len + 1023) / 1024);
- MDFN_printf("ROM CRC32: 0x%04x\n", crc32);
+   if(!(HuCROM = (uint8 *)malloc(m_len)))
+      return(0);
 
- if(!(HuCROM = (uint8 *)malloc(m_len)))
-  return(0);
+   memset(HuCROM, 0xFF, m_len);
+   memcpy(HuCROM, data, (m_len < len) ? m_len : len);
 
- memset(HuCROM, 0xFF, m_len);
- memcpy(HuCROM, data, (m_len < len) ? m_len : len);
+   memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
 
- memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
+   if(m_len == 0x60000)
+   {
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
+      memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
+      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+      memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
+   }
+   else if(m_len == 0x80000)
+   {
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
+      memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+      memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
+   }
+   else
+   {
+      memcpy(ROMSpace + 0x00 * 8192, HuCROM, (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
+   }
 
- if(m_len == 0x60000)
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x20 * 8192);
-  memcpy(ROMSpace + 0x20 * 8192, HuCROM, 0x20 * 8192);
-  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x50 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
-  memcpy(ROMSpace + 0x70 * 8192, HuCROM + 0x20 * 8192, 0x10 * 8192);
- }
- else if(m_len == 0x80000)
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, 0x40 * 8192);
-  memcpy(ROMSpace + 0x40 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
-  memcpy(ROMSpace + 0x60 * 8192, HuCROM + 0x20 * 8192, 0x20 * 8192);
- }
- else
- {
-  memcpy(ROMSpace + 0x00 * 8192, HuCROM, (m_len < 1024 * 1024) ? m_len : 1024 * 1024);
- }
+   for(x = 0x00; x < 0x80; x++)
+   {
+      HuCPU.FastMap[x] = &ROMSpace[x * 8192];
+      HuCPU.PCERead[x] = HuCRead;
+   }
 
- for(int x = 0x00; x < 0x80; x++)
- {
-  HuCPU.FastMap[x] = &ROMSpace[x * 8192];
-  HuCPU.PCERead[x] = HuCRead;
- }
+   if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
+   {
+      uint8 *PopRAM = ROMSpace + 0x40 * 8192;
 
- if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
- {
-  uint8 *PopRAM = ROMSpace + 0x40 * 8192;
+      memset(PopRAM, 0xFF, 32768);
 
-  memset(PopRAM, 0xFF, 32768);
+      IsPopulous = 1;
 
-  IsPopulous = 1;
+      for(x = 0x40; x < 0x44; x++)
+      {
+         HuCPU.FastMap[x] = &PopRAM[(x & 3) * 8192];
+         HuCPU.PCERead[x] = HuCRead;
+         HuCPU.PCEWrite[x] = HuCRAMWrite;
+      }
+      MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
+   }
+   else
+   {
+      memset(SaveRAM, 0x00, 2048);
+      memcpy(SaveRAM, BRAM_Init_String, 8);    // So users don't have to manually intialize the file cabinet
+      // in the CD BIOS screen.
+      HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
+      HuCPU.PCERead[0xF7] = SaveRAMRead;
+      MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
+   }
 
-  MDFN_printf("Populous\n");
+   // 0x1A558
+   //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
+   /* Street Fighter 2 Mapper */
+   if(sf2_mapper)
+   {
+      for(x = 0x40; x < 0x80; x++)
+         HuCPU.PCERead[x] = HuCSF2Read;
+      HuCPU.PCEWrite[0] = HuCSF2Write;
+      HuCSF2Latch = 0;
+   }
 
-  for(int x = 0x40; x < 0x44; x++)
-  {
-   HuCPU.FastMap[x] = &PopRAM[(x & 3) * 8192];
-   HuCPU.PCERead[x] = HuCRead;
-   HuCPU.PCEWrite[x] = HuCRAMWrite;
-  }
-  MDFNMP_AddRAM(32768, 0x40 * 8192, PopRAM);
- }
- else
- {
-  memset(SaveRAM, 0x00, 2048);
-  memcpy(SaveRAM, BRAM_Init_String, 8);    // So users don't have to manually intialize the file cabinet
-                                                // in the CD BIOS screen.
-  HuCPU.PCEWrite[0xF7] = SaveRAMWrite;
-  HuCPU.PCERead[0xF7] = SaveRAMRead;
-  MDFNMP_AddRAM(2048, 0xF7 * 8192, SaveRAM);
- }
-
- // 0x1A558
- //if(len >= 0x20000 && !memcmp(HuCROM + 0x1A558, "STREET FIGHTER#", strlen("STREET FIGHTER#")))
- if(sf2_mapper)
- {
-  for(int x = 0x40; x < 0x80; x++)
-  {
-   HuCPU.PCERead[x] = HuCSF2Read;
-  }
-  HuCPU.PCEWrite[0] = HuCSF2Write;
-  MDFN_printf("Street Fighter 2 Mapper\n");
-  HuCSF2Latch = 0;
- }
-
- return(1);
+   return(1);
 }
 
 static int Load(const char *name, MDFNFILE *fp)
 {
+   int x;
    uint32 headerlen = 0;
    uint32 r_size;
 
@@ -904,7 +889,7 @@ static int Load(const char *name, MDFNFILE *fp)
    r_size = GET_FSIZE_PTR(fp) - headerlen;
    if(r_size > 4096 * 1024) r_size = 4096 * 1024;
 
-   for(int x = 0; x < 0x100; x++)
+   for(x = 0; x < 0x100; x++)
    {
       HuCPU.PCERead[x] = PCEBusRead;
       HuCPU.PCEWrite[x] = PCENullWrite;
@@ -922,74 +907,64 @@ static int Load(const char *name, MDFNFILE *fp)
 
 static void LoadCommonPre(void)
 {
- HuC6280_Init();
+   int x;
+   HuC6280_Init();
 
- // FIXME:  Make these globals less global!
- pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
- PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
+   // FIXME:  Make these globals less global!
+   pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
+   PCE_ACEnabled = MDFN_GetSettingB("pce_fast.arcadecard");
 
- if(pce_overclocked > 1)
-  MDFN_printf("CPU overclock: %dx\n", pce_overclocked);
+   for(x = 0; x < 0x100; x++)
+   {
+      HuCPU.PCERead[x] = PCEBusRead;
+      HuCPU.PCEWrite[x] = PCENullWrite;
+   }
 
- if(MDFN_GetSettingUI("pce_fast.cdspeed") > 1)
-  MDFN_printf("CD-ROM speed:  %ux\n", (unsigned int)MDFN_GetSettingUI("pce_fast.cdspeed"));
-
- for(int x = 0; x < 0x100; x++)
- {
-  HuCPU.PCERead[x] = PCEBusRead;
-  HuCPU.PCEWrite[x] = PCENullWrite;
- }
-
- MDFNMP_Init(1024, (1 << 21) / 1024);
+   MDFNMP_Init(1024, (1 << 21) / 1024);
 }
 
 static int LoadCommon(void)
 {
- VDC_Init(false);
+   int x;
+   VDC_Init(false);
 
- {
-  HuCPU.PCERead[0xF8] = BaseRAMRead;
-  HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMRead_Mirrored;
+   {
+      HuCPU.PCERead[0xF8] = BaseRAMRead;
+      HuCPU.PCERead[0xF9] = HuCPU.PCERead[0xFA] = HuCPU.PCERead[0xFB] = BaseRAMRead_Mirrored;
 
-  HuCPU.PCEWrite[0xF8] = BaseRAMWrite;
-  HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
+      HuCPU.PCEWrite[0xF8] = BaseRAMWrite;
+      HuCPU.PCEWrite[0xF9] = HuCPU.PCEWrite[0xFA] = HuCPU.PCEWrite[0xFB] = BaseRAMWrite_Mirrored;
 
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPU.FastMap[x] = &BaseRAM[0];
+      for(x = 0xf8; x < 0xfb; x++)
+         HuCPU.FastMap[x] = &BaseRAM[0];
 
-  HuCPU.PCERead[0xFF] = IORead;
- }
+      HuCPU.PCERead[0xFF] = IORead;
+   }
 
- MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
+   MDFNMP_AddRAM(8192, 0xf8 * 8192, BaseRAM);
 
- HuCPU.PCEWrite[0xFF] = IOWrite;
+   HuCPU.PCEWrite[0xFF] = IOWrite;
 
- psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
+   psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
 
- psg->SetVolume(1.0);
+   psg->SetVolume(1.0);
 
- if(PCE_IsCD)
- {
-  unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
+   if(PCE_IsCD)
+   {
+      unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
 
-  if(cdpsgvolume != 100)
-  {
-   MDFN_printf("CD PSG Volume: %d%%\n", cdpsgvolume);
-  }
+      psg->SetVolume(0.678 * cdpsgvolume / 100);
+   }
 
-  psg->SetVolume(0.678 * cdpsgvolume / 100);
+   PCEINPUT_Init();
 
- }
-
- PCEINPUT_Init();
-
- PCE_Power();
+   PCE_Power();
 
 #if 0
- MDFNGameInfo->LayerNames = "Background\0Sprites\0";
+   MDFNGameInfo->LayerNames = "Background\0Sprites\0";
 #endif
- MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
- return(1);
+   MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
+   return(1);
 }
 
 #ifdef _WIN32
@@ -1045,6 +1020,7 @@ static void Cleanup(void)
 
 static int HuCLoadCD(const char *bios_path)
 {
+   int x;
    MDFNFILE *fp = file_open(bios_path);
 
    if(!fp)
@@ -1061,14 +1037,13 @@ static int HuCLoadCD(const char *bios_path)
    PCE_IsCD = 1;
    PCE_InitCD();
 
-   MDFN_printf("Arcade Card Emulation:  %s\n", PCE_ACEnabled ? "Enabled" : "Disabled");
-   for(int x = 0; x < 0x40; x++)
+   for(x = 0; x < 0x40; x++)
    {
       HuCPU.FastMap[x] = &ROMSpace[x * 8192];
       HuCPU.PCERead[x] = HuCRead;
    }
 
-   for(int x = 0x68; x < 0x88; x++)
+   for(x = 0x68; x < 0x88; x++)
    {
       HuCPU.FastMap[x] = &ROMSpace[x * 8192];
       HuCPU.PCERead[x] = HuCRead;
@@ -1086,7 +1061,7 @@ static int HuCLoadCD(const char *bios_path)
          return(0);
       }
 
-      for(int x = 0x40; x < 0x44; x++)
+      for(x = 0x40; x < 0x44; x++)
       {
          HuCPU.PCERead[x] = ACPhysRead;
          HuCPU.PCEWrite[x] = ACPhysWrite;
@@ -1307,13 +1282,14 @@ static void DoSimpleCommand(int cmd)
 
 bool IsBRAMUsed(void)
 {
- if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
-  return(1);
+   int x;
+   if(memcmp(SaveRAM, BRAM_Init_String, 8)) // HUBM string is modified/missing
+      return(1);
 
- for(int x = 8; x < 2048; x++)
-  if(SaveRAM[x]) return(1);
+   for(x = 8; x < 2048; x++)
+      if(SaveRAM[x]) return(1);
 
- return(0);
+   return(0);
 }
 
 MDFNGI EmulatedPCE_Fast =
@@ -1424,30 +1400,6 @@ static MDFNGI *MDFNI_LoadCD(const char *devicename)
       return NULL;
    }
 
-   /* Print out a track list for all discs. */
-   MDFN_indent(1);
-   for(unsigned i = 0; i < CDInterfaces.size(); i++)
-   {
-      TOC toc;
-
-      CDInterfaces[i]->ReadTOC(&toc);
-
-      MDFN_printf("CD %d Layout:\n", i + 1);
-      MDFN_indent(1);
-
-      for(int32 track = toc.first_track; track <= toc.last_track; track++)
-      {
-         MDFN_printf("Track %2d, LBA: %6d  %s\n", track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
-      }
-
-      MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
-      MDFN_indent(-1);
-      MDFN_printf("\n");
-   }
-   MDFN_indent(-1);
-
-   MDFN_printf("Using module: pce_fast.\n");
-
    if(!(LoadCD(&CDInterfaces)))
    {
       for(unsigned i = 0; i < CDInterfaces.size(); i++)
@@ -1474,10 +1426,6 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
       return(MDFNI_LoadCD(name));
 
-   MDFN_printf("Loading %s...\n",name);
-
-   MDFN_indent(1);
-
    GameFile = file_open(name);
 
    if(!GameFile)
@@ -1496,8 +1444,6 @@ static MDFNGI *MDFNI_LoadGame(const char *name)
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
-   MDFN_indent(-2);
-
    return(MDFNGameInfo);
 
 error:
@@ -1507,66 +1453,7 @@ error:
    return NULL;
 }
 
-static int curindent = 0;
-
-void MDFN_indent(int indent)
-{
-   curindent += indent;
-}
-
 static uint8 lastchar = 0;
-
-static void MDFN_printf(const char *format, ...)
-{
-   char *format_temp;
-   char *temp;
-   unsigned int x, newlen;
-
-   va_list ap;
-   va_start(ap,format);
-
-   // First, determine how large our format_temp buffer needs to be.
-   uint8 lastchar_backup = lastchar; // Save lastchar!
-   for(newlen=x=0;x<strlen(format);x++)
-   {
-      if(lastchar == '\n' && format[x] != '\n')
-      {
-         int y;
-         for(y=0;y<curindent;y++)
-            newlen++;
-      }
-      newlen++;
-      lastchar = format[x];
-   }
-
-   format_temp = (char *)malloc(newlen + 1); // Length + NULL character, duh
-
-   // Now, construct our format_temp string
-   lastchar = lastchar_backup; // Restore lastchar
-   for(newlen=x=0;x<strlen(format);x++)
-   {
-      if(lastchar == '\n' && format[x] != '\n')
-      {
-         int y;
-         for(y=0;y<curindent;y++)
-            format_temp[newlen++] = ' ';
-      }
-      format_temp[newlen++] = format[x];
-      lastchar = format[x];
-   }
-
-   format_temp[newlen] = 0;
-
-   temp = (char*)malloc(4096 * sizeof(char));
-   vsnprintf(temp, 4096, format_temp, ap);
-   free(format_temp);
-
-   if (log_cb)
-      log_cb(RETRO_LOG_INFO, "%s\n", temp);
-   free(temp);
-
-   va_end(ap);
-}
 
 void MDFN_PrintError(const char *format, ...)
 {
