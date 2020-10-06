@@ -2430,22 +2430,6 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
    }
 }
 
-/* forward declarations */
-extern void MDFND_DispMessage(unsigned char *str);
-
-void MDFND_DispMessage(unsigned char *str)
-{
-   const char *strc = (const char*)str;
-   struct retro_message msg =
-   {
-      strc,
-      180
-   };
-
-   environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &msg);
-   free(str);
-}
-
 extern "C" void MDFN_DispMessage(const char *format, ...)
 {
    va_list ap;
