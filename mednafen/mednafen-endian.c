@@ -107,23 +107,6 @@ void Endian_A16_LE_to_NE(void *src, uint32_t nelements)
 #endif
 }
 
-void Endian_A16_BE_to_NE(void *src, uint32_t nelements)
-{
-#ifndef MSB_FIRST
-   uint32_t i;
-   uint8_t *nsrc = (uint8_t *)src;
-
-   for(i = 0; i < nelements; i++)
-   {
-      uint8_t tmp = nsrc[i * 2];
-
-      nsrc[i * 2] = nsrc[i * 2 + 1];
-      nsrc[i * 2 + 1] = tmp;
-   }
-#endif
-}
-
-
 void Endian_A32_LE_to_NE(void *src, uint32_t nelements)
 {
 #ifdef MSB_FIRST
