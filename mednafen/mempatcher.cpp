@@ -14,7 +14,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
@@ -363,14 +363,12 @@ static bool TestConditions(const char *string)
    if(value_at_address | v_value)
     passed = 0;
   }
-  else
-   puts("Invalid operation");
+
   string = strchr(string, ',');
   if(string == NULL)
    break;
-  else
-   string++;
-  //printf("Foo: %s\n", string);
+
+  string++;
  }
 
  return(passed);
