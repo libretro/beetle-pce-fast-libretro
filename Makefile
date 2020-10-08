@@ -44,7 +44,6 @@ NEED_TREMOR = 1
 NEED_BLIP = 1
 NEED_CD = 1
 NEED_CRC32 = 1
-WANT_NEW_API = 1
 CORE_DEFINE := -DWANT_PCE_FAST_EMU -DWANT_STEREO_SOUND
 HAVE_CHD = 1
 HAVE_CDROM = 0
@@ -580,10 +579,6 @@ ifeq ($(FRONTEND_SUPPORTS_RGB565), 1)
 FLAGS += -DFRONTEND_SUPPORTS_RGB565
 endif
 
-ifeq ($(WANT_NEW_API), 1)
-FLAGS += -DWANT_NEW_API
-endif
-
 ifeq ($(HAVE_CDROM), 1)
    FLAGS += -DHAVE_CDROM
 ifeq ($(CDROM_DEBUG), 1)
@@ -632,7 +627,7 @@ ifeq ($(platform), emscripten)
 else ifeq ($(STATIC_LINKING), 1)
 	$(AR) rcs $@ $(OBJECTS)
 else
-	@$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
+	$(LD) $(LINKOUT)$@ $^ $(LDFLAGS) $(LIBS)
 endif
 
 %.o: %.cpp
