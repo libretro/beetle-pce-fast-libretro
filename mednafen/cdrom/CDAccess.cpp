@@ -25,6 +25,8 @@
 #include "CDAccess_CHD.h"
 #endif
 
+#include <retro_miscellaneous.h>
+
 CDAccess::CDAccess()
 {
 
