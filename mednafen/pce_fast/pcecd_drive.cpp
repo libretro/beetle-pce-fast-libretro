@@ -1142,7 +1142,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
             }
             else
             {
-               cd_bus.DB = din.ReadByte();
+               cd_bus.DB = din.ReadUnit();
                SetREQ(TRUE);
             }
          }

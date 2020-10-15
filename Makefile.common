@@ -172,7 +172,7 @@ ifeq ($(HAVE_CHD), 1)
 		INCFLAGS += $(shell pkg-config --cflags zlib)
 		LIBS += $(shell pkg-config --libs zlib)
 	else
-		INCFLAGS += $(ZLIB_INCFLAGS)
+		INCFLAGS  += $(ZLIB_INCFLAGS)
 		SOURCES_C += $(ZLIB_SOURCES_C)
 	endif
 

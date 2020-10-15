@@ -403,7 +403,7 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
 
          case 0x7:
                    if(SubChannelFIFO.in_count > 0)
-                      ret = SubChannelFIFO.ReadByte();
+                      ret = SubChannelFIFO.ReadUnit();
                    else
                       ret = 0x00;	// Not sure if it's 0, 0xFF, the last byte read, or something else.
 
