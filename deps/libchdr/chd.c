@@ -197,6 +197,7 @@ typedef struct _zlib_allocator zlib_allocator;
 struct _zlib_allocator
 {
 	UINT32 *				allocptr[MAX_ZLIB_ALLOCS];
+	UINT32 *				allocptr2[MAX_ZLIB_ALLOCS];
 };
 
 typedef struct _zlib_codec_data zlib_codec_data;
@@ -216,6 +217,7 @@ struct _lzma_allocator
  	void (*Free)(void *p, void *address); /* address can be 0 */
 	void (*FreeSz)(void *p, void *address, size_t size); /* address can be 0 */
 	uint32_t*	allocptr[MAX_LZMA_ALLOCS];
+	uint32_t*	allocptr2[MAX_LZMA_ALLOCS];
 };
 
 typedef struct _lzma_codec_data lzma_codec_data;
@@ -383,6 +385,7 @@ void lzma_allocator_init(void* p)
 
 	/* reset pointer list */
 	memset(codec->allocptr, 0, sizeof(codec->allocptr));
+	memset(codec->allocptr2, 0, sizeof(codec->allocptr2));
 	codec->Alloc = lzma_fast_alloc;
 	codec->Free = lzma_fast_free;
 }
@@ -411,12 +414,15 @@ void lzma_allocator_free(void* p )
  *-------------------------------------------------
  */
 
+#define LZMA_MIN_ALIGNMENT_BITS 512
+#define LZMA_MIN_ALIGNMENT_BYTES (LZMA_MIN_ALIGNMENT_BITS / 8)
 void *lzma_fast_alloc(void *p, size_t size)
 {
 	int scan;
 	uint32_t *addr        = NULL;
 	lzma_allocator *codec = (lzma_allocator *)(p);
 	
+	uintptr_t vaddr = 0;
 
 	/* compute the size, rounding to the nearest 1k */
 	size = (size + 0x3ff) & ~0x3ff;
@@ -429,12 +435,12 @@ void *lzma_fast_alloc(void *p, size_t size)
 		{
 			/* set the low bit of the size so we don't match next time */
 			*ptr |= 1;
-			return ptr + 1;
+			return codec->allocptr2[scan];
 		}
 	}
 
 	/* alloc a new one and put it into the list */
-	addr = (uint32_t *)malloc(sizeof(uint8_t) * size + sizeof(uintptr_t));
+	addr = (uint32_t *)malloc(size + sizeof(uint32_t) + LZMA_MIN_ALIGNMENT_BYTES);
 	if (addr==NULL)
 		return NULL;
 	for (int scan = 0; scan < MAX_LZMA_ALLOCS; scan++)
@@ -442,13 +448,16 @@ void *lzma_fast_alloc(void *p, size_t size)
 		if (codec->allocptr[scan] == NULL)
 		{
 			codec->allocptr[scan] = addr;
+			vaddr = (uintptr_t)addr;
+			vaddr = (vaddr + sizeof(uint32_t) + (LZMA_MIN_ALIGNMENT_BYTES-1)) & (~(LZMA_MIN_ALIGNMENT_BYTES-1));
+			codec->allocptr2[scan] = (uint32_t*)vaddr;
 			break;
 		}
 	}
 
 	/* set the low bit of the size so we don't match next time */
 	*addr = size | 1;
-	return addr + (sizeof(uint32_t) == sizeof(uintptr_t) ? 1 : 2);
+	return (void*)vaddr;
 }
 
 /*-------------------------------------------------
@@ -469,13 +478,13 @@ void lzma_fast_free(void *p, void *address)
 	codec = (lzma_allocator *)(p);
 
 	/* find the hunk */
-	ptr = (uint32_t *)(address) - 1;
+	ptr = (uint32_t *)address;
 	for (scan = 0; scan < MAX_LZMA_ALLOCS; scan++)
 	{
-		if (ptr == codec->allocptr[scan])
+		if (ptr == codec->allocptr2[scan])
 		{
 			/* clear the low bit of the size to allow matches */
-			*ptr &= ~1;
+			*codec->allocptr[scan] &= ~1;
 			return;
 		}
 	}
@@ -1120,7 +1129,7 @@ uint16_t crc16(const void *data, uint32_t length)
 	compressed - test if CHD file is compressed
 +-------------------------------------------------*/
 
-static inline int compressed(chd_header* header) {
+static inline int chd_compressed(chd_header* header) {
 	return header->compression[0] != CHD_CODEC_NONE;
 }
 
@@ -1130,6 +1139,7 @@ static inline int compressed(chd_header* header) {
 
 static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 {
+	int result = 0;
 	int hunknum;
 	int repcount = 0;
 	uint8_t lastcomp = 0;
@@ -1149,17 +1159,18 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	uint64_t curoffset;
 	int rawmapsize = map_size_v5(header);
 
-	if (!compressed(header))
+	if (!chd_compressed(header))
 	{
 		header->rawmap = (uint8_t*)malloc(rawmapsize);
+		int result;
 		core_fseek(chd->file, header->mapoffset, SEEK_SET);
-		core_fread(chd->file, header->rawmap, rawmapsize);
+		result = core_fread(chd->file, header->rawmap, rawmapsize);
 		return CHDERR_NONE;
 	}
 
 	/* read the reader */
 	core_fseek(chd->file, header->mapoffset, SEEK_SET);
-	core_fread(chd->file, rawbuf, sizeof(rawbuf));
+	result = core_fread(chd->file, rawbuf, sizeof(rawbuf));
 	mapbytes = get_bigendian_uint32(&rawbuf[0]);
 	firstoffs = get_bigendian_uint48(&rawbuf[4]);
 	mapcrc = get_bigendian_uint16(&rawbuf[10]);
@@ -1170,7 +1181,7 @@ static chd_error decompress_v5_map(chd_file* chd, chd_header* header)
 	/* now read the map */
 	compressed_ptr = (uint8_t*)malloc(sizeof(uint8_t) * mapbytes);
 	core_fseek(chd->file, header->mapoffset + 16, SEEK_SET);
-	core_fread(chd->file, compressed_ptr, mapbytes);
+	result = core_fread(chd->file, compressed_ptr, mapbytes);
 	bitbuf = create_bitstream(compressed_ptr, sizeof(uint8_t) * mapbytes);
 	header->rawmap = (uint8_t*)malloc(rawmapsize);
 
@@ -1563,8 +1574,9 @@ void chd_close(chd_file *chd)
 	}
 	else
 	{
+        int i;
 		/* Free the codecs */
-		for (int i = 0 ; i < ARRAY_LENGTH(chd->codecintf); i++)
+		for (i = 0 ; i < ARRAY_LENGTH(chd->codecintf); i++)
 		{
 			void* codec = NULL;
 
@@ -2025,7 +2037,7 @@ static chd_error header_read(chd_file *chd, chd_header *header)
 		memcpy(header->rawsha1, &rawheader[64], CHD_SHA1_BYTES);
 
 		/* determine properties of map entries */
-		header->mapentrybytes = compressed(header) ? 12 : 4;
+		header->mapentrybytes = chd_compressed(header) ? 12 : 4;
 
 		/* hack */
 		header->totalhunks 		= header->hunkcount;
@@ -2145,6 +2157,8 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		{
 			/* compressed data */
 			case V34_MAP_ENTRY_TYPE_COMPRESSED:
+            {
+                void *codec = NULL;
 
 				/* read it into the decompression buffer */
 				compressed_bytes = hunk_read_compressed(chd, entry->offset, entry->length);
@@ -2153,12 +2167,13 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 
 				/* now decompress using the codec */
 				err = CHDERR_NONE;
-				void* codec = &chd->zlib_codec_data;
+				codec = &chd->zlib_codec_data;
 				if (chd->codecintf[0]->decompress != NULL)
 					err = (*chd->codecintf[0]->decompress)(codec, compressed_bytes, entry->length, dest, chd->header.hunkbytes);
 				if (err != CHDERR_NONE)
 					return err;
 				break;
+			}
 
 			/* uncompressed data */
 			case V34_MAP_ENTRY_TYPE_UNCOMPRESSED:
@@ -2195,16 +2210,18 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 		uint64_t blockoffs;
 		uint32_t blocklen;
 		uint16_t blockcrc;
+		void* codec = NULL;
 		uint8_t *rawmap = &chd->header.rawmap[chd->header.mapentrybytes * hunknum];
 		UINT8* compressed_bytes;
 
 		/* uncompressed case */
-		if (!compressed(&chd->header))
+		if (!chd_compressed(&chd->header))
 		{
 			blockoffs = (uint64_t)get_bigendian_uint32(rawmap) * (uint64_t)chd->header.hunkbytes;
 			if (blockoffs != 0) {
+				int result;
 				core_fseek(chd->file, blockoffs, SEEK_SET);
-				core_fread(chd->file, dest, chd->header.hunkbytes);
+				result = core_fread(chd->file, dest, chd->header.hunkbytes);
 			/* TODO
 			else if (m_parent_missing)
 				throw CHDERR_REQUIRES_PARENT; */
@@ -2215,13 +2232,14 @@ static chd_error hunk_read_into_memory(chd_file *chd, UINT32 hunknum, UINT8 *des
 			} else {
 				memset(dest, 0, chd->header.hunkbytes);
 			}
+			return CHDERR_NONE;
 		}
 
 		/* compressed case */
 		blocklen = get_bigendian_uint24(&rawmap[1]);
 		blockoffs = get_bigendian_uint48(&rawmap[4]);
 		blockcrc = get_bigendian_uint16(&rawmap[10]);
-		void* codec = NULL;
+		codec = NULL;
 		switch (rawmap[0])
 		{
 			case COMPRESSION_TYPE_0:
@@ -2511,10 +2529,13 @@ static chd_error zlib_codec_decompress(void *codec, const uint8_t *src, uint32_t
     zlib_fast_alloc - fast malloc for ZLIB, which
     allocates and frees memory frequently
 -------------------------------------------------*/
+#define ZLIB_MIN_ALIGNMENT_BITS 512
+#define ZLIB_MIN_ALIGNMENT_BYTES (ZLIB_MIN_ALIGNMENT_BITS / 8)
 
 static voidpf zlib_fast_alloc(voidpf opaque, uInt items, uInt size)
 {
 	zlib_allocator *alloc = (zlib_allocator *)opaque;
+	uintptr_t paddr = 0;
 	UINT32 *ptr;
 	int i;
 
@@ -2529,12 +2550,12 @@ static voidpf zlib_fast_alloc(voidpf opaque, uInt items, uInt size)
 		{
 			/* set the low bit of the size so we don't match next time */
 			*ptr |= 1;
-			return ptr + 1;
+			return (voidpf)(alloc->allocptr2[i]);
 		}
 	}
 
 	/* alloc a new one */
-	ptr = (UINT32 *)malloc(size + sizeof(uintptr_t));
+    ptr = (UINT32 *)malloc(size + sizeof(UINT32) + ZLIB_MIN_ALIGNMENT_BYTES);
 	if (!ptr)
 		return NULL;
 
@@ -2543,12 +2564,14 @@ static voidpf zlib_fast_alloc(voidpf opaque, uInt items, uInt size)
 		if (!alloc->allocptr[i])
 		{
 			alloc->allocptr[i] = ptr;
+			paddr = (((uintptr_t)ptr) + sizeof(UINT32) + (ZLIB_MIN_ALIGNMENT_BYTES-1)) & (~(ZLIB_MIN_ALIGNMENT_BYTES-1));
+			alloc->allocptr2[i] = (uint32_t*)paddr;
 			break;
 		}
 
 	/* set the low bit of the size so we don't match next time */
 	*ptr = size | 1;
-	return ptr + (sizeof(uint32_t) == sizeof(uintptr_t) ? 1 : 2);
+	return (voidpf)paddr;
 }
 
 /*-------------------------------------------------
@@ -2559,15 +2582,15 @@ static voidpf zlib_fast_alloc(voidpf opaque, uInt items, uInt size)
 static void zlib_fast_free(voidpf opaque, voidpf address)
 {
 	zlib_allocator *alloc = (zlib_allocator *)opaque;
-	UINT32 *ptr = (UINT32 *)address - (sizeof(uint32_t) == sizeof(uintptr_t) ? 1 : 2);
+	UINT32 *ptr = (UINT32 *)address;
 	int i;
 
 	/* find the hunk */
 	for (i = 0; i < MAX_ZLIB_ALLOCS; i++)
-		if (ptr == alloc->allocptr[i])
+		if (ptr == alloc->allocptr2[i])
 		{
 			/* clear the low bit of the size to allow matches */
-			*ptr &= ~1;
+			*(alloc->allocptr[i]) &= ~1;
 			return;
 		}
 }
