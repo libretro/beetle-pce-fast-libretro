@@ -1595,6 +1595,71 @@ static bool failed_init;
 
 #include "mednafen/pce_fast/pcecd.h"
 
+/* Frameskipping Support */
+
+static unsigned frameskip_type             = 0;
+static unsigned frameskip_threshold        = 0;
+static uint16_t frameskip_counter          = 0;
+
+static bool retro_audio_buff_active        = false;
+static unsigned retro_audio_buff_occupancy = 0;
+static bool retro_audio_buff_underrun      = false;
+/* Maximum number of consecutive frames that
+ * can be skipped */
+#define FRAMESKIP_MAX 30
+
+static unsigned audio_latency              = 0;
+static bool update_audio_latency           = false;
+
+static void retro_audio_buff_status_cb(
+      bool active, unsigned occupancy, bool underrun_likely)
+{
+   retro_audio_buff_active    = active;
+   retro_audio_buff_occupancy = occupancy;
+   retro_audio_buff_underrun  = underrun_likely;
+}
+
+static void init_frameskip(void)
+{
+   if (frameskip_type > 0)
+   {
+      struct retro_audio_buffer_status_callback buf_status_cb;
+
+      buf_status_cb.callback = retro_audio_buff_status_cb;
+      if (!environ_cb(RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK,
+            &buf_status_cb))
+      {
+         if (log_cb)
+            log_cb(RETRO_LOG_WARN, "Frameskip disabled - frontend does not support audio buffer status monitoring.\n");
+
+         retro_audio_buff_active    = false;
+         retro_audio_buff_occupancy = 0;
+         retro_audio_buff_underrun  = false;
+         audio_latency              = 0;
+      }
+      else
+      {
+         /* Frameskip is enabled - increase frontend
+          * audio latency to minimise potential
+          * buffer underruns */
+         float frame_time_msec = 1000.0f / (float)MEDNAFEN_CORE_TIMING_FPS;
+
+         /* Set latency to 6x current frame time... */
+         audio_latency = (unsigned)((6.0f * frame_time_msec) + 0.5f);
+
+         /* ...then round up to nearest multiple of 32 */
+         audio_latency = (audio_latency + 0x1F) & ~0x1F;
+      }
+   }
+   else
+   {
+      environ_cb(RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK, NULL);
+      audio_latency = 0;
+   }
+
+   update_audio_latency = true;
+}
+
 static void check_system_specs(void)
 {
    unsigned level = 5;
@@ -1650,6 +1715,15 @@ void retro_init(void)
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
       libretro_supports_bitmasks = true;
+
+   frameskip_type             = 0;
+   frameskip_threshold        = 0;
+   frameskip_counter          = 0;
+   retro_audio_buff_active    = false;
+   retro_audio_buff_occupancy = 0;
+   retro_audio_buff_underrun  = false;
+   audio_latency              = 0;
+   update_audio_latency       = false;
 }
 
 void retro_reset(void)
@@ -1690,9 +1764,10 @@ static bool turbo_toggle_alt = false;
 static int psg_channels_volume[6] = { 100, 100, 100, 100, 100, 100 };
 static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
 
-static void check_variables(void)
+static void check_variables(bool first_run)
 {
    struct retro_variable var = {0};
+   unsigned frameskip_type_prev;
 
    var.key = "pce_fast_cdimagecache";
 
@@ -1744,6 +1819,30 @@ static void check_variables(void)
    {
       setting_pce_overclocked = atoi(var.value);
    }
+
+   var.key             = "pce_fast_frameskip";
+   var.value           = NULL;
+   frameskip_type_prev = frameskip_type;
+   frameskip_type      = 0;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      if (strcmp(var.value, "auto") == 0)
+         frameskip_type = 1;
+      else if (strcmp(var.value, "manual") == 0)
+         frameskip_type = 2;
+   }
+
+   /* Reinitialise frameskipping, if required */
+   if (first_run || (frameskip_type != frameskip_type_prev))
+      init_frameskip();
+
+   var.key             = "pce_fast_frameskip_threshold";
+   var.value           = NULL;
+   frameskip_threshold = 33;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      frameskip_threshold = strtol(var.value, NULL, 10);
 
 	var.key = "pce_hoverscan";
 
@@ -1907,7 +2006,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
-   check_variables();
+   check_variables(true);
 
    if (!MDFNI_LoadGame(info->path))
       return false;
@@ -2141,7 +2240,8 @@ static void update_input(void)
    }
 }
 
-static uint64_t video_frames, audio_frames;
+static uint64_t video_frames = 0;
+static uint64_t audio_frames = 0;
 
 void update_geometry(unsigned width, unsigned height)
 {
@@ -2156,32 +2256,89 @@ void update_geometry(unsigned width, unsigned height)
 
 void retro_run(void)
 {
-   input_poll_cb();
-
-   update_input();
-
    static bool last_palette_format;
    static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
    static unsigned width, height;
+   EmulateSpecStruct spec;
    bool resolution_changed = false;
+   int skip_frame          = 0;
+
+   input_poll_cb();
+
+   update_input();
+
+   /* Check whether current frame should
+    * be skipped
+    * > Note: Cannot skip the first frame,
+    *   since we need at least one rendered
+    *   frame in order to set initial (valid)
+    *   width/height values for the video_cb
+    *   callback */
+   if ((frameskip_type > 0) &&
+       retro_audio_buff_active &&
+       video_frames)
+   {
+      switch (frameskip_type)
+      {
+         case 1: /* auto */
+            skip_frame = retro_audio_buff_underrun ? 1 : 0;
+            break;
+         case 2: /* manual */
+            skip_frame = (retro_audio_buff_occupancy < frameskip_threshold) ? 1 : 0;
+            break;
+         default:
+            skip_frame = 0;
+            break;
+      }
+
+      if (!skip_frame ||
+          (frameskip_counter >= FRAMESKIP_MAX))
+      {
+         skip_frame        = 0;
+         frameskip_counter = 0;
+      }
+      else
+         frameskip_counter++;
+   }
+
+   /* If frameskip settings have changed, update
+    * frontend audio latency */
+   if (update_audio_latency)
+   {
+      environ_cb(RETRO_ENVIRONMENT_SET_MINIMUM_AUDIO_LATENCY,
+            &audio_latency);
+      update_audio_latency = false;
+   }
 
    rects[0] = ~0;
 
-   EmulateSpecStruct spec = { 0 };
-   spec.surface = surf;
-   spec.SoundRate = 44100;
-   spec.SoundBuf = sound_buf;
-   spec.LineWidths = rects;
-   spec.SoundBufMaxSize = sizeof(sound_buf) / 2;
-   spec.SoundVolume = 1.0;
-   spec.soundmultiplier = 1.0;
-   spec.SoundBufSize = 0;
-   spec.VideoFormatChanged = false;
-   spec.SoundFormatChanged = false;
-   spec.CustomPalette      = use_palette ? composite_palette : NULL;
+   spec.surface                 = surf;
+   spec.VideoFormatChanged      = false;
+   spec.DisplayRect.x           = 0;
+   spec.DisplayRect.y           = 0;
+   spec.DisplayRect.w           = 0;
+   spec.DisplayRect.h           = 0;
+   spec.LineWidths              = rects;
+   spec.CustomPalette           = use_palette ? composite_palette : NULL;
    spec.CustomPaletteNumEntries = use_palette ? 512 : 0;
-   
+   spec.IsFMV                   = NULL;
+   spec.InterlaceOn             = false;
+   spec.InterlaceField          = false;
+   spec.skip                    = skip_frame;
+   spec.SoundFormatChanged      = false;
+   spec.SoundRate               = 44100;
+   spec.SoundBuf                = sound_buf;
+   spec.SoundBufMaxSize         = sizeof(sound_buf) >> 1;
+   spec.SoundBufSize            = 0;
+   spec.SoundBufSizeALMS        = 0;
+   spec.MasterCycles            = 0;
+   spec.MasterCyclesALMS        = 0;
+   spec.SoundVolume             = 1.0;
+   spec.soundmultiplier         = 1.0;
+   spec.NeedRewind              = false;
+   spec.NeedSoundReverse        = false;
+
    if (last_palette_format != use_palette)
    {
       spec.VideoFormatChanged = TRUE;
@@ -2202,12 +2359,18 @@ void retro_run(void)
 
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
-   if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
-      resolution_changed = true;
+   if (skip_frame)
+      video_cb(NULL, width, height, FB_WIDTH * 2);
+   else
+   {
+      if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+         resolution_changed = true;
 
-   width  = spec.DisplayRect.w;
-   height = spec.DisplayRect.h;
-   video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+      width  = spec.DisplayRect.w;
+      height = spec.DisplayRect.h;
+
+      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+   }
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
 
@@ -2215,7 +2378,7 @@ void retro_run(void)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE, &updated) && updated)
    {
       unsigned c;
-      check_variables();
+      check_variables(false);
       if(PCE_IsCD){
          psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
@@ -2225,7 +2388,7 @@ void retro_run(void)
 
       update_geometry(width, height);
    }
-        
+
    if (resolution_changed)
       update_geometry(width, height);
    video_frames++;
