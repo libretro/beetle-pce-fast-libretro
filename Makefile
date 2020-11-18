@@ -90,6 +90,8 @@ ifneq (,$(findstring unix,$(platform)))
          FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
       else ifneq (,$(findstring rpi3,$(platform)))
          FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
+      else ifneq (,$(findstring rpi4_64,$(platform)))
+         FLAGS += -DARM -march=armv8-a+crc+simd -mtune=cortex-a72
       endif
    endif
    
