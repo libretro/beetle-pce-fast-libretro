@@ -161,7 +161,7 @@ else ifneq (,$(findstring ios,$(platform)))
       IPHONEMINVER = -miphoneos-version-min=5.0
    endif
    LDFLAGS += $(IPHONEMINVER)
-   FLAGS += $(IPHONEMINVER)
+   FLAGS += $(IPHONEMINVER) -DHAVE_UNISTD_H
    CC += $(IPHONEMINVER)
    CXX += $(IPHONEMINVER)
 
@@ -170,6 +170,7 @@ else ifeq ($(platform), tvos-arm64)
    TARGET := $(TARGET_NAME)_libretro_tvos.dylib
    fpic := -fPIC
    SHARED := -dynamiclib
+   FLAGS += -DHAVE_UNISTD_H
 
 ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
