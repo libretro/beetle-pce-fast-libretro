@@ -31,7 +31,7 @@ void PCEFast_PSG::SetVolume(double new_volume)
    Blip_Synth_set_volume(&Synth, OutputVolume / 6, 8192);
 }
 
-void PCEFast_PSG::SetChannelUserVolume(int chnum, uint8 new_volume)
+void PCEFast_PSG::SetChannelUserVolume(int chnum, int32 new_volume)
 {
     if(chnum >=6 || new_volume > 100) return;  // check valid args
     psg_channel *ch = &channel[chnum];
