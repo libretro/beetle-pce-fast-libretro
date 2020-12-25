@@ -114,7 +114,7 @@ android-x86:
     - .core-defs
 
 ################################### CONSOLES #################################
-# PlayStation Vita
+# PlayStation Portable
 libretro-build-psp:
   extends:
     - .libretro-psp-static-retroarch-master
