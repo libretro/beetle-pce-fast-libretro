@@ -291,7 +291,7 @@ else ifneq (,$(filter $(platform), ngc wii wiiu))
 
    # Nintendo WiiU
    ifneq (,$(findstring wiiu,$(platform)))
-      ENDIANNESS_DEFINES += -DWIIU -DHW_RVL -mwup
+      ENDIANNESS_DEFINES += -DWIIU -DHW_RVL
 
    # Nintendo Wii
    else ifneq (,$(findstring wii,$(platform)))
