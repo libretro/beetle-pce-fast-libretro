@@ -75,6 +75,11 @@ include:
   - project: 'libretro-infrastructure/ci-templates'
     file: '/dingux-mips32.yml'
 
+  #################################### MISC ##################################
+  # Emscripten
+  - project: 'libretro-infrastructure/ci-templates'
+    file: '/emscripten-static.yml'
+
 # Stages for building
 stages:
   - build-prepare
@@ -195,3 +200,10 @@ libretro-build-dingux-mips32:
   extends:
     - .core-defs
     - .libretro-dingux-mips32-make-default
+
+#################################### MISC ##################################
+# Emscripten
+libretro-build-emscripten:
+  extends:
+    - .libretro-emscripten-static-retroarch-master
+    - .core-defs
