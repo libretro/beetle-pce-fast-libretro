@@ -20,6 +20,9 @@ ifeq ($(platform),)
    else ifneq ($(findstring Darwin,$(shell uname -s)),)
       platform = osx
       arch = intel
+      ifeq ($(shell uname -p),arm64)
+         arch = arm
+      endif
       ifeq ($(shell uname -p),powerpc)
          arch = ppc
       endif
@@ -158,11 +161,21 @@ else ifeq ($(platform), osx)
    endif
    OSXVER = `sw_vers -productVersion | cut -d. -f 2`
    OSX_LT_MAVERICKS = `(( $(OSXVER) <= 9)) && echo "YES"`
-   fpic += -mmacosx-version-min=10.7
+   MINVERSION += -mmacosx-version-min=10.7
 ifeq ($(OSX_LT_MAVERICKS),"YES")
 else
 	fpic += -stdlib=libc++
 endif
+   ifeq ($(CROSS_COMPILE),1)
+	TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
+	CFLAGS   += $(TARGET_RULE)
+	CPPFLAGS += $(TARGET_RULE)
+	CXXFLAGS += $(TARGET_RULE)
+	LDFLAGS  += $(TARGET_RULE)
+	MINVERSION =
+   endif
+   
+   fpic += $(MINVERSION)
 
 # iOS
 else ifneq (,$(findstring ios,$(platform)))
