@@ -23,7 +23,6 @@
 #include <retro_miscellaneous.h>
 
 #include "cdromif.h"
-#include "CDAccess.h"
 #include "../mednafen.h"
 
 typedef struct
@@ -45,19 +44,17 @@ class CDIF_ST : public CDIF
       virtual void HintReadSector(int32_t lba);
       virtual bool ReadRawSector(uint8_t *buf, int32_t lba);
       virtual bool ReadRawSectorPWOnly(uint8_t* pwbuf, int32_t lba, bool hint_fullread);
-
-   private:
-      CDAccess *disc_cdaccess;
 };
 
-CDIF::CDIF() : UnrecoverableError(false)
+CDIF::CDIF(CDAccess *cda) : UnrecoverableError(false), disc_cdaccess(cda)
 {
 
 }
 
 CDIF::~CDIF()
 {
-
+   if (disc_cdaccess)
+      delete disc_cdaccess;
 }
 
 
@@ -131,7 +128,7 @@ int CDIF::ReadSector(uint8_t* buf, int32_t lba, uint32_t sector_count, bool supp
 //
 //
 
-CDIF_ST::CDIF_ST(CDAccess *cda) : disc_cdaccess(cda)
+CDIF_ST::CDIF_ST(CDAccess *cda) : CDIF(cda)
 {
    //puts("***WARNING USING SINGLE-THREADED CD READER***");
 

@@ -57,7 +57,7 @@ static bool IsPopulous;
 
 uint8 SaveRAM[2048];
 
-static bool old_cdimagecache = false;
+static bool cdimagecache = false;
 static bool use_palette = false;
 
 std::string setting_pce_fast_cdbios = "syscard3.pce";
@@ -1499,13 +1499,13 @@ static bool MDFNI_LoadCD(const char *devicename)
 
       for(unsigned i = 0; i < file_list.size(); i++)
       {
-         CDIF *cdif = CDIF_Open(file_list[i].c_str(), false);
+         CDIF *cdif = CDIF_Open(file_list[i].c_str(), cdimagecache);
          CDInterfaces.push_back(cdif);
       }
    }
    else
    {
-      CDIF *cdif = CDIF_Open(devicename, false);
+      CDIF *cdif = CDIF_Open(devicename, cdimagecache);
 
       if (cdif)
       {
@@ -1769,38 +1769,33 @@ static void check_variables(bool first_run)
    struct retro_variable var = {0};
    unsigned frameskip_type_prev;
 
-   var.key = "pce_fast_cdimagecache";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   if (first_run)
    {
-      bool cdimage_cache = true;
+      var.key      = "pce_fast_cdimagecache";
+      cdimagecache = false;
 
-      if (strcmp(var.value, "enabled") == 0)
-         cdimage_cache = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         cdimage_cache = false;
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         if (strcmp(var.value, "enabled") == 0)
+            cdimagecache = true;
 
-      if (cdimage_cache != old_cdimagecache)
-         old_cdimagecache = cdimage_cache;
-   }
+      var.key                 = "pce_fast_cdbios";
+      setting_pce_fast_cdbios = "syscard3.pce";
 
-   var.key = "pce_fast_cdbios";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "System Card 3") == 0)
-         setting_pce_fast_cdbios = "syscard3.pce";
-      else if (strcmp(var.value, "System Card 2") == 0)
-         setting_pce_fast_cdbios = "syscard2.pce";
-      else if (strcmp(var.value, "System Card 1") == 0)
-         setting_pce_fast_cdbios = "syscard1.pce";
-      else if (strcmp(var.value, "Games Express") == 0)
-         setting_pce_fast_cdbios = "gexpress.pce";
-      else if (strcmp(var.value, "System Card 3 US") == 0)
-         setting_pce_fast_cdbios = "syscard3u.pce";
-      else if (strcmp(var.value, "System Card 2 US") == 0)
-         setting_pce_fast_cdbios = "syscard2u.pce";
-
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      {
+         if (strcmp(var.value, "System Card 3") == 0)
+            setting_pce_fast_cdbios = "syscard3.pce";
+         else if (strcmp(var.value, "System Card 2") == 0)
+            setting_pce_fast_cdbios = "syscard2.pce";
+         else if (strcmp(var.value, "System Card 1") == 0)
+            setting_pce_fast_cdbios = "syscard1.pce";
+         else if (strcmp(var.value, "Games Express") == 0)
+            setting_pce_fast_cdbios = "gexpress.pce";
+         else if (strcmp(var.value, "System Card 3 US") == 0)
+            setting_pce_fast_cdbios = "syscard3u.pce";
+         else if (strcmp(var.value, "System Card 2 US") == 0)
+            setting_pce_fast_cdbios = "syscard2u.pce";
+      }
    }
 
    var.key = "pce_nospritelimit";
@@ -2422,6 +2417,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit()
 {
+   if (surf->pixels)
+      free(surf->pixels);
+   surf->pixels = NULL;
+
    if (surf)
       free(surf);
    surf = NULL;
