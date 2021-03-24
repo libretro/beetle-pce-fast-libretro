@@ -1362,11 +1362,6 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
    ret &= INPUT_StateAction(sm, load, data_only);
    ret &= HuC_StateAction(sm, load, data_only);
 
-   if(load)
-   {
-
-   }
-
    return(ret);
 }
 
