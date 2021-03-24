@@ -608,7 +608,7 @@ extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
 static Blip_Buffer sbuf[2];
 
-bool PCE_ACEnabled;
+bool PCE_ACEnabled = false;
 
 // Statically allocated for speed...or something.
 uint8 ROMSpace[0x88 * 8192 + 8192];	// + 8192 for PC-as-pointer safety padding
@@ -1585,13 +1585,19 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static double last_sound_rate;
+static double last_sound_rate = 0.0;
 
 static bool libretro_supports_bitmasks = false;
 
-static MDFN_Surface *surf;
+static MDFN_Surface *surf = NULL;
 
-static bool failed_init;
+static bool failed_init = false;
+
+static unsigned video_width = 0;
+static unsigned video_height = 0;
+
+static uint64_t video_frames = 0;
+static uint64_t audio_frames = 0;
 
 #include "mednafen/pce_fast/pcecd.h"
 
@@ -1713,6 +1719,7 @@ void retro_init(void)
 
    check_system_specs();
 
+   libretro_supports_bitmasks = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
       libretro_supports_bitmasks = true;
 
@@ -1724,6 +1731,15 @@ void retro_init(void)
    retro_audio_buff_underrun  = false;
    audio_latency              = 0;
    update_audio_latency       = false;
+
+   last_sound_rate = 0.0;
+   video_width = 0;
+   video_height = 0;
+   video_frames = 0;
+   audio_frames = 0;
+
+   lastchar = 0;
+   failed_init = false;
 }
 
 void retro_reset(void)
@@ -2235,9 +2251,6 @@ static void update_input(void)
    }
 }
 
-static uint64_t video_frames = 0;
-static uint64_t audio_frames = 0;
-
 void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
@@ -2254,7 +2267,6 @@ void retro_run(void)
    static bool last_palette_format;
    static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
-   static unsigned width, height;
    EmulateSpecStruct spec;
    bool resolution_changed = false;
    int skip_frame          = 0;
@@ -2355,16 +2367,16 @@ void retro_run(void)
    spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
    if (skip_frame)
-      video_cb(NULL, width, height, FB_WIDTH * 2);
+      video_cb(NULL, video_width, video_height, FB_WIDTH * 2);
    else
    {
-      if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+      if (video_width  != spec.DisplayRect.w || video_height != spec.DisplayRect.h)
          resolution_changed = true;
 
-      width  = spec.DisplayRect.w;
-      height = spec.DisplayRect.h;
+      video_width  = spec.DisplayRect.w;
+      video_height = spec.DisplayRect.h;
 
-      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, video_width, video_height, FB_WIDTH * 2);
    }
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
@@ -2381,11 +2393,11 @@ void retro_run(void)
       for (c = 0; c < 6; c++)
          psg->SetChannelUserVolume(c, psg_channels_volume[c]);
 
-      update_geometry(width, height);
+      update_geometry(video_width, video_height);
    }
+   else if (resolution_changed)
+      update_geometry(video_width, video_height);
 
-   if (resolution_changed)
-      update_geometry(width, height);
    video_frames++;
    audio_frames += spec.SoundBufSize;
 }
@@ -2432,8 +2444,6 @@ void retro_deinit()
       log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
             MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
-
-   libretro_supports_bitmasks = false;
 }
 
 unsigned retro_get_region(void)
