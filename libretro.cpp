@@ -1427,18 +1427,19 @@ MDFNGI EmulatedPCE_Fast =
  2,     // Number of output sound channels
 };
 
-static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
+static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::string dir_path;
    char linebuf[2048];
-   FILE *fp = fopen(path.c_str(), "rb");
+   RFILE *fp = filestream_open(path.c_str(), RETRO_VFS_FILE_ACCESS_READ,
+         RETRO_VFS_FILE_ACCESS_HINT_NONE);
 
    if (!fp)
-      return false;
+      return;
 
    MDFN_GetFilePathComponents(path, &dir_path);
 
-   while(fgets(linebuf, sizeof(linebuf), fp))
+   while(filestream_gets(fp, linebuf, sizeof(linebuf)) != NULL)
    {
       std::string efp;
 
@@ -1455,15 +1456,13 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
          if(efp == path)
          {
             log_cb(RETRO_LOG_ERROR, "M3U at \"%s\" references self.\n", efp.c_str());
-            fclose(fp);
-            return false;
+            goto end;
          }
 
          if(depth == 99)
          {
             log_cb(RETRO_LOG_ERROR, "M3U load recursion too deep!\n");
-            fclose(fp);
-            return false;
+            goto end;
          }
 
          ReadM3U(file_list, efp, depth++);
@@ -1472,9 +1471,8 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
          file_list.push_back(efp);
    }
 
-   fclose(fp);
-
-   return true;
+end:
+   filestream_close(fp);
 }
 
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
@@ -1489,8 +1487,7 @@ static bool MDFNI_LoadCD(const char *devicename)
    {
       std::vector<std::string> file_list;
 
-      if (ReadM3U(file_list, devicename))
-         ret = true;
+      ReadM3U(file_list, devicename);
 
       for(unsigned i = 0; i < file_list.size(); i++)
       {
