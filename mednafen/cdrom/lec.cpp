@@ -18,7 +18,6 @@
  */
 
 
-#include <assert.h>
 #include <stdint.h>
 
 #include "lec.h"
@@ -132,8 +131,6 @@ static gf8_t gf8_mult(gf8_t a, gf8_t b)
 static gf8_t gf8_div(gf8_t a, gf8_t b)
 {
   int16_t sum;
-
-  assert(b != 0);
 
   if (a == 0)
     return 0;

@@ -2,7 +2,6 @@
 
 #include <blip/Blip_Buffer.h>
 
-#include <assert.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
@@ -75,8 +74,6 @@ blargg_err_t Blip_Buffer_set_sample_rate(Blip_Buffer* bbuf, long new_rate,
       blip_s64 s = ((blip_s64)new_rate * (msec + 1) + 999) / 1000;
       if (s < new_size)
          new_size = s;
-      else
-         assert(0);   // fails if requested buffer length exceeds limit
    }
 
    if (bbuf->buffer_size != new_size)
@@ -93,8 +90,6 @@ blargg_err_t Blip_Buffer_set_sample_rate(Blip_Buffer* bbuf, long new_rate,
    // update things based on the sample rate
    bbuf->sample_rate = new_rate;
    bbuf->length = new_size * 1000 / new_rate - 1;
-   if (msec)
-      assert(bbuf->length == msec);   // ensure length is same as that passed in
    if (bbuf->clock_rate)
       Blip_Buffer_set_clock_rate(bbuf, bbuf->clock_rate);
    Blip_Buffer_bass_freq(bbuf, bbuf->bass_freq);
@@ -109,8 +104,6 @@ blip_resampled_time_t Blip_Buffer_clock_rate_factor(Blip_Buffer* bbuf,
 {
    double ratio = (double) bbuf->sample_rate / rate;
    blip_s64 factor = (blip_s64) floor(ratio * (1LL << BLIP_BUFFER_ACCURACY) + 0.5);
-   assert(factor > 0
-          || !bbuf->sample_rate);   // fails if clock/output ratio is too large
    return (blip_resampled_time_t) factor;
 }
 
@@ -132,13 +125,10 @@ void Blip_Buffer_bass_freq(Blip_Buffer* bbuf,  int freq)
 void Blip_Buffer_end_frame(Blip_Buffer* bbuf,  blip_time_t t)
 {
    bbuf->offset += t * bbuf->factor;
-   assert(Blip_Buffer_samples_avail(bbuf) <= (long) bbuf->buffer_size);   // time outside buffer length
 }
 
 void Blip_Buffer_remove_silence(Blip_Buffer* bbuf,  long count)
 {
-   assert(count <=
-          Blip_Buffer_samples_avail(bbuf));   // tried to remove more samples than available
    bbuf->offset -= (blip_resampled_time_t) count << BLIP_BUFFER_ACCURACY;
 }
 

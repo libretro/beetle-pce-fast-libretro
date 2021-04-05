@@ -21,7 +21,6 @@
 #include "dvdisaster.h"
 #include "lec.h"
 
-#include <assert.h>
 
 // lookup table for crc calculation
 static uint16_t subq_crctab[256] = 
@@ -193,7 +192,6 @@ void subq_deinterleave(const uint8_t *SubPWBuf, uint8_t *qbuf)
 void subpw_deinterleave(const uint8_t *in_buf, uint8_t *out_buf)
 {
    unsigned ch;
-   assert(in_buf != out_buf);
 
    memset(out_buf, 0, 96);
 
@@ -209,7 +207,6 @@ void subpw_deinterleave(const uint8_t *in_buf, uint8_t *out_buf)
 void subpw_interleave(const uint8_t *in_buf, uint8_t *out_buf)
 {
    unsigned d;
-   assert(in_buf != out_buf);
 
    for(d = 0; d < 12; d++)
    {
@@ -415,9 +412,6 @@ void synth_udapp_sector_lba(uint8_t mode, const TOC& toc, const int32_t lba, int
 #if 0
 bool subq_extrapolate(const uint8_t *subq_input, int32_t position_delta, uint8_t *subq_output)
 {
-   assert(subq_check_checksum(subq_input));
-
-
    subq_generate_checksum(subq_output);
 }
 #endif

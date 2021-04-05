@@ -15,13 +15,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <assert.h>
+#include <math.h>
+
 #include "../mednafen.h"
 #include "../mednafen-endian.h"
-#include <math.h>
-#include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
 #include "../state_helpers.h"
+
+#include "pcecd_drive.h"
 
 static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;

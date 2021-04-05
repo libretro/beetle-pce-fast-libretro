@@ -235,12 +235,6 @@ static INLINE uint8 read_1808(int32 timestamp)
 
 bool PCECD_SetSettings(const PCECD_Settings *settings)
 {
-   if(settings)
-   {
-      assert(settings->CDDA_Volume <= 2.0);
-      assert(settings->ADPCM_Volume <= 2.0);
-   }
-
    CDDAVolumeSetting = settings ? settings->CDDA_Volume : 1.0;
    Fader_SyncWhich();
 
