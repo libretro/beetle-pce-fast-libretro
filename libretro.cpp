@@ -1480,10 +1480,14 @@ end:
 
 static bool MDFNI_LoadCD(const char *devicename)
 {
-   bool ret = false;
+   bool ret              = false;
+   size_t devicename_len = strlen(devicename);
+
    log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+   if(      devicename 
+         && devicename_len > 4 
+         && !strcasecmp(devicename + devicename_len - 4, ".m3u"))
    {
       std::vector<std::string> file_list;
 
@@ -1534,9 +1538,10 @@ static bool MDFNI_LoadCD(const char *devicename)
 static bool MDFNI_LoadGame(const char *name)
 {
    MDFNFILE *GameFile = NULL;
-   MDFNGameInfo = &EmulatedPCE_Fast;
+   MDFNGameInfo       = &EmulatedPCE_Fast;
+   size_t name_len    = strlen(name);
 
-   if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
+   if(name_len > 4 && (!strcasecmp(name + name_len - 4, ".cue") || !strcasecmp(name + name_len - 4, ".ccd") || !strcasecmp(name + name_len - 4, ".chd") || !strcasecmp(name + name_len - 4, ".toc") || !strcasecmp(name + name_len - 4, ".m3u")))
       return MDFNI_LoadCD(name);
 
    GameFile = file_open(name);
