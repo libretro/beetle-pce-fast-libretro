@@ -32,6 +32,9 @@
 
 std::string retro_base_directory;
 
+static bool libretro_supports_persistent_buffer = false;
+static bool libretro_supports_bitmasks          = false;
+
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
 #define MEDNAFEN_CORE_VERSION "v0.9.38.7"
@@ -901,7 +904,8 @@ bool PCE_InitCD(void)
 static int LoadCommon(void);
 static void LoadCommonPre(void);
 
-static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
+static int HuCLoad(bool persistent_data,
+      const uint8 *data, uint32 len, uint32 crc32)
 {
    int x;
    uint32 crc = 0;
@@ -921,11 +925,16 @@ static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
    IsPopulous = 0;
    PCE_IsCD = 0;
 
-   if(!(HuCROM = (uint8 *)malloc(m_len)))
-      return(0);
+   if (persistent_data)
+      HuCROM = (uint8 *)data;
+   else
+   {
+      if(!(HuCROM = (uint8 *)malloc(m_len)))
+         return(0);
 
-   memset(HuCROM, 0xFF, m_len);
-   memcpy(HuCROM, data, (m_len < len) ? m_len : len);
+      memset(HuCROM, 0xFF, m_len);
+      memcpy(HuCROM, data, (m_len < len) ? m_len : len);
+   }
 
    memset(ROMSpace, 0xFF, 0x88 * 8192 + 8192);
 
@@ -995,7 +1004,7 @@ static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
    return(1);
 }
 
-static int Load(const uint8_t *data, size_t size)
+static int Load(bool persistent_data, const uint8_t *data, size_t size)
 {
    int x;
    uint32 headerlen = 0;
@@ -1017,7 +1026,7 @@ static int Load(const uint8_t *data, size_t size)
 
    uint32 crc = encoding_crc32(0, data + headerlen, size - headerlen);
 
-   HuCLoad(data + headerlen, size - headerlen, crc);
+   HuCLoad(persistent_data, data + headerlen, size - headerlen, crc);
 
    if(crc == 0xfae0fc60)
       OrderOfGriffonFix = true;
@@ -1135,7 +1144,10 @@ static void Cleanup(void)
       PCECD_Close();
 
    if(HuCROM)
-      free(HuCROM);
+   {
+      if (!libretro_supports_persistent_buffer)
+         free(HuCROM);
+   }
    HuCROM = NULL;
 }
 
@@ -1538,7 +1550,9 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
    return true;
 }
 
-static bool MDFNI_LoadGame(const char *path, const char *ext,
+static bool MDFNI_LoadGame(
+      bool persistent_data,
+      const char *path, const char *ext,
       const uint8_t *data, size_t size)
 {
    MDFNFILE *GameFile          = NULL;
@@ -1579,7 +1593,7 @@ static bool MDFNI_LoadGame(const char *path, const char *ext,
       content_size = GET_FSIZE_PTR(GameFile);
    }
 
-   if(Load(content_data, content_size) <= 0)
+   if(Load(persistent_data, content_data, content_size) <= 0)
       goto error;
 
    MDFN_LoadGameCheats(NULL);
@@ -1608,8 +1622,6 @@ static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
 static double last_sound_rate = 0.0;
-
-static bool libretro_supports_bitmasks = false;
 
 static MDFN_Surface *surf = NULL;
 
@@ -2048,6 +2060,7 @@ bool retro_load_game(const struct retro_game_info *info)
    /* Attempt to fetch extended game info */
    if (environ_cb(RETRO_ENVIRONMENT_GET_GAME_INFO_EXT, &info_ext))
    {
+      libretro_supports_persistent_buffer = true;
       content_data = (const uint8_t *)info_ext->data;
       content_size = info_ext->size;
 
@@ -2064,6 +2077,8 @@ bool retro_load_game(const struct retro_game_info *info)
    else
    {
       const char *ext = NULL;
+
+      libretro_supports_persistent_buffer = false;
 
       if (!info || !info->path)
          return false;
@@ -2083,8 +2098,9 @@ bool retro_load_game(const struct retro_game_info *info)
 
    check_variables(true);
 
-   if (!MDFNI_LoadGame(content_path, content_ext,
-         content_data, content_size))
+   if (!MDFNI_LoadGame(libretro_supports_persistent_buffer,
+            content_path, content_ext,
+            content_data, content_size))
       return false;
 
    surf = (MDFN_Surface*)calloc(1, sizeof(*surf));
@@ -2182,6 +2198,7 @@ void retro_unload_game(void)
    for(i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
    CDInterfaces.clear();
+   libretro_supports_persistent_buffer = false;
 }
 
 static void update_input(void)
