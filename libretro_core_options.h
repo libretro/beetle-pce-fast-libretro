@@ -82,7 +82,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "Composite", NULL },
          { NULL, NULL},
       },
-      "RGB"
+      "RGB",
+      NULL
    },
    {
       "pce_nospritelimit",
@@ -96,7 +97,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled", NULL },
          { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      "bool"
    },
    {
       "pce_ocmultiplier",
@@ -122,7 +124,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "50", NULL },
          { NULL, NULL },
       },
-      "1"
+      "1",
+      "int"
    },
    {
       "pce_fast_frameskip",
@@ -137,7 +140,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "manual",   "Manual" },
          { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      NULL
    },
    {
       "pce_fast_frameskip_threshold",
@@ -165,7 +169,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "60", NULL },
          { NULL, NULL },
       },
-      "33"
+      "33",
+      "int"
    },
    {
       "pce_hoverscan",
@@ -204,7 +209,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "352", NULL },
          { NULL, NULL },
       },
-      "352"
+      "352",
+      "int"
    },
    {
       "pce_initial_scanline",
@@ -257,7 +263,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "40", NULL },
          { NULL, NULL },
       },
-      "3"
+      "3",
+      "int"
    },
    {
       "pce_last_scanline",
@@ -304,7 +311,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "242", NULL },
          { NULL, NULL },
       },
-      "242"
+      "242",
+      "int"
    },
    {
       "pce_mouse_sensitivity",
@@ -336,7 +344,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "5.00", NULL },
          { NULL, NULL },
       },
-      "1.25"
+      "1.25",
+      "float"
    },
    {
       "pce_turbo_delay",
@@ -363,7 +372,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "15", NULL },
          { NULL, NULL },
       },
-      "3"
+      "3",
+      "int"
    },
    {
       "pce_turbo_toggling",
@@ -377,7 +387,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled", NULL },
          { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      "bool"
    },
    {
       "pce_turbo_toggle_hotkey",
@@ -391,7 +402,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled", NULL },
          { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      "bool"
    },
    {
       "pce_sound_channel_0_volume",
@@ -414,7 +426,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_sound_channel_1_volume",
@@ -437,7 +450,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_sound_channel_2_volume",
@@ -460,7 +474,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_sound_channel_3_volume",
@@ -483,7 +498,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_sound_channel_4_volume",
@@ -506,7 +522,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_sound_channel_5_volume",
@@ -529,7 +546,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "100", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_fast_cdimagecache",
@@ -543,7 +561,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "enabled", NULL },
          { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      "bool"
    },
    {
       "pce_fast_cdbios",
@@ -561,7 +580,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "System Card 3 US", NULL },
          { NULL, NULL },
       },
-      "System Card 3"
+      "System Card 3",
+      NULL
    },
    {
       "pce_disable_softreset",
@@ -575,7 +595,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
           { "enabled", NULL },
           { NULL, NULL },
       },
-      "disabled"
+      "disabled",
+      "bool"
    },
    {
       "pce_cdspeed",
@@ -591,7 +612,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "8", NULL },
          { NULL, NULL },
       },
-      "1"
+      "1",
+      "int"
    },
    {
       "pce_cddavolume",
@@ -624,7 +646,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "200", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_adpcmvolume",
@@ -657,7 +680,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "200", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
    {
       "pce_cdpsgvolume",
@@ -690,7 +714,8 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "200", NULL },
          { NULL, NULL },
       },
-      "100"
+      "100",
+      "int"
    },
 
    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
