@@ -55,8 +55,7 @@ static int read32le(uint32_t *Bufo, FILE *fp)
    return 1;
 }
 
-
-int32_t smem_read(StateMem *st, void *buffer, uint32_t len)
+static int32_t smem_read(StateMem *st, void *buffer, uint32_t len)
 {
    if ((len + st->loc) > st->len)
       return 0;
@@ -67,7 +66,7 @@ int32_t smem_read(StateMem *st, void *buffer, uint32_t len)
    return(len);
 }
 
-int32_t smem_write(StateMem *st, void *buffer, uint32_t len)
+static int32_t smem_write(StateMem *st, void *buffer, uint32_t len)
 {
    if ((len + st->loc) > st->malloced)
    {
@@ -87,15 +86,7 @@ int32_t smem_write(StateMem *st, void *buffer, uint32_t len)
    return(len);
 }
 
-int32_t smem_putc(StateMem *st, int value)
-{
-   uint8_t tmpval = value;
-   if(smem_write(st, &tmpval, 1) != 1)
-      return(-1);
-   return(1);
-}
-
-int32_t smem_seek(StateMem *st, uint32_t offset, int whence)
+static int32_t smem_seek(StateMem *st, uint32_t offset, int whence)
 {
    switch(whence)
    {
@@ -119,7 +110,7 @@ int32_t smem_seek(StateMem *st, uint32_t offset, int whence)
    return(0);
 }
 
-int smem_write32le(StateMem *st, uint32_t b)
+static int smem_write32le(StateMem *st, uint32_t b)
 {
    uint8_t s[4];
    s[0]=b;
@@ -129,7 +120,7 @@ int smem_write32le(StateMem *st, uint32_t b)
    return((smem_write(st, s, 4)<4)?0:4);
 }
 
-int smem_read32le(StateMem *st, uint32_t *b)
+static int smem_read32le(StateMem *st, uint32_t *b)
 {
    uint8_t s[4];
 
@@ -292,43 +283,6 @@ static SFORMAT *FindSF(const char *name, SFORMAT *sf)
    }
 
    return NULL;
-}
-
-/* Fast raw chunk reader */
-static void DOReadChunk(StateMem *st, SFORMAT *sf)
-{
-   /* Size can sometimes be zero, so also check for the text name.  
-    * These two should both be zero only at the end of a struct. */
-   while(sf->size || sf->name)       
-   {
-      int32_t bytesize;
-      if(!sf->size || !sf->v)
-      {
-         sf++;
-         continue;
-      }
-
-      if(sf->size == (uint32_t) ~0) /* Link to another SFORMAT struct */
-      {
-         DOReadChunk(st, (SFORMAT *)sf->v);
-         sf++;
-         continue;
-      }
-
-      bytesize = sf->size;
-
-      /* Loading raw data, bool types are stored as they 
-       * appear in memory, not as single bytes in the full state format.
-       * In the SFORMAT structure, the size member for 
-       * bool entries is the number of bool elements, not the 
-       * total in-memory size,
-       * so we adjust it here. */
-      if(sf->flags & MDFNSTATE_BOOL)
-         bytesize *= sizeof(bool);
-
-      smem_read(st, (uint8_t *)sf->v, bytesize);
-      sf++;
-   }
 }
 
 static int ReadStateChunk(StateMem *st, SFORMAT *sf, int size)
