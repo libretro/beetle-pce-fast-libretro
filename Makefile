@@ -382,6 +382,19 @@ else ifeq ($(platform), retrofw)
    CXXFLAGS += -std=c++11
    CFLAGS += -std=gnu11
 
+# MIYOO
+else ifeq ($(platform), miyoo)
+   TARGET := $(TARGET_NAME)_libretro.so
+   CC = /opt/miyoo/usr/bin/arm-linux-gcc
+   CXX = /opt/miyoo/usr/bin/arm-linux-g++
+   AR = /opt/miyoo/usr/bin/arm-linux-ar
+   fpic := -fPIC
+   SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
+   LDFLAGS += -lrt
+   FLAGS += -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s -D_GNU_SOURCE
+   CXXFLAGS += -std=c++11
+   CFLAGS += -std=gnu11
+
 # Windows MSVC 2017 all architectures
 else ifneq (,$(findstring windows_msvc2017,$(platform)))
 
