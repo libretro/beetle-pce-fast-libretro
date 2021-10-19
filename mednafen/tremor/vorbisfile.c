@@ -1008,65 +1008,6 @@ int ov_open_callbacks(void *f,OggVorbis_File *vf,
   return _ov_open2(vf);
 }
 
-int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
-  ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
-  };
-
-  return ov_open_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_fopen(const char *path,OggVorbis_File *vf){
-  int ret;
-  FILE *f = fopen(path,"rb");
-  if(!f) return -1;
-
-  ret = ov_open(f,vf,NULL,0);
-  if(ret) fclose(f);
-  return ret;
-}
-
-
-/* Only partially open the vorbis file; test for Vorbisness, and load
-   the headers for the first chain.  Do not seek (although test for
-   seekability).  Use ov_test_open to finish opening the file, else
-   ov_clear to close/free it. Same return codes as open. */
-
-int ov_test_callbacks(void *f,OggVorbis_File *vf,
-    const char *initial,long ibytes,ov_callbacks callbacks)
-{
-  return _ov_open1(f,vf,initial,ibytes,callbacks);
-}
-
-int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
-  ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
-  };
-
-  return ov_test_callbacks((void *)f, vf, initial, ibytes, callbacks);
-}
-
-int ov_test_open(OggVorbis_File *vf){
-  if(vf->ready_state!=PARTOPEN)return(OV_EINVAL);
-  return _ov_open2(vf);
-}
-
-/* How many logical bitstreams in this physical bitstream? */
-long ov_streams(OggVorbis_File *vf){
-  return vf->links;
-}
-
-/* Is the FILE * associated with vf seekable? */
-long ov_seekable(OggVorbis_File *vf){
-  return vf->seekable;
-}
-
 /* returns the bitrate for a given logical bitstream or the entire
    physical bitstream.  If the file is open for random access, it will
    find the *actual* average bitrate.  If the file is streaming, it
@@ -1110,21 +1051,6 @@ long ov_bitrate(OggVorbis_File *vf,int i){
       }
     }
   }
-}
-
-/* returns the actual bitrate since last call.  returns -1 if no
-   additional data to offer since last call (or at beginning of stream),
-   EINVAL if stream is only partially open
-*/
-long ov_bitrate_instant(OggVorbis_File *vf){
-  int link=(vf->seekable?vf->current_link:0);
-  long ret;
-  if(vf->ready_state<OPENED)return(OV_EINVAL);
-  if(vf->samptrack==0)return(OV_FALSE);
-  ret=vf->bittrack/vf->samptrack*vf->vi[link].rate;
-  vf->bittrack=0;
-  vf->samptrack=0;
-  return(ret);
 }
 
 /* Guess */
@@ -1716,36 +1642,6 @@ int ov_time_seek(OggVorbis_File *vf,int64_t milliseconds){
   }
 }
 
-/* page-granularity version of ov_time_seek 
-   returns zero on success, nonzero on failure */
-int ov_time_seek_page(OggVorbis_File *vf,int64_t milliseconds){
-  /* translate time to PCM position and call ov_pcm_seek */
-
-  int link=-1;
-  int64_t pcm_total=0;
-  int64_t time_total=0;
-
-  if(vf->ready_state<OPENED)return(OV_EINVAL);
-  if(!vf->seekable)return(OV_ENOSEEK);
-  if(milliseconds<0)return(OV_EINVAL);
-
-  /* which bitstream section does this time offset occur in? */
-  for(link=0;link<vf->links;link++){
-    int64_t addsec = ov_time_total(vf,link);
-    if(milliseconds<time_total+addsec)break;
-    time_total+=addsec;
-    pcm_total+=vf->pcmlengths[link*2+1];
-  }
-
-  if(link==vf->links)return(OV_EINVAL);
-
-  /* enough information to convert time offset to pcm offset */
-  {
-    int64_t target=pcm_total+(milliseconds-time_total)*vf->vi[link].rate/1000;
-    return(ov_pcm_seek_page(vf,target));
-  }
-}
-
 /* tell the current stream offset cursor.  Note that seek followed by
    tell will likely not give the set offset due to caching */
 int64_t ov_raw_tell(OggVorbis_File *vf){
@@ -1803,24 +1699,6 @@ vorbis_info *ov_info(OggVorbis_File *vf,int link){
         return vf->vi+link;
   }else{
     return vf->vi;
-  }
-}
-
-/* grr, strong typing, grr, no templates/inheritence, grr */
-vorbis_comment *ov_comment(OggVorbis_File *vf,int link){
-  if(vf->seekable){
-    if(link<0)
-      if(vf->ready_state>=STREAMSET)
-        return vf->vc+vf->current_link;
-      else
-        return vf->vc;
-    else
-      if(link>=vf->links)
-        return NULL;
-      else
-        return vf->vc+link;
-  }else{
-    return vf->vc;
   }
 }
 
