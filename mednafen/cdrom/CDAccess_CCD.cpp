@@ -53,7 +53,6 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname, const bool hav
    {
       if(have_defval)
          return defval;
-      printf("Missing property: %s", propname.c_str());
       return 0;
    }
 
@@ -77,10 +76,7 @@ static T CCD_ReadInt(CCD_Section &s, const std::string &propname, const bool hav
       ret = strtoul(vp, &ep, scan_base);
 
    if(!vp[0] || ep[0])
-   {
-      printf("Property %s: Malformed integer: %s", propname.c_str(), v.c_str());
       return 0;
-   }
 
    return ret;
 }
@@ -139,8 +135,6 @@ bool CDAccess_CCD::Load(const std::string& path, bool image_memcache)
          sub_extsd[i] += extupt[i];
       }
    }
-
-   //printf("%s %d %d %d\n", file_ext.c_str(), extupt[0], extupt[1], extupt[2]);
 
    linebuf.reserve(256);
 
@@ -207,8 +201,6 @@ bool CDAccess_CCD::Load(const std::string& path, bool image_memcache)
          log_cb(RETRO_LOG_ERROR, "Scrambled CCD data tracks currently not supported.\n");
          return false;
       }
-
-      //printf("MOO: %d\n", toc_entries);
 
       for(unsigned te = 0; te < toc_entries; te++)
       {
@@ -351,8 +343,6 @@ bool CDAccess_CCD::CheckSubQSanity(void)
             uint8_t as_bcd = buf.qbuf[8];
             uint8_t af_bcd = buf.qbuf[9];
 
-            //printf("%2x %2x %2x\n", am_bcd, as_bcd, af_bcd);
-
             if(!BCD_is_valid(track_bcd) || !BCD_is_valid(index_bcd) || !BCD_is_valid(rm_bcd) || !BCD_is_valid(rs_bcd) || !BCD_is_valid(rf_bcd) ||
                   !BCD_is_valid(am_bcd) || !BCD_is_valid(as_bcd) || !BCD_is_valid(af_bcd) ||
                   rs_bcd > 0x59 || rf_bcd > 0x74 || as_bcd > 0x59 || af_bcd > 0x74)
@@ -392,7 +382,6 @@ bool CDAccess_CCD::CheckSubQSanity(void)
       }
    }
 
-   //printf("%u/%u\n", checksum_pass_counter, img_numsectors);
    return true;
 }
 

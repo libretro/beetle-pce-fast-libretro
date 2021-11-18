@@ -62,14 +62,9 @@ int CheckEDC(const unsigned char *cd_frame, bool xa_mode)
   real_crc = EDCCrc32(cd_frame+16, 2056);
  else
   real_crc = EDCCrc32(cd_frame, 2064);
-
  if(expected_crc == real_crc)
   return(1);
- else
- {
-  //printf("Bad EDC CRC:  Calculated:  %08x,  Recorded:  %08x\n", real_crc, expected_crc);
-  return(0);
- }
+ return(0);
 }
 
 /***

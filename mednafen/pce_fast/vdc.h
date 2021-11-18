@@ -9,9 +9,7 @@
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
 #define VDC_DEBUG(x)
-//printf("%s: %d\n", x, vdc->display_counter);
 #define VDC_UNDEFINED(x) { }
-//{ printf("%s: %d\n", x, vdc->display_counter); }
 
 #ifdef __cplusplus
 extern "C" {
@@ -157,14 +155,10 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
          break;
    }
 
-   //if(HuCPU.isopread && (A == 1 || A == 3)) //(A == 2 || A == 3)) // && A == 1)
    if(A == 1)
    {
-      //if(vdc->display_counter >= (VDS + VSW) && vdc->display_counter < (VDS + VSW + VDW + 1) && vce.dot_clock > 0)
       if(vce.dot_clock > 0)
          ret = 0x40;
-      //printf("%d %d %02x\n", vdc->display_counter, vce.dot_clock, ret);
-      //ret = 0x40;
    }
    return(ret);
 }

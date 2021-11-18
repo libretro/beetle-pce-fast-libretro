@@ -677,7 +677,6 @@ void HuC6280_Run(int32 cycles)
                }
             }	// end if(HU_IRQlow)
 
-            //printf("%04x\n", GetRealPC());
             HU_PI = HU_P;
             HuCPU.IRQMaskDelay = HuCPU.IRQMask;
 

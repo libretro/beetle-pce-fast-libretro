@@ -101,8 +101,6 @@ void PCEFast_PSG::RecalcUOFunc(int chnum)
 {
    psg_channel *ch = &channel[chnum];
 
-   //printf("UO Update: %d, %02x\n", chnum, ch->control);
-
    if(!(ch->control & 0xC0))
       ch->UpdateOutput = &PCEFast_PSG::UpdateOutput_Off;
    else if(ch->noisectrl & ch->control & 0x80)
@@ -154,8 +152,6 @@ void PCEFast_PSG::RecalcNoiseFreqCache(int chnum)
 
 PCEFast_PSG::PCEFast_PSG(Blip_Buffer *bb_l, Blip_Buffer *bb_r)
 {
-   //printf("Test: %u, %u\n", sizeof(psg_channel), (uint8*)&channel[0].balance - (uint8*)&channel[0].waveform[0]);
-
    sbuf[0] = bb_l;
    sbuf[1] = bb_r;
 
@@ -235,9 +231,6 @@ void PCEFast_PSG::Write(int32 timestamp, uint8 A, uint8 V)
 
    psg_channel *ch = &channel[select];
    
-   //if(A == 0x01 || select == 5)
-   // printf("Write Ch: %d %04x %02x, %d\n", select, A, V, timestamp);
-
    switch(A)
    {
       default: break;
@@ -330,11 +323,9 @@ void PCEFast_PSG::Write(int32 timestamp, uint8 A, uint8 V)
 
       case 0x08: /* LFO frequency */
                lfofreq = V & 0xFF;
-               //printf("LFO Freq: %02x\n", V);
                break;
 
       case 0x09: /* LFO trigger and control */
-               //printf("LFO Ctrl: %02x\n", V);
                if(V & 0x80)
                {
                   channel[1].waveform_index = 0;
@@ -504,22 +495,13 @@ void PCEFast_PSG::Update(int32 timestamp)
 
             if(!phase)
             {
-               //printf("Volume update(Read, %d since last): ch=%d, lr=%d, ts=%d\n", running_timestamp - last_read, chnum, lr, running_timestamp);
-
                if(chnum < 6)
-               {
                   vol_update_vllatch = GetVL(chnum, lr);
-               }
-               //last_read = running_timestamp;
             }
             else
             {
-               // printf("Volume update(Apply): ch=%d, lr=%d, ts=%d\n", chnum, lr, running_timestamp);
                if(chnum < 6)
-               {
                   channel[chnum].vl[lr] = vol_update_vllatch;
-               }
-               //last_apply = running_timestamp;
             }
             vol_update_which = (vol_update_which + 1) & 0x1F;
 

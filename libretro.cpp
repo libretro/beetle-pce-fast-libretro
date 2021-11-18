@@ -677,13 +677,11 @@ static DECLFW(HuCSF2Write)
 
 static DECLFR(PCEBusRead)
 {
- //printf("BUS Read: %02x %04x\n", A >> 13, A);
  return(0xFF);
 }
 
 static DECLFW(PCENullWrite)
 {
- //printf("Null Write: %02x, %08x %02x\n", A >> 13, A, V);
 }
 
 static DECLFR(BaseRAMRead)
@@ -1349,10 +1347,6 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
       SFVARN(PCEIODataBuffer, "PCEIODataBuffer"),
       SFEND
    };
-
-   //for(int i = 8192; i < 32768; i++)
-   // if(BaseRAM[i] != 0xFF)
-   //  printf("%d %02x\n", i, BaseRAM[i]);
 
    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
 
