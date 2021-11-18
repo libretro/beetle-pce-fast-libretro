@@ -9,6 +9,10 @@
 #endif
 #endif
 
+#define MSEEK_END	2
+#define MSEEK_CUR	1
+#define MSEEK_SET	0
+
 // Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 // Rounds up to the nearest power of 2.
 static INLINE uint32 round_up_pow2(uint32 v)
@@ -54,7 +58,7 @@ MemoryStream::MemoryStream(uint64 size_hint) : data_buffer(NULL), data_buffer_si
 MemoryStream::MemoryStream(Stream *stream) : data_buffer(NULL), data_buffer_size(0), data_buffer_alloced(0), position(0)
 {
    if((position = stream->tell()) != 0)
-      stream->seek(0, SEEK_SET);
+      stream->seek(0, MSEEK_SET);
 
    data_buffer_size = stream->size();
    data_buffer_alloced = data_buffer_size;
@@ -155,15 +159,15 @@ void MemoryStream::seek(int64 offset, int whence)
 
  switch(whence)
  {
-  case SEEK_SET:
+  case MSEEK_SET:
 	new_position = offset;
 	break;
 
-  case SEEK_CUR:
+  case MSEEK_CUR:
 	new_position = position + offset;
 	break;
 
-  case SEEK_END:
+  case MSEEK_END:
 	new_position = data_buffer_size + offset;
 	break;
  }
