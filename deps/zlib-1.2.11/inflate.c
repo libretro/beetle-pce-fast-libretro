@@ -42,6 +42,7 @@ z_streamp strm;
     state->mode = HEAD;
     state->last = 0;
     state->havedict = 0;
+    state->dmax = 32768U;
     state->head = Z_NULL;
     state->hold = 0;
     state->bits = 0;
@@ -500,6 +501,7 @@ int flush;
                 state->mode = BAD;
                 break;
             }
+            state->dmax = 1U << len;
             strm->adler = state->check = adler32(0L, Z_NULL, 0);
             state->mode = hold & 0x200 ? DICTID : TYPE;
             INITBITS();
@@ -919,6 +921,13 @@ int flush;
                 DROPBITS(state->extra);
                 state->back += state->extra;
             }
+#ifdef INFLATE_STRICT
+            if (state->offset > state->dmax) {
+                strm->msg = (char *)"invalid distance too far back";
+                state->mode = BAD;
+                break;
+            }
+#endif
             state->mode = MATCH;
         case MATCH:
             if (left == 0) goto inf_leave;
@@ -931,6 +940,18 @@ int flush;
                         state->mode = BAD;
                         break;
                     }
+#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+                    copy -= state->whave;
+                    if (copy > state->length) copy = state->length;
+                    if (copy > left) copy = left;
+                    left -= copy;
+                    state->length -= copy;
+                    do {
+                        *put++ = 0;
+                    } while (--copy);
+                    if (state->length == 0) state->mode = LEN;
+                    break;
+#endif
                 }
                 if (copy > state->wnext) {
                     copy -= state->wnext;
