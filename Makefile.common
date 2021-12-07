@@ -40,7 +40,8 @@ ZLIB_SOURCES_C = \
 	$(DEPS_DIR)/zlib-1.2.11/crc32.c \
 	$(DEPS_DIR)/zlib-1.2.11/inffast.c \
 	$(DEPS_DIR)/zlib-1.2.11/inflate.c \
-	$(DEPS_DIR)/zlib-1.2.11/inftrees.c
+	$(DEPS_DIR)/zlib-1.2.11/inftrees.c \
+	$(DEPS_DIR)/zlib-1.2.11/zutil.c
 
 ifneq (,$(findstring msvc2003,$(platform)))
 	INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
