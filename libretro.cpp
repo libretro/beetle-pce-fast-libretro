@@ -1831,7 +1831,7 @@ static void check_variables(bool first_run)
       }
    }
 
-   var.key = "pce_nospritelimit";
+   var.key = "pce_fast_nospritelimit";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1841,7 +1841,7 @@ static void check_variables(bool first_run)
          setting_pce_fast_nospritelimit = 1;
    }
 
-   var.key = "pce_ocmultiplier";
+   var.key = "pce_fast_ocmultiplier";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1872,21 +1872,21 @@ static void check_variables(bool first_run)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
       frameskip_threshold = strtol(var.value, NULL, 10);
 
-	var.key = "pce_hoverscan";
+	var.key = "pce_fast_hoverscan";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_hoverscan = atoi(var.value);
    }
 
-   var.key = "pce_initial_scanline";
+   var.key = "pce_fast_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_initial_scanline = atoi(var.value);
    }
 
-   var.key = "pce_last_scanline";
+   var.key = "pce_fast_last_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1894,7 +1894,7 @@ static void check_variables(bool first_run)
    }
 
    bool do_cdsettings = false;
-   var.key = "pce_cddavolume";
+   var.key = "pce_fast_cddavolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1902,7 +1902,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_cddavolume = atoi(var.value);
    }
 
-   var.key = "pce_adpcmvolume";
+   var.key = "pce_fast_adpcmvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1910,7 +1910,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdpsgvolume";
+   var.key = "pce_fast_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1918,7 +1918,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdspeed";
+   var.key = "pce_fast_cdspeed";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1937,10 +1937,10 @@ static void check_variables(bool first_run)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
    
-   char pce_sound_channel_volume_base_str[] = "pce_sound_channel_0_volume";
+   char pce_sound_channel_volume_base_str[] = "pce_fast_sound_channel_0_volume";
    var.key = pce_sound_channel_volume_base_str;
    for (unsigned c = 0; c < 6; c++) {;
-       pce_sound_channel_volume_base_str[18] = c+'0';
+       pce_sound_channel_volume_base_str[23] = c+'0';
        if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
        {
            psg_channels_volume[c] = atoi(var.value);
@@ -1948,7 +1948,7 @@ static void check_variables(bool first_run)
    }
  
    // Set Turbo_Toggling
-   var.key = "pce_turbo_toggling";
+   var.key = "pce_fast_turbo_toggling";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1959,7 +1959,7 @@ static void check_variables(bool first_run)
    }
 
    // Set TURBO_DELAY
-   var.key = "pce_turbo_delay";
+   var.key = "pce_fast_turbo_delay";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1967,7 +1967,7 @@ static void check_variables(bool first_run)
    }
 
    //  False sets turbo hotkey X/Y, true assigns hotkey to L3/R3
-   var.key = "pce_turbo_toggle_hotkey";
+   var.key = "pce_fast_turbo_toggle_hotkey";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1977,14 +1977,14 @@ static void check_variables(bool first_run)
          turbo_toggle_alt = false;
    }
 
-   var.key = "pce_disable_softreset";
+   var.key = "pce_fast_disable_softreset";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       disable_softreset = (strcmp(var.value, "enabled") == 0);
    }
    
-   var.key = "pce_mouse_sensitivity";
+   var.key = "pce_fast_mouse_sensitivity";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
