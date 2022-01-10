@@ -7,6 +7,10 @@
 #include <libretro.h>
 #include <retro_inline.h>
 
+#ifndef HAVE_NO_LANGEXTRA
+#include "libretro_core_options_intl.h"
+#endif
+
 /*
  ********************************
  * VERSION: 2.0
@@ -49,16 +53,16 @@ struct retro_core_option_v2_category option_cats_us[] = {
    {
       "video",
       "Video",
-      "Configure aspect ratio / display cropping / video filter / frame skipping parameters."
+      "Configure display cropping, frame skipping and other image output parameters."
    },
    {
       "input",
       "Input",
-      "Configure lightgun / mouse / NegCon input."
+      "Configure light gun, mouse and NegCon input."
    },
    {
       "hacks",
-      "Emulation hacks",
+      "Emulation Hacks",
       "Configure processor overclocking and emulation accuracy parameters affecting low-level performance and compatibility."
    },
    {
@@ -66,13 +70,18 @@ struct retro_core_option_v2_category option_cats_us[] = {
       "Advanced Channel Volume Settings",
       "Configure the volume of individual hardware audio channels."
    },
+   {
+      "cd",
+      "PC Engine CD",
+      "Configure settings related to the PC Engine CD emulation."
+   },
    { NULL, NULL, NULL },
 };
 
 struct retro_core_option_v2_definition option_defs_us[] = {
    {
       "pce_fast_palette",
-      "Colour Palette",
+      "Color Palette",
       NULL,
       "Composite tries to recreate the original console output and can show more details in some games.",
       NULL,
@@ -85,24 +94,10 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "RGB"
    },
    {
-      "pce_nospritelimit",
-      "No Sprite Limit",
-      NULL,
-      "Remove 16-sprites-per-scanline hardware limit.",
-      NULL,
-      "video",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
       "pce_fast_frameskip",
       "Frameskip",
       NULL,
-      "Skip frames to avoid audio buffer under-run (crackling). Improves performance at the expense of visual smoothness. 'Auto' skips frames when advised by the frontend. 'Manual' utilises the 'Frameskip Threshold (%)' setting.",
+      "Skip frames to avoid audio buffer under-run (crackling). Improves performance at the expense of visual smoothness. 'Auto' skips frames when advised by the frontend. 'Manual' utilizes the 'Frameskip Threshold (%)' setting.",
       NULL,
       "video",
       {
@@ -127,7 +122,7 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "24", NULL },
          { "27", NULL },
          { "30", NULL },
-         { "33", NULL },
+         { "33", "33 (Default)" },
          { "36", NULL },
          { "39", NULL },
          { "42", NULL },
@@ -142,10 +137,10 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "33"
    },
    {
-      "pce_hoverscan",
+      "pce_fast_hoverscan",
       "Horizontal Overscan (352 Width Mode Only)",
       NULL,
-      "Modify the horizontal overscan.",
+      "Choose the maximum image width to be displayed. Lower values will crop the right side of the image (for 352 px width games).",
       NULL,
       "video",
       {
@@ -175,23 +170,23 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "346", NULL },
          { "348", NULL },
          { "350", NULL },
-         { "352", NULL },
+         { "352", "352 (Default)" },
          { NULL, NULL },
       },
       "352"
    },
    {
-      "pce_initial_scanline",
-      "Initial scanline",
+      "pce_fast_initial_scanline",
+      "Initial Scanline",
       NULL,
-      "Initial scanline.",
+      "First rendered scanline. Higher values will crop the top of the image.",
       NULL,
       "video",
       {
          { "0", NULL },
          { "1", NULL },
          { "2", NULL },
-         { "3", NULL },
+         { "3", "3 (Default)" },
          { "4", NULL },
          { "5", NULL },
          { "6", NULL },
@@ -234,10 +229,10 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "3"
    },
    {
-      "pce_last_scanline",
-      "Last scanline",
+      "pce_fast_last_scanline",
+      "Last Scanline",
       NULL,
-      "Adjust last display scanline.",
+      "Last rendered scanline. Lower values will crop the bottom of the image.",
       NULL,
       "video",
       {
@@ -275,16 +270,154 @@ struct retro_core_option_v2_definition option_defs_us[] = {
          { "239", NULL },
          { "240", NULL },
          { "241", NULL },
-         { "242", NULL },
+         { "242", "242 (Default)" },
          { NULL, NULL },
       },
       "242"
    },
    {
-      "pce_mouse_sensitivity",
+      "pce_fast_sound_channel_0_volume",
+      "PSG Sound Channel 0 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 0.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      "PSG Sound Channel 1 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 1.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      "PSG Sound Channel 2 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 2.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      "PSG Sound Channel 3 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 3.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      "PSG Sound Channel 4 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 4.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      "PSG Sound Channel 5 Volume %",
+      NULL,
+      "Modify the volume of PSG Sound Channel 5.",
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
       "Mouse Sensitivity",
       NULL,
-      "Configure the PCE Mouse device type's sensitivity.",
+      "Higher values will make the mouse cursor move faster.",
       NULL,
       "input",
       {
@@ -313,16 +446,58 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "1.25"
    },
    {
-      "pce_turbo_delay",
+      "pce_fast_disable_softreset",
+      "Disable Soft Reset (RUN+SELECT)",
+      NULL,
+      "When RUN and SELECT are pressed simultaneously, disable both buttons temporarily instead of resetting.",
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      "Turbo Toggle",
+      NULL,
+      "Enable the turbo toggle hotkeys (buttons III and IV).",
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      "Alternate Turbo Hotkey",
+      NULL,
+      "Assign RetroPad's L3/R3 buttons as turbo toggle hotkeys instead of buttons III and IV. Works only as long as nothing is assigned to the L3/R3 buttons. You can avoid remapping buttons III and IV when switching to 6-button controller mode with this.",
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
       "Turbo Delay",
       NULL,
-      "Adjust turbo delay.",
+      "Adjust the time between turbo fire (in frames).",
       NULL,
       "input",
       {
          { "1",  NULL },
          { "2",  NULL },
-         { "3",  NULL },
+         { "3",  "3 (Default)" },
          { "4",  NULL },
          { "5",  NULL },
          { "6",  NULL },
@@ -340,178 +515,12 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "3"
    },
    {
-      "pce_turbo_toggling",
-      "Turbo ON/OFF Toggle",
-      NULL,
-      "Enables Turbo ON/OFF inputs.",
-      NULL,
-      "input",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_turbo_toggle_hotkey",
-      "Alternate Turbo Hotkey",
-      NULL,
-      "Enables Alternate Turbo ON/OFF inputs. You can avoid remapping Button III and IV when switching to 6-button gamepad mode with this.",
-      NULL,
-      "input",
-      {
-         { "disabled", NULL },
-         { "enabled", NULL },
-         { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_sound_channel_0_volume",
-      "PSG Sound Channel 0 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 0 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_sound_channel_1_volume",
-      "PSG Sound Channel 1 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 1 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_sound_channel_2_volume",
-      "PSG Sound Channel 2 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 2 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_sound_channel_3_volume",
-      "PSG Sound Channel 3 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 3 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_sound_channel_4_volume",
-      "PSG Sound Channel 4 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 4 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_sound_channel_5_volume",
-      "PSG Sound Channel 5 Volume %",
-      NULL,
-      "Modify PSG Sound Channel 5 Volume %",
-      NULL,
-      "channel_volume",
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
       "pce_fast_cdimagecache",
-      "CD Image Cache (Restart)",
+      "CD Image Cache (Restart Required)",
       NULL,
-      "Loads the complete image in memory at startup. Can potentially decrease loading times at the cost of increased startup time.",
+      "Load the complete image into memory at startup. Can potentially decrease loading times at the cost of an increased startup time.",
       NULL,
-      NULL,
+      "cd",
       {
          { "disabled", NULL },
          { "enabled", NULL },
@@ -521,16 +530,16 @@ struct retro_core_option_v2_definition option_defs_us[] = {
    },
    {
       "pce_fast_cdbios",
-      "CD BIOS (Restart)",
+      "CD BIOS (Restart Required)",
       NULL,
-      "Select which PC Engine CD BIOS to use.",
+      "Most games can run on 'System Card 3'. 'Games Express' is needed for several unlicensed games.",
       NULL,
-      NULL,
+      "cd",
       {
-         { "System Card 3", NULL },
          { "Games Express", NULL },
          { "System Card 1", NULL },
          { "System Card 2", NULL },
+         { "System Card 3", NULL },
          { "System Card 2 US", NULL },
          { "System Card 3 US", NULL },
          { NULL, NULL },
@@ -538,12 +547,141 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "System Card 3"
    },
    {
-      "pce_ocmultiplier",
-      "CPU Overclock Multiplier (Restart)",
+      "pce_fast_cdspeed",
+      "(CD) CD Speed",
+      "CD Speed",
+      "Higher values enable faster loading times but can cause issues with a couple of games.",
       NULL,
-      "Overclock the emulated CPU.",
+      "cd",
+      {
+         { "1", "1x" },
+         { "2", "2x" },
+         { "4", "4x" },
+         { "8", "8x" },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      "(CD) ADPCM Volume %",
+      "ADPCM Volume %",
+      "CD game only. Setting this volume control too high may cause sample clipping.",
+      "Setting this volume control too high may cause sample clipping.",
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      "(CD) CDDA Volume %",
+      "CDDA Volume %",
+      "CD game only. Setting this volume control too high may cause sample clipping.",
+      "Setting this volume control too high may cause sample clipping.",
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      "(CD) PSG Volume %",
+      "CD PSG Volume %",
+      "CD game only. Setting this volume control too high may cause sample clipping.",
+      "Setting this volume control too high may cause sample clipping.",
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      "No Sprite Limit",
       NULL,
+      "Remove 16-sprites-per-scanline hardware limit. WARNING: May cause graphics glitching on some games.",
       NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      "CPU Overclock Multiplier (Restart Required)",
+      NULL,
+      "Higher values can reduce slowdowns in games. WARNING: Can cause glitches and crashes.",
+      NULL,
+      "hacks",
       {
          { "1", NULL },
          { "2", NULL },
@@ -563,136 +701,6 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       },
       "1"
    },
-   {
-      "pce_disable_softreset",
-      "Disable Soft Reset (RUN+SELECT)",
-      NULL,
-      "If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily.",
-      NULL,
-      NULL,
-      {
-          { "disabled", NULL },
-          { "enabled", NULL },
-          { NULL, NULL },
-      },
-      "disabled"
-   },
-   {
-      "pce_cdspeed",
-      "(CD) CD Speed",
-      NULL,
-      "Set the speed of the emulated CD drive.",
-      NULL,
-      NULL,
-      {
-         { "1", NULL },
-         { "2", NULL },
-         { "4", NULL },
-         { "8", NULL },
-         { NULL, NULL },
-      },
-      "1"
-   },
-   {
-      "pce_cddavolume",
-      "(CD) CDDA Volume %",
-      NULL,
-      "Modify CDDA Volume %.",
-      NULL,
-      NULL,
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { "110", NULL },
-         { "120", NULL },
-         { "130", NULL },
-         { "140", NULL },
-         { "150", NULL },
-         { "160", NULL },
-         { "170", NULL },
-         { "180", NULL },
-         { "190", NULL },
-         { "200", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_adpcmvolume",
-      "(CD) ADPCM Volume %",
-      NULL,
-      "Modify ADPCM Volume %.",
-      NULL,
-      NULL,
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { "110", NULL },
-         { "120", NULL },
-         { "130", NULL },
-         { "140", NULL },
-         { "150", NULL },
-         { "160", NULL },
-         { "170", NULL },
-         { "180", NULL },
-         { "190", NULL },
-         { "200", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-   {
-      "pce_cdpsgvolume",
-      "(CD) PSG Volume %",
-      NULL,
-      "Modify CD PSG Volume %.",
-      NULL,
-      NULL,
-      {
-         { "0", NULL },
-         { "10", NULL },
-         { "20", NULL },
-         { "30", NULL },
-         { "40", NULL },
-         { "50", NULL },
-         { "60", NULL },
-         { "70", NULL },
-         { "80", NULL },
-         { "90", NULL },
-         { "100", NULL },
-         { "110", NULL },
-         { "120", NULL },
-         { "130", NULL },
-         { "140", NULL },
-         { "150", NULL },
-         { "160", NULL },
-         { "170", NULL },
-         { "180", NULL },
-         { "190", NULL },
-         { "200", NULL },
-         { NULL, NULL },
-      },
-      "100"
-   },
-
    { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
 };
 
@@ -746,24 +754,29 @@ struct retro_core_options_v2 options_us = {
 #ifndef HAVE_NO_LANGEXTRA
 struct retro_core_options_v2 *options_intl[RETRO_LANGUAGE_LAST] = {
    &options_us,    /* RETRO_LANGUAGE_ENGLISH */
-   NULL,           /* RETRO_LANGUAGE_JAPANESE */
-   NULL,           /* RETRO_LANGUAGE_FRENCH */
-   NULL,           /* RETRO_LANGUAGE_SPANISH */
-   NULL,           /* RETRO_LANGUAGE_GERMAN */
-   NULL,           /* RETRO_LANGUAGE_ITALIAN */
-   NULL,           /* RETRO_LANGUAGE_DUTCH */
-   NULL,           /* RETRO_LANGUAGE_PORTUGUESE_BRAZIL */
-   NULL,           /* RETRO_LANGUAGE_PORTUGUESE_PORTUGAL */
-   NULL,           /* RETRO_LANGUAGE_RUSSIAN */
-   NULL,           /* RETRO_LANGUAGE_KOREAN */
-   NULL,           /* RETRO_LANGUAGE_CHINESE_TRADITIONAL */
-   NULL,           /* RETRO_LANGUAGE_CHINESE_SIMPLIFIED */
-   NULL,           /* RETRO_LANGUAGE_ESPERANTO */
-   NULL,           /* RETRO_LANGUAGE_POLISH */
-   NULL,           /* RETRO_LANGUAGE_VIETNAMESE */
-   NULL,           /* RETRO_LANGUAGE_ARABIC */
-   NULL,           /* RETRO_LANGUAGE_GREEK */
-   NULL,           /* RETRO_LANGUAGE_TURKISH */
+   &options_ja,      /* RETRO_LANGUAGE_JAPANESE */
+   &options_fr,      /* RETRO_LANGUAGE_FRENCH */
+   &options_es,      /* RETRO_LANGUAGE_SPANISH */
+   &options_de,      /* RETRO_LANGUAGE_GERMAN */
+   &options_it,      /* RETRO_LANGUAGE_ITALIAN */
+   &options_nl,      /* RETRO_LANGUAGE_DUTCH */
+   &options_pt_br,   /* RETRO_LANGUAGE_PORTUGUESE_BRAZIL */
+   &options_pt_pt,   /* RETRO_LANGUAGE_PORTUGUESE_PORTUGAL */
+   &options_ru,      /* RETRO_LANGUAGE_RUSSIAN */
+   &options_ko,      /* RETRO_LANGUAGE_KOREAN */
+   &options_cht,     /* RETRO_LANGUAGE_CHINESE_TRADITIONAL */
+   &options_chs,     /* RETRO_LANGUAGE_CHINESE_SIMPLIFIED */
+   &options_eo,      /* RETRO_LANGUAGE_ESPERANTO */
+   &options_pl,      /* RETRO_LANGUAGE_POLISH */
+   &options_vn,      /* RETRO_LANGUAGE_VIETNAMESE */
+   &options_ar,      /* RETRO_LANGUAGE_ARABIC */
+   &options_el,      /* RETRO_LANGUAGE_GREEK */
+   &options_tr,      /* RETRO_LANGUAGE_TURKISH */
+   &options_sv,      /* RETRO_LANGUAGE_SLOVAK */
+   &options_fa,      /* RETRO_LANGUAGE_PERSIAN */
+   &options_he,      /* RETRO_LANGUAGE_HEBREW */
+   &options_ast,     /* RETRO_LANGUAGE_ASTURIAN */
+   &options_fi,      /* RETRO_LANGUAGE_FINNISH */
 };
 #endif
 
