@@ -824,7 +824,7 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_0_50_AST "0,50"
 #define OPTION_VAL_0_75_AST "0,75"
 #define OPTION_VAL_1_00_AST "1,00"
-#define OPTION_VAL_1_25_AST NULL
+#define OPTION_VAL_1_25_AST "1,25"
 #define OPTION_VAL_1_50_AST "1,50"
 #define OPTION_VAL_1_75_AST "1,75"
 #define OPTION_VAL_2_00_AST "2,00"
@@ -6112,7 +6112,7 @@ struct retro_core_options_v2 options_da = {
 
 #define CATEGORY_VIDEO_LABEL_DE NULL
 #define CATEGORY_VIDEO_INFO_0_DE NULL
-#define CATEGORY_INPUT_LABEL_DE NULL
+#define CATEGORY_INPUT_LABEL_DE "Eingabe"
 #define CATEGORY_INPUT_INFO_0_DE NULL
 #define CATEGORY_HACKS_LABEL_DE "Emulations-Hacks"
 #define CATEGORY_HACKS_INFO_0_DE "Parameter für Prozessorübertaktung und Emulationsgenauigkeit, die sich auf die Low-Level-Leistung und Kompatibilität auswirken, anpassen."
@@ -6125,7 +6125,7 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_RGB_DE NULL
 #define OPTION_VAL_COMPOSITE_DE NULL
 #define PCE_FAST_FRAMESKIP_LABEL_DE NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_DE "Überspringen Sie Frames um zu vermeiden, dass Audio-Puffer unterlaufen (Knistern). Verbessert die Leistung auf Kosten der visuellen Glätte. 'Auto' überspringt Frames wenn vom Frontend empfohlen wird. 'Manuell' verwendet die Einstellung 'Frameskip Grenzwert (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_DE "Frames überspringen, um ein Unterlaufen des Audiopuffers (Knistern) zu vermeiden. Verbessert die Leistung auf Kosten der visuellen Glätte. 'Auto' überspringt Frames, wenn vom Frontend empfohlen. 'Manual' verwendet die Einstellung 'Frameskip Grenzwert (%)'."
 #define OPTION_VAL_AUTO_DE "Automatisch"
 #define OPTION_VAL_MANUAL_DE "Manuell"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_DE "Frameskip Grenzwert (%)"
@@ -18304,7 +18304,7 @@ struct retro_core_options_v2 options_nl = {
 
 #define CATEGORY_VIDEO_LABEL_NO NULL
 #define CATEGORY_VIDEO_INFO_0_NO NULL
-#define CATEGORY_INPUT_LABEL_NO NULL
+#define CATEGORY_INPUT_LABEL_NO "Inndata"
 #define CATEGORY_INPUT_INFO_0_NO NULL
 #define CATEGORY_HACKS_LABEL_NO NULL
 #define CATEGORY_HACKS_INFO_0_NO NULL
@@ -19848,7 +19848,7 @@ struct retro_core_options_v2 options_oc = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PL "Gdy 'Frameskip' jest ustawiony na 'Manual', określa próg zajęcia bufora audio (procent) poniżej którego ramki zostaną pominięte. Wyższe wartości zmniejszają ryzyko trzasków poprzez częstsze opuszczanie ramek."
 #define OPTION_VAL_33_PL "33 (domyślnie)"
 #define PCE_FAST_HOVERSCAN_LABEL_PL NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_PL NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_PL "Wybierz maksymalną szerokość obrazu, która ma być wyświetlana. Niższe wartości będą przycinać prawą stronę obrazu (dla gier 352 px szerokości)."
 #define OPTION_VAL_352_PL "352 (domyślnie)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_PL NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_PL NULL
@@ -20589,19 +20589,19 @@ struct retro_core_options_v2 options_pl = {
 /* RETRO_LANGUAGE_PT_BR */
 
 #define CATEGORY_VIDEO_LABEL_PT_BR "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_PT_BR NULL
+#define CATEGORY_VIDEO_INFO_0_PT_BR "Configura os parâmetros do recorte de exibição, pulo de quadros e outras saídas de imagem."
 #define CATEGORY_INPUT_LABEL_PT_BR "Entrada"
-#define CATEGORY_INPUT_INFO_0_PT_BR NULL
+#define CATEGORY_INPUT_INFO_0_PT_BR "Configura a entrada da pistola de luz, mouse e NegCon."
 #define CATEGORY_HACKS_LABEL_PT_BR "Hacks de emulação"
 #define CATEGORY_HACKS_INFO_0_PT_BR "Configure os parâmetros de precisão de overclock e emulação do processador que afetam o baixo desempenho e a compatibilidade."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_PT_BR "Configurações avançadas de volume de canais"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_PT_BR "Configure o volume dos canais individuais de áudio do hardware."
-#define CATEGORY_CD_LABEL_PT_BR NULL
-#define CATEGORY_CD_INFO_0_PT_BR NULL
+#define CATEGORY_CD_LABEL_PT_BR "CD do PC Engine"
+#define CATEGORY_CD_INFO_0_PT_BR "Altera as configurações relacionadas à emulação de CD do PC Engine."
 #define PCE_FAST_PALETTE_LABEL_PT_BR "Paleta de cores"
-#define PCE_FAST_PALETTE_INFO_0_PT_BR NULL
+#define PCE_FAST_PALETTE_INFO_0_PT_BR "Vídeo composto tenta recriar a saída original do console e pode exibir mais detalhes em alguns jogos."
 #define OPTION_VAL_RGB_PT_BR NULL
-#define OPTION_VAL_COMPOSITE_PT_BR "Composto"
+#define OPTION_VAL_COMPOSITE_PT_BR "Vídeo composto"
 #define PCE_FAST_FRAMESKIP_LABEL_PT_BR "Pulo de quadro"
 #define PCE_FAST_FRAMESKIP_INFO_0_PT_BR "Ignora quadros para evitar o esvaziamento do buffer do áudio (pipocos no áudio). Melhora o desempenho ao custo da suavidade visual. A opção 'Auto' ignora os quadros quando for aconselhado pela interface. Já 'Manual' utiliza a configuração 'Limite do salto de quadros (%)'."
 #define OPTION_VAL_AUTO_PT_BR "Automática"
@@ -20609,86 +20609,86 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_BR "Limite de pulo de quadro (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Quando o 'Frameskip' for definido como 'Manual', especifica o limite de ocupação do buffer de áudio (em porcentagem) abaixo do qual os quadros serão pulados. Valores maiores reduzem o risco de engasgos pois farão que os quadros sejam descartados com mais frequência."
 #define OPTION_VAL_33_PT_BR "33 (padrão)"
-#define PCE_FAST_HOVERSCAN_LABEL_PT_BR NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_PT_BR NULL
+#define PCE_FAST_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
+#define PCE_FAST_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
 #define OPTION_VAL_352_PT_BR "352 (padrão)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_BR NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_PT_BR NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_BR "Linha de verificação inicial"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_PT_BR "Primeira linha de verificação renderizada. Valores maiores cortarão a parte superior da imagem."
 #define OPTION_VAL_3_PT_BR "3 (padrão)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_PT_BR NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_PT_BR NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_PT_BR "Linha de verificação final"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_PT_BR "Última linha de verificação renderizada. Valores menores cortarão a parte inferior da imagem."
 #define OPTION_VAL_242_PT_BR "242 (padrão)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_PT_BR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_PT_BR "Volume do canal de som 0 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 0 do PSG."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_PT_BR "Volume do canal de som 1 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 1 do PSG."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_PT_BR "Volume do canal de som 2 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 2 do PSG."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_PT_BR "Volume do canal de som 3 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 3 do PSG."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_PT_BR "Volume do canal de som 4 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 4 do PSG."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_PT_BR "Volume do canal de som 5 do PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 5 do PSG."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_PT_BR "Sensibilidade do mouse"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_PT_BR NULL
-#define OPTION_VAL_0_25_PT_BR NULL
-#define OPTION_VAL_0_50_PT_BR NULL
-#define OPTION_VAL_0_75_PT_BR NULL
-#define OPTION_VAL_1_00_PT_BR NULL
-#define OPTION_VAL_1_25_PT_BR NULL
-#define OPTION_VAL_1_50_PT_BR NULL
-#define OPTION_VAL_1_75_PT_BR NULL
-#define OPTION_VAL_2_00_PT_BR NULL
-#define OPTION_VAL_2_25_PT_BR NULL
-#define OPTION_VAL_2_50_PT_BR NULL
-#define OPTION_VAL_2_75_PT_BR NULL
-#define OPTION_VAL_3_00_PT_BR NULL
-#define OPTION_VAL_3_25_PT_BR NULL
-#define OPTION_VAL_3_50_PT_BR NULL
-#define OPTION_VAL_3_75_PT_BR NULL
-#define OPTION_VAL_4_00_PT_BR NULL
-#define OPTION_VAL_4_25_PT_BR NULL
-#define OPTION_VAL_4_50_PT_BR NULL
-#define OPTION_VAL_4_75_PT_BR NULL
-#define OPTION_VAL_5_00_PT_BR NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_BR NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_BR NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_PT_BR NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_PT_BR NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_PT_BR NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_PT_BR NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_PT_BR NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_PT_BR NULL
-#define PCE_FAST_CDBIOS_LABEL_PT_BR NULL
-#define PCE_FAST_CDBIOS_INFO_0_PT_BR NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_PT_BR "Valores maiores tornarão a movimentação do cursor do mouse mais rápida."
+#define OPTION_VAL_0_25_PT_BR "0,25"
+#define OPTION_VAL_0_50_PT_BR "0,50"
+#define OPTION_VAL_0_75_PT_BR "0,75"
+#define OPTION_VAL_1_00_PT_BR "1,00"
+#define OPTION_VAL_1_25_PT_BR "1,25"
+#define OPTION_VAL_1_50_PT_BR "1,50"
+#define OPTION_VAL_1_75_PT_BR "1,75"
+#define OPTION_VAL_2_00_PT_BR "2,00"
+#define OPTION_VAL_2_25_PT_BR "2,25"
+#define OPTION_VAL_2_50_PT_BR "2,50"
+#define OPTION_VAL_2_75_PT_BR "2,75"
+#define OPTION_VAL_3_00_PT_BR "3,00"
+#define OPTION_VAL_3_25_PT_BR "3,25"
+#define OPTION_VAL_3_50_PT_BR "3,50"
+#define OPTION_VAL_3_75_PT_BR "3,75"
+#define OPTION_VAL_4_00_PT_BR "4,00"
+#define OPTION_VAL_4_25_PT_BR "4,25"
+#define OPTION_VAL_4_50_PT_BR "4,50"
+#define OPTION_VAL_4_75_PT_BR "4,75"
+#define OPTION_VAL_5_00_PT_BR "5,00"
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_BR "Desativar a reinicialização suave (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR "Ativar e desativar o turbo"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_BR "Ativa os atalhos de ligar e desligar o turbo (botões III e IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_PT_BR "Atalho alternativo do turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_PT_BR "Atribui os botões L3 e R3 do RetroPad como atalhos de ativação e desativação do turbo, em vez dos botões III e IV. Você pode evitar o remapeamento dos botões III e IV ao alterar para o modo de controle de 6 botões com isso."
+#define PCE_FAST_TURBO_DELAY_LABEL_PT_BR "Atraso do turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_PT_BR "Ajusta o intervalo entre as ativações do turbo (em quadros)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_PT_BR "Cache de imagens do CD (requer reinício)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória na inicialização. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
+#define PCE_FAST_CDBIOS_LABEL_PT_BR "BIOS de CD (requer reinício)"
+#define PCE_FAST_CDBIOS_INFO_0_PT_BR "A maioria dos jogos podem rodar em \"System Card 3\". \"Games Express\" é necessário para vários jogos não licenciados."
 #define OPTION_VAL_GAMES_EXPRESS_PT_BR NULL
 #define OPTION_VAL_SYSTEM_CARD_1_PT_BR NULL
 #define OPTION_VAL_SYSTEM_CARD_2_PT_BR NULL
 #define OPTION_VAL_SYSTEM_CARD_3_PT_BR NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_PT_BR NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_PT_BR NULL
-#define PCE_FAST_CDSPEED_LABEL_PT_BR NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_PT_BR NULL
-#define PCE_FAST_CDSPEED_INFO_0_PT_BR NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_PT_BR "System Card 2 — EUA"
+#define OPTION_VAL_SYSTEM_CARD_3_US_PT_BR "System Card 3 — EUA"
+#define PCE_FAST_CDSPEED_LABEL_PT_BR "(CD) Velocidade do CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_PT_BR "Velocidade do CD"
+#define PCE_FAST_CDSPEED_INFO_0_PT_BR "Valores maiores permitem carregar mais rápido, mas podem causar problemas em alguns jogos."
 #define OPTION_VAL_1_PT_BR NULL
 #define OPTION_VAL_2_PT_BR NULL
 #define OPTION_VAL_4_PT_BR NULL
 #define OPTION_VAL_8_PT_BR NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_PT_BR NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_PT_BR NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_PT_BR NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_BR NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_PT_BR NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_PT_BR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_PT_BR "(CD) Volume do ADPCM (%)"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_PT_BR "Volume do ADPCM (%)"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_PT_BR "Somente em CD. Definir o controle de volume muito alto pode causar cortes de amostra."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_PT_BR "Definir o controle de volume muito alto pode causar cortes de amostra."
+#define PCE_FAST_CDDAVOLUME_LABEL_PT_BR "(CD) Volume do CDDA (%)"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_BR "Volume do CDDA (%)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_PT_BR "(CD) Volume do PSG (%)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_PT_BR "Volume do PSG de CD (%)"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_PT_BR "Sem limite de sprite"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_PT_BR NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_PT_BR NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_PT_BR NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_PT_BR "Remove o limite de hardware de 16 sprites por linha de verificação. ATENÇÃO: pode causar falhas gráficas em alguns jogos."
+#define PCE_FAST_OCMULTIPLIER_LABEL_PT_BR "Multiplicador do Overclock de CPU (requer reinício)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_PT_BR "Valores maiores podem reduzir a lentidão em jogos. ATENÇÃO: podem causar falhas e fechar o jogo."
 
 struct retro_core_option_v2_category option_cats_pt_br[] = {
    {
