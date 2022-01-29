@@ -84,23 +84,10 @@ ifneq (,$(findstring unix,$(platform)))
      HAVE_CDROM = 1
    endif
 
-   # Raspberry Pi
-   ifneq (,$(findstring rpi,$(platform)))
-      FLAGS += -fomit-frame-pointer -ffast-math
-      ifneq (,$(findstring rpi1,$(platform)))
-         FLAGS += -DARM -marm -march=armv6j -mfpu=vfp -mfloat-abi=hard
-      else ifneq (,$(findstring rpi2,$(platform)))
-         FLAGS += -DARM -marm -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
-      else ifneq (,$(findstring rpi3,$(platform)))
-         ifneq (,$(findstring rpi3_64,$(platform)))
-            FLAGS += -DARM -march=armv8-a+crc+simd -mtune=cortex-a53
-         else
-            FLAGS += -DARM -marm -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard
-         endif
-      else ifneq (,$(findstring rpi4_64,$(platform)))
-         FLAGS += -DARM -march=armv8-a+crc+simd -mtune=cortex-a72
-      endif
-   endif
+# Raspberry Pi: Modern GCC provides the proper flags for each model.
+ifneq (,$(findstring rpi,$(platform)))
+  FLAGS += -DARM -march=native -mcpu=native -ftree-vectorize -pipe -fomit-frame-pointer
+endif
    
 # Classic Platforms ####################
 # Platform affix = classic_<ISA>_<µARCH>
