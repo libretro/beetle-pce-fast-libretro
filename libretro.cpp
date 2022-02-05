@@ -30,6 +30,10 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
+#ifdef __PS3__
+using namespace std;
+#endif
+
 std::string retro_base_directory;
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
