@@ -1087,7 +1087,7 @@ void VDC_Power(void)
    }
 }
 
-void VDC_Init(int sgx)
+void VDC_Init(void)
 {
    unlimited_sprites = MDFN_GetSettingB("pce_fast.nospritelimit");
    defined_width[1] = MDFN_GetSettingUI("pce_fast.hoverscan");

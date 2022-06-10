@@ -1050,7 +1050,7 @@ static void LoadCommonPre(void)
 static int LoadCommon(void)
 {
    int x;
-   VDC_Init(false);
+   VDC_Init();
 
    {
       HuCPU.PCERead[0xF8] = BaseRAMRead;

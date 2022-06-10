@@ -165,7 +165,7 @@ static INLINE uint8 VDC_Read(unsigned int A)
 
 DECLFW(VCE_Write);
 
-void VDC_Init(int sgx) MDFN_COLD;
+void VDC_Init(void) MDFN_COLD;
 void VDC_Close(void) MDFN_COLD;
 void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;
