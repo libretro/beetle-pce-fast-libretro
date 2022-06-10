@@ -38,7 +38,7 @@ std::string retro_base_directory;
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.44.1"
+#define MEDNAFEN_CORE_VERSION "v0.9.45.0"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
@@ -740,19 +740,19 @@ static DECLFR(IORead)
    {
       PCEF_CASEL(VDC_00, 0x00):
          HuC6280_StealCycle();
-         return(VDC_Read(0, FALSE));
+         return(VDC_Read(0, false));
 
       PCEF_CASEL(VDC_01, 0x01):
          HuC6280_StealCycle();
-         return(VDC_Read(1, FALSE));
+         return(VDC_Read(1, false));
 
       PCEF_CASEL(VDC_02, 0x02):
          HuC6280_StealCycle();
-         return(VDC_Read(2, FALSE));
+         return(VDC_Read(2, false));
 
       PCEF_CASEL(VDC_03, 0x03):
          HuC6280_StealCycle();
-         return(VDC_Read(3, FALSE));
+         return(VDC_Read(3, false));
 
       PCEF_CASEL(VCE_00, 0x04):
       PCEF_CASEL(VCE_01, 0x05):
@@ -2373,7 +2373,7 @@ void retro_run(void)
 
    if (last_palette_format != use_palette)
    {
-      spec.VideoFormatChanged = TRUE;
+      spec.VideoFormatChanged = true;
       last_palette_format = use_palette;
    }
 
