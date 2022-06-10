@@ -98,7 +98,7 @@ static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
    int x;
    uint32 charname = (A >> 4);
    uint32 y = (A & 0x7);
-   uint64 *tc = &which_vdc->bg_tile_cache[charname][y];
+   uint64 *tc = which_vdc->bg_tile_cache + (charname * 8) + y;
 
    uint32 bitplane01 = which_vdc->VRAM[y + charname * 16];
    uint32 bitplane23 = which_vdc->VRAM[y+ 8 + charname * 16];
@@ -463,7 +463,7 @@ static NO_INLINE void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target
       int line_sub = vdc->BG_YOffset & 7;
 
       const uint16 *BAT_Base = &vdc->VRAM[bat_y];
-      const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
+      const uint64 *CG_Base = vdc->bg_tile_cache + (0 * 8) + line_sub;
 
       uint64_t cg_mask = 0xFFFFFFFFFFFFFFFFULL;
 
@@ -1076,8 +1076,15 @@ void VDC_Reset(void)
 
 void VDC_Power(void)
 {
+   unsigned i;
    memset(vdc, 0, sizeof(vdc_t));
    VDC_Reset();
+
+   for(i = 0; i < 0x200; i++)
+   {
+	   vce.color_table[i] = ((i ^ (i >> 3)) & 1) ? 0x000 : 0x1FF;
+	   FixPCache(i);
+   }
 }
 
 void VDC_Init(int sgx)
