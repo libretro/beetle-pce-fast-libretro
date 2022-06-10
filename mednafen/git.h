@@ -212,35 +212,14 @@ typedef struct
 	// Skip rendering this frame if true.  Set by the driver code.
 	int skip;
 
-	//
-	// If sound is disabled, the driver code must set SoundRate to false, SoundBuf to NULL, SoundBufMaxSize to 0.
-
-        // Will be set to TRUE if the sound format(only rate for now, at least) has changed since the last call to Emulate(), FALSE otherwise.
-        // Will be set to TRUE on the first call to the Emulate() function/method
-	bool SoundFormatChanged;
-
-	// Sound rate.  Set by driver side.
-	double SoundRate;
-
 	// Pointer to sound buffer, set by the driver code, that the emulation code should render sound to.
 	// Guaranteed to be at least 500ms in length, but emulation code really shouldn't exceed 40ms or so.  Additionally, if emulation code
 	// generates >= 100ms, 
 	// DEPRECATED: Emulation code may set this pointer to a sound buffer internal to the emulation module.
 	int16 *SoundBuf;
 
-	// Maximum size of the sound buffer, in frames.  Set by the driver code.
-	int32 SoundBufMaxSize;
-
 	// Number of frames currently in internal sound buffer.  Set by the system emulation code, to be read by the driver code.
 	int32 SoundBufSize;
-	int32 SoundBufSizeALMS;	// SoundBufSize value at last MidSync(), 0
-				// if mid sync isn't implemented for the emulation module in use.
-
-	// Number of cycles that this frame consumed, using MDFNGI::MasterClock as a time base.
-	// Set by emulation code.
-	int64 MasterCycles;
-	int64 MasterCyclesALMS;	// MasterCycles value at last MidSync(), 0
-				// if mid sync isn't implemented for the emulation module in use.
 
 	// Current sound volume(0.000...<=volume<=1.000...).  If, after calling Emulate(), it is still != 1, Mednafen will handle it internally.
 	// Emulation modules can handle volume themselves if they like, for speed reasons.  If they do, afterwards, they should set its value to 1.
@@ -276,11 +255,6 @@ typedef enum
 
 typedef struct
 {
- // Time base for EmulateSpecStruct::MasterCycles
- int64 MasterClock;
-
- uint32 fps; // frames per second * 65536 * 256, truncated
-
  // multires is a hint that, if set, indicates that the system has fairly programmable video modes(particularly, the ability
  // to display multiple horizontal resolutions, such as the PCE, PC-FX, or Genesis).  In practice, it will cause the driver
  // code to set the linear interpolation on by default.
