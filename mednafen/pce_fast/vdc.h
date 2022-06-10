@@ -120,7 +120,7 @@ DECLFW(VDC_Write);
 
 DECLFR(VCE_Read);
 
-static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
+static INLINE uint8 VDC_Read(unsigned int A)
 {
    uint8 ret = 0;
    int msb = A & 1;

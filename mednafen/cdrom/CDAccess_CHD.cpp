@@ -428,15 +428,11 @@ int32_t CDAccess_CHD::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
   uint32_t ma, sa, fa;
   uint32_t m, s, f;
   uint8_t pause_or = 0x00;
-  bool track_found = false;
 
   for (track = FirstTrack; track < (FirstTrack + NumTracks); track++)
   {
     if (lba >= (Tracks[track].LBA - Tracks[track].pregap_dv - Tracks[track].pregap) && lba < (Tracks[track].LBA + Tracks[track].sectors + Tracks[track].postgap))
-    {
-      track_found = true;
       break;
-    }
   }
 
   if (lba < Tracks[track].LBA)

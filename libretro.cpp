@@ -740,19 +740,19 @@ static DECLFR(IORead)
    {
       PCEF_CASEL(VDC_00, 0x00):
          HuC6280_StealCycle();
-         return(VDC_Read(0, false));
+         return(VDC_Read(0));
 
       PCEF_CASEL(VDC_01, 0x01):
          HuC6280_StealCycle();
-         return(VDC_Read(1, false));
+         return(VDC_Read(1));
 
       PCEF_CASEL(VDC_02, 0x02):
          HuC6280_StealCycle();
-         return(VDC_Read(2, false));
+         return(VDC_Read(2));
 
       PCEF_CASEL(VDC_03, 0x03):
          HuC6280_StealCycle();
-         return(VDC_Read(3, false));
+         return(VDC_Read(3));
 
       PCEF_CASEL(VCE_00, 0x04):
       PCEF_CASEL(VCE_01, 0x05):

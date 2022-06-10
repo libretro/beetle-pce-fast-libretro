@@ -1217,21 +1217,14 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
    uint32_t ma, sa, fa;
    uint32_t m, s, f;
    uint8_t pause_or = 0x00;
-   bool track_found = false;
 
    for(track = FirstTrack; track < (FirstTrack + NumTracks); track++)
    {
       if(lba >= (Tracks[track].LBA - Tracks[track].pregap_dv - Tracks[track].pregap) && lba < (Tracks[track].LBA + Tracks[track].sectors + Tracks[track].postgap))
       {
-         track_found = true;
          break;
       }
    }
-
-#if 0
-   if(!track_found)
-      throw(MDFN_Error(0, _("Could not find track for sector %u!"), lba));
-#endif
 
    if(lba < Tracks[track].LBA)
       lba_relative = Tracks[track].LBA - 1 - lba;
