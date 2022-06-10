@@ -448,8 +448,7 @@ static const uint64 cblock_exlut[16] =  {
    CB_EXL(8ULL), CB_EXL(9ULL), CB_EXL(10ULL), CB_EXL(11ULL), CB_EXL(12ULL), CB_EXL(13ULL), CB_EXL(14ULL), CB_EXL(15ULL)
 };
 
-static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target) NO_INLINE;
-static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
+static NO_INLINE void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
 {
    int bat_width_shift = bat_width_shift_tab[(vdc->MWR >> 4) & 3];
    int bat_width_mask = (1U << bat_width_shift) - 1;
@@ -574,8 +573,7 @@ typedef struct
 #define SPR_HPMASK  0x8000	// High priority bit mask
 
 // DrawSprites will write up to 0x20 units before the start of the pointer it's passed.
-static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf) NO_INLINE;
-static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
+static NO_INLINE void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 {
    int i;
    int active_sprites = 0;
