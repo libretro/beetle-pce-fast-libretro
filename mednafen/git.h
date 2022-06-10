@@ -7,10 +7,6 @@
 #include "state.h"
 #include "video.h"
 
-#if 0
-template<typename T> void showtype(T foo);
-#endif
-
 enum
 {
  MDFN_ROTATE0 = 0,

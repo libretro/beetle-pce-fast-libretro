@@ -630,14 +630,7 @@ static NO_INLINE void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_lineb
       }
    }
 
-   //if(!active_sprites)
-   // return;
-
-#if 0
-   memset(spr_linebuf, 0, sizeof(uint16) * end);
-#else
    MDFN_FastU32MemsetM8((uint32 *)spr_linebuf, 0, ((end + 3) >> 1) & ~1);
-#endif
 
    if(!active_sprites)
       return;
@@ -837,9 +830,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          DisplayRect->w = defined_width[vce.dot_clock];
       }
 
-#if 0
-      int chip = 0;
-#endif
       {
          int have_free_time = 1;
          if(frame_counter == 0)
@@ -886,9 +876,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
 
-#if 0
-      chip = 0;
-#endif
       {
          MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
          MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];

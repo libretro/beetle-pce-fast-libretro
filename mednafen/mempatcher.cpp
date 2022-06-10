@@ -134,26 +134,10 @@ void MDFNMP_InstallReadPatches(void)
    unsigned x;
    std::vector<SUBCHEAT>::iterator chit;
    if(!CheatsActive) return;
-
-
-#if 0
-   for(x = 0; x < 8; x++)
-   {
-      for(chit = SubCheats[x].begin(); chit != SubCheats[x].end(); chit++)
-      {
-         if(MDFNGameInfo->InstallReadPatch)
-            MDFNGameInfo->InstallReadPatch(chit->addr);
-      }
-   }
-#endif
 }
 
 void MDFNMP_RemoveReadPatches(void)
 {
-#if 0
- if(MDFNGameInfo->RemoveReadPatches)
-  MDFNGameInfo->RemoveReadPatches();
-#endif
 }
 
 static void CheatMemErr(void) { }

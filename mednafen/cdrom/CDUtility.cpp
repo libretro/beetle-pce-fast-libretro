@@ -398,13 +398,6 @@ void synth_udapp_sector_lba(uint8_t mode, const TOC& toc, const int32_t lba, int
    }
 }
 
-#if 0
-bool subq_extrapolate(const uint8_t *subq_input, int32_t position_delta, uint8_t *subq_output)
-{
-   subq_generate_checksum(subq_output);
-}
-#endif
-
 void scrambleize_data_sector(uint8_t *sector_data)
 {
    unsigned i;
