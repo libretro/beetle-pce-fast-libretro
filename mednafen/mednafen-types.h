@@ -104,14 +104,6 @@ typedef uint16  UTF16;  /* at least 16 bits */
 typedef uint8   UTF8;   /* typically 8 bits */
 typedef unsigned char   Boolean; /* 0 or 1 */
 
-#ifndef FALSE
-#define FALSE 0
-#endif
-
-#ifndef TRUE
-#define TRUE 1
-#endif
-
 #define MDFN_COLD
 
 #undef require

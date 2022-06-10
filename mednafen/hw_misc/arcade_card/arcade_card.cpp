@@ -18,7 +18,6 @@
  Arcade Card emulation based on information provided by Ki and David Shadoff
 */
 
-#include <errno.h>
 #include <string.h>
 
 #include "../../mednafen-types.h"

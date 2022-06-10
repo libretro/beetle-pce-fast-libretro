@@ -38,7 +38,7 @@ std::string retro_base_directory;
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
+#define MEDNAFEN_CORE_VERSION "v1.29.0.0"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
@@ -65,6 +65,8 @@ static bool cdimagecache = false;
 static bool use_palette = false;
 
 std::string setting_pce_fast_cdbios = "syscard3.pce";
+
+static int16_t sound_buf[0x10000];
 
 extern MDFNGI EmulatedPCE_Fast;
 
@@ -738,19 +740,19 @@ static DECLFR(IORead)
    {
       PCEF_CASEL(VDC_00, 0x00):
          HuC6280_StealCycle();
-         return(VDC_Read(0, FALSE));
+         return(VDC_Read(0, false));
 
       PCEF_CASEL(VDC_01, 0x01):
          HuC6280_StealCycle();
-         return(VDC_Read(1, FALSE));
+         return(VDC_Read(1, false));
 
       PCEF_CASEL(VDC_02, 0x02):
          HuC6280_StealCycle();
-         return(VDC_Read(2, FALSE));
+         return(VDC_Read(2, false));
 
       PCEF_CASEL(VDC_03, 0x03):
          HuC6280_StealCycle();
-         return(VDC_Read(3, FALSE));
+         return(VDC_Read(3, false));
 
       PCEF_CASEL(VCE_00, 0x04):
       PCEF_CASEL(VCE_01, 0x05):
@@ -1082,10 +1084,6 @@ static int LoadCommon(void)
 
    PCE_Power();
 
-#if 0
-   MDFNGameInfo->LayerNames = "Background\0Sprites\0";
-#endif
-   MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
    return(1);
 }
 
@@ -1243,42 +1241,9 @@ static void Emulate(EmulateSpecStruct *espec)
 
  MDFNMP_ApplyPeriodicCheats();
 
- #if 0
- {
-  static bool firstcat = true;
-  MDFN_PixelFormat nf;
-
-  nf.bpp = 16;
-  nf.colorspace = MDFN_COLORSPACE_RGB;
-  nf.Rshift = 11;
-  nf.Gshift = 5;
-  nf.Bshift = 0;
-  nf.Ashift = 16;
-
-  nf.Rprec = 5;
-  nf.Gprec = 6;
-  nf.Bprec = 5;
-  nf.Aprec = 8;
-
-  espec->surface->SetFormat(nf, false);
-  espec->VideoFormatChanged = firstcat;
-  firstcat = false;
- }
- #endif
-
  if(espec->VideoFormatChanged)
   VDC_SetPixelFormat(espec->CustomPalette, espec->CustomPaletteNumEntries);
 
- if(espec->SoundFormatChanged)
- {
-  for(int y = 0; y < 2; y++)
-  {
-     Blip_Buffer_set_sample_rate(&sbuf[y],
-           espec->SoundRate ? espec->SoundRate : 44100, 50);
-     Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
-     Blip_Buffer_bass_freq(&sbuf[y], 10);
-  }
- }
  VDC_RunFrame(espec, false);
 
  if(PCE_IsCD)
@@ -1288,17 +1253,16 @@ static void Emulate(EmulateSpecStruct *espec)
 
  psg->EndFrame(HuCPU.timestamp / pce_overclocked);
 
- if(espec->SoundBuf)
  {
-  for(int y = 0; y < 2; y++)
+  uint8_t y;
+  for(y = 0; y < 2; y++)
   {
      Blip_Buffer_end_frame(&sbuf[y], HuCPU.timestamp / pce_overclocked);
-     espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y], espec->SoundBuf + y,
-           espec->SoundBufMaxSize);
+     espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y],
+		     espec->SoundBuf + y,
+		     sizeof(sound_buf) >> 1);
   }
  }
-
- espec->MasterCycles = HuCPU.timestamp * 3;
 
  INPUT_FixTS();
 
@@ -1407,9 +1371,6 @@ bool IsBRAMUsed(void)
 
 MDFNGI EmulatedPCE_Fast =
 {
- MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
- 0,
-
  true,  // Multires possible?
 
  0,   // lcm_width
@@ -1605,7 +1566,6 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static double last_sound_rate = 0.0;
 
 static bool libretro_supports_option_categories = false;
 static bool libretro_supports_bitmasks = false;
@@ -1753,7 +1713,6 @@ void retro_init(void)
    audio_latency              = 0;
    update_audio_latency       = false;
 
-   last_sound_rate = 0.0;
    video_width = 0;
    video_height = 0;
    video_frames = 0;
@@ -2008,6 +1967,7 @@ static void check_variables(bool first_run)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+   uint8_t y;
    unsigned c;
    struct retro_input_descriptor desc[] = {
       #define button_ids(INDEX) \
@@ -2160,6 +2120,14 @@ bool retro_load_game(const struct retro_game_info *info)
    mmaps.descriptors = descs;
    mmaps.num_descriptors = i;
    environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
+
+   for(y = 0; y < 2; y++)
+   {
+     Blip_Buffer_set_sample_rate(&sbuf[y],
+           44100, 50);
+     Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
+     Blip_Buffer_bass_freq(&sbuf[y], 10);
+   }
 
    return true;
 }
@@ -2329,7 +2297,6 @@ void update_geometry(unsigned width, unsigned height)
 void retro_run(void)
 {
    static bool last_palette_format;
-   static int16_t sound_buf[0x10000];
    static int32_t rects[FB_HEIGHT];
    EmulateSpecStruct spec;
    bool resolution_changed = false;
@@ -2397,14 +2364,8 @@ void retro_run(void)
    spec.InterlaceOn             = false;
    spec.InterlaceField          = false;
    spec.skip                    = skip_frame;
-   spec.SoundFormatChanged      = false;
-   spec.SoundRate               = 44100;
    spec.SoundBuf                = sound_buf;
-   spec.SoundBufMaxSize         = sizeof(sound_buf) >> 1;
    spec.SoundBufSize            = 0;
-   spec.SoundBufSizeALMS        = 0;
-   spec.MasterCycles            = 0;
-   spec.MasterCyclesALMS        = 0;
    spec.SoundVolume             = 1.0;
    spec.soundmultiplier         = 1.0;
    spec.NeedRewind              = false;
@@ -2412,23 +2373,11 @@ void retro_run(void)
 
    if (last_palette_format != use_palette)
    {
-      spec.VideoFormatChanged = TRUE;
+      spec.VideoFormatChanged = true;
       last_palette_format = use_palette;
    }
 
-   if (spec.SoundRate != last_sound_rate)
-   {
-      spec.SoundFormatChanged = true;
-      last_sound_rate = spec.SoundRate;
-   }
-
    Emulate(&spec);
-
-   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * 2; /* 2 sound channels */
-   int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
-   const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
-
-   spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
 
    if (skip_frame)
       video_cb(NULL, video_width, video_height, FB_WIDTH * 2);

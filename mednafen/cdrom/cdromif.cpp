@@ -83,14 +83,14 @@ int CDIF::ReadSector(uint8_t* buf, int32_t lba, uint32_t sector_count, bool supp
       uint8_t tmpbuf[2352 + 96];
 
       if(!ReadRawSector(tmpbuf, lba))
-         return(FALSE);
+         return false;
 
       if(!ValidateRawSector(tmpbuf))
       {
          if(!suppress_uncorrectable_message)
             MDFN_DispMessage("Uncorrectable data at sector %d", lba);
 
-         return(false);
+         return false;
       }
 
       const int mode = tmpbuf[12 + 3];

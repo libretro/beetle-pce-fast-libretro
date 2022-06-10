@@ -98,7 +98,7 @@ static INLINE void FixTileCache(vdc_t *which_vdc, uint16 A)
    int x;
    uint32 charname = (A >> 4);
    uint32 y = (A & 0x7);
-   uint64 *tc = &which_vdc->bg_tile_cache[charname][y];
+   uint64 *tc = which_vdc->bg_tile_cache + (charname * 8) + y;
 
    uint32 bitplane01 = which_vdc->VRAM[y + charname * 16];
    uint32 bitplane23 = which_vdc->VRAM[y+ 8 + charname * 16];
@@ -448,8 +448,7 @@ static const uint64 cblock_exlut[16] =  {
    CB_EXL(8ULL), CB_EXL(9ULL), CB_EXL(10ULL), CB_EXL(11ULL), CB_EXL(12ULL), CB_EXL(13ULL), CB_EXL(14ULL), CB_EXL(15ULL)
 };
 
-static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target) NO_INLINE;
-static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
+static NO_INLINE void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
 {
    int bat_width_shift = bat_width_shift_tab[(vdc->MWR >> 4) & 3];
    int bat_width_mask = (1U << bat_width_shift) - 1;
@@ -464,7 +463,7 @@ static void DrawBG(const vdc_t *vdc, const uint32 count, uint8 *target)
       int line_sub = vdc->BG_YOffset & 7;
 
       const uint16 *BAT_Base = &vdc->VRAM[bat_y];
-      const uint64 *CG_Base = &vdc->bg_tile_cache[0][line_sub];
+      const uint64 *CG_Base = vdc->bg_tile_cache + (0 * 8) + line_sub;
 
       uint64_t cg_mask = 0xFFFFFFFFFFFFFFFFULL;
 
@@ -574,8 +573,7 @@ typedef struct
 #define SPR_HPMASK  0x8000	// High priority bit mask
 
 // DrawSprites will write up to 0x20 units before the start of the pointer it's passed.
-static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf) NO_INLINE;
-static void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
+static NO_INLINE void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_linebuf)
 {
    int i;
    int active_sprites = 0;
@@ -1078,8 +1076,15 @@ void VDC_Reset(void)
 
 void VDC_Power(void)
 {
+   unsigned i;
    memset(vdc, 0, sizeof(vdc_t));
    VDC_Reset();
+
+   for(i = 0; i < 0x200; i++)
+   {
+	   vce.color_table[i] = ((i ^ (i >> 3)) & 1) ? 0x000 : 0x1FF;
+	   FixPCache(i);
+   }
 }
 
 void VDC_Init(int sgx)
