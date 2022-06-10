@@ -8,9 +8,6 @@
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
-#define VDC_DEBUG(x)
-#define VDC_UNDEFINED(x) { }
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -146,9 +143,6 @@ static INLINE uint8 VDC_Read(unsigned int A)
             if(msb)
             {
                vdc->MARR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
-
-               if(vdc->MARR >= VRAM_Size)
-                  VDC_UNDEFINED("Unmapped VRAM VRR read"); 
                vdc->read_buffer = vdc->VRAM[vdc->MARR & VRAM_SizeMask];
             }
          }

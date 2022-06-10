@@ -331,12 +331,7 @@ static void DoDMA(vdc_t *vdc)
    for(i = 0; i < 455; i++)
    {
       if(!vdc->DMAReadWrite)
-      {
-         if(vdc->SOUR >= VRAM_Size)
-            VDC_UNDEFINED("Unmapped VRAM DMA read");
-
          vdc->DMAReadBuffer = vdc->VRAM[vdc->SOUR];
-      }
       else
       {
          if(vdc->DESR < VRAM_Size)
@@ -356,7 +351,6 @@ static void DoDMA(vdc_t *vdc)
             {
                vdc->status |= VDCS_DV;
                HuC6280_IRQBegin(MDFN_IQIRQ1);
-               VDC_DEBUG("DMA IRQ");
             }
             break;
          }
@@ -382,12 +376,7 @@ DECLFW(VDC_Write)
                    case 0x00: REGSETP(vdc->MAWR, V, msb); break;
                    case 0x01: REGSETP(vdc->MARR, V, msb);
                               if(msb)
-                              {
-                                 if(vdc->MARR >= VRAM_Size)
-                                    VDC_UNDEFINED("Unmapped VRAM VRR(MARR set) read");
-
                                  vdc->read_buffer = vdc->VRAM[vdc->MARR];
-                              }
                               break;
                    case 0x02: if(!msb) vdc->write_latch = V;
                               else
@@ -551,9 +540,6 @@ static INLINE void RebuildSATCache(vdc_t *vdc)
 static INLINE void DoSATDMA(vdc_t *vdc)
 {
    unsigned i;
-   if(vdc->SATB > (VRAM_Size - 0x100))
-      VDC_UNDEFINED("Unmapped VRAM SATB DMA read");
-
    for(i = 0; i < 256; i++)
       vdc->SAT[i] = vdc->VRAM[(vdc->SATB + i) & 0xFFFF];
 
@@ -602,7 +588,6 @@ static NO_INLINE void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_lineb
             {
                vdc->status |= VDCS_OR;
                HuC6280_IRQBegin(MDFN_IQIRQ1);
-               VDC_DEBUG("Overflow IRQ");
             }
             if(!unlimited_sprites)
                break;
@@ -676,7 +661,6 @@ static NO_INLINE void DrawSprites(vdc_t *vdc, const int32 end, uint16 *spr_lineb
                if(dest_pix[x] & 0x100)
                {
                   vdc->status |= VDCS_CR;
-                  VDC_DEBUG("Sprite hit IRQ");
                   HuC6280_IRQBegin(MDFN_IQIRQ1);
                }
                dest_pix[x] = raw_pixel | prio_or;
@@ -866,7 +850,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          }
          if((int)vdc->RCRCount == ((int)vdc->RCR - 0x40) && (vdc->CR & 0x04))
          {
-            VDC_DEBUG("RCR IRQ");
             vdc->status |= VDCS_RR;
             HuC6280_IRQBegin(MDFN_IQIRQ1); 
          }
@@ -1007,7 +990,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
 
       if(vdc->status & VDCS_VD)
       {
-         VDC_DEBUG("VBlank IRQ");
          HuC6280_IRQBegin(MDFN_IQIRQ1);   
       }
 
@@ -1031,7 +1013,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
             {
                if(vdc->DCR & 0x01)
                {
-                  VDC_DEBUG("Sprite DMA IRQ");
                   vdc->status |= VDCS_DS;
                   HuC6280_IRQBegin(MDFN_IQIRQ1);
                }

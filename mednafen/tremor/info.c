@@ -53,42 +53,6 @@ static int tagcompare(const char *s1, const char *s2, int n){
   return 0;
 }
 
-char *vorbis_comment_query(vorbis_comment *vc, char *tag, int count){
-  long i;
-  int found = 0;
-  int taglen = strlen(tag)+1; /* +1 for the = we append */
-  char *fulltag = (char *)alloca(taglen+ 1);
-
-  strcpy(fulltag, tag);
-  strcat(fulltag, "=");
-  
-  for(i=0;i<vc->comments;i++){
-    if(!tagcompare(vc->user_comments[i], fulltag, taglen)){
-      if(count == found)
-	/* We return a pointer to the data, not a copy */
-      	return vc->user_comments[i] + taglen;
-      else
-	found++;
-    }
-  }
-  return NULL; /* didn't find anything */
-}
-
-int vorbis_comment_query_count(vorbis_comment *vc, char *tag){
-  int i,count=0;
-  int taglen = strlen(tag)+1; /* +1 for the = we append */
-  char *fulltag = (char *)alloca(taglen+1);
-  strcpy(fulltag,tag);
-  strcat(fulltag, "=");
-
-  for(i=0;i<vc->comments;i++){
-    if(!tagcompare(vc->user_comments[i], fulltag, taglen))
-      count++;
-  }
-
-  return count;
-}
-
 void vorbis_comment_clear(vorbis_comment *vc){
   if(vc){
     long i;

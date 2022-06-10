@@ -983,9 +983,6 @@ int ov_clear(OggVorbis_File *vf){
       (vf->callbacks.close_func)(vf->datasource);
     memset(vf,0,sizeof(*vf));
   }
-#ifdef DEBUG_LEAKS
-  _VDBG_dump();
-#endif
   return(0);
 }
 
@@ -1296,7 +1293,7 @@ int ov_raw_seek(OggVorbis_File *vf,int64_t pos){
 /* rescales the number x from the range of [0,from] to [0,to]
    x is in the range [0,from]
    from, to are in the range [1, 1<<62-1] */
-int64_t rescale64(int64_t x, int64_t from, int64_t to){
+static int64_t rescale64(int64_t x, int64_t from, int64_t to){
   int64_t frac=0;
   int64_t ret=0;
   int i;
