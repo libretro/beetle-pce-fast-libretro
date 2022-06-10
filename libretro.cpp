@@ -38,7 +38,7 @@ std::string retro_base_directory;
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.43.0"
+#define MEDNAFEN_CORE_VERSION "v0.9.44.1"
 #define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
