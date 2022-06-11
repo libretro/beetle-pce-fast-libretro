@@ -179,12 +179,6 @@ typedef struct
 	// are ignored while drawing the image.
 	MDFN_Rect DisplayRect;
 
-	// Pointer to an array of MDFN_Rect, number of elements = fb_height, set by the driver code.  Individual MDFN_Rect structs written
-	// to by system emulation code.  If the emulated system doesn't support multiple screen widths per frame, or if you handle
-	// such a situation by outputting at a constant width-per-frame that is the least-common-multiple of the screen widths, then
-	// you can ignore this.  If you do wish to use this, you must set all elements every frame.
-	int32_t *LineWidths;
-
 	// Pointer to an array of uint8, 3 * CustomPaletteEntries.
 	// CustomPalette must be NULL and CustomPaletteEntries mujst be 0 if no custom palette is specified/available;
 	// otherwise, CustomPalette must be non-NULL and CustomPaletteEntries must be equal to a non-zero "num_entries" member of a CustomPalette_Spec
@@ -195,9 +189,6 @@ typedef struct
 	//
 	uint8 *CustomPalette;
 	uint32 CustomPaletteNumEntries;
-
-	// TODO
-	bool *IsFMV;
 
 	// Set(optionally) by emulation code.  If InterlaceOn is true, then assume field height is 1/2 DisplayRect.h, and
 	// only every other line in surface (with the start line defined by InterlacedField) has valid data
@@ -216,25 +207,6 @@ typedef struct
 
 	// Number of frames currently in internal sound buffer.  Set by the system emulation code, to be read by the driver code.
 	int32 SoundBufSize;
-
-	// Current sound volume(0.000...<=volume<=1.000...).  If, after calling Emulate(), it is still != 1, Mednafen will handle it internally.
-	// Emulation modules can handle volume themselves if they like, for speed reasons.  If they do, afterwards, they should set its value to 1.
-	double SoundVolume;
-
-	// Current sound speed multiplier.  Set by the driver code.  If, after calling Emulate(), it is still != 1, Mednafen will handle it internally
-	// by resampling the audio.  This means that emulation modules can handle(and set the value to 1 after handling it) it if they want to get the most
-	// performance possible.  HOWEVER, emulation modules must make sure the value is in a range(with minimum and maximum) that their code can handle
-	// before they try to handle it.
-	double soundmultiplier;
-
-	// True if we want to rewind one frame.  Set by the driver code.
-	bool NeedRewind;
-
-	// Sound reversal during state rewinding is normally done in mednafen.cpp, but
-        // individual system emulation code can also do it if this is set, and clear it after it's done.
-        // (Also, the driver code shouldn't touch this variable)
-	bool NeedSoundReverse;
-
 } EmulateSpecStruct;
 
 typedef enum

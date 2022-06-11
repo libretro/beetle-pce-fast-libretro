@@ -2297,7 +2297,6 @@ void update_geometry(unsigned width, unsigned height)
 void retro_run(void)
 {
    static bool last_palette_format;
-   static int32_t rects[FB_HEIGHT];
    EmulateSpecStruct spec;
    bool resolution_changed = false;
    int skip_frame          = 0;
@@ -2349,27 +2348,19 @@ void retro_run(void)
       update_audio_latency = false;
    }
 
-   rects[0] = ~0;
-
    spec.surface                 = surf;
    spec.VideoFormatChanged      = false;
    spec.DisplayRect.x           = 0;
    spec.DisplayRect.y           = 0;
    spec.DisplayRect.w           = 0;
    spec.DisplayRect.h           = 0;
-   spec.LineWidths              = rects;
    spec.CustomPalette           = use_palette ? composite_palette : NULL;
    spec.CustomPaletteNumEntries = use_palette ? 512 : 0;
-   spec.IsFMV                   = NULL;
    spec.InterlaceOn             = false;
    spec.InterlaceField          = false;
    spec.skip                    = skip_frame;
    spec.SoundBuf                = sound_buf;
    spec.SoundBufSize            = 0;
-   spec.SoundVolume             = 1.0;
-   spec.soundmultiplier         = 1.0;
-   spec.NeedRewind              = false;
-   spec.NeedSoundReverse        = false;
 
    if (last_palette_format != use_palette)
    {

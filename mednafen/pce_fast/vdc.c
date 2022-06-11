@@ -748,7 +748,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
    int max_dc = 0;
    MDFN_Surface *surface = espec->surface;
    MDFN_Rect *DisplayRect = &espec->DisplayRect;
-   int32 *LineWidths = espec->LineWidths;
    bool skip = espec->skip || IsHES;
 
    if(!skip){
@@ -864,9 +863,6 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
          MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
 
          uint16 *target_ptr16 = surface->pixels + (frame_counter - 14) * surface->pitch;
-
-         if(fc_vrm && !skip)
-            LineWidths[frame_counter - 14] = DisplayRect->w;
 
          if(vdc->burst_mode)
          {
