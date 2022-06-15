@@ -29,7 +29,6 @@ void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
 extern "C" {
 #endif
 
-extern MDFNGI *MDFNGameInfo;
 void MDFN_DispMessage(const char *format, ...);
 
 #ifdef __cplusplus

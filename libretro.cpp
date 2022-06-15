@@ -68,12 +68,6 @@ std::string setting_pce_fast_cdbios = "syscard3.pce";
 
 static int16_t sound_buf[0x10000];
 
-extern MDFNGI EmulatedPCE_Fast;
-
-extern "C" {
-MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
-}
-
 /* Composite palette 2020/09/14
  * authors: Dshadoff, Turboxray, Furrtek, Kitrinx and others
  */
@@ -1369,23 +1363,6 @@ bool IsBRAMUsed(void)
    return(0);
 }
 
-MDFNGI EmulatedPCE_Fast =
-{
- true,  // Multires possible?
-
- 0,   // lcm_width
- 0,   // lcm_height
- NULL,  // Dummy
-
- MEDNAFEN_CORE_GEOMETRY_BASE_W,   // Nominal width
- MEDNAFEN_CORE_GEOMETRY_BASE_H,   // Nominal height
-
- FB_WIDTH,	// Framebuffer width
- FB_HEIGHT,	// Framebuffer height
-
- 2,     // Number of output sound channels
-};
-
 static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::string dir_path;
@@ -1485,7 +1462,6 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
          delete CDInterfaces[i];
       CDInterfaces.clear();
 
-      MDFNGameInfo = NULL;
       return false;
    }
 
@@ -1501,7 +1477,6 @@ static bool MDFNI_LoadGame(const char *path, const char *ext,
       const uint8_t *data, size_t size)
 {
    MDFNFILE *GameFile          = NULL;
-   MDFNGameInfo                = &EmulatedPCE_Fast;
    const uint8_t *content_data = NULL;
    size_t content_size         = 0;
 
@@ -1551,7 +1526,6 @@ static bool MDFNI_LoadGame(const char *path, const char *ext,
 error:
    if (GameFile)
       file_close(GameFile);
-   MDFNGameInfo = NULL;
    return false;
 }
 
@@ -2135,16 +2109,12 @@ bool retro_load_game(const struct retro_game_info *info)
 void retro_unload_game(void)
 {
    unsigned i;
-   if(!MDFNGameInfo)
-      return;
 
    MDFN_FlushGameCheats(0);
 
    CloseGame();
 
    MDFNMP_Kill();
-
-   MDFNGameInfo = NULL;
 
    for(i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
