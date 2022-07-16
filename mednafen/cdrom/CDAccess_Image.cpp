@@ -818,7 +818,6 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
       return false;
    }
 
-   FirstTrack = FirstTrack;
    NumTracks = 1 + LastTrack - FirstTrack;
 
    int32_t RunningLBA = 0;
