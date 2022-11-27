@@ -9,7 +9,6 @@ The original files will be preserved as *.v1
 """
 import core_option_regex as cor
 import os
-import sys
 import glob
 
 
@@ -410,11 +409,14 @@ def create_v2_code_file(struct_text, file_name):
                       '   &options_ar,      /* RETRO_LANGUAGE_ARABIC */\n' \
                       '   &options_el,      /* RETRO_LANGUAGE_GREEK */\n' \
                       '   &options_tr,      /* RETRO_LANGUAGE_TURKISH */\n' \
-                      '   &options_sv,      /* RETRO_LANGUAGE_SLOVAK */\n' \
+                      '   &options_sk,      /* RETRO_LANGUAGE_SLOVAK */\n' \
                       '   &options_fa,      /* RETRO_LANGUAGE_PERSIAN */\n' \
                       '   &options_he,      /* RETRO_LANGUAGE_HEBREW */\n' \
                       '   &options_ast,     /* RETRO_LANGUAGE_ASTURIAN */\n' \
                       '   &options_fi,      /* RETRO_LANGUAGE_FINNISH */\n' \
+                      '   &options_id,      /* RETRO_LANGUAGE_INDONESIAN */\n' \
+                      '   &options_sv,      /* RETRO_LANGUAGE_SWEDISH */\n' \
+                      '   &options_uk,      /* RETRO_LANGUAGE_UKRAINIAN */\n' \
                     + out_text[intl.end(2):]
          out_text = p_set.sub(new_set, new_intl)
       else:
