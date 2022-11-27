@@ -780,7 +780,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_VIDEO_INFO_0_AST NULL
 #define CATEGORY_INPUT_LABEL_AST "Entrada"
 #define CATEGORY_INPUT_INFO_0_AST NULL
-#define CATEGORY_HACKS_LABEL_AST NULL
+#define CATEGORY_HACKS_LABEL_AST "Hacks de la emulación"
 #define CATEGORY_HACKS_INFO_0_AST NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Axustes avanzaos del volume de les canales"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_AST NULL
@@ -876,7 +876,7 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_NOSPRITELIMIT_LABEL_AST NULL
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_AST NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_AST NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_AST NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar el ralentizamientu nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
 
 struct retro_core_option_v2_category option_cats_ast[] = {
    {
@@ -1554,7 +1554,7 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_COMPOSITE_CA NULL
 #define PCE_FAST_FRAMESKIP_LABEL_CA NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_CA NULL
-#define OPTION_VAL_AUTO_CA NULL
+#define OPTION_VAL_AUTO_CA "Automàtic"
 #define OPTION_VAL_MANUAL_CA NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CA NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CA NULL
@@ -1582,26 +1582,26 @@ struct retro_core_options_v2 options_ast = {
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CA NULL
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CA NULL
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CA NULL
-#define OPTION_VAL_0_25_CA NULL
-#define OPTION_VAL_0_50_CA NULL
-#define OPTION_VAL_0_75_CA NULL
-#define OPTION_VAL_1_00_CA NULL
-#define OPTION_VAL_1_25_CA NULL
-#define OPTION_VAL_1_50_CA NULL
-#define OPTION_VAL_1_75_CA NULL
-#define OPTION_VAL_2_00_CA NULL
-#define OPTION_VAL_2_25_CA NULL
-#define OPTION_VAL_2_50_CA NULL
-#define OPTION_VAL_2_75_CA NULL
-#define OPTION_VAL_3_00_CA NULL
-#define OPTION_VAL_3_25_CA NULL
-#define OPTION_VAL_3_50_CA NULL
-#define OPTION_VAL_3_75_CA NULL
-#define OPTION_VAL_4_00_CA NULL
-#define OPTION_VAL_4_25_CA NULL
-#define OPTION_VAL_4_50_CA NULL
-#define OPTION_VAL_4_75_CA NULL
-#define OPTION_VAL_5_00_CA NULL
+#define OPTION_VAL_0_25_CA "0,25"
+#define OPTION_VAL_0_50_CA "0,50"
+#define OPTION_VAL_0_75_CA "0,75"
+#define OPTION_VAL_1_00_CA "1,00"
+#define OPTION_VAL_1_25_CA "1,25"
+#define OPTION_VAL_1_50_CA "1,50"
+#define OPTION_VAL_1_75_CA "1,75"
+#define OPTION_VAL_2_00_CA "2,00"
+#define OPTION_VAL_2_25_CA "2,25"
+#define OPTION_VAL_2_50_CA "2,50"
+#define OPTION_VAL_2_75_CA "2,75"
+#define OPTION_VAL_3_00_CA "3,00"
+#define OPTION_VAL_3_25_CA "3,25"
+#define OPTION_VAL_3_50_CA "3,50"
+#define OPTION_VAL_3_75_CA "3,75"
+#define OPTION_VAL_4_00_CA "4,00"
+#define OPTION_VAL_4_25_CA "4,25"
+#define OPTION_VAL_4_50_CA "4,50"
+#define OPTION_VAL_4_75_CA "4,75"
+#define OPTION_VAL_5_00_CA "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CA NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CA NULL
@@ -3062,50 +3062,50 @@ struct retro_core_options_v2 options_chs = {
 
 /* RETRO_LANGUAGE_CHT */
 
-#define CATEGORY_VIDEO_LABEL_CHT "視訊"
-#define CATEGORY_VIDEO_INFO_0_CHT NULL
+#define CATEGORY_VIDEO_LABEL_CHT "影像"
+#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁切、跳幀和影像輸出相關的設定。"
 #define CATEGORY_INPUT_LABEL_CHT "輸入"
-#define CATEGORY_INPUT_INFO_0_CHT NULL
-#define CATEGORY_HACKS_LABEL_CHT NULL
-#define CATEGORY_HACKS_INFO_0_CHT NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_CHT NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_CHT NULL
-#define CATEGORY_CD_LABEL_CHT NULL
-#define CATEGORY_CD_INFO_0_CHT NULL
-#define PCE_FAST_PALETTE_LABEL_CHT NULL
-#define PCE_FAST_PALETTE_INFO_0_CHT NULL
-#define OPTION_VAL_RGB_CHT NULL
-#define OPTION_VAL_COMPOSITE_CHT NULL
-#define PCE_FAST_FRAMESKIP_LABEL_CHT NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_CHT NULL
+#define CATEGORY_INPUT_INFO_0_CHT "變更輸入裝置相關的設定。"
+#define CATEGORY_HACKS_LABEL_CHT "進階"
+#define CATEGORY_HACKS_INFO_0_CHT "變更模擬器進階設定。"
+#define CATEGORY_CHANNEL_VOLUME_LABEL_CHT "進階音量設定"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_CHT "設定PSG音源的六聲道音量。"
+#define CATEGORY_CD_LABEL_CHT "光碟機"
+#define CATEGORY_CD_INFO_0_CHT "變更光碟機相關設定。"
+#define PCE_FAST_PALETTE_LABEL_CHT "配色"
+#define PCE_FAST_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
+#define OPTION_VAL_RGB_CHT "基本色"
+#define OPTION_VAL_COMPOSITE_CHT "合成"
+#define PCE_FAST_FRAMESKIP_LABEL_CHT "跳幀"
+#define PCE_FAST_FRAMESKIP_INFO_0_CHT "設定跳幀以避免音頻緩衝區不足(產生破音)。以視覺平畫度為代價提高效能。<自動> 由前端系統控制跳幀。<手動> 使用「跳幀閾值 (%)」設定。"
 #define OPTION_VAL_AUTO_CHT "自動"
-#define OPTION_VAL_MANUAL_CHT NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CHT NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CHT NULL
-#define OPTION_VAL_33_CHT NULL
-#define PCE_FAST_HOVERSCAN_LABEL_CHT NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_CHT NULL
-#define OPTION_VAL_352_CHT NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_CHT NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHT NULL
-#define OPTION_VAL_3_CHT NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_CHT NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_CHT NULL
-#define OPTION_VAL_242_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CHT NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CHT NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CHT NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CHT NULL
+#define OPTION_VAL_MANUAL_CHT "手動"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CHT "跳幀上限 (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CHT "設定「跳幀」為 <手動> 時音頻緩衝區使用上限(%)，低於上限的影格將被跳過。設定過高會導致頻繁丟失影格，過低則是出現破音。"
+#define OPTION_VAL_33_CHT "33 (預設)"
+#define PCE_FAST_HOVERSCAN_LABEL_CHT "水平過度掃描 (僅限寬度352模式)"
+#define PCE_FAST_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度。過低的值將裁剪影像右側(寬度352像素的遊戲)。"
+#define OPTION_VAL_352_CHT "352 (預設)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_CHT "初始掃描線"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHT "設定最初渲染的掃描線。過高的值將裁剪影像頂部。"
+#define OPTION_VAL_3_CHT "3 (預設)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_CHT "最後掃描線"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_CHT "設定最後渲染的掃描線。過低的值將裁剪影像底部。"
+#define OPTION_VAL_242_CHT "242 (預設)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CHT "PSG聲道0 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CHT "設定PSG聲道0的音量。"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CHT "PSG聲道1 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CHT "設定PSG聲道1的音量。"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CHT "PSG聲道2 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CHT "設定PSG聲道2的音量。"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CHT "PSG聲道3 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CHT "設定PSG聲道3的音量。"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CHT "PSG聲道4 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CHT "設定PSG聲道4的音量。"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CHT "PSG聲道5 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CHT "設定PSG聲道5的音量。"
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CHT "滑鼠靈敏度"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CHT "數值越高游標移動速度越快。"
 #define OPTION_VAL_0_25_CHT NULL
 #define OPTION_VAL_0_50_CHT NULL
 #define OPTION_VAL_0_75_CHT NULL
@@ -3126,43 +3126,43 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_4_50_CHT NULL
 #define OPTION_VAL_4_75_CHT NULL
 #define OPTION_VAL_5_00_CHT NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHT NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_CHT NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHT NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHT NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_CHT NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_CHT NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_CHT NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_CHT NULL
-#define PCE_FAST_CDBIOS_LABEL_CHT NULL
-#define PCE_FAST_CDBIOS_INFO_0_CHT NULL
-#define OPTION_VAL_GAMES_EXPRESS_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_1_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_CHT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_CHT NULL
-#define PCE_FAST_CDSPEED_LABEL_CHT NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_CHT NULL
-#define PCE_FAST_CDSPEED_INFO_0_CHT NULL
-#define OPTION_VAL_1_CHT NULL
-#define OPTION_VAL_2_CHT NULL
-#define OPTION_VAL_4_CHT NULL
-#define OPTION_VAL_8_CHT NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CHT NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHT NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_CHT NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_CHT NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CHT NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHT NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CHT NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHT NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_CHT NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHT NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_CHT NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_CHT NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT "禁用同時按 RUN鍵 加 SELECT鍵 時重新開始遊戲。僅禁用此組合鍵。"
+#define PCE_FAST_TURBO_TOGGLING_LABEL_CHT "連發開關"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT "開啟時 III/IV鍵 作為連發的開關，提供給 I/II鍵 使用。"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHT "備用連發開關"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHT "開啟時控制器 L3/R3鍵 作為連發的開關。僅限 L3/R3鍵 未設定時生效。適用於6鍵控制器模式。"
+#define PCE_FAST_TURBO_DELAY_LABEL_CHT "連發延遲"
+#define PCE_FAST_TURBO_DELAY_INFO_0_CHT "調整連發間隔延遲時間(幀數)。"
+#define PCE_FAST_CDIMAGECACHE_LABEL_CHT "光碟映像檔快取 (需要重新啟動)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔，完整載入到記憶體中。拖延開啟時間，縮短讀取時間。"
+#define PCE_FAST_CDBIOS_LABEL_CHT "光碟系統卡 (需要重新啟動)"
+#define PCE_FAST_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日版/美版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
+#define OPTION_VAL_GAMES_EXPRESS_CHT "遊戲特快卡"
+#define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日版)"
+#define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日版)"
+#define OPTION_VAL_SYSTEM_CARD_3_CHT "系統卡 3 (日版)"
+#define OPTION_VAL_SYSTEM_CARD_2_US_CHT "系統卡 2 (美版)"
+#define OPTION_VAL_SYSTEM_CARD_3_US_CHT "系統卡 3 (美版)"
+#define PCE_FAST_CDSPEED_LABEL_CHT "(光碟機) 讀取速度"
+#define PCE_FAST_CDSPEED_LABEL_CAT_CHT "讀取速度"
+#define PCE_FAST_CDSPEED_INFO_0_CHT "高倍速可加快載入時間，但可能導致遊戲出現問題。"
+#define OPTION_VAL_1_CHT "1倍速"
+#define OPTION_VAL_2_CHT "2倍速"
+#define OPTION_VAL_4_CHT "4倍速"
+#define OPTION_VAL_8_CHT "8倍速"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CHT "(光碟) ADPCM 音量 %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHT "ADPCM 音量 %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_CHT "僅限光碟遊戲。音量設定過高可能會導致取樣削波。"
+#define PCE_FAST_ADPCMVOLUME_INFO_1_CHT "音量設定過高可能會導致取樣削波。"
+#define PCE_FAST_CDDAVOLUME_LABEL_CHT "(光碟) CDDA 音量 %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHT "CDDA 音量 %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CHT "(光碟) PSG 音量 %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHT "PSG 音量 %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_CHT "沒有素材限制"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHT "刪除每條掃描線16張素材的硬體限制。警告: 可能導致遊戲圖形故障。"
+#define PCE_FAST_OCMULTIPLIER_LABEL_CHT "CPU 超頻倍頻 (需要重新啟動)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_CHT "較高的值可降低游戲中的延遲。警告: 可能導致故障崩潰。"
 
 struct retro_core_option_v2_category option_cats_cht[] = {
    {
@@ -3825,49 +3825,49 @@ struct retro_core_options_v2 options_cht = {
 /* RETRO_LANGUAGE_CS */
 
 #define CATEGORY_VIDEO_LABEL_CS NULL
-#define CATEGORY_VIDEO_INFO_0_CS NULL
+#define CATEGORY_VIDEO_INFO_0_CS "Konfigurace ořezu zobrazení, přeskočení snímku a dalších parametrů výstupu obrazu."
 #define CATEGORY_INPUT_LABEL_CS "Vstup"
-#define CATEGORY_INPUT_INFO_0_CS NULL
+#define CATEGORY_INPUT_INFO_0_CS "Konfigurace světelné pistole, myši a vstupu NegCon."
 #define CATEGORY_HACKS_LABEL_CS NULL
-#define CATEGORY_HACKS_INFO_0_CS NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_CS NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_CS NULL
-#define CATEGORY_CD_LABEL_CS NULL
-#define CATEGORY_CD_INFO_0_CS NULL
-#define PCE_FAST_PALETTE_LABEL_CS NULL
-#define PCE_FAST_PALETTE_INFO_0_CS NULL
+#define CATEGORY_HACKS_INFO_0_CS "Konfigurace parametrů přetaktování procesoru a přesnosti emulace ovlivňujících výkon a kompatibilitu na nízké úrovni."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_CS "Rozšířené Nastavení Hlasitosti Kanálů"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_CS "Konfigurace hlasitosti jednotlivých hardwarových zvukových kanálů."
+#define CATEGORY_CD_LABEL_CS "PC Motor CD"
+#define CATEGORY_CD_INFO_0_CS "Konfigurace nastavení týkajících se emulace disku CD PC Engine."
+#define PCE_FAST_PALETTE_LABEL_CS "Paleta barev"
+#define PCE_FAST_PALETTE_INFO_0_CS "Kompozitně se snaží obnovit původní výstup z konzole a v některých hrách může zobrazit více detailů."
 #define OPTION_VAL_RGB_CS NULL
-#define OPTION_VAL_COMPOSITE_CS NULL
+#define OPTION_VAL_COMPOSITE_CS "Kompozitní"
 #define PCE_FAST_FRAMESKIP_LABEL_CS NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_CS NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_CS "Přeskočení snímků, aby se zabránilo nedostatečnému využití vyrovnávací paměti zvuku (praskání). Zlepšuje výkon na úkor vizuální plynulosti. Funkce 'Auto' přeskakuje snímky, pokud to doporučí frontend. 'Ruční' využívá nastavení 'Práh přeskakování snímků (%)'."
 #define OPTION_VAL_AUTO_CS NULL
-#define OPTION_VAL_MANUAL_CS NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CS NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CS NULL
-#define OPTION_VAL_33_CS NULL
-#define PCE_FAST_HOVERSCAN_LABEL_CS NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_CS NULL
-#define OPTION_VAL_352_CS NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_CS NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CS NULL
-#define OPTION_VAL_3_CS NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_CS NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_CS NULL
-#define OPTION_VAL_242_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CS NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CS NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CS NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CS NULL
+#define OPTION_VAL_MANUAL_CS "Ruční"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CS "Hraniční Hodnota Frameskip (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CS "Pokud je položka 'Frameskip' nastavena na hodnotu 'Ruční', určuje práh obsazení vyrovnávací paměti zvuku (v procentech), pod kterým budou snímky přeskočeny. Vyšší hodnoty snižují riziko praskání tím, že způsobují častější vynechávání snímků."
+#define OPTION_VAL_33_CS "33 (Výchozí)"
+#define PCE_FAST_HOVERSCAN_LABEL_CS "Horizontální Overscan (Pouze Režim Šířky 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_CS "Zvolte maximální šířku obrázku, který se má zobrazit. Nižší hodnoty oříznou pravou stranu obrázku (pro hry o šířce 352 px)."
+#define OPTION_VAL_352_CS "352 (Výchozí)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_CS "Počáteční Linie Skenování"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CS "První vykreslená skenovací linie. Vyšší hodnoty oříznou horní část obrázku."
+#define OPTION_VAL_3_CS "3 (Výchozí)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_CS "Poslední Skenovací Linie"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_CS "Poslední vykreslená skenovací linie. Nižší hodnoty oříznou spodní část obrázku."
+#define OPTION_VAL_242_CS "242 (Výchozí)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CS "Zvukový kanál PSG 0 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CS "Zvukový Kanál PSG 1 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CS "Zvukový Kanál PSG 2 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CS "Zvukový Kanál PSG 3 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CS "PSG Sound Channel 4 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CS "Zvukový kanál PSG 5 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CS "Úprava hlasitosti zvukového kanálu PSG 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CS "Citlivost Myši"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CS "Při vyšších hodnotách se kurzor myši pohybuje rychleji."
 #define OPTION_VAL_0_25_CS NULL
 #define OPTION_VAL_0_50_CS NULL
 #define OPTION_VAL_0_75_CS NULL
@@ -3887,44 +3887,44 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_4_25_CS NULL
 #define OPTION_VAL_4_50_CS NULL
 #define OPTION_VAL_4_75_CS NULL
-#define OPTION_VAL_5_00_CS NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CS NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CS NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_CS NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_CS NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CS NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CS NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_CS NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_CS NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_CS NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_CS NULL
-#define PCE_FAST_CDBIOS_LABEL_CS NULL
-#define PCE_FAST_CDBIOS_INFO_0_CS NULL
+#define OPTION_VAL_5_00_CS "2.50"
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CS "Zakázat Soft. Reset (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CS "Při současném stisknutí tlačítek RUN a SELECT se místo resetování dočasně vypnou obě tlačítka."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_CS "Přepínač Turba"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_CS "Povolit hotkeys přepínat turbo (tlačítka III a IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CS "Alternativní Hotkey Turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CS "Přiřaďte tlačítkům L3/R3 zařízení RetroPad rychlé přepínání turba hotkeys místo tlačítek III a IV. Funguje pouze v případě, že tlačítkům L3/R3 není nic přiřazeno. Díky tomu se můžete vyhnout přemapování tlačítek III a IV při přepnutí do režimu šestitlačítkového ovladače."
+#define PCE_FAST_TURBO_DELAY_LABEL_CS "Zpoždění Turba"
+#define PCE_FAST_TURBO_DELAY_INFO_0_CS "Nastavení doby mezi nástupem turba (ve snímcích)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_CS "Vyrovnávací Paměť Obrazu CD (Nutný Restart)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_CS "Načíst kompletní obraz do paměti při spuštění. Může potenciálně zkrátit dobu načítání za cenu prodloužení doby spouštění."
+#define PCE_FAST_CDBIOS_LABEL_CS "CD BIOS (Nutný Restart)"
+#define PCE_FAST_CDBIOS_INFO_0_CS "Většinu her lze spustit na systémové kartě 3. Pro některé nelicencované hry je zapotřebí 'Games Express'."
 #define OPTION_VAL_GAMES_EXPRESS_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_1_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_2_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_3_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_CS NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_CS NULL
-#define PCE_FAST_CDSPEED_LABEL_CS NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_CS NULL
-#define PCE_FAST_CDSPEED_INFO_0_CS NULL
+#define OPTION_VAL_SYSTEM_CARD_1_CS "Systémová Karta 1"
+#define OPTION_VAL_SYSTEM_CARD_2_CS "Systémová Karta 2"
+#define OPTION_VAL_SYSTEM_CARD_3_CS "Systémová Karta 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_CS "Systémová Karta 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_CS "Systémová Karta 3 US"
+#define PCE_FAST_CDSPEED_LABEL_CS "(CD) Rychlost CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_CS "Rychlost CD"
+#define PCE_FAST_CDSPEED_INFO_0_CS "Vyšší hodnoty umožňují rychlejší načítání, ale u několika her mohou způsobit problémy."
 #define OPTION_VAL_1_CS NULL
 #define OPTION_VAL_2_CS NULL
 #define OPTION_VAL_4_CS NULL
 #define OPTION_VAL_8_CS NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CS NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CS NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_CS NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_CS NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CS NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CS NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CS NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CS NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_CS NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_CS NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_CS NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_CS NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CS "(CD) ADPCM Hlasitost %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CS "ADPCM Hlasitost %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_CS "Pouze hra na CD. Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_CS "Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
+#define PCE_FAST_CDDAVOLUME_LABEL_CS "(CD) CDDA Hlasitost %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CS "CDDA Hlasitost %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CS "(CD) PSG Hlasitost %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CS "CD PSG Hlasitost %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_CS "Žádný Limit Spritu"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_CS "Odstranění hardwarového limitu 16 bodů na řádek. UPOZORNĚNÍ: V některých hrách může způsobovat grafické závady."
+#define PCE_FAST_OCMULTIPLIER_LABEL_CS "Násobitel Přetaktování CPU (Nutný Restart)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_CS "Vyšší hodnoty mohou snížit zpomalení ve hrách. VAROVÁNÍ: Může způsobit závady a pády."
 
 struct retro_core_option_v2_category option_cats_cs[] = {
    {
@@ -6206,7 +6206,7 @@ struct retro_core_options_v2 options_da = {
 #define PCE_FAST_CDDAVOLUME_LABEL_DE "(CD) CDDA Lautstärke %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_DE "CDDA Lautstärke %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_DE "(CD) PSG Lautstärke %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_DE NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_DE "CD-PSG-Lautstärke %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_DE "Kein Sprite-Limit"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_DE "Die Hardware-Beschränkung von 16 Sprites pro Scanline entfernen. WARNUNG: Kann bei einigen Spielen zu Grafikfehlern führen."
 #define PCE_FAST_OCMULTIPLIER_LABEL_DE "CPU-Übertaktungsmultiplikator (Neustart erforderlich)"
@@ -7630,6 +7630,768 @@ struct retro_core_option_v2_definition option_defs_el[] = {
 struct retro_core_options_v2 options_el = {
    option_cats_el,
    option_defs_el
+};
+
+/* RETRO_LANGUAGE_EN */
+
+#define CATEGORY_VIDEO_LABEL_EN NULL
+#define CATEGORY_VIDEO_INFO_0_EN NULL
+#define CATEGORY_INPUT_LABEL_EN NULL
+#define CATEGORY_INPUT_INFO_0_EN NULL
+#define CATEGORY_HACKS_LABEL_EN NULL
+#define CATEGORY_HACKS_INFO_0_EN "Configure processor over-clocking and emulation accuracy parameters affecting low-level performance and compatibility."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_EN NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_EN NULL
+#define CATEGORY_CD_LABEL_EN NULL
+#define CATEGORY_CD_INFO_0_EN NULL
+#define PCE_FAST_PALETTE_LABEL_EN "Colour Palette"
+#define PCE_FAST_PALETTE_INFO_0_EN NULL
+#define OPTION_VAL_RGB_EN NULL
+#define OPTION_VAL_COMPOSITE_EN NULL
+#define PCE_FAST_FRAMESKIP_LABEL_EN "Frame-skip"
+#define PCE_FAST_FRAMESKIP_INFO_0_EN "Skip frames to avoid audio buffer under-run (crackling). Improves performance at the expense of visual smoothness. 'Auto' skips frames when advised by the front-end. 'Manual' utilizes the 'Frame-skip Threshold (%)' setting."
+#define OPTION_VAL_AUTO_EN NULL
+#define OPTION_VAL_MANUAL_EN NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_EN "Frame-skip Threshold (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_EN "When 'Frame-skip' is set to 'Manual', this specifies the audio buffer occupancy threshold (percentage) below which frames will be skipped. Higher values reduce the risk of crackling by causing frames to be dropped more frequently."
+#define OPTION_VAL_33_EN NULL
+#define PCE_FAST_HOVERSCAN_LABEL_EN NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_EN "Choose the maximum image width to be displayed. Lower values will crop the right side of the image (for 352-pixel width games)."
+#define OPTION_VAL_352_EN NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_EN "Initial Scan-line"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_EN "First rendered scan-line. Higher values will crop the top of the image."
+#define OPTION_VAL_3_EN NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_EN "Last Scan-line"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_EN "Last rendered scan-line. Lower values will crop the bottom of the image."
+#define OPTION_VAL_242_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_EN NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_EN NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_EN NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_EN NULL
+#define OPTION_VAL_0_25_EN NULL
+#define OPTION_VAL_0_50_EN NULL
+#define OPTION_VAL_0_75_EN NULL
+#define OPTION_VAL_1_00_EN NULL
+#define OPTION_VAL_1_25_EN NULL
+#define OPTION_VAL_1_50_EN NULL
+#define OPTION_VAL_1_75_EN NULL
+#define OPTION_VAL_2_00_EN NULL
+#define OPTION_VAL_2_25_EN NULL
+#define OPTION_VAL_2_50_EN NULL
+#define OPTION_VAL_2_75_EN NULL
+#define OPTION_VAL_3_00_EN NULL
+#define OPTION_VAL_3_25_EN NULL
+#define OPTION_VAL_3_50_EN NULL
+#define OPTION_VAL_3_75_EN NULL
+#define OPTION_VAL_4_00_EN NULL
+#define OPTION_VAL_4_25_EN NULL
+#define OPTION_VAL_4_50_EN NULL
+#define OPTION_VAL_4_75_EN NULL
+#define OPTION_VAL_5_00_EN NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_EN NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EN NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_EN NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_EN NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EN NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EN NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_EN NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_EN NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_EN NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_EN "Load the complete image into memory at start-up. Can potentially decrease loading times at the cost of an increased start-up time."
+#define PCE_FAST_CDBIOS_LABEL_EN NULL
+#define PCE_FAST_CDBIOS_INFO_0_EN NULL
+#define OPTION_VAL_GAMES_EXPRESS_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_1_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_2_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_3_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_EN NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_EN NULL
+#define PCE_FAST_CDSPEED_LABEL_EN NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_EN NULL
+#define PCE_FAST_CDSPEED_INFO_0_EN NULL
+#define OPTION_VAL_1_EN NULL
+#define OPTION_VAL_2_EN NULL
+#define OPTION_VAL_4_EN NULL
+#define OPTION_VAL_8_EN NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_EN NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EN NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_EN NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_EN NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_EN NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_EN NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_EN NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_EN NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_EN NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_EN "Remove 16-sprites-per-scan-line hardware limit. WARNING: May cause graphics glitching on some games."
+#define PCE_FAST_OCMULTIPLIER_LABEL_EN "CPU Over-clock Multiplier (Restart Required)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_EN NULL
+
+struct retro_core_option_v2_category option_cats_en[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_EN,
+      CATEGORY_VIDEO_INFO_0_EN
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_EN,
+      CATEGORY_INPUT_INFO_0_EN
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_EN,
+      CATEGORY_HACKS_INFO_0_EN
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_EN,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_EN
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_EN,
+      CATEGORY_CD_INFO_0_EN
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_en[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_EN,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_EN },
+         { "Composite", OPTION_VAL_COMPOSITE_EN },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_EN,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_EN },
+         { "manual",   OPTION_VAL_MANUAL_EN },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_EN,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_EN },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_EN,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_EN },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_EN,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_EN },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_EN,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_EN,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_EN },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_EN,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_EN,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_EN,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_EN },
+         { "0.50", OPTION_VAL_0_50_EN },
+         { "0.75", OPTION_VAL_0_75_EN },
+         { "1.00", OPTION_VAL_1_00_EN },
+         { "1.25", OPTION_VAL_1_25_EN },
+         { "1.50", OPTION_VAL_1_50_EN },
+         { "1.75", OPTION_VAL_1_75_EN },
+         { "2.00", OPTION_VAL_2_00_EN },
+         { "2.25", OPTION_VAL_2_25_EN },
+         { "2.50", OPTION_VAL_2_50_EN },
+         { "2.75", OPTION_VAL_2_75_EN },
+         { "3.00", OPTION_VAL_3_00_EN },
+         { "3.25", OPTION_VAL_3_25_EN },
+         { "3.50", OPTION_VAL_3_50_EN },
+         { "3.75", OPTION_VAL_3_75_EN },
+         { "4.00", OPTION_VAL_4_00_EN },
+         { "4.25", OPTION_VAL_4_25_EN },
+         { "4.50", OPTION_VAL_4_50_EN },
+         { "4.75", OPTION_VAL_4_75_EN },
+         { "5.00", OPTION_VAL_5_00_EN },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_EN,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_EN,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_EN,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EN,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_EN,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_EN },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_EN,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_EN,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_EN },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_EN },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_EN },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_EN },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_EN },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_EN },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_EN,
+      PCE_FAST_CDSPEED_LABEL_CAT_EN,
+      PCE_FAST_CDSPEED_INFO_0_EN,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_EN },
+         { "2", OPTION_VAL_2_EN },
+         { "4", OPTION_VAL_4_EN },
+         { "8", OPTION_VAL_8_EN },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_EN,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_0_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_EN,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_0_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_EN,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_0_EN,
+      PCE_FAST_ADPCMVOLUME_INFO_1_EN,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_EN,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_EN,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_EN,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_EN,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_en = {
+   option_cats_en,
+   option_defs_en
 };
 
 /* RETRO_LANGUAGE_EO */
@@ -9160,7 +9922,7 @@ struct retro_core_options_v2 options_es = {
 
 #define CATEGORY_VIDEO_LABEL_FA "ویدیو"
 #define CATEGORY_VIDEO_INFO_0_FA NULL
-#define CATEGORY_INPUT_LABEL_FA "داده"
+#define CATEGORY_INPUT_LABEL_FA "ورودی"
 #define CATEGORY_INPUT_INFO_0_FA NULL
 #define CATEGORY_HACKS_LABEL_FA NULL
 #define CATEGORY_HACKS_INFO_0_FA NULL
@@ -9172,12 +9934,12 @@ struct retro_core_options_v2 options_es = {
 #define PCE_FAST_PALETTE_INFO_0_FA NULL
 #define OPTION_VAL_RGB_FA NULL
 #define OPTION_VAL_COMPOSITE_FA NULL
-#define PCE_FAST_FRAMESKIP_LABEL_FA NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_FA NULL
-#define OPTION_VAL_AUTO_FA NULL
-#define OPTION_VAL_MANUAL_FA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_FA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_FA NULL
+#define PCE_FAST_FRAMESKIP_LABEL_FA "پرش فریم"
+#define PCE_FAST_FRAMESKIP_INFO_0_FA "برای جلوگیری از اجرا شدن بافر صوتی (ترق زدن) از فریم‌ها پرش کنید. عملکرد را در ازای صاف‌بودن تصویر بهبود می‌بخشد. حالت «خودکار»هنگام توصیهٔ پیشانه از روی فریم‌ها می‌پرد. حالت «دستی» تنظیم «آستانهٔ پرش فریم (٪)» را فعال می‌کند."
+#define OPTION_VAL_AUTO_FA "خودکار"
+#define OPTION_VAL_MANUAL_FA "دستی"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_FA "آستانهٔ پرش فریم (٪)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_FA "زمانی که «پرش فریم» روی «دستی» تنظیم شده باشد، آستانهٔ (درصد) اشغال بافر صوتی را برای پرش از روی فریم‌ها تنظیم می‌کند. مقادیر بالاتر احتمال ترق خوردن صدا را با رها کردن فریم‌های بیشتر، کاهش می‌دهد."
 #define OPTION_VAL_33_FA NULL
 #define PCE_FAST_HOVERSCAN_LABEL_FA NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_FA NULL
@@ -9921,17 +10683,17 @@ struct retro_core_options_v2 options_fa = {
 /* RETRO_LANGUAGE_FI */
 
 #define CATEGORY_VIDEO_LABEL_FI NULL
-#define CATEGORY_VIDEO_INFO_0_FI NULL
+#define CATEGORY_VIDEO_INFO_0_FI "Määritä näytön rajaus, kuvanohitus ja muut kuvan ulostuloparametrit."
 #define CATEGORY_INPUT_LABEL_FI "Syöte"
-#define CATEGORY_INPUT_INFO_0_FI NULL
+#define CATEGORY_INPUT_INFO_0_FI "Määritä valoaseen, hiiren ja NegCon:in syöte."
 #define CATEGORY_HACKS_LABEL_FI "Emulointikikat"
 #define CATEGORY_HACKS_INFO_0_FI "Määritä prosessorin ylikellotus- ja emuloinnin tarkkuuden asetukset, jotka vaikuttavat matalan tason suorituskykyyn ja yhteensopivuuteen."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_FI "Kanavan äänenvoimakkuuden lisäasetukset"
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_FI NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_FI "Määritä yksittäisten laitteistojen äänikanavien äänenvoimakkuus."
 #define CATEGORY_CD_LABEL_FI NULL
-#define CATEGORY_CD_INFO_0_FI NULL
+#define CATEGORY_CD_INFO_0_FI "Määritä PC Engine CD -emulointiin liittyvät asetukset."
 #define PCE_FAST_PALETTE_LABEL_FI "Väripaletti"
-#define PCE_FAST_PALETTE_INFO_0_FI NULL
+#define PCE_FAST_PALETTE_INFO_0_FI "Komposiitti yrittää uudelleen luoda alkuperäisen konsolin ulostuloa ja saattaa näyttää enemmän yksityiskohtia joissakin peleissä."
 #define OPTION_VAL_RGB_FI NULL
 #define OPTION_VAL_COMPOSITE_FI "Komposiitti"
 #define PCE_FAST_FRAMESKIP_LABEL_FI "Kuvanohitus"
@@ -9941,29 +10703,29 @@ struct retro_core_options_v2 options_fa = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_FI "Kuvienohituksen arvo (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_FI "Kun \"kehyksen ohitus\" on asetettu \"manuaaliksi\", määrittää äänipuskuri käyttökynnyksen (prosentteina), jonka alapuolella kehykset ohitetaan. Korkeammat arvot vähentävät särkymisen riskiä siten, että kehykset putoavat useammin."
 #define OPTION_VAL_33_FI "33 (Oletus)"
-#define PCE_FAST_HOVERSCAN_LABEL_FI NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_FI NULL
+#define PCE_FAST_HOVERSCAN_LABEL_FI "Vaakasuuntainen yliskannaus (Vain 352-leveystila)"
+#define PCE_FAST_HOVERSCAN_INFO_0_FI "Valitse kuvan maksimileveys, joka näytetään. Alemmat arvot rajaavat kuvan oikeaa puolta (352 px leveyden peleille)."
 #define OPTION_VAL_352_FI "352 (Oletus)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_FI NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_FI NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_FI "Ensimmäinen juova"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_FI "Ensimmäinen renderöity juova. Suuremmat arvot rajaavat kuvan yläreunan."
 #define OPTION_VAL_3_FI "3 (Oletus)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_FI NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_FI NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_FI "Viimeinen juova"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_FI "Viimeinen renderöity juova. pienemmät arvot rajaavat kuvan alareunan."
 #define OPTION_VAL_242_FI "242 (Oletus)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_FI NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_FI NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_FI "PSG Sound Channel 0 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 0 äänenvoimakkuutta."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_FI "PSG Sound Channel 1 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 1 äänenvoimakkuutta."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_FI "PSG Sound Channel 2 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 2 äänenvoimakkuutta."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_FI "PSG Sound Channel 3 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 3 äänenvoimakkuutta."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_FI "PSG Sound Channel 4 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 4 äänenvoimakkuutta."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_FI "PSG Sound Channel 5 äänenvoimakkuus %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_FI "Muokkaa PSG Sound Channel 5 äänenvoimakkuutta."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_FI "Hiiren herkkyys"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_FI NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_FI "Korkeammat arvot saavat hiiren kursorin liikkumaan nopeammin."
 #define OPTION_VAL_0_25_FI NULL
 #define OPTION_VAL_0_50_FI NULL
 #define OPTION_VAL_0_75_FI NULL
@@ -9984,43 +10746,43 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_4_50_FI NULL
 #define OPTION_VAL_4_75_FI NULL
 #define OPTION_VAL_5_00_FI NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_FI NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_FI NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_FI NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_FI "Poista soft reset käytöstä (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_FI "Kun RUN ja SELECT painetaan samanaikaisesti, poistetaan tilapäisesti molemmat painikkeet käytöstä soft resettaamisen sijaan."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_FI "Vaihda turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_FI NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_FI NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_FI "Vaihtoehtoinen turbo-pikanäppäin"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_FI NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_FI "Turbon viive"
-#define PCE_FAST_TURBO_DELAY_INFO_0_FI NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_FI NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_FI NULL
-#define PCE_FAST_CDBIOS_LABEL_FI NULL
-#define PCE_FAST_CDBIOS_INFO_0_FI NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_FI "Säädä turbo-tulituksen välistä aikaa (kuvissa)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_FI "CD-levykuvan välimuisti (Uudelleenkäynnistys vaaditaan)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_FI "Lataa koko levykuva muistiin käynnistyksen yhteydessä. Voi mahdollisesti lyhentää latausaikoja kasvavan käynnistysajan kustannuksella."
+#define PCE_FAST_CDBIOS_LABEL_FI "CD BIOS (Uudelleenkäynnistys vaaditaan)"
+#define PCE_FAST_CDBIOS_INFO_0_FI "Useimmat pelit voidaan ajaa \"System Card 3\". \"Games Express\" tarvitaan useille lisensoimattomille peleille."
 #define OPTION_VAL_GAMES_EXPRESS_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_1_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_2_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_3_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_FI NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_FI NULL
-#define PCE_FAST_CDSPEED_LABEL_FI NULL
+#define PCE_FAST_CDSPEED_LABEL_FI "(CD) CD-nopeus"
 #define PCE_FAST_CDSPEED_LABEL_CAT_FI "CD-nopeus"
-#define PCE_FAST_CDSPEED_INFO_0_FI NULL
+#define PCE_FAST_CDSPEED_INFO_0_FI "Korkeammat arvot mahdollistavat nopeammat latausajat, mutta voivat aiheuttaa ongelmia muutaman pelin kanssa."
 #define OPTION_VAL_1_FI NULL
 #define OPTION_VAL_2_FI NULL
 #define OPTION_VAL_4_FI NULL
 #define OPTION_VAL_8_FI NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_FI NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_FI NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_FI NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_FI NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_FI NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_FI NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_FI NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_FI NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_FI "(CD) ADPCM äänenvoimakkuus %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_FI "ADPCM äänenvoimakkuus %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_FI "Vain CD-peleille. Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_FI "Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
+#define PCE_FAST_CDDAVOLUME_LABEL_FI "(CD) CDDA äänenvoimakkuus %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_FI "CDDA äänenvoimakkuus %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_FI "(CD) PSG äänenvoimakkuus %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_FI "CD PSG äänenvoimakkuus %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_FI "Poista sprite-rajoitus"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_FI NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_FI NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_FI NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_FI "Poista laitteiston 16-spriten-per-juova raja. VAROITUS: Saattaa aiheuttaa grafiikkaa virheitä joissakin peleissä."
+#define PCE_FAST_OCMULTIPLIER_LABEL_FI "Prosessorin ylikellotuksen kerroin (Uudelleenkäynnistys vaaditaan)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_FI "Suuremmat arvot voivat vähentää pelien hidastumista. VAROITUS: Voi aiheuttaa virheitä ja kaatumisia."
 
 struct retro_core_option_v2_category option_cats_fi[] = {
    {
@@ -12966,52 +13728,814 @@ struct retro_core_options_v2 options_he = {
    option_defs_he
 };
 
+/* RETRO_LANGUAGE_HR */
+
+#define CATEGORY_VIDEO_LABEL_HR NULL
+#define CATEGORY_VIDEO_INFO_0_HR NULL
+#define CATEGORY_INPUT_LABEL_HR NULL
+#define CATEGORY_INPUT_INFO_0_HR NULL
+#define CATEGORY_HACKS_LABEL_HR NULL
+#define CATEGORY_HACKS_INFO_0_HR NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_HR NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_HR NULL
+#define CATEGORY_CD_LABEL_HR NULL
+#define CATEGORY_CD_INFO_0_HR NULL
+#define PCE_FAST_PALETTE_LABEL_HR NULL
+#define PCE_FAST_PALETTE_INFO_0_HR NULL
+#define OPTION_VAL_RGB_HR NULL
+#define OPTION_VAL_COMPOSITE_HR NULL
+#define PCE_FAST_FRAMESKIP_LABEL_HR NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_HR NULL
+#define OPTION_VAL_AUTO_HR NULL
+#define OPTION_VAL_MANUAL_HR NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HR NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HR NULL
+#define OPTION_VAL_33_HR NULL
+#define PCE_FAST_HOVERSCAN_LABEL_HR NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_HR NULL
+#define OPTION_VAL_352_HR NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_HR NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_HR NULL
+#define OPTION_VAL_3_HR NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_HR NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_HR NULL
+#define OPTION_VAL_242_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_HR NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_HR NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_HR NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_HR NULL
+#define OPTION_VAL_0_25_HR NULL
+#define OPTION_VAL_0_50_HR NULL
+#define OPTION_VAL_0_75_HR NULL
+#define OPTION_VAL_1_00_HR NULL
+#define OPTION_VAL_1_25_HR NULL
+#define OPTION_VAL_1_50_HR NULL
+#define OPTION_VAL_1_75_HR NULL
+#define OPTION_VAL_2_00_HR NULL
+#define OPTION_VAL_2_25_HR NULL
+#define OPTION_VAL_2_50_HR NULL
+#define OPTION_VAL_2_75_HR NULL
+#define OPTION_VAL_3_00_HR NULL
+#define OPTION_VAL_3_25_HR NULL
+#define OPTION_VAL_3_50_HR NULL
+#define OPTION_VAL_3_75_HR NULL
+#define OPTION_VAL_4_00_HR NULL
+#define OPTION_VAL_4_25_HR NULL
+#define OPTION_VAL_4_50_HR NULL
+#define OPTION_VAL_4_75_HR NULL
+#define OPTION_VAL_5_00_HR NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_HR NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HR NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_HR NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_HR NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HR NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_HR NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_HR NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_HR NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_HR NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_HR NULL
+#define PCE_FAST_CDBIOS_LABEL_HR NULL
+#define PCE_FAST_CDBIOS_INFO_0_HR NULL
+#define OPTION_VAL_GAMES_EXPRESS_HR NULL
+#define OPTION_VAL_SYSTEM_CARD_1_HR NULL
+#define OPTION_VAL_SYSTEM_CARD_2_HR NULL
+#define OPTION_VAL_SYSTEM_CARD_3_HR NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_HR NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_HR NULL
+#define PCE_FAST_CDSPEED_LABEL_HR NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_HR NULL
+#define PCE_FAST_CDSPEED_INFO_0_HR NULL
+#define OPTION_VAL_1_HR NULL
+#define OPTION_VAL_2_HR NULL
+#define OPTION_VAL_4_HR NULL
+#define OPTION_VAL_8_HR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_HR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HR NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_HR NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_HR NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_HR NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_HR NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_HR NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_HR NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_HR NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_HR NULL
+#define PCE_FAST_OCMULTIPLIER_LABEL_HR NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_HR NULL
+
+struct retro_core_option_v2_category option_cats_hr[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_HR,
+      CATEGORY_VIDEO_INFO_0_HR
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_HR,
+      CATEGORY_INPUT_INFO_0_HR
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_HR,
+      CATEGORY_HACKS_INFO_0_HR
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_HR,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_HR
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_HR,
+      CATEGORY_CD_INFO_0_HR
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_hr[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_HR,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_HR },
+         { "Composite", OPTION_VAL_COMPOSITE_HR },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_HR,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_HR },
+         { "manual",   OPTION_VAL_MANUAL_HR },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HR,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_HR },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_HR,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_HR },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_HR,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_HR },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_HR,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_HR,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_HR },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_HR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_HR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_HR,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_HR },
+         { "0.50", OPTION_VAL_0_50_HR },
+         { "0.75", OPTION_VAL_0_75_HR },
+         { "1.00", OPTION_VAL_1_00_HR },
+         { "1.25", OPTION_VAL_1_25_HR },
+         { "1.50", OPTION_VAL_1_50_HR },
+         { "1.75", OPTION_VAL_1_75_HR },
+         { "2.00", OPTION_VAL_2_00_HR },
+         { "2.25", OPTION_VAL_2_25_HR },
+         { "2.50", OPTION_VAL_2_50_HR },
+         { "2.75", OPTION_VAL_2_75_HR },
+         { "3.00", OPTION_VAL_3_00_HR },
+         { "3.25", OPTION_VAL_3_25_HR },
+         { "3.50", OPTION_VAL_3_50_HR },
+         { "3.75", OPTION_VAL_3_75_HR },
+         { "4.00", OPTION_VAL_4_00_HR },
+         { "4.25", OPTION_VAL_4_25_HR },
+         { "4.50", OPTION_VAL_4_50_HR },
+         { "4.75", OPTION_VAL_4_75_HR },
+         { "5.00", OPTION_VAL_5_00_HR },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_HR,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_HR,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_HR,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HR,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_HR,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_HR },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_HR,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_HR,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_HR,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_HR,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_HR },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_HR },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_HR },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_HR },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_HR },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_HR },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_HR,
+      PCE_FAST_CDSPEED_LABEL_CAT_HR,
+      PCE_FAST_CDSPEED_INFO_0_HR,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_HR },
+         { "2", OPTION_VAL_2_HR },
+         { "4", OPTION_VAL_4_HR },
+         { "8", OPTION_VAL_8_HR },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_HR,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_HR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_HR,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_HR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_HR,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_HR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_HR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_HR,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_HR,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_HR,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_HR,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_hr = {
+   option_cats_hr,
+   option_defs_hr
+};
+
 /* RETRO_LANGUAGE_HU */
 
 #define CATEGORY_VIDEO_LABEL_HU "Videó"
-#define CATEGORY_VIDEO_INFO_0_HU NULL
-#define CATEGORY_INPUT_LABEL_HU "Bevitel"
-#define CATEGORY_INPUT_INFO_0_HU NULL
-#define CATEGORY_HACKS_LABEL_HU NULL
-#define CATEGORY_HACKS_INFO_0_HU NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_HU NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_HU NULL
-#define CATEGORY_CD_LABEL_HU NULL
-#define CATEGORY_CD_INFO_0_HU NULL
-#define PCE_FAST_PALETTE_LABEL_HU NULL
-#define PCE_FAST_PALETTE_INFO_0_HU NULL
+#define CATEGORY_VIDEO_INFO_0_HU "Képarány, képvágás, és más képkimeneti paraméterek."
+#define CATEGORY_INPUT_LABEL_HU "Bemenet"
+#define CATEGORY_INPUT_INFO_0_HU "A fénypisztoly, az egér és a NegCon bemeneti beállításai."
+#define CATEGORY_HACKS_LABEL_HU "Emulációs trükkök"
+#define CATEGORY_HACKS_INFO_0_HU "A processzor túlhajtás és az emuláció pontosságának beállításai, amelyek befolyásolják az alacsonyszintű teljesítményt és a kompatibilitást."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_HU "Csatorna hangerő haladó beállításai"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_HU "A hardver hangcsatornáinak egymástól független beállításai."
+#define CATEGORY_CD_LABEL_HU "A PC Engine CD meghajtója"
+#define CATEGORY_CD_INFO_0_HU "A PC Engine CD emulációs beállításai."
+#define PCE_FAST_PALETTE_LABEL_HU "Színpaletta"
+#define PCE_FAST_PALETTE_INFO_0_HU "A kompozit az eredeti konzol kimenetét kísérli meg utánozni, és néhány játékban több részletet mutathat meg."
 #define OPTION_VAL_RGB_HU NULL
-#define OPTION_VAL_COMPOSITE_HU NULL
-#define PCE_FAST_FRAMESKIP_LABEL_HU NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_HU NULL
-#define OPTION_VAL_AUTO_HU NULL
+#define OPTION_VAL_COMPOSITE_HU "Kompozit"
+#define PCE_FAST_FRAMESKIP_LABEL_HU "Képkocka kihagyás"
+#define PCE_FAST_FRAMESKIP_INFO_0_HU "A hangbuffer kiürülése (recsegés) elkerülésére képkockák eldobása. Javít a teljesítményen a vizuális folyamatosság kárára. Az \"Automatikus\" beállítás akkor dob képkockát, ha a frontend azt javasolja. A \"Kézi\" a \"Képkocka kihagyás határértéke (%)\" beállítást használja."
+#define OPTION_VAL_AUTO_HU "Automatikus"
 #define OPTION_VAL_MANUAL_HU "Kézi"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HU NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HU NULL
-#define OPTION_VAL_33_HU NULL
-#define PCE_FAST_HOVERSCAN_LABEL_HU NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_HU NULL
-#define OPTION_VAL_352_HU NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_HU NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_HU NULL
-#define OPTION_VAL_3_HU NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_HU NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_HU NULL
-#define OPTION_VAL_242_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_HU NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_HU NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_HU NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_HU NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HU "Képkocka kihagyás határértéke (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HU "Ha a \"Képkocka kihagyás\" \"Kézi\" értékre van állítva, ez határozza meg a hangpuffer telítettségi határát (százalékban), amely alatt képkockákat dob el. Nagyobb érték csökkenti a recsegés kockázatát azáltal, hogy gyakrabban dob el képkockát."
+#define OPTION_VAL_33_HU "33 (alapértelmezett)"
+#define PCE_FAST_HOVERSCAN_LABEL_HU "Vízszintes overscan (csak 352 széles módban)"
+#define PCE_FAST_HOVERSCAN_INFO_0_HU "A maximális megjelenő képszélesség. Alacsonyabb értékeknél a kép jobb szélét vágja le (a 352 pixel széles játékoknál)."
+#define OPTION_VAL_352_HU "352 (alapértelmezett)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_HU "Kezdő scanline"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_HU "Az első megjelenített scanline. Nagyobb érték vágja a kép tetejét."
+#define OPTION_VAL_3_HU "3 (alapértelmezett)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_HU "Utolsó scanline"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_HU "Az utolsó megjelenített scanline. Nagyobb érték vágja a kép alját."
+#define OPTION_VAL_242_HU "242 (alapértelmezett)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_HU "PSG 0. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_HU "A PSG 0. hangcsatorna hangereje."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_HU "PSG 1. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_HU "A PSG 1. hangcsatorna hangereje."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_HU "PSG 2. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_HU "A PSG 2. hangcsatorna hangereje."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_HU "PSG 3. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_HU "A PSG 3. hangcsatorna hangereje."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_HU "PSG 4. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_HU "A PSG 4. hangcsatorna hangereje."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_HU "PSG 5. hangcsatorna hangerő %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_HU "A PSG 5. hangcsatorna hangereje."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_HU "Egér érzékenysége"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_HU "Magasabb értékek az egérkurzor gyorsabb mozgását eredményezik."
 #define OPTION_VAL_0_25_HU NULL
 #define OPTION_VAL_0_50_HU NULL
 #define OPTION_VAL_0_75_HU NULL
@@ -13032,43 +14556,43 @@ struct retro_core_options_v2 options_he = {
 #define OPTION_VAL_4_50_HU NULL
 #define OPTION_VAL_4_75_HU NULL
 #define OPTION_VAL_5_00_HU NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_HU NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HU NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_HU NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_HU NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HU NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_HU NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_HU NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_HU NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_HU NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_HU NULL
-#define PCE_FAST_CDBIOS_LABEL_HU NULL
-#define PCE_FAST_CDBIOS_INFO_0_HU NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_HU "Soft reset letiltása (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HU "A RUN és SELECT gombok egyidejű megnyomásakor mindkét gomb ideiglenes letiltása, reset helyett."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_HU "Turbo átkapcsoló"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_HU "Engedélyezi a turbo átkapcsoló gyorsgombokat (III és IV gomb)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HU "Alternatív Turbo gyorsgomb"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_HU "A III és IV gomb helyett a RetroPad L3/R3 gombjait rendeli a turbo átkapcsoláshoz. Akkor működik, ha nincs semmi az L3/R3 gombhoz rendelve. Ezzel elkerülhető a III és IV gomb átirányítása a 6-gombos kontroller módba kapcsoláskor."
+#define PCE_FAST_TURBO_DELAY_LABEL_HU "Turbo késleltetés"
+#define PCE_FAST_TURBO_DELAY_INFO_0_HU "A turbo tűz ismétlései közti idő (képkockákban)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_HU "Gyorsítótár a CD képfájlhoz (újraindítás szükséges)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_HU "Indításkor beolvassa a teljes képfájlt a memóriába. Csökkentheti a töltési időket a lassabb indulásért cserébe."
+#define PCE_FAST_CDBIOS_LABEL_HU "CD BIOS (újraindítás szükséges)"
+#define PCE_FAST_CDBIOS_INFO_0_HU "A legtöbb játék képes futni a \"System Card 3\"-mal. Számos nem licenszelt játékhoz szükség van a \"Games Express\"-re."
 #define OPTION_VAL_GAMES_EXPRESS_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_HU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_HU NULL
-#define PCE_FAST_CDSPEED_LABEL_HU NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_HU NULL
-#define PCE_FAST_CDSPEED_INFO_0_HU NULL
+#define PCE_FAST_CDSPEED_LABEL_HU "(CD) CD sebesség"
+#define PCE_FAST_CDSPEED_LABEL_CAT_HU "CD sebesség"
+#define PCE_FAST_CDSPEED_INFO_0_HU "A nagyobb értékek segítik a gyorsabb töltést, de gondot okozhatnak pár játéknál."
 #define OPTION_VAL_1_HU NULL
 #define OPTION_VAL_2_HU NULL
 #define OPTION_VAL_4_HU NULL
 #define OPTION_VAL_8_HU NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_HU NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HU NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_HU NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_HU NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_HU NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_HU NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_HU NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_HU NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_HU NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_HU NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_HU NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_HU NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_HU "(CD) ADPCM hangerő %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HU "ADPCM hangerő %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_HU "Csak CD játékoknál. Ezen hangerő túl magas értéke torzítást okozhat."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_HU "Ezen hangerő túl magas értéke torzítást okozhat."
+#define PCE_FAST_CDDAVOLUME_LABEL_HU "(CD) CDDA hangerő %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_HU "CDDA hangerő %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_HU "(CD) PSG hangerő %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_HU "CD PSG hangerő %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_HU "Nincs sprite korlátozás"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_HU "Megszünteti a hardver soronként legfeljebb 16 sprite-os korlátozását. Figyelem: grafikus hibákat okozhat néhány játéknál."
+#define PCE_FAST_OCMULTIPLIER_LABEL_HU "CPU túlhajtás szorzó (újraindítás szükséges)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_HU "Nagyobb értékek csökkenthetik a lassulást a játékokban. Figyelem: hibákat és összeomlást okozhat."
 
 struct retro_core_option_v2_category option_cats_hu[] = {
    {
@@ -13746,10 +15270,10 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_COMPOSITE_ID NULL
 #define PCE_FAST_FRAMESKIP_LABEL_ID NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_ID NULL
-#define OPTION_VAL_AUTO_ID NULL
+#define OPTION_VAL_AUTO_ID "Otomatis"
 #define OPTION_VAL_MANUAL_ID NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_ID NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_ID "Saat 'Frameskip' di setel ke 'Manual', tentukan ambang batas hunian buffer audio (persentase) di bawah frame mana yang akan dilewati. Nilai yang lebih tinggi mengurangi risiko keretakan dengan menyebabkan bingkai frame lebih sering dijatuhkan."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_ID "Saat 'Lewati Bingkai' diatur ke 'Manual', tentukan (persentase) ambang batas hunian penyangga audio di bawah untuk bingkai mana yang dilewati. Nilai yang lebih tinggi mengurangi risiko keretakan dengan cara membuat laju bingkai sering anjlok."
 #define OPTION_VAL_33_ID NULL
 #define PCE_FAST_HOVERSCAN_LABEL_ID NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_ID NULL
@@ -13800,8 +15324,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_ID NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_ID NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
+#define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_ID NULL
 #define PCE_FAST_CDIMAGECACHE_INFO_0_ID NULL
 #define PCE_FAST_CDBIOS_LABEL_ID NULL
@@ -15262,28 +16786,28 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_HACKS_INFO_0_JA NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_JA NULL
-#define CATEGORY_CD_LABEL_JA NULL
+#define CATEGORY_CD_LABEL_JA "PCエンジン CD"
 #define CATEGORY_CD_INFO_0_JA NULL
-#define PCE_FAST_PALETTE_LABEL_JA NULL
+#define PCE_FAST_PALETTE_LABEL_JA "カラーパレット"
 #define PCE_FAST_PALETTE_INFO_0_JA NULL
 #define OPTION_VAL_RGB_JA NULL
-#define OPTION_VAL_COMPOSITE_JA NULL
+#define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define PCE_FAST_FRAMESKIP_LABEL_JA "フレームスキップ"
 #define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。 「自動」は、フロントエンドにアドバイスされたときにフレームをスキップします。「マニュアル」は、「フレームスキップ閾値 (%)」設定を使用します。"
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_MANUAL_JA "手動"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップ閾値 (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "'フレームスキップ' が '手動' に設定されている場合, フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します. 値を大きくすると, フレームを頻繁に落とすことでクラッキングが発生するリスクが低下します."
-#define OPTION_VAL_33_JA NULL
+#define OPTION_VAL_33_JA "33 (デフォルト)"
 #define PCE_FAST_HOVERSCAN_LABEL_JA NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
-#define OPTION_VAL_352_JA NULL
+#define OPTION_VAL_352_JA "352 (デフォルト)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_JA NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA NULL
-#define OPTION_VAL_3_JA NULL
+#define OPTION_VAL_3_JA "3 (デフォルト)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_JA NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_JA NULL
-#define OPTION_VAL_242_JA NULL
+#define OPTION_VAL_242_JA "242 (デフォルト)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA NULL
@@ -19923,7 +21447,7 @@ struct retro_core_options_v2 options_oc = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_PL "Głośność CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_PL "(CD) Głośność PSG %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_PL "Głośność CD PSG %"
-#define PCE_FAST_NOSPRITELIMIT_LABEL_PL "Bez limitu duszków"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_PL "Bez limitu Sprite'ów"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_PL NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_PL "Mnożnik podkręcania CPU (wymagany restart)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_PL NULL
@@ -21366,20 +22890,20 @@ struct retro_core_options_v2 options_pt_br = {
 #define OPTION_VAL_COMPOSITE_PT_PT NULL
 #define PCE_FAST_FRAMESKIP_LABEL_PT_PT NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_PT_PT NULL
-#define OPTION_VAL_AUTO_PT_PT NULL
+#define OPTION_VAL_AUTO_PT_PT "Automático"
 #define OPTION_VAL_MANUAL_PT_PT NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_PT NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_PT NULL
-#define OPTION_VAL_33_PT_PT NULL
+#define OPTION_VAL_33_PT_PT "33 (Padrão)"
 #define PCE_FAST_HOVERSCAN_LABEL_PT_PT NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_PT_PT NULL
-#define OPTION_VAL_352_PT_PT NULL
+#define OPTION_VAL_352_PT_PT "352 (Padrão)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_PT NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_PT_PT NULL
-#define OPTION_VAL_3_PT_PT NULL
+#define OPTION_VAL_3_PT_PT "3 (Padrão)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_PT_PT NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_PT_PT NULL
-#define OPTION_VAL_242_PT_PT NULL
+#define OPTION_VAL_242_PT_PT "242 (Padrão)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_PT_PT NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_PT_PT NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_PT_PT NULL
@@ -21422,18 +22946,18 @@ struct retro_core_options_v2 options_pt_br = {
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_PT_PT NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_PT_PT NULL
 #define PCE_FAST_TURBO_DELAY_INFO_0_PT_PT NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_PT_PT NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_PT_PT "Cache da Imagem do CD (Reinicialização necessária)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_PT_PT NULL
-#define PCE_FAST_CDBIOS_LABEL_PT_PT NULL
+#define PCE_FAST_CDBIOS_LABEL_PT_PT "BIOS do CD (Reinicialização necessária)"
 #define PCE_FAST_CDBIOS_INFO_0_PT_PT NULL
 #define OPTION_VAL_GAMES_EXPRESS_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_1_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_PT_PT NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_PT_PT NULL
-#define PCE_FAST_CDSPEED_LABEL_PT_PT NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_PT_PT NULL
+#define OPTION_VAL_SYSTEM_CARD_1_PT_PT "Cartão de Sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_PT_PT "Cartão de Sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_PT_PT "Cartão de Sistema 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_PT_PT "Cartão de Sistema 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_PT_PT "Cartão de Sistema 3 US"
+#define PCE_FAST_CDSPEED_LABEL_PT_PT "(CD) Velocidade do CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_PT_PT "Velocidade do CD"
 #define PCE_FAST_CDSPEED_INFO_0_PT_PT NULL
 #define OPTION_VAL_1_PT_PT NULL
 #define OPTION_VAL_2_PT_PT NULL
@@ -22875,7 +24399,7 @@ struct retro_core_options_v2 options_ro = {
 /* RETRO_LANGUAGE_RU */
 
 #define CATEGORY_VIDEO_LABEL_RU "Видео"
-#define CATEGORY_VIDEO_INFO_0_RU NULL
+#define CATEGORY_VIDEO_INFO_0_RU "Настройки кадрирования, пропуска кадров и других параметров изображения."
 #define CATEGORY_INPUT_LABEL_RU "Ввод"
 #define CATEGORY_INPUT_INFO_0_RU "Настройки ввода для светового пистолета, мыши и NegCon."
 #define CATEGORY_HACKS_LABEL_RU "Хаки эмуляции"
@@ -22883,9 +24407,9 @@ struct retro_core_options_v2 options_ro = {
 #define CATEGORY_CHANNEL_VOLUME_LABEL_RU "Расширенные настройки громкости"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_RU "Индивидуальная настройка громкости аудиоканалов."
 #define CATEGORY_CD_LABEL_RU NULL
-#define CATEGORY_CD_INFO_0_RU NULL
+#define CATEGORY_CD_INFO_0_RU "Настройка параметров, относящихся к эмуляции PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_RU "Цветовая палитра"
-#define PCE_FAST_PALETTE_INFO_0_RU NULL
+#define PCE_FAST_PALETTE_INFO_0_RU "Композитный пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
 #define OPTION_VAL_RGB_RU NULL
 #define OPTION_VAL_COMPOSITE_RU "Композитный"
 #define PCE_FAST_FRAMESKIP_LABEL_RU "Пропуск кадров"
@@ -22895,32 +24419,32 @@ struct retro_core_options_v2 options_ro = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_RU "Граница пропуска кадров (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_RU "Устанавливает порог заполнения аудиобуфера (в процентах), ниже которого будет включаться пропуск кадров, если для параметра 'Пропуск кадров' выбран режим 'Вручную'. Большие значения снижают вероятность появления треска за счёт более частого пропуска кадров."
 #define OPTION_VAL_33_RU "33 (по умолчанию)"
-#define PCE_FAST_HOVERSCAN_LABEL_RU NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_RU NULL
+#define PCE_FAST_HOVERSCAN_LABEL_RU "Горизонт. вылеты развёртки (только для режима ширины 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Меньшие значения обрезают правую часть картинки (для игр с шириной 352 пикселя)."
 #define OPTION_VAL_352_RU "352 (по умолчанию)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_RU NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_RU "Первая строка развёртки"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU "Начальная отображаемая строка развёртки. Более высокие значения обрезают верхнюю часть изображения."
 #define OPTION_VAL_3_RU "3 (по умолчанию)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_RU NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_RU NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_RU "Последняя строка развёртки"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_RU "Последняя отображаемая строка развёртки. Более высокие значения обрезают нижнюю часть изображения."
 #define OPTION_VAL_242_RU "242 (по умолчанию)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_RU NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_RU NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_RU "Громкость звукового канала PSG 0 (%)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_RU "Громкость звукового канала PSG 1 (%)"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_RU "Громкость звукового канала PSG 2 (%)"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_RU "Громкость звукового канала PSG 3 (%)"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_RU "Громкость звукового канала PSG 4 (%)"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_RU "Громкость звукового канала PSG 5 (%)"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 5."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_RU "Чувствительность мыши"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_RU NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_RU "Более высокие значения повышают скорость перемещения курсора мыши."
 #define OPTION_VAL_0_25_RU NULL
 #define OPTION_VAL_0_50_RU NULL
-#define OPTION_VAL_0_75_RU NULL
+#define OPTION_VAL_0_75_RU "CONTEXTREQUEST"
 #define OPTION_VAL_1_00_RU NULL
 #define OPTION_VAL_1_25_RU NULL
 #define OPTION_VAL_1_50_RU NULL
@@ -22938,43 +24462,43 @@ struct retro_core_options_v2 options_ro = {
 #define OPTION_VAL_4_50_RU NULL
 #define OPTION_VAL_4_75_RU NULL
 #define OPTION_VAL_5_00_RU NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_RU NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_RU NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_RU NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_RU NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_RU NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_RU NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_RU "Отключить мягкий сброс (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_RU "Переключатель турбо"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_RU "Активирует горячие клавиши для включения турбо (кнопки III и IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_RU "Альтернативное включение турбо"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_RU "Назначает кнопки RetroPad'а L3/R3 в качестве горячих клавиш для включения турбо вместо кнопок III и IV. Работает только при отсутствии привязок к кнопкам L3/R3. Позволяет избежать переназначения кнопок III и IV в режиме 6-кнопочного контроллера."
 #define PCE_FAST_TURBO_DELAY_LABEL_RU "Задержка турбо"
-#define PCE_FAST_TURBO_DELAY_INFO_0_RU NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_RU NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_RU NULL
-#define PCE_FAST_CDBIOS_LABEL_RU NULL
-#define PCE_FAST_CDBIOS_INFO_0_RU NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_RU "Настраивает промежуток между повторами нажатий (в кадрах)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_RU "Кэшировать образ CD (требуется перезапуск)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_RU "При запуске загружать полный образ диска в память. Может снижать время загрузок, но увеличивает время запуска."
+#define PCE_FAST_CDBIOS_LABEL_RU "CD BIOS (требуется перезапуск)"
+#define PCE_FAST_CDBIOS_INFO_0_RU "Большинство игр запускаются с 'System Card 3'. 'Games Express' требуется для некоторых нелицензированных игр."
 #define OPTION_VAL_GAMES_EXPRESS_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_RU NULL
-#define PCE_FAST_CDSPEED_LABEL_RU NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_RU NULL
-#define PCE_FAST_CDSPEED_INFO_0_RU NULL
+#define PCE_FAST_CDSPEED_LABEL_RU "(CD) Скорость CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_RU "Cкорость CD"
+#define PCE_FAST_CDSPEED_INFO_0_RU "Более высокие значения ускоряют загрузки, но могут вызывать проблемы в отдельных играх."
 #define OPTION_VAL_1_RU NULL
 #define OPTION_VAL_2_RU NULL
 #define OPTION_VAL_4_RU NULL
 #define OPTION_VAL_8_RU NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_RU NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_RU NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_RU NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_RU NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_RU NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_RU NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_RU NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_RU NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_RU "(CD) Громкость ADPCM"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_RU "Громкость ADPCM (%)"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_RU "Только для CD-игр. Слишком высокие значения могут приводить к искажениям звука."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_RU "Слишком высокие значения могут приводить к искажениям звука."
+#define PCE_FAST_CDDAVOLUME_LABEL_RU "(CD) Громкость CDDA"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_RU "Громкость CDDA (%)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_RU "Громкость PSG (%)"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_RU "Без ограничения спрайтов"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_RU NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_RU NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_RU NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_RU "Снимает аппаратное ограничение в 16 спрайтов на линии развёртки. ВНИМАНИЕ: в некоторых играх может вызывать графические баги."
+#define PCE_FAST_OCMULTIPLIER_LABEL_RU "Множитель разгона CPU (требуется перезапуск)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_RU "Более высокие значения уменьшают замедления в играх. ВНИМАНИЕ: может приводить к багам и вылетам."
 
 struct retro_core_option_v2_category option_cats_ru[] = {
    {
@@ -26695,7 +28219,7 @@ struct retro_core_options_v2 options_sv = {
 #define CATEGORY_CD_LABEL_TR NULL
 #define CATEGORY_CD_INFO_0_TR "PC Engine CD emulatörü ilgili ayarları yapılandırın."
 #define PCE_FAST_PALETTE_LABEL_TR "Renk Paleti"
-#define PCE_FAST_PALETTE_INFO_0_TR NULL
+#define PCE_FAST_PALETTE_INFO_0_TR "Kompozit video ayarı orjinal konsolun video çıkışını taklit etmeye çalışır ve bazı oyunlarda daha fazla ayrıntı sunabilir."
 #define OPTION_VAL_RGB_TR NULL
 #define OPTION_VAL_COMPOSITE_TR NULL
 #define PCE_FAST_FRAMESKIP_LABEL_TR "Kare Atlama"
@@ -26706,26 +28230,26 @@ struct retro_core_options_v2 options_sv = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_TR "'Kare Atlama', 'El ile' olarak ayarlandığında, altındaki karelerin atlanacağı ses arabelleği doluluk eşiğini (yüzde) belirtir. Daha yüksek değerler, çerçevelerin daha sık düşmesine neden olarak çatlama riskini azaltır."
 #define OPTION_VAL_33_TR "33 (Varsayılan)"
 #define PCE_FAST_HOVERSCAN_LABEL_TR "Yatay Aşırı Tarama (Yalnızca 352 Genişlik Kipi)"
-#define PCE_FAST_HOVERSCAN_INFO_0_TR NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_TR "Gösterilecek azami görüntü genişliği. Düşürülen değerler görüntünün sağ tarafını kırpacaktır. (352 pk genişliğindeki oyunlar)."
 #define OPTION_VAL_352_TR "352 (Varsayılan)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_TR "İlk Tarama Çizgisi"
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_TR NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_TR "İlk işlenen tarama çizgisi. Yükseltilen değerler görüntünün üstünü kırpacaktır."
 #define OPTION_VAL_3_TR "3 (Varsayılan)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_TR "Son Tarama Çizgisi"
-#define PCE_FAST_LAST_SCANLINE_INFO_0_TR NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_TR "Son işlenen tarama çizgisi. Düşürülen değerler görüntünün alt kısmını kırpacaktır."
 #define OPTION_VAL_242_TR "242 (Varsayılan)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_TR NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_TR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_TR "PSG Ses Kanalı 0 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_TR "PSG Ses Kanalı 0'ın ses seviyesini değiştirir."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_TR "PSG Ses Kanalı 1 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_TR "PSG Ses Kanalı 1'in ses seviyesini değiştirir."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_TR "PSG Ses Kanalı 2 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_TR "PSG Ses Kanalı 2'nin ses seviyesini değiştirir."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_TR "PSG Ses Kanalı 3 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_TR "PSG Ses Kanalı 3'ün ses seviyesini değiştirir."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_TR "PSG Ses Kanalı 4 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_TR "PSG Ses Kanalı 4'ün ses seviyesini değiştirir."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_TR "PSG Ses Kanalı 5 Ses Seviyesi %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_TR "PSG Ses Kanalı 5'in ses seviyesini değiştirir."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_TR "Fare Hassasiyeti"
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_TR "Daha yüksek değerler, fare imlecinin daha hızlı hareket etmesini sağlar."
 #define OPTION_VAL_0_25_TR NULL
@@ -26748,18 +28272,18 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_4_50_TR NULL
 #define OPTION_VAL_4_75_TR NULL
 #define OPTION_VAL_5_00_TR NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_TR NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_TR NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_TR NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_TR NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_TR "Yazılımdan Sıfırlama Devre Dışı (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_TR "RUN ve SELECT tuşlarına aynı anda basıldığında, yeniden başlatmak yerine iki tuşu da geçici olarak devre dışı bırak."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_TR "Turbo Değiştir"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_TR "Turbo geçiş tuşlarını etkinleştir (III ve IV tuşları)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_TR "Alternatif Turbo Kısayol Tuşu"
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_TR NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_TR "Retropad L3/R3 tuşlarını, III ve IV tuşlarının yerine turbo geçişi için ata. L3/R3 tuşlarına başka bir şey atanmadığı sürece çalışır. Bununla 6-tuşlu kontrolcü kipine geçerken III ve IV tuşlarını yapılandırmayabilirsiniz."
 #define PCE_FAST_TURBO_DELAY_LABEL_TR "Turbo Gecikmesi"
-#define PCE_FAST_TURBO_DELAY_INFO_0_TR NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_TR NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_TR NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_TR "Turbo sinyallerinin zamanlamasını ayarla. (kare başına)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_TR "CD Kalıbı Önbelleği (Yeniden Başlatılmalı)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_TR "Başlangıç sırasında bütün kalıbı hafızaya yükler. Başlangıç sürecini uzatmak pahasına oyundaki yüklenme sürelerini kısaltabilir."
 #define PCE_FAST_CDBIOS_LABEL_TR "CD BIOS (Yeniden Başlatılmalı)"
-#define PCE_FAST_CDBIOS_INFO_0_TR NULL
+#define PCE_FAST_CDBIOS_INFO_0_TR "Oyunların çoğu \"System Card 3\" üzerinde çalışabilir. Birkaç lisanssız oyun, Game Express'e ihtiyaç duyar."
 #define OPTION_VAL_GAMES_EXPRESS_TR NULL
 #define OPTION_VAL_SYSTEM_CARD_1_TR "Sistem Kartı 1"
 #define OPTION_VAL_SYSTEM_CARD_2_TR "Sistem Kartı 2"
@@ -26768,23 +28292,23 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_TR "Sistem Kartı 3 US"
 #define PCE_FAST_CDSPEED_LABEL_TR "(CD) CD Hızı"
 #define PCE_FAST_CDSPEED_LABEL_CAT_TR "CD Hızı"
-#define PCE_FAST_CDSPEED_INFO_0_TR NULL
+#define PCE_FAST_CDSPEED_INFO_0_TR "Yükseltilen değerler daha hızlı yüklenmeyi etkinleştiririr, birkaç oyunda sorunlara sebep olabilir."
 #define OPTION_VAL_1_TR NULL
 #define OPTION_VAL_2_TR NULL
 #define OPTION_VAL_4_TR NULL
 #define OPTION_VAL_8_TR NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_TR NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_TR NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_TR NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_TR NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_TR NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_TR NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_TR NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_TR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_TR "(CD) ADPCM Ses Seviyesi %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_TR "ADPCM Ses Seviyesi %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_TR "Sadece CD oyunları için. Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_TR "Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
+#define PCE_FAST_CDDAVOLUME_LABEL_TR "(CD) CDDA Ses Seviyesi %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_TR "CDDA Ses Seviyesi %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_TR "(CD) PSG Ses Seviyesi %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_TR "CD PSG Ses Seviyesi %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_TR "Hareket Sınırını Kaldır"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_TR NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_TR NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_TR NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_TR "Tarama çizgisi başına 16 hareket donanım sınırını kaldırır. UYARI: Bazı oyunlarda bozulmlara sebep olabilir."
+#define PCE_FAST_OCMULTIPLIER_LABEL_TR "CPU Hız Aşırtma Çarpanı (Yeniden Başlatılmalı)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_TR "Yükseltilen değer bazı oyunlardaki yavaşlamaları düşürebilir. UYARI: Bozulmalara ve çökmelere sebep olabilir."
 
 struct retro_core_option_v2_category option_cats_tr[] = {
    {
@@ -27447,35 +28971,35 @@ struct retro_core_options_v2 options_tr = {
 /* RETRO_LANGUAGE_UK */
 
 #define CATEGORY_VIDEO_LABEL_UK "Відео"
-#define CATEGORY_VIDEO_INFO_0_UK NULL
+#define CATEGORY_VIDEO_INFO_0_UK "Налаштувати обрізання екрану, пропуску кадрів та інших параметрів зображення."
 #define CATEGORY_INPUT_LABEL_UK "Ввід"
-#define CATEGORY_INPUT_INFO_0_UK NULL
+#define CATEGORY_INPUT_INFO_0_UK "Налаштування світлового пістолета, миші та NegCon."
 #define CATEGORY_HACKS_LABEL_UK "Гаки емуляції"
 #define CATEGORY_HACKS_INFO_0_UK "Налаштування розгону процесора та точності емуляції, що впливають на низькорівневу продуктивність та сумісність."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_UK "Розширені налаштування гучності"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_UK "Індивідуальні налаштування гучності аудіоканалів системи."
 #define CATEGORY_CD_LABEL_UK NULL
 #define CATEGORY_CD_INFO_0_UK NULL
-#define PCE_FAST_PALETTE_LABEL_UK NULL
-#define PCE_FAST_PALETTE_INFO_0_UK NULL
+#define PCE_FAST_PALETTE_LABEL_UK "Кольорова палітра"
+#define PCE_FAST_PALETTE_INFO_0_UK "Композитний намагається відтворити оригінальний вивід консолі та може показати більше деталей у деяких іграх."
 #define OPTION_VAL_RGB_UK NULL
-#define OPTION_VAL_COMPOSITE_UK NULL
+#define OPTION_VAL_COMPOSITE_UK "Композитний"
 #define PCE_FAST_FRAMESKIP_LABEL_UK "Пропуск кадру"
 #define PCE_FAST_FRAMESKIP_INFO_0_UK "Пропускати кадри, щоб уникнути спустошення буферу (тріскіт). Покращує швидкодію, погіршуючи плавність зображення. 'Авто' пропускає кадри, керуючись командами зовнішньої оболонки. 'Ручний' використовує налаштування 'Межа пропуску кадрів (%)'."
 #define OPTION_VAL_AUTO_UK "Авто"
 #define OPTION_VAL_MANUAL_UK "Ручний"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_UK "Межа пропуску кадрів (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_UK "Якщо 'Пропус кадрів' встановлено у 'Вручну', зазначає граничне значення оточення аудіо-буферу (відсоток), нижчі за які кадри будуть пропущені. Більш високі значення зменшують ризик зломування, викликаючи зменшення кадрів частіше."
-#define OPTION_VAL_33_UK NULL
-#define PCE_FAST_HOVERSCAN_LABEL_UK NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_UK NULL
-#define OPTION_VAL_352_UK NULL
+#define OPTION_VAL_33_UK "33 (за замовчуванням)"
+#define PCE_FAST_HOVERSCAN_LABEL_UK "Горизонтальна розгортка (тільки в режимі ширини 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_UK "Виберіть максимальну ширину зображення, яку слід показувати. Менші значення будуть обрізати праву частину зображення (для ігор шириною 352 пікселі)."
+#define OPTION_VAL_352_UK "352 (за замовчуванням)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_UK NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_UK NULL
-#define OPTION_VAL_3_UK NULL
+#define OPTION_VAL_3_UK "3 (за замовчуванням)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_UK NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_UK NULL
-#define OPTION_VAL_242_UK NULL
+#define OPTION_VAL_242_UK "242 (за замовчуванням)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_UK NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_UK NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_UK NULL
@@ -27488,9 +29012,9 @@ struct retro_core_options_v2 options_tr = {
 #define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_UK NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_UK NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_UK NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_UK NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_UK NULL
-#define OPTION_VAL_0_25_UK NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_UK "Чутливість миші"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_UK "Великі значення змусять курсор миші рухатися швидше."
+#define OPTION_VAL_0_25_UK "0,25"
 #define OPTION_VAL_0_50_UK NULL
 #define OPTION_VAL_0_75_UK NULL
 #define OPTION_VAL_1_00_UK NULL
@@ -27510,16 +29034,16 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_4_50_UK NULL
 #define OPTION_VAL_4_75_UK NULL
 #define OPTION_VAL_5_00_UK NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_UK NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_UK NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_UK "Вимкнути програмне скидання (РУХ+ВИБІР)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_UK NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_UK NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_UK NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_UK "Альтернативні турбокнопки"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_UK NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_UK NULL
 #define PCE_FAST_TURBO_DELAY_INFO_0_UK NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_UK NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_UK NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_UK "Кеш образу CD (потрібен перезапуск)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_UK "Завантажувати повне зображення в пам'ять під час запуску. Може зменшувати час завантаження за рахунок збільшення часу запуску."
 #define PCE_FAST_CDBIOS_LABEL_UK NULL
 #define PCE_FAST_CDBIOS_INFO_0_UK NULL
 #define OPTION_VAL_GAMES_EXPRESS_UK NULL
@@ -28208,9 +29732,9 @@ struct retro_core_options_v2 options_uk = {
 
 /* RETRO_LANGUAGE_VAL */
 
-#define CATEGORY_VIDEO_LABEL_VAL "Vídeo"
+#define CATEGORY_VIDEO_LABEL_VAL NULL
 #define CATEGORY_VIDEO_INFO_0_VAL NULL
-#define CATEGORY_INPUT_LABEL_VAL "Entrada"
+#define CATEGORY_INPUT_LABEL_VAL NULL
 #define CATEGORY_INPUT_INFO_0_VAL NULL
 #define CATEGORY_HACKS_LABEL_VAL NULL
 #define CATEGORY_HACKS_INFO_0_VAL NULL
@@ -28224,8 +29748,8 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_COMPOSITE_VAL NULL
 #define PCE_FAST_FRAMESKIP_LABEL_VAL NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_VAL NULL
-#define OPTION_VAL_AUTO_VAL NULL
-#define OPTION_VAL_MANUAL_VAL NULL
+#define OPTION_VAL_AUTO_VAL "Selecció automàtica"
+#define OPTION_VAL_MANUAL_VAL "Selecció manual"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_VAL NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_VAL NULL
 #define OPTION_VAL_33_VAL NULL
@@ -28252,26 +29776,26 @@ struct retro_core_options_v2 options_uk = {
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_VAL NULL
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_VAL NULL
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_VAL NULL
-#define OPTION_VAL_0_25_VAL NULL
-#define OPTION_VAL_0_50_VAL NULL
-#define OPTION_VAL_0_75_VAL NULL
-#define OPTION_VAL_1_00_VAL NULL
-#define OPTION_VAL_1_25_VAL NULL
-#define OPTION_VAL_1_50_VAL NULL
-#define OPTION_VAL_1_75_VAL NULL
-#define OPTION_VAL_2_00_VAL NULL
-#define OPTION_VAL_2_25_VAL NULL
-#define OPTION_VAL_2_50_VAL NULL
-#define OPTION_VAL_2_75_VAL NULL
-#define OPTION_VAL_3_00_VAL NULL
-#define OPTION_VAL_3_25_VAL NULL
-#define OPTION_VAL_3_50_VAL NULL
-#define OPTION_VAL_3_75_VAL NULL
-#define OPTION_VAL_4_00_VAL NULL
-#define OPTION_VAL_4_25_VAL NULL
-#define OPTION_VAL_4_50_VAL NULL
-#define OPTION_VAL_4_75_VAL NULL
-#define OPTION_VAL_5_00_VAL NULL
+#define OPTION_VAL_0_25_VAL "0,25"
+#define OPTION_VAL_0_50_VAL "0,50"
+#define OPTION_VAL_0_75_VAL "0,75"
+#define OPTION_VAL_1_00_VAL "1,00"
+#define OPTION_VAL_1_25_VAL "1,25"
+#define OPTION_VAL_1_50_VAL "1,50"
+#define OPTION_VAL_1_75_VAL "1,75"
+#define OPTION_VAL_2_00_VAL "2,00"
+#define OPTION_VAL_2_25_VAL "2,25"
+#define OPTION_VAL_2_50_VAL "2,50"
+#define OPTION_VAL_2_75_VAL "2,75"
+#define OPTION_VAL_3_00_VAL "3,00"
+#define OPTION_VAL_3_25_VAL "3,25"
+#define OPTION_VAL_3_50_VAL "3,50"
+#define OPTION_VAL_3_75_VAL "3,75"
+#define OPTION_VAL_4_00_VAL "4,00"
+#define OPTION_VAL_4_25_VAL "4,25"
+#define OPTION_VAL_4_50_VAL "4,50"
+#define OPTION_VAL_4_75_VAL "4,75"
+#define OPTION_VAL_5_00_VAL "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_VAL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_VAL NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_VAL NULL
@@ -28971,35 +30495,35 @@ struct retro_core_options_v2 options_val = {
 /* RETRO_LANGUAGE_VN */
 
 #define CATEGORY_VIDEO_LABEL_VN "Hình ảnh"
-#define CATEGORY_VIDEO_INFO_0_VN NULL
+#define CATEGORY_VIDEO_INFO_0_VN "Tùy chỉnh crop màn hình, bỏ qua khung hình và các thông số đầu ra hình ảnh khác."
 #define CATEGORY_INPUT_LABEL_VN "Input Driver"
-#define CATEGORY_INPUT_INFO_0_VN NULL
-#define CATEGORY_HACKS_LABEL_VN NULL
-#define CATEGORY_HACKS_INFO_0_VN NULL
+#define CATEGORY_INPUT_INFO_0_VN "Định cấu hình đầu vào của súng, chuột và NegCon."
+#define CATEGORY_HACKS_LABEL_VN "Hacks giả lập"
+#define CATEGORY_HACKS_INFO_0_VN "Định cấu hình các thông số độ chính xác của việc ép xung và mô phỏng bộ xử lý ảnh hưởng đến hiệu suất và khả năng tương thích ở mức thấp."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_VN "Tùy chỉnh cài đặt kênh âm thanh"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_VN "Chỉnh sửa âm thanh của phần cứng riêng lẻ."
 #define CATEGORY_CD_LABEL_VN NULL
-#define CATEGORY_CD_INFO_0_VN NULL
-#define PCE_FAST_PALETTE_LABEL_VN NULL
-#define PCE_FAST_PALETTE_INFO_0_VN NULL
+#define CATEGORY_CD_INFO_0_VN "Định cấu hình cài đặt liên quan đến trình mô phỏng PC Engine CD."
+#define PCE_FAST_PALETTE_LABEL_VN "Bảng màu"
+#define PCE_FAST_PALETTE_INFO_0_VN "Tổng hợp các cố gắng để tạo lại đầu ra bảng điều khiển ban đầu và có thể hiển thị thêm chi tiết trong một số trò chơi."
 #define OPTION_VAL_RGB_VN NULL
-#define OPTION_VAL_COMPOSITE_VN NULL
+#define OPTION_VAL_COMPOSITE_VN "Kết hợp"
 #define PCE_FAST_FRAMESKIP_LABEL_VN "Bỏ qua khung hình"
-#define PCE_FAST_FRAMESKIP_INFO_0_VN NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_VN "Bỏ qua khung hình để tránh bộ đệm âm thanh chạy dưới mức (tiếng kêu lách tách). Cải thiện hiệu suất với độ mượt mà của hình ảnh. 'Tự động' bỏ qua khung khi giao diện người dùng thông báo. 'Thủ công' sử dụng cài đặt 'Ngưỡng khung hình (%)'."
 #define OPTION_VAL_AUTO_VN "Tự động"
 #define OPTION_VAL_MANUAL_VN "Thủ công"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_VN NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_VN NULL
-#define OPTION_VAL_33_VN NULL
-#define PCE_FAST_HOVERSCAN_LABEL_VN NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_VN "Ngưỡng bỏ qua khung hình (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_VN "Khi 'Frameskip' được đặt thành 'Thủ công', chỉ định ngưỡng chiếm dụng bộ đệm âm thanh (tỷ lệ phần trăm) dưới khung hình nào sẽ bị bỏ qua. Giá trị cao hơn làm giảm nguy cơ giật lag do làm rơi khung thường xuyên hơn."
+#define OPTION_VAL_33_VN "33 (Mặc định)"
+#define PCE_FAST_HOVERSCAN_LABEL_VN "Quét theo chiều ngang (Chỉ dành cho chế độ chiều rộng 352)"
 #define PCE_FAST_HOVERSCAN_INFO_0_VN NULL
-#define OPTION_VAL_352_VN NULL
+#define OPTION_VAL_352_VN "352 (Mặc định)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_VN NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_VN NULL
-#define OPTION_VAL_3_VN NULL
+#define OPTION_VAL_3_VN "3 (Mặc định)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_VN NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_VN NULL
-#define OPTION_VAL_242_VN NULL
+#define OPTION_VAL_242_VN "242 (Mặc định)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_VN NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_VN NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_VN NULL
