@@ -1143,7 +1143,7 @@ static int HuCLoadCD(const char *bios_path)
 
    memset(ROMSpace, 0xFF, 262144);
 
-   memcpy(ROMSpace, GET_FDATA_PTR(fp) + (GET_FSIZE_PTR(fp) & 512), ((GET_FSIZE_PTR(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE_PTR(fp) &~ 512) );
+   memcpy(ROMSpace, fp->data + (fp->size & 512), ((fp->size & ~512) > 262144) ? 262144 : (fp->size &~ 512) );
 
    if (fp)
       file_close(fp);
@@ -1509,8 +1509,8 @@ static bool MDFNI_LoadGame(const char *path, const char *ext,
       if(!GameFile)
          goto error;
 
-      content_data = GET_FDATA_PTR(GameFile);
-      content_size = GET_FSIZE_PTR(GameFile);
+      content_data = GameFile->data;
+      content_size = GameFile->size;
    }
 
    if(Load(content_data, content_size) <= 0)
