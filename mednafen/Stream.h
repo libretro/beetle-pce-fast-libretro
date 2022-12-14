@@ -5,7 +5,6 @@
 
 // TODO?: BufferedStream, no virtual functions, yes inline functions, constructor takes a Stream* argument.
 
-#include <errno.h>
 #include <string>
 
 #include "mednafen-types.h"
