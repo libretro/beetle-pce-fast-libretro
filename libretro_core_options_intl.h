@@ -17541,17 +17541,17 @@ struct retro_core_options_v2 options_ja = {
 /* RETRO_LANGUAGE_KO */
 
 #define CATEGORY_VIDEO_LABEL_KO "비디오"
-#define CATEGORY_VIDEO_INFO_0_KO NULL
+#define CATEGORY_VIDEO_INFO_0_KO "화면 자르기, 프레임 건너뛰기 등 기타 이미지 출력 매개변수를 구성합니다."
 #define CATEGORY_INPUT_LABEL_KO "입력"
-#define CATEGORY_INPUT_INFO_0_KO NULL
+#define CATEGORY_INPUT_INFO_0_KO "라이트 건, 마우스, 네지콘 입력 등을 설정합니다."
 #define CATEGORY_HACKS_LABEL_KO "에뮬레이션 핵"
 #define CATEGORY_HACKS_INFO_0_KO "성능과 호환성에 영향을 끼치는 프로세서 오버클러킹 및 에뮬레이션 정확도 옵션 등을 설정합니다."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_KO "고급 채널 볼륨 설정"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_KO "개별 하드웨어 오디오 채널의 볼륨을 설정합니다."
 #define CATEGORY_CD_LABEL_KO NULL
-#define CATEGORY_CD_INFO_0_KO NULL
+#define CATEGORY_CD_INFO_0_KO "PC Engine CD 에뮬레이션과 관련된 설정을 구성합니다."
 #define PCE_FAST_PALETTE_LABEL_KO "색상 팔레트"
-#define PCE_FAST_PALETTE_INFO_0_KO NULL
+#define PCE_FAST_PALETTE_INFO_0_KO "컴포지트는 원본 콘솔 출력을 재현하며 일부 게임에서 더 디테일하게 표시될 수 있습니다."
 #define OPTION_VAL_RGB_KO NULL
 #define OPTION_VAL_COMPOSITE_KO "컴포지트"
 #define PCE_FAST_FRAMESKIP_LABEL_KO "프레임 스킵"
@@ -17561,29 +17561,29 @@ struct retro_core_options_v2 options_ja = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_KO "프레임 스킵 임계값 (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_KO "'프레임 건너뛰기'가 '사용자 설정'일 경우 건너뛸 프레임에 대한 오디오 버퍼 점유 임계점 (퍼센트) 을 설정하게됩니다. 값이 높을 수록 프레임은 떨어지고 그 대신 소리 깨짐 현상은 줄어들게 됩니다."
 #define OPTION_VAL_33_KO "33 (기본)"
-#define PCE_FAST_HOVERSCAN_LABEL_KO NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_KO NULL
+#define PCE_FAST_HOVERSCAN_LABEL_KO "수평 오버스캔 (352 너비 모드만 해당)"
+#define PCE_FAST_HOVERSCAN_INFO_0_KO "표시할 최대 이미지 너비를 선택합니다. 값이 낮으면 이미지의 오른쪽이 잘립니다 (너비가 352픽셀인 게임의 경우)."
 #define OPTION_VAL_352_KO "352 (기본)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_KO NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_KO NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_KO "최초 스캔라인"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_KO "첫 번째 렌더링 되는 스캔라인입니다. 값이 높으면 이미지 상단이 잘립니다."
 #define OPTION_VAL_3_KO "3 (기본)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_KO NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_KO NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_KO "마지막 스캔라인"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_KO "마지막으로 렌더링 되는 스캔라인입니다. 값이 높으면 이미지 하단이 잘립니다."
 #define OPTION_VAL_242_KO "242 (기본)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_KO NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_KO NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_KO "PSG 사운드 채널 0 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_KO "PSG 사운드 채널 0의 볼륨을 변경합니다."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_KO "PSG 사운드 채널 1 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_KO "PSG 사운드 채널 1의 볼륨을 변경합니다."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_KO "PSG 사운드 채널 2 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_KO "PSG 사운드 채널 2의 볼륨을 변경합니다."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_KO "PSG 사운드 채널 3 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_KO "PSG 사운드 채널 3의 볼륨을 변경합니다."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_KO "PSG 사운드 채널 4 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_KO "PSG 사운드 채널 4의 볼륨을 변경합니다."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_KO "PSG 사운드 채널 5 볼륨 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_KO "PSG 사운드 채널 5의 볼륨을 변경합니다."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_KO "마우스 감도"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_KO NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_KO "값이 높을수록 마우스 커서가 더 빠르게 움직입니다."
 #define OPTION_VAL_0_25_KO NULL
 #define OPTION_VAL_0_50_KO NULL
 #define OPTION_VAL_0_75_KO NULL
@@ -17604,43 +17604,43 @@ struct retro_core_options_v2 options_ja = {
 #define OPTION_VAL_4_50_KO NULL
 #define OPTION_VAL_4_75_KO NULL
 #define OPTION_VAL_5_00_KO NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_KO NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_KO NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_KO NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_KO NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_KO NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_KO NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_KO NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_KO NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_KO NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_KO NULL
-#define PCE_FAST_CDBIOS_LABEL_KO NULL
-#define PCE_FAST_CDBIOS_INFO_0_KO NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_KO "소프트 리셋 비활성화 (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_KO "RUN과 SELECT를 동시에 누르면 리셋하는 대신 두 버튼을 일시적으로 비활성화합니다."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_KO "터보 토글"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_KO "터보 토글 핫키(버튼 III 및 IV) 를 활성화합니다."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_KO "대체 터보 핫키"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_KO "레트로 패드의 L3/R3 버튼을 버튼 III 및 IV 대신 터보 핫키로 할당합니다. L3/R3 버튼에 아무 것도 할당되지 않은 경우에만 작동합니다. 이를 통해 6버튼 컨트롤러 모드로 전환할 때 버튼 III 및 IV를 다시 설정해야하는 것을 방지할 수 있습니다."
+#define PCE_FAST_TURBO_DELAY_LABEL_KO "터보 지연"
+#define PCE_FAST_TURBO_DELAY_INFO_0_KO "터보 사이의 시간을 조정합니다 (프레임 단위)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_KO "CD 이미지 캐시 (재시작 필요)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_KO "시작할 때 전체 이미지를 메모리에 불러옵니다. 시작 시간이 늘어나는 대신 로딩 시간을 잠재적으로 줄일 수 있습니다."
+#define PCE_FAST_CDBIOS_LABEL_KO "CD BIOS (재시작 필요)"
+#define PCE_FAST_CDBIOS_INFO_0_KO "대부분의 게임은 'System Card 3'에서 실행할 수 있습니다. 'Games Express'는 라이선스가 없는 게임에서 필요합니다."
 #define OPTION_VAL_GAMES_EXPRESS_KO NULL
 #define OPTION_VAL_SYSTEM_CARD_1_KO NULL
 #define OPTION_VAL_SYSTEM_CARD_2_KO NULL
 #define OPTION_VAL_SYSTEM_CARD_3_KO NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_KO NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_KO NULL
-#define PCE_FAST_CDSPEED_LABEL_KO NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_KO NULL
-#define PCE_FAST_CDSPEED_INFO_0_KO NULL
+#define PCE_FAST_CDSPEED_LABEL_KO "(CD) CD 속도"
+#define PCE_FAST_CDSPEED_LABEL_CAT_KO "CD 속도"
+#define PCE_FAST_CDSPEED_INFO_0_KO "값이 높을수록 로딩 시간이 빨라지지만 몇 가지 게임에서 문제가 발생할 수 있습니다."
 #define OPTION_VAL_1_KO NULL
 #define OPTION_VAL_2_KO NULL
 #define OPTION_VAL_4_KO NULL
 #define OPTION_VAL_8_KO NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_KO NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_KO NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_KO NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_KO NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_KO NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_KO NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_KO NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_KO NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_KO "(CD) ADPCM 볼륨 %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_KO "ADPCM 볼륨 %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_KO "CD 게임에 해당합니다. 볼륨을 너무 높게 설정하면 샘플 클리핑이 발생할 수 있습니다."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_KO "볼륨을 너무 높게 설정하면 샘플 클리핑이 발생할 수 있습니다."
+#define PCE_FAST_CDDAVOLUME_LABEL_KO "(CD) CDDA 음량 %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_KO "CDDA 음량 %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_KO "(CD) PSG 볼륨 %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_KO "CD PSG 볼륨 %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_KO "스프라이트 제한 해제"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_KO NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_KO NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_KO NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_KO "스캔라인 당 16개의 스프라이트 하드웨어 제한을 제거합니다. 경고: 일부 게임에서 그래픽 결함이 발생할 수 있습니다."
+#define PCE_FAST_OCMULTIPLIER_LABEL_KO "CPU 오버클럭 배율 (재시작 필요)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_KO "값이 높을수록 게임의 속도 저하를 줄일 수 있습니다. 경고: 결함 및 충돌이 발생할 수 있습니다."
 
 struct retro_core_option_v2_category option_cats_ko[] = {
    {
@@ -25177,19 +25177,19 @@ struct retro_core_options_v2 options_si = {
 #define PCE_FAST_FRAMESKIP_LABEL_SK NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_SK NULL
 #define OPTION_VAL_AUTO_SK NULL
-#define OPTION_VAL_MANUAL_SK NULL
+#define OPTION_VAL_MANUAL_SK "Ručne"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SK NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SK "Ak je 'Preskočenie snímkov' nastavené na 'Ručne', určuje obsadenosť zvukového zásobníka (v percentách) pod ktorou budú snímky preskočené. Vyššie hodnoty znižujú riziko praskania za cenu zahodenia snímkov častejšie."
-#define OPTION_VAL_33_SK NULL
+#define OPTION_VAL_33_SK "33 (predvolené)"
 #define PCE_FAST_HOVERSCAN_LABEL_SK NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_SK NULL
-#define OPTION_VAL_352_SK NULL
+#define OPTION_VAL_352_SK "352 (predvolené)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_SK NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_SK NULL
-#define OPTION_VAL_3_SK NULL
+#define OPTION_VAL_3_SK "3 (predvolené)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_SK NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_SK NULL
-#define OPTION_VAL_242_SK NULL
+#define OPTION_VAL_242_SK "242 (predvolené)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SK NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SK NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SK NULL
@@ -25243,7 +25243,7 @@ struct retro_core_options_v2 options_si = {
 #define OPTION_VAL_SYSTEM_CARD_2_US_SK NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_SK NULL
 #define PCE_FAST_CDSPEED_LABEL_SK NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_SK NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_SK "CD rýchlosť"
 #define PCE_FAST_CDSPEED_INFO_0_SK NULL
 #define OPTION_VAL_1_SK NULL
 #define OPTION_VAL_2_SK NULL
