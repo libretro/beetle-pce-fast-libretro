@@ -12,6 +12,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+struct retro_core_option_v2_category option_cats_he[] = {};
+struct retro_core_option_v2_definition option_defs_he[] = {};
+struct retro_core_options_v2 options_he = {
+   option_cats_he,
+   option_defs_he
+};
 /* RETRO_LANGUAGE_AR */
 
 #define CATEGORY_VIDEO_LABEL_AR "فيديو"
