@@ -3073,24 +3073,24 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_CD_LABEL_CHT "光碟機"
 #define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
 #define PCE_FAST_PALETTE_LABEL_CHT "影像配色"
-#define PCE_FAST_PALETTE_INFO_0_CHT "設定 <合成> 時嘗試重建原色影像輸出，可在部分遊戲中顯示更多細節。"
+#define PCE_FAST_PALETTE_INFO_0_CHT "設定<合成>時嘗試重建原色影像輸出, 可在部分遊戲中顯示更多細節。"
 #define OPTION_VAL_RGB_CHT "三原色"
 #define OPTION_VAL_COMPOSITE_CHT "合成"
 #define PCE_FAST_FRAMESKIP_LABEL_CHT "跳幀"
-#define PCE_FAST_FRAMESKIP_INFO_0_CHT "設定跳幀用以避免音訊緩衝區不足(產生破音)。用影像流暢度為代價提高效能。\n設定 <自動> 由前端系統控制跳幀。設定 <手動> 由「跳幀上限 (%)」控制跳幀。"
+#define PCE_FAST_FRAMESKIP_INFO_0_CHT "設定跳幀用以避免音訊緩衝區不足(產生破音), 用影像流暢度為代價提高效能。\n設定<自動>由前端系統控制跳幀, 設定<手動>由「跳幀上限(%)」控制跳幀。"
 #define OPTION_VAL_AUTO_CHT "自動"
 #define OPTION_VAL_MANUAL_CHT "手動"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CHT "跳幀上限 (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CHT "設定「跳幀」為 <手動> 時音頻緩衝區使用上限(%)，低於上限的影格將被跳過。設定過高會導致頻繁丟失影格，過低則是出現破音。"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CHT "設定「跳幀」為<手動>時音頻緩衝區上限(%), 低於上限的影格將被跳過, 設定過高會導致頻繁丟失影格, 過低則是出現破音。"
 #define OPTION_VAL_33_CHT "33 (預設)"
 #define PCE_FAST_HOVERSCAN_LABEL_CHT "水平過度掃描 (僅限寬度352模式)"
-#define PCE_FAST_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度。過低的值將裁剪影像右側(寬度352像素的遊戲)。"
+#define PCE_FAST_HOVERSCAN_INFO_0_CHT "設定影像顯示的最大寬度, 過低的值將裁剪影像右側(寬度352像素的遊戲)。"
 #define OPTION_VAL_352_CHT "352 (預設)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_CHT "初始掃描線"
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHT "設定最初渲染的掃描線。過高的值將裁剪影像頂部。"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHT "設定最初渲染的掃描線, 過高的值將裁剪影像頂部。"
 #define OPTION_VAL_3_CHT "3 (預設)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_CHT "最後掃描線"
-#define PCE_FAST_LAST_SCANLINE_INFO_0_CHT "設定最後渲染的掃描線。過低的值將裁剪影像底部。"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_CHT "設定最後渲染的掃描線, 過低的值將裁剪影像底部。"
 #define OPTION_VAL_242_CHT "242 (預設)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CHT "PSG聲道0 音量 %"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CHT "設定PSG聲道0的音量。"
@@ -3127,17 +3127,17 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_4_75_CHT NULL
 #define OPTION_VAL_5_00_CHT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT "禁用同時按 RUN鍵 加 SELECT鍵 時重新開始遊戲。僅禁用此組合鍵。"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT "禁用按[RUN鍵+SELECT鍵]重新開始遊戲, 此選項僅禁用核心登錄的組合鍵。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CHT "連發開關"
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT "開啟時 Ⅲ/Ⅳ鍵 作為連發的開關，提供給 Ⅰ/Ⅱ鍵 使用。"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT "開啟時[III/IV鍵]作為連發的開關, 提供給[I/II鍵]使用。"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHT "備用連發按鍵"
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHT "開啟時控制器 L3/R3鍵 作為連發的開關。僅限 L3/R3鍵 未設定時生效。適用於6鍵控制器模式。"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHT "開啟時控制器[L3/R3鍵]作為連發的開關, 僅限[L3/R3鍵]未設定時生效, 適用於6鍵控制器模式。"
 #define PCE_FAST_TURBO_DELAY_LABEL_CHT "連發延遲"
 #define PCE_FAST_TURBO_DELAY_INFO_0_CHT "調整連發間隔延遲時間(幀數)。"
 #define PCE_FAST_CDIMAGECACHE_LABEL_CHT "映像檔快取 (需要重新啟動)"
-#define PCE_FAST_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔，完整載入到記憶體中。拖延開啟時間，縮短讀取時間。"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_CHT "執行時將光碟映像檔, 完整載入到記憶體中, 拖延開啟時間並縮短讀取時間。"
 #define PCE_FAST_CDBIOS_LABEL_CHT "光碟系統卡 (需要重新啟動)"
-#define PCE_FAST_CDBIOS_INFO_0_CHT "設定 <系統卡 3 (日本版/美國版)> 支援較多的授權遊戲。未授權遊戲需要 <遊戲特快卡> 來執行。"
+#define PCE_FAST_CDBIOS_INFO_0_CHT "設定<系統卡3(日本版/美國版)>時, 支援較多的授權遊戲, 未授權遊戲需要<遊戲特快卡>來執行。"
 #define OPTION_VAL_GAMES_EXPRESS_CHT "遊戲特快卡"
 #define OPTION_VAL_SYSTEM_CARD_1_CHT "系統卡 1 (日本版)"
 #define OPTION_VAL_SYSTEM_CARD_2_CHT "系統卡 2 (日本版)"
@@ -3146,23 +3146,23 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_CHT "系統卡 3 (美國版)"
 #define PCE_FAST_CDSPEED_LABEL_CHT "(光碟機) 讀取速度"
 #define PCE_FAST_CDSPEED_LABEL_CAT_CHT "讀取速度"
-#define PCE_FAST_CDSPEED_INFO_0_CHT "高倍速可加快載入時間，但可能導致遊戲出現問題。"
+#define PCE_FAST_CDSPEED_INFO_0_CHT "高倍速可加快載入時間, 但可能導致遊戲出現問題。"
 #define OPTION_VAL_1_CHT "1倍速"
 #define OPTION_VAL_2_CHT "2倍速"
 #define OPTION_VAL_4_CHT "4倍速"
 #define OPTION_VAL_8_CHT "8倍速"
 #define PCE_FAST_ADPCMVOLUME_LABEL_CHT "(光碟) ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHT "ADPCM 音量 %"
-#define PCE_FAST_ADPCMVOLUME_INFO_0_CHT "僅限光碟遊戲。音量設定過高可能會導致取樣削波。"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_CHT "僅限光碟遊戲, 音量設定過高可能會導致取樣削波。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CHT "音量設定過高可能會導致取樣削波。"
 #define PCE_FAST_CDDAVOLUME_LABEL_CHT "(光碟) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHT "CDDA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CHT "(光碟) PSG 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHT "PSG 音量 %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_CHT "沒有素材限制"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHT "刪除每條掃描線16張素材的硬體限制。警告: 可能導致遊戲圖形故障。"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHT "刪除每條掃描線16張素材的硬體限制。\n警告: 可能導致遊戲圖形故障。"
 #define PCE_FAST_OCMULTIPLIER_LABEL_CHT "CPU 超頻倍頻 (需要重新啟動)"
-#define PCE_FAST_OCMULTIPLIER_INFO_0_CHT "較高的值可降低游戲中的延遲。警告: 可能導致故障崩潰。"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_CHT "較高的值可降低游戲中的延遲。\n警告: 可能導致故障崩潰。"
 
 struct retro_core_option_v2_category option_cats_cht[] = {
    {
@@ -16778,16 +16778,16 @@ struct retro_core_options_v2 options_it = {
 
 /* RETRO_LANGUAGE_JA */
 
-#define CATEGORY_VIDEO_LABEL_JA "ビデオのドライバ"
+#define CATEGORY_VIDEO_LABEL_JA "ビデオ"
 #define CATEGORY_VIDEO_INFO_0_JA NULL
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA NULL
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
 #define CATEGORY_HACKS_INFO_0_JA NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_JA NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_JA "個々のハードウェアオーディオチャンネルのボリュームを設定します。"
 #define CATEGORY_CD_LABEL_JA "PCエンジン CD"
-#define CATEGORY_CD_INFO_0_JA NULL
+#define CATEGORY_CD_INFO_0_JA "PC Engine CD エミュレーションに関連する設定を行います。"
 #define PCE_FAST_PALETTE_LABEL_JA "カラーパレット"
 #define PCE_FAST_PALETTE_INFO_0_JA NULL
 #define OPTION_VAL_RGB_JA NULL
@@ -16803,25 +16803,25 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
 #define OPTION_VAL_352_JA "352 (デフォルト)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_JA NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "描画開始スキャンライン。大きい値ほど画面上部の表示が欠けます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_JA NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_JA NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最終描画スキャンライン。小さい値ほど画面下部の表示が欠けます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_JA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル0音量 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル0の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA "PSG サウンドチャンネル1音量 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA "PSG サウンドチャンネル1の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA "PSG サウンドチャンネル2音量 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA "PSG サウンドチャンネル2の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA "PSG サウンドチャンネル3音量 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA "PSG サウンドチャンネル3の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA "PSG サウンドチャンネル4音量 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA "PSG サウンドチャンネル4の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル5音量 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル5の音量を変更する"
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
 #define OPTION_VAL_0_25_JA NULL
 #define OPTION_VAL_0_50_JA NULL
 #define OPTION_VAL_0_75_JA NULL
@@ -16842,17 +16842,17 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_4_50_JA NULL
 #define OPTION_VAL_4_75_JA NULL
 #define OPTION_VAL_5_00_JA NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_JA NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_JA NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_JA "RUN と SELECT が同時に押された時に、リセットの代わりに一時的に両方のボタンを無効にします。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_JA NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_JA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_JA NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_JA NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_JA NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_JA NULL
-#define PCE_FAST_CDBIOS_LABEL_JA NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します(フレーム単位)。"
+#define PCE_FAST_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
+#define PCE_FAST_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
 #define PCE_FAST_CDBIOS_INFO_0_JA NULL
 #define OPTION_VAL_GAMES_EXPRESS_JA NULL
 #define OPTION_VAL_SYSTEM_CARD_1_JA NULL
@@ -16862,7 +16862,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_JA NULL
 #define PCE_FAST_CDSPEED_LABEL_JA NULL
 #define PCE_FAST_CDSPEED_LABEL_CAT_JA NULL
-#define PCE_FAST_CDSPEED_INFO_0_JA NULL
+#define PCE_FAST_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
 #define OPTION_VAL_1_JA NULL
 #define OPTION_VAL_2_JA NULL
 #define OPTION_VAL_4_JA NULL
@@ -16875,9 +16875,9 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_JA NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_JA NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_JA NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_JA NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "スキャンラインあたりの16スプライトのハードウェア制限を削除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
+#define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPUオーバークロック倍率 (再起動が必要)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_JA NULL
 
 struct retro_core_option_v2_category option_cats_ja[] = {
