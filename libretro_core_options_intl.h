@@ -16872,13 +16872,13 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_ADPCMVOLUME_INFO_0_JA NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_JA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_JA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_JA NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "スキャンラインあたりの16スプライトのハードウェア制限を削除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
 #define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPUオーバークロック倍率 (再起動が必要)"
-#define PCE_FAST_OCMULTIPLIER_INFO_0_JA NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_JA "値を大きくするとゲームのスローダウンが減ります。警告：不具合やクラッシュを引き起こす可能性があります。"
 
 struct retro_core_option_v2_category option_cats_ja[] = {
    {
