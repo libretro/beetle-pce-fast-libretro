@@ -3063,7 +3063,7 @@ struct retro_core_options_v2 options_chs = {
 /* RETRO_LANGUAGE_CHT */
 
 #define CATEGORY_VIDEO_LABEL_CHT "顯示"
-#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁切、跳幀和影像輸出相關的設定。"
+#define CATEGORY_VIDEO_INFO_0_CHT "變更畫面裁剪、跳幀和影像輸出相關的設定。"
 #define CATEGORY_INPUT_LABEL_CHT "輸入"
 #define CATEGORY_INPUT_INFO_0_CHT "變更輸入裝置相關的設定。"
 #define CATEGORY_HACKS_LABEL_CHT "進階"
@@ -3074,7 +3074,7 @@ struct retro_core_options_v2 options_chs = {
 #define CATEGORY_CD_INFO_0_CHT "變更光碟機相關的設定。"
 #define PCE_FAST_PALETTE_LABEL_CHT "影像配色"
 #define PCE_FAST_PALETTE_INFO_0_CHT "設定<合成>時嘗試重建原色影像輸出, 可在部分遊戲中顯示更多細節。"
-#define OPTION_VAL_RGB_CHT "三原色"
+#define OPTION_VAL_RGB_CHT "原色"
 #define OPTION_VAL_COMPOSITE_CHT "合成"
 #define PCE_FAST_FRAMESKIP_LABEL_CHT "跳幀"
 #define PCE_FAST_FRAMESKIP_INFO_0_CHT "設定跳幀用以避免音訊緩衝區不足(產生破音), 用影像流暢度為代價提高效能。\n設定<自動>由前端系統控制跳幀, 設定<手動>由「跳幀上限(%)」控制跳幀。"
