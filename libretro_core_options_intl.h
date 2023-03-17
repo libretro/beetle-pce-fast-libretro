@@ -15296,8 +15296,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_ID NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_ID NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_ID NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_ID NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_ID NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_ID "Sensitivitas Mouse"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_ID "Nilai yang lebih tinggi akan membuat kursor mouse bergerak lebih cepat."
 #define OPTION_VAL_0_25_ID NULL
 #define OPTION_VAL_0_50_ID NULL
 #define OPTION_VAL_0_75_ID NULL
