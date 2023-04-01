@@ -17,6 +17,7 @@
 typedef struct
 {
    uint8_t *data;
+   uint8_t *data_frontend;  /* never realloc'd */
    uint32_t loc;
    uint32_t len;
    uint32_t malloced;
