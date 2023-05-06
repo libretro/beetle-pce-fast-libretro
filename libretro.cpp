@@ -1766,6 +1766,22 @@ static void check_variables(bool first_run)
          else if (strcmp(var.value, "System Card 2 US") == 0)
             setting_pce_fast_cdbios = "syscard2u.pce";
       }
+
+      char key[256];
+      key[0] = '\0';
+
+      var.key = key ;
+      for (int i = 0 ; i < MAX_PLAYERS ; i++)
+      {
+         snprintf(key, sizeof(key), "pce_fast_default_joypad_type_p%d", i + 1);
+         if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         {
+            if(strcmp(var.value, "2 Buttons") == 0)
+               AVPad6Enabled[i] = false;
+            else if(strcmp(var.value, "6 Buttons") == 0)
+               AVPad6Enabled[i] = true;
+         }
+      }
    }
 
    var.key = "pce_fast_nospritelimit";
