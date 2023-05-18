@@ -1139,7 +1139,10 @@ static int HuCLoadCD(const char *bios_path)
    MDFNFILE *fp = file_open(bios_path);
 
    if(!fp)
+   {
+      MDFN_DispMessage("Firmware not found: '%s'", bios_path);
       return(0);
+   }
 
    memset(ROMSpace, 0xFF, 262144);
 
@@ -2419,12 +2422,13 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit(void)
 {
-   if (surf->pixels)
-      free(surf->pixels);
-   surf->pixels = NULL;
-
    if (surf)
+   {
+      if (surf->pixels)
+         free(surf->pixels);
+      surf->pixels = NULL;
       free(surf);
+   }
    surf = NULL;
 
    if (log_cb)
