@@ -1718,7 +1718,7 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_COMPOSITE_BE NULL
 #define PCE_FAST_FRAMESKIP_LABEL_BE NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_BE NULL
-#define OPTION_VAL_AUTO_BE NULL
+#define OPTION_VAL_AUTO_BE "Аўта"
 #define OPTION_VAL_MANUAL_BE NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BE NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BE NULL
@@ -3456,11 +3456,11 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_5_00_CHS NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHS "禁用软重置快捷键（即RUN+SELECT组合键）"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHS "当同时按下 RUN 和 SELECT两个按键时，暂时禁用两个按键而不是触发软重置。"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS NULL
-#define OPTION_VAL_2_BUTTONS_CHS NULL
-#define OPTION_VAL_6_BUTTONS_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS "P1 默认Joypad 类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS "选择端口 1 手柄默认为 2 键或 6键。 此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define OPTION_VAL_2_BUTTONS_CHS "2键"
+#define OPTION_VAL_6_BUTTONS_CHS "6键"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS "P1 默认Joypad 类型"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS NULL
@@ -16960,18 +16960,18 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_5_00_HU NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_HU "Soft reset letiltása (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HU "A RUN és SELECT gombok egyidejű megnyomásakor mindkét gomb ideiglenes letiltása, reset helyett."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU NULL
-#define OPTION_VAL_2_BUTTONS_HU NULL
-#define OPTION_VAL_6_BUTTONS_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU "1. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU "Az 1. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define OPTION_VAL_2_BUTTONS_HU "2 gomb"
+#define OPTION_VAL_6_BUTTONS_HU "6 gomb"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU "2. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU "A 2. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU "3. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU "A 3. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU "4. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU "A 4. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU "5. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU "Az 5. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_HU "Turbo átkapcsoló"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_HU "Engedélyezi a turbo átkapcsoló gyorsgombokat (III és IV gomb)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HU "Alternatív Turbo gyorsgomb"
