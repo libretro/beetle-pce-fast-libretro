@@ -9365,17 +9365,17 @@ struct retro_core_options_v2 options_el = {
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_EN NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EN NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN "Choose if port 1 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define OPTION_VAL_2_BUTTONS_EN NULL
 #define OPTION_VAL_6_BUTTONS_EN NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN "Choose if port 2 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN "Choose if port 3 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN "Choose if port 4 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN "Choose if port 5 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_EN NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_EN NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EN NULL
@@ -20336,18 +20336,18 @@ struct retro_core_options_v2 options_ja = {
 #define OPTION_VAL_5_00_KO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_KO "소프트 리셋 비활성화 (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_KO "RUN과 SELECT를 동시에 누르면 리셋하는 대신 두 버튼을 일시적으로 비활성화합니다."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO NULL
-#define OPTION_VAL_2_BUTTONS_KO NULL
-#define OPTION_VAL_6_BUTTONS_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO "P1 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO "포트 1 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define OPTION_VAL_2_BUTTONS_KO "2 버튼"
+#define OPTION_VAL_6_BUTTONS_KO "6 버튼"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO "P2 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO "포트 2 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO "P3 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO "포트 3 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO "P4 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO "포트 4 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO "P5 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO "포트 5 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_KO "터보 토글"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_KO "터보 토글 핫키(버튼 III 및 IV) 를 활성화합니다."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_KO "대체 터보 핫키"
