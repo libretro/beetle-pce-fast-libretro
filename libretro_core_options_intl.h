@@ -7631,7 +7631,7 @@ struct retro_core_options_v2 options_da = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_DE "Frameskip-Grenzwert (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_DE "Gibt den Audiopuffer-Belegungsschwellenwert (Prozent) an, unter dem Frames übersprungen werden, wenn 'Frameskip' auf \"Manuell\" eingestellt ist. Höhere Werte verringern das Risiko von Knistern, da Frames häufiger weggelassen werden."
 #define OPTION_VAL_33_DE "33 (Standard)"
-#define PCE_FAST_HOVERSCAN_LABEL_DE "Horizontaler Overscan (nur 352 Breitenmodus)"
+#define PCE_FAST_HOVERSCAN_LABEL_DE "Horizontaler Overscan (nur 352 Breitbildmodus)"
 #define PCE_FAST_HOVERSCAN_INFO_0_DE "Die maximale Bildbreite, die angezeigt werden soll. Bei niedrigeren Werten wird die rechte Seite des Bildes abgeschnitten (bei Spielen mit 352 px Bildbreite)."
 #define OPTION_VAL_352_DE "352 (Standard)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_DE "Erste Scanline"
