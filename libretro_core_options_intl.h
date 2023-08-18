@@ -28711,49 +28711,49 @@ struct retro_core_options_v2 options_sr = {
 /* RETRO_LANGUAGE_SV */
 
 #define CATEGORY_VIDEO_LABEL_SV "Bild"
-#define CATEGORY_VIDEO_INFO_0_SV NULL
+#define CATEGORY_VIDEO_INFO_0_SV "Konfigurera skärmbeskärning, bildrutehopp och andra bildutdata-parametrar."
 #define CATEGORY_INPUT_LABEL_SV "Inmatning"
-#define CATEGORY_INPUT_INFO_0_SV NULL
-#define CATEGORY_HACKS_LABEL_SV NULL
-#define CATEGORY_HACKS_INFO_0_SV NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_SV NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_SV NULL
+#define CATEGORY_INPUT_INFO_0_SV "Konfigurera ljuspistol, mus och NegCon inmatning."
+#define CATEGORY_HACKS_LABEL_SV "Emuleringshackning"
+#define CATEGORY_HACKS_INFO_0_SV "Konfigurera processorns överklockning och emuleringsnoggrannhetsparametrar som påverkar prestanda och kompatibilitet på låg nivå."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_SV "Avancerade inställningar för kanalvolym"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_SV "Konfigurera volymen för enskilda hårdvaru-ljudkanaler."
 #define CATEGORY_CD_LABEL_SV NULL
-#define CATEGORY_CD_INFO_0_SV NULL
+#define CATEGORY_CD_INFO_0_SV "Konfigurera inställningar relaterade till PC Engine CD-emulering."
 #define PCE_FAST_PALETTE_LABEL_SV "Färgpalett"
-#define PCE_FAST_PALETTE_INFO_0_SV NULL
+#define PCE_FAST_PALETTE_INFO_0_SV "Composite försöker återskapa den ursprungliga konsolens utmatning och kan visa fler detaljer i vissa spel."
 #define OPTION_VAL_RGB_SV NULL
 #define OPTION_VAL_COMPOSITE_SV "Komposit"
-#define PCE_FAST_FRAMESKIP_LABEL_SV NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_SV NULL
+#define PCE_FAST_FRAMESKIP_LABEL_SV "Bildrutehopp"
+#define PCE_FAST_FRAMESKIP_INFO_0_SV "Hoppa över bildrutor för att undvika ljudbuffertbrist (crackling-ljud). Förbättrar prestanda på bekostnad av visuell jämnhet. \"Automatiserat\" hoppar över bildrutor när frontend råder. \"Manuell\" använder inställningen \"Tröskel för bildrutehopp (%)\"."
 #define OPTION_VAL_AUTO_SV "Automatiskt"
-#define OPTION_VAL_MANUAL_SV NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV NULL
+#define OPTION_VAL_MANUAL_SV "Manuell"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV "Tröskel för bildrutehopp (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SV "När 'Frameskip' är satt till 'Manuell', ange ljudbuffertens tröskel (i procent) under vilka ramar som kommer att hoppas över. Högre värden minskar risken för hackigt ljud genom att bildrutor tappas oftare."
-#define OPTION_VAL_33_SV NULL
-#define PCE_FAST_HOVERSCAN_LABEL_SV NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_SV NULL
-#define OPTION_VAL_352_SV NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_SV NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SV NULL
-#define OPTION_VAL_3_SV NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_SV NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_SV NULL
-#define OPTION_VAL_242_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SV NULL
+#define OPTION_VAL_33_SV "33 (Standard)"
+#define PCE_FAST_HOVERSCAN_LABEL_SV "Horisontell överskanning (endast i breddläget 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_SV "Välj den maximala bildbredden som ska visas. Lägre värden kommer att beskära högersidan av bilden (för spel med 352 px bredd)."
+#define OPTION_VAL_352_SV "352 (Standard)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_SV "Initiell skanlinje"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SV "Första renderade skanlinjen. Högre värden kommer att beskära toppen av bilden."
+#define OPTION_VAL_3_SV "3 (Standard)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_SV "Sista skanlinjen"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_SV "Sista renderade skanlinjen. Lägre värden kommer att beskära botten av bilden."
+#define OPTION_VAL_242_SV "242 (Standard)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 0 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 1 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 2 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 3 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 4 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SV "Volym för PSG-ljudkanal 5 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV "Muskänslighet"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SV "Högre värden kommer få muspekaren att röra sig snabbare."
 #define OPTION_VAL_0_25_SV NULL
 #define OPTION_VAL_0_50_SV NULL
 #define OPTION_VAL_0_75_SV NULL
@@ -28774,30 +28774,30 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_4_50_SV NULL
 #define OPTION_VAL_4_75_SV NULL
 #define OPTION_VAL_5_00_SV NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SV NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SV "Inaktivera mjukåterställning (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SV "När både RUN och SELECT trycks ned samtidigt, inaktiveras båda knapparna tillfälligt istället för att återställa dem."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV "Standard joypad-typ för spelare 1 (P1)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV "Välj detta ifall port 1-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
 #define OPTION_VAL_2_BUTTONS_SV "2 knappar"
 #define OPTION_VAL_6_BUTTONS_SV "6 knappar"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_SV NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_SV NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SV NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SV NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_SV NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_SV NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_SV NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_SV NULL
-#define PCE_FAST_CDBIOS_LABEL_SV NULL
-#define PCE_FAST_CDBIOS_INFO_0_SV NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV "Standard joypad-typ för spelare 2 (P2)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV "Välj detta ifall port 2-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV "Standard joypad-typ för spelare 3 (P3)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV "Välj detta ifall port 3-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV "Standard joypad-typ för spelare 4 (P4)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV "Välj detta ifall port 4-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV "Standard joypad-typ för spelare 5 (P5)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV "Välj detta ifall port 5-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_SV "Växla till turbo-läge"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_SV "Aktivera snabbtangenterna för turboväxeln (knappar III och IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SV "Alternativ snabbtangent för turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SV "Tilldela RetroPads L3/R3-knapparna som snabbtangenter för turbo-läge istället för knappar III och IV. Fungerar endast så länge inget är tilldelat L3/R3-knapparna. Du kan undvika att omkartlägga knappar III och IV när du växlar till 6-knappskontrollläge med detta."
+#define PCE_FAST_TURBO_DELAY_LABEL_SV "Turbofördröjning"
+#define PCE_FAST_TURBO_DELAY_INFO_0_SV "Justera tiden mellan turboeld (i bildrutor)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_SV "CD-bildcache (Omstart krävs)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_SV "Ladda in hela bilden i minnet vid start. Kan potentiellt minska laddningstiderna till förmån för en ökad starttid."
+#define PCE_FAST_CDBIOS_LABEL_SV "CD-BIOS (Omstart krävs)"
+#define PCE_FAST_CDBIOS_INFO_0_SV "De flesta spel kan köras på 'Systemkort 3'. 'Games Express' krävs för flera olicensierade spel."
 #define OPTION_VAL_GAMES_EXPRESS_SV NULL
 #define OPTION_VAL_SYSTEM_CARD_1_SV NULL
 #define OPTION_VAL_SYSTEM_CARD_2_SV NULL
@@ -28806,23 +28806,23 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_SV NULL
 #define PCE_FAST_CDSPEED_LABEL_SV "(CD) CD-hastighet"
 #define PCE_FAST_CDSPEED_LABEL_CAT_SV "CD-hastighet"
-#define PCE_FAST_CDSPEED_INFO_0_SV NULL
+#define PCE_FAST_CDSPEED_INFO_0_SV "Högre värden möjliggör snabbare laddningstider men kan orsaka problem med ett par spel."
 #define OPTION_VAL_1_SV NULL
 #define OPTION_VAL_2_SV NULL
 #define OPTION_VAL_4_SV NULL
 #define OPTION_VAL_8_SV NULL
 #define PCE_FAST_ADPCMVOLUME_LABEL_SV "(CD) ADPCM Volym %"
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SV NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_SV NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_SV NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SV "Volym för ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_SV "Endast CD-spel. Ifall du ställer in volymen för högt kan ljudkvaliteten försämras och leda till samplingsklippning."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_SV "Ifall du ställer in volymen för högt kan ljudkvaliteten försämras och leda till samplingsklippning."
 #define PCE_FAST_CDDAVOLUME_LABEL_SV "(CD) CDDA Volym %"
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV "Volym för CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_SV NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_SV NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_SV NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_SV NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_SV "Ingen sprit-begränsning"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanlinje. VARNING!: Kan orsaka grafikfel i vissa spel."
+#define PCE_FAST_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_SV "Högre värden kan minska inbromsningar i spel. VARNING!: Kan orsaka grafikfel och krascher."
 
 struct retro_core_option_v2_category option_cats_sv[] = {
    {
