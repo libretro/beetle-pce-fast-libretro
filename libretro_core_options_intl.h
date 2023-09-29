@@ -864,7 +864,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_INPUT_INFO_0_AST NULL
 #define CATEGORY_HACKS_LABEL_AST "Hacks de la emulación"
 #define CATEGORY_HACKS_INFO_0_AST NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Axustes avanzaos del volume de les canales"
+#define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Configuración avanzada del volume de les canales"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_AST NULL
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST NULL
@@ -970,7 +970,7 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_NOSPRITELIMIT_LABEL_AST NULL
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_AST NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_AST NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar el ralentizamientu nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
+#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar la lentitú nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
 
 struct retro_core_option_v2_category option_cats_ast[] = {
    {
@@ -26189,11 +26189,11 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU "Настройка параметров, относящихся к эмуляции PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_RU "Цветовая палитра"
-#define PCE_FAST_PALETTE_INFO_0_RU "Композитный пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
+#define PCE_FAST_PALETTE_INFO_0_RU "Композит пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
 #define OPTION_VAL_RGB_RU NULL
-#define OPTION_VAL_COMPOSITE_RU "Композитный"
+#define OPTION_VAL_COMPOSITE_RU "Композит"
 #define PCE_FAST_FRAMESKIP_LABEL_RU "Пропуск кадров"
-#define PCE_FAST_FRAMESKIP_INFO_0_RU "Пропускать кадры, чтобы избежать опустошения аудиобуфера (треск). Улучшает производительность, но снижает плавность изображения. В режиме 'Авто' пропуск кадров регулируется фронтендом. В режиме 'Вручную' используется настройка 'Граница пропуска кадров (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_RU "Пропускать кадры, чтобы избежать появления треска при опустошении аудиобуфера. Улучшает производительность, но снижает плавность изображения. В режиме 'Авто' пропуск кадров регулируется фронтендом. В режиме 'Вручную' используется значение опции 'Граница пропуска кадров (%)'."
 #define OPTION_VAL_AUTO_RU "Авто"
 #define OPTION_VAL_MANUAL_RU "Вручную"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_RU "Граница пропуска кадров (%)"
@@ -26244,18 +26244,18 @@ struct retro_core_options_v2 options_pt_pt = {
 #define OPTION_VAL_5_00_RU NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_RU "Отключить мягкий сброс (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU NULL
-#define OPTION_VAL_2_BUTTONS_RU NULL
-#define OPTION_VAL_6_BUTTONS_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU "Тип джойстика Игрока 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 1. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define OPTION_VAL_2_BUTTONS_RU "2-кнопочный"
+#define OPTION_VAL_6_BUTTONS_RU "6-кнопочный"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU "Тип джойстика Игрока 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 2. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU "Тип джойстика Игрока 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 3. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU "Тип джойстика Игрока 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 4. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU "Тип джойстика Игрока 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 5. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_RU "Переключатель турбо"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_RU "Активирует горячие клавиши для включения турбо (кнопки III и IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_RU "Альтернативное включение турбо"
