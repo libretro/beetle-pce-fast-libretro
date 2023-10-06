@@ -26189,7 +26189,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU "Настройка параметров, относящихся к эмуляции PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_RU "Цветовая палитра"
-#define PCE_FAST_PALETTE_INFO_0_RU "Композит пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
+#define PCE_FAST_PALETTE_INFO_0_RU "Композитный режим имитирует оригинальное изображение с консоли и повышает детализацию для некоторых игр."
 #define OPTION_VAL_RGB_RU NULL
 #define OPTION_VAL_COMPOSITE_RU "Композит"
 #define PCE_FAST_FRAMESKIP_LABEL_RU "Пропуск кадров"
@@ -26200,13 +26200,13 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_RU "Устанавливает порог заполнения аудиобуфера (в процентах), ниже которого будет включаться пропуск кадров, если для параметра 'Пропуск кадров' выбран режим 'Вручную'. Большие значения снижают вероятность появления треска за счёт более частого пропуска кадров."
 #define OPTION_VAL_33_RU "33 (по умолчанию)"
 #define PCE_FAST_HOVERSCAN_LABEL_RU "Горизонт. вылеты развёртки (только для режима ширины 352)"
-#define PCE_FAST_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Меньшие значения обрезают правую часть картинки (для игр с шириной 352 пикселя)."
+#define PCE_FAST_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Уменьшение значения обрезает правый край картинки (для игр с шириной в 352 пикселя)."
 #define OPTION_VAL_352_RU "352 (по умолчанию)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_RU "Первая строка развёртки"
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU "Начальная отображаемая строка развёртки. Более высокие значения обрезают верхнюю часть изображения."
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU "Строка развёртки, отображаемая первой. Повышение значения обрезает верхний край картинки."
 #define OPTION_VAL_3_RU "3 (по умолчанию)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_RU "Последняя строка развёртки"
-#define PCE_FAST_LAST_SCANLINE_INFO_0_RU "Последняя отображаемая строка развёртки. Более высокие значения обрезают нижнюю часть изображения."
+#define PCE_FAST_LAST_SCANLINE_INFO_0_RU "Строка развёртки, отображаемая последней. Уменьшение значения обрезает нижний край картинки."
 #define OPTION_VAL_242_RU "242 (по умолчанию)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_RU "Громкость звукового канала PSG 0 (%)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 0."
@@ -26263,8 +26263,8 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_TURBO_DELAY_LABEL_RU "Задержка турбо"
 #define PCE_FAST_TURBO_DELAY_INFO_0_RU "Настраивает промежуток между повторами нажатий (в кадрах)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_RU "Кэшировать образ CD (требуется перезапуск)"
-#define PCE_FAST_CDIMAGECACHE_INFO_0_RU "При запуске загружать полный образ диска в память. Может снижать время загрузок, но увеличивает время запуска."
-#define PCE_FAST_CDBIOS_LABEL_RU "CD BIOS (требуется перезапуск)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_RU "При запуске образ диска полностью загружается в память. Ускоряет загрузки, но увеличивает время запуска."
+#define PCE_FAST_CDBIOS_LABEL_RU "BIOS CD (требуется перезапуск)"
 #define PCE_FAST_CDBIOS_INFO_0_RU "Большинство игр запускаются с 'System Card 3'. 'Games Express' требуется для некоторых нелицензированных игр."
 #define OPTION_VAL_GAMES_EXPRESS_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_RU NULL
