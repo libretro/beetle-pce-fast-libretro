@@ -28752,7 +28752,7 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 4."
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SV "PSG Ljudkanal 5 volym %"
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 5."
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV "Muskänslighet"
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SV "Högre värden kommer få muspekaren att röra sig snabbare."
 #define OPTION_VAL_0_25_SV NULL
 #define OPTION_VAL_0_50_SV NULL
@@ -28819,7 +28819,7 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV "Volym för CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
-#define PCE_FAST_NOSPRITELIMIT_LABEL_SV NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_SV "Ingen blockfigursgräns"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanlinje. VARNING!: Kan orsaka grafikfel i vissa spel."
 #define PCE_FAST_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_SV "Högre värden kan minska inbromsningar i spel. VARNING!: Kan orsaka fel och krascher."
