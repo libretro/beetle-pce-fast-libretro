@@ -19450,10 +19450,10 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_HOVERSCAN_LABEL_JA NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
 #define OPTION_VAL_352_JA "352 (デフォルト)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "描画開始スキャンライン。大きい値ほど画面上部の表示が欠けます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_JA NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_JA "最終スキャンライン"
 #define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最終描画スキャンライン。小さい値ほど画面下部の表示が欠けます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル0音量 %"
@@ -19520,7 +19520,7 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_SYSTEM_CARD_3_JA NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_JA NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_JA NULL
-#define PCE_FAST_CDSPEED_LABEL_JA NULL
+#define PCE_FAST_CDSPEED_LABEL_JA "(CD) CD 速度"
 #define PCE_FAST_CDSPEED_LABEL_CAT_JA NULL
 #define PCE_FAST_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
 #define OPTION_VAL_1_JA NULL
