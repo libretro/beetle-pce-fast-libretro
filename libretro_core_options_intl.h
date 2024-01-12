@@ -19427,17 +19427,17 @@ struct retro_core_options_v2 options_it = {
 /* RETRO_LANGUAGE_JA */
 
 #define CATEGORY_VIDEO_LABEL_JA "ビデオ"
-#define CATEGORY_VIDEO_INFO_0_JA NULL
+#define CATEGORY_VIDEO_INFO_0_JA "表示のトリミング、フレームスキップおよびその他の画像出力のパラメータを構成します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA NULL
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA NULL
+#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを構成します。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_JA "個々のハードウェアオーディオチャンネルのボリュームを設定します。"
 #define CATEGORY_CD_LABEL_JA "PCエンジン CD"
 #define CATEGORY_CD_INFO_0_JA "PC Engine CD エミュレーションに関連する設定を行います。"
 #define PCE_FAST_PALETTE_LABEL_JA "カラーパレット"
-#define PCE_FAST_PALETTE_INFO_0_JA NULL
+#define PCE_FAST_PALETTE_INFO_0_JA "コンポジットはオリジナルのコンソール出力の再現を試み、一部のゲームでさらなるディテールを表示することができます。"
 #define OPTION_VAL_RGB_JA NULL
 #define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define PCE_FAST_FRAMESKIP_LABEL_JA "フレームスキップ"
@@ -19447,7 +19447,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップ閾値 (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "'フレームスキップ' が '手動' に設定されている場合, フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します. 値を大きくすると, フレームを頻繁に落とすことでクラッキングが発生するリスクが低下します."
 #define OPTION_VAL_33_JA "33 (デフォルト)"
-#define PCE_FAST_HOVERSCAN_LABEL_JA NULL
+#define PCE_FAST_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
 #define OPTION_VAL_352_JA "352 (デフォルト)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
@@ -19456,18 +19456,18 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_LAST_SCANLINE_LABEL_JA "最終スキャンライン"
 #define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最終描画スキャンライン。小さい値ほど画面下部の表示が欠けます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル0音量 %"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル0の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA "PSG サウンドチャンネル1音量 %"
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA "PSG サウンドチャンネル1の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA "PSG サウンドチャンネル2音量 %"
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA "PSG サウンドチャンネル2の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA "PSG サウンドチャンネル3音量 %"
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA "PSG サウンドチャンネル3の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA "PSG サウンドチャンネル4音量 %"
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA "PSG サウンドチャンネル4の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル5音量 %"
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル5の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル 0 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル 0 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA "PSG サウンドチャンネル 1 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA "PSG サウンドチャンネル 1 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA "PSG サウンドチャンネル 2 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA "PSG サウンドチャンネル 2 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA "PSG サウンドチャンネル 3 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA "PSG サウンドチャンネル 3 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA "PSG サウンドチャンネル 4 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA "PSG サウンドチャンネル 4 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル 5 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル 5 の音量を変更します。"
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
 #define OPTION_VAL_0_25_JA NULL
@@ -19492,36 +19492,36 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_5_00_JA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_JA "RUN と SELECT が同時に押された時に、リセットの代わりに一時的に両方のボタンを無効にします。"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA NULL
-#define OPTION_VAL_2_BUTTONS_JA NULL
-#define OPTION_VAL_6_BUTTONS_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_JA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA "P1 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA "ポート 1 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define OPTION_VAL_2_BUTTONS_JA "2 ボタン"
+#define OPTION_VAL_6_BUTTONS_JA "6 ボタン"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA "P2 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA "ポート 2 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA "P3 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA "ポート 3 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA "P4 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA "ポート 4 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_TURBO_TOGGLING_LABEL_JA "ターボ切り替え"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_JA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_JA NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_JA "ターボ遅延"
 #define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します(フレーム単位)。"
 #define PCE_FAST_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
 #define PCE_FAST_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
-#define PCE_FAST_CDBIOS_INFO_0_JA NULL
+#define PCE_FAST_CDBIOS_INFO_0_JA "ほとんどのゲームは [システムカード 3] で実行できます。[Game Express] はいくつかの非公認ゲームで必要です。"
 #define OPTION_VAL_GAMES_EXPRESS_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_1_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_JA NULL
+#define OPTION_VAL_SYSTEM_CARD_1_JA "システムカード 1"
+#define OPTION_VAL_SYSTEM_CARD_2_JA "システムカード 2"
+#define OPTION_VAL_SYSTEM_CARD_3_JA "システムカード 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_JA "システムカード 2 北米"
+#define OPTION_VAL_SYSTEM_CARD_3_US_JA "システムカード 3 北米"
 #define PCE_FAST_CDSPEED_LABEL_JA "(CD) CD 速度"
-#define PCE_FAST_CDSPEED_LABEL_CAT_JA NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_JA "CD 速度"
 #define PCE_FAST_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
 #define OPTION_VAL_1_JA NULL
 #define OPTION_VAL_2_JA NULL
