@@ -19429,7 +19429,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_VIDEO_LABEL_JA "ビデオ"
 #define CATEGORY_VIDEO_INFO_0_JA "表示のトリミング、フレームスキップおよびその他の画像出力のパラメータを構成します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA NULL
+#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を構成します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
 #define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを構成します。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
@@ -19444,7 +19444,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。 「自動」は、フロントエンドにアドバイスされたときにフレームをスキップします。「マニュアル」は、「フレームスキップ閾値 (%)」設定を使用します。"
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_MANUAL_JA "手動"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップ閾値 (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップしきい値 (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "'フレームスキップ' が '手動' に設定されている場合, フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します. 値を大きくすると, フレームを頻繁に落とすことでクラッキングが発生するリスクが低下します."
 #define OPTION_VAL_33_JA "33 (デフォルト)"
 #define PCE_FAST_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
@@ -19509,7 +19509,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_JA "ターボ遅延"
-#define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します(フレーム単位)。"
+#define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します (フレーム単位)。"
 #define PCE_FAST_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
 #define PCE_FAST_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
