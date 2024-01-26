@@ -19427,15 +19427,15 @@ struct retro_core_options_v2 options_it = {
 /* RETRO_LANGUAGE_JA */
 
 #define CATEGORY_VIDEO_LABEL_JA "ビデオ"
-#define CATEGORY_VIDEO_INFO_0_JA "表示のトリミング、フレームスキップおよびその他の画像出力のパラメータを構成します。"
+#define CATEGORY_VIDEO_INFO_0_JA "画面のトリミング、フレームスキップおよびその他の画像出力のパラメータを設定します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を構成します。"
+#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを構成します。"
+#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_JA "個々のハードウェアオーディオチャンネルのボリュームを設定します。"
-#define CATEGORY_CD_LABEL_JA "PCエンジン CD"
-#define CATEGORY_CD_INFO_0_JA "PC Engine CD エミュレーションに関連する設定を行います。"
+#define CATEGORY_CD_LABEL_JA "PC エンジン CD"
+#define CATEGORY_CD_INFO_0_JA "PC エンジン CD のエミュレーションに関連する設定を変更します。"
 #define PCE_FAST_PALETTE_LABEL_JA "カラーパレット"
 #define PCE_FAST_PALETTE_INFO_0_JA "コンポジットはオリジナルのコンソール出力の再現を試み、一部のゲームでさらなるディテールを表示することができます。"
 #define OPTION_VAL_RGB_JA NULL
@@ -19451,10 +19451,10 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
 #define OPTION_VAL_352_JA "352 (デフォルト)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "描画開始スキャンライン。大きい値ほど画面上部の表示が欠けます。"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "最初に描画されるスキャンラインです。値を大きくするほどイメージの上部がトリミングされます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_JA "最終スキャンライン"
-#define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最終描画スキャンライン。小さい値ほど画面下部の表示が欠けます。"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最後に描画されるスキャンラインです。値を小さくするほどイメージの下部がトリミングされます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル 0 音量 %"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル 0 の音量を変更します。"
@@ -19469,7 +19469,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル 5 音量 %"
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル 5 の音量を変更します。"
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくするほどマウスカーソルの動きが速くなります。"
 #define OPTION_VAL_0_25_JA NULL
 #define OPTION_VAL_0_50_JA NULL
 #define OPTION_VAL_0_75_JA NULL
@@ -19506,8 +19506,8 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_JA "ターボ切り替え"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_JA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA "代替ターボホットキー"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA "ボタン III と IV ではなく、レトロパッドの L3/R3 ボタンにターボホットキーを割り当てます。 [切り替え] モードかつ、L3/R3 に何も割り当てられていない場合にのみ動作します。これにより、6 ボタンコントローラーモードに切り替えた際、ボタン II および IV へのリマップを回避することができます。"
 #define PCE_FAST_TURBO_DELAY_LABEL_JA "ターボ遅延"
 #define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します (フレーム単位)。"
 #define PCE_FAST_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
@@ -19522,14 +19522,14 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_JA "システムカード 3 北米"
 #define PCE_FAST_CDSPEED_LABEL_JA "(CD) CD 速度"
 #define PCE_FAST_CDSPEED_LABEL_CAT_JA "CD 速度"
-#define PCE_FAST_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
+#define PCE_FAST_CDSPEED_INFO_0_JA "値を大きくするほど読み込み時間を高速化できますが、いくつかのゲームで問題が発生する可能性があります。"
 #define OPTION_VAL_1_JA NULL
 #define OPTION_VAL_2_JA NULL
 #define OPTION_VAL_4_JA NULL
 #define OPTION_VAL_8_JA NULL
 #define PCE_FAST_ADPCMVOLUME_LABEL_JA "(CD) ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
-#define PCE_FAST_ADPCMVOLUME_INFO_0_JA NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_JA "CD ゲームのみです。この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_JA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_JA "(CD) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
@@ -19537,8 +19537,8 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "スキャンラインあたりの16スプライトのハードウェア制限を削除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
-#define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPUオーバークロック倍率 (再起動が必要)"
-#define PCE_FAST_OCMULTIPLIER_INFO_0_JA "値を大きくするとゲームのスローダウンが減ります。警告：不具合やクラッシュを引き起こす可能性があります。"
+#define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPU オーバークロック倍率 (再起動が必要)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_JA "値を大きくするほどゲームの実行速度の低下を軽減できます。警告: 不具合やクラッシュを引き起こす可能性があります。"
 
 struct retro_core_option_v2_category option_cats_ja[] = {
    {
