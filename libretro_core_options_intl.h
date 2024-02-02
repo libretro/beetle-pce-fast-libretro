@@ -19431,7 +19431,7 @@ struct retro_core_options_v2 options_it = {
 #define CATEGORY_INPUT_LABEL_JA "入力"
 #define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA "低水準パフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
+#define CATEGORY_HACKS_INFO_0_JA "低レベルパフォーマンスと互換性に影響を与えるプロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_JA "個々のハードウェアオーディオチャンネルのボリュームを設定します。"
 #define CATEGORY_CD_LABEL_JA "PC エンジン CD"
@@ -19441,11 +19441,11 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_RGB_JA NULL
 #define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define PCE_FAST_FRAMESKIP_LABEL_JA "フレームスキップ"
-#define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。 「自動」は、フロントエンドにアドバイスされたときにフレームをスキップします。「マニュアル」は、「フレームスキップ閾値 (%)」設定を使用します。"
+#define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。[自動] はフロントエンドによって指示された場合にフレームをスキップします。[手動] は [フレームスキップしきい値 (%)] 設定を使用します。"
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_MANUAL_JA "手動"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップしきい値 (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "'フレームスキップ' が '手動' に設定されている場合, フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します. 値を大きくすると, フレームを頻繁に落とすことでクラッキングが発生するリスクが低下します."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "[フレームスキップ] が [手動] に設定されている場合、フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します。値を高くするほど、より頻繁にフレームを落とすことで音割れが発生するリスクを軽減します。"
 #define OPTION_VAL_33_JA "33 (デフォルト)"
 #define PCE_FAST_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
 #define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
