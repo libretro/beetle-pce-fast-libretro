@@ -19448,12 +19448,12 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "[フレームスキップ] が [手動] に設定されている場合、フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します。値を高くするほど、より頻繁にフレームを落とすことで音割れが発生するリスクを軽減します。"
 #define OPTION_VAL_33_JA "33 (デフォルト)"
 #define PCE_FAST_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
-#define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_JA "表示されるイメージの最大幅を選択します。値を低くすると、イメージの右側がトリミングされます。幅 352px ゲーム用の設定です (例: R-Type)。"
 #define OPTION_VAL_352_JA "352 (デフォルト)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "初期スキャンライン"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "開始スキャンライン"
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "最初に描画されるスキャンラインです。値を大きくするほどイメージの上部がトリミングされます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_JA "最終スキャンライン"
+#define PCE_FAST_LAST_SCANLINE_LABEL_JA "終了スキャンライン"
 #define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最後に描画されるスキャンラインです。値を小さくするほどイメージの下部がトリミングされます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル 0 音量 %"
@@ -19505,7 +19505,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_JA "ターボ切り替え"
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_JA NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_JA "ターボ切り替えホットキー (ボタンIII と IV) を有効にします。"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA "代替ターボホットキー"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA "ボタン III と IV ではなく、レトロパッドの L3/R3 ボタンにターボホットキーを割り当てます。 [切り替え] モードかつ、L3/R3 に何も割り当てられていない場合にのみ動作します。これにより、6 ボタンコントローラーモードに切り替えた際、ボタン II および IV へのリマップを回避することができます。"
 #define PCE_FAST_TURBO_DELAY_LABEL_JA "ターボ遅延"
@@ -19530,7 +19530,7 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_JA "(CD) ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_JA "CD ゲームのみです。この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
-#define PCE_FAST_ADPCMVOLUME_INFO_1_JA NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_JA "この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
 #define PCE_FAST_CDDAVOLUME_LABEL_JA "(CD) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
