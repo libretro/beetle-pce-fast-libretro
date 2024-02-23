@@ -24497,7 +24497,7 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_HACKS_LABEL_PT_BR "Hacks de emulação"
 #define CATEGORY_HACKS_INFO_0_PT_BR "Configure os parâmetros de precisão de overclock e emulação do processador que afetam o baixo desempenho e a compatibilidade."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_PT_BR "Configurações avançadas de volume de canais"
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_PT_BR "Configure o volume dos canais individuais de áudio do hardware."
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_PT_BR "Altera o volume de cada canal de áudio do hardware."
 #define CATEGORY_CD_LABEL_PT_BR "CD do PC Engine"
 #define CATEGORY_CD_INFO_0_PT_BR "Altera as configurações relacionadas à emulação de CD do PC Engine."
 #define PCE_FAST_PALETTE_LABEL_PT_BR "Paleta de cores"
@@ -24505,11 +24505,11 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_RGB_PT_BR NULL
 #define OPTION_VAL_COMPOSITE_PT_BR "Vídeo composto"
 #define PCE_FAST_FRAMESKIP_LABEL_PT_BR "Pulo de quadro"
-#define PCE_FAST_FRAMESKIP_INFO_0_PT_BR "Ignora quadros para evitar o esvaziamento do buffer do áudio (pipocos no áudio). Melhora o desempenho ao custo da suavidade visual. A opção 'Auto' ignora os quadros quando for aconselhado pela interface. Já 'Manual' utiliza a configuração 'Limite do salto de quadros (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_PT_BR "Ignora quadros para evitar o esvaziamento do buffer do áudio (corte no áudio). Melhora o desempenho ao custo da suavidade visual. A opção \"Automático\" ignora os quadros quando aconselhado pela interface. \"Manual\" usa a configuração \"Limite do pulo de quadro (%)\"."
 #define OPTION_VAL_AUTO_PT_BR "Automática"
 #define OPTION_VAL_MANUAL_PT_BR NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_BR "Limite de pulo de quadro (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Quando o 'Frameskip' for definido como 'Manual', especifica o limite de ocupação do buffer de áudio (em porcentagem) abaixo do qual os quadros serão pulados. Valores maiores reduzem o risco de engasgos pois farão que os quadros sejam descartados com mais frequência."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_BR "Limite do pulo de quadro (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Ao configurar \"Pulo de quadro\" como \"Manual\", especifica o limite do buffer de áudio em porcentagem, os quadros fora da porcentagem serão ignorados. Valores maiores reduzem o risco de engasgo por descartar quadros com mais frequência."
 #define OPTION_VAL_33_PT_BR "33 (padrão)"
 #define PCE_FAST_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
 #define PCE_FAST_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
