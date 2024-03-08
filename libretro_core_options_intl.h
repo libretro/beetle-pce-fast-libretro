@@ -24558,8 +24558,8 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR NULL
-#define OPTION_VAL_2_BUTTONS_PT_BR NULL
-#define OPTION_VAL_6_BUTTONS_PT_BR NULL
+#define OPTION_VAL_2_BUTTONS_PT_BR "2 botões"
+#define OPTION_VAL_6_BUTTONS_PT_BR "6 botões"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR NULL
