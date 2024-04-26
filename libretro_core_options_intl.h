@@ -4305,13 +4305,13 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_2_BUTTONS_CHS "2键"
 #define OPTION_VAL_6_BUTTONS_CHS "6键"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS "P1 默认Joypad 类型"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS "选择端口 2 手柄默认为 2 或 6 按钮。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS "P3 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS "选择端口 3 手柄默认为 2 键还是 6 键。该选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS "P4 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS "选择端口 4 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS "P5 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS "选择端口 5 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CHS "连发切换"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CHS "启用连发切换开关（按键III和IV）"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHS "备用连发热键"
