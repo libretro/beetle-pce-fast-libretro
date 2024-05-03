@@ -5144,18 +5144,18 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_5_00_CHT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT "禁用按[RUN鍵+SELECT鍵]重新開始遊戲, 此選項僅禁用核心登錄的組合鍵。"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT NULL
-#define OPTION_VAL_2_BUTTONS_CHT NULL
-#define OPTION_VAL_6_BUTTONS_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT "P1預設搖桿類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT "選擇連接埠 1 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define OPTION_VAL_2_BUTTONS_CHT "2個按鈕"
+#define OPTION_VAL_6_BUTTONS_CHT "6個按鈕"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT "P2預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT "選擇連接埠 2 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT "選擇連接埠 3 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT "選擇連接埠 4 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT "選擇連接埠 5 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CHT "連發開關"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT "開啟時[III/IV鍵]作為連發的開關, 提供給[I/II鍵]使用。"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHT "備用連發按鍵"
@@ -15207,49 +15207,49 @@ struct retro_core_options_v2 options_fr = {
 /* RETRO_LANGUAGE_GL */
 
 #define CATEGORY_VIDEO_LABEL_GL "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_GL NULL
+#define CATEGORY_VIDEO_INFO_0_GL "Configure o recorte de visualización, o salto de cadros e outros parámetros de saída da imaxe."
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
-#define CATEGORY_INPUT_INFO_0_GL NULL
+#define CATEGORY_INPUT_INFO_0_GL "Configura a entrada de pistola lixeira, rato e NegCon."
 #define CATEGORY_HACKS_LABEL_GL "Hacks de emulación"
 #define CATEGORY_HACKS_INFO_0_GL "Configurar os parámetros do overclocking e a precisión da emulación do procesador que afecten ó rendemento e á compatibilidade de baixo nivel."
-#define CATEGORY_CHANNEL_VOLUME_LABEL_GL NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_GL NULL
-#define CATEGORY_CD_LABEL_GL NULL
-#define CATEGORY_CD_INFO_0_GL NULL
-#define PCE_FAST_PALETTE_LABEL_GL NULL
-#define PCE_FAST_PALETTE_INFO_0_GL NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_GL "Configuración avanzada de volume da canle"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_GL "Configure o volume das canles de audio de hardware individuais."
+#define CATEGORY_CD_LABEL_GL "CD de PC Engine"
+#define CATEGORY_CD_INFO_0_GL "Configure os axustes relacionados coa emulación de CD de PC Engine."
+#define PCE_FAST_PALETTE_LABEL_GL "Paleta de cores"
+#define PCE_FAST_PALETTE_INFO_0_GL "Composite tenta recrear a saída orixinal da consola e pode mostrar máis detalles nalgúns xogos."
 #define OPTION_VAL_RGB_GL NULL
-#define OPTION_VAL_COMPOSITE_GL NULL
+#define OPTION_VAL_COMPOSITE_GL "Composto"
 #define PCE_FAST_FRAMESKIP_LABEL_GL NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_GL NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_GL "Omita fotogramas para evitar que o búfer de audio non se execute (crepitamento). Mellora o rendemento a costa da suavidade visual. \"Automático\" omite fotogramas cando o aconselle a interface. \"Manual\" utiliza a configuración \"Limiar de omisión de fotogramas (%)\"."
 #define OPTION_VAL_AUTO_GL NULL
 #define OPTION_VAL_MANUAL_GL NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GL NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GL "Limiar de salto de fotogramas (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GL "Cando a omisión de fotogramas sexa configurada en 'Manual', este axuste especifíca o umbral de ocupación do búfer de audio (en porcentaxe). Os valores altos reducen o risco de aparición de chasquidos omitindo fotogramas de forma máis frecuente."
-#define OPTION_VAL_33_GL NULL
-#define PCE_FAST_HOVERSCAN_LABEL_GL NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_GL NULL
-#define OPTION_VAL_352_GL NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_GL NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_3_GL NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_GL NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_242_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GL NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GL NULL
+#define OPTION_VAL_33_GL "33 (predeterminado)"
+#define PCE_FAST_HOVERSCAN_LABEL_GL "Overscan horizontal (só modo de ancho 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_GL "Escolla o ancho máximo da imaxe que se mostrará. Os valores máis baixos recortarán o lado dereito da imaxe (para xogos de 352 px de ancho)."
+#define OPTION_VAL_352_GL "352 (predeterminado)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_GL "Liña de exploración inicial"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GL "Primeira liña de escaneo renderizada. Os valores máis altos recortarán a parte superior da imaxe."
+#define OPTION_VAL_3_GL "3 (predeterminado)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_GL "Última liña de exploración"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_GL "Última liña de exploración renderizada. Os valores máis baixos recortarán a parte inferior da imaxe."
+#define OPTION_VAL_242_GL "242 (predeterminado)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GL "Canle de son do PSG 0 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GL "Canle de son do PSG 1 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GL "Canle de son do PSG 2 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GL "Canle de son do PSG 3 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GL "Canle de son do PSG 4 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GL "Canle de son do PSG 5 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GL "Sensibilidade do rato"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GL "Os valores máis altos farán que o cursor do rato se mova máis rápido."
 #define OPTION_VAL_0_25_GL NULL
 #define OPTION_VAL_0_50_GL NULL
 #define OPTION_VAL_0_75_GL NULL
@@ -15270,55 +15270,55 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_4_50_GL NULL
 #define OPTION_VAL_4_75_GL NULL
 #define OPTION_VAL_5_00_GL NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GL NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL NULL
-#define OPTION_VAL_2_BUTTONS_GL NULL
-#define OPTION_VAL_6_BUTTONS_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_GL NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_GL NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GL NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GL NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_GL NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_GL NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_GL NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_GL NULL
-#define PCE_FAST_CDBIOS_LABEL_GL NULL
-#define PCE_FAST_CDBIOS_INFO_0_GL NULL
-#define OPTION_VAL_GAMES_EXPRESS_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_1_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_2_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_3_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_GL NULL
-#define PCE_FAST_CDSPEED_LABEL_GL NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_GL NULL
-#define PCE_FAST_CDSPEED_INFO_0_GL NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GL "Desactivar reinicio suave (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GL "Cando se preme RUN e SELECT simultaneamente, desactive os dous botóns temporalmente en lugar de restablecer."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL "P1 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL "Escolla se o mando do porto 1 debe ser de 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define OPTION_VAL_2_BUTTONS_GL "2 Botóns"
+#define OPTION_VAL_6_BUTTONS_GL "6 Botóns"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL "P2 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL "Escolla se o mando do porto 2 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL "P3 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL "Escolla se o mando do porto 3 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL "P4 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL "Escolla se o mando do porto 4 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL "P5 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL "Escolla se o mando do porto 5 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_GL "Alternar Turbo"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_GL "Activa as teclas de acceso rápido do turbo (botóns III e IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GL "Tecla de acceso rápido Turbo alternativa"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GL "Asigne os botóns L3/R3 de RetroPad como teclas de acceso rápido para alternar turbo en lugar dos botóns III e IV. Funciona só mentres non se asignen nada aos botóns L3/R3. Con isto, pode evitar reasignar os botóns III e IV ao cambiar ao modo de controlador de 6 botóns."
+#define PCE_FAST_TURBO_DELAY_LABEL_GL "Retardo Turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_GL "Axuste o tempo entre o lume do turbo (en fotogramas)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_GL "Caché de imaxes de CD (necesario reiniciar)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_GL "Carga a imaxe completa na memoria ao iniciar. Pode diminuír os tempos de carga a costa dun aumento do tempo de inicio."
+#define PCE_FAST_CDBIOS_LABEL_GL "CD BIOS (reinicio necesario)"
+#define PCE_FAST_CDBIOS_INFO_0_GL "A maioría dos xogos poden executarse na \"Tarxeta do sistema 3\". Necesítase 'Games Express' para varios xogos sen licenza."
+#define OPTION_VAL_GAMES_EXPRESS_GL "Xogos Express"
+#define OPTION_VAL_SYSTEM_CARD_1_GL "Tarxeta do sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_GL "Tarxeta do sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_GL "Tarxeta do sistema 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_GL "Tarxeta do sistema 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_GL "Tarxeta do sistema 3 US"
+#define PCE_FAST_CDSPEED_LABEL_GL "(CD) Velocidade do CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_GL "Velocidade do CD"
+#define PCE_FAST_CDSPEED_INFO_0_GL "Os valores máis altos permiten tempos de carga máis rápidos, pero poden causar problemas con un par de xogos."
 #define OPTION_VAL_1_GL NULL
 #define OPTION_VAL_2_GL NULL
 #define OPTION_VAL_4_GL NULL
 #define OPTION_VAL_8_GL NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_GL NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_GL NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_GL NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_GL NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_GL NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_GL NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_GL NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_GL NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_GL NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_GL "(CD) % volume ADPCM"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GL "% volume ADPCM"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_GL "Só xogo en CD. Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_GL "Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define PCE_FAST_CDDAVOLUME_LABEL_GL "(CD) CDDA % volume"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GL "% volume CDDA"
+#define PCE_FAST_CDPSGVOLUME_LABEL_GL "(CD) PSG Volumen %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GL "% volume do CD PSG"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_GL "Sen límite de sprites"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_GL "Elimina o límite de hardware de 16 sprites por liña de exploración. COIDADO: pode provocar fallos gráficos nalgúns xogos."
+#define PCE_FAST_OCMULTIPLIER_LABEL_GL "Multiplicador de overclock da CPU (necesario reiniciar)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_GL "Os valores máis altos poden reducir as desaceleracións nos xogos. AVISO: pode causar fallos e fallos."
 
 struct retro_core_option_v2_category option_cats_gl[] = {
    {
