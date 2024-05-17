@@ -18589,7 +18589,7 @@ struct retro_core_options_v2 options_hu = {
 #define CATEGORY_HACKS_LABEL_ID "Peretasan Emulasi"
 #define CATEGORY_HACKS_INFO_0_ID NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_ID NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_ID NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_ID "Menyetel terpisah volume saluran audio peranti keras."
 #define CATEGORY_CD_LABEL_ID NULL
 #define CATEGORY_CD_INFO_0_ID NULL
 #define PCE_FAST_PALETTE_LABEL_ID NULL
@@ -18666,9 +18666,9 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
 #define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
-#define PCE_FAST_CDIMAGECACHE_LABEL_ID NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_ID NULL
-#define PCE_FAST_CDBIOS_LABEL_ID NULL
+#define PCE_FAST_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDBIOS_INFO_0_ID NULL
 #define OPTION_VAL_GAMES_EXPRESS_ID NULL
 #define OPTION_VAL_SYSTEM_CARD_1_ID NULL
@@ -18692,8 +18692,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_CDPSGVOLUME_LABEL_ID NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_ID NULL
 #define PCE_FAST_NOSPRITELIMIT_LABEL_ID NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_ID NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_ID NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_ID "Melepas batas 16 sprite tiap garis pindai peranti keras. PERINGATAN: Beberapa permainan akan kacau grafis."
+#define PCE_FAST_OCMULTIPLIER_LABEL_ID "Pengali Overclock CPU (Perlu Mulai Ulang)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_ID NULL
 
 struct retro_core_option_v2_category option_cats_id[] = {
