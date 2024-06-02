@@ -80,6 +80,18 @@ extern "C" {
 #define OPTION_VAL_5_00_AR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_AR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AR NULL
+#define OPTION_VAL_2_BUTTONS_AR NULL
+#define OPTION_VAL_6_BUTTONS_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_AR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AR NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_AR NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_AR NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_AR NULL
@@ -526,6 +538,76 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_AR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_AR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_AR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_AR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_AR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_AR,
       NULL,
@@ -782,7 +864,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_INPUT_INFO_0_AST NULL
 #define CATEGORY_HACKS_LABEL_AST "Hacks de la emulación"
 #define CATEGORY_HACKS_INFO_0_AST NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Axustes avanzaos del volume de les canales"
+#define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Configuración avanzada del volume de les canales"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_AST NULL
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST NULL
@@ -842,6 +924,18 @@ struct retro_core_options_v2 options_ar = {
 #define OPTION_VAL_5_00_AST "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_AST NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AST NULL
+#define OPTION_VAL_2_BUTTONS_AST NULL
+#define OPTION_VAL_6_BUTTONS_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_AST NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AST NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_AST NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_AST NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_AST NULL
@@ -876,7 +970,7 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_NOSPRITELIMIT_LABEL_AST NULL
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_AST NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_AST NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar el ralentizamientu nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
+#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar la lentitú nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
 
 struct retro_core_option_v2_category option_cats_ast[] = {
    {
@@ -1288,6 +1382,76 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_AST,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_AST,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_AST,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_AST,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_AST,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_AST,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_AST },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_AST },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_AST,
       NULL,
@@ -1536,6 +1700,1694 @@ struct retro_core_options_v2 options_ast = {
    option_defs_ast
 };
 
+/* RETRO_LANGUAGE_BE */
+
+#define CATEGORY_VIDEO_LABEL_BE "Відэа"
+#define CATEGORY_VIDEO_INFO_0_BE NULL
+#define CATEGORY_INPUT_LABEL_BE "Увод"
+#define CATEGORY_INPUT_INFO_0_BE NULL
+#define CATEGORY_HACKS_LABEL_BE NULL
+#define CATEGORY_HACKS_INFO_0_BE NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_BE NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_BE NULL
+#define CATEGORY_CD_LABEL_BE NULL
+#define CATEGORY_CD_INFO_0_BE NULL
+#define PCE_FAST_PALETTE_LABEL_BE NULL
+#define PCE_FAST_PALETTE_INFO_0_BE NULL
+#define OPTION_VAL_RGB_BE NULL
+#define OPTION_VAL_COMPOSITE_BE NULL
+#define PCE_FAST_FRAMESKIP_LABEL_BE NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_BE NULL
+#define OPTION_VAL_AUTO_BE "Аўта"
+#define OPTION_VAL_MANUAL_BE NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BE NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BE NULL
+#define OPTION_VAL_33_BE NULL
+#define PCE_FAST_HOVERSCAN_LABEL_BE NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_BE NULL
+#define OPTION_VAL_352_BE NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_BE NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_BE NULL
+#define OPTION_VAL_3_BE NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_BE NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_BE NULL
+#define OPTION_VAL_242_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BE NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BE NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_BE NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BE NULL
+#define OPTION_VAL_0_25_BE NULL
+#define OPTION_VAL_0_50_BE NULL
+#define OPTION_VAL_0_75_BE NULL
+#define OPTION_VAL_1_00_BE NULL
+#define OPTION_VAL_1_25_BE NULL
+#define OPTION_VAL_1_50_BE NULL
+#define OPTION_VAL_1_75_BE NULL
+#define OPTION_VAL_2_00_BE NULL
+#define OPTION_VAL_2_25_BE NULL
+#define OPTION_VAL_2_50_BE NULL
+#define OPTION_VAL_2_75_BE NULL
+#define OPTION_VAL_3_00_BE NULL
+#define OPTION_VAL_3_25_BE NULL
+#define OPTION_VAL_3_50_BE NULL
+#define OPTION_VAL_3_75_BE NULL
+#define OPTION_VAL_4_00_BE NULL
+#define OPTION_VAL_4_25_BE NULL
+#define OPTION_VAL_4_50_BE NULL
+#define OPTION_VAL_4_75_BE NULL
+#define OPTION_VAL_5_00_BE NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_BE NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE NULL
+#define OPTION_VAL_2_BUTTONS_BE NULL
+#define OPTION_VAL_6_BUTTONS_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_BE NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_BE NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BE NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BE NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_BE NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_BE NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_BE NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_BE NULL
+#define PCE_FAST_CDBIOS_LABEL_BE NULL
+#define PCE_FAST_CDBIOS_INFO_0_BE NULL
+#define OPTION_VAL_GAMES_EXPRESS_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_1_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_2_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_3_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_BE NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_BE NULL
+#define PCE_FAST_CDSPEED_LABEL_BE NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_BE NULL
+#define PCE_FAST_CDSPEED_INFO_0_BE NULL
+#define OPTION_VAL_1_BE NULL
+#define OPTION_VAL_2_BE NULL
+#define OPTION_VAL_4_BE NULL
+#define OPTION_VAL_8_BE NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_BE NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BE NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_BE NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_BE NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_BE NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_BE NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_BE NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_BE NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_BE NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_BE NULL
+#define PCE_FAST_OCMULTIPLIER_LABEL_BE NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_BE NULL
+
+struct retro_core_option_v2_category option_cats_be[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_BE,
+      CATEGORY_VIDEO_INFO_0_BE
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_BE,
+      CATEGORY_INPUT_INFO_0_BE
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_BE,
+      CATEGORY_HACKS_INFO_0_BE
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_BE,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_BE
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_BE,
+      CATEGORY_CD_INFO_0_BE
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_be[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_BE,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_BE },
+         { "Composite", OPTION_VAL_COMPOSITE_BE },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_BE,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_BE },
+         { "manual",   OPTION_VAL_MANUAL_BE },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BE,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_BE },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_BE,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_BE },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_BE,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_BE },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_BE,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_BE,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_BE },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BE,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BE,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_BE,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_BE },
+         { "0.50", OPTION_VAL_0_50_BE },
+         { "0.75", OPTION_VAL_0_75_BE },
+         { "1.00", OPTION_VAL_1_00_BE },
+         { "1.25", OPTION_VAL_1_25_BE },
+         { "1.50", OPTION_VAL_1_50_BE },
+         { "1.75", OPTION_VAL_1_75_BE },
+         { "2.00", OPTION_VAL_2_00_BE },
+         { "2.25", OPTION_VAL_2_25_BE },
+         { "2.50", OPTION_VAL_2_50_BE },
+         { "2.75", OPTION_VAL_2_75_BE },
+         { "3.00", OPTION_VAL_3_00_BE },
+         { "3.25", OPTION_VAL_3_25_BE },
+         { "3.50", OPTION_VAL_3_50_BE },
+         { "3.75", OPTION_VAL_3_75_BE },
+         { "4.00", OPTION_VAL_4_00_BE },
+         { "4.25", OPTION_VAL_4_25_BE },
+         { "4.50", OPTION_VAL_4_50_BE },
+         { "4.75", OPTION_VAL_4_75_BE },
+         { "5.00", OPTION_VAL_5_00_BE },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_BE,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_BE,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_BE,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BE,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_BE,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_BE,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_BE },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_BE,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_BE,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_BE },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_BE },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_BE },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_BE },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_BE },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_BE },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_BE,
+      PCE_FAST_CDSPEED_LABEL_CAT_BE,
+      PCE_FAST_CDSPEED_INFO_0_BE,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_BE },
+         { "2", OPTION_VAL_2_BE },
+         { "4", OPTION_VAL_4_BE },
+         { "8", OPTION_VAL_8_BE },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_BE,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_BE,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_BE,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BE,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BE,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_BE,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_BE,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_BE,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_BE,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_be = {
+   option_cats_be,
+   option_defs_be
+};
+
+/* RETRO_LANGUAGE_BG */
+
+#define CATEGORY_VIDEO_LABEL_BG NULL
+#define CATEGORY_VIDEO_INFO_0_BG NULL
+#define CATEGORY_INPUT_LABEL_BG NULL
+#define CATEGORY_INPUT_INFO_0_BG NULL
+#define CATEGORY_HACKS_LABEL_BG NULL
+#define CATEGORY_HACKS_INFO_0_BG NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_BG NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_BG NULL
+#define CATEGORY_CD_LABEL_BG NULL
+#define CATEGORY_CD_INFO_0_BG NULL
+#define PCE_FAST_PALETTE_LABEL_BG NULL
+#define PCE_FAST_PALETTE_INFO_0_BG NULL
+#define OPTION_VAL_RGB_BG NULL
+#define OPTION_VAL_COMPOSITE_BG NULL
+#define PCE_FAST_FRAMESKIP_LABEL_BG NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_BG NULL
+#define OPTION_VAL_AUTO_BG NULL
+#define OPTION_VAL_MANUAL_BG NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BG NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BG NULL
+#define OPTION_VAL_33_BG NULL
+#define PCE_FAST_HOVERSCAN_LABEL_BG NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_BG NULL
+#define OPTION_VAL_352_BG NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_BG NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_BG NULL
+#define OPTION_VAL_3_BG NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_BG NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_BG NULL
+#define OPTION_VAL_242_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BG NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BG NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_BG NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BG NULL
+#define OPTION_VAL_0_25_BG NULL
+#define OPTION_VAL_0_50_BG NULL
+#define OPTION_VAL_0_75_BG NULL
+#define OPTION_VAL_1_00_BG NULL
+#define OPTION_VAL_1_25_BG NULL
+#define OPTION_VAL_1_50_BG NULL
+#define OPTION_VAL_1_75_BG NULL
+#define OPTION_VAL_2_00_BG NULL
+#define OPTION_VAL_2_25_BG NULL
+#define OPTION_VAL_2_50_BG NULL
+#define OPTION_VAL_2_75_BG NULL
+#define OPTION_VAL_3_00_BG NULL
+#define OPTION_VAL_3_25_BG NULL
+#define OPTION_VAL_3_50_BG NULL
+#define OPTION_VAL_3_75_BG NULL
+#define OPTION_VAL_4_00_BG NULL
+#define OPTION_VAL_4_25_BG NULL
+#define OPTION_VAL_4_50_BG NULL
+#define OPTION_VAL_4_75_BG NULL
+#define OPTION_VAL_5_00_BG NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_BG NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BG NULL
+#define OPTION_VAL_2_BUTTONS_BG NULL
+#define OPTION_VAL_6_BUTTONS_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BG NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BG NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_BG NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_BG NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BG NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BG NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_BG NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_BG NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_BG NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_BG NULL
+#define PCE_FAST_CDBIOS_LABEL_BG NULL
+#define PCE_FAST_CDBIOS_INFO_0_BG NULL
+#define OPTION_VAL_GAMES_EXPRESS_BG NULL
+#define OPTION_VAL_SYSTEM_CARD_1_BG NULL
+#define OPTION_VAL_SYSTEM_CARD_2_BG NULL
+#define OPTION_VAL_SYSTEM_CARD_3_BG NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_BG NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_BG NULL
+#define PCE_FAST_CDSPEED_LABEL_BG NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_BG NULL
+#define PCE_FAST_CDSPEED_INFO_0_BG NULL
+#define OPTION_VAL_1_BG NULL
+#define OPTION_VAL_2_BG NULL
+#define OPTION_VAL_4_BG NULL
+#define OPTION_VAL_8_BG NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_BG NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BG NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_BG NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_BG NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_BG NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_BG NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_BG NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_BG NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_BG NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_BG NULL
+#define PCE_FAST_OCMULTIPLIER_LABEL_BG NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_BG NULL
+
+struct retro_core_option_v2_category option_cats_bg[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_BG,
+      CATEGORY_VIDEO_INFO_0_BG
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_BG,
+      CATEGORY_INPUT_INFO_0_BG
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_BG,
+      CATEGORY_HACKS_INFO_0_BG
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_BG,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_BG
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_BG,
+      CATEGORY_CD_INFO_0_BG
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_bg[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_BG,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_BG },
+         { "Composite", OPTION_VAL_COMPOSITE_BG },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_BG,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_BG },
+         { "manual",   OPTION_VAL_MANUAL_BG },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BG,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_BG },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_BG,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_BG },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_BG,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_BG },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_BG,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_BG,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_BG },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BG,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BG,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_BG,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_BG },
+         { "0.50", OPTION_VAL_0_50_BG },
+         { "0.75", OPTION_VAL_0_75_BG },
+         { "1.00", OPTION_VAL_1_00_BG },
+         { "1.25", OPTION_VAL_1_25_BG },
+         { "1.50", OPTION_VAL_1_50_BG },
+         { "1.75", OPTION_VAL_1_75_BG },
+         { "2.00", OPTION_VAL_2_00_BG },
+         { "2.25", OPTION_VAL_2_25_BG },
+         { "2.50", OPTION_VAL_2_50_BG },
+         { "2.75", OPTION_VAL_2_75_BG },
+         { "3.00", OPTION_VAL_3_00_BG },
+         { "3.25", OPTION_VAL_3_25_BG },
+         { "3.50", OPTION_VAL_3_50_BG },
+         { "3.75", OPTION_VAL_3_75_BG },
+         { "4.00", OPTION_VAL_4_00_BG },
+         { "4.25", OPTION_VAL_4_25_BG },
+         { "4.50", OPTION_VAL_4_50_BG },
+         { "4.75", OPTION_VAL_4_75_BG },
+         { "5.00", OPTION_VAL_5_00_BG },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_BG,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_BG,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BG,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BG },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BG },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BG,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BG },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BG },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BG,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BG },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BG },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BG,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BG },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BG },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BG,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_BG },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_BG },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_BG,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BG,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_BG,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_BG,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_BG },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_BG,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_BG,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_BG,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_BG,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_BG },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_BG },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_BG },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_BG },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_BG },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_BG },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_BG,
+      PCE_FAST_CDSPEED_LABEL_CAT_BG,
+      PCE_FAST_CDSPEED_INFO_0_BG,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_BG },
+         { "2", OPTION_VAL_2_BG },
+         { "4", OPTION_VAL_4_BG },
+         { "8", OPTION_VAL_8_BG },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_BG,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BG,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_BG,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BG,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_BG,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_0_BG,
+      PCE_FAST_ADPCMVOLUME_INFO_1_BG,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_BG,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_BG,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_BG,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_BG,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_bg = {
+   option_cats_bg,
+   option_defs_bg
+};
+
 /* RETRO_LANGUAGE_CA */
 
 #define CATEGORY_VIDEO_LABEL_CA "Vídeo"
@@ -1604,6 +3456,18 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_5_00_CA "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA NULL
+#define OPTION_VAL_2_BUTTONS_CA NULL
+#define OPTION_VAL_6_BUTTONS_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CA NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CA NULL
@@ -2050,6 +3914,76 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_CA,
       NULL,
@@ -2301,17 +4235,17 @@ struct retro_core_options_v2 options_ca = {
 /* RETRO_LANGUAGE_CHS */
 
 #define CATEGORY_VIDEO_LABEL_CHS "视频"
-#define CATEGORY_VIDEO_INFO_0_CHS NULL
+#define CATEGORY_VIDEO_INFO_0_CHS "设置显示裁剪、跳帧和其他显示"
 #define CATEGORY_INPUT_LABEL_CHS "输入"
-#define CATEGORY_INPUT_INFO_0_CHS NULL
+#define CATEGORY_INPUT_INFO_0_CHS "设置光枪、鼠标和Neg手柄"
 #define CATEGORY_HACKS_LABEL_CHS "模拟修改"
-#define CATEGORY_HACKS_INFO_0_CHS "配置处理器超时和模拟精确参数，影响低级性能和兼容性。"
+#define CATEGORY_HACKS_INFO_0_CHS "设置处理器超频和模拟精确性参数，影响低阶性能和兼容性。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_CHS "高级频道音量设置"
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_CHS NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_CHS "配置各个硬件声道的音量"
 #define CATEGORY_CD_LABEL_CHS NULL
-#define CATEGORY_CD_INFO_0_CHS NULL
+#define CATEGORY_CD_INFO_0_CHS "配置与PC Engine CD模拟相关的选项"
 #define PCE_FAST_PALETTE_LABEL_CHS "色板"
-#define PCE_FAST_PALETTE_INFO_0_CHS NULL
+#define PCE_FAST_PALETTE_INFO_0_CHS "使用复合设计模式尝试复现原始的控制台显示，在部分游戏中可以显示更多细节"
 #define OPTION_VAL_RGB_CHS NULL
 #define OPTION_VAL_COMPOSITE_CHS "合成"
 #define PCE_FAST_FRAMESKIP_LABEL_CHS "跳帧"
@@ -2321,29 +4255,29 @@ struct retro_core_options_v2 options_ca = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CHS "跳帧阈值(%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CHS "当“跳帧”功能设置成“手动”，请在下方指定跳帧占音频缓存的比例（百分比）。更高的值可以降低因频繁丢帧而导致的爆音风险。"
 #define OPTION_VAL_33_CHS "33 (默认)"
-#define PCE_FAST_HOVERSCAN_LABEL_CHS NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_CHS NULL
+#define PCE_FAST_HOVERSCAN_LABEL_CHS "水平过扫描（仅在352宽度模式下生效）"
+#define PCE_FAST_HOVERSCAN_INFO_0_CHS "选择要显示的最大图像宽度，超出设定值的图像将从右侧被裁减（针对宽度为352px的游戏）"
 #define OPTION_VAL_352_CHS "352 (默认)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_CHS NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHS NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_CHS "初始扫描线"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CHS "扫描线渲染的上界，超出设定值的部分将从图像顶部被裁剪"
 #define OPTION_VAL_3_CHS "3 (默认)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_CHS NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_CHS NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_CHS "终末扫描线"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_CHS "扫描线渲染的下界，超出设定值的部分将从图像底部被裁剪"
 #define OPTION_VAL_242_CHS "242 (默认)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CHS NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CHS NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CHS "PSG音频通道0的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CHS "设置PSG音频通道0的音量"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CHS "PSG音频通道1的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CHS "设置PSG音频通道1的音量"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CHS "PSG音频通道2的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CHS "设置PSG音频通道2的音量"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CHS "PSG音频通道3的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CHS "设置PSG音频通道3的音量"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CHS "PSG音频通道4的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CHS "设置PSG音频通道4的音量"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CHS "PSG音频通道5的音量百分数"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CHS "设置PSG音频通道5的音量"
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CHS "鼠标灵敏度"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CHS NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CHS "更高的值将使鼠标光标移动更快。"
 #define OPTION_VAL_0_25_CHS NULL
 #define OPTION_VAL_0_50_CHS NULL
 #define OPTION_VAL_0_75_CHS NULL
@@ -2364,43 +4298,55 @@ struct retro_core_options_v2 options_ca = {
 #define OPTION_VAL_4_50_CHS NULL
 #define OPTION_VAL_4_75_CHS NULL
 #define OPTION_VAL_5_00_CHS NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHS NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHS NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_CHS NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHS NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHS NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHS NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_CHS NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_CHS NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_CHS NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_CHS NULL
-#define PCE_FAST_CDBIOS_LABEL_CHS NULL
-#define PCE_FAST_CDBIOS_INFO_0_CHS NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHS "禁用软重置快捷键（即RUN+SELECT组合键）"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHS "当同时按下 RUN 和 SELECT两个按键时，暂时禁用两个按键而不是触发软重置。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS "P1 默认Joypad 类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS "选择端口 1 手柄默认为 2 键或 6键。 此选项仅在核心启动时应用，如果您想要在内容运行时切换，请使用“模式切换”按钮。 注意：6键手柄在不兼容的游戏中可能会有一些意想不到的行为。"
+#define OPTION_VAL_2_BUTTONS_CHS "2键"
+#define OPTION_VAL_6_BUTTONS_CHS "6键"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS "P1 默认Joypad 类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS "选择端口 2 手柄默认为 2 或 6 按钮。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS "P3 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS "选择端口 3 手柄默认为 2 键还是 6 键。该选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS "P4 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS "选择端口 4 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS "P5 默认手柄类型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS "选择端口 5 手柄默认为 2 键还是 6 键。此选项仅在核心启动时应用，如果您想在内容运行时切换，请使用 \"模式切换 \"按钮。注意：在不兼容的游戏中，6 按钮手柄可能会有奇怪的行为。"
+#define PCE_FAST_TURBO_TOGGLING_LABEL_CHS "连发切换"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_CHS "启用连发切换开关（按键III和IV）"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHS "备用连发热键"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CHS "将RetroPad虚拟控制器的L3/R3按键指定为连发切换热键，而不是按键III和IV。仅在没有给L3/R3按钮分配任何功能的情况下才起作用。在切换到6键控制器模式时，你可以用它来避免重新设置按钮III和IV。"
+#define PCE_FAST_TURBO_DELAY_LABEL_CHS "连发延迟"
+#define PCE_FAST_TURBO_DELAY_INFO_0_CHS "设置连发两次触发间的间隔（单位为帧）"
+#define PCE_FAST_CDIMAGECACHE_LABEL_CHS "启用CD光盘缓存（重启以生效）"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_CHS "在启动时将完整的镜像加载到内存中，以增加启动时间为代价，或许能减少游戏中的加载时间。"
+#define PCE_FAST_CDBIOS_LABEL_CHS "设置CD的BIOS（重启以生效）"
+#define PCE_FAST_CDBIOS_INFO_0_CHS "大部分的游戏可以在BIOS“System Card 3”上运行，但是一些未经授权的游戏需要“Games Express”"
 #define OPTION_VAL_GAMES_EXPRESS_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_1_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_2_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_3_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_CHS NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_CHS NULL
-#define PCE_FAST_CDSPEED_LABEL_CHS NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_CHS NULL
-#define PCE_FAST_CDSPEED_INFO_0_CHS NULL
-#define OPTION_VAL_1_CHS NULL
-#define OPTION_VAL_2_CHS NULL
-#define OPTION_VAL_4_CHS "4 倍"
-#define OPTION_VAL_8_CHS "8 倍"
-#define PCE_FAST_ADPCMVOLUME_LABEL_CHS NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHS NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_CHS NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_CHS NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CHS NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHS NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CHS NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHS NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_CHS NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHS NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_CHS NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_CHS NULL
+#define PCE_FAST_CDSPEED_LABEL_CHS "CD 加载速度"
+#define PCE_FAST_CDSPEED_LABEL_CAT_CHS "CD 加载速度"
+#define PCE_FAST_CDSPEED_INFO_0_CHS "较高的数值可以加快加载速度，但会使一些游戏出现问题。"
+#define OPTION_VAL_1_CHS "1倍"
+#define OPTION_VAL_2_CHS "2倍"
+#define OPTION_VAL_4_CHS "4倍"
+#define OPTION_VAL_8_CHS "8倍"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CHS "(CD) ADPCM 音量百分比"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHS "ADPCM 音量百分比"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_CHS "仅CD游戏生效。将此音量控制设置得太高可能会导致采样削波。"
+#define PCE_FAST_ADPCMVOLUME_INFO_1_CHS "将此音量控制设置得太高可能会导致采样削波。"
+#define PCE_FAST_CDDAVOLUME_LABEL_CHS "(CD) CDDA 音量百分比"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHS "CDDA 音量百分比"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CHS "(CD) PSG 音量百分比"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHS "PSG 音量百分比"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_CHS "解除符号限制"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_CHS "移除每条扫描线16个符号的硬件限制。警告！可能会导致某些游戏的显示问题。"
+#define PCE_FAST_OCMULTIPLIER_LABEL_CHS "CPU超频倍率（重启以生效）"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_CHS "更高的值可以减少游戏中的降速。注意！可能导致故障和崩溃。"
 
 struct retro_core_option_v2_category option_cats_chs[] = {
    {
@@ -2812,6 +4758,76 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_CHS,
       NULL,
@@ -3128,6 +5144,18 @@ struct retro_core_options_v2 options_chs = {
 #define OPTION_VAL_5_00_CHT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CHT "禁用軟體重開 (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CHT "禁用按[RUN鍵+SELECT鍵]重新開始遊戲, 此選項僅禁用核心登錄的組合鍵。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT "P1預設搖桿類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT "選擇連接埠 1 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define OPTION_VAL_2_BUTTONS_CHT "2個按鈕"
+#define OPTION_VAL_6_BUTTONS_CHT "6個按鈕"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT "P2預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT "選擇連接埠 2 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT "選擇連接埠 3 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT "選擇連接埠 4 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT "P3預設手把類型"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT "選擇連接埠 5 手把預設為 2 個按鈕還是 6 個按鈕。 此選項僅在核心啟動時套用，如果您想在內容運行時進行切換，請使用「模式切換」按鈕。 注意：6 按鈕手把在不相容的遊戲中可能會出現奇怪的行為。"
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CHT "連發開關"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CHT "開啟時[III/IV鍵]作為連發的開關, 提供給[I/II鍵]使用。"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CHT "備用連發按鍵"
@@ -3574,6 +5602,76 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CHT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CHT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CHT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CHT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CHT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CHT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CHT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CHT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_CHT,
       NULL,
@@ -3828,11 +5926,11 @@ struct retro_core_options_v2 options_cht = {
 #define CATEGORY_VIDEO_INFO_0_CS "Konfigurace ořezu zobrazení, přeskočení snímku a dalších parametrů výstupu obrazu."
 #define CATEGORY_INPUT_LABEL_CS "Vstup"
 #define CATEGORY_INPUT_INFO_0_CS "Konfigurace světelné pistole, myši a vstupu NegCon."
-#define CATEGORY_HACKS_LABEL_CS NULL
+#define CATEGORY_HACKS_LABEL_CS "Emulační hacky"
 #define CATEGORY_HACKS_INFO_0_CS "Konfigurace parametrů přetaktování procesoru a přesnosti emulace ovlivňujících výkon a kompatibilitu na nízké úrovni."
-#define CATEGORY_CHANNEL_VOLUME_LABEL_CS "Rozšířené Nastavení Hlasitosti Kanálů"
+#define CATEGORY_CHANNEL_VOLUME_LABEL_CS "Rozšířené nastavení hlasitosti kanálů"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_CS "Konfigurace hlasitosti jednotlivých hardwarových zvukových kanálů."
-#define CATEGORY_CD_LABEL_CS "PC Motor CD"
+#define CATEGORY_CD_LABEL_CS NULL
 #define CATEGORY_CD_INFO_0_CS "Konfigurace nastavení týkajících se emulace disku CD PC Engine."
 #define PCE_FAST_PALETTE_LABEL_CS "Paleta barev"
 #define PCE_FAST_PALETTE_INFO_0_CS "Kompozitně se snaží obnovit původní výstup z konzole a v některých hrách může zobrazit více detailů."
@@ -3842,31 +5940,31 @@ struct retro_core_options_v2 options_cht = {
 #define PCE_FAST_FRAMESKIP_INFO_0_CS "Přeskočení snímků, aby se zabránilo nedostatečnému využití vyrovnávací paměti zvuku (praskání). Zlepšuje výkon na úkor vizuální plynulosti. Funkce 'Auto' přeskakuje snímky, pokud to doporučí frontend. 'Ruční' využívá nastavení 'Práh přeskakování snímků (%)'."
 #define OPTION_VAL_AUTO_CS NULL
 #define OPTION_VAL_MANUAL_CS "Ruční"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CS "Hraniční Hodnota Frameskip (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CS "Hraniční hodnota přeskočení snímku (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CS "Pokud je položka 'Frameskip' nastavena na hodnotu 'Ruční', určuje práh obsazení vyrovnávací paměti zvuku (v procentech), pod kterým budou snímky přeskočeny. Vyšší hodnoty snižují riziko praskání tím, že způsobují častější vynechávání snímků."
 #define OPTION_VAL_33_CS "33 (Výchozí)"
-#define PCE_FAST_HOVERSCAN_LABEL_CS "Horizontální Overscan (Pouze Režim Šířky 352)"
+#define PCE_FAST_HOVERSCAN_LABEL_CS "Horizontální přeskenování (pouze režim šířky 352)"
 #define PCE_FAST_HOVERSCAN_INFO_0_CS "Zvolte maximální šířku obrázku, který se má zobrazit. Nižší hodnoty oříznou pravou stranu obrázku (pro hry o šířce 352 px)."
-#define OPTION_VAL_352_CS "352 (Výchozí)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_CS "Počáteční Linie Skenování"
+#define OPTION_VAL_352_CS "352 (výchozí)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_CS "Počáteční linie skenování"
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_CS "První vykreslená skenovací linie. Vyšší hodnoty oříznou horní část obrázku."
-#define OPTION_VAL_3_CS "3 (Výchozí)"
+#define OPTION_VAL_3_CS "3 (výchozí)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_CS "Poslední Skenovací Linie"
 #define PCE_FAST_LAST_SCANLINE_INFO_0_CS "Poslední vykreslená skenovací linie. Nižší hodnoty oříznou spodní část obrázku."
-#define OPTION_VAL_242_CS "242 (Výchozí)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CS "Zvukový kanál PSG 0 Hlasitost %"
+#define OPTION_VAL_242_CS "242 (výchozí)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CS "Zvukový kanál PSG 0 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 0."
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CS "Zvukový Kanál PSG 1 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CS "Zvukový kanál PSG 1 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 1."
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CS "Zvukový Kanál PSG 2 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CS "Zvukový kanál PSG 2 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 2."
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CS "Zvukový Kanál PSG 3 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CS "Zvukový kanál PSG 3 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 3."
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CS "PSG Sound Channel 4 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CS "Zvukový kanál PSG 4 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CS "Upravte hlasitost zvukového kanálu PSG 4."
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CS "Zvukový kanál PSG 5 Hlasitost %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CS "Zvukový kanál PSG 5 hlasitost %"
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CS "Úprava hlasitosti zvukového kanálu PSG 5."
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CS "Citlivost Myši"
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CS "Citlivost myši"
 #define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CS "Při vyšších hodnotách se kurzor myši pohybuje rychleji."
 #define OPTION_VAL_0_25_CS NULL
 #define OPTION_VAL_0_50_CS NULL
@@ -3888,17 +5986,29 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_4_50_CS NULL
 #define OPTION_VAL_4_75_CS NULL
 #define OPTION_VAL_5_00_CS "2.50"
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CS "Zakázat Soft. Reset (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CS "Zakázat soft. reset (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CS "Při současném stisknutí tlačítek RUN a SELECT se místo resetování dočasně vypnou obě tlačítka."
-#define PCE_FAST_TURBO_TOGGLING_LABEL_CS "Přepínač Turba"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CS "P1 Výchozí typ joypadu"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CS "Zvolte, zda má mít joypad port 1 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define OPTION_VAL_2_BUTTONS_CS "2 Tlačítka"
+#define OPTION_VAL_6_BUTTONS_CS "6 Tlačítek"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CS "P2 Výchozí typ joypadu"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CS "Vyberte, zda má mít joypad port 2 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CS "P3 Výchozí typ joypadu"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CS "Zvolte, zda má mít joypad port 3 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CS "P4 Výchozí typ joypadu"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CS "Zvolte, zda má mít joypad port 4 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CS "P5 Výchozí typ joypadu"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CS "Zvolte, zda má mít joypad portu 5 ve výchozím nastavení 2 nebo 6 tlačítek. Tato volba se použije pouze při spuštění jádra, pokud chcete přepínat za běhu obsahu, použijte tlačítko \"Přepínač režimů\". POZNÁMKA: 6tlačítkový joypad může mít v nekompatibilních hrách podivné chování."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_CS "Přepínač turba"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CS "Povolit hotkeys přepínat turbo (tlačítka III a IV)."
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CS "Alternativní Hotkey Turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CS "Alternativní Hotkey turbo"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CS "Přiřaďte tlačítkům L3/R3 zařízení RetroPad rychlé přepínání turba hotkeys místo tlačítek III a IV. Funguje pouze v případě, že tlačítkům L3/R3 není nic přiřazeno. Díky tomu se můžete vyhnout přemapování tlačítek III a IV při přepnutí do režimu šestitlačítkového ovladače."
-#define PCE_FAST_TURBO_DELAY_LABEL_CS "Zpoždění Turba"
+#define PCE_FAST_TURBO_DELAY_LABEL_CS "Zpoždění turba"
 #define PCE_FAST_TURBO_DELAY_INFO_0_CS "Nastavení doby mezi nástupem turba (ve snímcích)."
-#define PCE_FAST_CDIMAGECACHE_LABEL_CS "Vyrovnávací Paměť Obrazu CD (Nutný Restart)"
+#define PCE_FAST_CDIMAGECACHE_LABEL_CS "Vyrovnávací paměť obrazu CD (nutný restart)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_CS "Načíst kompletní obraz do paměti při spuštění. Může potenciálně zkrátit dobu načítání za cenu prodloužení doby spouštění."
-#define PCE_FAST_CDBIOS_LABEL_CS "CD BIOS (Nutný Restart)"
+#define PCE_FAST_CDBIOS_LABEL_CS "CD BIOS (nutný restart)"
 #define PCE_FAST_CDBIOS_INFO_0_CS "Většinu her lze spustit na systémové kartě 3. Pro některé nelicencované hry je zapotřebí 'Games Express'."
 #define OPTION_VAL_GAMES_EXPRESS_CS NULL
 #define OPTION_VAL_SYSTEM_CARD_1_CS "Systémová Karta 1"
@@ -3913,17 +6023,17 @@ struct retro_core_options_v2 options_cht = {
 #define OPTION_VAL_2_CS NULL
 #define OPTION_VAL_4_CS NULL
 #define OPTION_VAL_8_CS NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CS "(CD) ADPCM Hlasitost %"
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CS "ADPCM Hlasitost %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CS "(CD) ADPCM hlasitost %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CS "ADPCM hlasitost %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CS "Pouze hra na CD. Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CS "Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
-#define PCE_FAST_CDDAVOLUME_LABEL_CS "(CD) CDDA Hlasitost %"
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CS "CDDA Hlasitost %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_CS "(CD) PSG Hlasitost %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CS "CD PSG Hlasitost %"
-#define PCE_FAST_NOSPRITELIMIT_LABEL_CS "Žádný Limit Spritu"
+#define PCE_FAST_CDDAVOLUME_LABEL_CS "(CD) CDDA hlasitost %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CS "CDDA hlasitost %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CS "(CD) PSG hlasitost %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CS "CD PSG hlasitost %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_CS "Žádný limit spritu"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_CS "Odstranění hardwarového limitu 16 bodů na řádek. UPOZORNĚNÍ: V některých hrách může způsobovat grafické závady."
-#define PCE_FAST_OCMULTIPLIER_LABEL_CS "Násobitel Přetaktování CPU (Nutný Restart)"
+#define PCE_FAST_OCMULTIPLIER_LABEL_CS "Násobitel přetaktování CPU (nutný restart)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_CS "Vyšší hodnoty mohou snížit zpomalení ve hrách. VAROVÁNÍ: Může způsobit závady a pády."
 
 struct retro_core_option_v2_category option_cats_cs[] = {
@@ -4336,6 +6446,76 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CS,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CS,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CS },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CS },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_CS,
       NULL,
@@ -4652,6 +6832,18 @@ struct retro_core_options_v2 options_cs = {
 #define OPTION_VAL_5_00_CY NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_CY NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CY NULL
+#define OPTION_VAL_2_BUTTONS_CY NULL
+#define OPTION_VAL_6_BUTTONS_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CY NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CY NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_CY NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_CY NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CY NULL
@@ -5098,6 +7290,76 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CY,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CY,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CY,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CY,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CY,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CY,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_CY },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_CY },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_CY,
       NULL,
@@ -5414,6 +7676,18 @@ struct retro_core_options_v2 options_cy = {
 #define OPTION_VAL_5_00_DA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_DA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DA NULL
+#define OPTION_VAL_2_BUTTONS_DA NULL
+#define OPTION_VAL_6_BUTTONS_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_DA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DA NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_DA NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_DA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_DA NULL
@@ -5860,6 +8134,76 @@ struct retro_core_option_v2_definition option_defs_da[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_DA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_DA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_DA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_DA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_DA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_DA,
       NULL,
@@ -6131,7 +8475,7 @@ struct retro_core_options_v2 options_da = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_DE "Frameskip-Grenzwert (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_DE "Gibt den Audiopuffer-Belegungsschwellenwert (Prozent) an, unter dem Frames übersprungen werden, wenn 'Frameskip' auf \"Manuell\" eingestellt ist. Höhere Werte verringern das Risiko von Knistern, da Frames häufiger weggelassen werden."
 #define OPTION_VAL_33_DE "33 (Standard)"
-#define PCE_FAST_HOVERSCAN_LABEL_DE "Horizontaler Overscan (nur 352 Breitenmodus)"
+#define PCE_FAST_HOVERSCAN_LABEL_DE "Horizontaler Overscan (nur 352 Breitbildmodus)"
 #define PCE_FAST_HOVERSCAN_INFO_0_DE "Die maximale Bildbreite, die angezeigt werden soll. Bei niedrigeren Werten wird die rechte Seite des Bildes abgeschnitten (bei Spielen mit 352 px Bildbreite)."
 #define OPTION_VAL_352_DE "352 (Standard)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_DE "Erste Scanline"
@@ -6176,6 +8520,18 @@ struct retro_core_options_v2 options_da = {
 #define OPTION_VAL_5_00_DE "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_DE "Neustart-Kombination (RUN+SELECT) deaktivieren"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_DE "Wenn RUN und SELECT gleichzeitig gedrückt werden, werden beide Tasten vorübergehend deaktiviert, anstatt den Inhalt neu zu starten."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_DE "P1 Standard-Joypad-Typ"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DE "Hier wählen, ob Joypad von Port 1 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define OPTION_VAL_2_BUTTONS_DE "2 Tasten"
+#define OPTION_VAL_6_BUTTONS_DE "6 Tasten"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_DE "P2 Standard-Joypad-Typ"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DE "Hier wählen, ob Joypad von Port 2 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_DE "P3 Standard-Joypad-Typ"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DE "Hier wählen, ob Joypad von Port 3 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_DE "P4 Standard-Joypad-Typ"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DE "Hier wählen, ob Joypad von Port 4 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_DE "P5 Standard-Joypad-Typ"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DE "Hier wählen, ob Joypad von Port 5 standardmäßig 2 oder 6 Tasten besitzen soll. Diese Option wird nur beim Start des Cores ausgeführt. Wenn umgeschaltet werden soll, während der Inhalt läuft, bitte den „Moduswechsel“ verwenden. HINWEIS: Ein 6-Tasten-Joypad kann sich in nicht kompatiblen Spielen seltsam verhalten."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_DE "Turbo-Umschalter"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_DE "Turbo-Umschalt-Hotkeys (Tasten III und IV) aktivieren."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_DE "Alternative Turbo-Hotkeys"
@@ -6622,6 +8978,76 @@ struct retro_core_option_v2_definition option_defs_de[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_DE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_DE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_DE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_DE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_DE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_DE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_DE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_DE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_DE,
       NULL,
@@ -6938,6 +9364,18 @@ struct retro_core_options_v2 options_de = {
 #define OPTION_VAL_5_00_EL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_EL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EL NULL
+#define OPTION_VAL_2_BUTTONS_EL NULL
+#define OPTION_VAL_6_BUTTONS_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EL NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_EL NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_EL NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EL NULL
@@ -7384,6 +9822,76 @@ struct retro_core_option_v2_definition option_defs_el[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_EL,
       NULL,
@@ -7700,6 +10208,18 @@ struct retro_core_options_v2 options_el = {
 #define OPTION_VAL_5_00_EN NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_EN NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN "Choose if port 1 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
+#define OPTION_VAL_2_BUTTONS_EN NULL
+#define OPTION_VAL_6_BUTTONS_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN "Choose if port 2 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN "Choose if port 3 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN "Choose if port 4 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN "Choose if port 5 joypad should be 2 or 6 buttons by default. This option is only applied when the core starts, if you want to switch while content is running, use the 'Mode Switch' button. NOTE: 6 buttons joypad can have weird behaviours in non-compatible games."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_EN NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_EN NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EN NULL
@@ -8146,6 +10666,76 @@ struct retro_core_option_v2_definition option_defs_en[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_EN,
       NULL,
@@ -8462,6 +11052,18 @@ struct retro_core_options_v2 options_en = {
 #define OPTION_VAL_5_00_EO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_EO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO NULL
+#define OPTION_VAL_2_BUTTONS_EO NULL
+#define OPTION_VAL_6_BUTTONS_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_EO NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_EO NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EO NULL
@@ -8908,6 +11510,76 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_EO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_EO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_EO,
       NULL,
@@ -9224,6 +11896,18 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_5_00_ES "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_ES "Desactivar reinicio por software (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_ES "Cuando se pulsen a la vez los botones RUN y SELECT, esta opción desactivará los dos botones temporalmente en vez de provocar un reinicio del sistema."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES "Tipo de mando predeterminado del J1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES "Indica si el mando del puerto 1 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define OPTION_VAL_2_BUTTONS_ES "Dos botones"
+#define OPTION_VAL_6_BUTTONS_ES "Seis botones"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES "Tipo de mando predeterminado del J2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES "Indica si el mando del puerto 2 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES "Tipo de mando predeterminado del J3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES "Indica si el mando del puerto 3 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES "Tipo de mando predeterminado del J4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES "Indica si el mando del puerto 4 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES "Tipo de mando predeterminado del J5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES "Indica si el mando del puerto 5 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_ES "Activación manual del turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_ES "Activa las teclas rápidas para activar o desactivar el turbo (los botones III y IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ES "Teclas rápidas alternativas para el turbo"
@@ -9670,6 +12354,76 @@ struct retro_core_option_v2_definition option_defs_es[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ES },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ES },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_ES,
       NULL,
@@ -9986,6 +12740,18 @@ struct retro_core_options_v2 options_es = {
 #define OPTION_VAL_5_00_FA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_FA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FA NULL
+#define OPTION_VAL_2_BUTTONS_FA NULL
+#define OPTION_VAL_6_BUTTONS_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FA NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_FA NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_FA NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_FA NULL
@@ -10432,6 +13198,76 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_FA,
       NULL,
@@ -10748,6 +13584,18 @@ struct retro_core_options_v2 options_fa = {
 #define OPTION_VAL_5_00_FI NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_FI "Poista soft reset käytöstä (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_FI "Kun RUN ja SELECT painetaan samanaikaisesti, poistetaan tilapäisesti molemmat painikkeet käytöstä soft resettaamisen sijaan."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FI NULL
+#define OPTION_VAL_2_BUTTONS_FI NULL
+#define OPTION_VAL_6_BUTTONS_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FI NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FI NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_FI "Vaihda turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_FI NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_FI "Vaihtoehtoinen turbo-pikanäppäin"
@@ -11194,6 +14042,76 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FI,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FI,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FI,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FI,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FI,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FI,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FI },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FI },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_FI,
       NULL,
@@ -11510,6 +14428,18 @@ struct retro_core_options_v2 options_fi = {
 #define OPTION_VAL_5_00_FR "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_FR "Désactiver la réinitialisation logicielle (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_FR "Lorsque RUN et SELECT sont appuyés simultanément, désactiver temporairement les deux touches au lieu de réinitialiser."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FR "Type de manette par défaut pour le joueur 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FR "Choisissez si la manette du port 1 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define OPTION_VAL_2_BUTTONS_FR "2 touches"
+#define OPTION_VAL_6_BUTTONS_FR "6 touches"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FR "Type de manette par défaut pour le joueur 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FR "Choisissez si la manette du port 2 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FR "Type de manette par défaut pour le joueur 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FR "Choisissez si la manette du port 3 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FR "Type de manette par défaut pour le joueur 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FR "Choisissez si la manette du port 4 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FR "Type de manette par défaut pour le joueur 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FR "Choisissez si la manette du port 5 doit avoir 2 ou 6 touches par défaut. Cette option n'est appliquée qu'au démarrage du cœur, si vous voulez changer de contenu lorsque du contenu est en cours d'exécution, utilisez la touche 'Mode Switch'. REMARQUE : Les manettes à 6 touches peuvent avoir des comportements bizarres dans des jeux non compatibles."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_FR "Activer/désactiver le turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_FR "Activer les touches de raccourci d'activation/désactivation du turbo (touches III et IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_FR "Touche de raccourci turbo alternative"
@@ -11956,6 +14886,76 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_FR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_FR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_FR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_FR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_FR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_FR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_FR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_FR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_FR,
       NULL,
@@ -12207,49 +15207,49 @@ struct retro_core_options_v2 options_fr = {
 /* RETRO_LANGUAGE_GL */
 
 #define CATEGORY_VIDEO_LABEL_GL "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_GL NULL
+#define CATEGORY_VIDEO_INFO_0_GL "Configure o recorte de visualización, o salto de cadros e outros parámetros de saída da imaxe."
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
-#define CATEGORY_INPUT_INFO_0_GL NULL
+#define CATEGORY_INPUT_INFO_0_GL "Configura a entrada de pistola lixeira, rato e NegCon."
 #define CATEGORY_HACKS_LABEL_GL "Hacks de emulación"
 #define CATEGORY_HACKS_INFO_0_GL "Configurar os parámetros do overclocking e a precisión da emulación do procesador que afecten ó rendemento e á compatibilidade de baixo nivel."
-#define CATEGORY_CHANNEL_VOLUME_LABEL_GL NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_GL NULL
-#define CATEGORY_CD_LABEL_GL NULL
-#define CATEGORY_CD_INFO_0_GL NULL
-#define PCE_FAST_PALETTE_LABEL_GL NULL
-#define PCE_FAST_PALETTE_INFO_0_GL NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_GL "Configuración avanzada de volume da canle"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_GL "Configure o volume das canles de audio de hardware individuais."
+#define CATEGORY_CD_LABEL_GL "CD de PC Engine"
+#define CATEGORY_CD_INFO_0_GL "Configure os axustes relacionados coa emulación de CD de PC Engine."
+#define PCE_FAST_PALETTE_LABEL_GL "Paleta de cores"
+#define PCE_FAST_PALETTE_INFO_0_GL "Composite tenta recrear a saída orixinal da consola e pode mostrar máis detalles nalgúns xogos."
 #define OPTION_VAL_RGB_GL NULL
-#define OPTION_VAL_COMPOSITE_GL NULL
+#define OPTION_VAL_COMPOSITE_GL "Composto"
 #define PCE_FAST_FRAMESKIP_LABEL_GL NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_GL NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_GL "Omita fotogramas para evitar que o búfer de audio non se execute (crepitamento). Mellora o rendemento a costa da suavidade visual. \"Automático\" omite fotogramas cando o aconselle a interface. \"Manual\" utiliza a configuración \"Limiar de omisión de fotogramas (%)\"."
 #define OPTION_VAL_AUTO_GL NULL
 #define OPTION_VAL_MANUAL_GL NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GL NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GL "Limiar de salto de fotogramas (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GL "Cando a omisión de fotogramas sexa configurada en 'Manual', este axuste especifíca o umbral de ocupación do búfer de audio (en porcentaxe). Os valores altos reducen o risco de aparición de chasquidos omitindo fotogramas de forma máis frecuente."
-#define OPTION_VAL_33_GL NULL
-#define PCE_FAST_HOVERSCAN_LABEL_GL NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_GL NULL
-#define OPTION_VAL_352_GL NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_GL NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_3_GL NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_GL NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_GL NULL
-#define OPTION_VAL_242_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GL NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GL NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GL NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GL NULL
+#define OPTION_VAL_33_GL "33 (predeterminado)"
+#define PCE_FAST_HOVERSCAN_LABEL_GL "Overscan horizontal (só modo de ancho 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_GL "Escolla o ancho máximo da imaxe que se mostrará. Os valores máis baixos recortarán o lado dereito da imaxe (para xogos de 352 px de ancho)."
+#define OPTION_VAL_352_GL "352 (predeterminado)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_GL "Liña de exploración inicial"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GL "Primeira liña de escaneo renderizada. Os valores máis altos recortarán a parte superior da imaxe."
+#define OPTION_VAL_3_GL "3 (predeterminado)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_GL "Última liña de exploración"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_GL "Última liña de exploración renderizada. Os valores máis baixos recortarán a parte inferior da imaxe."
+#define OPTION_VAL_242_GL "242 (predeterminado)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GL "Canle de son do PSG 0 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GL "Canle de son do PSG 1 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GL "Canle de son do PSG 2 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GL "Canle de son do PSG 3 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GL "Canle de son do PSG 4 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GL "Canle de son do PSG 5 % de volume"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GL "Modifica o volume do PSG Sound Channel 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GL "Sensibilidade do rato"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GL "Os valores máis altos farán que o cursor do rato se mova máis rápido."
 #define OPTION_VAL_0_25_GL NULL
 #define OPTION_VAL_0_50_GL NULL
 #define OPTION_VAL_0_75_GL NULL
@@ -12270,43 +15270,55 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_4_50_GL NULL
 #define OPTION_VAL_4_75_GL NULL
 #define OPTION_VAL_5_00_GL NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GL NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GL NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_GL NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_GL NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GL NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GL NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_GL NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_GL NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_GL NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_GL NULL
-#define PCE_FAST_CDBIOS_LABEL_GL NULL
-#define PCE_FAST_CDBIOS_INFO_0_GL NULL
-#define OPTION_VAL_GAMES_EXPRESS_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_1_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_2_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_3_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_GL NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_GL NULL
-#define PCE_FAST_CDSPEED_LABEL_GL NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_GL NULL
-#define PCE_FAST_CDSPEED_INFO_0_GL NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GL "Desactivar reinicio suave (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GL "Cando se preme RUN e SELECT simultaneamente, desactive os dous botóns temporalmente en lugar de restablecer."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL "P1 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL "Escolla se o mando do porto 1 debe ser de 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define OPTION_VAL_2_BUTTONS_GL "2 Botóns"
+#define OPTION_VAL_6_BUTTONS_GL "6 Botóns"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL "P2 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL "Escolla se o mando do porto 2 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL "P3 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL "Escolla se o mando do porto 3 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL "P4 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL "Escolla se o mando do porto 4 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL "P5 Tipo de Joypad predeterminado"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL "Escolla se o mando do porto 5 debe ter 2 ou 6 botóns por defecto. Esta opción só se aplica cando se inicia o núcleo, se queres cambiar mentres o contido está en execución, usa o botón \"Cambio de modo\". NOTA: O mando de 6 botóns pode ter comportamentos estraños en xogos non compatibles."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_GL "Alternar Turbo"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_GL "Activa as teclas de acceso rápido do turbo (botóns III e IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GL "Tecla de acceso rápido Turbo alternativa"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GL "Asigne os botóns L3/R3 de RetroPad como teclas de acceso rápido para alternar turbo en lugar dos botóns III e IV. Funciona só mentres non se asignen nada aos botóns L3/R3. Con isto, pode evitar reasignar os botóns III e IV ao cambiar ao modo de controlador de 6 botóns."
+#define PCE_FAST_TURBO_DELAY_LABEL_GL "Retardo Turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_GL "Axuste o tempo entre o lume do turbo (en fotogramas)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_GL "Caché de imaxes de CD (necesario reiniciar)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_GL "Carga a imaxe completa na memoria ao iniciar. Pode diminuír os tempos de carga a costa dun aumento do tempo de inicio."
+#define PCE_FAST_CDBIOS_LABEL_GL "CD BIOS (reinicio necesario)"
+#define PCE_FAST_CDBIOS_INFO_0_GL "A maioría dos xogos poden executarse na \"Tarxeta do sistema 3\". Necesítase 'Games Express' para varios xogos sen licenza."
+#define OPTION_VAL_GAMES_EXPRESS_GL "Xogos Express"
+#define OPTION_VAL_SYSTEM_CARD_1_GL "Tarxeta do sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_GL "Tarxeta do sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_GL "Tarxeta do sistema 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_GL "Tarxeta do sistema 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_GL "Tarxeta do sistema 3 US"
+#define PCE_FAST_CDSPEED_LABEL_GL "(CD) Velocidade do CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_GL "Velocidade do CD"
+#define PCE_FAST_CDSPEED_INFO_0_GL "Os valores máis altos permiten tempos de carga máis rápidos, pero poden causar problemas con un par de xogos."
 #define OPTION_VAL_1_GL NULL
 #define OPTION_VAL_2_GL NULL
 #define OPTION_VAL_4_GL NULL
 #define OPTION_VAL_8_GL NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_GL NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_GL NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_GL NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_GL NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_GL NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GL NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_GL NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_GL NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_GL NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_GL NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_GL "(CD) % volume ADPCM"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GL "% volume ADPCM"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_GL "Só xogo en CD. Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_GL "Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define PCE_FAST_CDDAVOLUME_LABEL_GL "(CD) CDDA % volume"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GL "% volume CDDA"
+#define PCE_FAST_CDPSGVOLUME_LABEL_GL "(CD) PSG Volumen %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GL "% volume do CD PSG"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_GL "Sen límite de sprites"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_GL "Elimina o límite de hardware de 16 sprites por liña de exploración. COIDADO: pode provocar fallos gráficos nalgúns xogos."
+#define PCE_FAST_OCMULTIPLIER_LABEL_GL "Multiplicador de overclock da CPU (necesario reiniciar)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_GL "Os valores máis altos poden reducir as desaceleracións nos xogos. AVISO: pode causar fallos e fallos."
 
 struct retro_core_option_v2_category option_cats_gl[] = {
    {
@@ -12718,6 +15730,76 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_GL,
       NULL,
@@ -13034,6 +16116,18 @@ struct retro_core_options_v2 options_gl = {
 #define OPTION_VAL_5_00_HE NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_HE NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HE NULL
+#define OPTION_VAL_2_BUTTONS_HE NULL
+#define OPTION_VAL_6_BUTTONS_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HE NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HE NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_HE NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_HE NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HE NULL
@@ -13480,6 +16574,76 @@ struct retro_core_option_v2_definition option_defs_he[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HE,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HE,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HE },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HE },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_HE,
       NULL,
@@ -13796,6 +16960,18 @@ struct retro_core_options_v2 options_he = {
 #define OPTION_VAL_5_00_HR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_HR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HR NULL
+#define OPTION_VAL_2_BUTTONS_HR NULL
+#define OPTION_VAL_6_BUTTONS_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HR NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_HR NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_HR NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HR NULL
@@ -14242,6 +17418,76 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_HR,
       NULL,
@@ -14558,6 +17804,18 @@ struct retro_core_options_v2 options_hr = {
 #define OPTION_VAL_5_00_HU NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_HU "Soft reset letiltása (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_HU "A RUN és SELECT gombok egyidejű megnyomásakor mindkét gomb ideiglenes letiltása, reset helyett."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU "1. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU "Az 1. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define OPTION_VAL_2_BUTTONS_HU "2 gomb"
+#define OPTION_VAL_6_BUTTONS_HU "6 gomb"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU "2. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU "A 2. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU "3. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU "A 3. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU "4. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU "A 4. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU "5. joypad alapértelmezett típusa"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU "Az 5. csatlakozó induláskor 2 vagy 6 gombos-e. Ez a beállítás csak a mag elindításakor jut érvényre, tartalom futtatása közben a \"Módváltás\" gomb használható. Figyelem: a 6 gombos joypadnak furcsa hatása lehet az azzal nem kompatibilis játékokra."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_HU "Turbo átkapcsoló"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_HU "Engedélyezi a turbo átkapcsoló gyorsgombokat (III és IV gomb)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_HU "Alternatív Turbo gyorsgomb"
@@ -15004,6 +18262,76 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_HU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_HU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_HU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_HU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_HU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_HU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_HU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_HU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_HU,
       NULL,
@@ -15261,7 +18589,7 @@ struct retro_core_options_v2 options_hu = {
 #define CATEGORY_HACKS_LABEL_ID "Peretasan Emulasi"
 #define CATEGORY_HACKS_INFO_0_ID NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_ID NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_ID NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_ID "Menyetel terpisah volume saluran audio peranti keras."
 #define CATEGORY_CD_LABEL_ID NULL
 #define CATEGORY_CD_INFO_0_ID NULL
 #define PCE_FAST_PALETTE_LABEL_ID NULL
@@ -15296,8 +18624,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_ID NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_ID NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_ID NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_ID NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_ID NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_ID "Sensitivitas Mouse"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_ID "Nilai yang lebih tinggi akan membuat kursor mouse bergerak lebih cepat."
 #define OPTION_VAL_0_25_ID NULL
 #define OPTION_VAL_0_50_ID NULL
 #define OPTION_VAL_0_75_ID NULL
@@ -15320,15 +18648,27 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_5_00_ID NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_ID NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ID NULL
+#define OPTION_VAL_2_BUTTONS_ID NULL
+#define OPTION_VAL_6_BUTTONS_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ID NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ID NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_ID NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
 #define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
-#define PCE_FAST_CDIMAGECACHE_LABEL_ID NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_ID NULL
-#define PCE_FAST_CDBIOS_LABEL_ID NULL
+#define PCE_FAST_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDBIOS_INFO_0_ID NULL
 #define OPTION_VAL_GAMES_EXPRESS_ID NULL
 #define OPTION_VAL_SYSTEM_CARD_1_ID NULL
@@ -15352,8 +18692,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_CDPSGVOLUME_LABEL_ID NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_ID NULL
 #define PCE_FAST_NOSPRITELIMIT_LABEL_ID NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_ID NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_ID NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_ID "Melepas batas 16 sprite tiap garis pindai peranti keras. PERINGATAN: Beberapa permainan akan kacau grafis."
+#define PCE_FAST_OCMULTIPLIER_LABEL_ID "Pengali Overclock CPU (Perlu Mulai Ulang)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_ID NULL
 
 struct retro_core_option_v2_category option_cats_id[] = {
@@ -15766,6 +19106,76 @@ struct retro_core_option_v2_definition option_defs_id[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ID,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ID,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ID,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ID,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ID,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ID,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_ID },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_ID },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_ID,
       NULL,
@@ -16082,6 +19492,18 @@ struct retro_core_options_v2 options_id = {
 #define OPTION_VAL_5_00_IT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_IT "Disabilita Soft Reset (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_IT "Quando RUN e SELECT vengono premuti contemporaneamente, disabilitare temporaneamente entrambi i pulsanti invece di reimpostare."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_IT "Tipo Joypad Predefinito P1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_IT "Scegli se la porta 1 joypad deve essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define OPTION_VAL_2_BUTTONS_IT "2 Bottoni"
+#define OPTION_VAL_6_BUTTONS_IT "6 Bottoni"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_IT "Tipo Joypad Predefinito P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_IT "Scegli se la porta 2 joypad deve essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_IT "Tipo Joypad Predefinito P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_IT "Scegli se la porta 3 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_IT "Tipo Joypad Predefinito P4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_IT "Scegli se la porta 4 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_IT "Tipo Joypad Predefinito P5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_IT "Scegli se la porta 5 joypad dovrebbe essere 2 o 6 pulsanti per impostazione predefinita. Questa opzione viene applicata solo quando il core si avvia, se si desidera passare mentre il contenuto è in esecuzione, utilizzare il pulsante 'Commutatore di modalità'. NOTA: 6 pulsanti joypad possono avere comportamenti strani in giochi non compatibili."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_IT "Attiva/Disattiva Turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_IT "Abilita i tasti turbo (tasti III e IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_IT "Scorciatoia Turbo Alternativa"
@@ -16528,6 +19950,76 @@ struct retro_core_option_v2_definition option_defs_it[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_IT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_IT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_IT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_IT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_IT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_IT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_IT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_IT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_IT,
       NULL,
@@ -16779,49 +20271,49 @@ struct retro_core_options_v2 options_it = {
 /* RETRO_LANGUAGE_JA */
 
 #define CATEGORY_VIDEO_LABEL_JA "ビデオ"
-#define CATEGORY_VIDEO_INFO_0_JA NULL
+#define CATEGORY_VIDEO_INFO_0_JA "画面のトリミング、フレームスキップおよびその他の画像出力のパラメータを設定します。"
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA NULL
+#define CATEGORY_INPUT_INFO_0_JA "ライトガン、マウスおよびネジコンの入力を設定します。"
 #define CATEGORY_HACKS_LABEL_JA "エミュレーションハック"
-#define CATEGORY_HACKS_INFO_0_JA NULL
+#define CATEGORY_HACKS_INFO_0_JA "低レベルパフォーマンスと互換性に影響する、プロセッサのオーバークロックとエミュレーション精度のパラメータを設定します。"
 #define CATEGORY_CHANNEL_VOLUME_LABEL_JA "高度なチャンネル音量設定"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_JA "個々のハードウェアオーディオチャンネルのボリュームを設定します。"
-#define CATEGORY_CD_LABEL_JA "PCエンジン CD"
-#define CATEGORY_CD_INFO_0_JA "PC Engine CD エミュレーションに関連する設定を行います。"
+#define CATEGORY_CD_LABEL_JA "PC エンジン CD"
+#define CATEGORY_CD_INFO_0_JA "PC エンジン CD のエミュレーションに関連する設定を変更します。"
 #define PCE_FAST_PALETTE_LABEL_JA "カラーパレット"
-#define PCE_FAST_PALETTE_INFO_0_JA NULL
+#define PCE_FAST_PALETTE_INFO_0_JA "コンポジットはオリジナルのコンソール出力の再現を試み、一部のゲームでさらなるディテールを表示することができます。"
 #define OPTION_VAL_RGB_JA NULL
 #define OPTION_VAL_COMPOSITE_JA "コンポジット"
 #define PCE_FAST_FRAMESKIP_LABEL_JA "フレームスキップ"
-#define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。 「自動」は、フロントエンドにアドバイスされたときにフレームをスキップします。「マニュアル」は、「フレームスキップ閾値 (%)」設定を使用します。"
+#define PCE_FAST_FRAMESKIP_INFO_0_JA "フレームをスキップしてオーディオバッファアンダーラン (音割れ) を回避します。視覚的な滑らかさを犠牲にしてパフォーマンスを向上させます。[自動] はフロントエンドによって指示された場合にフレームをスキップします。[手動] は [フレームスキップしきい値 (%)] 設定を使用します。"
 #define OPTION_VAL_AUTO_JA "自動"
 #define OPTION_VAL_MANUAL_JA "手動"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップ閾値 (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "'フレームスキップ' が '手動' に設定されている場合, フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します. 値を大きくすると, フレームを頻繁に落とすことでクラッキングが発生するリスクが低下します."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_JA "フレームスキップしきい値 (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_JA "[フレームスキップ] が [手動] に設定されている場合、フレームがスキップされるオーディオバッファ占有しきい値 (%) を指定します。値を高くするほど、より頻繁にフレームを落とすことで音割れが発生するリスクを軽減します。"
 #define OPTION_VAL_33_JA "33 (デフォルト)"
-#define PCE_FAST_HOVERSCAN_LABEL_JA NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_JA NULL
+#define PCE_FAST_HOVERSCAN_LABEL_JA "水平オーバースキャン (352 幅モードのみ)"
+#define PCE_FAST_HOVERSCAN_INFO_0_JA "表示されるイメージの最大幅を選択します。値を低くすると、イメージの右側がトリミングされます。幅 352px ゲーム用の設定です (例: R-Type)。"
 #define OPTION_VAL_352_JA "352 (デフォルト)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "描画開始スキャンライン。大きい値ほど画面上部の表示が欠けます。"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_JA "開始スキャンライン"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_JA "最初に描画されるスキャンラインです。値を大きくするほどイメージの上部がトリミングされます。"
 #define OPTION_VAL_3_JA "3 (デフォルト)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_JA NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最終描画スキャンライン。小さい値ほど画面下部の表示が欠けます。"
+#define PCE_FAST_LAST_SCANLINE_LABEL_JA "終了スキャンライン"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_JA "最後に描画されるスキャンラインです。値を小さくするほどイメージの下部がトリミングされます。"
 #define OPTION_VAL_242_JA "242 (デフォルト)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル0音量 %"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル0の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA "PSG サウンドチャンネル1音量 %"
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA "PSG サウンドチャンネル1の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA "PSG サウンドチャンネル2音量 %"
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA "PSG サウンドチャンネル2の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA "PSG サウンドチャンネル3音量 %"
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA "PSG サウンドチャンネル3の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA "PSG サウンドチャンネル4音量 %"
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA "PSG サウンドチャンネル4の音量を変更する"
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル5音量 %"
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル5の音量を変更する"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_JA "PSG サウンドチャンネル 0 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_JA "PSG サウンドチャンネル 0 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_JA "PSG サウンドチャンネル 1 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_JA "PSG サウンドチャンネル 1 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_JA "PSG サウンドチャンネル 2 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_JA "PSG サウンドチャンネル 2 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_JA "PSG サウンドチャンネル 3 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_JA "PSG サウンドチャンネル 3 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_JA "PSG サウンドチャンネル 4 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_JA "PSG サウンドチャンネル 4 の音量を変更します。"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_JA "PSG サウンドチャンネル 5 音量 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_JA "PSG サウンドチャンネル 5 の音量を変更します。"
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_JA "マウス感度"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくすると、マウスカーソルがより速く移動します。"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_JA "値を大きくするほどマウスカーソルの動きが速くなります。"
 #define OPTION_VAL_0_25_JA NULL
 #define OPTION_VAL_0_50_JA NULL
 #define OPTION_VAL_0_75_JA NULL
@@ -16844,41 +20336,53 @@ struct retro_core_options_v2 options_it = {
 #define OPTION_VAL_5_00_JA NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_JA "ソフトリセットを無効にする (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_JA "RUN と SELECT が同時に押された時に、リセットの代わりに一時的に両方のボタンを無効にします。"
-#define PCE_FAST_TURBO_TOGGLING_LABEL_JA NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_JA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_JA NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します(フレーム単位)。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA "P1 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA "ポート 1 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define OPTION_VAL_2_BUTTONS_JA "2 ボタン"
+#define OPTION_VAL_6_BUTTONS_JA "6 ボタン"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA "P2 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA "ポート 2 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA "P3 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA "ポート 3 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA "P4 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA "ポート 4 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA "P5 デフォルトジョイパッドの種類"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA "ポート 5 のジョイパッドをデフォルトで 2 または 6 ボタンにするかどうかを選択します。このオプションはコアの開始時にのみ適用されます。コンテンツの実行中に切り替えたい場合は、[モード切り替え] ボタンを使用してください。注意: 6 ボタンジョイパッドは互換性のないゲームで奇妙な動作をすることがあります。"
+#define PCE_FAST_TURBO_TOGGLING_LABEL_JA "ターボ切り替え"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_JA "ターボ切り替えホットキー (ボタンIII と IV) を有効にします。"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_JA "代替ターボホットキー"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_JA "ボタン III と IV ではなく、レトロパッドの L3/R3 ボタンにターボホットキーを割り当てます。 [切り替え] モードかつ、L3/R3 に何も割り当てられていない場合にのみ動作します。これにより、6 ボタンコントローラーモードに切り替えた際、ボタン II および IV へのリマップを回避することができます。"
+#define PCE_FAST_TURBO_DELAY_LABEL_JA "ターボ遅延"
+#define PCE_FAST_TURBO_DELAY_INFO_0_JA "連射間隔の時間を調整します (フレーム単位)。"
 #define PCE_FAST_CDIMAGECACHE_LABEL_JA "CD イメージキャッシュ (再起動が必要)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_JA "起動時に完全なイメージをメモリにロードします。起動時間が増す代わりにロード時間が短縮される可能性があります。"
 #define PCE_FAST_CDBIOS_LABEL_JA "CD BIOS (再起動が必要)"
-#define PCE_FAST_CDBIOS_INFO_0_JA NULL
+#define PCE_FAST_CDBIOS_INFO_0_JA "ほとんどのゲームは [システムカード 3] で実行できます。[Game Express] はいくつかの非公認ゲームで必要です。"
 #define OPTION_VAL_GAMES_EXPRESS_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_1_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_JA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_JA NULL
-#define PCE_FAST_CDSPEED_LABEL_JA NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_JA NULL
-#define PCE_FAST_CDSPEED_INFO_0_JA "値が高いほど読み込み時間が速くなりますが、いくつかのゲームで問題が発生する可能性があります。"
+#define OPTION_VAL_SYSTEM_CARD_1_JA "システムカード 1"
+#define OPTION_VAL_SYSTEM_CARD_2_JA "システムカード 2"
+#define OPTION_VAL_SYSTEM_CARD_3_JA "システムカード 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_JA "システムカード 2 北米"
+#define OPTION_VAL_SYSTEM_CARD_3_US_JA "システムカード 3 北米"
+#define PCE_FAST_CDSPEED_LABEL_JA "(CD) CD 速度"
+#define PCE_FAST_CDSPEED_LABEL_CAT_JA "CD 速度"
+#define PCE_FAST_CDSPEED_INFO_0_JA "値を大きくするほど読み込み時間を高速化できますが、いくつかのゲームで問題が発生する可能性があります。"
 #define OPTION_VAL_1_JA NULL
 #define OPTION_VAL_2_JA NULL
 #define OPTION_VAL_4_JA NULL
 #define OPTION_VAL_8_JA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_JA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_JA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_JA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_JA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_JA NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_JA "(CD) ADPCM 音量 %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_JA "CD ゲームのみです。この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
+#define PCE_FAST_ADPCMVOLUME_INFO_1_JA "この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
+#define PCE_FAST_CDDAVOLUME_LABEL_JA "(CD) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_JA NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "スキャンラインあたりの16スプライトのハードウェア制限を削除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
-#define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPUオーバークロック倍率 (再起動が必要)"
-#define PCE_FAST_OCMULTIPLIER_INFO_0_JA "値を大きくするとゲームのスローダウンが減ります。警告：不具合やクラッシュを引き起こす可能性があります。"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "16 スプライト/スキャンラインのハードウェア制限を解除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
+#define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPU オーバークロック倍率 (再起動が必要)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_JA "値を大きくするほどゲームの実行速度の低下を軽減できます。警告: 不具合やクラッシュを引き起こす可能性があります。"
 
 struct retro_core_option_v2_category option_cats_ja[] = {
    {
@@ -17290,6 +20794,76 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_JA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_JA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_JA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_JA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_JA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_JA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_JA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_JA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_JA,
       NULL,
@@ -17606,6 +21180,18 @@ struct retro_core_options_v2 options_ja = {
 #define OPTION_VAL_5_00_KO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_KO "소프트 리셋 비활성화 (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_KO "RUN과 SELECT를 동시에 누르면 리셋하는 대신 두 버튼을 일시적으로 비활성화합니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO "P1 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO "포트 1 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define OPTION_VAL_2_BUTTONS_KO "2 버튼"
+#define OPTION_VAL_6_BUTTONS_KO "6 버튼"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO "P2 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO "포트 2 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO "P3 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO "포트 3 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO "P4 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO "포트 4 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO "P5 기본 조이패드 유형"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO "포트 5 조이패드를 기본적으로 2개 또는 6개 버튼으로 할지 선택합니다. 이 옵션은 코어가 시작될 때만 적용되며, 콘텐츠가 실행 중일 때 전환하려면 '모드 전환' 버튼을 사용하세요. 참고: 6버튼 조이패드는 호환되지 않는 게임에서 이상한 동작을 일으킬 수 있습니다."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_KO "터보 토글"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_KO "터보 토글 핫키(버튼 III 및 IV) 를 활성화합니다."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_KO "대체 터보 핫키"
@@ -18052,6 +21638,76 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_KO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_KO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_KO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_KO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_KO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_KO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_KO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_KO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_KO,
       NULL,
@@ -18368,6 +22024,18 @@ struct retro_core_options_v2 options_ko = {
 #define OPTION_VAL_5_00_NL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_NL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NL NULL
+#define OPTION_VAL_2_BUTTONS_NL NULL
+#define OPTION_VAL_6_BUTTONS_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_NL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NL NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_NL NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_NL NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_NL NULL
@@ -18814,6 +22482,76 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_NL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_NL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_NL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_NL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_NL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_NL,
       NULL,
@@ -19081,7 +22819,7 @@ struct retro_core_options_v2 options_nl = {
 #define PCE_FAST_FRAMESKIP_LABEL_NO NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_NO NULL
 #define OPTION_VAL_AUTO_NO NULL
-#define OPTION_VAL_MANUAL_NO NULL
+#define OPTION_VAL_MANUAL_NO "Manuell"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_NO NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_NO NULL
 #define OPTION_VAL_33_NO NULL
@@ -19130,6 +22868,18 @@ struct retro_core_options_v2 options_nl = {
 #define OPTION_VAL_5_00_NO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_NO NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NO NULL
+#define OPTION_VAL_2_BUTTONS_NO NULL
+#define OPTION_VAL_6_BUTTONS_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_NO NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NO NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_NO NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_NO NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_NO NULL
@@ -19576,6 +23326,76 @@ struct retro_core_option_v2_definition option_defs_no[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_NO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_NO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_NO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_NO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_NO,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_NO,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_NO },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_NO },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_NO,
       NULL,
@@ -19824,6 +23644,850 @@ struct retro_core_options_v2 options_no = {
    option_defs_no
 };
 
+/* RETRO_LANGUAGE_OR */
+
+#define CATEGORY_VIDEO_LABEL_OR "ଵିଡ଼ିଓ"
+#define CATEGORY_VIDEO_INFO_0_OR NULL
+#define CATEGORY_INPUT_LABEL_OR NULL
+#define CATEGORY_INPUT_INFO_0_OR NULL
+#define CATEGORY_HACKS_LABEL_OR NULL
+#define CATEGORY_HACKS_INFO_0_OR NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_OR NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_OR NULL
+#define CATEGORY_CD_LABEL_OR NULL
+#define CATEGORY_CD_INFO_0_OR NULL
+#define PCE_FAST_PALETTE_LABEL_OR NULL
+#define PCE_FAST_PALETTE_INFO_0_OR NULL
+#define OPTION_VAL_RGB_OR NULL
+#define OPTION_VAL_COMPOSITE_OR NULL
+#define PCE_FAST_FRAMESKIP_LABEL_OR NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_OR NULL
+#define OPTION_VAL_AUTO_OR NULL
+#define OPTION_VAL_MANUAL_OR NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_OR NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_OR NULL
+#define OPTION_VAL_33_OR NULL
+#define PCE_FAST_HOVERSCAN_LABEL_OR NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_OR NULL
+#define OPTION_VAL_352_OR NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_OR NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_OR NULL
+#define OPTION_VAL_3_OR NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_OR NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_OR NULL
+#define OPTION_VAL_242_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_OR NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_OR NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_OR NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_OR NULL
+#define OPTION_VAL_0_25_OR NULL
+#define OPTION_VAL_0_50_OR NULL
+#define OPTION_VAL_0_75_OR NULL
+#define OPTION_VAL_1_00_OR NULL
+#define OPTION_VAL_1_25_OR NULL
+#define OPTION_VAL_1_50_OR NULL
+#define OPTION_VAL_1_75_OR NULL
+#define OPTION_VAL_2_00_OR NULL
+#define OPTION_VAL_2_25_OR NULL
+#define OPTION_VAL_2_50_OR NULL
+#define OPTION_VAL_2_75_OR NULL
+#define OPTION_VAL_3_00_OR NULL
+#define OPTION_VAL_3_25_OR NULL
+#define OPTION_VAL_3_50_OR NULL
+#define OPTION_VAL_3_75_OR NULL
+#define OPTION_VAL_4_00_OR NULL
+#define OPTION_VAL_4_25_OR NULL
+#define OPTION_VAL_4_50_OR NULL
+#define OPTION_VAL_4_75_OR NULL
+#define OPTION_VAL_5_00_OR NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_OR NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_OR NULL
+#define OPTION_VAL_2_BUTTONS_OR NULL
+#define OPTION_VAL_6_BUTTONS_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_OR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_OR NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_OR NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_OR NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_OR NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_OR NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_OR NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_OR NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_OR NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_OR NULL
+#define PCE_FAST_CDBIOS_LABEL_OR NULL
+#define PCE_FAST_CDBIOS_INFO_0_OR NULL
+#define OPTION_VAL_GAMES_EXPRESS_OR NULL
+#define OPTION_VAL_SYSTEM_CARD_1_OR NULL
+#define OPTION_VAL_SYSTEM_CARD_2_OR NULL
+#define OPTION_VAL_SYSTEM_CARD_3_OR NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_OR NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_OR NULL
+#define PCE_FAST_CDSPEED_LABEL_OR NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_OR NULL
+#define PCE_FAST_CDSPEED_INFO_0_OR NULL
+#define OPTION_VAL_1_OR NULL
+#define OPTION_VAL_2_OR NULL
+#define OPTION_VAL_4_OR NULL
+#define OPTION_VAL_8_OR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_OR NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_OR NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_OR NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_OR NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_OR NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_OR NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_OR NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_OR NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_OR NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_OR NULL
+#define PCE_FAST_OCMULTIPLIER_LABEL_OR NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_OR NULL
+
+struct retro_core_option_v2_category option_cats_or[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_OR,
+      CATEGORY_VIDEO_INFO_0_OR
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_OR,
+      CATEGORY_INPUT_INFO_0_OR
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_OR,
+      CATEGORY_HACKS_INFO_0_OR
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_OR,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_OR
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_OR,
+      CATEGORY_CD_INFO_0_OR
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_or[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_OR,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_OR },
+         { "Composite", OPTION_VAL_COMPOSITE_OR },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_OR,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_OR },
+         { "manual",   OPTION_VAL_MANUAL_OR },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_OR,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_OR },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_OR,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_OR },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_OR,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_OR },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_OR,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_OR,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_OR },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_OR,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_OR,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_OR,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_OR },
+         { "0.50", OPTION_VAL_0_50_OR },
+         { "0.75", OPTION_VAL_0_75_OR },
+         { "1.00", OPTION_VAL_1_00_OR },
+         { "1.25", OPTION_VAL_1_25_OR },
+         { "1.50", OPTION_VAL_1_50_OR },
+         { "1.75", OPTION_VAL_1_75_OR },
+         { "2.00", OPTION_VAL_2_00_OR },
+         { "2.25", OPTION_VAL_2_25_OR },
+         { "2.50", OPTION_VAL_2_50_OR },
+         { "2.75", OPTION_VAL_2_75_OR },
+         { "3.00", OPTION_VAL_3_00_OR },
+         { "3.25", OPTION_VAL_3_25_OR },
+         { "3.50", OPTION_VAL_3_50_OR },
+         { "3.75", OPTION_VAL_3_75_OR },
+         { "4.00", OPTION_VAL_4_00_OR },
+         { "4.25", OPTION_VAL_4_25_OR },
+         { "4.50", OPTION_VAL_4_50_OR },
+         { "4.75", OPTION_VAL_4_75_OR },
+         { "5.00", OPTION_VAL_5_00_OR },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_OR,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_OR,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_OR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_OR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_OR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_OR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_OR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_OR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_OR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_OR,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_OR,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_OR,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_OR,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_OR },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_OR,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_OR,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_OR,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_OR,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_OR },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_OR },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_OR },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_OR },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_OR },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_OR },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_OR,
+      PCE_FAST_CDSPEED_LABEL_CAT_OR,
+      PCE_FAST_CDSPEED_INFO_0_OR,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_OR },
+         { "2", OPTION_VAL_2_OR },
+         { "4", OPTION_VAL_4_OR },
+         { "8", OPTION_VAL_8_OR },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_OR,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_OR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_OR,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_OR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_OR,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_0_OR,
+      PCE_FAST_ADPCMVOLUME_INFO_1_OR,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_OR,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_OR,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_OR,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_OR,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_or = {
+   option_cats_or,
+   option_defs_or
+};
+
 /* RETRO_LANGUAGE_PL */
 
 #define CATEGORY_VIDEO_LABEL_PL "Wideo"
@@ -19892,7 +24556,19 @@ struct retro_core_options_v2 options_no = {
 #define OPTION_VAL_5_00_PL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_PL "Wyłącz resetowanie systemu (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PL NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_PL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PL "Domyślny typ Joypad P1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PL NULL
+#define OPTION_VAL_2_BUTTONS_PL "2 przyciski"
+#define OPTION_VAL_6_BUTTONS_PL "6 przycisków"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PL "Domyślny typ Joypad P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PL "Domyślny typ Joypad P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PL "P4 Domyślny typ Joypad"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PL NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_PL "Przełącz Turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_PL NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_PL "Alternatywny skrót Turbo"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_PL NULL
@@ -20338,6 +25014,76 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_PL,
       NULL,
@@ -20595,7 +25341,7 @@ struct retro_core_options_v2 options_pl = {
 #define CATEGORY_HACKS_LABEL_PT_BR "Hacks de emulação"
 #define CATEGORY_HACKS_INFO_0_PT_BR "Configure os parâmetros de precisão de overclock e emulação do processador que afetam o baixo desempenho e a compatibilidade."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_PT_BR "Configurações avançadas de volume de canais"
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_PT_BR "Configure o volume dos canais individuais de áudio do hardware."
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_PT_BR "Altera o volume de cada canal de áudio do hardware."
 #define CATEGORY_CD_LABEL_PT_BR "CD do PC Engine"
 #define CATEGORY_CD_INFO_0_PT_BR "Altera as configurações relacionadas à emulação de CD do PC Engine."
 #define PCE_FAST_PALETTE_LABEL_PT_BR "Paleta de cores"
@@ -20603,19 +25349,19 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_RGB_PT_BR NULL
 #define OPTION_VAL_COMPOSITE_PT_BR "Vídeo composto"
 #define PCE_FAST_FRAMESKIP_LABEL_PT_BR "Pulo de quadro"
-#define PCE_FAST_FRAMESKIP_INFO_0_PT_BR "Ignora quadros para evitar o esvaziamento do buffer do áudio (pipocos no áudio). Melhora o desempenho ao custo da suavidade visual. A opção 'Auto' ignora os quadros quando for aconselhado pela interface. Já 'Manual' utiliza a configuração 'Limite do salto de quadros (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_PT_BR "Ignora quadros para evitar o esvaziamento da memória intermédia (buffer) do áudio (corte no áudio). Melhora o desempenho ao custo da suavidade visual. A opção \"Automático\" ignora os quadros quando aconselhado pela interface. \"Manual\" usa a configuração \"Limite do pulo de quadro (%)\"."
 #define OPTION_VAL_AUTO_PT_BR "Automática"
 #define OPTION_VAL_MANUAL_PT_BR NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_BR "Limite de pulo de quadro (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Quando o 'Frameskip' for definido como 'Manual', especifica o limite de ocupação do buffer de áudio (em porcentagem) abaixo do qual os quadros serão pulados. Valores maiores reduzem o risco de engasgos pois farão que os quadros sejam descartados com mais frequência."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_PT_BR "Limite do pulo de quadro (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Ao configurar \"Pulo de quadro\" como \"Manual\", especifica o limite da memória intermédia (buffer) de áudio em porcentagem, os quadros fora da porcentagem serão ignorados. Valores maiores reduzem o risco de engasgo por descartar quadros com mais frequência."
 #define OPTION_VAL_33_PT_BR "33 (padrão)"
 #define PCE_FAST_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
 #define PCE_FAST_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
 #define OPTION_VAL_352_PT_BR "352 (padrão)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_BR "Linha de verificação inicial"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_BR "Linha de varredura inicial"
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_PT_BR "Primeira linha de verificação renderizada. Valores maiores cortarão a parte superior da imagem."
 #define OPTION_VAL_3_PT_BR "3 (padrão)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_PT_BR "Linha de verificação final"
+#define PCE_FAST_LAST_SCANLINE_LABEL_PT_BR "Linha de varredura final"
 #define PCE_FAST_LAST_SCANLINE_INFO_0_PT_BR "Última linha de verificação renderizada. Valores menores cortarão a parte inferior da imagem."
 #define OPTION_VAL_242_PT_BR "242 (padrão)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_PT_BR "Volume do canal de som 0 do PSG (%)"
@@ -20654,6 +25400,18 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_5_00_PT_BR "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_BR "Desativar a reinicialização suave (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR NULL
+#define OPTION_VAL_2_BUTTONS_PT_BR "2 botões"
+#define OPTION_VAL_6_BUTTONS_PT_BR "6 botões"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR "Ativar e desativar o turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_BR "Ativa os atalhos de ligar e desligar o turbo (botões III e IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_PT_BR "Atalho alternativo do turbo"
@@ -20685,7 +25443,7 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_BR "Volume do CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_PT_BR "(CD) Volume do PSG (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_PT_BR "Volume do PSG de CD (%)"
-#define PCE_FAST_NOSPRITELIMIT_LABEL_PT_BR "Sem limite de sprite"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_PT_BR "Sem limite de sprites"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_PT_BR "Remove o limite de hardware de 16 sprites por linha de verificação. ATENÇÃO: pode causar falhas gráficas em alguns jogos."
 #define PCE_FAST_OCMULTIPLIER_LABEL_PT_BR "Multiplicador do Overclock de CPU (requer reinício)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_PT_BR "Valores maiores podem reduzir a lentidão em jogos. ATENÇÃO: podem causar falhas e fechar o jogo."
@@ -21100,6 +25858,76 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_BR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_BR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR,
       NULL,
@@ -21416,6 +26244,18 @@ struct retro_core_options_v2 options_pt_br = {
 #define OPTION_VAL_5_00_PT_PT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_PT NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_PT NULL
+#define OPTION_VAL_2_BUTTONS_PT_PT NULL
+#define OPTION_VAL_6_BUTTONS_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_PT NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_PT NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_PT_PT NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_PT NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_PT_PT NULL
@@ -21862,6 +26702,76 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_PT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_PT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_PT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_PT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_PT,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_PT,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_PT_PT },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_PT_PT },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_PT_PT,
       NULL,
@@ -22123,24 +27033,24 @@ struct retro_core_options_v2 options_pt_pt = {
 #define CATEGORY_CD_LABEL_RU NULL
 #define CATEGORY_CD_INFO_0_RU "Настройка параметров, относящихся к эмуляции PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_RU "Цветовая палитра"
-#define PCE_FAST_PALETTE_INFO_0_RU "Композитный пытается воссоздать оригинальное изображение консоли и может повышать детализацию в некоторых играх."
+#define PCE_FAST_PALETTE_INFO_0_RU "Композитный режим имитирует оригинальное изображение с консоли и повышает детализацию для некоторых игр."
 #define OPTION_VAL_RGB_RU NULL
-#define OPTION_VAL_COMPOSITE_RU "Композитный"
+#define OPTION_VAL_COMPOSITE_RU "Композит"
 #define PCE_FAST_FRAMESKIP_LABEL_RU "Пропуск кадров"
-#define PCE_FAST_FRAMESKIP_INFO_0_RU "Пропускать кадры, чтобы избежать опустошения аудиобуфера (треск). Улучшает производительность, но снижает плавность изображения. В режиме 'Авто' пропуск кадров регулируется фронтендом. В режиме 'Вручную' используется настройка 'Граница пропуска кадров (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_RU "Пропускать кадры, чтобы избежать появления треска при опустошении аудиобуфера. Улучшает производительность, но снижает плавность изображения. В режиме 'Авто' пропуск кадров регулируется фронтендом. В режиме 'Вручную' используется значение опции 'Граница пропуска кадров (%)'."
 #define OPTION_VAL_AUTO_RU "Авто"
 #define OPTION_VAL_MANUAL_RU "Вручную"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_RU "Граница пропуска кадров (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_RU "Устанавливает порог заполнения аудиобуфера (в процентах), ниже которого будет включаться пропуск кадров, если для параметра 'Пропуск кадров' выбран режим 'Вручную'. Большие значения снижают вероятность появления треска за счёт более частого пропуска кадров."
 #define OPTION_VAL_33_RU "33 (по умолчанию)"
 #define PCE_FAST_HOVERSCAN_LABEL_RU "Горизонт. вылеты развёртки (только для режима ширины 352)"
-#define PCE_FAST_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Меньшие значения обрезают правую часть картинки (для игр с шириной 352 пикселя)."
+#define PCE_FAST_HOVERSCAN_INFO_0_RU "Установка максимальной ширины изображения. Уменьшение значения обрезает правый край картинки (для игр с шириной в 352 пикселя)."
 #define OPTION_VAL_352_RU "352 (по умолчанию)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_RU "Первая строка развёртки"
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU "Начальная отображаемая строка развёртки. Более высокие значения обрезают верхнюю часть изображения."
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_RU "Строка развёртки, отображаемая первой. Повышение значения обрезает верхний край картинки."
 #define OPTION_VAL_3_RU "3 (по умолчанию)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_RU "Последняя строка развёртки"
-#define PCE_FAST_LAST_SCANLINE_INFO_0_RU "Последняя отображаемая строка развёртки. Более высокие значения обрезают нижнюю часть изображения."
+#define PCE_FAST_LAST_SCANLINE_INFO_0_RU "Строка развёртки, отображаемая последней. Уменьшение значения обрезает нижний край картинки."
 #define OPTION_VAL_242_RU "242 (по умолчанию)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_RU "Громкость звукового канала PSG 0 (%)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_RU "Изменение громкости звукового канала PSG 0."
@@ -22178,6 +27088,18 @@ struct retro_core_options_v2 options_pt_pt = {
 #define OPTION_VAL_5_00_RU NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_RU "Отключить мягкий сброс (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_RU "Одновременное нажатие RUN и SELECT вместо сброса будет временно отключать обе кнопки."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU "Тип джойстика Игрока 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 1. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define OPTION_VAL_2_BUTTONS_RU "2-кнопочный"
+#define OPTION_VAL_6_BUTTONS_RU "6-кнопочный"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU "Тип джойстика Игрока 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 2. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU "Тип джойстика Игрока 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 3. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU "Тип джойстика Игрока 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 4. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU "Тип джойстика Игрока 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU "Выбор 2- или 6-ти кнопочного контроллера по умолчанию для порта 5. Данная опция применяется только при запуске ядра. Для переключения на лету используйте кнопку 'Сменить режим'. ВНИМАНИЕ: в несовместимых играх 6-кнопочный геймпад может вызывать баги управления."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_RU "Переключатель турбо"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_RU "Активирует горячие клавиши для включения турбо (кнопки III и IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_RU "Альтернативное включение турбо"
@@ -22185,8 +27107,8 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_TURBO_DELAY_LABEL_RU "Задержка турбо"
 #define PCE_FAST_TURBO_DELAY_INFO_0_RU "Настраивает промежуток между повторами нажатий (в кадрах)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_RU "Кэшировать образ CD (требуется перезапуск)"
-#define PCE_FAST_CDIMAGECACHE_INFO_0_RU "При запуске загружать полный образ диска в память. Может снижать время загрузок, но увеличивает время запуска."
-#define PCE_FAST_CDBIOS_LABEL_RU "CD BIOS (требуется перезапуск)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_RU "При запуске образ диска полностью загружается в память. Ускоряет загрузки, но увеличивает время запуска."
+#define PCE_FAST_CDBIOS_LABEL_RU "BIOS CD (требуется перезапуск)"
 #define PCE_FAST_CDBIOS_INFO_0_RU "Большинство игр запускаются с 'System Card 3'. 'Games Express' требуется для некоторых нелицензированных игр."
 #define OPTION_VAL_GAMES_EXPRESS_RU NULL
 #define OPTION_VAL_SYSTEM_CARD_1_RU NULL
@@ -22624,6 +27546,76 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_RU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_RU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_RU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_RU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_RU,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_RU,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_RU },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_RU },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_RU,
       NULL,
@@ -22940,6 +27932,18 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_5_00_SK NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_SK NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK NULL
+#define OPTION_VAL_2_BUTTONS_SK "2 tlačidlá"
+#define OPTION_VAL_6_BUTTONS_SK "6 tlačidiel"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_SK NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_SK NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SK NULL
@@ -22951,11 +27955,11 @@ struct retro_core_options_v2 options_ru = {
 #define PCE_FAST_CDBIOS_LABEL_SK NULL
 #define PCE_FAST_CDBIOS_INFO_0_SK NULL
 #define OPTION_VAL_GAMES_EXPRESS_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_1_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_2_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_3_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_SK NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_SK NULL
+#define OPTION_VAL_SYSTEM_CARD_1_SK "Systémová karta 1"
+#define OPTION_VAL_SYSTEM_CARD_2_SK "Systémová karta 2"
+#define OPTION_VAL_SYSTEM_CARD_3_SK "Systémová karta 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_SK "Systémová karta 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_SK "Systémová karta 3 US"
 #define PCE_FAST_CDSPEED_LABEL_SK "(CD) CD rýchlosť"
 #define PCE_FAST_CDSPEED_LABEL_CAT_SK "CD rýchlosť"
 #define PCE_FAST_CDSPEED_INFO_0_SK NULL
@@ -23386,6 +28390,76 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_SK,
       NULL,
@@ -23702,6 +28776,18 @@ struct retro_core_options_v2 options_sk = {
 #define OPTION_VAL_5_00_SR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_SR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SR NULL
+#define OPTION_VAL_2_BUTTONS_SR NULL
+#define OPTION_VAL_6_BUTTONS_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SR NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_SR NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_SR NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SR NULL
@@ -24148,6 +29234,76 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_SR,
       NULL,
@@ -24398,50 +29554,50 @@ struct retro_core_options_v2 options_sr = {
 
 /* RETRO_LANGUAGE_SV */
 
-#define CATEGORY_VIDEO_LABEL_SV "Bild"
-#define CATEGORY_VIDEO_INFO_0_SV NULL
+#define CATEGORY_VIDEO_LABEL_SV NULL
+#define CATEGORY_VIDEO_INFO_0_SV "Konfigurera skärmbeskärning, bildrutehopp och andra bildutdata-parametrar."
 #define CATEGORY_INPUT_LABEL_SV "Inmatning"
-#define CATEGORY_INPUT_INFO_0_SV NULL
-#define CATEGORY_HACKS_LABEL_SV NULL
-#define CATEGORY_HACKS_INFO_0_SV NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_SV NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_SV NULL
+#define CATEGORY_INPUT_INFO_0_SV "Konfigurera ljuspistol, mus och NegCon inmatning."
+#define CATEGORY_HACKS_LABEL_SV "Emulator Hacks"
+#define CATEGORY_HACKS_INFO_0_SV "Konfigurera processorns överklockning och emuleringsnoggrannhetsparametrar som påverkar prestanda och kompatibilitet på låg nivå."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_SV "Avancerade inställningar för kanalvolym"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_SV "Konfigurera volymen för enskilda hårdvaru-ljudkanaler."
 #define CATEGORY_CD_LABEL_SV NULL
-#define CATEGORY_CD_INFO_0_SV NULL
+#define CATEGORY_CD_INFO_0_SV "Konfigurera inställningar relaterade till PC Engine CD-emulering."
 #define PCE_FAST_PALETTE_LABEL_SV "Färgpalett"
-#define PCE_FAST_PALETTE_INFO_0_SV NULL
+#define PCE_FAST_PALETTE_INFO_0_SV "Composite försöker återskapa den ursprungliga konsolens utmatning och kan visa fler detaljer i vissa spel."
 #define OPTION_VAL_RGB_SV NULL
 #define OPTION_VAL_COMPOSITE_SV "Komposit"
 #define PCE_FAST_FRAMESKIP_LABEL_SV NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_SV NULL
-#define OPTION_VAL_AUTO_SV "Automatiskt"
-#define OPTION_VAL_MANUAL_SV NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_SV "Hoppa över bildrutor för att undvika ljudbuffertbrist (crackling-ljud). Förbättrar prestanda på bekostnad av visuell jämnhet. \"Automatiserat\" hoppar över bildrutor när frontend råder. \"Manuell\" använder inställningen \"Tröskel för bildrutehopp (%)\"."
+#define OPTION_VAL_AUTO_SV NULL
+#define OPTION_VAL_MANUAL_SV "Manuell"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV "Frameskip Tröskelvärde (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SV "När 'Frameskip' är satt till 'Manuell', ange ljudbuffertens tröskel (i procent) under vilka ramar som kommer att hoppas över. Högre värden minskar risken för hackigt ljud genom att bildrutor tappas oftare."
-#define OPTION_VAL_33_SV NULL
-#define PCE_FAST_HOVERSCAN_LABEL_SV NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_SV NULL
-#define OPTION_VAL_352_SV NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_SV NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SV NULL
-#define OPTION_VAL_3_SV NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_SV NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_SV NULL
-#define OPTION_VAL_242_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SV NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SV NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SV NULL
+#define OPTION_VAL_33_SV "33 (Standard)"
+#define PCE_FAST_HOVERSCAN_LABEL_SV "Horisontell överskanning (endast i breddläget 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_SV "Välj den maximala bildbredden som ska visas. Lägre värden kommer att beskära högersidan av bilden (för spel med 352 px bredd)."
+#define OPTION_VAL_352_SV "352 (Standard)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_SV "Initiell skanlinje"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SV "Första renderade skanlinjen. Högre värden kommer att beskära toppen av bilden."
+#define OPTION_VAL_3_SV "3 (Standard)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_SV "Sista skanlinjen"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_SV "Sista renderade skanlinjen. Lägre värden kommer att beskära botten av bilden."
+#define OPTION_VAL_242_SV "242 (Standard)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SV "PSG Ljudkanal 0 volym %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SV "Justera volymen för PSG-ljudkanal 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SV "PSG Ljudkanal 1 volym %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SV "PSG Ljudkanal 2 volym %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SV "PSG Ljudkanal 3 volym %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SV "PSG Ljudkanal 4 volym %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SV "PSG Ljudkanal 5 volym %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SV "Justera volymen för PSG Ljudkanal 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SV "Muskänslighet"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SV "Högre värden kommer få muspekaren att röra sig snabbare."
 #define OPTION_VAL_0_25_SV NULL
 #define OPTION_VAL_0_50_SV NULL
 #define OPTION_VAL_0_75_SV NULL
@@ -24462,18 +29618,30 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_4_50_SV NULL
 #define OPTION_VAL_4_75_SV NULL
 #define OPTION_VAL_5_00_SV NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SV NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SV NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_SV NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_SV NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SV NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SV NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_SV NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_SV NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_SV NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_SV NULL
-#define PCE_FAST_CDBIOS_LABEL_SV NULL
-#define PCE_FAST_CDBIOS_INFO_0_SV NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SV "Inaktivera mjukåterställning (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SV "När både RUN och SELECT trycks ned samtidigt, inaktiveras båda knapparna tillfälligt istället för att återställa dem."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV "Standard joypad-typ för spelare 1 (P1)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV "Välj detta ifall port 1-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define OPTION_VAL_2_BUTTONS_SV "2 knappar"
+#define OPTION_VAL_6_BUTTONS_SV "6 knappar"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV "Standard joypad-typ för spelare 2 (P2)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV "Välj detta ifall port 2-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV "Standard joypad-typ för spelare 3 (P3)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV "Välj detta ifall port 3-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV "Standard joypad-typ för spelare 4 (P4)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV "Välj detta ifall port 4-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV "Standard joypad-typ för spelare 5 (P5)"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV "Välj detta ifall port 5-joypaden ska vara 2-knappars eller 6-knappars som standard. Denna inställning tillämpas endast när kärnan startar. Om du vill byta under tiden innehållet körs, använd 'Lägesväxlings'-knappen. OBS!: 6-knappars joypaden kan visa konstigt beteende i inkompatibla spel."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_SV "Växla Turboläge"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_SV "Aktivera snabbtangenterna för turboväxeln (knappar III och IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SV "Alternativ snabbtangent för turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SV "Tilldela RetroPads L3/R3-knapparna som snabbtangenter för turbo-läge istället för knappar III och IV. Fungerar endast så länge inget är tilldelat L3/R3-knapparna. Du kan undvika att omkartlägga knappar III och IV när du växlar till 6-knappskontrollläge med detta."
+#define PCE_FAST_TURBO_DELAY_LABEL_SV "Turbofördröjning"
+#define PCE_FAST_TURBO_DELAY_INFO_0_SV "Justera tiden mellan turboeld (i bildrutor)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_SV "Skivavbildningscache (omstart krävs)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_SV "Ladda in hela avbilden i minnet vid start. Kan potentiellt minska laddningstiderna till förmån för en ökad starttid."
+#define PCE_FAST_CDBIOS_LABEL_SV "CD-BIOS (omstart krävs)"
+#define PCE_FAST_CDBIOS_INFO_0_SV "De flesta spel kan köras på 'Systemkort 3'. 'Games Express' krävs för flera olicensierade spel."
 #define OPTION_VAL_GAMES_EXPRESS_SV NULL
 #define OPTION_VAL_SYSTEM_CARD_1_SV NULL
 #define OPTION_VAL_SYSTEM_CARD_2_SV NULL
@@ -24482,23 +29650,23 @@ struct retro_core_options_v2 options_sr = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_SV NULL
 #define PCE_FAST_CDSPEED_LABEL_SV "(CD) CD-hastighet"
 #define PCE_FAST_CDSPEED_LABEL_CAT_SV "CD-hastighet"
-#define PCE_FAST_CDSPEED_INFO_0_SV NULL
+#define PCE_FAST_CDSPEED_INFO_0_SV "Högre värden möjliggör snabbare laddningstider men kan orsaka problem med några spel."
 #define OPTION_VAL_1_SV NULL
 #define OPTION_VAL_2_SV NULL
 #define OPTION_VAL_4_SV NULL
 #define OPTION_VAL_8_SV NULL
 #define PCE_FAST_ADPCMVOLUME_LABEL_SV "(CD) ADPCM Volym %"
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SV NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_SV NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_SV NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SV "Volym för ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_SV "Endast CD-spel. Ifall du ställer in volymen för högt kan ljudkvaliteten försämras och leda till samplingsklippning."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_SV "Ifall du ställer in volymen för högt kan ljudkvaliten försämras och leda till samplingsklippning."
 #define PCE_FAST_CDDAVOLUME_LABEL_SV "(CD) CDDA Volym %"
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV "Volym för CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_SV NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_SV NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_SV NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_SV NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_SV "Ingen blockfigursgräns"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanlinje. VARNING!: Kan orsaka grafikfel i vissa spel."
+#define PCE_FAST_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_SV "Högre värden kan minska inbromsningar i spel. VARNING!: Kan orsaka fel och krascher."
 
 struct retro_core_option_v2_category option_cats_sv[] = {
    {
@@ -24910,6 +30078,76 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SV,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SV,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SV,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SV,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SV,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SV,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_SV },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_SV },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_SV,
       NULL,
@@ -25226,6 +30464,18 @@ struct retro_core_options_v2 options_sv = {
 #define OPTION_VAL_5_00_TR NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_TR "Yazılımdan Sıfırlama Devre Dışı (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_TR "RUN ve SELECT tuşlarına aynı anda basıldığında, yeniden başlatmak yerine iki tuşu da geçici olarak devre dışı bırak."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_TR "P1 Varsayılan Joypad Tipi"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_TR "Port 1 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define OPTION_VAL_2_BUTTONS_TR "2 Düğmeli"
+#define OPTION_VAL_6_BUTTONS_TR "6 Düğmeli"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_TR "P2 Varsayılan Joypad Tipi"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_TR "Port 2 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_TR "P3 Varsayılan Joypad Tipi"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_TR "Port 3 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_TR "P4 Varsayılan Joypad Tipi"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_TR "Port 4 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_TR "P5 Varsayılan Joypad Tipi"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_TR "Port 5 joypad varsayılan olarak 2 veya 6 düğme olması gerekip gerekmediğini seçin. Bu seçenek yalnızca çekirdek başladığında uygulanır, içerik çalışırken geçiş yapmak istiyorsanız, 'Mod Değiştir' düğmesini kullanın. NOT: 6 düğmeli joypad, uyumlu olmayan oyunlarda garip davranışlara sahip olabilir."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_TR "Turbo Değiştir"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_TR "Turbo geçiş tuşlarını etkinleştir (III ve IV tuşları)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_TR "Alternatif Turbo Kısayol Tuşu"
@@ -25672,6 +30922,76 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_TR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_TR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_TR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_TR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_TR,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_TR,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_TR },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_TR },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_TR,
       NULL,
@@ -25988,6 +31308,18 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_5_00_UK NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_UK "Вимкнути програмне скидання (РУХ+ВИБІР)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK NULL
+#define OPTION_VAL_2_BUTTONS_UK NULL
+#define OPTION_VAL_6_BUTTONS_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_UK NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_UK NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_UK "Альтернативні турбокнопки"
@@ -26434,6 +31766,76 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_UK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_UK,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_UK,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_UK },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_UK },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_UK,
       NULL,
@@ -26750,6 +32152,18 @@ struct retro_core_options_v2 options_uk = {
 #define OPTION_VAL_5_00_VAL "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_VAL NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VAL NULL
+#define OPTION_VAL_2_BUTTONS_VAL NULL
+#define OPTION_VAL_6_BUTTONS_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VAL NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VAL NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_VAL NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_VAL NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_VAL NULL
@@ -27196,6 +32610,76 @@ struct retro_core_option_v2_definition option_defs_val[] = {
       "disabled"
    },
    {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VAL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VAL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VAL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VAL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VAL,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VAL,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VAL },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VAL },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
       "pce_fast_turbo_toggling",
       PCE_FAST_TURBO_TOGGLING_LABEL_VAL,
       NULL,
@@ -27512,6 +32996,18 @@ struct retro_core_options_v2 options_val = {
 #define OPTION_VAL_5_00_VN NULL
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_VN NULL
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN NULL
+#define OPTION_VAL_2_BUTTONS_VN NULL
+#define OPTION_VAL_6_BUTTONS_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN NULL
 #define PCE_FAST_TURBO_TOGGLING_LABEL_VN NULL
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_VN NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_VN NULL
@@ -27956,6 +33452,76 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
           { NULL, NULL },
       },
       "disabled"
+   },
+   {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_VN },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_VN },
+         { NULL, NULL},
+      },
+      "2 Buttons"
    },
    {
       "pce_fast_turbo_toggling",

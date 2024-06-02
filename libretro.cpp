@@ -1139,7 +1139,10 @@ static int HuCLoadCD(const char *bios_path)
    MDFNFILE *fp = file_open(bios_path);
 
    if(!fp)
+   {
+      MDFN_DispMessage("Firmware not found: '%s'", bios_path);
       return(0);
+   }
 
    memset(ROMSpace, 0xFF, 262144);
 
@@ -1765,6 +1768,22 @@ static void check_variables(bool first_run)
             setting_pce_fast_cdbios = "syscard3u.pce";
          else if (strcmp(var.value, "System Card 2 US") == 0)
             setting_pce_fast_cdbios = "syscard2u.pce";
+      }
+
+      char key[256];
+      key[0] = '\0';
+
+      var.key = key ;
+      for (int i = 0 ; i < MAX_PLAYERS ; i++)
+      {
+         snprintf(key, sizeof(key), "pce_fast_default_joypad_type_p%d", i + 1);
+         if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         {
+            if(strcmp(var.value, "2 Buttons") == 0)
+               AVPad6Enabled[i] = false;
+            else if(strcmp(var.value, "6 Buttons") == 0)
+               AVPad6Enabled[i] = true;
+         }
       }
    }
 
@@ -2403,12 +2422,13 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_deinit(void)
 {
-   if (surf->pixels)
-      free(surf->pixels);
-   surf->pixels = NULL;
-
    if (surf)
+   {
+      if (surf->pixels)
+         free(surf->pixels);
+      surf->pixels = NULL;
       free(surf);
+   }
    surf = NULL;
 
    if (log_cb)
@@ -2529,6 +2549,7 @@ size_t retro_serialize_size(void)
    StateMem st;
 
    st.data           = NULL;
+   st.data_frontend  = NULL;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = 0;
@@ -2546,22 +2567,24 @@ bool retro_serialize(void *data, size_t size)
 {
    StateMem st;
    bool ret          = false;
-   uint8_t *_dat     = (uint8_t*)malloc(size);
 
-   if (!_dat)
-      return false;
-
-   /* Mednafen can realloc the buffer so we need to ensure this is safe. */
-   st.data           = _dat;
+   st.data_frontend  = (uint8_t *)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = size;
    st.initial_malloc = 0;
 
+   /* MDFNSS_SaveSM will malloc separate memory for st.data to complete
+    * the save if the passed-in size is too small */
    ret = MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL);
 
-   memcpy(data, st.data, size);
-   free(st.data);
+   if (st.data != st.data_frontend)
+   {
+      log_cb(RETRO_LOG_WARN, "Save state size has increased\n");
+      free(st.data);
+      ret = false;
+   }
 
    return ret;
 }
@@ -2570,7 +2593,8 @@ bool retro_unserialize(const void *data, size_t size)
 {
    StateMem st;
 
-   st.data           = (uint8_t*)data;
+   st.data_frontend  = (uint8_t *)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;
