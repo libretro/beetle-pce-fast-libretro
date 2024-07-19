@@ -869,25 +869,25 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST NULL
 #define PCE_FAST_PALETTE_LABEL_AST NULL
-#define PCE_FAST_PALETTE_INFO_0_AST NULL
+#define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola y pue amosar más detalles en dalgunos xuegos."
 #define OPTION_VAL_RGB_AST NULL
 #define OPTION_VAL_COMPOSITE_AST NULL
-#define PCE_FAST_FRAMESKIP_LABEL_AST NULL
+#define PCE_FAST_FRAMESKIP_LABEL_AST "Saltu de cuadros"
 #define PCE_FAST_FRAMESKIP_INFO_0_AST NULL
 #define OPTION_VAL_AUTO_AST NULL
 #define OPTION_VAL_MANUAL_AST NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_AST NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_AST NULL
-#define OPTION_VAL_33_AST "33 (Por defeutu)"
+#define OPTION_VAL_33_AST "33 (por defeutu)"
 #define PCE_FAST_HOVERSCAN_LABEL_AST NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_AST NULL
-#define OPTION_VAL_352_AST "352 (Por defeutu)"
+#define OPTION_VAL_352_AST "352 (por defeutu)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_AST NULL
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_AST NULL
-#define OPTION_VAL_3_AST "3 (Por defeutu)"
+#define OPTION_VAL_3_AST "3 (por defeutu)"
 #define PCE_FAST_LAST_SCANLINE_LABEL_AST NULL
 #define PCE_FAST_LAST_SCANLINE_INFO_0_AST NULL
-#define OPTION_VAL_242_AST "242 (Por defeutu)"
+#define OPTION_VAL_242_AST "242 (por defeutu)"
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_AST NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_AST NULL
 #define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_AST NULL
@@ -947,9 +947,9 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_CDBIOS_LABEL_AST NULL
 #define PCE_FAST_CDBIOS_INFO_0_AST NULL
 #define OPTION_VAL_GAMES_EXPRESS_AST NULL
-#define OPTION_VAL_SYSTEM_CARD_1_AST NULL
-#define OPTION_VAL_SYSTEM_CARD_2_AST NULL
-#define OPTION_VAL_SYSTEM_CARD_3_AST NULL
+#define OPTION_VAL_SYSTEM_CARD_1_AST "Tarxeta del sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_AST "Tarxeta del sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_AST "Tarxeta del sistema 3"
 #define OPTION_VAL_SYSTEM_CARD_2_US_AST NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_AST NULL
 #define PCE_FAST_CDSPEED_LABEL_AST NULL
@@ -970,7 +970,7 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_NOSPRITELIMIT_LABEL_AST NULL
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_AST NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_AST NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_AST "Los valores altos puen amenorgar la lentitú nos xuegos. ALVERTENCIA: esta opción pue producir fallos gráficos y casques."
+#define PCE_FAST_OCMULTIPLIER_INFO_0_AST NULL
 
 struct retro_core_option_v2_category option_cats_ast[] = {
    {
