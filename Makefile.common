@@ -15,33 +15,49 @@ INCFLAGS := -I$(CORE_DIR) \
 				-I$(MEDNAFEN_DIR)/hw_misc \
 				-I$(LIBRETRO_COMM_DIR)/include
 
+LIBCHDR = deps/libchdr
+LIBCHDR_LZMA = $(LIBCHDR)/deps/lzma-24.05
+LIBCHDR_ZSTD = $(LIBCHDR)/deps/zstd-1.5.6/lib
 LIBCHDR_INCFLAGS = \
-	-I$(DEPS_DIR)/lzma-19.00/include \
-	-I$(DEPS_DIR)/libchdr/include
+	-I$(LIBCHDR_LZMA)/include \
+	-I$(LIBCHDR_ZSTD) \
+	-I$(LIBCHDR)/include
 LIBCHDR_SOURCES_C = \
-	$(DEPS_DIR)/lzma-19.00/src/Alloc.c \
-	$(DEPS_DIR)/lzma-19.00/src/Bra86.c \
-	$(DEPS_DIR)/lzma-19.00/src/BraIA64.c \
-	$(DEPS_DIR)/lzma-19.00/src/CpuArch.c \
-	$(DEPS_DIR)/lzma-19.00/src/Delta.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzFind.c \
-	$(DEPS_DIR)/lzma-19.00/src/Lzma86Dec.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzmaDec.c \
-	$(DEPS_DIR)/lzma-19.00/src/LzmaEnc.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_bitstream.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_cdrom.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_chd.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_flac.c \
-	$(DEPS_DIR)/libchdr/src/libchdr_huffman.c
+	$(LIBCHDR_LZMA)/src/Alloc.c \
+	$(LIBCHDR_LZMA)/src/Bra86.c \
+	$(LIBCHDR_LZMA)/src/BraIA64.c \
+	$(LIBCHDR_LZMA)/src/CpuArch.c \
+	$(LIBCHDR_LZMA)/src/Delta.c \
+	$(LIBCHDR_LZMA)/src/LzFind.c \
+	$(LIBCHDR_LZMA)/src/Lzma86Dec.c \
+	$(LIBCHDR_LZMA)/src/LzmaDec.c \
+	$(LIBCHDR_LZMA)/src/LzmaEnc.c \
+	$(LIBCHDR_LZMA)/src/Sort.c \
+	$(LIBCHDR)/src/libchdr_bitstream.c \
+	$(LIBCHDR)/src/libchdr_cdrom.c \
+	$(LIBCHDR)/src/libchdr_chd.c \
+	$(LIBCHDR)/src/libchdr_flac.c \
+	$(LIBCHDR)/src/libchdr_huffman.c \
+	$(LIBCHDR_ZSTD)/common/entropy_common.c \
+	$(LIBCHDR_ZSTD)/common/error_private.c \
+	$(LIBCHDR_ZSTD)/common/fse_decompress.c \
+	$(LIBCHDR_ZSTD)/common/xxhash.c \
+	$(LIBCHDR_ZSTD)/common/zstd_common.c \
+	$(LIBCHDR_ZSTD)/decompress/huf_decompress.c \
+	$(LIBCHDR_ZSTD)/decompress/huf_decompress_amd64.c \
+	$(LIBCHDR_ZSTD)/decompress/zstd_ddict.c \
+	$(LIBCHDR_ZSTD)/decompress/zstd_decompress_block.c \
+	$(LIBCHDR_ZSTD)/decompress/zstd_decompress.c
 
-ZLIB_INCFLAGS = -I$(DEPS_DIR)/zlib-1.2.11
+ZLIB_DIR = deps/libchdr/deps/zlib-1.3.1
+ZLIB_INCFLAGS = -I$(ZLIB_DIR)
 ZLIB_SOURCES_C = \
-	$(DEPS_DIR)/zlib-1.2.11/adler32.c \
-	$(DEPS_DIR)/zlib-1.2.11/crc32.c \
-	$(DEPS_DIR)/zlib-1.2.11/inffast.c \
-	$(DEPS_DIR)/zlib-1.2.11/inflate.c \
-	$(DEPS_DIR)/zlib-1.2.11/inftrees.c \
-	$(DEPS_DIR)/zlib-1.2.11/zutil.c
+	$(ZLIB_DIR)/adler32.c \
+	$(ZLIB_DIR)/crc32.c \
+	$(ZLIB_DIR)/inffast.c \
+	$(ZLIB_DIR)/inflate.c \
+	$(ZLIB_DIR)/inftrees.c \
+	$(ZLIB_DIR)/zutil.c
 
 ifneq (,$(findstring msvc2003,$(platform)))
 	INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
@@ -115,7 +131,7 @@ endif
 FLAGS += -DNEED_CD
 
 ifeq ($(HAVE_CHD), 1)
-	FLAGS += -DHAVE_CHD -D_7ZIP_ST
+	FLAGS += -DHAVE_CHD -DZ7_ST
 
 	ifeq ($(SYSTEM_LIBCHDR), 1)
 		INCFLAGS += $(shell pkg-config --cflags libchdr)
