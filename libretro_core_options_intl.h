@@ -1703,49 +1703,49 @@ struct retro_core_options_v2 options_ast = {
 /* RETRO_LANGUAGE_BE */
 
 #define CATEGORY_VIDEO_LABEL_BE "Відэа"
-#define CATEGORY_VIDEO_INFO_0_BE NULL
+#define CATEGORY_VIDEO_INFO_0_BE "Настройкі кадравання, пропуску кадраў і іншых параметраў выявы."
 #define CATEGORY_INPUT_LABEL_BE "Увод"
-#define CATEGORY_INPUT_INFO_0_BE NULL
-#define CATEGORY_HACKS_LABEL_BE NULL
-#define CATEGORY_HACKS_INFO_0_BE NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_BE NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_BE NULL
+#define CATEGORY_INPUT_INFO_0_BE "Налады ўводу для светлавога пісталета, мышы і NegCon."
+#define CATEGORY_HACKS_LABEL_BE "Хакі эмуляцыі"
+#define CATEGORY_HACKS_INFO_0_BE "Налада разгону працэсара і параметраў дакладнасці эмуляцыі, якія ўплываюць на прадукцыйнасць і сумяшчальнасць."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_BE "Пашыраныя налады гучнасці"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_BE "Індывідуальная настройка гучнасці аўдыёканалаў."
 #define CATEGORY_CD_LABEL_BE NULL
-#define CATEGORY_CD_INFO_0_BE NULL
-#define PCE_FAST_PALETTE_LABEL_BE NULL
-#define PCE_FAST_PALETTE_INFO_0_BE NULL
+#define CATEGORY_CD_INFO_0_BE "Налада параметраў, якія адносяцца да эмуляцыі PC Engine CD."
+#define PCE_FAST_PALETTE_LABEL_BE "Каляровая палітра"
+#define PCE_FAST_PALETTE_INFO_0_BE "Кампазітны рэжым імітуе арыгінальны малюнак з кансолі і павялічвае дэталізацыю для некаторых гульняў."
 #define OPTION_VAL_RGB_BE NULL
-#define OPTION_VAL_COMPOSITE_BE NULL
-#define PCE_FAST_FRAMESKIP_LABEL_BE NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_BE NULL
+#define OPTION_VAL_COMPOSITE_BE "Кампазітны"
+#define PCE_FAST_FRAMESKIP_LABEL_BE "Пропуск кадраў"
+#define PCE_FAST_FRAMESKIP_INFO_0_BE "Прапускаць кадры, каб пазбегнуць з'яўлення (трэска) пры спусташэнні аўдыёбуфера. Паляпшае прадукцыйнасць, але зніжае плаўнасць выявы. У рэжыме 'Аўта' пропуск кадраў рэгулюецца франтэндам. У рэжыме 'Уручную' выкарыстоўваецца значэнне опцыі 'Мяжа пропуску кадраў (%)'."
 #define OPTION_VAL_AUTO_BE "Аўта"
-#define OPTION_VAL_MANUAL_BE NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BE NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BE NULL
-#define OPTION_VAL_33_BE NULL
-#define PCE_FAST_HOVERSCAN_LABEL_BE NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_BE NULL
-#define OPTION_VAL_352_BE NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_BE NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_BE NULL
-#define OPTION_VAL_3_BE NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_BE NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_BE NULL
-#define OPTION_VAL_242_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BE NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BE NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_BE NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BE NULL
+#define OPTION_VAL_MANUAL_BE "Уручную"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_BE "Парог прапускання кадраў (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_BE "Усталёўвае парог запаўнення аўдыёбуфера (у працэнтах), ніжэй за які будзе ўключацца пропуск кадраў, калі для параметра 'Пропуск кадраў' выбраны рэжым 'Уручную'. Вялікія значэнні змяншаюць верагоднасць з'яўлення трэска за рахунак больш частага пропуску кадраў."
+#define OPTION_VAL_33_BE "33 % (прадвызначана)"
+#define PCE_FAST_HOVERSCAN_LABEL_BE "Гарызантальная Разгортка (толькі для рэжыму шырыні 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_BE "Устаноўка максімальнай шырыні малюнка. Памяншэнне значэння абразае правы край выявы (для гульняў з шырынёй у 352 пікселя)."
+#define OPTION_VAL_352_BE "352 % (прадвызначана)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_BE "Першы радок разгорткі"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_BE "Радок разгорткі, які адлюстроўваецца першым. Павышэнне значэння абразае верхні край выявы."
+#define OPTION_VAL_3_BE "3 % (прадвызначана)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_BE "Апошні радок разгорткі"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_BE "Радок разгорткі, які адлюстроўваецца апошнім. Памяншэнне значэння абразае ніжні край карцінкі."
+#define OPTION_VAL_242_BE "242 % (прадвызначана)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 0 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 1 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 2 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 3 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 4 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BE "Гучнасць гукавога канала PSG 5 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BE "Змена гучнасці гукавога канала PSG 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_BE "Чуласць Мышы"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BE "Вышэйшыя значэнні павялічваюць хуткасць перасоўвання курсора мышы."
 #define OPTION_VAL_0_25_BE NULL
 #define OPTION_VAL_0_50_BE NULL
 #define OPTION_VAL_0_75_BE NULL
@@ -1766,55 +1766,55 @@ struct retro_core_options_v2 options_ast = {
 #define OPTION_VAL_4_50_BE NULL
 #define OPTION_VAL_4_75_BE NULL
 #define OPTION_VAL_5_00_BE NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_BE NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE NULL
-#define OPTION_VAL_2_BUTTONS_BE NULL
-#define OPTION_VAL_6_BUTTONS_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_BE NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_BE NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BE NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BE NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_BE NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_BE NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_BE NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_BE NULL
-#define PCE_FAST_CDBIOS_LABEL_BE NULL
-#define PCE_FAST_CDBIOS_INFO_0_BE NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_BE "Адключыць мяккі скід (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_BE "Адначасовы націск RUN і SELECT замест скіду будзе часова адключаць абедзве кнопкі."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_BE "Тып джойсціка Гульца 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 1. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
+#define OPTION_VAL_2_BUTTONS_BE "2-кнопкавы"
+#define OPTION_VAL_6_BUTTONS_BE "6-кнопкавы"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_BE "Тып джойсціка Гульца 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 2. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_BE "Тып джойсціка Гульца 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_BE "Выбар 3- ці 6-ці кнопкавага кантролера па змаўчанні для парта 2. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_BE "Тып джойсціка Гульца 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 4. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_BE "Тып джойсціка Гульца 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_BE "Выбар 2- ці 6-ці кнопкавага кантролера па змаўчанні для парта 5. Дадзеная опцыя ўжываецца толькі пры запуску ядра. Для пераключэння на ляту выкарыстоўвайце кнопку 'Змяніць рэжым'. УВАГА: у несумяшчальных гульнях 6-кнопкавы геймпад можа выклікаць багі кіравання."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_BE "Пераключальнік турба"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_BE "Актывуе гарачыя клавішы для ўключэння турба (кнопкі III і IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_BE "Альтэрнатыўнае ўключэнне турба"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_BE "Прызначае кнопкі RetroPad'а L3/R3 у якасці гарачых клавіш для ўключэння турба замест кнопак III і IV. Працуе толькі пры адсутнасці прывязак да кнопак L3/R3. Дазваляе пазбегнуць перапрызначэння кнопак III і IV у рэжыме 6-кнопкавага кантролера."
+#define PCE_FAST_TURBO_DELAY_LABEL_BE "Затрымка турба"
+#define PCE_FAST_TURBO_DELAY_INFO_0_BE "Наладжвае прамежак паміж паўторамі націскаў (у кадрах)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_BE "Кэшаваць выяву CD (патрабуецца перазапуск)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_BE "Пры запуску выява дыска цалкам загружаецца ў памяць. Паскарае загрузку, але павялічвае час запуску."
+#define PCE_FAST_CDBIOS_LABEL_BE "BIOS CD (патрабуецца перазапуск)"
+#define PCE_FAST_CDBIOS_INFO_0_BE "Большасць гульняў запускаюцца з 'System Card 3'. 'Games Express' патрабуецца для некаторых неліцэнзаваных гульняў."
 #define OPTION_VAL_GAMES_EXPRESS_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_1_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_2_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_3_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_BE NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_BE NULL
-#define PCE_FAST_CDSPEED_LABEL_BE NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_BE NULL
-#define PCE_FAST_CDSPEED_INFO_0_BE NULL
+#define PCE_FAST_CDSPEED_LABEL_BE "(CD) Хуткасць CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_BE "Хуткасць CD"
+#define PCE_FAST_CDSPEED_INFO_0_BE "Вышэйшыя значэнні паскараюць загрузку, але могуць выклікаць праблемы ў асобных гульнях."
 #define OPTION_VAL_1_BE NULL
 #define OPTION_VAL_2_BE NULL
 #define OPTION_VAL_4_BE NULL
 #define OPTION_VAL_8_BE NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_BE NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BE NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_BE NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_BE NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_BE NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_BE NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_BE NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_BE NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_BE NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_BE NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_BE NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_BE NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_BE "(CD) Гучнасць ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BE "Гучнасць ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_BE "Толькі для CD-гульняў. Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_BE "Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
+#define PCE_FAST_CDDAVOLUME_LABEL_BE "(CD) Гучнасць CDDA %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_BE "Гучнасць CDDA %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_BE "(CD) Гучнасць PSG %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_BE "CD Гучнасць PSG %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_BE "Без абмежавання спрайтаў"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_BE "Здымае апаратнае абмежаванне ў 16 спрайтаў на лініі разгорткі. УВАГА: у некаторых гульнях можа выклікаць графічныя багі."
+#define PCE_FAST_OCMULTIPLIER_LABEL_BE "Множнік разгону CPU (патрабуецца перазапуск)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_BE "Вышэйшыя значэнні памяншаюць запаволенні ў гульнях. УВАГА: можа прыводзіць да багам і вылетам."
 
 struct retro_core_option_v2_category option_cats_be[] = {
    {
