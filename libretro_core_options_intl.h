@@ -1712,7 +1712,7 @@ struct retro_core_options_v2 options_ast = {
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_BE "Індывідуальная настройка гучнасці аўдыёканалаў."
 #define CATEGORY_CD_LABEL_BE NULL
 #define CATEGORY_CD_INFO_0_BE "Налада параметраў, якія адносяцца да эмуляцыі PC Engine CD."
-#define PCE_FAST_PALETTE_LABEL_BE "Каляровая палітра"
+#define PCE_FAST_PALETTE_LABEL_BE "Колеравая палітра"
 #define PCE_FAST_PALETTE_INFO_0_BE "Кампазітны рэжым імітуе арыгінальны малюнак з кансолі і павялічвае дэталізацыю для некаторых гульняў."
 #define OPTION_VAL_RGB_BE NULL
 #define OPTION_VAL_COMPOSITE_BE "Кампазітны"
