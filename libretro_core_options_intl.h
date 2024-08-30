@@ -1716,7 +1716,7 @@ struct retro_core_options_v2 options_ast = {
 #define PCE_FAST_PALETTE_INFO_0_BE "Кампазітны рэжым імітуе арыгінальны малюнак з кансолі і павялічвае дэталізацыю для некаторых гульняў."
 #define OPTION_VAL_RGB_BE NULL
 #define OPTION_VAL_COMPOSITE_BE "Кампазітны"
-#define PCE_FAST_FRAMESKIP_LABEL_BE "Пропуск кадраў"
+#define PCE_FAST_FRAMESKIP_LABEL_BE "Прапусканне кадраў"
 #define PCE_FAST_FRAMESKIP_INFO_0_BE "Прапускаць кадры, каб пазбегнуць з'яўлення (трэска) пры спусташэнні аўдыёбуфера. Паляпшае прадукцыйнасць, але зніжае плаўнасць выявы. У рэжыме 'Аўта' пропуск кадраў рэгулюецца франтэндам. У рэжыме 'Уручную' выкарыстоўваецца значэнне опцыі 'Мяжа пропуску кадраў (%)'."
 #define OPTION_VAL_AUTO_BE "Аўта"
 #define OPTION_VAL_MANUAL_BE "Уручную"
@@ -18601,7 +18601,7 @@ struct retro_core_options_v2 options_hu = {
 #define OPTION_VAL_AUTO_ID "Otomatis"
 #define OPTION_VAL_MANUAL_ID NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_ID NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_ID "Saat 'Lewati Bingkai' diatur ke 'Manual', tentukan (persentase) ambang batas hunian penyangga audio di bawah untuk bingkai mana yang dilewati. Nilai yang lebih tinggi mengurangi risiko keretakan dengan cara membuat laju bingkai sering anjlok."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_ID "Saat 'Lewati Bingkai' diatur ke 'Manual', tentukan (persentase) ambang batas hunian dapar audio di bawah untuk melewati berapa bingkai. Nilai lebih tinggi akan mengurangi bunyi derak dengan cara membuat laju bingkai sering anjlok."
 #define OPTION_VAL_33_ID NULL
 #define PCE_FAST_HOVERSCAN_LABEL_ID NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_ID NULL
@@ -18664,8 +18664,8 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Bertubi"
-#define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan bertubi (berjumlah bingkai)."
+#define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan turbo (sejumlah bingkai)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_ID NULL
 #define PCE_FAST_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
@@ -25356,7 +25356,7 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_PT_BR "Ao configurar \"Pulo de quadro\" como \"Manual\", especifica o limite da memória intermédia (buffer) de áudio em porcentagem, os quadros fora da porcentagem serão ignorados. Valores maiores reduzem o risco de engasgo por descartar quadros com mais frequência."
 #define OPTION_VAL_33_PT_BR "33 (padrão)"
 #define PCE_FAST_HOVERSCAN_LABEL_PT_BR "Overscan horizontal (somente no modo 352 de largura)"
-#define PCE_FAST_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352px)."
+#define PCE_FAST_HOVERSCAN_INFO_0_PT_BR "Seleciona a largura máxima da imagem que será exibida. Valores menores cortam o lado direito da imagem (em jogos com largura de 352 px)."
 #define OPTION_VAL_352_PT_BR "352 (padrão)"
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_PT_BR "Linha de varredura inicial"
 #define PCE_FAST_INITIAL_SCANLINE_INFO_0_PT_BR "Primeira linha de verificação renderizada. Valores maiores cortarão a parte superior da imagem."
@@ -25418,8 +25418,8 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_PT_BR "Atribui os botões L3 e R3 do RetroPad como atalhos de ativação e desativação do turbo, em vez dos botões III e IV. Você pode evitar o remapeamento dos botões III e IV ao alterar para o modo de controle de 6 botões com isso."
 #define PCE_FAST_TURBO_DELAY_LABEL_PT_BR "Atraso do turbo"
 #define PCE_FAST_TURBO_DELAY_INFO_0_PT_BR "Ajusta o intervalo entre as ativações do turbo (em quadros)."
-#define PCE_FAST_CDIMAGECACHE_LABEL_PT_BR "Cache de imagens do CD (requer reinício)"
-#define PCE_FAST_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória na inicialização. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
+#define PCE_FAST_CDIMAGECACHE_LABEL_PT_BR "Cache de imagem do CD (requer reinício)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória ao iniciar. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
 #define PCE_FAST_CDBIOS_LABEL_PT_BR "BIOS de CD (requer reinício)"
 #define PCE_FAST_CDBIOS_INFO_0_PT_BR "A maioria dos jogos podem rodar em \"System Card 3\". \"Games Express\" é necessário para vários jogos não licenciados."
 #define OPTION_VAL_GAMES_EXPRESS_PT_BR NULL
@@ -31242,7 +31242,7 @@ struct retro_core_options_v2 options_tr = {
 
 /* RETRO_LANGUAGE_TT */
 
-#define CATEGORY_VIDEO_LABEL_TT NULL
+#define CATEGORY_VIDEO_LABEL_TT "Видео"
 #define CATEGORY_VIDEO_INFO_0_TT NULL
 #define CATEGORY_INPUT_LABEL_TT NULL
 #define CATEGORY_INPUT_INFO_0_TT NULL
@@ -31258,7 +31258,7 @@ struct retro_core_options_v2 options_tr = {
 #define OPTION_VAL_COMPOSITE_TT NULL
 #define PCE_FAST_FRAMESKIP_LABEL_TT NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_TT NULL
-#define OPTION_VAL_AUTO_TT NULL
+#define OPTION_VAL_AUTO_TT "Автоматик"
 #define OPTION_VAL_MANUAL_TT NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_TT NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_TT NULL
