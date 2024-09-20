@@ -32154,8 +32154,8 @@ struct retro_core_options_v2 options_tt = {
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_UK "Коли РУХ та ВИБІР одночасно натиснуто, тимчасово вимкнуться обидві кнопки замість скидання."
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_UK NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_UK NULL
-#define OPTION_VAL_2_BUTTONS_UK NULL
-#define OPTION_VAL_6_BUTTONS_UK NULL
+#define OPTION_VAL_2_BUTTONS_UK "2 кнопки"
+#define OPTION_VAL_6_BUTTONS_UK "6 кнопок"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_UK NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_UK NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_UK NULL
