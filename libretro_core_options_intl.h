@@ -25377,7 +25377,7 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_PT_BR "Volume do canal de som 5 do PSG (%)"
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_PT_BR "Modifica o volume do canal de som 5 do PSG."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_PT_BR "Sensibilidade do mouse"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_PT_BR "Valores maiores tornarão a movimentação do cursor do mouse mais rápida."
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_PT_BR "Define a velocidade do mouse."
 #define OPTION_VAL_0_25_PT_BR "0,25"
 #define OPTION_VAL_0_50_PT_BR "0,50"
 #define OPTION_VAL_0_75_PT_BR "0,75"
