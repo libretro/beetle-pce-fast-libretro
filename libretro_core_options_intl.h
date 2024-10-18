@@ -3391,49 +3391,49 @@ struct retro_core_options_v2 options_bg = {
 /* RETRO_LANGUAGE_CA */
 
 #define CATEGORY_VIDEO_LABEL_CA "Vídeo"
-#define CATEGORY_VIDEO_INFO_0_CA NULL
+#define CATEGORY_VIDEO_INFO_0_CA "Canvia les opcions de relació d'aspecte, omissió de fotogrames i altres ajustaments de la sortida d'imatge."
 #define CATEGORY_INPUT_LABEL_CA "Dispositius de joc"
-#define CATEGORY_INPUT_INFO_0_CA NULL
-#define CATEGORY_HACKS_LABEL_CA NULL
-#define CATEGORY_HACKS_INFO_0_CA NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_CA NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_CA NULL
+#define CATEGORY_INPUT_INFO_0_CA "Configurar el senyal d'entrada de la pistola de llum, ratolí i NegCon."
+#define CATEGORY_HACKS_LABEL_CA "Correccions de l'emulació"
+#define CATEGORY_HACKS_INFO_0_CA "Canvia les opcions de velocitats del processador i de precisió de l'emulador que afecten el rendiment a baix nivell i la compatibilitat."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_CA "Configuració avançada del volum dels canals"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_CA "Canvia el volum dels canals de so del maquinari."
 #define CATEGORY_CD_LABEL_CA NULL
-#define CATEGORY_CD_INFO_0_CA NULL
-#define PCE_FAST_PALETTE_LABEL_CA NULL
-#define PCE_FAST_PALETTE_INFO_0_CA NULL
+#define CATEGORY_CD_INFO_0_CA "Canvia la configuració relacionada amb el lector de CD per a PC Engine."
+#define PCE_FAST_PALETTE_LABEL_CA "Paleta de colors"
+#define PCE_FAST_PALETTE_INFO_0_CA "Vídeo compost intenta recrear la sortida de vídeo original de la consola i pot mostrar més detalls en alguns jocs."
 #define OPTION_VAL_RGB_CA NULL
-#define OPTION_VAL_COMPOSITE_CA NULL
-#define PCE_FAST_FRAMESKIP_LABEL_CA NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_CA NULL
+#define OPTION_VAL_COMPOSITE_CA "Composició"
+#define PCE_FAST_FRAMESKIP_LABEL_CA "Ometre fotogrames"
+#define PCE_FAST_FRAMESKIP_INFO_0_CA "Omet fotogrames per no saturar la memòria intermèdia de l'àudio. Millora el rendiment a canvi de perdre fluïdesa visual. Selecció automàtica omet fotogrames a petició del front-end. El valor manual ajusta el llindar d'omissió de fotogrames (%)."
 #define OPTION_VAL_AUTO_CA "Automàtic"
 #define OPTION_VAL_MANUAL_CA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CA NULL
-#define OPTION_VAL_33_CA NULL
-#define PCE_FAST_HOVERSCAN_LABEL_CA NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_CA NULL
-#define OPTION_VAL_352_CA NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_CA NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CA NULL
-#define OPTION_VAL_3_CA NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_CA NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_CA NULL
-#define OPTION_VAL_242_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CA NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_CA "Llindar d'omissió de fotogrames (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_CA "Si l'omissió de fotogrames està en mode manual, aquesta opció especifica el llindar de la memòria intermèdia d'àudio (en percentatge) per sota del qual s'ometran fotogrames. Valors alts redueixen el crepitar ometent fotogrames més sovint."
+#define OPTION_VAL_33_CA "33 (Per defecte)"
+#define PCE_FAST_HOVERSCAN_LABEL_CA "Escombrat horitzontal (Només en el mode de 352 píxels d'amplada)"
+#define PCE_FAST_HOVERSCAN_INFO_0_CA "Selecciona l'amplada màxima de la imatge que es mostrarà. Valors baixos poden retallar la part dreta de la imatge (pels jocs amb 352 píxels d'amplada)."
+#define OPTION_VAL_352_CA "352 (Per defecte)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_CA "Línia de dibuixat inicial"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_CA "Indica la primera línia d'escombrat que es renderitzarà. Valors molt alts poden retallar la part superior de la imatge."
+#define OPTION_VAL_3_CA "3 (Per defecte)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_CA "Línia de dibuixat final"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_CA "Indica l'última línia d'escombrat que es renderitzarà. Valors molt baixos poden retallar la part inferior de la imatge."
+#define OPTION_VAL_242_CA "242 (Per defecte)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_CA "Volum del canal 0 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_CA "Modificar el volum del canal de so 0 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_CA "Volum del canal 1 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_CA "Modificar el volum del canal de so 1 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_CA "Volum del canal 2 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_CA "Modificar el volum del canal de so 2 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_CA "Volum del canal 3 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_CA "Modificar el volum del canal de so 3 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_CA "Volum del canal 4 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_CA "Modificar el volum del canal de so 4 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_CA "Volum del canal 5 del PSG %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_CA "Modificar el volum del canal de so 5 de PSG."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_CA "Sensibilitat del ratolí"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_CA "Valors més alts faran que el ratolí es mogui més ràpidament."
 #define OPTION_VAL_0_25_CA "0,25"
 #define OPTION_VAL_0_50_CA "0,50"
 #define OPTION_VAL_0_75_CA "0,75"
@@ -3454,55 +3454,55 @@ struct retro_core_options_v2 options_bg = {
 #define OPTION_VAL_4_50_CA "4,50"
 #define OPTION_VAL_4_75_CA "4,75"
 #define OPTION_VAL_5_00_CA "5,00"
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CA NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA NULL
-#define OPTION_VAL_2_BUTTONS_CA NULL
-#define OPTION_VAL_6_BUTTONS_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_CA NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_CA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CA NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_CA NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_CA NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_CA NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_CA NULL
-#define PCE_FAST_CDBIOS_LABEL_CA NULL
-#define PCE_FAST_CDBIOS_INFO_0_CA NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_CA "Deshabilitar reinici per programari (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_CA "En prémer RUN i SELECT de manera simultània, es desactivaran els dos botons en comptes de provocar un reinici del sistema."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_CA "Tipus de controlador predeterminat P1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_CA "Indica si el controlador del port 1 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
+#define OPTION_VAL_2_BUTTONS_CA "2 Botons"
+#define OPTION_VAL_6_BUTTONS_CA "6 Botons"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_CA "Tipus de controlador predeterminat P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_CA "Indica si el controlador del port 2 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_CA "Tipus de controlador predeterminat P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_CA "Indica si el controlador del port 3 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_CA "Tipus de controlador predeterminat P4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_CA "Indica si el controlador del port 4 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_CA "Tipus de controlador predeterminat P5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_CA "Indica si el controlador del port 5 ha de tenir 2 o 6 botons per defecte. Aquesta opció només s'aplica en iniciar el nucli: si vols canviar el tipus de controlador amb el joc en funcionament, cal utilitzar el botó de canvi de mode. NOTA: Els controladors de 6 botons poden produir comportaments estranys en jocs que no siguin compatibles."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_CA "Activació manual del turbo"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_CA "Activa les tecles d'accés ràpid per activar o desactivar el turbo (botons III i IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_CA "Tecla accés ràpid per activar el turbo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_CA "Assigna els botons L3/R3 del RetroPad com a tecla d'accés ràpid per activar/desactivar el turbo en comptes dels botons III i IV. Només funciona si no hi ha una altra funció assignada als botons R3/L3. Amb aquesta opció, no caldrà tornar a assignar els botons III i IV al canviar al controlador de 6 botons."
+#define PCE_FAST_TURBO_DELAY_LABEL_CA "Retard del turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_CA "Ajustar el temps entre cada pulsació del turbo (en fotogrames)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_CA "Memòria intermèdia de la imatge de disc (Es requereix reinici)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_CA "Carrega la imatge completa en memòria en iniciar. Pot reduir el temps de càrrega amb el cost d'augmentar el temps d'arrencada."
+#define PCE_FAST_CDBIOS_LABEL_CA "BIOS CD (Es requereix reinici)"
+#define PCE_FAST_CDBIOS_INFO_0_CA "La majoria de jocs poden funcionar amb la targeta de sistema 3. Games Express és necessari per a alguns jocs sense llicència."
 #define OPTION_VAL_GAMES_EXPRESS_CA NULL
-#define OPTION_VAL_SYSTEM_CARD_1_CA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_CA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_CA NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_CA NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_CA NULL
-#define PCE_FAST_CDSPEED_LABEL_CA NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_CA NULL
-#define PCE_FAST_CDSPEED_INFO_0_CA NULL
+#define OPTION_VAL_SYSTEM_CARD_1_CA "Targeta sistema 1"
+#define OPTION_VAL_SYSTEM_CARD_2_CA "Targeta sistema 2"
+#define OPTION_VAL_SYSTEM_CARD_3_CA "Targeta sistema 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_CA "Targeta del sistema 2 US"
+#define OPTION_VAL_SYSTEM_CARD_3_US_CA "Targeta del sistema 3 US"
+#define PCE_FAST_CDSPEED_LABEL_CA "(CD) Velocitat del CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_CA "Velocitat de CD"
+#define PCE_FAST_CDSPEED_INFO_0_CA "Valors alts acceleren els temps de càrrega del joc però pot causar problemes en alguns jocs."
 #define OPTION_VAL_1_CA NULL
 #define OPTION_VAL_2_CA NULL
 #define OPTION_VAL_4_CA NULL
 #define OPTION_VAL_8_CA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_CA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_CA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CA NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CA NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CA NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_CA NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_CA NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_CA NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_CA NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CA "Volum CD ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CA "Volum de ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_CA "Només per jocs en CD. Un volum molt alt pot saturar la sortida d'àudio."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_CA "Ajustar el volum molt alt pot saturar la sortida d'àudio."
+#define PCE_FAST_CDDAVOLUME_LABEL_CA "Volum CD CDDA %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_CA "Volum de CDDA %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CA "Volum CD PSG %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CA "Volum CD PSG %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_CA "Desactivar límit de sprites"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_CA "Elimina el límit de 16 sprites per línia en cada escombrat. AVÍS: Pot causar errors gràfics en alguns jocs."
+#define PCE_FAST_OCMULTIPLIER_LABEL_CA "Multiplicador de la velocitat de la CPU (Es requereix reinici)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_CA "Valors alts poden reduir els alentiments en els jocs. AVÍS: Pot produir errors gràfics i fallides."
 
 struct retro_core_option_v2_category option_cats_ca[] = {
    {
