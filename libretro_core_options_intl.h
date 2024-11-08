@@ -2546,9 +2546,9 @@ struct retro_core_options_v2 options_be = {
 
 /* RETRO_LANGUAGE_BG */
 
-#define CATEGORY_VIDEO_LABEL_BG NULL
+#define CATEGORY_VIDEO_LABEL_BG "Видео"
 #define CATEGORY_VIDEO_INFO_0_BG NULL
-#define CATEGORY_INPUT_LABEL_BG NULL
+#define CATEGORY_INPUT_LABEL_BG "Вход"
 #define CATEGORY_INPUT_INFO_0_BG NULL
 #define CATEGORY_HACKS_LABEL_BG NULL
 #define CATEGORY_HACKS_INFO_0_BG NULL
@@ -2556,7 +2556,7 @@ struct retro_core_options_v2 options_be = {
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_BG NULL
 #define CATEGORY_CD_LABEL_BG NULL
 #define CATEGORY_CD_INFO_0_BG NULL
-#define PCE_FAST_PALETTE_LABEL_BG NULL
+#define PCE_FAST_PALETTE_LABEL_BG "Цветова палитра"
 #define PCE_FAST_PALETTE_INFO_0_BG NULL
 #define OPTION_VAL_RGB_BG NULL
 #define OPTION_VAL_COMPOSITE_BG NULL
@@ -2589,7 +2589,7 @@ struct retro_core_options_v2 options_be = {
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_BG NULL
 #define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_BG NULL
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_BG NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BG NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_BG "По-високите стойности ще накарат курсора на мишката да се движи по-бързо."
 #define OPTION_VAL_0_25_BG NULL
 #define OPTION_VAL_0_50_BG NULL
 #define OPTION_VAL_0_75_BG NULL
