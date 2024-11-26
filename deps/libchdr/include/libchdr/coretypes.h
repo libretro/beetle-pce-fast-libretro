@@ -3,17 +3,13 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
+#include <retro_inline.h>
 #ifdef USE_LIBRETRO_VFS
 #include <streams/file_stream_transforms.h>
 #endif
 
 #ifndef ARRAY_LENGTH
 #define ARRAY_LENGTH(x) (sizeof(x)/sizeof(x[0]))
-#endif
-
-#ifndef ARRAY_SIZE
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 #endif
 
 typedef struct chd_core_file {
@@ -38,26 +34,26 @@ typedef struct chd_core_file {
 	 */
 	size_t(*fread)(void*,size_t,size_t,struct chd_core_file*);
 
-	// closes the given file.
+	/* closes the given file. */
 	int (*fclose)(struct chd_core_file*);
 
-	// fseek clone
+	/* fseek clone */
 	int (*fseek)(struct chd_core_file*, int64_t, int);
 } core_file;
 
-static inline int core_fclose(core_file *fp) {
+static INLINE int core_fclose(core_file *fp) {
 	return fp->fclose(fp);
 }
 
-static inline size_t core_fread(core_file *fp, void *ptr, size_t len) {
+static INLINE size_t core_fread(core_file *fp, void *ptr, size_t len) {
 	return fp->fread(ptr, 1, len, fp);
 }
 
-static inline int core_fseek(core_file* fp, int64_t offset, int whence) {
+static INLINE int core_fseek(core_file* fp, int64_t offset, int whence) {
 	return fp->fseek(fp, offset, whence);
 }
 
-static inline uint64_t core_fsize(core_file *fp)
+static INLINE uint64_t core_fsize(core_file *fp)
 {
 	return fp->fsize(fp);
 }
