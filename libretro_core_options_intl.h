@@ -18665,7 +18665,7 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ID NULL
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_ID NULL
 #define PCE_FAST_TURBO_DELAY_LABEL_ID "Tundaan Turbo"
-#define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan waktu antara tekan turbo (sejumlah bingkai)."
+#define PCE_FAST_TURBO_DELAY_INFO_0_ID "Menyesuaikan lat tekan turbo (dalam bingkai)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_ID "Tembolok Citra CD (Perlu Mulai Ulang)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_ID NULL
 #define PCE_FAST_CDBIOS_LABEL_ID "BIOS CD (Perlu Mulai Ulang)"
