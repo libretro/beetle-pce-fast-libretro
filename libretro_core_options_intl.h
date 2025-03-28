@@ -25400,17 +25400,17 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_5_00_PT_BR "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_BR "Desativar a reinicialização suave (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR "Tipo de controle padrão do J1"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR "Escolha se o joypad da porta 1 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
 #define OPTION_VAL_2_BUTTONS_PT_BR "2 botões"
 #define OPTION_VAL_6_BUTTONS_PT_BR "6 botões"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR "Tipo de controle padrão do J2"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR "Escolha se o joypad da porta 2 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR "Tipo de controle padrão do J3"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR "Escolha se o joypad da porta 3 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR "Tipo de controle padrão do J4"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR "Escolha se o joypad da porta 4 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR "Tipo de controle padrão do J5"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR "Escolha se o joypad da porta 5 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR "Ativar e desativar o turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_BR "Ativa os atalhos de ligar e desligar o turbo (botões III e IV)."
