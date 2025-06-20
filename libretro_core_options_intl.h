@@ -869,7 +869,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST NULL
 #define PCE_FAST_PALETTE_LABEL_AST NULL
-#define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola y pue amosar más detalles en dalgunos xuegos."
+#define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola ya pue amosar más detalles en dalgunos xuegos."
 #define OPTION_VAL_RGB_AST NULL
 #define OPTION_VAL_COMPOSITE_AST NULL
 #define PCE_FAST_FRAMESKIP_LABEL_AST "Saltu de cuadros"
@@ -11896,18 +11896,18 @@ struct retro_core_options_v2 options_eo = {
 #define OPTION_VAL_5_00_ES "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_ES "Desactivar reinicio por software (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_ES "Cuando se pulsen a la vez los botones RUN y SELECT, esta opción desactivará los dos botones temporalmente en vez de provocar un reinicio del sistema."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES "Tipo de mando predeterminado del J1"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES "Indica si el mando del puerto 1 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_ES "Tipo de mando predeterminado del puerto 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_ES "Indica si el mando del puerto 1 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles."
 #define OPTION_VAL_2_BUTTONS_ES "Dos botones"
 #define OPTION_VAL_6_BUTTONS_ES "Seis botones"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES "Tipo de mando predeterminado del J2"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES "Indica si el mando del puerto 2 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES "Tipo de mando predeterminado del J3"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES "Indica si el mando del puerto 3 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES "Tipo de mando predeterminado del J4"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES "Indica si el mando del puerto 4 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES "Tipo de mando predeterminado del J5"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES "Indica si el mando del puerto 5 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles con este mando."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_ES "Tipo de mando predeterminado del puerto 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_ES "Indica si el mando del puerto 2 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_ES "Tipo de mando predeterminado del puerto 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_ES "Indica si el mando del puerto 3 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_ES "Tipo de mando predeterminado del puerto 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_ES "Indica si el mando del puerto 4 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_ES "Tipo de mando predeterminado del puerto 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_ES "Indica si el mando del puerto 5 debería ser uno de 2 o 6 botones por defecto. Esta opción se aplica únicamente al iniciar el núcleo: si deseas cambiar el tipo de mando mientras se esté ejecutando un contenido, debes usar el botón de cambio de modo. NOTA: los mandos de 6 botones pueden producir comportamientos extraños en juegos que no sean compatibles."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_ES "Activación manual del turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_ES "Activa las teclas rápidas para activar o desactivar el turbo (los botones III y IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_ES "Teclas rápidas alternativas para el turbo"
@@ -15202,6 +15202,850 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
 struct retro_core_options_v2 options_fr = {
    option_cats_fr,
    option_defs_fr
+};
+
+/* RETRO_LANGUAGE_GA */
+
+#define CATEGORY_VIDEO_LABEL_GA "Físeán"
+#define CATEGORY_VIDEO_INFO_0_GA NULL
+#define CATEGORY_INPUT_LABEL_GA "Ionchur"
+#define CATEGORY_INPUT_INFO_0_GA NULL
+#define CATEGORY_HACKS_LABEL_GA NULL
+#define CATEGORY_HACKS_INFO_0_GA NULL
+#define CATEGORY_CHANNEL_VOLUME_LABEL_GA NULL
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_GA NULL
+#define CATEGORY_CD_LABEL_GA NULL
+#define CATEGORY_CD_INFO_0_GA NULL
+#define PCE_FAST_PALETTE_LABEL_GA NULL
+#define PCE_FAST_PALETTE_INFO_0_GA NULL
+#define OPTION_VAL_RGB_GA NULL
+#define OPTION_VAL_COMPOSITE_GA NULL
+#define PCE_FAST_FRAMESKIP_LABEL_GA NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_GA NULL
+#define OPTION_VAL_AUTO_GA NULL
+#define OPTION_VAL_MANUAL_GA NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GA NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GA NULL
+#define OPTION_VAL_33_GA NULL
+#define PCE_FAST_HOVERSCAN_LABEL_GA NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_GA NULL
+#define OPTION_VAL_352_GA NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_GA NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GA NULL
+#define OPTION_VAL_3_GA NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_GA NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_GA NULL
+#define OPTION_VAL_242_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GA NULL
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GA NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GA NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GA NULL
+#define OPTION_VAL_0_25_GA NULL
+#define OPTION_VAL_0_50_GA NULL
+#define OPTION_VAL_0_75_GA NULL
+#define OPTION_VAL_1_00_GA NULL
+#define OPTION_VAL_1_25_GA NULL
+#define OPTION_VAL_1_50_GA NULL
+#define OPTION_VAL_1_75_GA NULL
+#define OPTION_VAL_2_00_GA NULL
+#define OPTION_VAL_2_25_GA NULL
+#define OPTION_VAL_2_50_GA NULL
+#define OPTION_VAL_2_75_GA NULL
+#define OPTION_VAL_3_00_GA NULL
+#define OPTION_VAL_3_25_GA NULL
+#define OPTION_VAL_3_50_GA NULL
+#define OPTION_VAL_3_75_GA NULL
+#define OPTION_VAL_4_00_GA NULL
+#define OPTION_VAL_4_25_GA NULL
+#define OPTION_VAL_4_50_GA NULL
+#define OPTION_VAL_4_75_GA NULL
+#define OPTION_VAL_5_00_GA NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GA NULL
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GA NULL
+#define OPTION_VAL_2_BUTTONS_GA NULL
+#define OPTION_VAL_6_BUTTONS_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GA NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GA NULL
+#define PCE_FAST_TURBO_TOGGLING_LABEL_GA NULL
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_GA NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GA NULL
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GA NULL
+#define PCE_FAST_TURBO_DELAY_LABEL_GA NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_GA NULL
+#define PCE_FAST_CDIMAGECACHE_LABEL_GA NULL
+#define PCE_FAST_CDIMAGECACHE_INFO_0_GA NULL
+#define PCE_FAST_CDBIOS_LABEL_GA NULL
+#define PCE_FAST_CDBIOS_INFO_0_GA NULL
+#define OPTION_VAL_GAMES_EXPRESS_GA NULL
+#define OPTION_VAL_SYSTEM_CARD_1_GA NULL
+#define OPTION_VAL_SYSTEM_CARD_2_GA NULL
+#define OPTION_VAL_SYSTEM_CARD_3_GA NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_GA NULL
+#define OPTION_VAL_SYSTEM_CARD_3_US_GA NULL
+#define PCE_FAST_CDSPEED_LABEL_GA NULL
+#define PCE_FAST_CDSPEED_LABEL_CAT_GA NULL
+#define PCE_FAST_CDSPEED_INFO_0_GA NULL
+#define OPTION_VAL_1_GA NULL
+#define OPTION_VAL_2_GA NULL
+#define OPTION_VAL_4_GA NULL
+#define OPTION_VAL_8_GA NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_GA NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GA NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_GA NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_1_GA NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_GA NULL
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GA NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_GA NULL
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GA NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_GA NULL
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_GA NULL
+#define PCE_FAST_OCMULTIPLIER_LABEL_GA NULL
+#define PCE_FAST_OCMULTIPLIER_INFO_0_GA NULL
+
+struct retro_core_option_v2_category option_cats_ga[] = {
+   {
+      "video",
+      CATEGORY_VIDEO_LABEL_GA,
+      CATEGORY_VIDEO_INFO_0_GA
+   },
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_GA,
+      CATEGORY_INPUT_INFO_0_GA
+   },
+   {
+      "hacks",
+      CATEGORY_HACKS_LABEL_GA,
+      CATEGORY_HACKS_INFO_0_GA
+   },
+   {
+      "channel_volume",
+      CATEGORY_CHANNEL_VOLUME_LABEL_GA,
+      CATEGORY_CHANNEL_VOLUME_INFO_0_GA
+   },
+   {
+      "cd",
+      CATEGORY_CD_LABEL_GA,
+      CATEGORY_CD_INFO_0_GA
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_ga[] = {
+   {
+      "pce_fast_palette",
+      PCE_FAST_PALETTE_LABEL_GA,
+      NULL,
+      PCE_FAST_PALETTE_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "RGB", OPTION_VAL_RGB_GA },
+         { "Composite", OPTION_VAL_COMPOSITE_GA },
+         { NULL, NULL},
+      },
+      "RGB"
+   },
+   {
+      "pce_fast_frameskip",
+      PCE_FAST_FRAMESKIP_LABEL_GA,
+      NULL,
+      PCE_FAST_FRAMESKIP_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "disabled", NULL },
+         { "auto",     OPTION_VAL_AUTO_GA },
+         { "manual",   OPTION_VAL_MANUAL_GA },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_frameskip_threshold",
+      PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GA,
+      NULL,
+      PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "15", NULL },
+         { "18", NULL },
+         { "21", NULL },
+         { "24", NULL },
+         { "27", NULL },
+         { "30", NULL },
+         { "33", OPTION_VAL_33_GA },
+         { "36", NULL },
+         { "39", NULL },
+         { "42", NULL },
+         { "45", NULL },
+         { "48", NULL },
+         { "51", NULL },
+         { "54", NULL },
+         { "57", NULL },
+         { "60", NULL },
+         { NULL, NULL },
+      },
+      "33"
+   },
+   {
+      "pce_fast_hoverscan",
+      PCE_FAST_HOVERSCAN_LABEL_GA,
+      NULL,
+      PCE_FAST_HOVERSCAN_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "300", NULL },
+         { "302", NULL },
+         { "304", NULL },
+         { "306", NULL },
+         { "308", NULL },
+         { "310", NULL },
+         { "312", NULL },
+         { "314", NULL },
+         { "316", NULL },
+         { "318", NULL },
+         { "320", NULL },
+         { "322", NULL },
+         { "324", NULL },
+         { "326", NULL },
+         { "328", NULL },
+         { "330", NULL },
+         { "332", NULL },
+         { "334", NULL },
+         { "336", NULL },
+         { "338", NULL },
+         { "340", NULL },
+         { "342", NULL },
+         { "344", NULL },
+         { "346", NULL },
+         { "348", NULL },
+         { "350", NULL },
+         { "352", OPTION_VAL_352_GA },
+         { NULL, NULL },
+      },
+      "352"
+   },
+   {
+      "pce_fast_initial_scanline",
+      PCE_FAST_INITIAL_SCANLINE_LABEL_GA,
+      NULL,
+      PCE_FAST_INITIAL_SCANLINE_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "0", NULL },
+         { "1", NULL },
+         { "2", NULL },
+         { "3", OPTION_VAL_3_GA },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { "16", NULL },
+         { "17", NULL },
+         { "18", NULL },
+         { "19", NULL },
+         { "20", NULL },
+         { "21", NULL },
+         { "22", NULL },
+         { "23", NULL },
+         { "24", NULL },
+         { "25", NULL },
+         { "26", NULL },
+         { "27", NULL },
+         { "28", NULL },
+         { "29", NULL },
+         { "30", NULL },
+         { "31", NULL },
+         { "32", NULL },
+         { "33", NULL },
+         { "34", NULL },
+         { "35", NULL },
+         { "36", NULL },
+         { "37", NULL },
+         { "38", NULL },
+         { "39", NULL },
+         { "40", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_last_scanline",
+      PCE_FAST_LAST_SCANLINE_LABEL_GA,
+      NULL,
+      PCE_FAST_LAST_SCANLINE_INFO_0_GA,
+      NULL,
+      "video",
+      {
+         { "208", NULL },
+         { "209", NULL },
+         { "210", NULL },
+         { "211", NULL },
+         { "212", NULL },
+         { "213", NULL },
+         { "214", NULL },
+         { "215", NULL },
+         { "216", NULL },
+         { "217", NULL },
+         { "218", NULL },
+         { "219", NULL },
+         { "220", NULL },
+         { "221", NULL },
+         { "222", NULL },
+         { "223", NULL },
+         { "224", NULL },
+         { "225", NULL },
+         { "226", NULL },
+         { "227", NULL },
+         { "228", NULL },
+         { "229", NULL },
+         { "230", NULL },
+         { "231", NULL },
+         { "232", NULL },
+         { "233", NULL },
+         { "234", NULL },
+         { "235", NULL },
+         { "236", NULL },
+         { "237", NULL },
+         { "238", NULL },
+         { "239", NULL },
+         { "240", NULL },
+         { "241", NULL },
+         { "242", OPTION_VAL_242_GA },
+         { NULL, NULL },
+      },
+      "242"
+   },
+   {
+      "pce_fast_sound_channel_0_volume",
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_1_volume",
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_2_volume",
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_3_volume",
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_4_volume",
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_sound_channel_5_volume",
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GA,
+      NULL,
+      PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GA,
+      NULL,
+      "channel_volume",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_mouse_sensitivity",
+      PCE_FAST_MOUSE_SENSITIVITY_LABEL_GA,
+      NULL,
+      PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "0.25", OPTION_VAL_0_25_GA },
+         { "0.50", OPTION_VAL_0_50_GA },
+         { "0.75", OPTION_VAL_0_75_GA },
+         { "1.00", OPTION_VAL_1_00_GA },
+         { "1.25", OPTION_VAL_1_25_GA },
+         { "1.50", OPTION_VAL_1_50_GA },
+         { "1.75", OPTION_VAL_1_75_GA },
+         { "2.00", OPTION_VAL_2_00_GA },
+         { "2.25", OPTION_VAL_2_25_GA },
+         { "2.50", OPTION_VAL_2_50_GA },
+         { "2.75", OPTION_VAL_2_75_GA },
+         { "3.00", OPTION_VAL_3_00_GA },
+         { "3.25", OPTION_VAL_3_25_GA },
+         { "3.50", OPTION_VAL_3_50_GA },
+         { "3.75", OPTION_VAL_3_75_GA },
+         { "4.00", OPTION_VAL_4_00_GA },
+         { "4.25", OPTION_VAL_4_25_GA },
+         { "4.50", OPTION_VAL_4_50_GA },
+         { "4.75", OPTION_VAL_4_75_GA },
+         { "5.00", OPTION_VAL_5_00_GA },
+         { NULL, NULL },
+      },
+      "1.25"
+   },
+   {
+      "pce_fast_disable_softreset",
+      PCE_FAST_DISABLE_SOFTRESET_LABEL_GA,
+      NULL,
+      PCE_FAST_DISABLE_SOFTRESET_INFO_0_GA,
+      NULL,
+      "input",
+      {
+          { "disabled", NULL },
+          { "enabled", NULL },
+          { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_default_joypad_type_p1",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p2",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p3",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p4",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_default_joypad_type_p5",
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GA,
+      NULL,
+      PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "2 Buttons", OPTION_VAL_2_BUTTONS_GA },
+         { "6 Buttons", OPTION_VAL_6_BUTTONS_GA },
+         { NULL, NULL},
+      },
+      "2 Buttons"
+   },
+   {
+      "pce_fast_turbo_toggling",
+      PCE_FAST_TURBO_TOGGLING_LABEL_GA,
+      NULL,
+      PCE_FAST_TURBO_TOGGLING_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_toggle_hotkey",
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GA,
+      NULL,
+      PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_turbo_delay",
+      PCE_FAST_TURBO_DELAY_LABEL_GA,
+      NULL,
+      PCE_FAST_TURBO_DELAY_INFO_0_GA,
+      NULL,
+      "input",
+      {
+         { "1",  NULL },
+         { "2",  NULL },
+         { "3",  OPTION_VAL_3_GA },
+         { "4",  NULL },
+         { "5",  NULL },
+         { "6",  NULL },
+         { "7",  NULL },
+         { "8",  NULL },
+         { "9",  NULL },
+         { "10", NULL },
+         { "11", NULL },
+         { "12", NULL },
+         { "13", NULL },
+         { "14", NULL },
+         { "15", NULL },
+         { NULL, NULL },
+      },
+      "3"
+   },
+   {
+      "pce_fast_cdimagecache",
+      PCE_FAST_CDIMAGECACHE_LABEL_GA,
+      NULL,
+      PCE_FAST_CDIMAGECACHE_INFO_0_GA,
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_cdbios",
+      PCE_FAST_CDBIOS_LABEL_GA,
+      NULL,
+      PCE_FAST_CDBIOS_INFO_0_GA,
+      NULL,
+      "cd",
+      {
+         { "Games Express", OPTION_VAL_GAMES_EXPRESS_GA },
+         { "System Card 1", OPTION_VAL_SYSTEM_CARD_1_GA },
+         { "System Card 2", OPTION_VAL_SYSTEM_CARD_2_GA },
+         { "System Card 3", OPTION_VAL_SYSTEM_CARD_3_GA },
+         { "System Card 2 US", OPTION_VAL_SYSTEM_CARD_2_US_GA },
+         { "System Card 3 US", OPTION_VAL_SYSTEM_CARD_3_US_GA },
+         { NULL, NULL },
+      },
+      "System Card 3"
+   },
+   {
+      "pce_fast_cdspeed",
+      PCE_FAST_CDSPEED_LABEL_GA,
+      PCE_FAST_CDSPEED_LABEL_CAT_GA,
+      PCE_FAST_CDSPEED_INFO_0_GA,
+      NULL,
+      "cd",
+      {
+         { "1", OPTION_VAL_1_GA },
+         { "2", OPTION_VAL_2_GA },
+         { "4", OPTION_VAL_4_GA },
+         { "8", OPTION_VAL_8_GA },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   {
+      "pce_fast_adpcmvolume",
+      PCE_FAST_ADPCMVOLUME_LABEL_GA,
+      PCE_FAST_ADPCMVOLUME_LABEL_CAT_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_0_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_1_GA,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cddavolume",
+      PCE_FAST_CDDAVOLUME_LABEL_GA,
+      PCE_FAST_CDDAVOLUME_LABEL_CAT_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_0_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_1_GA,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_cdpsgvolume",
+      PCE_FAST_CDPSGVOLUME_LABEL_GA,
+      PCE_FAST_CDPSGVOLUME_LABEL_CAT_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_0_GA,
+      PCE_FAST_ADPCMVOLUME_INFO_1_GA,
+      "cd",
+      {
+         { "0", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { "60", NULL },
+         { "70", NULL },
+         { "80", NULL },
+         { "90", NULL },
+         { "100", NULL },
+         { "110", NULL },
+         { "120", NULL },
+         { "130", NULL },
+         { "140", NULL },
+         { "150", NULL },
+         { "160", NULL },
+         { "170", NULL },
+         { "180", NULL },
+         { "190", NULL },
+         { "200", NULL },
+         { NULL, NULL },
+      },
+      "100"
+   },
+   {
+      "pce_fast_nospritelimit",
+      PCE_FAST_NOSPRITELIMIT_LABEL_GA,
+      NULL,
+      PCE_FAST_NOSPRITELIMIT_INFO_0_GA,
+      NULL,
+      "hacks",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
+      "pce_fast_ocmultiplier",
+      PCE_FAST_OCMULTIPLIER_LABEL_GA,
+      NULL,
+      PCE_FAST_OCMULTIPLIER_INFO_0_GA,
+      NULL,
+      "hacks",
+      {
+         { "1", NULL },
+         { "2", NULL },
+         { "3", NULL },
+         { "4", NULL },
+         { "5", NULL },
+         { "6", NULL },
+         { "7", NULL },
+         { "8", NULL },
+         { "9", NULL },
+         { "10", NULL },
+         { "20", NULL },
+         { "30", NULL },
+         { "40", NULL },
+         { "50", NULL },
+         { NULL, NULL },
+      },
+      "1"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_ga = {
+   option_cats_ga,
+   option_defs_ga
 };
 
 /* RETRO_LANGUAGE_GL */
@@ -25400,17 +26244,17 @@ struct retro_core_options_v2 options_pl = {
 #define OPTION_VAL_5_00_PT_BR "5,00"
 #define PCE_FAST_DISABLE_SOFTRESET_LABEL_PT_BR "Desativar a reinicialização suave (RUN+SELECT)"
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_PT_BR "Ao pressionar RUN e SELECT simultaneamente, desativa ambos os botões temporariamente em vez de reinicializar."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR "Tipo de controle padrão do J1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_PT_BR "Tipo de controle padrão da porta 1"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_PT_BR "Escolha se o joypad da porta 1 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
 #define OPTION_VAL_2_BUTTONS_PT_BR "2 botões"
 #define OPTION_VAL_6_BUTTONS_PT_BR "6 botões"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR "Tipo de controle padrão do J2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_PT_BR "Tipo de controle padrão da porta 2"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_PT_BR "Escolha se o joypad da porta 2 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR "Tipo de controle padrão do J3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_PT_BR "Tipo de controle padrão da porta 3"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_PT_BR "Escolha se o joypad da porta 3 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR "Tipo de controle padrão do J4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_PT_BR "Tipo de controle padrão da porta 4"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_PT_BR "Escolha se o joypad da porta 4 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR "Tipo de controle padrão do J5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_PT_BR "Tipo de controle padrão da porta 5"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_PT_BR "Escolha se o joypad da porta 5 deve ser de 2 ou 6 botões por padrão. Essa opção só é aplicada quando o núcleo é iniciado, se você quiser trocá-la enquanto o conteúdo está sendo executado, use o botão de \"Alternar Modo\".Nota: Joypads de seis botões podem apresentar um comportamento estranho em jogos incompatíveis."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_PT_BR "Ativar e desativar o turbo"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_PT_BR "Ativa os atalhos de ligar e desligar o turbo (botões III e IV)."
