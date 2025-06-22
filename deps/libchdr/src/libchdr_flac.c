@@ -9,7 +9,6 @@
 ***************************************************************************/
 
 #include <string.h>
-#include <stdbool.h>
 
 #include <libchdr/flac.h>
 #include <retro_inline.h>
