@@ -834,6 +834,7 @@ static void huff_codec_free(void *codec)
 static chd_error huff_codec_decompress(void *codec, const uint8_t *src, uint32_t complen, uint8_t *dest, uint32_t destlen)
 {
 	uint32_t cur;
+	chd_error result;
 	huff_codec_data* huff_codec = (huff_codec_data*) codec;
 	struct bitstream* bitbuf = create_bitstream(src, complen);
 
@@ -849,7 +850,7 @@ static chd_error huff_codec_decompress(void *codec, const uint8_t *src, uint32_t
 	for (cur = 0; cur < destlen; cur++)
 		dest[cur] = huffman_decode_one(huff_codec->decoder, bitbuf);
 	bitstream_flush(bitbuf);
-	chd_error result = bitstream_overflow(bitbuf) ? CHDERR_DECOMPRESSION_ERROR : CHDERR_NONE;
+	result = bitstream_overflow(bitbuf) ? CHDERR_DECOMPRESSION_ERROR : CHDERR_NONE;
 
 	free(bitbuf);
 	return result;
@@ -1065,6 +1066,9 @@ static chd_error zstd_codec_decompress(void* codec, const uint8_t *src, uint32_t
 	/* initialize */
 	zstd_codec_data* zstd_codec = (zstd_codec_data*) codec;
 
+	/* reset decompressor */
+	size_t zstd_res =  ZSTD_initDStream(zstd_codec->dstream);
+
 	input.src   = src;
 	input.size  = complen;
 	input.pos   = 0;
@@ -1073,8 +1077,6 @@ static chd_error zstd_codec_decompress(void* codec, const uint8_t *src, uint32_t
 	output.size = destlen;
 	output.pos  = 0;
 
-	/* reset decompressor */
-	size_t zstd_res =  ZSTD_initDStream(zstd_codec->dstream);
 	if (ZSTD_isError(zstd_res)) 
 	{
 		printf("INITI DSTREAM FAILED!\n");
@@ -2775,7 +2777,8 @@ static chd_error hunk_read_into_memory(chd_file *chd, uint32_t hunknum, uint8_t 
 			blockoffs = (uint64_t)get_bigendian_uint32_t(rawmap) * (uint64_t)chd->header.hunkbytes;
 			if (blockoffs != 0) {
 				core_fseek(chd->file, blockoffs, SEEK_SET);
-				int result = core_fread(chd->file, dest, chd->header.hunkbytes);
+				/*int result =*/
+				core_fread(chd->file, dest, chd->header.hunkbytes);
 			/* TODO
 			else if (m_parent_missing)
 				throw CHDERR_REQUIRES_PARENT; */
@@ -2869,9 +2872,11 @@ static chd_error hunk_read_into_memory(chd_file *chd, uint32_t hunknum, uint8_t 
 				return hunk_read_into_memory(chd, blockoffs, dest);
 
 			case COMPRESSION_PARENT:
+			{
+				uint8_t units_in_hunk = chd->header.hunkbytes / chd->header.unitbytes;
+
 				if (chd->parent == NULL)
 					return CHDERR_REQUIRES_PARENT;
-				uint8_t units_in_hunk = chd->header.hunkbytes / chd->header.unitbytes;
 
 				/* blockoffs is aligned to units_in_hunk */
 				if (blockoffs % units_in_hunk == 0) {
@@ -2896,6 +2901,7 @@ static chd_error hunk_read_into_memory(chd_file *chd, uint32_t hunknum, uint8_t 
 					memcpy(dest + (units_in_hunk - unit_in_hunk) * chd->header.unitbytes, buf, unit_in_hunk * chd->header.unitbytes);
 					free(buf);
 				}
+			}
 		}
 		return CHDERR_NONE;
 	}
