@@ -15207,49 +15207,49 @@ struct retro_core_options_v2 options_fr = {
 /* RETRO_LANGUAGE_GA */
 
 #define CATEGORY_VIDEO_LABEL_GA "Físeán"
-#define CATEGORY_VIDEO_INFO_0_GA NULL
+#define CATEGORY_VIDEO_INFO_0_GA "Cumraigh bearradh taispeána, scipeáil frámaí agus paraiméadair aschuir íomhá eile."
 #define CATEGORY_INPUT_LABEL_GA "Ionchur"
-#define CATEGORY_INPUT_INFO_0_GA NULL
-#define CATEGORY_HACKS_LABEL_GA NULL
-#define CATEGORY_HACKS_INFO_0_GA NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_GA NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_GA NULL
-#define CATEGORY_CD_LABEL_GA NULL
-#define CATEGORY_CD_INFO_0_GA NULL
-#define PCE_FAST_PALETTE_LABEL_GA NULL
-#define PCE_FAST_PALETTE_INFO_0_GA NULL
+#define CATEGORY_INPUT_INFO_0_GA "Cumraigh gunna solais, luch agus ionchur NegCon."
+#define CATEGORY_HACKS_LABEL_GA "Cleasanna Aithrise"
+#define CATEGORY_HACKS_INFO_0_GA "Cumraigh paraiméadair chruinnis róchlogála agus aithrise próiseálaithe a mbíonn tionchar acu ar fheidhmíocht agus comhoiriúnacht íseal-leibhéil."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_GA "Socruithe Ardleibhéil Imleabhair Cainéal"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_GA "Cumraigh toirt na gcainéal fuaime crua-earraí aonair."
+#define CATEGORY_CD_LABEL_GA "CD Inneall PC"
+#define CATEGORY_CD_INFO_0_GA "Cumraigh socruithe a bhaineann le hinsamhladh CD PC Engine."
+#define PCE_FAST_PALETTE_LABEL_GA "Pailéad Dathanna"
+#define PCE_FAST_PALETTE_INFO_0_GA "Déanann Composite iarracht aschur bunaidh an chonsóil a athchruthú agus is féidir leis níos mó sonraí a thaispeáint i roinnt cluichí."
 #define OPTION_VAL_RGB_GA NULL
-#define OPTION_VAL_COMPOSITE_GA NULL
-#define PCE_FAST_FRAMESKIP_LABEL_GA NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_GA NULL
-#define OPTION_VAL_AUTO_GA NULL
-#define OPTION_VAL_MANUAL_GA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GA NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GA NULL
-#define OPTION_VAL_33_GA NULL
-#define PCE_FAST_HOVERSCAN_LABEL_GA NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_GA NULL
-#define OPTION_VAL_352_GA NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_GA NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GA NULL
-#define OPTION_VAL_3_GA NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_GA NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_GA NULL
-#define OPTION_VAL_242_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GA NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GA NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GA NULL
+#define OPTION_VAL_COMPOSITE_GA "Ilchodach"
+#define PCE_FAST_FRAMESKIP_LABEL_GA "Fráma-léim"
+#define PCE_FAST_FRAMESKIP_INFO_0_GA "Léim frámaí chun fo-rith maoláin fuaime (crágáil) a sheachaint. Feabhsaíonn sé feidhmíocht ar chostas réidhe amhairc. Léimeann 'Uath' frámaí nuair a thugann an tosaitheoir comhairle. Úsáideann 'Lámhleabhar' an socrú 'Tairseach Léim Frámaí (%)'."
+#define OPTION_VAL_AUTO_GA "Uathoibríoch"
+#define OPTION_VAL_MANUAL_GA "Lámhleabhar"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_GA "Tairseach Léim Fráma (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_GA "Nuair a shocraítear 'Frameskip' go 'Lámhleabhar', sonraítear an tairseach áitíochta maoláin fuaime (céatadán) faoina mbeidh frámaí á scipeáil. Laghdaíonn luachanna níos airde an baol go mbeidh frámaí ag scoilteadh trína chur faoi deara go gcaillfear frámaí níos minice."
+#define OPTION_VAL_33_GA "33 (Réamhshocrú)"
+#define PCE_FAST_HOVERSCAN_LABEL_GA "Ró-scanadh Cothrománach (Mód Leithead 352 Amháin)"
+#define PCE_FAST_HOVERSCAN_INFO_0_GA "Roghnaigh an leithead uasta den íomhá le taispeáint. Gearrfar taobh deas na híomhá le luachanna níos ísle (le haghaidh cluichí 352 px ar leithead)."
+#define OPTION_VAL_352_GA "352 (Réamhshocrú)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_GA "Líne Scanadh Tosaigh"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_GA "An chéad líne scanadh rindreáilte. Gearrfar barr na híomhá le luachanna níos airde."
+#define OPTION_VAL_3_GA "3 (Réamhshocrú)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_GA "Scanlíne Deireanach"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_GA "An líne scanadh rindreáilte dheireanach. Gearrfar bun na híomhá le luachanna níos ísle."
+#define OPTION_VAL_242_GA "242 (Réamhshocrú)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_GA "Cainéal Fuaime PSG 0 Imleabhar %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_GA "Athraigh toirt Cainéal Fuaime 0 PSG."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_GA "% Imleabhar Cainéal Fuaime PSG 1"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_GA "Athraigh toirt Chainéal Fuaime 1 PSG."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_GA "% Imleabhar Cainéal Fuaime PSG 2"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_GA "Athraigh toirt Chainéal Fuaime 2 PSG."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_GA "Cainéal Fuaime PSG 3 % Imleabhar"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_GA "Athraigh toirt Chainéal Fuaime PSG 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_GA "Cainéal Fuaime PSG 4 % Imleabhar"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_GA "Athraigh toirt Cainéal Fuaime PSG 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_GA "Cainéal Fuaime PSG 5 % Imleabhar"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_GA "Athraigh toirt Cainéal Fuaime PSG 5."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_GA "Íogaireacht Luiche"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_GA "Cuirfidh luachanna níos airde ar an luch bogadh níos tapúla."
 #define OPTION_VAL_0_25_GA NULL
 #define OPTION_VAL_0_50_GA NULL
 #define OPTION_VAL_0_75_GA NULL
@@ -15270,55 +15270,55 @@ struct retro_core_options_v2 options_fr = {
 #define OPTION_VAL_4_50_GA NULL
 #define OPTION_VAL_4_75_GA NULL
 #define OPTION_VAL_5_00_GA NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GA NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GA NULL
-#define OPTION_VAL_2_BUTTONS_GA NULL
-#define OPTION_VAL_6_BUTTONS_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GA NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GA NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_GA NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_GA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GA NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GA NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_GA NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_GA NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_GA NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_GA NULL
-#define PCE_FAST_CDBIOS_LABEL_GA NULL
-#define PCE_FAST_CDBIOS_INFO_0_GA NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_GA "Díchumasaigh Athshocrú Bog (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_GA "Nuair a bhrúitear RIT agus SELECT ag an am céanna, díchumasaigh an dá chnaipe go sealadach in ionad iad a athshocrú."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_GA "Cineál Luamhán Luamhán Réamhshocraithe P1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_GA "Roghnaigh an bhfuil 2 nó 6 chnaipe ar luamhán stiúrtha port 1 de réir réamhshocraithe. Ní chuirtear an rogha seo i bhfeidhm ach amháin nuair a thosaíonn an croílár, más mian leat athrú agus ábhar ag rith, bain úsáid as an gcnaipe 'Athraigh Mód'. TABHAIR FAOI DEARA: Is féidir go mbeidh iompraíochtaí aisteacha ag luamhán stiúrtha 6 chnaipe i gcluichí nach bhfuil comhoiriúnach."
+#define OPTION_VAL_2_BUTTONS_GA "2 Chnaipe"
+#define OPTION_VAL_6_BUTTONS_GA "6 Chnaipe"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_GA "Cineál Luamhán Luamhán Réamhshocraithe P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_GA "Roghnaigh an bhfuil 2 nó 6 chnaipe ar luamhán stiúrtha port 2 de réir réamhshocraithe. Ní chuirtear an rogha seo i bhfeidhm ach amháin nuair a thosaíonn an croílár, más mian leat athrú agus ábhar ag rith, bain úsáid as an gcnaipe 'Athraigh Mód'. TABHAIR FAOI DEARA: Is féidir go mbeidh iompraíochtaí aisteacha ag luamhán stiúrtha 6 chnaipe i gcluichí nach bhfuil comhoiriúnach."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_GA "Cineál Luamhán Luamhán Réamhshocraithe P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_GA "Roghnaigh an bhfuil 2 nó 6 chnaipe ar luamhán stiúrtha port 3 de réir réamhshocraithe. Ní chuirtear an rogha seo i bhfeidhm ach amháin nuair a thosaíonn an croílár, más mian leat athrú agus ábhar ag rith, bain úsáid as an gcnaipe 'Athraigh Mód'. TABHAIR FAOI DEARA: Is féidir go mbeidh iompraíochtaí aisteacha ag luamhán stiúrtha 6 chnaipe i gcluichí nach bhfuil comhoiriúnach."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_GA "Cineál Luamhán Luamhán Réamhshocraithe P4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_GA "Roghnaigh an bhfuil 2 nó 6 chnaipe ar luamhán stiúrtha port 4 de réir réamhshocraithe. Ní chuirtear an rogha seo i bhfeidhm ach amháin nuair a thosaíonn an croílár, más mian leat athrú agus ábhar ag rith, bain úsáid as an gcnaipe 'Athraigh Mód'. TABHAIR FAOI DEARA: Is féidir go mbeidh iompraíochtaí aisteacha ag luamhán stiúrtha 6 chnaipe i gcluichí nach bhfuil comhoiriúnach."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_GA "Cineál Luamhán Luamhán Réamhshocraithe P5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_GA "Roghnaigh an bhfuil 2 nó 6 chnaipe ar luamhán stiúrtha port 5 de réir réamhshocraithe. Ní chuirtear an rogha seo i bhfeidhm ach amháin nuair a thosaíonn an croílár, más mian leat athrú agus ábhar ag rith, bain úsáid as an gcnaipe 'Athraigh Mód'. TABHAIR FAOI DEARA: Is féidir go mbeidh iompraíochtaí aisteacha ag luamhán stiúrtha 6 chnaipe i gcluichí nach bhfuil comhoiriúnach."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_GA "Scoránaigh Turbo"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_GA "Cumasaigh na heochracha te turbo-scoláire (cnaipí III agus IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_GA "Eochair Theileafóin Turbo Malartach"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_GA "Sannadh cnaipí L3/R3 RetroPad mar theochracha turbo-scoláire in ionad cnaipí III agus IV. Ní oibríonn sé ach chomh fada agus nach bhfuil aon rud sannta do na cnaipí L3/R3. Is féidir leat athmhapáil cnaipí III agus IV a sheachaint agus tú ag aistriú go mód rialtóra 6 chnaipe leis seo."
+#define PCE_FAST_TURBO_DELAY_LABEL_GA "Moill Turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_GA "Coigeartaigh an t-am idir tine turbo (i bhfrámaí)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_GA "Taisce Íomhá CD (Atosú Riachtanach)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_GA "Luchtaigh an íomhá iomlán isteach sa chuimhne ag an am tosaithe. D’fhéadfadh sé seo amanna lódála a laghdú ar chostas am tosaithe méadaithe."
+#define PCE_FAST_CDBIOS_LABEL_GA "BIOS CD (Atosú Riachtanach)"
+#define PCE_FAST_CDBIOS_INFO_0_GA "Is féidir formhór na gcluichí a rith ar 'Cárta Córais 3'. Tá 'Games Express' ag teastáil le haghaidh roinnt cluichí neamhcheadúnaithe."
 #define OPTION_VAL_GAMES_EXPRESS_GA NULL
 #define OPTION_VAL_SYSTEM_CARD_1_GA NULL
 #define OPTION_VAL_SYSTEM_CARD_2_GA NULL
 #define OPTION_VAL_SYSTEM_CARD_3_GA NULL
 #define OPTION_VAL_SYSTEM_CARD_2_US_GA NULL
 #define OPTION_VAL_SYSTEM_CARD_3_US_GA NULL
-#define PCE_FAST_CDSPEED_LABEL_GA NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_GA NULL
-#define PCE_FAST_CDSPEED_INFO_0_GA NULL
+#define PCE_FAST_CDSPEED_LABEL_GA "(CD) Luas CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_GA "Luas CD"
+#define PCE_FAST_CDSPEED_INFO_0_GA "Cumasaíonn luachanna níos airde amanna lódála níos tapúla ach is féidir leo fadhbanna a chruthú le cúpla cluiche."
 #define OPTION_VAL_1_GA NULL
 #define OPTION_VAL_2_GA NULL
 #define OPTION_VAL_4_GA NULL
 #define OPTION_VAL_8_GA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_GA NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_GA NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_GA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_GA NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GA NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_GA NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GA NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_GA NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_GA NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_GA NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_GA NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_GA "(CD) Imleabhar ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GA "% Toirt ADPCM"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_GA "Cluiche CD amháin. Má shocraítear an rialú toirte seo ró-ard, d’fhéadfadh sé go mbeadh bearradh samplach mar thoradh air."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_GA "Má shocraítear an rialú toirte seo ró-ard, d’fhéadfadh sé go mbeadh bearradh samplach mar thoradh air."
+#define PCE_FAST_CDDAVOLUME_LABEL_GA "(CD) % Toirt CDDA"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_GA "% Toirt CDDA"
+#define PCE_FAST_CDPSGVOLUME_LABEL_GA "% Imleabhar PSG (CD)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_GA "% Imleabhar CD PSG"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_GA "Gan Teorainn Sprid"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_GA "Bain an teorainn crua-earraí 16-sprite-in-aghaidh-líne scanadh. RABHADH: D’fhéadfadh sé seo a bheith ina chúis le glitcheanna grafaicí i roinnt cluichí."
+#define PCE_FAST_OCMULTIPLIER_LABEL_GA "Ilraitheoir Róchlogála LAP (Atosú Riachtanach)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_GA "Is féidir le luachanna níos airde moilliú i gcluichí a laghdú. RABHADH: Is féidir go dtarlóidh cliseadh agus tuairteanna."
 
 struct retro_core_option_v2_category option_cats_ga[] = {
    {
