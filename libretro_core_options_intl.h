@@ -30412,12 +30412,12 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_PALETTE_INFO_0_SV "Composite försöker återskapa den ursprungliga konsolens utmatning och kan visa fler detaljer i vissa spel."
 #define OPTION_VAL_RGB_SV NULL
 #define OPTION_VAL_COMPOSITE_SV "Komposit"
-#define PCE_FAST_FRAMESKIP_LABEL_SV NULL
+#define PCE_FAST_FRAMESKIP_LABEL_SV "Bildrutsöverhoppning"
 #define PCE_FAST_FRAMESKIP_INFO_0_SV "Hoppa över bildrutor för att undvika ljudbuffertbrist (crackling-ljud). Förbättrar prestanda på bekostnad av visuell jämnhet. \"Automatiserat\" hoppar över bildrutor när frontend råder. \"Manuell\" använder inställningen \"Tröskel för bildrutehopp (%)\"."
 #define OPTION_VAL_AUTO_SV NULL
 #define OPTION_VAL_MANUAL_SV "Manuell"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV "Frameskip Tröskelvärde (%)"
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SV "När 'Frameskip' är satt till 'Manuell', ange ljudbuffertens tröskel (i procent) under vilka ramar som kommer att hoppas över. Högre värden minskar risken för hackigt ljud genom att bildrutor tappas oftare."
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SV "Tröskelvärde för bildrutsöverhoppning (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SV "När 'Bildrutsöverhoppning' är satt till 'Manuell', ange ljudbuffertens tröskel (i procent) under vilka ramar som kommer att hoppas över. Högre värden minskar risken för hackigt ljud genom att bildrutor tappas oftare."
 #define OPTION_VAL_33_SV "33 (Standard)"
 #define PCE_FAST_HOVERSCAN_LABEL_SV "Horisontell överskanning (endast i breddläget 352)"
 #define PCE_FAST_HOVERSCAN_INFO_0_SV "Välj den maximala bildbredden som ska visas. Lägre värden kommer att beskära högersidan av bilden (för spel med 352 px bredd)."
