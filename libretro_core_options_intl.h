@@ -867,7 +867,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_CHANNEL_VOLUME_LABEL_AST "Configuración avanzada del volume de les canales"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_AST NULL
 #define CATEGORY_CD_LABEL_AST NULL
-#define CATEGORY_CD_INFO_0_AST NULL
+#define CATEGORY_CD_INFO_0_AST "Configura les opciones rellacionaes cola emulación de PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_AST NULL
 #define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola ya pue amosar más detalles en dalgunos xuegos."
 #define OPTION_VAL_RGB_AST NULL
