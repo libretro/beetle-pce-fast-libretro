@@ -30402,7 +30402,7 @@ struct retro_core_options_v2 options_sr = {
 #define CATEGORY_VIDEO_INFO_0_SV "Konfigurera skärmbeskärning, bildrutehopp och andra bildutdata-parametrar."
 #define CATEGORY_INPUT_LABEL_SV "Inmatning"
 #define CATEGORY_INPUT_INFO_0_SV "Konfigurera ljuspistol, mus och NegCon inmatning."
-#define CATEGORY_HACKS_LABEL_SV "Emulator Hacks"
+#define CATEGORY_HACKS_LABEL_SV "Emulatorhack"
 #define CATEGORY_HACKS_INFO_0_SV "Konfigurera processorns överklockning och emuleringsnoggrannhetsparametrar som påverkar prestanda och kompatibilitet på låg nivå."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_SV "Avancerade inställningar för kanalvolym"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_SV "Konfigurera volymen för enskilda hårdvaru-ljudkanaler."
