@@ -17,7 +17,6 @@
 
 #include <boolean.h>
 
-#include <errno.h>
 #include <string.h>
 #include "settings.h"
 

@@ -37,7 +37,6 @@ class CDAFReader_Vorbis : public CDAFReader
 
    private:
       OggVorbis_File ovfile;
-      Stream *fw;
 };
 
 
@@ -48,7 +47,7 @@ static size_t iov_read_func(void *ptr, size_t size, size_t nmemb, void *user_dat
    if(!size)
       return(0);
 
-   return fw->read(ptr, size * nmemb, false) / size;
+   return fw->read(ptr, size * nmemb) / size;
 }
 
 static int iov_seek_func(void *user_data, int64_t offset, int whence)
@@ -73,7 +72,7 @@ static long iov_tell_func(void *user_data)
    return fw->tell();
 }
 
-CDAFReader_Vorbis::CDAFReader_Vorbis(Stream *fp) : fw(fp)
+CDAFReader_Vorbis::CDAFReader_Vorbis(Stream *fp)
 {
    ov_callbacks cb;
 

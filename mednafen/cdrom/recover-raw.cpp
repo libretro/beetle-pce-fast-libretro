@@ -62,14 +62,9 @@ int CheckEDC(const unsigned char *cd_frame, bool xa_mode)
   real_crc = EDCCrc32(cd_frame+16, 2056);
  else
   real_crc = EDCCrc32(cd_frame, 2064);
-
  if(expected_crc == real_crc)
   return(1);
- else
- {
-  //printf("Bad EDC CRC:  Calculated:  %08x,  Recorded:  %08x\n", real_crc, expected_crc);
-  return(0);
- }
+ return(0);
 }
 
 /***
@@ -179,8 +174,6 @@ static int simple_lec(unsigned char *frame)
 
 int ValidateRawSector(unsigned char *frame, bool xaMode)
 {  
- int lec_did_sth = false;
-
   /* Do simple L-EC.
      It seems that drives stop their internal L-EC as soon as the
      EDC is okay, so we may see uncorrected errors in the parity bytes.
@@ -196,8 +189,6 @@ int ValidateRawSector(unsigned char *frame, bool xaMode)
     memcpy(header, frame + 12, 4);
     memset(frame + 12, 0, 4);
    }
-
-   lec_did_sth = simple_lec(frame);
 
    if(xaMode)
     memcpy(frame + 12, header, 4);

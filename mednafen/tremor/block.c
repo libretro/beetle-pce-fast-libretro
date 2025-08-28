@@ -15,7 +15,6 @@
 
  ********************************************************************/
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "ogg.h"
@@ -242,9 +241,10 @@ void vorbis_dsp_clear(vorbis_dsp_state *v){
 
     if(v->pcm)
     {
-       for(i=0;i<vi->channels;i++)
-          if(v->pcm[i])
-             free(v->pcm[i]);
+       if(vi)
+          for(i=0;i<vi->channels;i++)
+             if(v->pcm[i])
+                free(v->pcm[i]);
        free(v->pcm);
        if(v->pcmret)
           free(v->pcmret);

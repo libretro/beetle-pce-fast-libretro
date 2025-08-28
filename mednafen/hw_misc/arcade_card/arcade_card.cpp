@@ -18,7 +18,6 @@
  Arcade Card emulation based on information provided by Ki and David Shadoff
 */
 
-#include <errno.h>
 #include <string.h>
 
 #include "../../mednafen-types.h"
@@ -31,39 +30,19 @@ static INLINE void ACAutoIncrement(ACPort_t *port)
  if(port->control & 0x1)
  {
   if(port->control & 0x10)
-  {
-   //if(port->control & 0x4)
-   //{
-   // printf("BOONY: %04x\n", port->increment);
-   // port->base = (port->base + port->increment + 0xFF0000) & 0xFFFFFF;
-   // printf("%04x\n", port->base);
-   //}
-   //else
    port->base = (port->base + port->increment) & 0xFFFFFF;
-  }
   else
-  {
    port->offset = (port->offset + port->increment) & 0xFFFF;
-  }
  }
 }
 
 uint8 ArcadeCard::Read(uint32 A, bool peek)
 {
- //printf("AC Read: %04x\n", A);
  if((A & 0x1F00) != 0x1A00)
- {
-  //if(!peek)
-  // printf("AC unknown read: %08x\n", A);
   return(0xFF);
- }
  if(A < 0x1A80)
  {
   ACPort_t *port = &AC.ports[(A >> 4) & 0x3];
-
-  // if(!peek)
-  //  if(A & 0x40)
-  //   printf("AC mirrored port read: %08x\n", A);	// Madou Monogatari does!
 
   switch(A & 0xF)
   {
@@ -121,19 +100,13 @@ uint8 ArcadeCard::Read(uint32 A, bool peek)
   }
  }
 
- //if(!peek)
- // printf("AC unknown read: %08x\n", A);
  return(0xFF);
 }
 
 void ArcadeCard::Write(uint32 A, uint8 V)
 {
- //printf("AC Write: %04x %02x\n", A, V);
  if((A & 0x1F00) != 0x1A00)
- {
-  //printf("AC unknown write: %08x:%02x\n", A, V);
   return;
- }
 
  if(A < 0x1A80)
  {
@@ -141,7 +114,7 @@ void ArcadeCard::Write(uint32 A, uint8 V)
 
   switch(A & 0xF)
   {
-   default:   //printf("AC unknown write: %08x:%02x\n", A, V);
+   default:   
 	      break;
 
    case 0x00:
@@ -218,15 +191,12 @@ void ArcadeCard::Write(uint32 A, uint8 V)
               }
               break;
   }
-
-  //if(A & 0x40)
-  // printf("AC mirrored port write: %08x:%02x\n", A, V);
  }
  else if(A >= 0x1AE0)
  {
   switch(A & 0x1F)
   {
-   default: //printf("Unknown AC write: %04x %02x\n", A, V);
+   default: 
 	    break;
 
    case 0x00:

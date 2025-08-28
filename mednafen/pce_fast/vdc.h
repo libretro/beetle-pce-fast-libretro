@@ -8,11 +8,6 @@
 #define REGSETP(_reg, _data, _msb) { _reg &= 0xFF << ((_msb) ? 0 : 8); _reg |= (_data) << ((_msb) ? 8 : 0); }
 #define REGGETP(_reg, _msb) ((_reg >> ((_msb) ? 8 : 0)) & 0xFF)
 
-#define VDC_DEBUG(x)
-//printf("%s: %d\n", x, vdc->display_counter);
-#define VDC_UNDEFINED(x) { }
-//{ printf("%s: %d\n", x, vdc->display_counter); }
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -107,7 +102,7 @@ typedef struct
    uint16 SAT[0x100];
 
    uint16 VRAM[65536];	//VRAM_Size];
-   uint64 bg_tile_cache[65536][8]; 	// Tile, y, x
+   uint64 bg_tile_cache[4096 * 8]; 	// Tile, y, x
    uint8 spr_tile_cache[1024][16][16];	// Tile, y, x
    uint8 spr_tile_clean[1024];     //VRAM_Size / 64];
 } vdc_t;
@@ -122,7 +117,7 @@ DECLFW(VDC_Write);
 
 DECLFR(VCE_Read);
 
-static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
+static INLINE uint8 VDC_Read(unsigned int A)
 {
    uint8 ret = 0;
    int msb = A & 1;
@@ -148,30 +143,23 @@ static INLINE uint8 VDC_Read(unsigned int A, bool SGX)
             if(msb)
             {
                vdc->MARR += vram_inc_tab[(vdc->CR >> 11) & 0x3];
-
-               if(vdc->MARR >= VRAM_Size)
-                  VDC_UNDEFINED("Unmapped VRAM VRR read"); 
                vdc->read_buffer = vdc->VRAM[vdc->MARR & VRAM_SizeMask];
             }
          }
          break;
    }
 
-   //if(HuCPU.isopread && (A == 1 || A == 3)) //(A == 2 || A == 3)) // && A == 1)
    if(A == 1)
    {
-      //if(vdc->display_counter >= (VDS + VSW) && vdc->display_counter < (VDS + VSW + VDW + 1) && vce.dot_clock > 0)
       if(vce.dot_clock > 0)
          ret = 0x40;
-      //printf("%d %d %02x\n", vdc->display_counter, vce.dot_clock, ret);
-      //ret = 0x40;
    }
    return(ret);
 }
 
 DECLFW(VCE_Write);
 
-void VDC_Init(int sgx) MDFN_COLD;
+void VDC_Init(void) MDFN_COLD;
 void VDC_Close(void) MDFN_COLD;
 void VDC_Reset(void) MDFN_COLD;
 void VDC_Power(void) MDFN_COLD;

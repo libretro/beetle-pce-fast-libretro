@@ -18,8 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#define TEST_WEIRD_TFLAG(n) { /* if(HU_P & T_FLAG) puts("RAWR" n); */}
-
 case 0x00:  /* BRK */
        IncPC();
 	    HU_P &= ~T_FLAG;
@@ -44,9 +42,6 @@ case 0x40:  /* RTI */
 	    /* HU_PI=HU_P; This is probably incorrect, so it's commented out. */
 	    HU_PI = HU_P;
 	    POP_PC();
-
-	    // T-flag handling here:
-	    TEST_WEIRD_TFLAG("RTI");
        break;
             
 case 0x60:  /* RTS */
@@ -89,9 +84,6 @@ case 0x7A: // PLY	65C02
 case 0x28: /* PLP */
            HU_P = POP();
            EXPAND_FLAGS();
-
-	   // T-flag handling here:
-	   TEST_WEIRD_TFLAG("PLP");
            break;
 
 case 0x4C:
@@ -216,7 +208,6 @@ case 0x58: /* CLI */
                 ((RdOp(GetRealPC() + 1) & 0x3) == 0) && ((RdOp(GetRealPC() + 2) & 0xFC) == 0))
             {
              HU_IRQlow |= 0x200;
-             //puts("CLI/LDA madness!");
             }
            }
            HU_P&=~I_FLAG;
@@ -568,7 +559,7 @@ case 0xF4: /* SET */
 
 	    switch(RdAtPC())
 	    {
-		default: //puts("Bad SET");
+		default: 
 			 break;
 
 		case 0x69: IncPC(); LD_IM(ADC);

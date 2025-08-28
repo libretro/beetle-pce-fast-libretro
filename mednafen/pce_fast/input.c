@@ -39,17 +39,102 @@ static int64 mouse_last_meow[5];
 static int32 mouse_x[5], mouse_y[5];
 static uint16 mouse_rel[5];
 
-uint8 pce_mouse_button[5];
-uint8 mouse_index[5];
+static uint8 pce_mouse_button[5];
+static uint8 mouse_index[5];
 
 static uint8 sel;
 static uint8 read_index = 0;
 
-static void SyncSettings(void);
-
-void PCEINPUT_SettingChanged(const char *name)
+// GamepadIDII and GamepadIDII_DSR must be EXACTLY the same except for the RUN+SELECT exclusion in the latter.
+static const InputDeviceInputInfoStruct GamepadIDII[] =
 {
- SyncSettings();
+ { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
+ { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
+ { "select", "SELECT", 4, IDIT_BUTTON, NULL },
+ { "run", "RUN", 5, IDIT_BUTTON, NULL },
+ { "up", "UP", 0, IDIT_BUTTON, "down" },
+ { "right", "RIGHT", 3, IDIT_BUTTON, "left" },
+ { "down", "DOWN", 1, IDIT_BUTTON, "up" },
+ { "left", "LEFT", 2, IDIT_BUTTON, "right" },
+ { "iii", "III", 10, IDIT_BUTTON, NULL },
+ { "iv", "IV", 7, IDIT_BUTTON, NULL },
+ { "v", "V", 8, IDIT_BUTTON, NULL },
+ { "vi", "VI", 9, IDIT_BUTTON, NULL },
+ { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
+};
+static const InputDeviceInputInfoStruct GamepadIDII_DSR[] =
+{
+ { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
+ { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
+ { "select", "SELECT", 4, IDIT_BUTTON, "run" },
+ { "run", "RUN", 5, IDIT_BUTTON, "select" },
+ { "up", "UP", 0, IDIT_BUTTON, "down" },
+ { "right", "RIGHT", 3, IDIT_BUTTON, "left" },
+ { "down", "DOWN", 1, IDIT_BUTTON, "up" },
+ { "left", "LEFT", 2, IDIT_BUTTON, "right" },
+ { "iii", "III", 10, IDIT_BUTTON, NULL },
+ { "iv", "IV", 7, IDIT_BUTTON, NULL },
+ { "v", "V", 8, IDIT_BUTTON, NULL },
+ { "vi", "VI", 9, IDIT_BUTTON, NULL },
+ { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
+};
+
+static const InputDeviceInputInfoStruct MouseIDII[] =
+{
+ { "x_axis", "X Axis", -1, IDIT_X_AXIS_REL },
+ { "y_axis", "Y Axis", -1, IDIT_Y_AXIS_REL },
+ { "left", "Left Button", 0, IDIT_BUTTON, NULL },
+ { "right", "Right Button", 1, IDIT_BUTTON, NULL },
+};
+
+// If we add more devices to this array, REMEMBER TO UPDATE the hackish array indexing in the SyncSettings() function
+// below.
+static InputDeviceInfoStruct InputDeviceInfo[] =
+{
+ // None
+ {
+  "none",
+  "none",
+  NULL,
+  NULL,
+  0,
+  NULL
+ },
+
+ // Gamepad
+ {
+  "gamepad",
+  "Gamepad",
+  NULL,
+  NULL,
+  sizeof(GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
+  GamepadIDII,
+ },
+
+ // Mouse
+ {
+  "mouse",
+  "Mouse",
+  NULL,
+  NULL,
+  sizeof(MouseIDII) / sizeof(InputDeviceInputInfoStruct),
+  MouseIDII,
+ },
+
+};
+
+static const InputPortInfoStruct PortInfo[] =
+{
+ { "port1", "Port 1", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { "port3", "Port 3", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { "port4", "Port 4", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { "port5", "Port 5", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+};
+
+static void SyncSettings(void)
+{
+ InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce_fast.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
 }
 
 void PCEINPUT_Init(void)
@@ -189,11 +274,9 @@ uint8 INPUT_Read(unsigned int A)
    if(!PCE_IsCD)
       ret |= 0x80; // Set when CDROM is not attached
 
-   //ret |= 0x40; // PC Engine if set, TG16 if clear.  Let's leave it clear, PC Engine games don't seem to mind if it's clear, but TG16 games barf if it's set.
-
    ret |= 0x30; // Always-set?
 
-   return(ret);
+   return ret;
 }
 
 void INPUT_Write(unsigned int A, uint8 V)
@@ -234,106 +317,5 @@ int INPUT_StateAction(StateMem *sm, int load, int data_only)
       SFVAR(read_index),
       SFEND
    };
-   int ret =  MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY", false);
-
-   return(ret);
-}
-
-// GamepadIDII and GamepadIDII_DSR must be EXACTLY the same except for the RUN+SELECT exclusion in the latter.
-static const InputDeviceInputInfoStruct GamepadIDII[] =
-{
- { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
- { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, NULL },
- { "run", "RUN", 5, IDIT_BUTTON, NULL },
- { "up", "UP", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT", 2, IDIT_BUTTON, "right" },
- { "iii", "III", 10, IDIT_BUTTON, NULL },
- { "iv", "IV", 7, IDIT_BUTTON, NULL },
- { "v", "V", 8, IDIT_BUTTON, NULL },
- { "vi", "VI", 9, IDIT_BUTTON, NULL },
- { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
-};
-static const InputDeviceInputInfoStruct GamepadIDII_DSR[] =
-{
- { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
- { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, "run" },
- { "run", "RUN", 5, IDIT_BUTTON, "select" },
- { "up", "UP", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT", 2, IDIT_BUTTON, "right" },
- { "iii", "III", 10, IDIT_BUTTON, NULL },
- { "iv", "IV", 7, IDIT_BUTTON, NULL },
- { "v", "V", 8, IDIT_BUTTON, NULL },
- { "vi", "VI", 9, IDIT_BUTTON, NULL },
- { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
-};
-
-static const InputDeviceInputInfoStruct MouseIDII[] =
-{
- { "x_axis", "X Axis", -1, IDIT_X_AXIS_REL },
- { "y_axis", "Y Axis", -1, IDIT_Y_AXIS_REL },
- { "left", "Left Button", 0, IDIT_BUTTON, NULL },
- { "right", "Right Button", 1, IDIT_BUTTON, NULL },
-};
-
-// If we add more devices to this array, REMEMBER TO UPDATE the hackish array indexing in the SyncSettings() function
-// below.
-static InputDeviceInfoStruct InputDeviceInfo[] =
-{
- // None
- {
-  "none",
-  "none",
-  NULL,
-  NULL,
-  0,
-  NULL
- },
-
- // Gamepad
- {
-  "gamepad",
-  "Gamepad",
-  NULL,
-  NULL,
-  sizeof(GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
-  GamepadIDII,
- },
-
- // Mouse
- {
-  "mouse",
-  "Mouse",
-  NULL,
-  NULL,
-  sizeof(MouseIDII) / sizeof(InputDeviceInputInfoStruct),
-  MouseIDII,
- },
-
-};
-
-static const InputPortInfoStruct PortInfo[] =
-{
- { "port1", "Port 1", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
- { "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
- { "port3", "Port 3", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
- { "port4", "Port 4", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
- { "port5", "Port 5", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
-};
-
-InputInfoStruct PCEInputInfo =
-{
- sizeof(PortInfo) / sizeof(InputPortInfoStruct),
- PortInfo
-};
-
-static void SyncSettings(void)
-{
- MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pce_fast.mouse_sensitivity");
- InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce_fast.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
+   return MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY", false);
 }

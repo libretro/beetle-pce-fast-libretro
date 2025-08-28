@@ -30,12 +30,16 @@
 #include "mednafen/msvc_compat.h"
 #endif
 
+#ifdef __PS3__
+using namespace std;
+#endif
+
 std::string retro_base_directory;
 
 #define MEDNAFEN_CORE_NAME_MODULE "pce_fast"
 #define MEDNAFEN_CORE_NAME "Beetle PCE Fast"
-#define MEDNAFEN_CORE_VERSION "v0.9.38.7"
-#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd"
+#define MEDNAFEN_CORE_VERSION "v1.31.0.0"
+#define MEDNAFEN_CORE_EXTENSIONS "pce|cue|ccd|chd|toc|m3u"
 #define MEDNAFEN_CORE_TIMING_FPS 59.82
 #define MEDNAFEN_CORE_GEOMETRY_BASE_W 256
 #define MEDNAFEN_CORE_GEOMETRY_BASE_H 243
@@ -57,16 +61,12 @@ static bool IsPopulous;
 
 uint8 SaveRAM[2048];
 
-static bool old_cdimagecache = false;
+static bool cdimagecache = false;
 static bool use_palette = false;
 
 std::string setting_pce_fast_cdbios = "syscard3.pce";
 
-extern MDFNGI EmulatedPCE_Fast;
-
-extern "C" {
-MDFNGI *MDFNGameInfo = &EmulatedPCE_Fast;
-}
+static int16_t sound_buf[0x10000];
 
 /* Composite palette 2020/09/14
  * authors: Dshadoff, Turboxray, Furrtek, Kitrinx and others
@@ -608,7 +608,7 @@ extern ArcadeCard *arcade_card; // Bah, lousy globals.
 
 static Blip_Buffer sbuf[2];
 
-bool PCE_ACEnabled;
+bool PCE_ACEnabled = false;
 
 // Statically allocated for speed...or something.
 uint8 ROMSpace[0x88 * 8192 + 8192];	// + 8192 for PC-as-pointer safety padding
@@ -677,13 +677,11 @@ static DECLFW(HuCSF2Write)
 
 static DECLFR(PCEBusRead)
 {
- //printf("BUS Read: %02x %04x\n", A >> 13, A);
  return(0xFF);
 }
 
 static DECLFW(PCENullWrite)
 {
- //printf("Null Write: %02x, %08x %02x\n", A >> 13, A, V);
 }
 
 static DECLFR(BaseRAMRead)
@@ -736,19 +734,19 @@ static DECLFR(IORead)
    {
       PCEF_CASEL(VDC_00, 0x00):
          HuC6280_StealCycle();
-         return(VDC_Read(0, FALSE));
+         return(VDC_Read(0));
 
       PCEF_CASEL(VDC_01, 0x01):
          HuC6280_StealCycle();
-         return(VDC_Read(1, FALSE));
+         return(VDC_Read(1));
 
       PCEF_CASEL(VDC_02, 0x02):
          HuC6280_StealCycle();
-         return(VDC_Read(2, FALSE));
+         return(VDC_Read(2));
 
       PCEF_CASEL(VDC_03, 0x03):
          HuC6280_StealCycle();
-         return(VDC_Read(3, FALSE));
+         return(VDC_Read(3));
 
       PCEF_CASEL(VCE_00, 0x04):
       PCEF_CASEL(VCE_01, 0x05):
@@ -995,7 +993,7 @@ static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
    return(1);
 }
 
-static int Load(const char *name, MDFNFILE *fp)
+static int Load(const uint8_t *data, size_t size)
 {
    int x;
    uint32 headerlen = 0;
@@ -1003,10 +1001,10 @@ static int Load(const char *name, MDFNFILE *fp)
 
    LoadCommonPre();
 
-   if(GET_FSIZE_PTR(fp) & 0x200) // 512 byte header!
+   if(size & 0x200) // 512 byte header!
       headerlen = 512;
 
-   r_size = GET_FSIZE_PTR(fp) - headerlen;
+   r_size = size - headerlen;
    if(r_size > 4096 * 1024) r_size = 4096 * 1024;
 
    for(x = 0; x < 0x100; x++)
@@ -1015,9 +1013,9 @@ static int Load(const char *name, MDFNFILE *fp)
       HuCPU.PCEWrite[x] = PCENullWrite;
    }
 
-   uint32 crc = encoding_crc32(0, GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen);
+   uint32 crc = encoding_crc32(0, data + headerlen, size - headerlen);
 
-   HuCLoad(GET_FDATA_PTR(fp) + headerlen, GET_FSIZE_PTR(fp) - headerlen, crc);
+   HuCLoad(data + headerlen, size - headerlen, crc);
 
    if(crc == 0xfae0fc60)
       OrderOfGriffonFix = true;
@@ -1046,7 +1044,7 @@ static void LoadCommonPre(void)
 static int LoadCommon(void)
 {
    int x;
-   VDC_Init(false);
+   VDC_Init();
 
    {
       HuCPU.PCERead[0xF8] = BaseRAMRead;
@@ -1080,10 +1078,6 @@ static int LoadCommon(void)
 
    PCE_Power();
 
-#if 0
-   MDFNGameInfo->LayerNames = "Background\0Sprites\0";
-#endif
-   MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
    return(1);
 }
 
@@ -1145,11 +1139,14 @@ static int HuCLoadCD(const char *bios_path)
    MDFNFILE *fp = file_open(bios_path);
 
    if(!fp)
+   {
+      MDFN_DispMessage("Firmware not found: '%s'", bios_path);
       return(0);
+   }
 
    memset(ROMSpace, 0xFF, 262144);
 
-   memcpy(ROMSpace, GET_FDATA_PTR(fp) + (GET_FSIZE_PTR(fp) & 512), ((GET_FSIZE_PTR(fp) & ~512) > 262144) ? 262144 : (GET_FSIZE_PTR(fp) &~ 512) );
+   memcpy(ROMSpace, fp->data + (fp->size & 512), ((fp->size & ~512) > 262144) ? 262144 : (fp->size &~ 512) );
 
    if (fp)
       file_close(fp);
@@ -1241,42 +1238,9 @@ static void Emulate(EmulateSpecStruct *espec)
 
  MDFNMP_ApplyPeriodicCheats();
 
- #if 0
- {
-  static bool firstcat = true;
-  MDFN_PixelFormat nf;
-
-  nf.bpp = 16;
-  nf.colorspace = MDFN_COLORSPACE_RGB;
-  nf.Rshift = 11;
-  nf.Gshift = 5;
-  nf.Bshift = 0;
-  nf.Ashift = 16;
-
-  nf.Rprec = 5;
-  nf.Gprec = 6;
-  nf.Bprec = 5;
-  nf.Aprec = 8;
-
-  espec->surface->SetFormat(nf, false);
-  espec->VideoFormatChanged = firstcat;
-  firstcat = false;
- }
- #endif
-
  if(espec->VideoFormatChanged)
   VDC_SetPixelFormat(espec->CustomPalette, espec->CustomPaletteNumEntries);
 
- if(espec->SoundFormatChanged)
- {
-  for(int y = 0; y < 2; y++)
-  {
-     Blip_Buffer_set_sample_rate(&sbuf[y],
-           espec->SoundRate ? espec->SoundRate : 44100, 50);
-     Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
-     Blip_Buffer_bass_freq(&sbuf[y], 10);
-  }
- }
  VDC_RunFrame(espec, false);
 
  if(PCE_IsCD)
@@ -1286,17 +1250,16 @@ static void Emulate(EmulateSpecStruct *espec)
 
  psg->EndFrame(HuCPU.timestamp / pce_overclocked);
 
- if(espec->SoundBuf)
  {
-  for(int y = 0; y < 2; y++)
+  uint8_t y;
+  for(y = 0; y < 2; y++)
   {
      Blip_Buffer_end_frame(&sbuf[y], HuCPU.timestamp / pce_overclocked);
-     espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y], espec->SoundBuf + y,
-           espec->SoundBufMaxSize);
+     espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y],
+		     espec->SoundBuf + y,
+		     sizeof(sound_buf) >> 1);
   }
  }
-
- espec->MasterCycles = HuCPU.timestamp * 3;
 
  INPUT_FixTS();
 
@@ -1350,10 +1313,6 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
       SFEND
    };
 
-   //for(int i = 8192; i < 32768; i++)
-   // if(BaseRAM[i] != 0xFF)
-   //  printf("%d %02x\n", i, BaseRAM[i]);
-
    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN", false);
 
    ret &= HuC6280_StateAction(sm, load, data_only);
@@ -1361,11 +1320,6 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
    ret &= psg->StateAction(sm, load, data_only);
    ret &= INPUT_StateAction(sm, load, data_only);
    ret &= HuC_StateAction(sm, load, data_only);
-
-   if(load)
-   {
-
-   }
 
    return(ret);
 }
@@ -1412,38 +1366,19 @@ bool IsBRAMUsed(void)
    return(0);
 }
 
-MDFNGI EmulatedPCE_Fast =
-{
- MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
- 0,
-
- true,  // Multires possible?
-
- 0,   // lcm_width
- 0,   // lcm_height
- NULL,  // Dummy
-
- MEDNAFEN_CORE_GEOMETRY_BASE_W,   // Nominal width
- MEDNAFEN_CORE_GEOMETRY_BASE_H,   // Nominal height
-
- FB_WIDTH,	// Framebuffer width
- FB_HEIGHT,	// Framebuffer height
-
- 2,     // Number of output sound channels
-};
-
-static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
+static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsigned depth = 0)
 {
    std::string dir_path;
    char linebuf[2048];
-   FILE *fp = fopen(path.c_str(), "rb");
+   RFILE *fp = filestream_open(path.c_str(), RETRO_VFS_FILE_ACCESS_READ,
+         RETRO_VFS_FILE_ACCESS_HINT_NONE);
 
    if (!fp)
-      return false;
+      return;
 
    MDFN_GetFilePathComponents(path, &dir_path);
 
-   while(fgets(linebuf, sizeof(linebuf), fp))
+   while(filestream_gets(fp, linebuf, sizeof(linebuf)) != NULL)
    {
       std::string efp;
 
@@ -1460,15 +1395,13 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
          if(efp == path)
          {
             log_cb(RETRO_LOG_ERROR, "M3U at \"%s\" references self.\n", efp.c_str());
-            fclose(fp);
-            return false;
+            goto end;
          }
 
          if(depth == 99)
          {
             log_cb(RETRO_LOG_ERROR, "M3U load recursion too deep!\n");
-            fclose(fp);
-            return false;
+            goto end;
          }
 
          ReadM3U(file_list, efp, depth++);
@@ -1477,35 +1410,40 @@ static bool ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
          file_list.push_back(efp);
    }
 
-   fclose(fp);
-
-   return true;
+end:
+   filestream_close(fp);
 }
 
  static std::vector<CDIF *> CDInterfaces;	// FIXME: Cleanup on error out.
 // TODO: LoadCommon()
 
-static bool MDFNI_LoadCD(const char *devicename)
+static bool MDFNI_LoadCD(const char *path, const char *ext)
 {
    bool ret = false;
-   log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", devicename);
 
-   if(devicename && strlen(devicename) > 4 && !strcasecmp(devicename + strlen(devicename) - 4, ".m3u"))
+   if (!path || !ext)
+   {
+      log_cb(RETRO_LOG_ERROR, "Error opening CD - invalid path\n");
+      return false;
+   }
+
+   log_cb(RETRO_LOG_INFO, "Loading %s...\n\n", path);
+
+   if(!strcasecmp(ext, "m3u"))
    {
       std::vector<std::string> file_list;
 
-      if (ReadM3U(file_list, devicename))
-         ret = true;
+      ReadM3U(file_list, path);
 
       for(unsigned i = 0; i < file_list.size(); i++)
       {
-         CDIF *cdif = CDIF_Open(file_list[i].c_str(), false);
+         CDIF *cdif = CDIF_Open(file_list[i].c_str(), cdimagecache);
          CDInterfaces.push_back(cdif);
       }
    }
    else
    {
-      CDIF *cdif = CDIF_Open(devicename, false);
+      CDIF *cdif = CDIF_Open(path, cdimagecache);
 
       if (cdif)
       {
@@ -1527,7 +1465,6 @@ static bool MDFNI_LoadCD(const char *devicename)
          delete CDInterfaces[i];
       CDInterfaces.clear();
 
-      MDFNGameInfo = NULL;
       return false;
    }
 
@@ -1539,38 +1476,59 @@ static bool MDFNI_LoadCD(const char *devicename)
    return true;
 }
 
-static bool MDFNI_LoadGame(const char *name)
+static bool MDFNI_LoadGame(const char *path, const char *ext,
+      const uint8_t *data, size_t size)
 {
-   MDFNFILE *GameFile = NULL;
-   MDFNGameInfo = &EmulatedPCE_Fast;
+   MDFNFILE *GameFile          = NULL;
+   const uint8_t *content_data = NULL;
+   size_t content_size         = 0;
 
-   if(strlen(name) > 4 && (!strcasecmp(name + strlen(name) - 4, ".cue") || !strcasecmp(name + strlen(name) - 4, ".ccd") || !strcasecmp(name + strlen(name) - 4, ".chd") || !strcasecmp(name + strlen(name) - 4, ".toc") || !strcasecmp(name + strlen(name) - 4, ".m3u")))
-      return MDFNI_LoadCD(name);
+   if(ext &&
+      (!strcasecmp(ext, "cue") ||
+       !strcasecmp(ext, "ccd") ||
+       !strcasecmp(ext, "chd") ||
+       !strcasecmp(ext, "toc") ||
+       !strcasecmp(ext, "m3u")))
+      return MDFNI_LoadCD(path, ext);
 
-   GameFile = file_open(name);
+   /* Check whether we already have a valid
+    * data buffer */
+   if (data)
+   {
+      content_data = data;
+      content_size = size;
+   }
+   else
+   {
+      if (!path)
+      {
+         log_cb(RETRO_LOG_ERROR, "Error loading content - invalid path\n");
+         goto error;
+      }
 
-   if(!GameFile)
-      goto error;
+      /* Load content from file */
+      GameFile = file_open(path);
 
-   //
-   // Load per-game settings
-   //
-   // Maybe we should make a "pgcfg" subdir, and automatically load all files in it?
-   // End load per-game settings
-   //
+      if(!GameFile)
+         goto error;
 
-   if(Load(name, GameFile) <= 0)
+      content_data = GameFile->data;
+      content_size = GameFile->size;
+   }
+
+   if(Load(content_data, content_size) <= 0)
       goto error;
 
    MDFN_LoadGameCheats(NULL);
    MDFNMP_InstallReadPatches();
 
+   if (GameFile)
+      file_close(GameFile);
    return true;
 
 error:
    if (GameFile)
       file_close(GameFile);
-   MDFNGameInfo = NULL;
    return false;
 }
 
@@ -1585,13 +1543,19 @@ static retro_audio_sample_batch_t audio_batch_cb;
 static retro_environment_t environ_cb;
 static retro_input_poll_t input_poll_cb;
 static retro_input_state_t input_state_cb;
-static double last_sound_rate;
 
+static bool libretro_supports_option_categories = false;
 static bool libretro_supports_bitmasks = false;
 
-static MDFN_Surface *surf;
+static MDFN_Surface *surf = NULL;
 
-static bool failed_init;
+static bool failed_init = false;
+
+static unsigned video_width = 0;
+static unsigned video_height = 0;
+
+static uint64_t video_frames = 0;
+static uint64_t audio_frames = 0;
 
 #include "mednafen/pce_fast/pcecd.h"
 
@@ -1713,6 +1677,7 @@ void retro_init(void)
 
    check_system_specs();
 
+   libretro_supports_bitmasks = false;
    if (environ_cb(RETRO_ENVIRONMENT_GET_INPUT_BITMASKS, NULL))
       libretro_supports_bitmasks = true;
 
@@ -1724,6 +1689,14 @@ void retro_init(void)
    retro_audio_buff_underrun  = false;
    audio_latency              = 0;
    update_audio_latency       = false;
+
+   video_width = 0;
+   video_height = 0;
+   video_frames = 0;
+   audio_frames = 0;
+
+   lastchar = 0;
+   failed_init = false;
 }
 
 void retro_reset(void)
@@ -1769,41 +1742,52 @@ static void check_variables(bool first_run)
    struct retro_variable var = {0};
    unsigned frameskip_type_prev;
 
-   var.key = "pce_fast_cdimagecache";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   if (first_run)
    {
-      bool cdimage_cache = true;
+      var.key      = "pce_fast_cdimagecache";
+      cdimagecache = false;
 
-      if (strcmp(var.value, "enabled") == 0)
-         cdimage_cache = true;
-      else if (strcmp(var.value, "disabled") == 0)
-         cdimage_cache = false;
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         if (strcmp(var.value, "enabled") == 0)
+            cdimagecache = true;
 
-      if (cdimage_cache != old_cdimagecache)
-         old_cdimagecache = cdimage_cache;
+      var.key                 = "pce_fast_cdbios";
+      setting_pce_fast_cdbios = "syscard3.pce";
+
+      if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      {
+         if (strcmp(var.value, "System Card 3") == 0)
+            setting_pce_fast_cdbios = "syscard3.pce";
+         else if (strcmp(var.value, "System Card 2") == 0)
+            setting_pce_fast_cdbios = "syscard2.pce";
+         else if (strcmp(var.value, "System Card 1") == 0)
+            setting_pce_fast_cdbios = "syscard1.pce";
+         else if (strcmp(var.value, "Games Express") == 0)
+            setting_pce_fast_cdbios = "gexpress.pce";
+         else if (strcmp(var.value, "System Card 3 US") == 0)
+            setting_pce_fast_cdbios = "syscard3u.pce";
+         else if (strcmp(var.value, "System Card 2 US") == 0)
+            setting_pce_fast_cdbios = "syscard2u.pce";
+      }
+
+      char key[256];
+      key[0] = '\0';
+
+      var.key = key ;
+      for (int i = 0 ; i < MAX_PLAYERS ; i++)
+      {
+         snprintf(key, sizeof(key), "pce_fast_default_joypad_type_p%d", i + 1);
+         if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+         {
+            if(strcmp(var.value, "2 Buttons") == 0)
+               AVPad6Enabled[i] = false;
+            else if(strcmp(var.value, "6 Buttons") == 0)
+               AVPad6Enabled[i] = true;
+         }
+      }
    }
 
-   var.key = "pce_fast_cdbios";
-
-   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
-   {
-      if (strcmp(var.value, "System Card 3") == 0)
-         setting_pce_fast_cdbios = "syscard3.pce";
-      else if (strcmp(var.value, "System Card 2") == 0)
-         setting_pce_fast_cdbios = "syscard2.pce";
-      else if (strcmp(var.value, "System Card 1") == 0)
-         setting_pce_fast_cdbios = "syscard1.pce";
-      else if (strcmp(var.value, "Games Express") == 0)
-         setting_pce_fast_cdbios = "gexpress.pce";
-      else if (strcmp(var.value, "System Card 3 US") == 0)
-         setting_pce_fast_cdbios = "syscard3u.pce";
-      else if (strcmp(var.value, "System Card 2 US") == 0)
-         setting_pce_fast_cdbios = "syscard2u.pce";
-
-   }
-
-   var.key = "pce_nospritelimit";
+   var.key = "pce_fast_nospritelimit";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1813,7 +1797,7 @@ static void check_variables(bool first_run)
          setting_pce_fast_nospritelimit = 1;
    }
 
-   var.key = "pce_ocmultiplier";
+   var.key = "pce_fast_ocmultiplier";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1844,21 +1828,21 @@ static void check_variables(bool first_run)
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
       frameskip_threshold = strtol(var.value, NULL, 10);
 
-	var.key = "pce_hoverscan";
+	var.key = "pce_fast_hoverscan";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_pce_hoverscan = atoi(var.value);
    }
 
-   var.key = "pce_initial_scanline";
+   var.key = "pce_fast_initial_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       setting_initial_scanline = atoi(var.value);
    }
 
-   var.key = "pce_last_scanline";
+   var.key = "pce_fast_last_scanline";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1866,7 +1850,7 @@ static void check_variables(bool first_run)
    }
 
    bool do_cdsettings = false;
-   var.key = "pce_cddavolume";
+   var.key = "pce_fast_cddavolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1874,7 +1858,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_cddavolume = atoi(var.value);
    }
 
-   var.key = "pce_adpcmvolume";
+   var.key = "pce_fast_adpcmvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1882,7 +1866,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdpsgvolume";
+   var.key = "pce_fast_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1890,7 +1874,7 @@ static void check_variables(bool first_run)
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
 
-   var.key = "pce_cdspeed";
+   var.key = "pce_fast_cdspeed";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1909,10 +1893,10 @@ static void check_variables(bool first_run)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");
    }
    
-   char pce_sound_channel_volume_base_str[] = "pce_sound_channel_0_volume";
+   char pce_sound_channel_volume_base_str[] = "pce_fast_sound_channel_0_volume";
    var.key = pce_sound_channel_volume_base_str;
    for (unsigned c = 0; c < 6; c++) {;
-       pce_sound_channel_volume_base_str[18] = c+'0';
+       pce_sound_channel_volume_base_str[23] = c+'0';
        if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
        {
            psg_channels_volume[c] = atoi(var.value);
@@ -1920,7 +1904,7 @@ static void check_variables(bool first_run)
    }
  
    // Set Turbo_Toggling
-   var.key = "pce_turbo_toggling";
+   var.key = "pce_fast_turbo_toggling";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1931,7 +1915,7 @@ static void check_variables(bool first_run)
    }
 
    // Set TURBO_DELAY
-   var.key = "pce_turbo_delay";
+   var.key = "pce_fast_turbo_delay";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1939,7 +1923,7 @@ static void check_variables(bool first_run)
    }
 
    //  False sets turbo hotkey X/Y, true assigns hotkey to L3/R3
-   var.key = "pce_turbo_toggle_hotkey";
+   var.key = "pce_fast_turbo_toggle_hotkey";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1949,14 +1933,14 @@ static void check_variables(bool first_run)
          turbo_toggle_alt = false;
    }
 
-   var.key = "pce_disable_softreset";
+   var.key = "pce_fast_disable_softreset";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
       disable_softreset = (strcmp(var.value, "enabled") == 0);
    }
    
-   var.key = "pce_mouse_sensitivity";
+   var.key = "pce_fast_mouse_sensitivity";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
    {
@@ -1976,6 +1960,7 @@ static void check_variables(bool first_run)
 
 bool retro_load_game(const struct retro_game_info *info)
 {
+   uint8_t y;
    unsigned c;
    struct retro_input_descriptor desc[] = {
       #define button_ids(INDEX) \
@@ -2001,14 +1986,57 @@ bool retro_load_game(const struct retro_game_info *info)
       { 0 },
    };
 
-   if (!info || failed_init)
+   const struct retro_game_info_ext *info_ext = NULL;
+   const uint8_t *content_data                = NULL;
+   size_t content_size                        = 0;
+   const char *content_path                   = NULL;
+   char content_ext[8];
+
+   content_ext[0] = '\0';
+
+   if (failed_init)
       return false;
+
+   /* Attempt to fetch extended game info */
+   if (environ_cb(RETRO_ENVIRONMENT_GET_GAME_INFO_EXT, &info_ext))
+   {
+      content_data = (const uint8_t *)info_ext->data;
+      content_size = info_ext->size;
+
+      /* Content path information is only required
+       * if we do not have a valid data buffer */
+      if (!content_data)
+      {
+         content_path = info_ext->full_path;
+
+         strncpy(content_ext, info_ext->ext, sizeof(content_ext));
+         content_ext[sizeof(content_ext) - 1] = '\0';
+      }
+   }
+   else
+   {
+      const char *ext = NULL;
+
+      if (!info || !info->path)
+         return false;
+
+      content_data = NULL;
+      content_size = 0;
+      content_path = info->path;
+
+      if ((ext = strrchr(info->path, '.')))
+      {
+         strncpy(content_ext, ext + 1, sizeof(content_ext));
+         content_ext[sizeof(content_ext) - 1] = '\0';
+      }
+   }
 
    environ_cb(RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS, desc);
 
    check_variables(true);
 
-   if (!MDFNI_LoadGame(info->path))
+   if (!MDFNI_LoadGame(content_path, content_ext,
+         content_data, content_size))
       return false;
 
    surf = (MDFN_Surface*)calloc(1, sizeof(*surf));
@@ -2086,22 +2114,26 @@ bool retro_load_game(const struct retro_game_info *info)
    mmaps.num_descriptors = i;
    environ_cb(RETRO_ENVIRONMENT_SET_MEMORY_MAPS, &mmaps);
 
+   for(y = 0; y < 2; y++)
+   {
+     Blip_Buffer_set_sample_rate(&sbuf[y],
+           44100, 50);
+     Blip_Buffer_set_clock_rate(&sbuf[y], (long)(PCE_MASTER_CLOCK / 3));
+     Blip_Buffer_bass_freq(&sbuf[y], 10);
+   }
+
    return true;
 }
 
 void retro_unload_game(void)
 {
    unsigned i;
-   if(!MDFNGameInfo)
-      return;
 
    MDFN_FlushGameCheats(0);
 
    CloseGame();
 
    MDFNMP_Kill();
-
-   MDFNGameInfo = NULL;
 
    for(i = 0; i < CDInterfaces.size(); i++)
       delete CDInterfaces[i];
@@ -2240,9 +2272,6 @@ static void update_input(void)
    }
 }
 
-static uint64_t video_frames = 0;
-static uint64_t audio_frames = 0;
-
 void update_geometry(unsigned width, unsigned height)
 {
    struct retro_system_av_info system_av_info;
@@ -2257,9 +2286,6 @@ void update_geometry(unsigned width, unsigned height)
 void retro_run(void)
 {
    static bool last_palette_format;
-   static int16_t sound_buf[0x10000];
-   static int32_t rects[FB_HEIGHT];
-   static unsigned width, height;
    EmulateSpecStruct spec;
    bool resolution_changed = false;
    int skip_frame          = 0;
@@ -2311,65 +2337,39 @@ void retro_run(void)
       update_audio_latency = false;
    }
 
-   rects[0] = ~0;
-
    spec.surface                 = surf;
    spec.VideoFormatChanged      = false;
    spec.DisplayRect.x           = 0;
    spec.DisplayRect.y           = 0;
    spec.DisplayRect.w           = 0;
    spec.DisplayRect.h           = 0;
-   spec.LineWidths              = rects;
    spec.CustomPalette           = use_palette ? composite_palette : NULL;
    spec.CustomPaletteNumEntries = use_palette ? 512 : 0;
-   spec.IsFMV                   = NULL;
    spec.InterlaceOn             = false;
    spec.InterlaceField          = false;
    spec.skip                    = skip_frame;
-   spec.SoundFormatChanged      = false;
-   spec.SoundRate               = 44100;
    spec.SoundBuf                = sound_buf;
-   spec.SoundBufMaxSize         = sizeof(sound_buf) >> 1;
    spec.SoundBufSize            = 0;
-   spec.SoundBufSizeALMS        = 0;
-   spec.MasterCycles            = 0;
-   spec.MasterCyclesALMS        = 0;
-   spec.SoundVolume             = 1.0;
-   spec.soundmultiplier         = 1.0;
-   spec.NeedRewind              = false;
-   spec.NeedSoundReverse        = false;
 
    if (last_palette_format != use_palette)
    {
-      spec.VideoFormatChanged = TRUE;
+      spec.VideoFormatChanged = true;
       last_palette_format = use_palette;
-   }
-
-   if (spec.SoundRate != last_sound_rate)
-   {
-      spec.SoundFormatChanged = true;
-      last_sound_rate = spec.SoundRate;
    }
 
    Emulate(&spec);
 
-   int16 *const SoundBuf = spec.SoundBuf + spec.SoundBufSizeALMS * 2; /* 2 sound channels */
-   int32 SoundBufSize = spec.SoundBufSize - spec.SoundBufSizeALMS;
-   const int32 SoundBufMaxSize = spec.SoundBufMaxSize - spec.SoundBufSizeALMS;
-
-   spec.SoundBufSize = spec.SoundBufSizeALMS + SoundBufSize;
-
    if (skip_frame)
-      video_cb(NULL, width, height, FB_WIDTH * 2);
+      video_cb(NULL, video_width, video_height, FB_WIDTH * 2);
    else
    {
-      if (width  != spec.DisplayRect.w || height != spec.DisplayRect.h)
+      if (video_width  != spec.DisplayRect.w || video_height != spec.DisplayRect.h)
          resolution_changed = true;
 
-      width  = spec.DisplayRect.w;
-      height = spec.DisplayRect.h;
+      video_width  = spec.DisplayRect.w;
+      video_height = spec.DisplayRect.h;
 
-      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, width, height, FB_WIDTH * 2);
+      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, video_width, video_height, FB_WIDTH * 2);
    }
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
@@ -2386,11 +2386,11 @@ void retro_run(void)
       for (c = 0; c < 6; c++)
          psg->SetChannelUserVolume(c, psg_channels_volume[c]);
 
-      update_geometry(width, height);
+      update_geometry(video_width, video_height);
    }
+   else if (resolution_changed)
+      update_geometry(video_width, video_height);
 
-   if (resolution_changed)
-      update_geometry(width, height);
    video_frames++;
    audio_frames += spec.SoundBufSize;
 }
@@ -2420,10 +2420,15 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
    info->geometry.aspect_ratio = MEDNAFEN_CORE_GEOMETRY_ASPECT_RATIO;
 }
 
-void retro_deinit()
+void retro_deinit(void)
 {
    if (surf)
+   {
+      if (surf->pixels)
+         free(surf->pixels);
+      surf->pixels = NULL;
       free(surf);
+   }
    surf = NULL;
 
    if (log_cb)
@@ -2434,6 +2439,7 @@ void retro_deinit()
             MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
 
+   libretro_supports_option_categories = false;
    libretro_supports_bitmasks = false;
 }
 
@@ -2491,8 +2497,21 @@ void retro_set_environment(retro_environment_t cb)
       { 0 },
    };
 
-   libretro_set_core_options(cb);
+   static const struct retro_system_content_info_override content_overrides[] = {
+      {
+         "pce", /* extensions */
+         false, /* need_fullpath */
+         false  /* persistent_data */
+      },
+      { NULL, false, false }
+   };
+
+   libretro_supports_option_categories = false;
+   libretro_set_core_options(environ_cb,
+         &libretro_supports_option_categories);
+
    environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, (void*)ports);
+   environ_cb(RETRO_ENVIRONMENT_SET_CONTENT_INFO_OVERRIDE, (void*)content_overrides);
 
    vfs_iface_info.required_interface_version = 1;
    vfs_iface_info.iface                      = NULL;
@@ -2530,6 +2549,7 @@ size_t retro_serialize_size(void)
    StateMem st;
 
    st.data           = NULL;
+   st.data_frontend  = NULL;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = 0;
@@ -2547,22 +2567,24 @@ bool retro_serialize(void *data, size_t size)
 {
    StateMem st;
    bool ret          = false;
-   uint8_t *_dat     = (uint8_t*)malloc(size);
 
-   if (!_dat)
-      return false;
-
-   /* Mednafen can realloc the buffer so we need to ensure this is safe. */
-   st.data           = _dat;
+   st.data_frontend  = (uint8_t *)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = 0;
    st.malloced       = size;
    st.initial_malloc = 0;
 
+   /* MDFNSS_SaveSM will malloc separate memory for st.data to complete
+    * the save if the passed-in size is too small */
    ret = MDFNSS_SaveSM(&st, 0, 0, NULL, NULL, NULL);
 
-   memcpy(data, st.data, size);
-   free(st.data);
+   if (st.data != st.data_frontend)
+   {
+      log_cb(RETRO_LOG_WARN, "Save state size has increased\n");
+      free(st.data);
+      ret = false;
+   }
 
    return ret;
 }
@@ -2571,7 +2593,8 @@ bool retro_unserialize(const void *data, size_t size)
 {
    StateMem st;
 
-   st.data           = (uint8_t*)data;
+   st.data_frontend  = (uint8_t *)data;
+   st.data           = st.data_frontend;
    st.loc            = 0;
    st.len            = size;
    st.malloced       = 0;

@@ -15,13 +15,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include <assert.h>
+
 #include "../mednafen.h"
 #include "../mednafen-endian.h"
-#include <math.h>
-#include "pcecd_drive.h"
 #include "../cdrom/cdromif.h"
 #include "../cdrom/SimpleFIFO.h"
 #include "../state_helpers.h"
+
+#include "pcecd_drive.h"
 
 static uint32 CD_DATA_TRANSFER_RATE;
 static uint32 System_Clock;
@@ -75,7 +77,7 @@ typedef struct
  uint8 command_buffer_pos;
  uint8 command_size_left;
 
- // FALSE if not all pending data is in the FIFO, TRUE if it is.
+ // false if not all pending data is in the FIFO, true if it is.
  // Used for multiple sector CD reads.
  bool data_transfer_done;
 
@@ -214,25 +216,21 @@ void PCECD_Drive_Power(pcecd_drive_timestamp_t system_timestamp)
 void PCECD_Drive_SetDB(uint8 data)
 {
    cd_bus.DB = data;
-   //printf("Set DB: %02x\n", data);
 }
 
 void PCECD_Drive_SetACK(bool set)
 {
    SetkingACK(set);
-   //printf("Set ACK: %d\n", set);
 }
 
 void PCECD_Drive_SetSEL(bool set)
 {
    SetkingSEL(set);
-   //printf("Set SEL: %d\n", set);
 }
 
 void PCECD_Drive_SetRST(bool set)
 {
    SetkingRST(set);
-   //printf("Set RST: %d\n", set);
 }
 
 static void GenSubQFromSubPW(void)
@@ -240,12 +238,6 @@ static void GenSubQFromSubPW(void)
    uint8 SubQBuf[0xC];
 
    subq_deinterleave(cd.SubPWBuf, SubQBuf);
-
-   //printf("Real %d/ SubQ %d - ", read_sec, BCD_to_U8(SubQBuf[7]) * 75 * 60 + BCD_to_U8(SubQBuf[8]) * 75 + BCD_to_U8(SubQBuf[9]) - 150);
-   // Debug code, remove me.
-   //for(int i = 0; i < 0xC; i++)
-   // printf("%02x ", SubQBuf[i]);
-   //printf("\n");
 
    if(subq_check_checksum(SubQBuf))
    {
@@ -255,10 +247,6 @@ static void GenSubQFromSubPW(void)
 
       if(adr <= 0x3)
          memcpy(cd.SubQBuf[adr], SubQBuf, 0xC);
-
-      //if(adr == 0x02)
-      //for(int i = 0; i < 12; i++)
-      // printf("%02x\n", cd.SubQBuf[0x2][i]);
    }
 }
 
@@ -302,7 +290,6 @@ static void GenSubQFromSubPW(void)
 
 static void ChangePhase(const unsigned int new_phase)
 {
-   //printf("New phase: %d %lld\n", new_phase, monotonic_timestamp);
    switch(new_phase)
    {
       case PHASE_BUS_FREE:
@@ -362,8 +349,8 @@ static void SendStatusAndMessage(uint8 status, uint8 message)
 
    cd.message_pending = message;
 
-   cd.status_sent = FALSE;
-   cd.message_sent = FALSE;
+   cd.status_sent     = false;
+   cd.message_sent    = false;
 
 
    if(status == STATUS_GOOD)
@@ -427,8 +414,6 @@ static bool ValidateRawDataSector(uint8 *data, const uint32 lba)
 {
  if(!edc_lec_check_and_correct(data, false))
  {
-    MDFN_DispMessage("Uncorrectable data at sector %u", lba);
-
     din.Flush();
     cd.data_transfer_done = false;
 
@@ -521,7 +506,6 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
 {
  uint32 new_read_sec_start;
 
- //printf("Set audio start: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
  switch (cdb[9] & 0xc0)
  {
   default:
@@ -547,7 +531,6 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
    break;
  }
 
- //printf("%lld\n", (long long)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 / System_Clock);
  if(cdda.CDDAStatus == CDDASTATUS_PLAYING && new_read_sec_start == read_sec_start && ((int64)(monotonic_timestamp - pce_lastsapsp_timestamp) * 1000 / System_Clock) < 190)
  {
   pce_lastsapsp_timestamp = monotonic_timestamp;
@@ -591,8 +574,6 @@ static void DoNEC_PCE_SAPSP(const uint8 *cdb)
 static void DoNEC_PCE_SAPEP(const uint8 *cdb)
 {
    uint32 new_read_sec_end;
-
-   //printf("Set audio end: %02x %02x %02x %02x %02x %02x %02x\n", cdb[9], cdb[1], cdb[2], cdb[3], cdb[4], cdb[5], cdb[6]);
 
    switch (cdb[9] & 0xc0)
    {
@@ -886,16 +867,6 @@ static INLINE void RunCDDA(uint32 system_timestamp, int32 run_time)
     if(cd.TrayOpen)
     {
      cdda.CDDAStatus = CDDASTATUS_STOPPED;
-
-     #if 0
-     cd.data_transfer_done = FALSE;
-     cd.key_pending = SENSEKEY_NOT_READY;
-     cd.asc_pending = ASC_MEDIUM_NOT_PRESENT;
-     cd.ascq_pending = 0x00;
-     cd.fru_pending = 0x00;
-     SendStatusAndMessage(STATUS_CHECK_CONDITION, 0x00);
-     #endif
-
      break;
     }
 
@@ -960,12 +931,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
       {
          if(din.CanWrite() < 2048)
          {
-            //printf("Carp: %d %d %d\n", din.CanWrite(), SectorCount, CDReadTimer);
-            //CDReadTimer = (cd.data_in_size - cd.data_in_pos) * 10;
-
             CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
-
-            //CDReadTimer += (uint64) 1 * 128 * System_Clock / CD_DATA_TRANSFER_RATE;
          }
          else
          {
@@ -974,7 +940,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
             if(cd.TrayOpen)
             {
                din.Flush();
-               cd.data_transfer_done = FALSE;
+               cd.data_transfer_done = false;
 
                CommandCCError(SENSEKEY_NOT_READY, NSE_TRAY_OPEN);
             }
@@ -984,7 +950,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
             }
             else if(!Cur_CDIF->ReadRawSector(tmp_read_buf, SectorAddr))	//, SectorAddr + SectorCount))
             {
-               cd.data_transfer_done = FALSE;
+               cd.data_transfer_done = false;
 
                CommandCCError(SENSEKEY_ILLEGAL_REQUEST);
             }
@@ -1009,12 +975,12 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 
                if(SectorCount)
                {
-                  cd.data_transfer_done = FALSE;
+                  cd.data_transfer_done = false;
                   CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
                }
                else
                {
-                  cd.data_transfer_done = TRUE;
+                  cd.data_transfer_done = true;
                }
             }
          }				// end else to if(!Cur_CDIF->ReadSector
@@ -1042,10 +1008,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
    cd.last_RST_signal = RST_signal;
 
    if(ResetNeeded)
-   {
-      //puts("RST");
       VirtualReset();
-   }
    else switch(CurrentPhase)
    {
       case PHASE_BUS_FREE:
@@ -1058,9 +1021,8 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
       case PHASE_COMMAND:
          if(REQ_signal && ACK_signal)	// Data bus is valid nowww
          {
-            //printf("Command Phase Byte I->T: %02x, %d\n", cd_bus.DB, cd.command_buffer_pos);
             cd.command_buffer[cd.command_buffer_pos++] = cd_bus.DB;
-            SetREQ(FALSE);
+            SetREQ(false);
          }
 
          if(!REQ_signal && !ACK_signal && cd.command_buffer_pos)	// Received at least one byte, what should we do?
@@ -1104,21 +1066,21 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
                }
             } // end if(cd.command_buffer_pos == RequiredCDBLen[cd.command_buffer[0] >> 4])
             else			// Otherwise, get more data for the command!
-               SetREQ(TRUE);
+               SetREQ(true);
          }
          break;
 
       case PHASE_STATUS:
          if(REQ_signal && ACK_signal)
          {
-            SetREQ(FALSE);
-            cd.status_sent = TRUE;
+            SetREQ(false);
+            cd.status_sent = true;
          }
 
          if(!REQ_signal && !ACK_signal && cd.status_sent)
          {
             // Status sent, so get ready to send the message!
-            cd.status_sent = FALSE;
+            cd.status_sent = false;
             cd_bus.DB = cd.message_pending;
 
             ChangePhase(PHASE_MESSAGE_IN);
@@ -1128,7 +1090,6 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
       case PHASE_DATA_IN:
          if(!REQ_signal && !ACK_signal)
          {
-            //puts("REQ and ACK false");
             if(din.in_count == 0)	// aaand we're done!
             {
                CDIRQCallback(0x8000 | PCECD_Drive_IRQ_DATA_TRANSFER_READY);
@@ -1136,33 +1097,32 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
                if(cd.data_transfer_done)
                {
                   SendStatusAndMessage(STATUS_GOOD, 0x00);
-                  cd.data_transfer_done = FALSE;
+                  cd.data_transfer_done = false;
                   CDIRQCallback(PCECD_Drive_IRQ_DATA_TRANSFER_DONE);
                }
             }
             else
             {
                cd_bus.DB = din.ReadUnit();
-               SetREQ(TRUE);
+               SetREQ(true);
             }
          }
          if(REQ_signal && ACK_signal)
          {
-            //puts("REQ and ACK true");
-            SetREQ(FALSE);
+            SetREQ(false);
          }
          break;
 
       case PHASE_MESSAGE_IN:
          if(REQ_signal && ACK_signal)
          {
-            SetREQ(FALSE);
-            cd.message_sent = TRUE;
+            SetREQ(false);
+            cd.message_sent = true;
          }
 
          if(!REQ_signal && !ACK_signal && cd.message_sent)
          {
-            cd.message_sent = FALSE;
+            cd.message_sent = false;
             ChangePhase(PHASE_BUS_FREE);
          }
          break;
@@ -1293,7 +1253,6 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
 
   if(cdda.CDDADiv <= 0)
    cdda.CDDADiv = 1;
-  //printf("%d %d %d\n", din.in_count, din.read_pos, din.write_pos);
  }
 
  return (ret);

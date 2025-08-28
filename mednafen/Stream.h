@@ -5,9 +5,6 @@
 
 // TODO?: BufferedStream, no virtual functions, yes inline functions, constructor takes a Stream* argument.
 
-#include <errno.h>
-
-#include <stdio.h>	// For SEEK_* defines, which we will use in Stream out of FORCE OF HABIT.
 #include <string>
 
 #include "mednafen-types.h"
@@ -23,7 +20,7 @@ class Stream
  Stream();
  virtual ~Stream();
 
- virtual uint64 read(void *data, uint64 count, bool error_on_eos = true) = 0;
+ virtual uint64 read(void *data, uint64 count) = 0;
  virtual void write(const void *data, uint64 count) = 0;
 
  virtual void seek(int64 offset, int whence) = 0;

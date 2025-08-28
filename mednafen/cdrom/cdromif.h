@@ -21,13 +21,14 @@
 #include <queue>
 
 #include "CDUtility.h"
+#include "CDAccess.h"
 #include "../Stream.h"
 
 class CDIF
 {
  public:
 
- CDIF();
+ CDIF(CDAccess *cda);
  virtual ~CDIF();
 
  static const int32_t LBA_Read_Minimum = -150;
@@ -53,6 +54,7 @@ class CDIF
  protected:
  bool UnrecoverableError;
  TOC disc_toc;
+ CDAccess *disc_cdaccess;
 };
 
 CDIF *CDIF_Open(const std::string& path, bool image_memcache);

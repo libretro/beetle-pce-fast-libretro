@@ -492,27 +492,6 @@ static const uint8 CycTable[256] =
    /*0xE0*/ 2, 7, 2, 17, 4, 4, 6, 7, 2, 2, 2, 2, 5, 5, 7, 6, 
    /*0xF0*/ 2, 7, 7, 17, 2, 4, 6, 7, 2, 5, 4, 2, 2, 5, 7, 6, 
 };
-#if 0
-static NO_INLINE bool WillIRQOccur(void)
-{
-   bool ret = false;
-
-   if(HU_IRQlow)
-   {
-      if(!(HU_PI&I_FLAG))
-      {
-         if(HU_IRQlow & MDFN_IQTIMER & HuCPU.IRQMaskDelay)
-            ret = true;
-         else if((HU_IRQlow & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay) || ((HU_IRQlow >> 8) & MDFN_IQIRQ1 & HuCPU.IRQMaskDelay))
-            ret = true;
-         else if(HU_IRQlow & MDFN_IQIRQ2 & HuCPU.IRQMaskDelay)
-            ret = true;
-      }
-   }
-
-   return(true);
-}
-#endif
 
 void HuC6280_Reset(void)
 {
@@ -580,11 +559,7 @@ void HuC6280_Power(void)
    HuCPU.P = 0;
    HuCPU.mooPI = 0;
 
-#if 0
-   HU_PC = HU_PC_base = NULL;
-#else
    HuCPU.PC = 0;
-#endif
 
    HuCPU.timestamp = 0;
 
@@ -677,7 +652,6 @@ void HuC6280_Run(int32 cycles)
                }
             }	// end if(HU_IRQlow)
 
-            //printf("%04x\n", GetRealPC());
             HU_PI = HU_P;
             HuCPU.IRQMaskDelay = HuCPU.IRQMask;
 

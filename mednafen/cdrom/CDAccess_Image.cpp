@@ -31,7 +31,6 @@
 #include <stdint.h>
 
 #include <string.h>
-#include <errno.h>
 #include <time.h>
 #include <memory>
 
@@ -141,12 +140,7 @@ static size_t UnQuotify(const std::string &src, size_t source_offset, std::strin
          {
             source_offset++;
             // Not sure which behavior is most useful(or correct :b).
-#if 0
-            in_quote = false;
-            already_normal = true;
-#else
             break;
-#endif
          }
          else
             in_quote = 1;
@@ -179,8 +173,6 @@ uint32_t CDAccess_Image::GetSectorCount(CDRFILE_TRACK_INFO *track)
       else
       {
          const int64_t size = track->fp->size();
-
-         //printf("%d %d %d\n", (int)stat_buf.st_size, (int)track->FileOffset, (int)stat_buf.st_size - (int)track->FileOffset);
          if(track->SubchannelMode)
             return((size - track->FileOffset) / (2352 + 96));
          return((size - track->FileOffset) / 2352);
@@ -255,7 +247,6 @@ bool CDAccess_Image::ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int t
 
    track->FileOffset = offset; // Make sure this is set before calling GetSectorCount()!
    sectors = GetSectorCount(track);
-   //printf("Track: %d, offset: %ld, %ld\n", tracknum, offset, sectors);
 
    if(length)
    {
@@ -330,7 +321,7 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
       return false;
    }
 
-   while(sbis.read(ed, sizeof(ed), false) == sizeof(ed))
+   while(sbis.read(ed, sizeof(ed)) == sizeof(ed))
    {
       if(!BCD_is_valid(ed[0]) || !BCD_is_valid(ed[1]) || !BCD_is_valid(ed[2]))
       {
@@ -351,11 +342,6 @@ bool CDAccess_Image::LoadSBI(const std::string& sbi_path)
       tmpq[10] ^= 0xFF;
       tmpq[11] ^= 0xFF;
       //
-
-      //printf("%02x:%02x:%02x --- ", ed[0], ed[1], ed[2]);
-      //for(unsigned i = 0; i < 12; i++)
-      // printf("%02x ", tmpq[i]);
-      //printf("\n");
 
       uint32_t aba = AMSF_to_ABA(BCD_to_U8(ed[0]), BCD_to_U8(ed[1]), BCD_to_U8(ed[2]));
 
@@ -412,7 +398,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
    {
       uint8_t bom_tmp[3];
 
-      if(fp.read(bom_tmp, 3, false) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF)
+      if(fp.read(bom_tmp, 3) == 3 && bom_tmp[0] == 0xEF && bom_tmp[1] == 0xBB && bom_tmp[2] == 0xBF)
       {
          // Print an annoying error message, but don't actually error out.
          log_cb(RETRO_LOG_WARN, "UTF-8 BOM detected at start of CUE sheet.\n");
@@ -461,8 +447,6 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
 
          MDFN_strtoupper(cmdbuf);
       }
-
-      //printf("%s\n", cmdbuf.c_str()); //: %s %s %s %s\n", cmdbuf.c_str(), args[0].c_str(), args[1].c_str(), args[2].c_str(), args[3].c_str());
 
       if(IsTOC)
       {
@@ -518,20 +502,6 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
                TmpTrack.SubchannelMode = CDRF_SUBM_RW_RAW;
 
          } // end to TRACK
-         else if(cmdbuf == "SILENCE")
-         {
-#if 0
-            log_cb(RETRO_LOG_INFO, "Unsupported directive: %s\n", cmdbuf.c_str());
-            return false;
-#endif
-         }
-         else if(cmdbuf == "ZERO")
-         {
-#if 0
-            log_cb(RETRO_LOG_INFO, "Unsupported directive: %s\n", cmdbuf.c_str());
-            return false;
-#endif
-         }
          else if(cmdbuf == "FIFO")
          {
             log_cb(RETRO_LOG_INFO, "Unsupported directive: %s\n", cmdbuf.c_str());
@@ -554,7 +524,6 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
                msfoffset = args[1].c_str();
                length = args[2].c_str();
             }
-            //printf("%s, %s, %s, %s\n", args[0].c_str(), binoffset, msfoffset, length);
             if (!ParseTOCFileLineInfo(&TmpTrack, active_track, args[0], binoffset, msfoffset, length, image_memcache, toc_streamcache))
                return false;
          }
@@ -651,13 +620,6 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
             disc_type = DISC_TYPE_CDDA_OR_M1;
          else if(cmdbuf == "CD_ROM_XA")
             disc_type = DISC_TYPE_CD_XA;
-         else
-         {
-#if 0
-            log_cb(RETRO_LOG_ERROR, "Unsupported directive: %s", cmdbuf.c_str());
-            return false;
-#endif
-         }
          // TODO: CATALOG
 
       } /*********** END TOC HANDLING ************/
@@ -855,13 +817,9 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
       return false;
    }
 
-   FirstTrack = FirstTrack;
    NumTracks = 1 + LastTrack - FirstTrack;
 
    int32_t RunningLBA = 0;
-#if 0
-   int32_t LastIndex = 0;
-#endif
    long FileOffset = 0;
 
    RunningLBA -= 150;
@@ -912,12 +870,7 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
       else // else handle CUE sheet...
       {
          if(Tracks[x].FirstFileInstance) 
-         {
-#if 0
-            LastIndex = 0;
-#endif
             FileOffset = 0;
-         }
 
          RunningLBA += Tracks[x].pregap;
 
@@ -949,11 +902,9 @@ bool CDAccess_Image::ImageOpen(const std::string& path, bool image_memcache)
                Tracks[x].sectors = Tracks[x + 1].index[0] - Tracks[x].index[1];	//Tracks[x + 1].index - Tracks[x].index;
          }
 
-         //printf("Poo: %d %d\n", x, Tracks[x].sectors);
          RunningLBA += Tracks[x].sectors;
          RunningLBA += Tracks[x].postgap;
 
-         //printf("%d, %ld %d %d %d %d\n", x, FileOffset, Tracks[x].index, Tracks[x].pregap, Tracks[x].sectors, Tracks[x].LBA);
 
          FileOffset += Tracks[x].sectors * DI_Size_Table[Tracks[x].DIFormat];
       } // end to cue sheet handling
@@ -1118,7 +1069,6 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             // TODO: Zero out optional(?) checksum bytes?
             break;
       }
-      //printf("Pre/post-gap read, LBA=%d(LBA-track_start_LBA=%d)\n", lba, lba - ct->LBA);
    }
    else
    {
@@ -1130,10 +1080,7 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
          ct->LastSamplePos += frames_read;
 
          if(frames_read > 588)	// This shouldn't happen.
-         {
-            printf("Error: frames_read out of range: %llu\n", (unsigned long long)frames_read);
             frames_read = 0;
-         }
 
          if(frames_read < 588)
             memset((uint8_t *)AudioBuf + frames_read * 2 * sizeof(int16_t), 0, (588 - frames_read) * 2 * sizeof(int16_t));
@@ -1234,21 +1181,14 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
    uint32_t ma, sa, fa;
    uint32_t m, s, f;
    uint8_t pause_or = 0x00;
-   bool track_found = false;
 
    for(track = FirstTrack; track < (FirstTrack + NumTracks); track++)
    {
       if(lba >= (Tracks[track].LBA - Tracks[track].pregap_dv - Tracks[track].pregap) && lba < (Tracks[track].LBA + Tracks[track].sectors + Tracks[track].postgap))
       {
-         track_found = true;
          break;
       }
    }
-
-#if 0
-   if(!track_found)
-      throw(MDFN_Error(0, _("Could not find track for sector %u!"), lba));
-#endif
 
    if(lba < Tracks[track].LBA)
       lba_relative = Tracks[track].LBA - 1 - lba;
@@ -1268,10 +1208,7 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
 
    // Handle pause(D7 of interleaved subchannel byte) bit, should be set to 1 when in pregap or postgap.
    if((lba < Tracks[track].LBA) || (lba >= Tracks[track].LBA + Tracks[track].sectors))
-   {
-      //printf("pause_or = 0x80 --- %d\n", lba);
       pause_or = 0x80;
-   }
 
    // Handle pregap between audio->data track
    {
@@ -1285,10 +1222,7 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
       if(pg_offset < -150)
       {
          if((Tracks[track].subq_control & SUBQ_CTRLF_DATA) && (FirstTrack < track) && !(Tracks[track - 1].subq_control & SUBQ_CTRLF_DATA))
-         {
-            //printf("Pregap part 1 audio->data: lba=%d track_lba=%d\n", lba, Tracks[track].LBA);
             control = Tracks[track - 1].subq_control;
-         }
       }
    }
 
@@ -1329,15 +1263,10 @@ int32_t CDAccess_Image::MakeSubPQ(int32_t lba, uint8_t *SubPWBuf) const
 
    if(!SubQReplaceMap.empty())
    {
-      //printf("%d\n", lba);
-
       std::map<uint32_t, stl_array<uint8_t, 12> >::const_iterator it = SubQReplaceMap.find(LBA_to_ABA(lba));
 
       if(it != SubQReplaceMap.end())
-      {
-         //printf("Replace: %d\n", lba);
          memcpy(buf, (void*)it->second.data(), 12);
-      }
    }
 
    for(int i = 0; i < 96; i++)

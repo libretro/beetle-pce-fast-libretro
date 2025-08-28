@@ -9,6 +9,10 @@
 #endif
 #endif
 
+#define MSEEK_END	2
+#define MSEEK_CUR	1
+#define MSEEK_SET	0
+
 // Source: http://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
 // Rounds up to the nearest power of 2.
 static INLINE uint32 round_up_pow2(uint32 v)
@@ -54,7 +58,7 @@ MemoryStream::MemoryStream(uint64 size_hint) : data_buffer(NULL), data_buffer_si
 MemoryStream::MemoryStream(Stream *stream) : data_buffer(NULL), data_buffer_size(0), data_buffer_alloced(0), position(0)
 {
    if((position = stream->tell()) != 0)
-      stream->seek(0, SEEK_SET);
+      stream->seek(0, MSEEK_SET);
 
    data_buffer_size = stream->size();
    data_buffer_alloced = data_buffer_size;
@@ -125,22 +129,18 @@ INLINE void MemoryStream::grow_if_necessary(uint64 new_required_size)
  }
 }
 
-uint64 MemoryStream::read(void *data, uint64 count, bool error_on_eos)
+uint64 MemoryStream::read(void *data, uint64 count)
 {
- if(count > data_buffer_size)
- {
-  count = data_buffer_size;
- }
+   if(count > data_buffer_size)
+      count = data_buffer_size;
 
- if((uint64)position > (data_buffer_size - count))
- {
-  count = data_buffer_size - position;
- }
+   if((uint64)position > (data_buffer_size - count))
+      count = data_buffer_size - position;
 
- memmove(data, &data_buffer[position], count);
- position += count;
+   memmove(data, &data_buffer[position], count);
+   position += count;
 
- return count;
+   return count;
 }
 
 void MemoryStream::write(const void *data, uint64 count)
@@ -159,15 +159,15 @@ void MemoryStream::seek(int64 offset, int whence)
 
  switch(whence)
  {
-  case SEEK_SET:
+  case MSEEK_SET:
 	new_position = offset;
 	break;
 
-  case SEEK_CUR:
+  case MSEEK_CUR:
 	new_position = position + offset;
 	break;
 
-  case SEEK_END:
+  case MSEEK_END:
 	new_position = data_buffer_size + offset;
 	break;
  }
