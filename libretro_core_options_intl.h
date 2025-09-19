@@ -872,7 +872,7 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola ya pue amosar más detalles en dalgunos xuegos."
 #define OPTION_VAL_RGB_AST NULL
 #define OPTION_VAL_COMPOSITE_AST NULL
-#define PCE_FAST_FRAMESKIP_LABEL_AST "Saltu de cuadros"
+#define PCE_FAST_FRAMESKIP_LABEL_AST "Saltu de fotogrames"
 #define PCE_FAST_FRAMESKIP_INFO_0_AST NULL
 #define OPTION_VAL_AUTO_AST NULL
 #define OPTION_VAL_MANUAL_AST NULL
