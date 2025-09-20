@@ -31,7 +31,7 @@ struct psg_channel
    uint16 frequency;       /* Channel frequency */
    uint8 balance;          /* Channel balance */
    
-   uint8 user_volume;
+   int32 user_volume;
 };
 
 class PCEFast_PSG
@@ -47,7 +47,7 @@ class PCEFast_PSG
       void Write(int32 timestamp, uint8 A, uint8 V);
 
       void SetVolume(double new_volume) MDFN_COLD;
-      void SetChannelUserVolume(int chnum, uint8 new_volume) MDFN_COLD;
+      void SetChannelUserVolume(int chnum, int32 new_volume) MDFN_COLD;
 
       void EndFrame(int32 timestamp);
 
