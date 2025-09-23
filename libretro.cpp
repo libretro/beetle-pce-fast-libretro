@@ -2613,6 +2613,8 @@ void *retro_get_memory_data(unsigned type)
          return (uint8_t*)SaveRAM;
       case RETRO_MEMORY_SYSTEM_RAM:
          return BaseRAM;
+      case RETRO_MEMORY_VIDEO_RAM:
+         return vdc->VRAM;
       default:
          break;
    }
@@ -2630,6 +2632,8 @@ size_t retro_get_memory_size(unsigned type)
          return 2048;
       case RETRO_MEMORY_SYSTEM_RAM:
          return 8192;
+      case RETRO_MEMORY_VIDEO_RAM:
+         return 65536;
       default:
          break;
    }
