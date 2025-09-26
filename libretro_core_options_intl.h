@@ -860,7 +860,7 @@ struct retro_core_options_v2 options_ar = {
 
 #define CATEGORY_VIDEO_LABEL_AST "Videu"
 #define CATEGORY_VIDEO_INFO_0_AST NULL
-#define CATEGORY_INPUT_LABEL_AST "Entrada"
+#define CATEGORY_INPUT_LABEL_AST "Controles"
 #define CATEGORY_INPUT_INFO_0_AST NULL
 #define CATEGORY_HACKS_LABEL_AST "Hacks de la emulación"
 #define CATEGORY_HACKS_INFO_0_AST NULL
