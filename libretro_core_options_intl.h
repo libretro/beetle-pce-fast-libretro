@@ -34618,15 +34618,15 @@ struct retro_core_options_v2 options_val = {
 
 /* RETRO_LANGUAGE_VN */
 
-#define CATEGORY_VIDEO_LABEL_VN "Hình ảnh"
+#define CATEGORY_VIDEO_LABEL_VN NULL
 #define CATEGORY_VIDEO_INFO_0_VN "Tùy chỉnh crop màn hình, bỏ qua khung hình và các thông số đầu ra hình ảnh khác."
-#define CATEGORY_INPUT_LABEL_VN "Input Driver"
+#define CATEGORY_INPUT_LABEL_VN "Đầu vào"
 #define CATEGORY_INPUT_INFO_0_VN "Định cấu hình đầu vào của súng, chuột và NegCon."
 #define CATEGORY_HACKS_LABEL_VN "Hacks giả lập"
 #define CATEGORY_HACKS_INFO_0_VN "Định cấu hình các thông số độ chính xác của việc ép xung và mô phỏng bộ xử lý ảnh hưởng đến hiệu suất và khả năng tương thích ở mức thấp."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_VN "Tùy chỉnh cài đặt kênh âm thanh"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_VN "Chỉnh sửa âm thanh của phần cứng riêng lẻ."
-#define CATEGORY_CD_LABEL_VN NULL
+#define CATEGORY_CD_LABEL_VN "CD động cơ PC"
 #define CATEGORY_CD_INFO_0_VN "Định cấu hình cài đặt liên quan đến trình mô phỏng PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_VN "Bảng màu"
 #define PCE_FAST_PALETTE_INFO_0_VN "Tổng hợp các cố gắng để tạo lại đầu ra bảng điều khiển ban đầu và có thể hiển thị thêm chi tiết trong một số trò chơi."
@@ -34640,28 +34640,28 @@ struct retro_core_options_v2 options_val = {
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_VN "Khi 'Frameskip' được đặt thành 'Thủ công', chỉ định ngưỡng chiếm dụng bộ đệm âm thanh (tỷ lệ phần trăm) dưới khung hình nào sẽ bị bỏ qua. Giá trị cao hơn làm giảm nguy cơ giật lag do làm rơi khung thường xuyên hơn."
 #define OPTION_VAL_33_VN "33 (Mặc định)"
 #define PCE_FAST_HOVERSCAN_LABEL_VN "Quét theo chiều ngang (Chỉ dành cho chế độ chiều rộng 352)"
-#define PCE_FAST_HOVERSCAN_INFO_0_VN NULL
+#define PCE_FAST_HOVERSCAN_INFO_0_VN "Chọn chiều rộng tối đa của hình ảnh để hiển thị. Giá trị thấp hơn sẽ cắt bớt phần bên phải của hình (dành cho game có độ rộng 352 px)."
 #define OPTION_VAL_352_VN "352 (Mặc định)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_VN NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_VN NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_VN "Dòng quét ban đầu"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_VN "Dòng quét đầu tiên được hiển thị. Giá trị cao hơn sẽ cắt phần trên của hình ảnh."
 #define OPTION_VAL_3_VN "3 (Mặc định)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_VN NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_VN NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_VN "Dòng quét cuối cùng"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_VN "Dòng quét cuối cùng được hiển thị. Giá trị thấp hơn sẽ cắt phần dưới của hình ảnh."
 #define OPTION_VAL_242_VN "242 (Mặc định)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_VN NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_VN NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 0 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 1 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 2 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 3 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 4 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_VN "Âm lượng kênh âm thanh PSG 5 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_VN "Thay đổi âm lượng của kênh âm thanh PSG 5."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_VN NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_VN NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_VN "Giá trị cao hơn sẽ làm con trỏ chuột di chuyển nhanh hơn."
 #define OPTION_VAL_0_25_VN NULL
 #define OPTION_VAL_0_50_VN NULL
 #define OPTION_VAL_0_75_VN NULL
@@ -34682,55 +34682,55 @@ struct retro_core_options_v2 options_val = {
 #define OPTION_VAL_4_50_VN NULL
 #define OPTION_VAL_4_75_VN NULL
 #define OPTION_VAL_5_00_VN NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_VN NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN NULL
-#define OPTION_VAL_2_BUTTONS_VN NULL
-#define OPTION_VAL_6_BUTTONS_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_VN NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_VN NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_VN NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_VN NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_VN NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_VN NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_VN NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_VN NULL
-#define PCE_FAST_CDBIOS_LABEL_VN NULL
-#define PCE_FAST_CDBIOS_INFO_0_VN NULL
-#define OPTION_VAL_GAMES_EXPRESS_VN NULL
-#define OPTION_VAL_SYSTEM_CARD_1_VN NULL
-#define OPTION_VAL_SYSTEM_CARD_2_VN NULL
-#define OPTION_VAL_SYSTEM_CARD_3_VN NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_VN NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_VN NULL
-#define PCE_FAST_CDSPEED_LABEL_VN NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_VN NULL
-#define PCE_FAST_CDSPEED_INFO_0_VN NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_VN "Tắt đặt lại mềm (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_VN "Khi nhấn RUN và SELECT cùng lúc, tạm thời vô hiệu cả hai nút thay vì đặt lại."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_VN "Loại tay cầm mặc định P1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_VN "Chọn tay cầm cổng 1 mặc định là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động. Nếu muốn đổi khi nội dung đang chạy, hãy dùng nút \"Chuyển chế độ\".LƯU Ý: Tay cầm 6 nút có thể gặp hành vi bất thường trong các trò chơi không tương thích."
+#define OPTION_VAL_2_BUTTONS_VN "2 nút"
+#define OPTION_VAL_6_BUTTONS_VN "6 nút"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_VN "Loại tay cầm mặc định P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_VN "Chọn tay cầm cổng 2 mặc định là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động. Nếu muốn đổi khi nội dung đang chạy, hãy dùng nút \"Chuyển chế độ\".LƯU Ý: Tay cầm 6 nút có thể gặp hành vi bất thường trong các trò chơi không tương thích."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_VN "Loại tay cầm mặc định P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_VN "Chọn tay cầm cổng 3 mặc định là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động. Nếu muốn đổi khi nội dung đang chạy, hãy dùng nút \"Chuyển chế độ\".LƯU Ý: Tay cầm 6 nút có thể gặp hành vi bất thường trong các trò chơi không tương thích."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_VN "Loại tay cầm mặc định P4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_VN "Chọn mặc định tay cầm cổng 4 sẽ là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động, nếu muốn chuyển đổi trong lúc nội dung đang chạy, hãy dùng nút “Chuyển chế độ”. LƯU Ý: Tay cầm 6 nút có thể hoạt động bất thường trong các trò chơi không tương thích."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN "Loại tay cầm mặc định cho cổng 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN "Chọn mặc định tay cầm cổng 5 sẽ là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động, nếu muốn chuyển đổi trong lúc nội dung đang chạy, hãy dùng nút “Chuyển chế độ”. LƯU Ý: Tay cầm 6 nút có thể hoạt động bất thường trong các trò chơi không tương thích."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_VN "Bật/tắt nhấn nhanh"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_VN "Bật phím nóng chuyển đổi chế độ turbo (nút III và IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_VN "Phím tắt turbo thay thế"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_VN "Gán nút L3/R3 của RetroPad làm phím nóng chuyển đổi turbo thay vì nút III và IV. Chỉ hoạt động nếu L3/R3 chưa được gán chức năng khác. Bạn có thể tránh việc phải gán lại nút III và IV khi chuyển sang chế độ tay cầm 6 nút bằng tùy chọn này."
+#define PCE_FAST_TURBO_DELAY_LABEL_VN "Độ trễ turbo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_VN "Điều chỉnh khoảng thời gian giữa các lần bắn turbo (tính theo khung hình)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_VN "Bộ nhớ đệm ảnh CD (Cần khởi động lại)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_VN "Tải toàn bộ hình ảnh vào bộ nhớ khi khởi động. Có khả năng giảm thời gian tải nhưng phải trả giá bằng thời gian khởi động lâu hơn."
+#define PCE_FAST_CDBIOS_LABEL_VN "BIOS CD (Cần khởi động lại)"
+#define PCE_FAST_CDBIOS_INFO_0_VN "Hầu hết trò chơi có thể chạy bằng “System Card 3”. “Games Express” cần cho một số trò chơi không được cấp phép."
+#define OPTION_VAL_GAMES_EXPRESS_VN "Trò chơi Express"
+#define OPTION_VAL_SYSTEM_CARD_1_VN "Thẻ hệ thống 1"
+#define OPTION_VAL_SYSTEM_CARD_2_VN "Thẻ hệ thống 2"
+#define OPTION_VAL_SYSTEM_CARD_3_VN "Thẻ hệ thống 3"
+#define OPTION_VAL_SYSTEM_CARD_2_US_VN "Thẻ hệ thống 2 (Mỹ)"
+#define OPTION_VAL_SYSTEM_CARD_3_US_VN "Thẻ hệ thống 3 (Mỹ)"
+#define PCE_FAST_CDSPEED_LABEL_VN "(CD) Tốc độ CD"
+#define PCE_FAST_CDSPEED_LABEL_CAT_VN "Tốc độ CD"
+#define PCE_FAST_CDSPEED_INFO_0_VN "Giá trị cao hơn cho phép thời gian tải nhanh hơn nhưng có thể gây ra sự cố với một số trò chơi."
 #define OPTION_VAL_1_VN NULL
 #define OPTION_VAL_2_VN NULL
 #define OPTION_VAL_4_VN NULL
 #define OPTION_VAL_8_VN NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_VN NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_VN NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_VN NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_VN NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_VN NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_VN NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_VN NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_VN NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_VN NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_VN NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_VN NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_VN NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_VN "(CD) Âm lượng ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_VN "Âm lượng ADPCM %"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_VN "Chỉ áp dụng cho game CD. Đặt âm lượng này quá cao có thể gây méo tiếng mẫu."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_VN "Đặt âm lượng này quá cao có thể gây méo tiếng mẫu."
+#define PCE_FAST_CDDAVOLUME_LABEL_VN "(CD) Âm lượng CDDA %"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_VN "Âm lượng CDDA %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_VN "(CD) Âm lượng PSG %"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_VN "Âm lượng CD PSG %"
+#define PCE_FAST_NOSPRITELIMIT_LABEL_VN "Không giới hạn Sprite"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_VN "Gỡ bỏ giới hạn phần cứng 16 sprite mỗi dòng quét. CẢNH BÁO: Có thể gây lỗi hiển thị trong một số trò chơi."
+#define PCE_FAST_OCMULTIPLIER_LABEL_VN "Hệ số ép xung CPU (Cần khởi động lại)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_VN "Giá trị cao hơn có thể giảm tình trạng chậm trong game. CẢNH BÁO: Có thể gây lỗi đồ họa và treo máy."
 
 struct retro_core_option_v2_category option_cats_vn[] = {
    {
