@@ -34621,7 +34621,7 @@ struct retro_core_options_v2 options_val = {
 #define CATEGORY_VIDEO_LABEL_VN NULL
 #define CATEGORY_VIDEO_INFO_0_VN "Cấu hình cắt hiển thị, bỏ khung hình và các thông số xuất hình khác."
 #define CATEGORY_INPUT_LABEL_VN "Điều khiển"
-#define CATEGORY_INPUT_INFO_0_VN "Định cấu hình đầu vào của súng, chuột và NegCon."
+#define CATEGORY_INPUT_INFO_0_VN "Định cấu hình điều khiển của súng, chuột và NegCon."
 #define CATEGORY_HACKS_LABEL_VN "Thủ thuật giả lập"
 #define CATEGORY_HACKS_INFO_0_VN "Định cấu hình các thông số độ chính xác của việc ép xung và mô phỏng bộ xử lý ảnh hưởng đến hiệu suất và khả năng tương thích ở mức thấp."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_VN "Tùy chỉnh cài đặt kênh âm thanh"
