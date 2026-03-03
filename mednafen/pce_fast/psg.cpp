@@ -35,7 +35,7 @@ void PCEFast_PSG::SetChannelUserVolume(int chnum, int32 new_volume)
 {
     if(chnum >=6 || new_volume > 100) return;  // check valid args
     psg_channel *ch = &channel[chnum];
-    ch->user_volume = (new_volume << 16) / 100;  // approx 1/100
+    ch->user_volume = new_volume;
 }
 
 void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
@@ -48,10 +48,10 @@ void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   if(ch->user_volume < 65536)
+   if(ch->user_volume < 100)
    {
-       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume) >> 16;
-       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume) >> 16;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -74,10 +74,10 @@ void PCEFast_PSG::UpdateOutput_Noise(const int32 timestamp, psg_channel *ch)
    samp[0] = dbtable[ch->vl[0]][sv];
    samp[1] = dbtable[ch->vl[1]][sv];
 
-   if(ch->user_volume < 65536)
+   if(ch->user_volume < 100)
    {
-       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume) >> 16;
-       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume) >> 16;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -98,10 +98,10 @@ void PCEFast_PSG::UpdateOutput_Off(const int32 timestamp, psg_channel *ch)
 
    samp[0] = samp[1] = 0;
 
-   if(ch->user_volume < 65536)
+   if(ch->user_volume < 100)
    {
-       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume) >> 16;
-       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume) >> 16;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -124,10 +124,10 @@ void PCEFast_PSG::UpdateOutput_Accum(const int32 timestamp, psg_channel *ch)
    samp[0] = ((int32)dbtable_volonly[ch->vl[0]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
    samp[1] = ((int32)dbtable_volonly[ch->vl[1]] * ((int32)ch->samp_accum - 496)) >> (8 + 5);
 
-   if(ch->user_volume < 65536)
+   if(ch->user_volume < 100)
    {
-       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume) >> 16;
-       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume) >> 16;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
