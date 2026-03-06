@@ -732,6 +732,21 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "100"
    },
    {
+      "pce_fast_cdignoreerrors",
+      "CD Ignore EDC/L-EC Errors",
+      NULL,
+      "Ignore EDC/L-EC errors. Needed for compatibility with some hacks.",
+      NULL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+
+   {
       "pce_fast_nospritelimit",
       "No Sprite Limit",
       NULL,

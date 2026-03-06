@@ -1873,6 +1873,16 @@ static void check_variables(bool first_run)
       do_cdsettings = true;
       setting_pce_fast_cdpsgvolume = atoi(var.value);
    }
+   
+   var.key      = "pce_fast_cdignoreerrors";
+   setting_pce_fast_cdignoreerrors = false;
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+      if (strcmp(var.value, "enabled") == 0)
+      {
+         setting_pce_fast_cdignoreerrors = true;
+      }
+
 
    var.key = "pce_fast_cdspeed";
 
