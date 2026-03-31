@@ -158,6 +158,8 @@ static int32 CDReadTimer;
 static uint32 SectorAddr;
 static uint32 SectorCount;
 
+bool setting_pce_fast_cdignoreerrors;
+
 
 enum
 {
@@ -412,7 +414,12 @@ static void CommandCCError(int key, int asc = 0, int ascq = 0)
 
 static bool ValidateRawDataSector(uint8 *data, const uint32 lba)
 {
- if(!edc_lec_check_and_correct(data, false))
+ bool c = edc_lec_check_and_correct(data, false);
+ 
+ //if(!c)
+ //    printf("failed ValidateRawDataSector: %x\n", lba);
+     
+ if(!c && !setting_pce_fast_cdignoreerrors)
  {
     din.Flush();
     cd.data_transfer_done = false;

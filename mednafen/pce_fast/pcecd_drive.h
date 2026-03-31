@@ -16,6 +16,7 @@ struct pcecd_drive_bus_t
 };
 
 extern pcecd_drive_bus_t cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c, but use the macros below.
+extern bool setting_pce_fast_cdignoreerrors;
 
 // Signals under our(the "target") control.
 #define PCECD_Drive_IO_mask	0x001

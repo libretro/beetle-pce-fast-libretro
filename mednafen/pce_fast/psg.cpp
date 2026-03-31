@@ -50,8 +50,8 @@ void PCEFast_PSG::UpdateOutput_Norm(const int32 timestamp, psg_channel *ch)
 
    if(ch->user_volume < 100)
    {
-       delta0 = (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100;
-       delta1 = (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -76,8 +76,8 @@ void PCEFast_PSG::UpdateOutput_Noise(const int32 timestamp, psg_channel *ch)
 
    if(ch->user_volume < 100)
    {
-       delta0 = (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100;
-       delta1 = (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -100,8 +100,8 @@ void PCEFast_PSG::UpdateOutput_Off(const int32 timestamp, psg_channel *ch)
 
    if(ch->user_volume < 100)
    {
-       delta0 = (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100;
-       delta1 = (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
@@ -126,8 +126,8 @@ void PCEFast_PSG::UpdateOutput_Accum(const int32 timestamp, psg_channel *ch)
 
    if(ch->user_volume < 100)
    {
-       delta0 = (samp[0] - ch->blip_prev_samp[0]) * ch->user_volume / 100;
-       delta1 = (samp[1] - ch->blip_prev_samp[1]) * ch->user_volume / 100;
+       delta0 = ((samp[0] - ch->blip_prev_samp[0]) * ch->user_volume * 164) >> 14;
+       delta1 = ((samp[1] - ch->blip_prev_samp[1]) * ch->user_volume * 164) >> 14;
    } else {
        delta0 = samp[0] - ch->blip_prev_samp[0];
        delta1 = samp[1] - ch->blip_prev_samp[1];
