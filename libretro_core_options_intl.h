@@ -19065,8 +19065,8 @@ struct retro_core_options_v2 options_hr = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_HU "CDDA hangerő %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_HU "(CD) PSG hangerő %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_HU "CD PSG hangerő %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_HU NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_HU NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_HU "A CD EDC/L-EC hibáinak figyelmen kívül hagyása"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_HU "Az EDC/L-EC hibák figyelmen kívül hagyása. Néhány módosítás csak így kompatibilis."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_HU "Nincs sprite korlátozás"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_HU "Megszünteti a hardver soronként legfeljebb 16 sprite-os korlátozását. Figyelem: grafikus hibákat okozhat néhány játéknál."
 #define PCE_FAST_OCMULTIPLIER_LABEL_HU "CPU túlhajtás szorzó (újraindítás szükséges)"
