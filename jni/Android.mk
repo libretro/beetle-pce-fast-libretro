@@ -34,6 +34,6 @@ LOCAL_MODULE       := retro
 LOCAL_SRC_FILES    := $(SOURCES_CXX) $(SOURCES_C)
 LOCAL_CFLAGS       := $(COREFLAGS)
 LOCAL_CXXFLAGS     := $(COREFLAGS)
-LOCAL_LDFLAGS      := -Wl,-version-script=$(CORE_DIR)/link.T
+LOCAL_LDFLAGS      := -Wl,-version-script=$(CORE_DIR)/link.T,-z,max-page-size=16384
 LOCAL_CPP_FEATURES := exceptions
 include $(BUILD_SHARED_LIBRARY)
