@@ -29289,49 +29289,49 @@ struct retro_core_options_v2 options_ru = {
 /* RETRO_LANGUAGE_SK */
 
 #define CATEGORY_VIDEO_LABEL_SK NULL
-#define CATEGORY_VIDEO_INFO_0_SK NULL
+#define CATEGORY_VIDEO_INFO_0_SK "Nakonfigurujte orezanie obrazu, vynechávanie snímok a ďalšie parametre obrazového výstupu."
 #define CATEGORY_INPUT_LABEL_SK "Vstup"
-#define CATEGORY_INPUT_INFO_0_SK NULL
+#define CATEGORY_INPUT_INFO_0_SK "Nakonfigurujte vstup svetelnej pištole, myši a NegCon."
 #define CATEGORY_HACKS_LABEL_SK "Emulačné hacky"
-#define CATEGORY_HACKS_INFO_0_SK NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_SK NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_SK NULL
+#define CATEGORY_HACKS_INFO_0_SK "Nakonfigurujte parametre pretaktovania procesora a presnosti emulácie ovplyvňujúce nízkoúrovňový výkon a kompatibilitu."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_SK "Pokročilé nastavenia hlasitosti kanálov"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_SK "Nakonfigurujte hlasitosť jednotlivých hardvérových zvukových kanálov."
 #define CATEGORY_CD_LABEL_SK NULL
-#define CATEGORY_CD_INFO_0_SK NULL
+#define CATEGORY_CD_INFO_0_SK "Nakonfigurujte nastavenia týkajúce sa emulácie PC Engine CD."
 #define PCE_FAST_PALETTE_LABEL_SK "Farebná paleta"
-#define PCE_FAST_PALETTE_INFO_0_SK NULL
+#define PCE_FAST_PALETTE_INFO_0_SK "Composite sa snaží napodobniť pôvodný výstup konzoly a v niektorých hrách môže ukázať viac detailov."
 #define OPTION_VAL_RGB_SK NULL
 #define OPTION_VAL_COMPOSITE_SK "Kompozit"
 #define PCE_FAST_FRAMESKIP_LABEL_SK "Preskočenie snímky"
-#define PCE_FAST_FRAMESKIP_INFO_0_SK NULL
+#define PCE_FAST_FRAMESKIP_INFO_0_SK "Vynechá snímky, aby sa predišlo podtoku zvukového bufferu (praskanie). Zlepšuje výkon na úkor plynulosti obrazu. 'Auto' vynecháva snímky, keď to odporúča frontend. 'Manual' využíva nastavenie 'Frameskip Threshold (%)'."
 #define OPTION_VAL_AUTO_SK NULL
 #define OPTION_VAL_MANUAL_SK "Ručne"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_SK "Prah preskočenia snímky (%)"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_SK "Ak je 'Preskočenie snímkov' nastavené na 'Ručne', určuje obsadenosť zvukového zásobníka (v percentách) pod ktorou budú snímky preskočené. Vyššie hodnoty znižujú riziko praskania za cenu zahodenia snímkov častejšie."
 #define OPTION_VAL_33_SK "33 (predvolené)"
-#define PCE_FAST_HOVERSCAN_LABEL_SK NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_SK NULL
+#define PCE_FAST_HOVERSCAN_LABEL_SK "Horizontálny overscan (iba režim šírky 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_SK "Vyberte maximálnu šírku zobrazenia obrazu. Nižšie hodnoty orežú pravú stranu obrazu (pre hry so šírkou 352 px)."
 #define OPTION_VAL_352_SK "352 (predvolené)"
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_SK NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SK NULL
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_SK "Počiatočný riadok"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_SK "Prvý vyrenderovaný riadok. Vyššie hodnoty orežú vrchnú časť obrazu."
 #define OPTION_VAL_3_SK "3 (predvolené)"
-#define PCE_FAST_LAST_SCANLINE_LABEL_SK NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_SK NULL
+#define PCE_FAST_LAST_SCANLINE_LABEL_SK "Posledný viditeľný riadok"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_SK "Posledný vyrenderovaný riadok. Nižšie hodnoty orežú spodnú časť obrazu."
 #define OPTION_VAL_242_SK "242 (predvolené)"
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SK NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SK NULL
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 0 %"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 0."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 1 %"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 1."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 2 %"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 2."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 3 %"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 3."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 4 %"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 4."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_SK "Hlasitosť PSG zvukového kanála 5 %"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_SK "Upraviť hlasitosť PSG zvukového kanála 5."
 #define PCE_FAST_MOUSE_SENSITIVITY_LABEL_SK "Citlivosť myši"
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SK NULL
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_SK "Vyššie hodnoty spôsobia, že sa kurzor myši bude pohybovať rýchlejšie."
 #define OPTION_VAL_0_25_SK NULL
 #define OPTION_VAL_0_50_SK NULL
 #define OPTION_VAL_0_75_SK NULL
@@ -29352,30 +29352,30 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_4_50_SK NULL
 #define OPTION_VAL_4_75_SK NULL
 #define OPTION_VAL_5_00_SK NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SK NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_SK "Vypnúť mäkký reset (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_SK "Pri súčasnom stlačení RUN a SELECT dočasne vypne obe tlačidlá namiesto resetu."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_SK "Alternatívny hotkey turba"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_SK "Vyberte, či má joypad portu 1 mať predvolene 2 alebo 6 tlačidiel. Táto možnosť sa použije len pri spustení jadra; ak chcete prepnúť počas behu, použite tlačidlo 'Mode Switch'. POZN.: Joypad so 6 tlačidlami môže mať v nekompatibilných hrách čudné správanie."
 #define OPTION_VAL_2_BUTTONS_SK "2 tlačidlá"
 #define OPTION_VAL_6_BUTTONS_SK "6 tlačidiel"
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_SK NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_SK NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SK NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SK NULL
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_SK "Predvolený typ joypadu P2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_SK "Vyberte, či má joypad portu 2 mať predvolene 2 alebo 6 tlačidiel. Táto možnosť sa použije len pri spustení jadra; ak chcete prepnúť počas behu, použite tlačidlo 'Mode Switch'. POZN.: Joypad so 6 tlačidlami môže mať v nekompatibilných hrách čudné správanie."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_SK "Predvolený typ joypadu P3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_SK "Vyberte, či má joypad portu 3 mať predvolene 2 alebo 6 tlačidiel. Táto možnosť sa použije len pri spustení jadra; ak chcete prepnúť počas behu, použite tlačidlo 'Mode Switch'. POZN.: Joypad so 6 tlačidlami môže mať v nekompatibilných hrách čudné správanie."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_SK "Predvolený typ joypadu P4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_SK "Vyberte, či má joypad portu 4 mať predvolene 2 alebo 6 tlačidiel. Táto možnosť sa použije len pri spustení jadra; ak chcete prepnúť počas behu, použite tlačidlo 'Mode Switch'. POZN.: Joypad so 6 tlačidlami môže mať v nekompatibilných hrách čudné správanie."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_SK "Predvolený typ joypadu P5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_SK "Vyberte, či má joypad portu 5 mať predvolene 2 alebo 6 tlačidiel. Táto možnosť sa použije len pri spustení jadra; ak chcete prepnúť počas behu, použite tlačidlo 'Mode Switch'. POZN.: Joypad so 6 tlačidlami môže mať v nekompatibilných hrách čudné správanie."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_SK "Prepínač turba"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_SK "Zapnúť hotkey na prepínanie turba (tlačidlá III a IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_SK "Alternatívny hotkey turba"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_SK "Priradí tlačidlá L3/R3 RetroPadu ako hotkey pre prepínanie turba namiesto tlačidiel III a IV. Funguje len ak nie je nič priradené k tlačidlám L3/R3. Vďaka tomu sa pri prepnutí na 6-tlačidlový režim ovládača vyhnete remappingu tlačidiel III a IV."
 #define PCE_FAST_TURBO_DELAY_LABEL_SK "Trvanie Turbo"
-#define PCE_FAST_TURBO_DELAY_INFO_0_SK NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_SK NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_SK NULL
-#define PCE_FAST_CDBIOS_LABEL_SK NULL
-#define PCE_FAST_CDBIOS_INFO_0_SK NULL
+#define PCE_FAST_TURBO_DELAY_INFO_0_SK "Upraviť čas medzi turbo paľbou (v snímkoch)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_SK "Vyrovnávacia pamäť obrazu CD (vyžaduje reštart)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_SK "Načítať celý obraz do pamäte pri spustení. Môže potenciálne znížiť časy načítania na úkor zvýšeného času spustenia."
+#define PCE_FAST_CDBIOS_LABEL_SK "CD BIOS (vyžaduje reštart)"
+#define PCE_FAST_CDBIOS_INFO_0_SK "Väčšina hier môže bežať na 'System Card 3'. 'Games Express' je potrebný pre niekoľko nelicencovaných hier."
 #define OPTION_VAL_GAMES_EXPRESS_SK NULL
 #define OPTION_VAL_SYSTEM_CARD_1_SK "Systémová karta 1"
 #define OPTION_VAL_SYSTEM_CARD_2_SK "Systémová karta 2"
@@ -29384,25 +29384,25 @@ struct retro_core_options_v2 options_ru = {
 #define OPTION_VAL_SYSTEM_CARD_3_US_SK "Systémová karta 3 US"
 #define PCE_FAST_CDSPEED_LABEL_SK "(CD) CD rýchlosť"
 #define PCE_FAST_CDSPEED_LABEL_CAT_SK "CD rýchlosť"
-#define PCE_FAST_CDSPEED_INFO_0_SK NULL
+#define PCE_FAST_CDSPEED_INFO_0_SK "Vyššie hodnoty umožňujú rýchlejšie časy načítania, ale môžu spôsobiť problémy v niektorých hrách."
 #define OPTION_VAL_1_SK NULL
 #define OPTION_VAL_2_SK NULL
 #define OPTION_VAL_4_SK NULL
 #define OPTION_VAL_8_SK NULL
 #define PCE_FAST_ADPCMVOLUME_LABEL_SK "(CD) ADPCM hlasitosť %"
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SK "ADPCM hlasitosť %"
-#define PCE_FAST_ADPCMVOLUME_INFO_0_SK NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_SK NULL
+#define PCE_FAST_ADPCMVOLUME_INFO_0_SK "Iba CD hry. Príliš vysoké nastavenie tejto hlasitosti môže spôsobiť orezanie vzoriek."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_SK "Príliš vysoké nastavenie tejto hlasitosti môže spôsobiť orezanie vzoriek."
 #define PCE_FAST_CDDAVOLUME_LABEL_SK "(CD) CDDA hlasitosť %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SK "CDDA hlasitosť %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SK "(CD) PSG hlasitosť %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SK "CD PSG hlasitosť %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_SK NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_SK NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_SK NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_SK NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_SK NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_SK NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_SK "Ignorovať chyby CD EDC/L-EC"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_SK "Ignorovať chyby EDC/L-EC. Potrebné na kompatibilitu s niektorými hackmi."
+#define PCE_FAST_NOSPRITELIMIT_LABEL_SK "Žiadny limit spritu"
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_SK "Odstrániť hardvérový limit 16 spritov na riadok. UPOZORNENIE: Môže spôsobiť grafické chyby v niektorých hrách."
+#define PCE_FAST_OCMULTIPLIER_LABEL_SK "Násobič pretaktovania CPU (vyžaduje reštart)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_SK "Vyššie hodnoty môžu znížiť spomalenia v hrách. UPOZORNENIE: Môže spôsobiť grafické chyby a pády."
 
 struct retro_core_option_v2_category option_cats_sk[] = {
    {
