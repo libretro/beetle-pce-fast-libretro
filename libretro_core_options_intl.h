@@ -18109,21 +18109,21 @@ struct retro_core_options_v2 options_he = {
 #define PCE_FAST_PALETTE_INFO_0_HR NULL
 #define OPTION_VAL_RGB_HR NULL
 #define OPTION_VAL_COMPOSITE_HR NULL
-#define PCE_FAST_FRAMESKIP_LABEL_HR NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_HR NULL
+#define PCE_FAST_FRAMESKIP_LABEL_HR "Preskakanje sličica"
+#define PCE_FAST_FRAMESKIP_INFO_0_HR "Preskočite sličice kako biste izbjegli pražnjenje audio međuspremnika (pucketanje). Poboljšava performanse na štetu glatkoće prikaza. 'Automatski' preskače sličice prema preporuci sučelja. 'Ručno' koristi postavku 'Prag preskakanja sličica (%)'."
 #define OPTION_VAL_AUTO_HR NULL
 #define OPTION_VAL_MANUAL_HR NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HR NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HR NULL
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_HR "Prag preskakanja sličica (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_HR "Kada je 'Preskakanje sličica' postavljeno na 'Ručno', određuje prag popunjenosti audio međuspremnika (postotak) ispod kojeg će se sličice preskakati. Više vrijednosti smanjuju rizik od pucketanja uzrokujući češće odbacivanje sličica."
 #define OPTION_VAL_33_HR NULL
 #define PCE_FAST_HOVERSCAN_LABEL_HR NULL
 #define PCE_FAST_HOVERSCAN_INFO_0_HR NULL
 #define OPTION_VAL_352_HR NULL
 #define PCE_FAST_INITIAL_SCANLINE_LABEL_HR NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_HR NULL
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_HR "Prva iscrtana linija. Više vrijednosti odsjeći će vrh slike."
 #define OPTION_VAL_3_HR NULL
 #define PCE_FAST_LAST_SCANLINE_LABEL_HR NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_HR NULL
+#define PCE_FAST_LAST_SCANLINE_INFO_0_HR "Zadnja iscrtana linija. Niže vrijednosti odsjeći će dno slike."
 #define OPTION_VAL_242_HR NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_HR NULL
 #define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_HR NULL
