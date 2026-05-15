@@ -21648,8 +21648,8 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_JA "CD PSG 音量 %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_JA NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_JA NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_JA "CD は EDC/L-EC エラーを無視する"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_JA "EDC/L-EC エラーを無視する。一部のハックとの互換性のために必要。"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_JA "スプライト制限なし"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_JA "16 スプライト/スキャンラインのハードウェア制限を解除します。警告: ゲームによってはグラフィックが乱れる可能性があります。"
 #define PCE_FAST_OCMULTIPLIER_LABEL_JA "CPU オーバークロック倍率 (再起動が必要)"
@@ -23278,7 +23278,7 @@ struct retro_core_options_v2 options_ko = {
 #define PCE_FAST_FRAMESKIP_LABEL_NL NULL
 #define PCE_FAST_FRAMESKIP_INFO_0_NL NULL
 #define OPTION_VAL_AUTO_NL "Automatisch"
-#define OPTION_VAL_MANUAL_NL NULL
+#define OPTION_VAL_MANUAL_NL "Handmatig"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_NL NULL
 #define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_NL NULL
 #define OPTION_VAL_33_NL NULL
@@ -28536,8 +28536,8 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_RU "Громкость CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_RU "Громкость PSG (%)"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_RU NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_RU NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_RU "Игнорировать ошибки EDC/L-EC"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_RU "Игнорировать ошибки EDC/L-EC. Необходима для совместимости с некоторыми хаками."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_RU "Без ограничения спрайтов"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_RU "Снимает аппаратное ограничение в 16 спрайтов на линии развёртки. ВНИМАНИЕ: в некоторых играх может вызывать графические баги."
 #define PCE_FAST_OCMULTIPLIER_LABEL_RU "Множитель разгона CPU (требуется перезапуск)"
