@@ -28537,7 +28537,7 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_RU "Громкость PSG (%)"
 #define PCE_FAST_CDIGNOREERRORS_LABEL_RU "Игнорировать ошибки EDC/L-EC"
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_RU "Игнорировать ошибки EDC/L-EC. Необходима для совместимости с некоторыми хаками."
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_RU "Игнорировать ошибки EDC/L-EC. Требуется для совместимости с отдельными хаками."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_RU "Без ограничения спрайтов"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_RU "Снимает аппаратное ограничение в 16 спрайтов на линии развёртки. ВНИМАНИЕ: в некоторых играх может вызывать графические баги."
 #define PCE_FAST_OCMULTIPLIER_LABEL_RU "Множитель разгона CPU (требуется перезапуск)"
