@@ -58,11 +58,22 @@ static int32_t smem_write(StateMem *st, void *buffer, uint32_t len)
       /* Don't realloc data_frontend memory */
       if (st->data == st->data_frontend && st->data != NULL )
       {
-         st->data = (uint8_t *)malloc(newsize);
-         memcpy(st->data, st->data_frontend, st->malloced);
+         uint8_t *new_data = (uint8_t *)malloc(newsize);
+         if (!new_data)
+            return 0;
+         memcpy(new_data, st->data_frontend, st->malloced);
+         st->data = new_data;
       }
       else
-         st->data = (uint8_t *)realloc(st->data, newsize);
+      {
+         /* realloc(p, n) returning NULL leaves the original block allocated;
+          * assigning it directly to st->data would both leak that block and
+          * NULL-deref in the memcpy below. */
+         uint8_t *new_data = (uint8_t *)realloc(st->data, newsize);
+         if (!new_data)
+            return 0;
+         st->data = new_data;
+      }
 
       st->malloced = newsize;
    }

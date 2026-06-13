@@ -953,7 +953,11 @@ static int HuCLoad(const uint8 *data, uint32 len, uint32 crc32)
       HuCPU.PCERead[x] = HuCRead;
    }
 
-   if(!memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
+   /* m_len always rounds up to a minimum of 8192, which exceeds the read
+    * window (0x1F26 + 8), so this is in bounds for any non-empty ROM; the
+    * explicit length check makes that safety independent of the rounding. */
+   if(m_len >= (0x1F26 + 8) &&
+      !memcmp(HuCROM + 0x1F26, "POPULOUS", strlen("POPULOUS")))
    {
       uint8 *PopRAM = ROMSpace + 0x40 * 8192;
 
@@ -1030,6 +1034,11 @@ static void LoadCommonPre(void)
 
    // FIXME:  Make these globals less global!
    pce_overclocked = MDFN_GetSettingUI("pce_fast.ocmultiplier");
+   /* pce_overclocked is used as a divisor (timestamp / pce_overclocked) in
+    * several hot paths; a hand-edited config supplying 0 would divide by
+    * zero. Clamp defensively. */
+   if (pce_overclocked < 1)
+      pce_overclocked = 1;
    PCE_ACEnabled   = MDFN_GetSettingB("pce_fast.arcadecard");
 
    for(x = 0; x < 0x100; x++)
@@ -1144,9 +1153,18 @@ static int HuCLoadCD(const char *bios_path)
       return(0);
    }
 
-   memset(ROMSpace, 0xFF, 262144);
+   {
+      /* A 512-byte copier header is present when the file size is an odd
+       * multiple of 512 within the 0x200 bit. Skipping it requires
+       * subtracting 512 from the size and offsetting the data pointer, not
+       * clearing bit 9 (which only happens to match for some sizes). */
+      int64_t hdr      = (fp->size & 512) ? 512 : 0;
+      int64_t body     = fp->size - hdr;
+      size_t  copy_len = (body > 262144) ? 262144 : (size_t)body;
 
-   memcpy(ROMSpace, fp->data + (fp->size & 512), ((fp->size & ~512) > 262144) ? 262144 : (fp->size &~ 512) );
+      memset(ROMSpace, 0xFF, 262144);
+      memcpy(ROMSpace, fp->data + hdr, copy_len);
+   }
 
    if (fp)
       file_close(fp);
@@ -1404,7 +1422,7 @@ static void ReadM3U(std::vector<std::string> &file_list, std::string path, unsig
             goto end;
          }
 
-         ReadM3U(file_list, efp, depth++);
+         ReadM3U(file_list, efp, depth + 1);
       }
       else
          file_list.push_back(efp);
@@ -1438,7 +1456,19 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
       for(unsigned i = 0; i < file_list.size(); i++)
       {
          CDIF *cdif = CDIF_Open(file_list[i].c_str(), cdimagecache);
+
+         /* Do not push NULL interfaces into the vector: they would be
+          * dereferenced by LoadCD()/PCECD_Drive_SetDisc() and deleted on
+          * cleanup. */
+         if (!cdif)
+         {
+            log_cb(RETRO_LOG_ERROR, "Error opening CD referenced by M3U: %s\n",
+                  file_list[i].c_str());
+            continue;
+         }
+
          CDInterfaces.push_back(cdif);
+         ret = true;
       }
    }
    else
@@ -2443,10 +2473,14 @@ void retro_deinit(void)
 
    if (log_cb)
    {
-      log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
-      log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
-            MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
+      /* Guard against division by zero if the core was loaded but
+       * retro_run() was never invoked (video_frames/audio_frames == 0). */
+      if (video_frames)
+         log_cb(RETRO_LOG_INFO, "[%s]: Samples / Frame: %.5f\n",
+               MEDNAFEN_CORE_NAME, (double)audio_frames / video_frames);
+      if (audio_frames)
+         log_cb(RETRO_LOG_INFO, "[%s]: Estimated FPS: %.5f\n",
+               MEDNAFEN_CORE_NAME, (double)video_frames * 44100 / audio_frames);
    }
 
    libretro_supports_option_categories = false;
@@ -2670,7 +2704,9 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
       return;
 
    sprintf(name, "N/A");
-   strcpy(temp, code);
+   /* code originates from the frontend and may be arbitrarily long; a plain
+    * strcpy into a 256-byte stack buffer is a buffer overflow. */
+   strlcpy(temp, code, sizeof(temp));
    codepart = strtok(temp, "+,;._ ");
 
    while (codepart)
@@ -2738,6 +2774,9 @@ extern "C" void MDFN_DispMessage(const char *format, ...)
    struct retro_message msg;
    const char *strc = NULL;
    char *str        = (char*)malloc(4096 * sizeof(char));
+
+   if (!str)
+      return;
 
    va_start(ap,format);
 

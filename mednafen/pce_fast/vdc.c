@@ -859,8 +859,17 @@ void VDC_RunFrame(EmulateSpecStruct *espec, bool IsHES)
       fc_vrm = (frame_counter >= 14 && frame_counter < (14 + 242 + 1));
 
       {
+         /* DrawBG() writes ceil((end-start + (BG_XOffset&7)) / 8) * 8 bytes,
+          * which for the maximal HDW (0x7F -> (0x7F+1)*8 = 1024) plus the up
+          * to 7-byte fine-scroll lead-in rounds up to 1032 bytes. */
          MDFN_ALIGN(8) uint8 bg_linebuf[8 + 1024];
-         MDFN_ALIGN(8) uint16 spr_linebuf[16 + 1024];
+         /* spr_linebuf is addressed at +0x20 (32 uint16) for the sprite
+          * lead-in, after which DrawSprites()/the clear write up to (end-start)
+          * == 1024 uint16. The previous [16 + 1024] sizing was 16 elements
+          * short of 0x20 + 1024, allowing a 32-byte stack overflow at maximal
+          * HDW. Size it to 0x20 + 1024 (plus 16 slop for the 16-wide sprite
+          * blit that can start at pos == end). */
+         MDFN_ALIGN(8) uint16 spr_linebuf[0x20 + 1024 + 16 + 16];
 
          uint16 *target_ptr16 = surface->pixels + (frame_counter - 14) * surface->pitch;
 
