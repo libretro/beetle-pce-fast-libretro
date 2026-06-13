@@ -842,7 +842,7 @@ static DECLFW(IOWrite)
          break;
       case 2:
          PCEIODataBuffer = V;
-         psg->Write(HuCPU.timestamp / pce_overclocked, A, V);
+         PCEFast_PSG_Write(psg, HuCPU.timestamp / pce_overclocked, A, V);
          break;
       case 3:
          PCEIODataBuffer = V;
@@ -1072,15 +1072,15 @@ static int LoadCommon(void)
 
    HuCPU.PCEWrite[0xFF] = IOWrite;
 
-   psg = new PCEFast_PSG(&sbuf[0], &sbuf[1]);
+   psg = PCEFast_PSG_new(&sbuf[0], &sbuf[1]);
 
-   psg->SetVolume(1.0);
+   PCEFast_PSG_SetVolume(psg, 1.0);
 
    if(PCE_IsCD)
    {
       unsigned int cdpsgvolume = MDFN_GetSettingUI("pce_fast.cdpsgvolume");
 
-      psg->SetVolume(0.678 * cdpsgvolume / 100);
+      PCEFast_PSG_SetVolume(psg, 0.678 * cdpsgvolume / 100);
    }
 
    PCEINPUT_Init();
@@ -1241,7 +1241,7 @@ static void Cleanup_PCE(void)
    VDC_Close();
 
    if(psg)
-      delete psg;
+      PCEFast_PSG_free(psg);
    psg = NULL;
 }
 
@@ -1266,7 +1266,7 @@ static void Emulate(EmulateSpecStruct *espec)
   PCECD_Run(HuCPU.timestamp * 3);
  }
 
- psg->EndFrame(HuCPU.timestamp / pce_overclocked);
+ PCEFast_PSG_EndFrame(psg, HuCPU.timestamp / pce_overclocked);
 
  {
   uint8_t y;
@@ -1335,7 +1335,7 @@ extern "C" int StateAction(StateMem *sm, int load, int data_only)
 
    ret &= HuC6280_StateAction(sm, load, data_only);
    ret &= VDC_StateAction(sm, load, data_only);
-   ret &= psg->StateAction(sm, load, data_only);
+   ret &= PCEFast_PSG_StateAction(psg, sm, load, data_only);
    ret &= INPUT_StateAction(sm, load, data_only);
    ret &= HuC_StateAction(sm, load, data_only);
 
@@ -1353,7 +1353,7 @@ void PCE_Power(void)
 
  HuC6280_Power();
  VDC_Power();
- psg->Power(HuCPU.timestamp / pce_overclocked);
+ PCEFast_PSG_Power(psg, HuCPU.timestamp / pce_overclocked);
  HuC_Power();
 
  if(PCE_IsCD)
@@ -2148,7 +2148,7 @@ bool retro_load_game(const struct retro_game_info *info)
    }
    
    for (c = 0; c < 6; c++)
-       psg->SetChannelUserVolume(c, psg_channels_volume[c]);
+       PCEFast_PSG_SetChannelUserVolume(psg, c, psg_channels_volume[c]);
 
    mmaps.descriptors = descs;
    mmaps.num_descriptors = i;
@@ -2420,11 +2420,11 @@ void retro_run(void)
       unsigned c;
       check_variables(false);
       if(PCE_IsCD){
-         psg->SetVolume(0.678 * setting_pce_fast_cdpsgvolume / 100);
+         PCEFast_PSG_SetVolume(psg, 0.678 * setting_pce_fast_cdpsgvolume / 100);
       }
 
       for (c = 0; c < 6; c++)
-         psg->SetChannelUserVolume(c, psg_channels_volume[c]);
+         PCEFast_PSG_SetChannelUserVolume(psg, c, psg_channels_volume[c]);
 
       update_geometry(video_width, video_height);
    }

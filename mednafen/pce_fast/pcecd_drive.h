@@ -1,31 +1,48 @@
 #ifndef __PCEFAST_PCECD_Drive_H
 #define __PCEFAST_PCECD_Drive_H
 
+#include <boolean.h>
+
+#include "../mednafen-types.h"
+#include "../state.h"
 #include "../include/blip/Blip_Buffer.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef int32 pcecd_drive_timestamp_t;
 
+/* CDIF is an opaque type here (defined in the cdrom layer). C consumers
+ * only ever hold/pass CDIF pointers. In C++ the real definition is the
+ * class in cdromif.h, so only forward-declare for C to avoid a
+ * struct/class redeclaration clash. */
+#ifdef __cplusplus
 class CDIF;
+#else
+typedef struct CDIF CDIF;
+#endif
 
-struct pcecd_drive_bus_t
+typedef struct
 {
- // Data bus(FIXME: we should have a variable for the target and the initiator, and OR them together to be truly accurate).
+ /* Data bus (FIXME: we should have a variable for the target and the
+  * initiator, and OR them together to be truly accurate). */
  uint8 DB;
 
  uint32 signals;
-};
+} pcecd_drive_bus_t;
 
-extern pcecd_drive_bus_t cd_bus; // Don't access this structure directly by name outside of pcecd_drive.c, but use the macros below.
+extern pcecd_drive_bus_t cd_bus; /* Don't access this structure directly by name outside of pcecd_drive.c; use the macros below. */
 extern bool setting_pce_fast_cdignoreerrors;
 
-// Signals under our(the "target") control.
+/* Signals under our (the "target") control. */
 #define PCECD_Drive_IO_mask	0x001
 #define PCECD_Drive_CD_mask	0x002
 #define PCECD_Drive_MSG_mask	0x004
 #define PCECD_Drive_REQ_mask	0x008
 #define PCECD_Drive_BSY_mask	0x010
 
-// Signals under the control of the initiator(not us!)
+/* Signals under the control of the initiator (not us!) */
 #define PCECD_Drive_kingRST_mask	0x020
 #define PCECD_Drive_kingACK_mask	0x040
 #define PCECD_Drive_kingSEL_mask	0x100
@@ -48,7 +65,7 @@ extern bool setting_pce_fast_cdignoreerrors;
 #define PCECD_Drive_GetMSG() MSG_signal
 #define PCECD_Drive_GetREQ() REQ_signal
 
-// Should we phase out getting these initiator-driven signals like this(the initiator really should keep track of them itself)?
+/* Should we phase out getting these initiator-driven signals like this (the initiator really should keep track of them itself)? */
 #define PCECD_Drive_GetACK() ACK_signal
 #define PCECD_Drive_GetRST() RST_signal
 #define PCECD_Drive_GetSEL() SEL_signal
@@ -56,8 +73,9 @@ extern bool setting_pce_fast_cdignoreerrors;
 void PCECD_Drive_Power(pcecd_drive_timestamp_t system_timestamp);
 void PCECD_Drive_SetDB(uint8 data);
 
-// These PCECD_Drive_Set* functions are kind of misnomers, at least in comparison to the PCECD_Drive_Get* functions...
-// They will set/clear the bits corresponding to the KING's side of the bus.
+/* These PCECD_Drive_Set* functions are kind of misnomers, at least in
+ * comparison to the PCECD_Drive_Get* functions... They will set/clear the
+ * bits corresponding to the KING's side of the bus. */
 void PCECD_Drive_SetACK(bool set);
 void PCECD_Drive_SetSEL(bool set);
 void PCECD_Drive_SetRST(bool set);
@@ -79,9 +97,13 @@ void PCECD_Drive_Init(int CDDATimeDiv, Blip_Buffer *leftbuf, Blip_Buffer *rightb
 void PCECD_Drive_Close(void) MDFN_COLD;
 
 void PCECD_Drive_SetTransferRate(uint32 TransferRate);
-void PCECD_Drive_SetCDDAVolume(unsigned vol); // vol of 65536 = 1.0 = maximum.
+void PCECD_Drive_SetCDDAVolume(unsigned vol); /* vol of 65536 = 1.0 = maximum. */
 int PCECD_Drive_StateAction(StateMem *sm, int load, int data_only, const char *sname);
 
 void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects) MDFN_COLD;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

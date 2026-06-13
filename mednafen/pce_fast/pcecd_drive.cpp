@@ -146,7 +146,7 @@ static pcecd_drive_t cd;
 pcecd_drive_bus_t cd_bus;
 static cdda_t cdda;
 
-static SimpleFIFO din(2048);
+static SimpleFIFO din;
 
 static TOC toc;
 
@@ -175,7 +175,7 @@ static void ChangePhase(const unsigned int new_phase);
 
 static void VirtualReset(void)
 {
- din.Flush();
+ SimpleFIFO_Flush(&din);
 
  cdda.CDDADivAcc = (int64)System_Clock * 65536 / 44100;
  CDReadTimer = 0;
@@ -346,7 +346,7 @@ static void SendStatusAndMessage(uint8 status, uint8 message)
    if(din.in_count)
    {
       /* BUG: x bytes still in SCSI CD FIFO */
-      din.Flush();
+      SimpleFIFO_Flush(&din);
    }
 
    cd.message_pending = message;
@@ -366,7 +366,7 @@ static void SendStatusAndMessage(uint8 status, uint8 message)
 
 static void DoSimpleDataIn(const uint8 *data_in, uint32 len)
 {
- din.Write(data_in, len);
+ SimpleFIFO_Write(&din, data_in, len);
 
  cd.data_transfer_done = true;
 
@@ -421,7 +421,7 @@ static bool ValidateRawDataSector(uint8 *data, const uint32 lba)
      
  if(!c && !setting_pce_fast_cdignoreerrors)
  {
-    din.Flush();
+    SimpleFIFO_Flush(&din);
     cd.data_transfer_done = false;
 
     CommandCCError(SENSEKEY_MEDIUM_ERROR, AP_LEC_UNCORRECTABLE_ERROR);
@@ -936,7 +936,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 
       if(CDReadTimer <= 0)
       {
-         if(din.CanWrite() < 2048)
+         if(SimpleFIFO_CanWrite(&din) < 2048)
          {
             CDReadTimer += (uint64) 1 * 2048 * System_Clock / CD_DATA_TRANSFER_RATE;
          }
@@ -946,7 +946,7 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
 
             if(cd.TrayOpen)
             {
-               din.Flush();
+               SimpleFIFO_Flush(&din);
                cd.data_transfer_done = false;
 
                CommandCCError(SENSEKEY_NOT_READY, NSE_TRAY_OPEN);
@@ -966,9 +966,9 @@ static INLINE void RunCDRead(uint32 system_timestamp, int32 run_time)
                memcpy(cd.SubPWBuf, tmp_read_buf + 2352, 96);
 
                if(tmp_read_buf[12 + 3] == 0x2)
-                  din.Write(tmp_read_buf + 24, 2048);
+                  SimpleFIFO_Write(&din, tmp_read_buf + 24, 2048);
                else
-                  din.Write(tmp_read_buf + 16, 2048);
+                  SimpleFIFO_Write(&din, tmp_read_buf + 16, 2048);
 
                GenSubQFromSubPW();
 
@@ -1110,7 +1110,7 @@ uint32 PCECD_Drive_Run(pcecd_drive_timestamp_t system_timestamp)
             }
             else
             {
-               cd_bus.DB = din.ReadUnit();
+               cd_bus.DB = SimpleFIFO_ReadUnit(&din);
                SetREQ(true);
             }
          }
@@ -1163,7 +1163,7 @@ void PCECD_Drive_SetTransferRate(uint32 TransferRate)
 
 void PCECD_Drive_Close(void)
 {
-
+ SimpleFIFO_Deinit(&din);
 }
 
 void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *rightbuf, uint32 TransferRate, uint32 SystemClock, void (*IRQFunc)(int), void (*SSCFunc)(uint8, int))
@@ -1174,7 +1174,9 @@ void PCECD_Drive_Init(int cdda_time_div, Blip_Buffer *leftbuf, Blip_Buffer *righ
  monotonic_timestamp = 0;
  lastts = 0;
 
- //din = new SimpleFIFO(2048);
+ /* din's buffer was allocated by the C++ ctor at static init; allocate it
+  * explicitly now (capacity 2048, a power of two). */
+ SimpleFIFO_Init(&din, 2048);
  
  cdda.CDDATimeDiv = cdda_time_div;
 

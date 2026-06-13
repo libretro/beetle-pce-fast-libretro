@@ -2,6 +2,7 @@
 #define _STATE_H
 
 #include <stdint.h>
+#include <boolean.h>
 
 /* Flag for a single, >= 1 byte native-endian variable */
 #define MDFNSTATE_RLSB            0x80000000

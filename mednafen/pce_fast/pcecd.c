@@ -45,7 +45,7 @@ static bool	bBRAMEnabled;
 static uint8	_Port[15];
 static uint8 	ACKStatus;
 
-static SimpleFIFO SubChannelFIFO(16);
+static SimpleFIFO SubChannelFIFO;
 
 static Blip_Buffer *sbuf[2];
 static int16 RawPCMVolumeCache[2];
@@ -57,7 +57,7 @@ static int32 pcecd_drive_ne = 0;
 
 typedef Blip_Synth ADSynth;
 static ADSynth ADPCMSynth;
-static OKIADPCM_Decoder<OKIADPCM_MSM5205> MSM5205;
+static OKIADPCM_Decoder MSM5205;
 
 static bool ADPCMLP;
 typedef struct
@@ -155,7 +155,7 @@ static int32 CalcNextEvent(int32 base)
    return(next_event);
 }
 
-static void update_irq_state()
+static void update_irq_state(void)
 {
         uint8           irq = _Port[2] & _Port[0x3] & (0x4|0x8|0x10|0x20|0x40);
 
@@ -171,8 +171,8 @@ static void StuffSubchannel(uint8 meow, int subindex)
    else if(subindex == -1)
       tmp_data = 0x80;
 
-   if(SubChannelFIFO.CanWrite())
-      SubChannelFIFO.Write(&tmp_data, 1);
+   if(SimpleFIFO_CanWrite(&SubChannelFIFO))
+      SimpleFIFO_Write(&SubChannelFIFO, &tmp_data, 1);
 
    _Port[0x3] |= 0x10;
    update_irq_state();
@@ -251,6 +251,11 @@ bool PCECD_Init(const PCECD_Settings *settings, void (*irqcb)(bool), double mast
    sbuf[0] = soundbuf_l;
    sbuf[1] = soundbuf_r;
 
+   /* The SubChannelFIFO buffer was allocated by the C++ ctor at static
+    * init; allocate it explicitly now (capacity 16, a power of two). */
+   if(!SimpleFIFO_Init(&SubChannelFIFO, 16))
+      return(0);
+
    // Warning: magic number 126000 in PCECD_SetSettings() too
    PCECD_Drive_Init(3 * OC_Multiplier, sbuf[0], sbuf[1], 126000 * (settings ? settings->CD_Speed : 1), master_clock * OC_Multiplier, CDIRQ, StuffSubchannel);
 
@@ -272,6 +277,7 @@ void PCECD_Close(void)
    if(ADPCM.RAM)
       free(ADPCM.RAM);
    ADPCM.RAM = NULL;
+   SimpleFIFO_Deinit(&SubChannelFIFO);
    PCECD_Drive_Close();
 }
 
@@ -298,8 +304,8 @@ void PCECD_Power(uint32 timestamp)
    ADPCM.PlayBuffer = 0;
 
    ADPCM.LastCmd = 0;
-   MSM5205.SetSample(0x800);
-   MSM5205.SetSSI(0);
+   OKIADPCM_SetSample(&MSM5205, 0x800);
+   OKIADPCM_SetSSI(&MSM5205, 0);
 
    ADPCM.SampleFreq = 0;
    ADPCM.LPF_SampleFreq = 0;
@@ -391,7 +397,7 @@ uint8 PCECD_Read(uint32 timestamp, uint32 A)
 
          case 0x7:
                    if(SubChannelFIFO.in_count > 0)
-                      ret = SubChannelFIFO.ReadUnit();
+                      ret = SimpleFIFO_ReadUnit(&SubChannelFIFO);
                    else
                       ret = 0x00;	// Not sure if it's 0, 0xFF, the last byte read, or something else.
 
@@ -567,8 +573,8 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
 
             UpdateADPCMIRQState();
 
-            MSM5205.SetSample(0x800);
-            MSM5205.SetSSI(0);
+            OKIADPCM_SetSample(&MSM5205, 0x800);
+            OKIADPCM_SetSSI(&MSM5205, 0);
             break;
          }
 
@@ -581,8 +587,8 @@ void PCECD_Write(uint32 timestamp, uint32 physAddr, uint8 data)
             ADPCM.Playing = true;
             ADPCM.HalfReached = false;	// Not sure about this.
             ADPCM.PlayNibble = 0;
-            MSM5205.SetSample(0x800);
-            MSM5205.SetSSI(0);
+            OKIADPCM_SetSample(&MSM5205, 0x800);
+            OKIADPCM_SetSSI(&MSM5205, 0);
          }
 
          // Length appears to be constantly latched when D4 is set(tested on a real system)
@@ -679,13 +685,14 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
          int32 pcm;
          uint8 nibble;
 
+         uint32 synthtime;
          nibble = (ADPCM.PlayBuffer >> (ADPCM.PlayNibble ^ 4)) & 0x0F;
-         pcm = MSM5205.Decode(nibble) - 2048;
+         pcm = OKIADPCM_Decode(&MSM5205, nibble) - 2048;
 
          ADPCM.PlayNibble ^= 4;
 
          pcm = (pcm * ADPCMFadeVolume) >> 8;
-         uint32 synthtime = ((basetime + (ADPCM.bigdiv >> 16))) / (3 * OC_Multiplier);
+         synthtime = ((basetime + (ADPCM.bigdiv >> 16))) / (3 * OC_Multiplier);
 
          if(sbuf[0] && sbuf[1])
          {
@@ -759,7 +766,7 @@ static INLINE void ADPCM_Run(const int32 clocks, const int32 timestamp)
    UpdateADPCMIRQState();
 }
 
-extern "C" void PCECD_Run(uint32 in_timestamp)
+void PCECD_Run(uint32 in_timestamp)
 {
    int32 clocks = in_timestamp - lastts;
    int32 running_ts = lastts;
@@ -804,8 +811,8 @@ void PCECD_ResetTS(void)
 
 static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
 {
-   uint32 ad_sample = MSM5205.GetSample();
-   int32  ad_ref_index = MSM5205.GetSSI();
+   uint32 ad_sample = OKIADPCM_GetSample(&MSM5205);
+   int32  ad_ref_index = OKIADPCM_GetSSI(&MSM5205);
 
    SFORMAT StateRegs[] =
    {
@@ -840,8 +847,8 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
    int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "APCM", false);
    if(load)
    {
-      MSM5205.SetSample(ad_sample);
-      MSM5205.SetSSI(ad_ref_index);
+      OKIADPCM_SetSample(&MSM5205, ad_sample);
+      OKIADPCM_SetSSI(&MSM5205, ad_ref_index);
    }
    return(ret);
 }
