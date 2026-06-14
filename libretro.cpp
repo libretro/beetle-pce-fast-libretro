@@ -624,12 +624,12 @@ uint8 MemRead(uint32 addr)
 
 static DECLFW(ACPhysWrite)
 {
-   arcade_card->PhysWrite(A, V);
+   ArcadeCard_PhysWrite(arcade_card, A, V);
 }
 
 static DECLFR(ACPhysRead)
 {
-   return(arcade_card->PhysRead(A, false));
+   return(ArcadeCard_PhysRead(arcade_card, A, false));
 }
 
 static DECLFR(SaveRAMRead)
@@ -809,7 +809,7 @@ static DECLFR(IORead)
       if((A & 0x1E00) == 0x1A00)
       {
          if(arcade_card)
-            return(arcade_card->Read(A & 0x1FFF, false));
+            return(ArcadeCard_Read(arcade_card, A & 0x1FFF, false));
          return(0);
       }
       return(PCECD_Read(HuCPU.timestamp * 3, A));
@@ -863,7 +863,7 @@ static DECLFW(IOWrite)
          if((A & 0x1E00) == 0x1A00)
          {
             if(arcade_card)
-               arcade_card->Write(A & 0x1FFF, V);
+               ArcadeCard_Write(arcade_card, A & 0x1FFF, V);
          }
          else
             PCECD_Write(HuCPU.timestamp * 3, A, V);
@@ -1131,7 +1131,7 @@ static std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1)
 static void Cleanup(void)
 {
    if(arcade_card)
-      delete arcade_card;
+      ArcadeCard_free(arcade_card);
    arcade_card = NULL;
 
    if(PCE_IsCD)
@@ -1190,7 +1190,7 @@ static int HuCLoadCD(const char *bios_path)
 
    if(PCE_ACEnabled)
    {
-      if (!(arcade_card = new ArcadeCard()))
+      if (!(arcade_card = ArcadeCard_new()))
       {
          Cleanup();
          return(0);
@@ -1307,7 +1307,7 @@ int HuC_StateAction(StateMem *sm, int load, int data_only)
   ret &= PCECD_StateAction(sm, load, data_only);
 
   if(arcade_card)
-   ret &= arcade_card->StateAction(sm, load, data_only);
+   ret &= ArcadeCard_StateAction(arcade_card, sm, load, data_only);
  }
  return(ret);
 }
@@ -1318,7 +1318,7 @@ void HuC_Power(void)
   memset(ROMSpace + 0x68 * 8192, 0x00, 262144);
 
  if(arcade_card)
-  arcade_card->Power();
+  ArcadeCard_Power(arcade_card);
 }
 
 

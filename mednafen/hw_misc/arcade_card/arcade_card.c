@@ -14,10 +14,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/* 
+/*
  Arcade Card emulation based on information provided by Ki and David Shadoff
 */
 
+#include <stdlib.h>
 #include <string.h>
 
 #include "../../mednafen-types.h"
@@ -36,13 +37,13 @@ static INLINE void ACAutoIncrement(ACPort_t *port)
  }
 }
 
-uint8 ArcadeCard::Read(uint32 A, bool peek)
+uint8 ArcadeCard_Read(ArcadeCard *ac, uint32 A, bool peek)
 {
  if((A & 0x1F00) != 0x1A00)
   return(0xFF);
  if(A < 0x1A80)
  {
-  ACPort_t *port = &AC.ports[(A >> 4) & 0x3];
+  ACPort_t *port = &ac->AC.ports[(A >> 4) & 0x3];
 
   switch(A & 0xF)
   {
@@ -60,7 +61,7 @@ uint8 ArcadeCard::Read(uint32 A, bool peek)
                 aci += 0xFF0000;
 	      }
 	      aci &= 0x1FFFFF;
-	      ret = ACRAM[aci];
+	      ret = ac->ACRAM[aci];
 	      if(!peek)
                ACAutoIncrement(port);
               return(ret);
@@ -84,37 +85,37 @@ uint8 ArcadeCard::Read(uint32 A, bool peek)
    case 0x00:
    case 0x01:
    case 0x02:
-   case 0x03: return((AC.shift_latch >> (A & 3) * 8) & 0xFF);
+   case 0x03: return((ac->AC.shift_latch >> (A & 3) * 8) & 0xFF);
 
-   case 0x04: return(AC.shift_bits);
+   case 0x04: return(ac->AC.shift_bits);
 
-   case 0x05: return(AC.rotate_bits);
+   case 0x05: return(ac->AC.rotate_bits);
 
    case 0x1C: return(0x00);
 
    case 0x1D: return(0x00);
 
-   case 0x1E: return(0x10); // Version number.  We should verify this!
+   case 0x1E: return(0x10); /* Version number.  We should verify this! */
 
-   case 0x1F: return(0x51); // Arcade Card ID
+   case 0x1F: return(0x51); /* Arcade Card ID */
   }
  }
 
  return(0xFF);
 }
 
-void ArcadeCard::Write(uint32 A, uint8 V)
+void ArcadeCard_Write(ArcadeCard *ac, uint32 A, uint8 V)
 {
  if((A & 0x1F00) != 0x1A00)
   return;
 
  if(A < 0x1A80)
  {
-  ACPort_t *port = &AC.ports[(A >> 4) & 0x3];
+  ACPort_t *port = &ac->AC.ports[(A >> 4) & 0x3];
 
   switch(A & 0xF)
   {
-   default:   
+   default:
 	      break;
 
    case 0x00:
@@ -131,8 +132,8 @@ void ArcadeCard::Write(uint32 A, uint8 V)
               }
               aci &= 0x1FFFFF;
 
-              ACRAMUsed = true;
-              ACRAM[aci] = V;
+              ac->ACRAMUsed = true;
+              ac->ACRAM[aci] = V;
               ACAutoIncrement(port);
 	     }
              break;
@@ -196,46 +197,46 @@ void ArcadeCard::Write(uint32 A, uint8 V)
  {
   switch(A & 0x1F)
   {
-   default: 
+   default:
 	    break;
 
    case 0x00:
    case 0x01:
    case 0x02:
-   case 0x03: AC.shift_latch &= ~(0xFF << (A & 3) * 8);
-              AC.shift_latch |= (V << (A & 3) * 8);
+   case 0x03: ac->AC.shift_latch &= ~(0xFF << (A & 3) * 8);
+              ac->AC.shift_latch |= (V << (A & 3) * 8);
               break;
 
-   case 0x04: AC.shift_bits = V & 0xF;
-              if(AC.shift_bits)
+   case 0x04: ac->AC.shift_bits = V & 0xF;
+              if(ac->AC.shift_bits)
               {
-               if(AC.shift_bits & 0x8)
-                AC.shift_latch >>= 16 - AC.shift_bits;
+               if(ac->AC.shift_bits & 0x8)
+                ac->AC.shift_latch >>= 16 - ac->AC.shift_bits;
                else
-                AC.shift_latch <<= AC.shift_bits;
+                ac->AC.shift_latch <<= ac->AC.shift_bits;
               }
               break;
 
-   case 0x05: AC.rotate_bits = V & 0xF;	// Untested code follows:
-              if(AC.rotate_bits)
+   case 0x05: ac->AC.rotate_bits = V & 0xF;	/* Untested code follows: */
+              if(ac->AC.rotate_bits)
               {
-               if(AC.rotate_bits & 0x8)
+               if(ac->AC.rotate_bits & 0x8)
 	       {
-		unsigned int sa = 16 - AC.rotate_bits;
+		unsigned int sa = 16 - ac->AC.rotate_bits;
 		unsigned int orv;
 
-		orv = AC.shift_latch << (32 - sa);
+		orv = ac->AC.shift_latch << (32 - sa);
 
-                AC.shift_latch = (AC.shift_latch >> sa) | orv;
+                ac->AC.shift_latch = (ac->AC.shift_latch >> sa) | orv;
 	       }
                else
 	       {
-		unsigned int sa = AC.rotate_bits;
+		unsigned int sa = ac->AC.rotate_bits;
 		unsigned int orv;
 
-		orv = (AC.shift_latch >> (32 - sa)) & ((1 << sa) - 1);
+		orv = (ac->AC.shift_latch >> (32 - sa)) & ((1 << sa) - 1);
 
-                AC.shift_latch = (AC.shift_latch << sa) | orv;
+                ac->AC.shift_latch = (ac->AC.shift_latch << sa) | orv;
 	       }
               }
               break;
@@ -243,82 +244,92 @@ void ArcadeCard::Write(uint32 A, uint8 V)
  }
 }
 
-ArcadeCard::ArcadeCard(void)
+ArcadeCard *ArcadeCard_new(void)
 {
- ACRAMUsed = false;
- 
- memset(&AC, 0, sizeof(AC));
+ ArcadeCard *ac = (ArcadeCard *)calloc(1, sizeof(*ac));
 
- memset(ACRAM, 0, sizeof(ACRAM));
+ if(!ac)
+  return NULL;
+
+ ac->ACRAMUsed = false;
+
+ memset(&ac->AC, 0, sizeof(ac->AC));
+
+ memset(ac->ACRAM, 0, sizeof(ac->ACRAM));
+
+ return ac;
 }
 
-ArcadeCard::~ArcadeCard()
+void ArcadeCard_free(ArcadeCard *ac)
 {
-
+ if(ac)
+  free(ac);
 }
 
-void ArcadeCard::Power(void)
+void ArcadeCard_Power(ArcadeCard *ac)
 {
- memset(ACRAM, 0, 0x200000);
- ACRAMUsed = false;
+ memset(ac->ACRAM, 0, 0x200000);
+ ac->ACRAMUsed = false;
 }
 
-int ArcadeCard::StateAction(StateMem *sm, int load, int data_only)
+int ArcadeCard_StateAction(ArcadeCard *ac, StateMem *sm, int load, int data_only)
 {
- SFORMAT ACUsedRegs[] = 
+ int ret;
+ SFORMAT ACUsedRegs[] =
  {
-  SFVAR_BOOL(ACRAMUsed),
+  SFVAR_BOOL(ac->ACRAMUsed),
   SFEND
  };
 
  if(!MDFNSS_StateAction(sm, load, data_only, ACUsedRegs, "ArcadeCardUsed", false))
   return(0);
 
- SFORMAT ACStateRegs[] =
  {
-  SFVARN(AC.ports[0].base, "AC[0].base"),
-  SFVARN(AC.ports[0].offset, "AC[0].offset"),
-  SFVARN(AC.ports[0].increment, "AC[0].increment"),
-  SFVARN(AC.ports[0].control, "AC[0].control"),
-  SFVARN(AC.ports[1].base, "AC[1].base"),
-  SFVARN(AC.ports[1].offset, "AC[1].offset"),
-  SFVARN(AC.ports[1].increment, "AC[1].increment"),
-  SFVARN(AC.ports[1].control, "AC[1].control"),
-  SFVARN(AC.ports[2].base, "AC[2].base"),
-  SFVARN(AC.ports[2].offset, "AC[2].offset"),
-  SFVARN(AC.ports[2].increment, "AC[2].increment"),
-  SFVARN(AC.ports[2].control, "AC[2].control"),
-  SFVARN(AC.ports[3].base, "AC[3].base"),
-  SFVARN(AC.ports[3].offset, "AC[3].offset"),
-  SFVARN(AC.ports[3].increment, "AC[3].increment"),
-  SFVARN(AC.ports[3].control, "AC[3].control"),
-  SFVARN(AC.shift_bits, "ACShiftBits"),
-  SFVARN(AC.shift_latch, "ACShift"),
-  SFVARN(AC.rotate_bits, "ACRotateBits"),
-  SFARRAY(ACRAM, ACRAMUsed ? 0x200000 : 0x0),
-  SFEND
- };
- int ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard", false);
-
+  SFORMAT ACStateRegs[] =
+  {
+   SFVARN(ac->AC.ports[0].base, "AC[0].base"),
+   SFVARN(ac->AC.ports[0].offset, "AC[0].offset"),
+   SFVARN(ac->AC.ports[0].increment, "AC[0].increment"),
+   SFVARN(ac->AC.ports[0].control, "AC[0].control"),
+   SFVARN(ac->AC.ports[1].base, "AC[1].base"),
+   SFVARN(ac->AC.ports[1].offset, "AC[1].offset"),
+   SFVARN(ac->AC.ports[1].increment, "AC[1].increment"),
+   SFVARN(ac->AC.ports[1].control, "AC[1].control"),
+   SFVARN(ac->AC.ports[2].base, "AC[2].base"),
+   SFVARN(ac->AC.ports[2].offset, "AC[2].offset"),
+   SFVARN(ac->AC.ports[2].increment, "AC[2].increment"),
+   SFVARN(ac->AC.ports[2].control, "AC[2].control"),
+   SFVARN(ac->AC.ports[3].base, "AC[3].base"),
+   SFVARN(ac->AC.ports[3].offset, "AC[3].offset"),
+   SFVARN(ac->AC.ports[3].increment, "AC[3].increment"),
+   SFVARN(ac->AC.ports[3].control, "AC[3].control"),
+   SFVARN(ac->AC.shift_bits, "ACShiftBits"),
+   SFVARN(ac->AC.shift_latch, "ACShift"),
+   SFVARN(ac->AC.rotate_bits, "ACRotateBits"),
+   SFARRAY(ac->ACRAM, ac->ACRAMUsed ? 0x200000 : 0x0),
+   SFEND
+  };
+  ret = MDFNSS_StateAction(sm, load, data_only, ACStateRegs, "ArcadeCard", false);
+ }
 
  return(ret);
 }
 
 
-void ArcadeCard::PeekRAM(uint32 Address, uint32 Length, uint8 *Buffer)
+void ArcadeCard_PeekRAM(ArcadeCard *ac, uint32 Address, uint32 Length, uint8 *Buffer)
 {
  while(Length--)
  {
   Address &= (1 << 21) - 1;
 
-  *Buffer = ACRAM[Address];
+  *Buffer = ac->ACRAM[Address];
 
   Address++;
   Buffer++;
  }
 }
 
-void ArcadeCard::PokeRAM(uint32 Address, uint32 Length, const uint8 *Buffer)
+void ArcadeCard_PokeRAM(ArcadeCard *ac, uint32 Address, uint32 Length, const uint8 *Buffer)
 {
  uint8 used = 0;
 
@@ -326,14 +337,13 @@ void ArcadeCard::PokeRAM(uint32 Address, uint32 Length, const uint8 *Buffer)
  {
   Address &= (1 << 21) - 1;
 
-  ACRAM[Address] = *Buffer;
-  used |= ACRAM[Address];
+  ac->ACRAM[Address] = *Buffer;
+  used |= ac->ACRAM[Address];
 
   Address++;
   Buffer++;
  }
 
  if(used)
-  ACRAMUsed = true;
+  ac->ACRAMUsed = true;
 }
-
