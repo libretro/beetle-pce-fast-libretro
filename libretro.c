@@ -1848,21 +1848,21 @@ bool retro_load_game_special(unsigned game_type, const struct retro_game_info *i
 
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
-static uint8_t input_type[MAX_PLAYERS] = {};
-static uint8_t input_buf[MAX_PLAYERS][5] = {};
+static uint8_t input_type[MAX_PLAYERS] = {0};
+static uint8_t input_buf[MAX_PLAYERS][5] = {0};
 static float mouse_sensitivity = 1.0f;
 static bool disable_softreset = false;
 
 // Array to keep track of whether a given player's button is turbo
-static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_enable[MAX_PLAYERS][MAX_BUTTONS] = {0};
 // Array to keep track of each buttons turbo status
-static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_counter[MAX_PLAYERS][MAX_BUTTONS] = {0};
 // The number of frames between each firing of a turbo button
 static int Turbo_Delay;
 static int Turbo_Toggling = 1;
 static bool turbo_toggle_alt = false;
 static int psg_channels_volume[6] = { 100, 100, 100, 100, 100, 100 };
-static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {};
+static int turbo_toggle_down[MAX_PLAYERS][MAX_BUTTONS] = {0};
 
 static void check_variables(bool first_run)
 {
