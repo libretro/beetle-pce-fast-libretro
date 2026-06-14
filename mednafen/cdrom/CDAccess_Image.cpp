@@ -1020,7 +1020,7 @@ bool CDAccess_Image::Read_Raw_Sector(uint8_t *buf, int32_t lba)
             break;
       }
 
-      synth_leadout_sector_lba(data_synth_mode, toc, lba, buf);
+      synth_leadout_sector_lba(data_synth_mode, &toc, lba, buf);
       return true;
    }
    //
@@ -1154,7 +1154,7 @@ bool CDAccess_Image::Fast_Read_Raw_PW_TSRE(uint8_t* pwbuf, int32_t lba)
 
    if(lba >= total_sectors)
    {
-      subpw_synth_leadout_lba(toc, lba, pwbuf);
+      subpw_synth_leadout_lba(&toc, lba, pwbuf);
       return(true);
    }
 
@@ -1283,7 +1283,7 @@ bool CDAccess_Image::Read_TOC(TOC *rtoc)
 
 void CDAccess_Image::GenerateTOC(void)
 {
-   toc.Clear();
+   TOC_Clear(&toc);
 
    toc.first_track = FirstTrack;
    toc.last_track = FirstTrack + NumTracks - 1;

@@ -115,9 +115,9 @@ ifneq ($(HAVE_GRIFFIN),1)
 		$(CDROM_DIR)/CDAccess_CCD.cpp \
 		$(CDROM_DIR)/CDAFReader.cpp \
 		$(CDROM_DIR)/CDAFReader_Vorbis.cpp \
-		$(CDROM_DIR)/cdromif.cpp \
-		$(CDROM_DIR)/CDUtility.cpp
+		$(CDROM_DIR)/cdromif.cpp
 	SOURCES_C += \
+		$(CDROM_DIR)/CDUtility.c \
 		$(CDROM_DIR)/lec.c \
 		$(CDROM_DIR)/galois.c \
 		$(CDROM_DIR)/l-ec.c \

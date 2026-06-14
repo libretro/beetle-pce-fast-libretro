@@ -3,6 +3,12 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <boolean.h>
+#include <retro_inline.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
  // Call once at app startup before creating any threads that could potentially cause re-entrancy to these functions.
  // It will also be called automatically if needed for the first time a function in this namespace that requires
@@ -28,13 +34,13 @@
  };
 
 
- struct TOC_Track
+ typedef struct TOC_Track
  {
   uint8_t adr;
   uint8_t control;
   uint32_t lba;
-  bool valid;	// valid/present; oh CD-i...
- };
+  bool valid;	/* valid/present; oh CD-i... */
+ } TOC_Track;
 
  // SubQ control field flags.
  enum
@@ -52,45 +58,43 @@
   DISC_TYPE_CD_XA      = 0x20
  };
 
- struct TOC
+ typedef struct TOC
  {
-  INLINE TOC()
-  {
-   Clear();
-  }
+  uint8_t first_track;
+  uint8_t last_track;
+  uint8_t disc_type;
+  TOC_Track tracks[100 + 1];  /* [0] is unused, [100] is for the leadout track. */
+ } TOC;
 
-  INLINE void Clear(void)
-  {
-   first_track = last_track = 0;
-   disc_type = 0;
+ /* Was TOC::Clear() / TOC::FindTrackByLBA(); the TOC default ctor called
+  * Clear(). TOC is now a POD struct: callers must TOC_Clear() explicitly
+  * where the ctor used to run. */
+ static INLINE void TOC_Clear(struct TOC *toc)
+ {
+   toc->first_track = toc->last_track = 0;
+   toc->disc_type = 0;
 
-   memset(tracks, 0, sizeof(tracks));	// FIXME if we change TOC_Track to non-POD type.
-  }
+   memset(toc->tracks, 0, sizeof(toc->tracks));	/* FIXME if we change TOC_Track to non-POD type. */
+ }
 
-  INLINE int FindTrackByLBA(uint32_t LBA) const
-  {
+ static INLINE int TOC_FindTrackByLBA(const struct TOC *toc, uint32_t LBA)
+ {
    int32_t track;
    int32_t lvt = 0;
 
    for(track = 1; track <= 100; track++)
    {
-      if(!tracks[track].valid)
+      if(!toc->tracks[track].valid)
          continue;
 
-      if(LBA < tracks[track].lba)
+      if(LBA < toc->tracks[track].lba)
          break;
 
       lvt = track;
    }
 
    return(lvt);
-  }
-
-  uint8_t first_track;
-  uint8_t last_track;
-  uint8_t disc_type;
-  TOC_Track tracks[100 + 1];  // [0] is unused, [100] is for the leadout track.
- };
+ }
 
  //
  // Address conversion functions.
@@ -175,14 +179,14 @@
  // out_buf must be able to contain 2352+96 bytes.
  // "mode" is not used if the area is to be encoded as audio.
  // pass 0xFF for "mode" for "don't know", and to make guess based on the TOC.
- void synth_udapp_sector_lba(uint8_t mode, const TOC& toc, const int32_t lba, int32_t lba_subq_relative_offs, uint8_t* out_buf);
- void subpw_synth_udapp_lba(const TOC& toc, const int32_t lba, const int32_t lba_subq_relative_offs, uint8_t* SubPWBuf);
+ void synth_udapp_sector_lba(uint8_t mode, const struct TOC* toc, const int32_t lba, int32_t lba_subq_relative_offs, uint8_t* out_buf);
+ void subpw_synth_udapp_lba(const struct TOC* toc, const int32_t lba, const int32_t lba_subq_relative_offs, uint8_t* SubPWBuf);
 
  // out_buf must be able to contain 2352+96 bytes.
  // "mode" is not used if the area is to be encoded as audio.
  // pass 0xFF for "mode" for "don't know", and to make guess based on the TOC.
- void synth_leadout_sector_lba(uint8_t mode, const TOC& toc, const int32_t lba, uint8_t* out_buf);
- void subpw_synth_leadout_lba(const TOC& toc, const int32_t lba, uint8_t* SubPWBuf);
+ void synth_leadout_sector_lba(uint8_t mode, const struct TOC* toc, const int32_t lba, uint8_t* out_buf);
+ void subpw_synth_leadout_lba(const struct TOC* toc, const int32_t lba, uint8_t* SubPWBuf);
 
 
  //
@@ -232,5 +236,9 @@
 
  // (De)Scrambles data sector.
  void scrambleize_data_sector(uint8_t *sector_data);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
