@@ -1672,6 +1672,15 @@ static bool libretro_supports_bitmasks = false;
 
 static MDFN_Surface *surf = NULL;
 
+/* libretro software-framebuffer (zero-copy) direct render path.
+ * When the frontend grants a framebuffer via
+ * GET_CURRENT_SOFTWARE_FRAMEBUFFER, the VDC can render straight into the
+ * frontend's (often GPU-mapped) buffer instead of our calloc'd surface,
+ * removing the surface->frontend copy. Only used when the granted buffer
+ * is RGB565 (our native output). The VDC renderer is write-only on the
+ * target surface, so an uncached framebuffer is safe. */
+static bool fb_direct_supported           = true; /* probe once, then latch */
+
 static bool failed_init = false;
 
 static unsigned video_width = 0;
@@ -2516,19 +2525,55 @@ void retro_run(void)
       last_palette_format = use_palette;
    }
 
-   Emulate(&spec);
-
-   if (skip_frame)
-      video_cb(NULL, video_width, video_height, FB_WIDTH * 2);
-   else
+   /* Try to render directly into the frontend's software framebuffer
+    * (zero-copy). Saved/restored around Emulate so the fallback surface
+    * is untouched if the request is declined or the format isn't RGB565. */
    {
-      if (video_width  != spec.DisplayRect.w || video_height != spec.DisplayRect.h)
-         resolution_changed = true;
+      uint16_t   *saved_pixels = surf->pixels;
+      int32_t     saved_pitch  = surf->pitch;
+      struct retro_framebuffer fb;
 
-      video_width  = spec.DisplayRect.w;
-      video_height = spec.DisplayRect.h;
+      if (!skip_frame && fb_direct_supported)
+      {
+         fb.width        = FB_WIDTH;
+         fb.height       = FB_HEIGHT;
+         fb.access_flags = RETRO_MEMORY_ACCESS_WRITE;
 
-      video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y, video_width, video_height, FB_WIDTH * 2);
+         if (environ_cb(RETRO_ENVIRONMENT_GET_CURRENT_SOFTWARE_FRAMEBUFFER, &fb))
+         {
+            if (fb.data &&
+                fb.format == RETRO_PIXEL_FORMAT_RGB565 &&
+                fb.width  >= (unsigned)FB_WIDTH &&
+                fb.height >= (unsigned)FB_HEIGHT &&
+                (fb.pitch & 1) == 0)
+            {
+               surf->pixels = (uint16_t*)fb.data;
+               surf->pitch  = (int32_t)(fb.pitch >> 1); /* bytes -> uint16 */
+            }
+         }
+         else
+            fb_direct_supported = false; /* frontend doesn't support it; stop asking */
+      }
+
+      Emulate(&spec);
+
+      if (skip_frame)
+         video_cb(NULL, video_width, video_height, FB_WIDTH * 2);
+      else
+      {
+         if (video_width  != spec.DisplayRect.w || video_height != spec.DisplayRect.h)
+            resolution_changed = true;
+
+         video_width  = spec.DisplayRect.w;
+         video_height = spec.DisplayRect.h;
+
+         video_cb(surf->pixels + surf->pitch * spec.DisplayRect.y,
+               video_width, video_height, surf->pitch * 2);
+      }
+
+      /* Restore the persistent fallback surface. */
+      surf->pixels = saved_pixels;
+      surf->pitch  = saved_pitch;
    }
 
    audio_batch_cb(spec.SoundBuf, spec.SoundBufSize);
