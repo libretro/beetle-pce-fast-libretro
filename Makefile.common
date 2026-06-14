@@ -161,6 +161,7 @@ ifneq ($(HAVE_GRIFFIN), 1)
 		$(CORE_DIR)/libretro.cpp
 
 	SOURCES_C += \
+		$(MEDNAFEN_DIR)/cdstream.c \
 		$(MEDNAFEN_DIR)/mempatcher.c \
 		$(MEDNAFEN_DIR)/okiadpcm.c \
 		$(MEDNAFEN_DIR)/file.c \
