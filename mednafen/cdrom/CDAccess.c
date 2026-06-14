@@ -17,7 +17,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 
 #include "CDAccess.h"
 
@@ -30,12 +29,28 @@ CDAccess *CDAccess_CCD_New  (const char *path, bool image_memcache);
 CDAccess *CDAccess_CHD_New  (const char *path, bool image_memcache);
 #endif
 
+/* Case-insensitive match of the path's 3-char extension against a
+ * lowercase literal. Avoids strcasecmp (<strings.h> is POSIX-only and
+ * absent on MSVC); ext3 is always an ASCII lowercase 3-char literal
+ * here, so a local ASCII tolower of the path chars is sufficient and
+ * fully portable. */
 static int has_ext(const char *path, const char *ext3)
 {
    size_t n = strlen(path);
+   int i;
+   const char *p;
    if (n < 4 || path[n - 4] != '.')
       return 0;
-   return strcasecmp(path + n - 3, ext3) == 0;
+   p = path + n - 3;
+   for (i = 0; i < 3; i++)
+   {
+      char c = p[i];
+      if (c >= 'A' && c <= 'Z')
+         c = c - 'A' + 'a';
+      if (c != ext3[i])
+         return 0;
+   }
+   return 1;
 }
 
 CDAccess *CDAccess_Open(const char *path, bool image_memcache)

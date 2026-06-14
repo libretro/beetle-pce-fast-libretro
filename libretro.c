@@ -1821,8 +1821,11 @@ void retro_reset(void)
    DoSimpleCommand(MDFN_MSC_RESET);
 }
 
-bool retro_load_game_special(unsigned, const struct retro_game_info *, size_t)
+bool retro_load_game_special(unsigned game_type, const struct retro_game_info *info, size_t num_info)
 {
+   (void)game_type;
+   (void)info;
+   (void)num_info;
    return false;
 }
 
