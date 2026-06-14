@@ -1337,12 +1337,20 @@ static void Emulate(EmulateSpecStruct *espec)
 
  {
   uint8_t y;
+  /* sound_buf holds interleaved stereo int16 samples; read_samples()
+   * writes one channel at stride 2, so the per-call cap is the number of
+   * stereo frames that fit, i.e. (total int16 entries) / 2. The previous
+   * cap (sizeof(sound_buf) >> 1 == entry count) was 2x too large: with a
+   * stride-2 writer it allowed writing up to 2*(N-1)+1 == ~2N entries,
+   * one full buffer past the end. Harmless in practice (a frame yields
+   * ~735 stereo samples) but an incorrect bound. */
+  const long max_frames = (long)(sizeof(sound_buf) / sizeof(sound_buf[0]) / 2);
   for(y = 0; y < 2; y++)
   {
      Blip_Buffer_end_frame(&sbuf[y], HuCPU.timestamp / pce_overclocked);
      espec->SoundBufSize = Blip_Buffer_read_samples(&sbuf[y],
 		     espec->SoundBuf + y,
-		     sizeof(sound_buf) >> 1);
+		     max_frames);
   }
  }
 
