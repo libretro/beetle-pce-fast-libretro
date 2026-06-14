@@ -188,7 +188,7 @@ static void VirtualReset(void)
  cdda.PlayMode = PLAYMODE_SILENT;
  cdda.CDDAReadPos = 0;
  cdda.CDDAStatus = CDDASTATUS_STOPPED;
- cdda.CDDADiv = 0;
+ cdda.CDDADiv = 1;
 
  cdda.ScanMode = 0;
  cdda.scan_sec_end = 0;
@@ -1259,12 +1259,14 @@ int PCECD_Drive_StateAction(StateMem * sm, int load, int data_only, const char *
 
  if(load)
  {
-  din.in_count &= din.size - 1;
+  din.in_count %= din.size + 1;
   din.read_pos &= din.size - 1;
   din.write_pos = (din.read_pos + din.in_count) & (din.size - 1);
 
   if(cdda.CDDADiv <= 0)
    cdda.CDDADiv = 1;
+
+  cdda.CDDAReadPos %= 588 + 1;
  }
 
  return (ret);
