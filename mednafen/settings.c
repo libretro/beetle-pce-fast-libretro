@@ -24,6 +24,7 @@ int setting_initial_scanline = 0;
 int setting_last_scanline = 242;
 int setting_pce_hoverscan = 352;
 int setting_pce_fast_nospritelimit = 0;
+int setting_pce_fast_adpcmlp = 0;
 int setting_pce_overclocked = 1;
 int setting_pce_fast_cddavolume = 100;
 int setting_pce_fast_adpcmvolume = 100;
@@ -81,6 +82,6 @@ bool MDFN_GetSettingB(const char *name)
    if (!strcmp("pce_fast.disable_softreset", name))
       return 0;
    if (!strcmp("pce_fast.adpcmlp", name))
-      return 0;
+      return setting_pce_fast_adpcmlp;
    return 0;
 }

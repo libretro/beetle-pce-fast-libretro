@@ -1987,6 +1987,14 @@ static void check_variables(bool first_run)
       setting_pce_fast_adpcmvolume = atoi(var.value);
    }
 
+   var.key = "pce_fast_adpcmlp";
+
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      do_cdsettings = true;
+      setting_pce_fast_adpcmlp = (strcmp(var.value, "enabled") == 0);
+   }
+
    var.key = "pce_fast_cdpsgvolume";
 
    if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
@@ -2019,6 +2027,7 @@ static void check_variables(bool first_run)
       settings.CDDA_Volume = (double)setting_pce_fast_cddavolume / 100;
       settings.CD_Speed = setting_pce_fast_cdspeed;
       settings.ADPCM_Volume = (double)setting_pce_fast_adpcmvolume / 100;
+      settings.ADPCM_LPF = setting_pce_fast_adpcmlp;
 
       if (PCECD_SetSettings(&settings) && log_cb)
          log_cb(RETRO_LOG_INFO, "PCE CD Audio settings changed.\n");

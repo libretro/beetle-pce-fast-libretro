@@ -666,6 +666,20 @@ struct retro_core_option_v2_definition option_defs_us[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      "(CD) ADPCM Low-pass Filter",
+      "ADPCM Low-pass Filter",
+      "CD game only. Applies a low-pass filter to CD ADPCM sample playback, reducing high-frequency aliasing/harshness. The cutoff scales with the ADPCM sample rate.",
+      "Applies a low-pass filter to CD ADPCM sample playback, reducing high-frequency aliasing/harshness.",
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       "(CD) CDDA Volume %",
       "CDDA Volume %",

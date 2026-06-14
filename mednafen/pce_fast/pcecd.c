@@ -88,6 +88,17 @@ typedef struct
  int64 bigdivacc;
  int64 bigdiv;
  int32 last_pcm;
+
+ /* One-pole IIR low-pass applied to the decoded ADPCM PCM stream when
+  * the ADPCM_LPF core option is enabled. Reproduces the audible
+  * high-frequency rolloff of upstream mednafen's RedoLPF()/treble_eq()
+  * (which reshapes a bandlimited Blip_Synth impulse) without needing a
+  * windowed-sinc kernel - our Blip_Synth is the fast linear-interpolation
+  * variant. The coefficient tracks the ADPCM sample frequency so the
+  * cutoff scales the same way upstream's does. lpf_coeff is Q16 fixed
+  * point in [0,65536]; lpf_accum is the Q16 filter memory. */
+ int32 lpf_coeff;
+ int32 lpf_accum;
 } ADPCM_t;
 
 static ADPCM_t ADPCM;
@@ -104,6 +115,34 @@ typedef struct
 
 static FADE_t Fader;
 static int32 ADPCMFadeVolume, CDDAFadeVolume;
+
+/* Recompute the ADPCM low-pass coefficient for sample-frequency code f
+ * (0..15; ADPCM sample rate fs = 32087.5 / (16 - f)).
+ *
+ * Equivalent of upstream mednafen's RedoLPF(): there the cutoff is
+ *   rolloff = (fs / 2) * (f >= 14 ? 0.70 : 0.80)
+ * fed to Blip_Synth::treble_eq(). We instead realise the same rolloff as
+ * a one-pole IIR on the PCM stream (which is generated at fs), so the
+ * cutoff/fs ratio is the only thing that matters:
+ *   fc/fs = 0.5 * (f >= 14 ? 0.70 : 0.80)
+ *   a     = 1 - exp(-2*pi * fc/fs)
+ * a is therefore one of two constants. When the option is disabled the
+ * coefficient is 65536 (Q16 1.0), i.e. an identity pass-through. */
+static void RedoLPF(int f)
+{
+   if(!ADPCMLP)
+   {
+      ADPCM.lpf_coeff = 65536; /* identity: out = in */
+      return;
+   }
+
+   /* a = 1 - exp(-2*pi * 0.5 * ratio); ratio = 0.70 (f>=14) else 0.80.
+    * 1 - exp(-pi*0.70) = 0.88922 -> 58279 ; 1 - exp(-pi*0.80) = 0.91893 -> 60226 */
+   if(f >= 14)
+      ADPCM.lpf_coeff = 58279;
+   else
+      ADPCM.lpf_coeff = 60226;
+}
 
 static INLINE void Fader_SyncWhich(void)
 {
@@ -234,6 +273,7 @@ bool PCECD_SetSettings(const PCECD_Settings *settings)
 
    Blip_Synth_set_volume(&ADPCMSynth, 0.42735f * (settings ? settings->ADPCM_Volume : 1.0), 0x4000);
    ADPCMLP = settings ? settings->ADPCM_LPF : 0;
+   RedoLPF(ADPCM.SampleFreq);
 
    PCECD_Drive_SetTransferRate(126000 * (settings ? settings->CD_Speed : 1));
 
@@ -309,6 +349,8 @@ void PCECD_Power(uint32 timestamp)
 
    ADPCM.SampleFreq = 0;
    ADPCM.LPF_SampleFreq = 0;
+   ADPCM.lpf_accum = 0;
+   RedoLPF(ADPCM.SampleFreq);
    ADPCM.bigdiv = ADPCM.bigdivacc * (16 - ADPCM.SampleFreq);
 
    ADPCM.Addr = 0;
@@ -692,6 +734,15 @@ static INLINE void ADPCM_PB_Run(int32 basetime, int32 run_time)
          ADPCM.PlayNibble ^= 4;
 
          pcm = (pcm * ADPCMFadeVolume) >> 8;
+
+         /* One-pole IIR low-pass (ADPCM_LPF option). With lpf_coeff ==
+          * 65536 (option off) this is an exact pass-through:
+          * accum += (pcm - accum) * 1, out = accum = pcm. Otherwise it
+          * rolls off highs at the cutoff RedoLPF() picked for the current
+          * ADPCM sample frequency. accum is kept in Q16. */
+         ADPCM.lpf_accum += (int32)((((int64)(pcm << 16) - ADPCM.lpf_accum) * ADPCM.lpf_coeff) >> 16);
+         pcm = ADPCM.lpf_accum >> 16;
+
          synthtime = ((basetime + (ADPCM.bigdiv >> 16))) / (3 * OC_Multiplier);
 
          if(sbuf[0] && sbuf[1])
@@ -805,6 +856,11 @@ void PCECD_Run(uint32 in_timestamp)
 
 void PCECD_ResetTS(void)
 {
+   if(ADPCM.SampleFreq != ADPCM.LPF_SampleFreq)
+   {
+      ADPCM.LPF_SampleFreq = ADPCM.SampleFreq;
+      RedoLPF(ADPCM.LPF_SampleFreq);
+   }
    PCECD_Drive_ResetTS();
    lastts = 0;
 }
@@ -849,6 +905,7 @@ static int ADPCM_StateAction(StateMem *sm, int load, int data_only)
    {
       OKIADPCM_SetSample(&MSM5205, ad_sample);
       OKIADPCM_SetSSI(&MSM5205, ad_ref_index);
+      RedoLPF(ADPCM.SampleFreq);
    }
    return(ret);
 }
