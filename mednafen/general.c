@@ -22,6 +22,7 @@
 
 #include <boolean.h>
 
+#include "mednafen-types.h"
 #include "general.h"
 
 static bool IsAbsolutePath(const char *path)

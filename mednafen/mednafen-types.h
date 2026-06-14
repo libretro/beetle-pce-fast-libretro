@@ -41,6 +41,13 @@ typedef uint64_t uint64;
 #elif defined(_MSC_VER)
 #if _MSC_VER < 1800
 #define roundf(in) (in >= 0.0f ? floorf(in + 0.5f) : ceilf(in - 0.5f))
+/* Pre-VS2015 CRTs have no C99 snprintf, only _snprintf. Map it here so
+ * every TU that includes this header links cleanly; guard against the
+ * redefinition warning when libretro-common's compat/msvc.h already
+ * provided the same mapping. */
+#ifndef snprintf
+#define snprintf _snprintf
+#endif
 #endif
   #define NO_INLINE
   #define FORCE_INLINE __forceinline
