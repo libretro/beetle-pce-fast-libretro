@@ -16,6 +16,7 @@ extern "C" {
  * pointer-to-member, is now a plain function pointer taking the owning
  * PCEFast_PSG* as its first argument. */
 struct PCEFast_PSG;
+struct psg_channel;
 
 typedef void (*PCEFast_PSG_UOFunc)(struct PCEFast_PSG *, const int32 timestamp, struct psg_channel *ch);
 

@@ -12,15 +12,15 @@
 #define strcasecmp _stricmp
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void MDFN_LoadGameCheats(void *override);
 void MDFN_FlushGameCheats(int nosave);
 
 void MDFN_MidSync(EmulateSpecStruct *espec);
 void MDFN_MidLineUpdate(EmulateSpecStruct *espec, int y);
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void MDFN_DispMessage(const char *format, ...);
 

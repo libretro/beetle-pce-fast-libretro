@@ -4,6 +4,10 @@
 #include <boolean.h>
 #include "mednafen-types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int MDFNI_DecodePAR(const char *code, uint32 *a, uint8 *v, uint8 *c, char *type);
 int MDFNI_DecodeGG(const char *str, uint32 *a, uint8 *v, uint8 *c, char *type);
 int MDFNI_AddCheat(const char *name, uint32 addr, uint64 val, uint64 compare, char type, unsigned int length, bool bigendian);
@@ -22,5 +26,9 @@ int MDFNI_SetCheat(uint32 which, const char *name, uint32 a, uint64 v, uint64 co
 
 void MDFNI_CheatSearchShowExcluded(void);
 void MDFNI_CheatSearchSetCurrentAsOriginal(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

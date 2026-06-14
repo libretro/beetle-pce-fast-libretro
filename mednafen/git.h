@@ -145,10 +145,10 @@ typedef struct
 extern "C" {
 #endif
 int StateAction(StateMem *sm, int load, int data_only);
+uint8 MemRead(uint32 addr);
 #ifdef __cplusplus
 }
 #endif
-uint8 MemRead(uint32 addr);
 
 extern retro_log_printf_t log_cb;
 
