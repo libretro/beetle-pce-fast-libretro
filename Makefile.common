@@ -154,13 +154,13 @@ endif
 
 ifneq ($(HAVE_GRIFFIN), 1)
 	SOURCES_CXX += \
-		$(MEDNAFEN_DIR)/general.cpp \
 		$(MEDNAFEN_DIR)/FileStream.cpp \
 		$(MEDNAFEN_DIR)/MemoryStream.cpp \
 		$(MEDNAFEN_DIR)/Stream.cpp \
 		$(CORE_DIR)/libretro.cpp
 
 	SOURCES_C += \
+		$(MEDNAFEN_DIR)/general.c \
 		$(MEDNAFEN_DIR)/cdstream.c \
 		$(MEDNAFEN_DIR)/mempatcher.c \
 		$(MEDNAFEN_DIR)/okiadpcm.c \
