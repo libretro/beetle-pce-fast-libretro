@@ -36,6 +36,7 @@
  */
 
 #include <stdint.h>
+#include <boolean.h>
 #include <ctype.h>
 #include <fcntl.h>
 #include <math.h>
@@ -48,6 +49,10 @@
 #include <direct.h>
 #else
 #include <unistd.h>
+#endif
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
 /***
@@ -168,5 +173,8 @@ int ValidateRawSector(unsigned char *frame, bool xaMode);
 bool Init_LEC_Correct(void);
 void Kill_LEC_Correct(void);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif				/* DVDISASTER_H */
