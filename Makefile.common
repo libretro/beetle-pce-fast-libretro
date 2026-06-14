@@ -158,10 +158,10 @@ ifneq ($(HAVE_GRIFFIN), 1)
 		$(MEDNAFEN_DIR)/FileStream.cpp \
 		$(MEDNAFEN_DIR)/MemoryStream.cpp \
 		$(MEDNAFEN_DIR)/Stream.cpp \
-		$(MEDNAFEN_DIR)/mempatcher.cpp \
 		$(CORE_DIR)/libretro.cpp
 
 	SOURCES_C += \
+		$(MEDNAFEN_DIR)/mempatcher.c \
 		$(MEDNAFEN_DIR)/okiadpcm.c \
 		$(MEDNAFEN_DIR)/file.c \
 		$(MEDNAFEN_DIR)/settings.c \

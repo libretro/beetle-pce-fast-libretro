@@ -17,10 +17,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include <vector>
+#include <stdlib.h>
 
 #include "mednafen.h"
-#include "general.h"
+/* general.h dropped: it exposes std::string-based APIs and pulls in
+ * <string>, but mempatcher only needs MDFN_GetSettingB (via mednafen.h
+ * -> settings.h). */
 #include "mempatcher.h"
 
 #ifdef _WIN32
@@ -47,41 +49,89 @@ typedef struct __CHEATF
    int status;
 } CHEATF;
 
-static std::vector<CHEATF> cheats;
+/* Was std::vector<CHEATF>; manual growable array (ptr/count/capacity). */
+static CHEATF *cheats        = NULL;
+static size_t  cheats_count  = 0;
+static size_t  cheats_cap    = 0;
 static bool CheatsActive     = true;
 
-std::vector<SUBCHEAT> SubCheats[8];
+/* Was std::vector<SUBCHEAT> SubCheats[8]; one growable array per bucket. */
+static SUBCHEAT *SubCheats[8];
+static size_t    SubCheats_count[8];
+static size_t    SubCheats_cap[8];
+
+static int cheats_push_back(const CHEATF *v)
+{
+   if(cheats_count >= cheats_cap)
+   {
+      size_t newcap = cheats_cap ? cheats_cap * 2 : 8;
+      CHEATF *n = (CHEATF *)realloc(cheats, newcap * sizeof(CHEATF));
+      if(!n)
+         return 0;
+      cheats = n;
+      cheats_cap = newcap;
+   }
+   cheats[cheats_count++] = *v;
+   return 1;
+}
+
+static void cheats_erase(size_t which)
+{
+   if(which >= cheats_count)
+      return;
+   memmove(&cheats[which], &cheats[which + 1],
+         (cheats_count - which - 1) * sizeof(CHEATF));
+   cheats_count--;
+}
+
+static int SubCheats_push_back(int bucket, const SUBCHEAT *v)
+{
+   if(SubCheats_count[bucket] >= SubCheats_cap[bucket])
+   {
+      size_t newcap = SubCheats_cap[bucket] ? SubCheats_cap[bucket] * 2 : 8;
+      SUBCHEAT *n = (SUBCHEAT *)realloc(SubCheats[bucket], newcap * sizeof(SUBCHEAT));
+      if(!n)
+         return 0;
+      SubCheats[bucket] = n;
+      SubCheats_cap[bucket] = newcap;
+   }
+   SubCheats[bucket][SubCheats_count[bucket]++] = *v;
+   return 1;
+}
 
 static void RebuildSubCheats(void)
 {
- std::vector<CHEATF>::iterator chit;
+ size_t ci;
+ int x;
 
- for(int x = 0; x < 8; x++)
-  SubCheats[x].clear();
+ for(x = 0; x < 8; x++)
+  SubCheats_count[x] = 0;
 
  if(!CheatsActive) return;
 
- for(chit = cheats.begin(); chit != cheats.end(); chit++)
+ for(ci = 0; ci < cheats_count; ci++)
  {
+  CHEATF *chit = &cheats[ci];
   if(chit->status && chit->type != 'R')
   {
-   for(unsigned int x = 0; x < chit->length; x++)
+   unsigned int x2;
+   for(x2 = 0; x2 < chit->length; x2++)
    {
     SUBCHEAT tmpsub;
     unsigned int shiftie;
 
     if(chit->bigendian)
-     shiftie = (chit->length - 1 - x) * 8;
+     shiftie = (chit->length - 1 - x2) * 8;
     else
-     shiftie = x * 8;
-    
-    tmpsub.addr = chit->addr + x;
+     shiftie = x2 * 8;
+
+    tmpsub.addr = chit->addr + x2;
     tmpsub.value = (chit->val >> shiftie) & 0xFF;
     if(chit->type == 'C')
      tmpsub.compare = (chit->compare >> shiftie) & 0xFF;
     else
      tmpsub.compare = -1;
-    SubCheats[(chit->addr + x) & 0x7].push_back(tmpsub);
+    SubCheats_push_back((chit->addr + x2) & 0x7, &tmpsub);
    }
   }
  }
@@ -100,10 +150,33 @@ bool MDFNMP_Init(uint32 ps, uint32 numpages)
 
 void MDFNMP_Kill(void)
 {
+   int x;
+
    if(RAMPtrs)
    {
       free(RAMPtrs);
       RAMPtrs = NULL;
+   }
+
+   /* The std::vectors these replaced were freed by their destructors;
+    * release the manual backing storage explicitly. */
+   if(cheats)
+   {
+      free(cheats);
+      cheats = NULL;
+   }
+   cheats_count = 0;
+   cheats_cap   = 0;
+
+   for(x = 0; x < 8; x++)
+   {
+      if(SubCheats[x])
+      {
+         free(SubCheats[x]);
+         SubCheats[x] = NULL;
+      }
+      SubCheats_count[x] = 0;
+      SubCheats_cap[x]   = 0;
    }
 }
 
@@ -111,10 +184,11 @@ void MDFNMP_Kill(void)
 void MDFNMP_AddRAM(uint32 size, uint32 A, uint8 *RAM)
 {
  uint32 AB = A / PageSize;
- 
+ unsigned int x;
+
  size /= PageSize;
 
- for(unsigned int x = 0; x < size; x++)
+ for(x = 0; x < size; x++)
  {
   RAMPtrs[AB + x] = RAM;
   if(RAM) // Don't increment the RAM pointer if we're passed a NULL pointer
@@ -124,8 +198,6 @@ void MDFNMP_AddRAM(uint32 size, uint32 A, uint8 *RAM)
 
 void MDFNMP_InstallReadPatches(void)
 {
-   unsigned x;
-   std::vector<SUBCHEAT>::iterator chit;
    if(!CheatsActive) return;
 }
 
@@ -152,8 +224,7 @@ static int AddCheatEntry(char *name, char *conditions, uint32 addr, uint64 val, 
  temp.bigendian = bigendian;
  temp.type=type;
 
- cheats.push_back(temp);
- return(1);
+ return cheats_push_back(&temp);
 }
 
 void MDFN_LoadGameCheats(void *override_ptr)
@@ -163,15 +234,15 @@ void MDFN_LoadGameCheats(void *override_ptr)
 
 void MDFN_FlushGameCheats(int nosave)
 {
-   std::vector<CHEATF>::iterator chit;
+   size_t ci;
 
-   for(chit = cheats.begin(); chit != cheats.end(); chit++)
+   for(ci = 0; ci < cheats_count; ci++)
    {
-      free(chit->name);
-      if(chit->conditions)
-         free(chit->conditions);
+      free(cheats[ci].name);
+      if(cheats[ci].conditions)
+         free(cheats[ci].conditions);
    }
-   cheats.clear();
+   cheats_count = 0;
 
    RebuildSubCheats();
 }
@@ -199,7 +270,7 @@ int MDFNI_AddCheat(const char *name, uint32 addr, uint64 val, uint64 compare, ch
 int MDFNI_DelCheat(uint32 which)
 {
  free(cheats[which].name);
- cheats.erase(cheats.begin() + which);
+ cheats_erase(which);
 
  MDFNMP_RemoveReadPatches();
  RebuildSubCheats();
@@ -251,6 +322,7 @@ static bool TestConditions(const char *string)
   uint32 v_address;
   uint64 v_value;
   uint64 value_at_address;
+  unsigned int x;
 
   if(address[0] == '0' && address[1] == 'x')
    v_address = strtoul(address + 2, NULL, 16);
@@ -263,7 +335,7 @@ static bool TestConditions(const char *string)
    v_value = strtoull(value, NULL, 0);
 
   value_at_address = 0;
-  for(unsigned int x = 0; x < bytelen; x++)
+  for(x = 0; x < bytelen; x++)
   {
    unsigned int shiftie;
 
@@ -347,18 +419,20 @@ static bool TestConditions(const char *string)
 
 void MDFNMP_ApplyPeriodicCheats(void)
 {
- std::vector<CHEATF>::iterator chit;
-
+ size_t ci;
 
  if(!CheatsActive)
   return;
 
- for(chit = cheats.begin(); chit != cheats.end(); chit++)
+ for(ci = 0; ci < cheats_count; ci++)
  {
+  CHEATF *chit = &cheats[ci];
   if(chit->status && chit->type == 'R')
   {
    if(!chit->conditions || TestConditions(chit->conditions))
-    for(unsigned int x = 0; x < chit->length; x++)
+   {
+    unsigned int x;
+    for(x = 0; x < chit->length; x++)
     {
      uint32 page = ((chit->addr + x) / PageSize) % NumPages;
      if(RAMPtrs[page])
@@ -372,6 +446,7 @@ void MDFNMP_ApplyPeriodicCheats(void)
 
       RAMPtrs[page][(chit->addr + x) % PageSize] = tmpval;
      }
+    }
    }
   }
  }
@@ -380,10 +455,11 @@ void MDFNMP_ApplyPeriodicCheats(void)
 
 void MDFNI_ListCheats(int (*callb)(char *name, uint32 a, uint64 v, uint64 compare, int s, char type, unsigned int length, bool bigendian, void *data), void *data)
 {
- std::vector<CHEATF>::iterator chit;
+ size_t ci;
 
- for(chit = cheats.begin(); chit != cheats.end(); chit++)
+ for(ci = 0; ci < cheats_count; ci++)
  {
+  CHEATF *chit = &cheats[ci];
   if(!callb(chit->name, chit->addr, chit->val, chit->compare, chit->status, chit->type, chit->length, chit->bigendian, data)) break;
  }
 }
@@ -414,10 +490,11 @@ int MDFNI_GetCheat(uint32 which, char **name, uint32 *a, uint64 *v, uint64 *comp
 static uint8 CharToNibble(char thechar)
 {
  const char lut[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+ int x;
 
  thechar = toupper(thechar);
 
- for(int x = 0; x < 16; x++)
+ for(x = 0; x < 16; x++)
   if(lut[x] == thechar)
    return(x);
 
@@ -428,8 +505,12 @@ bool MDFNI_DecodeGBGG(const char *instr, uint32 *a, uint8 *v, uint8 *c, char *ty
 {
  char str[10];
  int len;
+ int x;
+ uint32 tmp_address;
+ uint8 tmp_value;
+ uint8 tmp_compare = 0;
 
- for(int x = 0; x < 9; x++)
+ for(x = 0; x < 9; x++)
  {
   while(*instr && CharToNibble(*instr) == 255)
    instr++;
@@ -442,10 +523,6 @@ bool MDFNI_DecodeGBGG(const char *instr, uint32 *a, uint8 *v, uint8 *c, char *ty
 
  if(len != 9 && len != 6)
   return(0);
-
- uint32 tmp_address;
- uint8 tmp_value;
- uint8 tmp_compare = 0;
 
  tmp_address =  (CharToNibble(str[5]) << 12) | (CharToNibble(str[2]) << 8) | (CharToNibble(str[3]) << 4) | (CharToNibble(str[4]) << 0);
  tmp_address ^= 0xF000;
