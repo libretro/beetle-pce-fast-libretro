@@ -151,10 +151,8 @@ ifeq ($(NEED_TREMOR), 1)
 endif
 
 ifneq ($(HAVE_GRIFFIN), 1)
-	SOURCES_CXX += \
-		$(CORE_DIR)/libretro.cpp
-
 	SOURCES_C += \
+		$(CORE_DIR)/libretro.c \
 		$(MEDNAFEN_DIR)/general.c \
 		$(MEDNAFEN_DIR)/cdstream.c \
 		$(MEDNAFEN_DIR)/mempatcher.c \

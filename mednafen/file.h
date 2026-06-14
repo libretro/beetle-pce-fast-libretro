@@ -18,6 +18,8 @@ struct MDFNFILE
    int64_t location;
 };
 
+typedef struct MDFNFILE MDFNFILE;
+
 struct MDFNFILE *file_open(const char *path);
 
 int file_close(struct MDFNFILE *file);
