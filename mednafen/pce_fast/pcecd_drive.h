@@ -6,6 +6,7 @@
 #include "../mednafen-types.h"
 #include "../state.h"
 #include "../include/blip/Blip_Buffer.h"
+#include "../cdrom/CDUtility.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -99,6 +100,13 @@ void PCECD_Drive_Close(void) MDFN_COLD;
 void PCECD_Drive_SetTransferRate(uint32 TransferRate);
 void PCECD_Drive_SetCDDAVolume(unsigned vol); /* vol of 65536 = 1.0 = maximum. */
 int PCECD_Drive_StateAction(StateMem *sm, int load, int data_only, const char *sname);
+
+/* C-linkage wrappers around the C++ CDIF methods pcecd_drive needs.
+ * Implemented in cdromif.cpp; let this file be plain C while CDIF itself
+ * remains a C++ class for now. */
+void CDIF_ReadTOC(CDIF *cdif, TOC *toc);
+void CDIF_HintReadSector(CDIF *cdif, int32 lba);
+bool CDIF_ReadRawSector(CDIF *cdif, uint8 *buf, int32 lba);
 
 void PCECD_Drive_SetDisc(bool tray_open, CDIF *cdif, bool no_emu_side_effects) MDFN_COLD;
 

@@ -188,3 +188,23 @@ CDIF *CDIF_Open(const std::string& path, bool image_memcache)
 
    return new CDIF_ST(cda);
 }
+
+/* C-linkage wrappers so pcecd_drive.c (plain C) can call the C++ CDIF
+ * methods it needs without seeing the CDIF class definition. Declared in
+ * pcecd_drive.h inside its extern "C" guard. */
+#include "../pce_fast/pcecd_drive.h"
+
+extern "C" void CDIF_ReadTOC(CDIF *cdif, TOC *toc)
+{
+   cdif->ReadTOC(toc);
+}
+
+extern "C" void CDIF_HintReadSector(CDIF *cdif, int32 lba)
+{
+   cdif->HintReadSector(lba);
+}
+
+extern "C" bool CDIF_ReadRawSector(CDIF *cdif, uint8 *buf, int32 lba)
+{
+   return cdif->ReadRawSector(buf, lba);
+}

@@ -65,10 +65,9 @@ ifeq ($(HAVE_CDROM), 1)
 endif
 
 ifneq ($(HAVE_GRIFFIN), 1)
-   SOURCES_CXX += \
-	$(CORE_EMU_DIR)/pcecd_drive.cpp
    SOURCES_C += \
 	$(MEDNAFEN_DIR)/hw_misc/arcade_card/arcade_card.c \
+	$(CORE_EMU_DIR)/pcecd_drive.c \
 	$(CORE_EMU_DIR)/pcecd.c \
 	$(CORE_EMU_DIR)/psg.c \
 	$(CORE_EMU_DIR)/huc6280.c \
