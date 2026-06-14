@@ -1846,16 +1846,6 @@ bool retro_load_game_special(unsigned game_type, const struct retro_game_info *i
    return false;
 }
 
-static void set_volume (uint32_t *ptr, unsigned number)
-{
-   switch(number)
-   {
-      default:
-         *ptr = number;
-         break;
-   }
-}
-
 #define MAX_PLAYERS 5
 #define MAX_BUTTONS 15
 static uint8_t input_type[MAX_PLAYERS] = {};
