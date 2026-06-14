@@ -1116,11 +1116,37 @@ static void MDFN_MakeFName(char *out, size_t out_size, MakeFName_Type type, int 
    switch (type)
    {
       case MDFNMKF_FIRMWARE:
-         snprintf(out, out_size, "%s%c%s", retro_base_directory, slash, cd1);
+      {
+         /* Build "<base><slash><cd1>" with explicit length bounds so the
+          * result provably fits in out[out_size] (snprintf with two
+          * unbounded %s of combined length up to 2*4096 trips
+          * -Wformat-truncation even though snprintf itself is safe). */
+         size_t pos = 0;
+         size_t blen = strlen(retro_base_directory);
+         size_t clen = strlen(cd1);
+
+         if (out_size)
+         {
+            if (blen > out_size - 1)
+               blen = out_size - 1;
+            memcpy(out, retro_base_directory, blen);
+            pos = blen;
+
+            if (pos < out_size - 1)
+               out[pos++] = slash;
+
+            if (clen > (out_size - 1) - pos)
+               clen = (out_size - 1) - pos;
+            memcpy(out + pos, cd1, clen);
+            pos += clen;
+
+            out[pos] = '\0';
+         }
 #ifdef _WIN32
          sanitize_path(out); // Because Windows path handling is mongoloid.
 #endif
          break;
+      }
       default:
          break;
    }

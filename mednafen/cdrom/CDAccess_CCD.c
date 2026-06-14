@@ -101,6 +101,18 @@ static void ccd_trim(char *s)
    }
 }
 
+/* Bounded string copy that always NUL-terminates. Uses an explicit
+ * length so the bound is provable (avoids -Wstringop-truncation that
+ * strncpy(dst, src, N-1)+dst[N-1]=0 trips even though it is correct). */
+static void ccd_strlcpy(char *dst, const char *src, size_t dst_size)
+{
+   size_t n = strlen(src);
+   if(n > dst_size - 1)
+      n = dst_size - 1;
+   memcpy(dst, src, n);
+   dst[n] = '\0';
+}
+
 static CCD_Section *ccd_section_lookup(CCD_File *f, const char *name, bool create_if_missing)
 {
    int i;
@@ -114,8 +126,7 @@ static CCD_Section *ccd_section_lookup(CCD_File *f, const char *name, bool creat
    {
       CCD_Section *s = &f->sections[f->n_sections++];
       memset(s, 0, sizeof(*s));
-      strncpy(s->name, name, CCD_NAME_LEN - 1);
-      s->name[CCD_NAME_LEN - 1] = '\0';
+      ccd_strlcpy(s->name, name, CCD_NAME_LEN);
       return s;
    }
 }
@@ -127,17 +138,14 @@ static void ccd_section_set(CCD_Section *s, const char *key, const char *val)
    {
       if(!strcmp(s->keys[i], key))
       {
-         strncpy(s->vals[i], val, CCD_VAL_LEN - 1);
-         s->vals[i][CCD_VAL_LEN - 1] = '\0';
+         ccd_strlcpy(s->vals[i], val, CCD_VAL_LEN);
          return;
       }
    }
    if(s->n_keys >= CCD_MAX_KEYS)
       return;
-   strncpy(s->keys[s->n_keys], key, CCD_NAME_LEN - 1);
-   s->keys[s->n_keys][CCD_NAME_LEN - 1] = '\0';
-   strncpy(s->vals[s->n_keys], val, CCD_VAL_LEN - 1);
-   s->vals[s->n_keys][CCD_VAL_LEN - 1] = '\0';
+   ccd_strlcpy(s->keys[s->n_keys], key, CCD_NAME_LEN);
+   ccd_strlcpy(s->vals[s->n_keys], val, CCD_VAL_LEN);
    s->n_keys++;
 }
 
@@ -366,10 +374,8 @@ static bool CDAccess_CCD_Load(CDAccess_CCD *self, const char *path, bool image_m
          }
 
          *eqp = '\0';
-         strncpy(k, linebuf, CCD_NAME_LEN - 1);
-         k[CCD_NAME_LEN - 1] = '\0';
-         strncpy(v, eqp + 1, CCD_VAL_LEN - 1);
-         v[CCD_VAL_LEN - 1] = '\0';
+         ccd_strlcpy(k, linebuf, CCD_NAME_LEN);
+         ccd_strlcpy(v, eqp + 1, CCD_VAL_LEN);
 
          ccd_trim(k);
          ccd_trim(v);
