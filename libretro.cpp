@@ -1,5 +1,7 @@
 #include <stdarg.h>
 #include <complex>
+#include <vector>
+#include <string>
 
 #include <retro_miscellaneous.h>
 #include <streams/file_stream.h>
@@ -1492,7 +1494,7 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
    {
       unsigned i;
       for(i = 0; i < CDInterfaces.size(); i++)
-         delete CDInterfaces[i];
+         CDIF_Close(CDInterfaces[i]);
       CDInterfaces.clear();
 
       return false;
@@ -2176,7 +2178,7 @@ void retro_unload_game(void)
    MDFNMP_Kill();
 
    for(i = 0; i < CDInterfaces.size(); i++)
-      delete CDInterfaces[i];
+      CDIF_Close(CDInterfaces[i]);
    CDInterfaces.clear();
 }
 

@@ -18,45 +18,40 @@
 #ifndef __MDFN_CDROM_CDROMIF_H
 #define __MDFN_CDROM_CDROMIF_H
 
-#include <queue>
+#include <stdint.h>
+#include <boolean.h>
 
 #include "CDUtility.h"
-#include "CDAccess.h"
-#include "../Stream.h"
 
-class CDIF
-{
- public:
+#ifdef __cplusplus
+extern "C" {
+#endif
 
- CDIF(CDAccess *cda);
- virtual ~CDIF();
+/* Previously a C++ class hierarchy (CDIF / CDIF_ST) wrapping a
+ * CDAccess*. Now an opaque C struct with a free-function interface,
+ * matching the C cdrom layer. */
+struct CDIF;
+typedef struct CDIF CDIF;
 
- static const int32_t LBA_Read_Minimum = -150;
- static const int32_t LBA_Read_Maximum = 449849;	// 100 * 75 * 60 - 150 - 1
+#define CDIF_LBA_Read_Minimum  (-150)
+#define CDIF_LBA_Read_Maximum  (449849) /* 100 * 75 * 60 - 150 - 1 */
 
- inline void ReadTOC(TOC *read_target)
- {
-  *read_target = disc_toc;
- }
+CDIF *CDIF_Open(const char *path, bool image_memcache);
 
- virtual void HintReadSector(int32_t lba) = 0;
- virtual bool ReadRawSector(uint8_t *buf, int32_t lba) = 0;		// Reads 2352+96 bytes of data into buf.
- virtual bool ReadRawSectorPWOnly(uint8_t* pwbuf, int32_t lba, bool hint_fullread) = 0;	// Reads 96 bytes(of raw subchannel PW data) into pwbuf.
+void CDIF_Close(CDIF *cdif);
 
- // Call for mode 1 or mode 2 form 1 only.
- bool ValidateRawSector(uint8_t *buf);
+void CDIF_ReadTOC(CDIF *cdif, TOC *out);
 
- // Utility/Wrapped functions
- // Reads mode 1 and mode2 form 1 sectors(2048 bytes per sector returned)
- // Will return the type(1, 2) of the first sector read to the buffer supplied, 0 on error
- int ReadSector(uint8_t* buf, int32_t lba, uint32_t sector_count, bool suppress_uncorrectable_message = false);
+void CDIF_HintReadSector(CDIF *cdif, int32_t lba);
 
- protected:
- bool UnrecoverableError;
- TOC disc_toc;
- CDAccess *disc_cdaccess;
-};
+bool CDIF_ReadRawSector(CDIF *cdif, uint8_t *buf, int32_t lba);
 
-CDIF *CDIF_Open(const std::string& path, bool image_memcache);
+bool CDIF_ReadRawSectorPWOnly(CDIF *cdif, uint8_t *pwbuf, int32_t lba, bool hint_fullread);
+
+int CDIF_ReadSector(CDIF *cdif, uint8_t *buf, int32_t lba, uint32_t sector_count);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
