@@ -302,6 +302,8 @@ static int cdrom_send_command_win32(const libretro_vfs_implementation_file *stre
    sptd.s.SenseInfoLength = sizeof(sptd.sense);
    sptd.s.SenseInfoOffset = offsetof(struct sptd_with_sense, sense);
 
+   if (cmd_len > sizeof(sptd.s.Cdb))
+      return 1;
    memcpy(sptd.s.Cdb, cmd, cmd_len);
 
    ioctl_rv = DeviceIoControl(stream->fh, IOCTL_SCSI_PASS_THROUGH_DIRECT, &sptd,
