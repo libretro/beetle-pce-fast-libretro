@@ -44,35 +44,30 @@ typedef uint8_t gf8_t;
 static uint8_t GF8_LOG[256];
 static gf8_t GF8_ILOG[256];
 
-static const class Gf8_Q_Coeffs_Results_01 {
-private:
-  uint16_t table[43][256];
-public:
-  Gf8_Q_Coeffs_Results_01();
-  ~Gf8_Q_Coeffs_Results_01() {}
-  const uint16_t *operator[] (int i) const { return &table[i][0]; }
-  operator const uint16_t *() const	    { return &table[0][0]; }
-} CF8_Q_COEFFS_RESULTS_01;
+/* These three lookup tables were C++ const-global class instances whose
+ * constructors filled them at static-init time. In C they are plain
+ * static arrays filled by lec_init_tables() on first use (guarded by
+ * lec_tables_inited). Access syntax (CF8_Q_COEFFS_RESULTS_01[j][i],
+ * CRCTABLE[i], and decay of SCRAMBLE_TABLE to a pointer) is unchanged. */
+static uint16_t CF8_Q_COEFFS_RESULTS_01[43][256];
+static uint32_t CRCTABLE[256];
+static uint8_t  SCRAMBLE_TABLE[2340];
 
-static const class CrcTable {
-private:
-  uint32_t table[256];
-public:
-  CrcTable();
-  ~CrcTable() {}
-  uint32_t operator[](int i) const	{ return table[i]; }
-  operator const uint32_t *() const	{ return table;    }
-} CRCTABLE;
+static int lec_tables_inited = 0;
 
-static const class ScrambleTable {
-private:
-  uint8_t table[2340];
-public:
-  ScrambleTable();
-  ~ScrambleTable() {}
-  uint8_t operator[](int i) const	{ return table[i]; }
-  operator const uint8_t *() const	{ return table;    }
-} SCRAMBLE_TABLE;
+static void init_gf8_q_coeffs_results_01(void);
+static void init_crctable(void);
+static void init_scramble_table(void);
+
+static void lec_init_tables(void)
+{
+  if(lec_tables_inited)
+    return;
+  init_gf8_q_coeffs_results_01();
+  init_crctable();
+  init_scramble_table();
+  lec_tables_inited = 1;
+}
 
 /* Creates the logarithm and inverse logarithm table that is required
  * for performing multiplication in the GF(8) domain.
@@ -122,7 +117,7 @@ static gf8_t gf8_div(gf8_t a, gf8_t b)
   return GF8_ILOG[sum];
 }
 
-Gf8_Q_Coeffs_Results_01::Gf8_Q_Coeffs_Results_01()
+static void init_gf8_q_coeffs_results_01(void)
 {
   int i, j;
   uint16_t c;
@@ -182,16 +177,16 @@ Gf8_Q_Coeffs_Results_01::Gf8_Q_Coeffs_Results_01()
   
   for (j = 0; j < 43; j++) {
 
-    table[j][0] = 0;
+    CF8_Q_COEFFS_RESULTS_01[j][0] = 0;
 
     for (i = 1; i < 256; i++) {
       c = GF8_LOG[i] + GF8_LOG[GF8_Q_COEFFS[0][j]];
       if (c >= 255) c -= 255;
-      table[j][i] = GF8_ILOG[c];
+      CF8_Q_COEFFS_RESULTS_01[j][i] = GF8_ILOG[c];
 
       c = GF8_LOG[i] + GF8_LOG[GF8_Q_COEFFS[1][j]];
       if (c >= 255) c -= 255;
-      table[j][i] |= GF8_ILOG[c]<<8;
+      CF8_Q_COEFFS_RESULTS_01[j][i] |= GF8_ILOG[c]<<8;
     }
   }
 }
@@ -219,7 +214,7 @@ static uint32_t mirror_bits(uint32_t d, int bits)
  * and reversed (i.e. the bit stream is divided by the EDC_POLY with the
  * LSB first order).
  */
-CrcTable::CrcTable ()
+static void init_crctable(void)
 {
   uint32_t i, j;
   uint32_t r;
@@ -241,7 +236,7 @@ CrcTable::CrcTable ()
 
     r = mirror_bits(r, 32);
 
-    table[i] = r;
+    CRCTABLE[i] = r;
   }
 }
 
@@ -262,7 +257,7 @@ static uint32_t calc_edc(uint8_t *data, int len)
 /* Build the scramble table as defined in the yellow book. The bytes
    12 to 2351 of a sector will be XORed with the data of this table.
  */
-ScrambleTable::ScrambleTable()
+static void init_scramble_table(void)
 {
   uint16_t i, j;
   uint16_t reg = 1;
@@ -286,7 +281,7 @@ ScrambleTable::ScrambleTable()
       }
     }
 
-    table[i] = d;
+    SCRAMBLE_TABLE[i] = d;
   }
 }
 
@@ -475,6 +470,8 @@ void lec_encode_mode0_sector(uint32_t adr, uint8_t *sector)
  */
 void lec_encode_mode1_sector(uint32_t adr, uint8_t *sector)
 {
+  lec_init_tables();
+
   set_sync_pattern(sector);
   set_sector_header(1, adr, sector);
 
@@ -512,6 +509,8 @@ void lec_encode_mode2_sector(uint32_t adr, uint8_t *sector)
  */
 void lec_encode_mode2_form1_sector(uint32_t adr, uint8_t *sector)
 {
+  lec_init_tables();
+
   set_sync_pattern(sector);
 
   calc_mode2_form1_edc(sector);
@@ -536,6 +535,8 @@ void lec_encode_mode2_form1_sector(uint32_t adr, uint8_t *sector)
  */
 void lec_encode_mode2_form2_sector(uint32_t adr, uint8_t *sector)
 {
+  lec_init_tables();
+
   set_sync_pattern(sector);
 
   calc_mode2_form2_edc(sector);
@@ -549,10 +550,12 @@ void lec_encode_mode2_form2_sector(uint32_t adr, uint8_t *sector)
 void lec_scramble(uint8_t *sector)
 {
   uint16_t i;
-  const uint8_t *stable = SCRAMBLE_TABLE;
+  const uint8_t *stable;
   uint8_t *p = sector;
   uint8_t tmp;
 
+  lec_init_tables();
+  stable = SCRAMBLE_TABLE;
 
   for (i = 0; i < 6; i++) {
       /* just swap bytes of sector sync */

@@ -22,13 +22,15 @@
  *  or direct your browser at http://www.gnu.org.
  */
 
+#include <retro_inline.h>
+
 #include "dvdisaster.h"
 
 /*
  * The following routine is performance critical.
  */
 
-static inline int mod_fieldmax(int x)
+static INLINE int mod_fieldmax(int x)
 {
   while (x >= GF_FIELDMAX) 
   {
