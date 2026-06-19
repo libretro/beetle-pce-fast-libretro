@@ -119,6 +119,10 @@ extern "C" {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_AR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_AR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_AR NULL
+#define PCE_FAST_ADPCMLP_LABEL_AR NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_AR NULL
+#define PCE_FAST_ADPCMLP_INFO_0_AR NULL
+#define PCE_FAST_ADPCMLP_INFO_1_AR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_AR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_AR NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_AR NULL
@@ -746,6 +750,20 @@ struct retro_core_option_v2_definition option_defs_ar[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_AR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_AR,
+      PCE_FAST_ADPCMLP_INFO_0_AR,
+      PCE_FAST_ADPCMLP_INFO_1_AR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_AR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_AR,
@@ -980,6 +998,10 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_AST NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_AST NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_AST NULL
+#define PCE_FAST_ADPCMLP_LABEL_AST NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_AST NULL
+#define PCE_FAST_ADPCMLP_INFO_0_AST NULL
+#define PCE_FAST_ADPCMLP_INFO_1_AST NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_AST NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_AST NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_AST NULL
@@ -1607,6 +1629,20 @@ struct retro_core_option_v2_definition option_defs_ast[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_AST,
+      PCE_FAST_ADPCMLP_LABEL_CAT_AST,
+      PCE_FAST_ADPCMLP_INFO_0_AST,
+      PCE_FAST_ADPCMLP_INFO_1_AST,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_AST,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_AST,
@@ -1841,6 +1877,10 @@ struct retro_core_options_v2 options_ast = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BE "Гучнасць ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_BE "Толькі для CD-гульняў. Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_BE "Занадта высокія значэнні могуць прыводзіць да скажэнняў гуку."
+#define PCE_FAST_ADPCMLP_LABEL_BE NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_BE NULL
+#define PCE_FAST_ADPCMLP_INFO_0_BE NULL
+#define PCE_FAST_ADPCMLP_INFO_1_BE NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_BE "(CD) Гучнасць CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_BE "Гучнасць CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_BE "(CD) Гучнасць PSG %"
@@ -2468,6 +2508,20 @@ struct retro_core_option_v2_definition option_defs_be[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_BE,
+      PCE_FAST_ADPCMLP_LABEL_CAT_BE,
+      PCE_FAST_ADPCMLP_INFO_0_BE,
+      PCE_FAST_ADPCMLP_INFO_1_BE,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_BE,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_BE,
@@ -2702,6 +2756,10 @@ struct retro_core_options_v2 options_be = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_BG NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_BG NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_BG NULL
+#define PCE_FAST_ADPCMLP_LABEL_BG NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_BG NULL
+#define PCE_FAST_ADPCMLP_INFO_0_BG NULL
+#define PCE_FAST_ADPCMLP_INFO_1_BG NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_BG NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_BG NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_BG NULL
@@ -3329,6 +3387,20 @@ struct retro_core_option_v2_definition option_defs_bg[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_BG,
+      PCE_FAST_ADPCMLP_LABEL_CAT_BG,
+      PCE_FAST_ADPCMLP_INFO_0_BG,
+      PCE_FAST_ADPCMLP_INFO_1_BG,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_BG,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_BG,
@@ -3563,6 +3635,10 @@ struct retro_core_options_v2 options_bg = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CA "Volum de ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CA "Només per jocs en CD. Un volum molt alt pot saturar la sortida d'àudio."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CA "Ajustar el volum molt alt pot saturar la sortida d'àudio."
+#define PCE_FAST_ADPCMLP_LABEL_CA "Filtre passabaix de ADPCM (CD)"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CA "Filtre passabaix de ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_CA "Només per jocs en CD. Aplica un filtre passabaix a la reproducció de mostres ADPCM del CD, això redueix els encavalcaments i el soroll en les freqüències altes. El límit escala amb la taxa de les mostres ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_CA "Aplica un filtre passabaix a la reproducció de mostres ADPCM del CD, això redueix els encavalcaments i el soroll en les freqüències altes."
 #define PCE_FAST_CDDAVOLUME_LABEL_CA "Volum CD CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CA "Volum de CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CA "Volum CD PSG %"
@@ -4190,6 +4266,20 @@ struct retro_core_option_v2_definition option_defs_ca[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_CA,
+      PCE_FAST_ADPCMLP_LABEL_CAT_CA,
+      PCE_FAST_ADPCMLP_INFO_0_CA,
+      PCE_FAST_ADPCMLP_INFO_1_CA,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_CA,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_CA,
@@ -4424,6 +4514,10 @@ struct retro_core_options_v2 options_ca = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHS "ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CHS "仅适用于 CD 游戏。音量设置过高可能导致音频削波（失真）。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CHS "音量设置过高可能导致音频削波（失真）。"
+#define PCE_FAST_ADPCMLP_LABEL_CHS NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CHS NULL
+#define PCE_FAST_ADPCMLP_INFO_0_CHS NULL
+#define PCE_FAST_ADPCMLP_INFO_1_CHS NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CHS "（CD）CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHS "CDDA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CHS "（CD）PSG 音量 %"
@@ -5051,6 +5145,20 @@ struct retro_core_option_v2_definition option_defs_chs[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_CHS,
+      PCE_FAST_ADPCMLP_LABEL_CAT_CHS,
+      PCE_FAST_ADPCMLP_INFO_0_CHS,
+      PCE_FAST_ADPCMLP_INFO_1_CHS,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_CHS,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_CHS,
@@ -5285,6 +5393,10 @@ struct retro_core_options_v2 options_chs = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHT "ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CHT "僅限實體或虛擬光碟機載入的遊戲, 音量設定過高可能會導致取樣削波。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CHT "音量設定過高可能會導致取樣削波。"
+#define PCE_FAST_ADPCMLP_LABEL_CHT NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CHT NULL
+#define PCE_FAST_ADPCMLP_INFO_0_CHT NULL
+#define PCE_FAST_ADPCMLP_INFO_1_CHT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CHT "(光碟機) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHT "CDDA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CHT "(光碟機) PSG 音量 %"
@@ -5912,6 +6024,20 @@ struct retro_core_option_v2_definition option_defs_cht[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_CHT,
+      PCE_FAST_ADPCMLP_LABEL_CAT_CHT,
+      PCE_FAST_ADPCMLP_INFO_0_CHT,
+      PCE_FAST_ADPCMLP_INFO_1_CHT,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_CHT,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_CHT,
@@ -6146,6 +6272,10 @@ struct retro_core_options_v2 options_cht = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CS "ADPCM hlasitost %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CS "Pouze hra na CD. Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CS "Příliš vysoké nastavení tohoto ovladače hlasitosti může způsobit oříznutí vzorku."
+#define PCE_FAST_ADPCMLP_LABEL_CS NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CS NULL
+#define PCE_FAST_ADPCMLP_INFO_0_CS NULL
+#define PCE_FAST_ADPCMLP_INFO_1_CS NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CS "(CD) CDDA hlasitost %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CS "CDDA hlasitost %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CS "(CD) PSG hlasitost %"
@@ -6773,6 +6903,20 @@ struct retro_core_option_v2_definition option_defs_cs[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_CS,
+      PCE_FAST_ADPCMLP_LABEL_CAT_CS,
+      PCE_FAST_ADPCMLP_INFO_0_CS,
+      PCE_FAST_ADPCMLP_INFO_1_CS,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_CS,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_CS,
@@ -7007,6 +7151,10 @@ struct retro_core_options_v2 options_cs = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CY NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CY NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CY NULL
+#define PCE_FAST_ADPCMLP_LABEL_CY NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CY NULL
+#define PCE_FAST_ADPCMLP_INFO_0_CY NULL
+#define PCE_FAST_ADPCMLP_INFO_1_CY NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CY NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CY NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_CY NULL
@@ -7634,6 +7782,20 @@ struct retro_core_option_v2_definition option_defs_cy[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_CY,
+      PCE_FAST_ADPCMLP_LABEL_CAT_CY,
+      PCE_FAST_ADPCMLP_INFO_0_CY,
+      PCE_FAST_ADPCMLP_INFO_1_CY,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_CY,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_CY,
@@ -7868,6 +8030,10 @@ struct retro_core_options_v2 options_cy = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_DA NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_DA NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_DA NULL
+#define PCE_FAST_ADPCMLP_LABEL_DA NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_DA NULL
+#define PCE_FAST_ADPCMLP_INFO_0_DA NULL
+#define PCE_FAST_ADPCMLP_INFO_1_DA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_DA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_DA NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_DA NULL
@@ -8495,6 +8661,20 @@ struct retro_core_option_v2_definition option_defs_da[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_DA,
+      PCE_FAST_ADPCMLP_LABEL_CAT_DA,
+      PCE_FAST_ADPCMLP_INFO_0_DA,
+      PCE_FAST_ADPCMLP_INFO_1_DA,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_DA,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_DA,
@@ -8729,6 +8909,10 @@ struct retro_core_options_v2 options_da = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_DE "ADPCM Lautstärke %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_DE "Nur für CD-Spiele. Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_DE "Diese Lautstärke zu hoch einzustellen kann zu Übersteuerung führen."
+#define PCE_FAST_ADPCMLP_LABEL_DE "(CD) ADPCM-Tiefpassfilter"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_DE "ADPCM-Tiefpassfilter"
+#define PCE_FAST_ADPCMLP_INFO_0_DE "Nur für CD-Spiele. Wendet einen Tiefpassfilter auf die Wiedergabe von CD-ADPCM-Samples an, wodurch hochfrequentes Aliasing bzw. ein harter Klang reduziert wird. Die Grenzfrequenz skaliert mit der ADPCM-Abtastrate."
+#define PCE_FAST_ADPCMLP_INFO_1_DE "Wendet einen Tiefpassfilter auf die Wiedergabe von CD-ADPCM-Samples an und reduziert so hochfrequentes Aliasing sowie Härten im Klang."
 #define PCE_FAST_CDDAVOLUME_LABEL_DE "(CD) CDDA Lautstärke %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_DE "CDDA Lautstärke %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_DE "(CD) PSG Lautstärke %"
@@ -9356,6 +9540,20 @@ struct retro_core_option_v2_definition option_defs_de[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_DE,
+      PCE_FAST_ADPCMLP_LABEL_CAT_DE,
+      PCE_FAST_ADPCMLP_INFO_0_DE,
+      PCE_FAST_ADPCMLP_INFO_1_DE,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_DE,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_DE,
@@ -9590,6 +9788,10 @@ struct retro_core_options_v2 options_de = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_EL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_EL NULL
+#define PCE_FAST_ADPCMLP_LABEL_EL NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_EL NULL
+#define PCE_FAST_ADPCMLP_INFO_0_EL NULL
+#define PCE_FAST_ADPCMLP_INFO_1_EL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_EL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_EL NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_EL NULL
@@ -10217,6 +10419,20 @@ struct retro_core_option_v2_definition option_defs_el[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_EL,
+      PCE_FAST_ADPCMLP_LABEL_CAT_EL,
+      PCE_FAST_ADPCMLP_INFO_0_EL,
+      PCE_FAST_ADPCMLP_INFO_1_EL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_EL,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_EL,
@@ -10451,6 +10667,10 @@ struct retro_core_options_v2 options_el = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EN NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_EN NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_EN NULL
+#define PCE_FAST_ADPCMLP_LABEL_EN NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_EN NULL
+#define PCE_FAST_ADPCMLP_INFO_0_EN NULL
+#define PCE_FAST_ADPCMLP_INFO_1_EN NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_EN NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_EN NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_EN NULL
@@ -11078,6 +11298,20 @@ struct retro_core_option_v2_definition option_defs_en[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_EN,
+      PCE_FAST_ADPCMLP_LABEL_CAT_EN,
+      PCE_FAST_ADPCMLP_INFO_0_EN,
+      PCE_FAST_ADPCMLP_INFO_1_EN,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_EN,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_EN,
@@ -11312,6 +11546,10 @@ struct retro_core_options_v2 options_en = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EO NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_EO NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_EO NULL
+#define PCE_FAST_ADPCMLP_LABEL_EO NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_EO NULL
+#define PCE_FAST_ADPCMLP_INFO_0_EO NULL
+#define PCE_FAST_ADPCMLP_INFO_1_EO NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_EO NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_EO NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_EO NULL
@@ -11939,6 +12177,20 @@ struct retro_core_option_v2_definition option_defs_eo[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_EO,
+      PCE_FAST_ADPCMLP_LABEL_CAT_EO,
+      PCE_FAST_ADPCMLP_INFO_0_EO,
+      PCE_FAST_ADPCMLP_INFO_1_EO,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_EO,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_EO,
@@ -12173,6 +12425,10 @@ struct retro_core_options_v2 options_eo = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_ES "Volumen de ADPCM (%)"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_ES "Solo para juegos en CD. Un volumen muy elevado podría saturar las muestras de audio."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_ES "Un volumen muy elevado podría saturar las muestras de audio."
+#define PCE_FAST_ADPCMLP_LABEL_ES "(CD) Filtro de paso bajo para ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_ES "Filtro de paso bajo para ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_ES "Solo para juegos en CD. Aplica un filtro de paso bajo a la reproducción de muestras ADPCM del CD, lo que reducirá los solapamientos y ruidos en las frecuencias altas. El límite se escalará según la frecuencia de muestreo de la señal ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_ES "Aplica un filtro de paso bajo a la reproducción de muestras ADPCM del CD, lo que reducirá los solapamientos y ruidos en las frecuencias altas."
 #define PCE_FAST_CDDAVOLUME_LABEL_ES "(CD) Volumen de CDDA (%)"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_ES "Volumen de CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_ES "(CD) Volumen del PSG (%)"
@@ -12800,6 +13056,20 @@ struct retro_core_option_v2_definition option_defs_es[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_ES,
+      PCE_FAST_ADPCMLP_LABEL_CAT_ES,
+      PCE_FAST_ADPCMLP_INFO_0_ES,
+      PCE_FAST_ADPCMLP_INFO_1_ES,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_ES,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_ES,
@@ -13034,6 +13304,10 @@ struct retro_core_options_v2 options_es = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_FA NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_FA NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_FA NULL
+#define PCE_FAST_ADPCMLP_LABEL_FA NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_FA NULL
+#define PCE_FAST_ADPCMLP_INFO_0_FA NULL
+#define PCE_FAST_ADPCMLP_INFO_1_FA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_FA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_FA NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_FA NULL
@@ -13661,6 +13935,20 @@ struct retro_core_option_v2_definition option_defs_fa[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_FA,
+      PCE_FAST_ADPCMLP_LABEL_CAT_FA,
+      PCE_FAST_ADPCMLP_INFO_0_FA,
+      PCE_FAST_ADPCMLP_INFO_1_FA,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_FA,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_FA,
@@ -13895,6 +14183,10 @@ struct retro_core_options_v2 options_fa = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_FI "ADPCM äänenvoimakkuus %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_FI "Vain CD-peleille. Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_FI "Tämän äänenvoimakkuuden säädön asettaminen liian korkeaksi voi aiheuttaa näytteen pätkimistä."
+#define PCE_FAST_ADPCMLP_LABEL_FI NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_FI NULL
+#define PCE_FAST_ADPCMLP_INFO_0_FI NULL
+#define PCE_FAST_ADPCMLP_INFO_1_FI NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_FI "(CD) CDDA äänenvoimakkuus %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_FI "CDDA äänenvoimakkuus %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_FI "(CD) PSG äänenvoimakkuus %"
@@ -14522,6 +14814,20 @@ struct retro_core_option_v2_definition option_defs_fi[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_FI,
+      PCE_FAST_ADPCMLP_LABEL_CAT_FI,
+      PCE_FAST_ADPCMLP_INFO_0_FI,
+      PCE_FAST_ADPCMLP_INFO_1_FI,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_FI,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_FI,
@@ -14666,7 +14972,7 @@ struct retro_core_options_v2 options_fi = {
 #define OPTION_VAL_RGB_FR "RVB"
 #define OPTION_VAL_COMPOSITE_FR NULL
 #define PCE_FAST_FRAMESKIP_LABEL_FR "Saut d'images"
-#define PCE_FAST_FRAMESKIP_INFO_0_FR "Sauter des images pour éviter que le tampon audio ne soit sous-exécuté (crépitements). Améliore les performances au détriment de la fluidité visuelle. 'Auto' saute des images lorsque l'interface le conseille. 'Manuel' utilise le paramètre 'Seuil de saut d'images (%)'."
+#define PCE_FAST_FRAMESKIP_INFO_0_FR "Sauter des images pour éviter que le tampon audio ne soit sous-exécuté (crépitements). Améliore les performances au détriment de la fluidité visuelle. 'Auto' saute des images lorsque l'interface frontale le conseille. 'Manuel' utilise le paramètre 'Seuil de saut d'images (%)'."
 #define OPTION_VAL_AUTO_FR NULL
 #define OPTION_VAL_MANUAL_FR "Manuel"
 #define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_FR "Seuil de saut d'images (%)"
@@ -14756,6 +15062,10 @@ struct retro_core_options_v2 options_fi = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_FR "Volume ADPCM (%)"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_FR "Jeux CD uniquement. Définir ce contrôle de volume trop élevé peut causer un écrêtement (clipping) de signal."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_FR "Définir ce contrôle de volume trop élevé peut causer un écrêtement (clipping) de signal."
+#define PCE_FAST_ADPCMLP_LABEL_FR "(CD) Filtre passe-bas ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_FR "Filtre passe-bas ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_FR "Jeu sur CD uniquement. Applique un filtre passe-bas à la lecture des échantillons ADPCM du CD, réduisant ainsi l'aliasing et la dureté des hautes fréquences. La fréquence de coupure est proportionnelle à la fréquence d'échantillonnage de l'ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_FR "Applique un filtre passe-bas à la lecture des échantillons ADPCM du CD, réduisant ainsi l'aliasing et la dureté des hautes fréquences."
 #define PCE_FAST_CDDAVOLUME_LABEL_FR "(CD) Volume CDDA (%)"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_FR "Volume CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_FR "(CD) Volume PSG (%)"
@@ -15383,6 +15693,20 @@ struct retro_core_option_v2_definition option_defs_fr[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_FR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_FR,
+      PCE_FAST_ADPCMLP_INFO_0_FR,
+      PCE_FAST_ADPCMLP_INFO_1_FR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_FR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_FR,
@@ -15617,6 +15941,10 @@ struct retro_core_options_v2 options_fr = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GA "% Toirt ADPCM"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_GA "Cluiche CD amháin. Má shocraítear an rialú toirte seo ró-ard, d’fhéadfadh sé go mbeadh bearradh samplach mar thoradh air."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_GA "Má shocraítear an rialú toirte seo ró-ard, d’fhéadfadh sé go mbeadh bearradh samplach mar thoradh air."
+#define PCE_FAST_ADPCMLP_LABEL_GA "Scagaire Íseal-Phas ADPCM (CD)"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_GA "Scagaire Íseal-Phas ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_GA "Cluiche CD amháin. Cuireann sé scagaire pas íseal i bhfeidhm ar athsheinm sampla ADPCM CD, rud a laghdaíonn ailiasú/géarmhinicíocht ard. Scálaíonn an gearradh amach leis an ráta sampla ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_GA "Cuireann sé scagaire ísealpas i bhfeidhm ar athsheinm sampla CD ADPCM, rud a laghdaíonn ailiasú/géarchúis ardmhinicíochta."
 #define PCE_FAST_CDDAVOLUME_LABEL_GA "(CD) % Toirt CDDA"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_GA "% Toirt CDDA"
 #define PCE_FAST_CDPSGVOLUME_LABEL_GA "% Imleabhar PSG (CD)"
@@ -16244,6 +16572,20 @@ struct retro_core_option_v2_definition option_defs_ga[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_GA,
+      PCE_FAST_ADPCMLP_LABEL_CAT_GA,
+      PCE_FAST_ADPCMLP_INFO_0_GA,
+      PCE_FAST_ADPCMLP_INFO_1_GA,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_GA,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_GA,
@@ -16478,6 +16820,10 @@ struct retro_core_options_v2 options_ga = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_GL "% volume ADPCM"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_GL "Só xogo en CD. Axustar este control de volume demasiado alto pode provocar recortes de mostra."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_GL "Axustar este control de volume demasiado alto pode provocar recortes de mostra."
+#define PCE_FAST_ADPCMLP_LABEL_GL "(CD) Filtro paso baixo ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_GL "Filtro paso baixo ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_GL "Só para xogos en CD. Aplica un filtro paso baixo á reprodución de mostras ADPCM de CD, reducindo o aliasing/aspereza de alta frecuencia. A frecuencia de corte escálase coa taxa de mostraxe ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_GL "Aplica un filtro paso baixo á reprodución de mostras ADPCM de CD, reducindo o aliasing/aspereza de alta frecuencia."
 #define PCE_FAST_CDDAVOLUME_LABEL_GL "(CD) CDDA % volume"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_GL "% volume CDDA"
 #define PCE_FAST_CDPSGVOLUME_LABEL_GL "(CD) PSG Volumen %"
@@ -17105,6 +17451,20 @@ struct retro_core_option_v2_definition option_defs_gl[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_GL,
+      PCE_FAST_ADPCMLP_LABEL_CAT_GL,
+      PCE_FAST_ADPCMLP_INFO_0_GL,
+      PCE_FAST_ADPCMLP_INFO_1_GL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_GL,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_GL,
@@ -17339,6 +17699,10 @@ struct retro_core_options_v2 options_gl = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HE NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_HE NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_HE NULL
+#define PCE_FAST_ADPCMLP_LABEL_HE NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_HE NULL
+#define PCE_FAST_ADPCMLP_INFO_0_HE NULL
+#define PCE_FAST_ADPCMLP_INFO_1_HE NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_HE NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_HE NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_HE NULL
@@ -17966,6 +18330,20 @@ struct retro_core_option_v2_definition option_defs_he[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_HE,
+      PCE_FAST_ADPCMLP_LABEL_CAT_HE,
+      PCE_FAST_ADPCMLP_INFO_0_HE,
+      PCE_FAST_ADPCMLP_INFO_1_HE,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_HE,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_HE,
@@ -18099,16 +18477,16 @@ struct retro_core_options_v2 options_he = {
 #define CATEGORY_VIDEO_INFO_0_HR NULL
 #define CATEGORY_INPUT_LABEL_HR NULL
 #define CATEGORY_INPUT_INFO_0_HR NULL
-#define CATEGORY_HACKS_LABEL_HR NULL
+#define CATEGORY_HACKS_LABEL_HR "Hakovanje emulacije"
 #define CATEGORY_HACKS_INFO_0_HR NULL
 #define CATEGORY_CHANNEL_VOLUME_LABEL_HR NULL
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_HR NULL
 #define CATEGORY_CD_LABEL_HR NULL
 #define CATEGORY_CD_INFO_0_HR NULL
-#define PCE_FAST_PALETTE_LABEL_HR NULL
+#define PCE_FAST_PALETTE_LABEL_HR "Paleta boja"
 #define PCE_FAST_PALETTE_INFO_0_HR NULL
 #define OPTION_VAL_RGB_HR NULL
-#define OPTION_VAL_COMPOSITE_HR NULL
+#define OPTION_VAL_COMPOSITE_HR "Kompozitni"
 #define PCE_FAST_FRAMESKIP_LABEL_HR "Preskakanje sličica"
 #define PCE_FAST_FRAMESKIP_INFO_0_HR "Preskočite sličice kako biste izbjegli pražnjenje audio međuspremnika (pucketanje). Poboljšava performanse na štetu glatkoće prikaza. 'Automatski' preskače sličice prema preporuci sučelja. 'Ručno' koristi postavku 'Prag preskakanja sličica (%)'."
 #define OPTION_VAL_AUTO_HR NULL
@@ -18200,13 +18578,17 @@ struct retro_core_options_v2 options_he = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_HR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_HR NULL
+#define PCE_FAST_ADPCMLP_LABEL_HR NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_HR NULL
+#define PCE_FAST_ADPCMLP_INFO_0_HR NULL
+#define PCE_FAST_ADPCMLP_INFO_1_HR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_HR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_HR NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_HR NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_HR NULL
 #define PCE_FAST_CDIGNOREERRORS_LABEL_HR NULL
 #define PCE_FAST_CDIGNOREERRORS_INFO_0_HR NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_HR NULL
+#define PCE_FAST_NOSPRITELIMIT_LABEL_HR "Bez ograničenja broja spriteova"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_HR NULL
 #define PCE_FAST_OCMULTIPLIER_LABEL_HR NULL
 #define PCE_FAST_OCMULTIPLIER_INFO_0_HR NULL
@@ -18827,6 +19209,20 @@ struct retro_core_option_v2_definition option_defs_hr[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_HR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_HR,
+      PCE_FAST_ADPCMLP_INFO_0_HR,
+      PCE_FAST_ADPCMLP_INFO_1_HR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_HR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_HR,
@@ -19061,6 +19457,10 @@ struct retro_core_options_v2 options_hr = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_HU "ADPCM hangerő %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_HU "Csak CD játékoknál. Ezen hangerő túl magas értéke torzítást okozhat."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_HU "Ezen hangerő túl magas értéke torzítást okozhat."
+#define PCE_FAST_ADPCMLP_LABEL_HU NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_HU NULL
+#define PCE_FAST_ADPCMLP_INFO_0_HU NULL
+#define PCE_FAST_ADPCMLP_INFO_1_HU NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_HU "(CD) CDDA hangerő %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_HU "CDDA hangerő %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_HU "(CD) PSG hangerő %"
@@ -19688,6 +20088,20 @@ struct retro_core_option_v2_definition option_defs_hu[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_HU,
+      PCE_FAST_ADPCMLP_LABEL_CAT_HU,
+      PCE_FAST_ADPCMLP_INFO_0_HU,
+      PCE_FAST_ADPCMLP_INFO_1_HU,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_HU,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_HU,
@@ -19922,6 +20336,10 @@ struct retro_core_options_v2 options_hu = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_ID NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_ID NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_ID NULL
+#define PCE_FAST_ADPCMLP_LABEL_ID NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_ID NULL
+#define PCE_FAST_ADPCMLP_INFO_0_ID NULL
+#define PCE_FAST_ADPCMLP_INFO_1_ID NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_ID NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_ID NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_ID NULL
@@ -20549,6 +20967,20 @@ struct retro_core_option_v2_definition option_defs_id[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_ID,
+      PCE_FAST_ADPCMLP_LABEL_CAT_ID,
+      PCE_FAST_ADPCMLP_INFO_0_ID,
+      PCE_FAST_ADPCMLP_INFO_1_ID,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_ID,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_ID,
@@ -20783,6 +21215,10 @@ struct retro_core_options_v2 options_id = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_IT "Volume ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_IT "Solo gioco di CD. Impostare questo controllo del volume troppo alto può causare ritaglio di campione."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_IT "Impostare questo controllo del volume troppo alto può causare clip di campione."
+#define PCE_FAST_ADPCMLP_LABEL_IT NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_IT NULL
+#define PCE_FAST_ADPCMLP_INFO_0_IT NULL
+#define PCE_FAST_ADPCMLP_INFO_1_IT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_IT "(CD) Volume CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_IT "Volume CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_IT "(CD) Volume PSG %"
@@ -21410,6 +21846,20 @@ struct retro_core_option_v2_definition option_defs_it[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_IT,
+      PCE_FAST_ADPCMLP_LABEL_CAT_IT,
+      PCE_FAST_ADPCMLP_INFO_0_IT,
+      PCE_FAST_ADPCMLP_INFO_1_IT,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_IT,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_IT,
@@ -21644,6 +22094,10 @@ struct retro_core_options_v2 options_it = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_JA "ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_JA "CD ゲームのみです。この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_JA "この音量を高く設定しすぎるとサンプルクリッピングが発生する可能性があります。"
+#define PCE_FAST_ADPCMLP_LABEL_JA NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_JA NULL
+#define PCE_FAST_ADPCMLP_INFO_0_JA NULL
+#define PCE_FAST_ADPCMLP_INFO_1_JA NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_JA "(CD) CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_JA "CD-DA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_JA "(CD) PSG 音量 %"
@@ -22271,6 +22725,20 @@ struct retro_core_option_v2_definition option_defs_ja[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_JA,
+      PCE_FAST_ADPCMLP_LABEL_CAT_JA,
+      PCE_FAST_ADPCMLP_INFO_0_JA,
+      PCE_FAST_ADPCMLP_INFO_1_JA,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_JA,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_JA,
@@ -22505,6 +22973,10 @@ struct retro_core_options_v2 options_ja = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_KO "ADPCM 볼륨 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_KO "CD 게임에 해당합니다. 볼륨을 너무 높게 설정하면 샘플 클리핑이 발생할 수 있습니다."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_KO "볼륨을 너무 높게 설정하면 샘플 클리핑이 발생할 수 있습니다."
+#define PCE_FAST_ADPCMLP_LABEL_KO "(CD) ADPCM 로우패스 필터"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_KO "ADPCM 로우패스 필터"
+#define PCE_FAST_ADPCMLP_INFO_0_KO "CD 게임에만 해당됩니다. CD ADPCM 샘플에 로우패스 필터를 적용하여, 계단 현상 또는 거친 샘플로 인해 생기는 고주파음을 줄입니다. 컷오프 수치는 ADPCM 샘플 레이트에 비례하여 결정됩니다."
+#define PCE_FAST_ADPCMLP_INFO_1_KO "CD ADPCM 샘플에 로우패스 필터를 적용하여, 계단 현상 또는 거친 샘플로 인해 생기는 고주파음을 줄입니다."
 #define PCE_FAST_CDDAVOLUME_LABEL_KO "(CD) CDDA 음량 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_KO "CDDA 음량 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_KO "(CD) PSG 볼륨 %"
@@ -23132,6 +23604,20 @@ struct retro_core_option_v2_definition option_defs_ko[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_KO,
+      PCE_FAST_ADPCMLP_LABEL_CAT_KO,
+      PCE_FAST_ADPCMLP_INFO_0_KO,
+      PCE_FAST_ADPCMLP_INFO_1_KO,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_KO,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_KO,
@@ -23366,6 +23852,10 @@ struct retro_core_options_v2 options_ko = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_NL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_NL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_NL NULL
+#define PCE_FAST_ADPCMLP_LABEL_NL NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_NL NULL
+#define PCE_FAST_ADPCMLP_INFO_0_NL NULL
+#define PCE_FAST_ADPCMLP_INFO_1_NL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_NL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_NL NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_NL NULL
@@ -23993,6 +24483,20 @@ struct retro_core_option_v2_definition option_defs_nl[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_NL,
+      PCE_FAST_ADPCMLP_LABEL_CAT_NL,
+      PCE_FAST_ADPCMLP_INFO_0_NL,
+      PCE_FAST_ADPCMLP_INFO_1_NL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_NL,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_NL,
@@ -24227,6 +24731,10 @@ struct retro_core_options_v2 options_nl = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_NO NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_NO NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_NO NULL
+#define PCE_FAST_ADPCMLP_LABEL_NO NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_NO NULL
+#define PCE_FAST_ADPCMLP_INFO_0_NO NULL
+#define PCE_FAST_ADPCMLP_INFO_1_NO NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_NO NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_NO NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_NO NULL
@@ -24854,6 +25362,20 @@ struct retro_core_option_v2_definition option_defs_no[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_NO,
+      PCE_FAST_ADPCMLP_LABEL_CAT_NO,
+      PCE_FAST_ADPCMLP_INFO_0_NO,
+      PCE_FAST_ADPCMLP_INFO_1_NO,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_NO,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_NO,
@@ -25088,6 +25610,10 @@ struct retro_core_options_v2 options_no = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_OR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_OR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_OR NULL
+#define PCE_FAST_ADPCMLP_LABEL_OR NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_OR NULL
+#define PCE_FAST_ADPCMLP_INFO_0_OR NULL
+#define PCE_FAST_ADPCMLP_INFO_1_OR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_OR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_OR NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_OR NULL
@@ -25715,6 +26241,20 @@ struct retro_core_option_v2_definition option_defs_or[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_OR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_OR,
+      PCE_FAST_ADPCMLP_INFO_0_OR,
+      PCE_FAST_ADPCMLP_INFO_1_OR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_OR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_OR,
@@ -25949,6 +26489,10 @@ struct retro_core_options_v2 options_or = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_PL "Głośność ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_PL "Tylko gra CD. Ustawienie tej kontroli głośności może spowodować przycinanie próbki."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_PL "Ustawienie zbyt dużej regulacji głośności może spowodować przycinanie próbki."
+#define PCE_FAST_ADPCMLP_LABEL_PL NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_PL NULL
+#define PCE_FAST_ADPCMLP_INFO_0_PL NULL
+#define PCE_FAST_ADPCMLP_INFO_1_PL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_PL "(CD) Głośność CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_PL "Głośność CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_PL "(CD) Głośność PSG %"
@@ -26576,6 +27120,20 @@ struct retro_core_option_v2_definition option_defs_pl[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_PL,
+      PCE_FAST_ADPCMLP_LABEL_CAT_PL,
+      PCE_FAST_ADPCMLP_INFO_0_PL,
+      PCE_FAST_ADPCMLP_INFO_1_PL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_PL,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_PL,
@@ -26810,6 +27368,10 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_PT_BR "Volume do ADPCM (%)"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_PT_BR "Somente em CD. Definir o controle de volume muito alto pode causar cortes de amostra."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_PT_BR "Definir o controle de volume muito alto pode causar cortes de amostra."
+#define PCE_FAST_ADPCMLP_LABEL_PT_BR "(CD) Filtro Passa-baixas ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_PT_BR "Filtro passa-baixas ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_PT_BR "Apenas jogos em CD. Aplica um filtro passa-baixas à reprodução de amostras ADPCM de CD, reduzindo a aspereza e o aliasing de alta frequência. O corte varia conforme a taxa de amostragem ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_PT_BR "Aplica um filtro passa-baixas à reprodução de amostras ADPCM de CD, reduzindo a aspereza e o aliasing de alta frequência."
 #define PCE_FAST_CDDAVOLUME_LABEL_PT_BR "(CD) Volume do CDDA (%)"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_BR "Volume do CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_PT_BR "(CD) Volume do PSG (%)"
@@ -27437,6 +27999,20 @@ struct retro_core_option_v2_definition option_defs_pt_br[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_PT_BR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_PT_BR,
+      PCE_FAST_ADPCMLP_INFO_0_PT_BR,
+      PCE_FAST_ADPCMLP_INFO_1_PT_BR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_PT_BR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_BR,
@@ -27671,6 +28247,10 @@ struct retro_core_options_v2 options_pt_br = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_PT_PT NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_PT_PT NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_PT_PT NULL
+#define PCE_FAST_ADPCMLP_LABEL_PT_PT NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_PT_PT NULL
+#define PCE_FAST_ADPCMLP_INFO_0_PT_PT NULL
+#define PCE_FAST_ADPCMLP_INFO_1_PT_PT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_PT_PT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_PT NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_PT_PT NULL
@@ -28298,6 +28878,20 @@ struct retro_core_option_v2_definition option_defs_pt_pt[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_PT_PT,
+      PCE_FAST_ADPCMLP_LABEL_CAT_PT_PT,
+      PCE_FAST_ADPCMLP_INFO_0_PT_PT,
+      PCE_FAST_ADPCMLP_INFO_1_PT_PT,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_PT_PT,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_PT_PT,
@@ -28532,6 +29126,10 @@ struct retro_core_options_v2 options_pt_pt = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_RU "Громкость ADPCM (%)"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_RU "Только для CD-игр. Слишком высокие значения могут приводить к искажениям звука."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_RU "Слишком высокие значения могут приводить к искажениям звука."
+#define PCE_FAST_ADPCMLP_LABEL_RU "(CD) Фильтр нижних частот ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_RU "Фильтр нижних частот ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_RU "Только для игр на CD. Применяет фильтр нижних частот для сэмплов CD ADPCM, уменьшая высокочастотные искажения. Частота среза масштабируется согласно частоте ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_RU "Применяет фильтр нижних частот для сэмплов CD ADPCM, уменьшая высокочастотные искажения."
 #define PCE_FAST_CDDAVOLUME_LABEL_RU "(CD) Громкость CDDA"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_RU "Громкость CDDA (%)"
 #define PCE_FAST_CDPSGVOLUME_LABEL_RU "(CD) Громкость PSG"
@@ -29159,6 +29757,20 @@ struct retro_core_option_v2_definition option_defs_ru[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_RU,
+      PCE_FAST_ADPCMLP_LABEL_CAT_RU,
+      PCE_FAST_ADPCMLP_INFO_0_RU,
+      PCE_FAST_ADPCMLP_INFO_1_RU,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_RU,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_RU,
@@ -29393,6 +30005,10 @@ struct retro_core_options_v2 options_ru = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SK "ADPCM hlasitosť %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_SK "Iba CD hry. Príliš vysoké nastavenie tejto hlasitosti môže spôsobiť orezanie vzoriek."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_SK "Príliš vysoké nastavenie tejto hlasitosti môže spôsobiť orezanie vzoriek."
+#define PCE_FAST_ADPCMLP_LABEL_SK NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_SK NULL
+#define PCE_FAST_ADPCMLP_INFO_0_SK NULL
+#define PCE_FAST_ADPCMLP_INFO_1_SK NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_SK "(CD) CDDA hlasitosť %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SK "CDDA hlasitosť %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SK "(CD) PSG hlasitosť %"
@@ -30020,6 +30636,20 @@ struct retro_core_option_v2_definition option_defs_sk[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_SK,
+      PCE_FAST_ADPCMLP_LABEL_CAT_SK,
+      PCE_FAST_ADPCMLP_INFO_0_SK,
+      PCE_FAST_ADPCMLP_INFO_1_SK,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_SK,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_SK,
@@ -30254,6 +30884,10 @@ struct retro_core_options_v2 options_sk = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_SR NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_SR NULL
+#define PCE_FAST_ADPCMLP_LABEL_SR NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_SR NULL
+#define PCE_FAST_ADPCMLP_INFO_0_SR NULL
+#define PCE_FAST_ADPCMLP_INFO_1_SR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_SR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SR NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_SR NULL
@@ -30881,6 +31515,20 @@ struct retro_core_option_v2_definition option_defs_sr[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_SR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_SR,
+      PCE_FAST_ADPCMLP_INFO_0_SR,
+      PCE_FAST_ADPCMLP_INFO_1_SR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_SR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_SR,
@@ -31115,6 +31763,10 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_SV "Volym för ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_SV "Endast CD-spel. Ifall du ställer in volymen för högt kan ljudkvaliteten försämras och leda till samplingsklippning."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_SV "Ifall du ställer in volymen för högt kan ljudkvaliten försämras och leda till samplingsklippning."
+#define PCE_FAST_ADPCMLP_LABEL_SV NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_SV NULL
+#define PCE_FAST_ADPCMLP_INFO_0_SV NULL
+#define PCE_FAST_ADPCMLP_INFO_1_SV NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_SV "(CD) CDDA Volym %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV "Volym för CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
@@ -31742,6 +32394,20 @@ struct retro_core_option_v2_definition option_defs_sv[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_SV,
+      PCE_FAST_ADPCMLP_LABEL_CAT_SV,
+      PCE_FAST_ADPCMLP_INFO_0_SV,
+      PCE_FAST_ADPCMLP_INFO_1_SV,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_SV,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_SV,
@@ -31976,6 +32642,10 @@ struct retro_core_options_v2 options_sv = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_TH "ระดับเสียง ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_TH "ใช้สำหรับเกม CD เท่านั้น การตั้งค่าระดับเสียงนี้สูงเกินไปอาจทำให้เสียงแตก (Clipping) ได้"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_TH "การตั้งค่าระดับเสียงนี้สูงเกินไปอาจทำให้เสียงแตก (Sample Clipping) ได้"
+#define PCE_FAST_ADPCMLP_LABEL_TH NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_TH NULL
+#define PCE_FAST_ADPCMLP_INFO_0_TH NULL
+#define PCE_FAST_ADPCMLP_INFO_1_TH NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_TH "ระดับเสียง (CD) CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_TH "ระดับเสียง CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_TH "ระดับเสียง (CD) PSG %"
@@ -32603,6 +33273,20 @@ struct retro_core_option_v2_definition option_defs_th[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_TH,
+      PCE_FAST_ADPCMLP_LABEL_CAT_TH,
+      PCE_FAST_ADPCMLP_INFO_0_TH,
+      PCE_FAST_ADPCMLP_INFO_1_TH,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_TH,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_TH,
@@ -32837,6 +33521,10 @@ struct retro_core_options_v2 options_th = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_TR "ADPCM Ses Seviyesi %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_TR "Sadece CD oyunları için. Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_TR "Bu ses ayarını aşırı yükseltmek seste yırtılmalara sebep olabilir."
+#define PCE_FAST_ADPCMLP_LABEL_TR NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_TR NULL
+#define PCE_FAST_ADPCMLP_INFO_0_TR NULL
+#define PCE_FAST_ADPCMLP_INFO_1_TR NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_TR "(CD) CDDA Ses Seviyesi %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_TR "CDDA Ses Seviyesi %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_TR "(CD) PSG Ses Seviyesi %"
@@ -33464,6 +34152,20 @@ struct retro_core_option_v2_definition option_defs_tr[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_TR,
+      PCE_FAST_ADPCMLP_LABEL_CAT_TR,
+      PCE_FAST_ADPCMLP_INFO_0_TR,
+      PCE_FAST_ADPCMLP_INFO_1_TR,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_TR,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_TR,
@@ -33698,6 +34400,10 @@ struct retro_core_options_v2 options_tr = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_TT NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_TT NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_TT NULL
+#define PCE_FAST_ADPCMLP_LABEL_TT NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_TT NULL
+#define PCE_FAST_ADPCMLP_INFO_0_TT NULL
+#define PCE_FAST_ADPCMLP_INFO_1_TT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_TT NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_TT NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_TT NULL
@@ -34325,6 +35031,20 @@ struct retro_core_option_v2_definition option_defs_tt[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_TT,
+      PCE_FAST_ADPCMLP_LABEL_CAT_TT,
+      PCE_FAST_ADPCMLP_INFO_0_TT,
+      PCE_FAST_ADPCMLP_INFO_1_TT,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_TT,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_TT,
@@ -34559,6 +35279,10 @@ struct retro_core_options_v2 options_tt = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_UK "Гучність ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_UK "Гра CD тільки встановили цей контроль гучності занадто високо може викликати обрізання вибірки."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_UK "Якщо встановити цей контроль гучності занадто високий, це може призвести до відключення зразків."
+#define PCE_FAST_ADPCMLP_LABEL_UK NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_UK NULL
+#define PCE_FAST_ADPCMLP_INFO_0_UK NULL
+#define PCE_FAST_ADPCMLP_INFO_1_UK NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_UK "(CD) Гучність CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_UK "Гучність CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_UK "(CD) Гучність PSG %"
@@ -35186,6 +35910,20 @@ struct retro_core_option_v2_definition option_defs_uk[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_UK,
+      PCE_FAST_ADPCMLP_LABEL_CAT_UK,
+      PCE_FAST_ADPCMLP_INFO_0_UK,
+      PCE_FAST_ADPCMLP_INFO_1_UK,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_UK,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_UK,
@@ -35420,6 +36158,10 @@ struct retro_core_options_v2 options_uk = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_VAL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_0_VAL NULL
 #define PCE_FAST_ADPCMVOLUME_INFO_1_VAL NULL
+#define PCE_FAST_ADPCMLP_LABEL_VAL NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_VAL NULL
+#define PCE_FAST_ADPCMLP_INFO_0_VAL NULL
+#define PCE_FAST_ADPCMLP_INFO_1_VAL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_VAL NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_VAL NULL
 #define PCE_FAST_CDPSGVOLUME_LABEL_VAL NULL
@@ -36047,6 +36789,20 @@ struct retro_core_option_v2_definition option_defs_val[] = {
       "100"
    },
    {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_VAL,
+      PCE_FAST_ADPCMLP_LABEL_CAT_VAL,
+      PCE_FAST_ADPCMLP_INFO_0_VAL,
+      PCE_FAST_ADPCMLP_INFO_1_VAL,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
+   },
+   {
       "pce_fast_cddavolume",
       PCE_FAST_CDDAVOLUME_LABEL_VAL,
       PCE_FAST_CDDAVOLUME_LABEL_CAT_VAL,
@@ -36281,6 +37037,10 @@ struct retro_core_options_v2 options_val = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_VN "Âm lượng ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_VN "Chỉ áp dụng cho game CD. Đặt âm lượng này quá cao có thể gây méo tiếng mẫu."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_VN "Đặt âm lượng này quá cao có thể gây méo tiếng mẫu."
+#define PCE_FAST_ADPCMLP_LABEL_VN "(CD) Bộ lọc thông thấp ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_VN "Bộ lọc thông thấp ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_VN "Chỉ dành cho game CD. Áp dụng bộ lọc thông thấp lên quá trình phát lại mẫu ADPCM từ CD, giúp giảm hiện tượng răng cưa/âm gắt ở dải tần cao. Tần số cắt sẽ thay đổi theo tốc độ lấy mẫu ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_VN "Áp dụng bộ lọc thông thấp lên quá trình phát lại mẫu ADPCM từ CD, giúp giảm hiện tượng răng cưa/âm gắt ở dải tần cao."
 #define PCE_FAST_CDDAVOLUME_LABEL_VN "(CD) Âm lượng CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_VN "Âm lượng CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_VN "(CD) Âm lượng PSG %"
@@ -36906,6 +37666,20 @@ struct retro_core_option_v2_definition option_defs_vn[] = {
          { NULL, NULL },
       },
       "100"
+   },
+   {
+      "pce_fast_adpcmlp",
+      PCE_FAST_ADPCMLP_LABEL_VN,
+      PCE_FAST_ADPCMLP_LABEL_CAT_VN,
+      PCE_FAST_ADPCMLP_INFO_0_VN,
+      PCE_FAST_ADPCMLP_INFO_1_VN,
+      "cd",
+      {
+         { "disabled", NULL },
+         { "enabled", NULL },
+         { NULL, NULL },
+      },
+      "disabled"
    },
    {
       "pce_fast_cddavolume",
