@@ -11441,50 +11441,50 @@ struct retro_core_options_v2 options_en = {
 
 /* RETRO_LANGUAGE_EO */
 
-#define CATEGORY_VIDEO_LABEL_EO "Video Driver"
-#define CATEGORY_VIDEO_INFO_0_EO NULL
-#define CATEGORY_INPUT_LABEL_EO "Input Driver"
-#define CATEGORY_INPUT_INFO_0_EO NULL
-#define CATEGORY_HACKS_LABEL_EO NULL
-#define CATEGORY_HACKS_INFO_0_EO NULL
-#define CATEGORY_CHANNEL_VOLUME_LABEL_EO NULL
-#define CATEGORY_CHANNEL_VOLUME_INFO_0_EO NULL
-#define CATEGORY_CD_LABEL_EO NULL
-#define CATEGORY_CD_INFO_0_EO NULL
-#define PCE_FAST_PALETTE_LABEL_EO NULL
-#define PCE_FAST_PALETTE_INFO_0_EO NULL
+#define CATEGORY_VIDEO_LABEL_EO NULL
+#define CATEGORY_VIDEO_INFO_0_EO "Konfiguri ekrana stucado, filmera pretarpasado kaj aliaj parametroj de bilda eligo."
+#define CATEGORY_INPUT_LABEL_EO "Enigo"
+#define CATEGORY_INPUT_INFO_0_EO "Konfiguri enigon de \"light gun\", muso kaj NegCon."
+#define CATEGORY_HACKS_LABEL_EO "Imitadaj kodumaĵoj"
+#define CATEGORY_HACKS_INFO_0_EO "Konfiguri parametrojn de procesora trorapidigo kaj imitada precizo influantajn malaltnivela rendimenton kaj kongrueblecon."
+#define CATEGORY_CHANNEL_VOLUME_LABEL_EO "Altnivelaj agordoj de volumeno de kanaloj"
+#define CATEGORY_CHANNEL_VOLUME_INFO_0_EO "Konfiguri la volumenon de individuaj aparataraj sonkanaloj."
+#define CATEGORY_CD_LABEL_EO "KD de personkomputila motoro"
+#define CATEGORY_CD_INFO_0_EO "Konfiguri agordojn rilatajn al la imitado de KD de personkomputila motoro."
+#define PCE_FAST_PALETTE_LABEL_EO "Kolorpaletro"
+#define PCE_FAST_PALETTE_INFO_0_EO "\"Kunmetita\" provas rekrei la originalan konzolan eligon kaj povas montri pli da detajloj en kelkaj ludoj."
 #define OPTION_VAL_RGB_EO NULL
-#define OPTION_VAL_COMPOSITE_EO NULL
-#define PCE_FAST_FRAMESKIP_LABEL_EO NULL
-#define PCE_FAST_FRAMESKIP_INFO_0_EO NULL
-#define OPTION_VAL_AUTO_EO NULL
-#define OPTION_VAL_MANUAL_EO NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_EO NULL
-#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_EO NULL
-#define OPTION_VAL_33_EO NULL
-#define PCE_FAST_HOVERSCAN_LABEL_EO NULL
-#define PCE_FAST_HOVERSCAN_INFO_0_EO NULL
-#define OPTION_VAL_352_EO NULL
-#define PCE_FAST_INITIAL_SCANLINE_LABEL_EO NULL
-#define PCE_FAST_INITIAL_SCANLINE_INFO_0_EO NULL
-#define OPTION_VAL_3_EO NULL
-#define PCE_FAST_LAST_SCANLINE_LABEL_EO NULL
-#define PCE_FAST_LAST_SCANLINE_INFO_0_EO NULL
-#define OPTION_VAL_242_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_EO NULL
-#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_EO NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_EO NULL
-#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_EO NULL
+#define OPTION_VAL_COMPOSITE_EO "Kunmetita"
+#define PCE_FAST_FRAMESKIP_LABEL_EO "Filmera preterpaso"
+#define PCE_FAST_FRAMESKIP_INFO_0_EO "Preterpasi filmerojn por eviti saturi la sonan bufron (krevsonoj). Plibonigas rendimenton kontraŭ vida glateco. \"Aŭtomate\" preterpasas filmerojn kiam admonita de la fasado. \"Permana\" utiligas la agordon \"Sojlo de filmera preterpaso (%)\"."
+#define OPTION_VAL_AUTO_EO "Aŭtomata"
+#define OPTION_VAL_MANUAL_EO "Permana"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_LABEL_EO "Sojlo de filmera preterpaso (%)"
+#define PCE_FAST_FRAMESKIP_THRESHOLD_INFO_0_EO "Kiam \"Filmera preterpaso\" estas agordita al \"Permana\", ĝi specifas la okupadan sojlon de la sona bufro (je procento) sub kiu filmeroj estos preterpasataj. Pli altaj valoroj malpliigas la riskon de krevsonoj farigante al filmeroj malpliiĝi pli ofte."
+#define OPTION_VAL_33_EO "33 (defaŭlta)"
+#define PCE_FAST_HOVERSCAN_LABEL_EO "Horizontala superskano (nur reĝimo de larĝo je 352)"
+#define PCE_FAST_HOVERSCAN_INFO_0_EO "Elekti la maksimuman bildan larĝon monstrotan. Pli malaltaj valoroj stucos la dekstran flankon de la bildo (por ludoj je larĝo de 352 bilderoj)."
+#define OPTION_VAL_352_EO "352 (defaŭlta)"
+#define PCE_FAST_INITIAL_SCANLINE_LABEL_EO "Komenca skanlinio"
+#define PCE_FAST_INITIAL_SCANLINE_INFO_0_EO "Unue bildigita skanlinio. Pli altaj valoroj stucos la supron de la bildo."
+#define OPTION_VAL_3_EO "3 (defaŭlte)"
+#define PCE_FAST_LAST_SCANLINE_LABEL_EO "Lasta skanlinio"
+#define PCE_FAST_LAST_SCANLINE_INFO_0_EO "Laste bildigita skanlinio. Pli malaltaj valoroj stucos la malsupron de la bildo."
+#define OPTION_VAL_242_EO "242 (defaŭlte)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_LABEL_EO "Volumeno de sonkanalo 0 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_0_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 0 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_LABEL_EO "Volumeno de sonkanalo 1 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_1_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 1 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_LABEL_EO "Volumeno de sonkanalo 2 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_2_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 2 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_LABEL_EO "Volumeno de sonkanalo 3 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_3_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 3 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_LABEL_EO "Volumeno de sonkanalo 4 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_4_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 4 de PSG."
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_LABEL_EO "Volumeno de sonkanalo 5 de PSG (%)"
+#define PCE_FAST_SOUND_CHANNEL_5_VOLUME_INFO_0_EO "Modifi la volumenon de la sonkanalo 5 de PSG."
+#define PCE_FAST_MOUSE_SENSITIVITY_LABEL_EO "Musa sentemo"
+#define PCE_FAST_MOUSE_SENSITIVITY_INFO_0_EO "Pli altaj valoroj faros, ke la musindikilo moviĝu pli rapide."
 #define OPTION_VAL_0_25_EO NULL
 #define OPTION_VAL_0_50_EO NULL
 #define OPTION_VAL_0_75_EO NULL
@@ -11505,61 +11505,61 @@ struct retro_core_options_v2 options_en = {
 #define OPTION_VAL_4_50_EO NULL
 #define OPTION_VAL_4_75_EO NULL
 #define OPTION_VAL_5_00_EO NULL
-#define PCE_FAST_DISABLE_SOFTRESET_LABEL_EO NULL
-#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO NULL
-#define OPTION_VAL_2_BUTTONS_EO NULL
-#define OPTION_VAL_6_BUTTONS_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO NULL
-#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO NULL
-#define PCE_FAST_TURBO_TOGGLING_LABEL_EO NULL
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_EO NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EO NULL
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EO NULL
-#define PCE_FAST_TURBO_DELAY_LABEL_EO NULL
-#define PCE_FAST_TURBO_DELAY_INFO_0_EO NULL
-#define PCE_FAST_CDIMAGECACHE_LABEL_EO NULL
-#define PCE_FAST_CDIMAGECACHE_INFO_0_EO NULL
-#define PCE_FAST_CDBIOS_LABEL_EO NULL
-#define PCE_FAST_CDBIOS_INFO_0_EO NULL
+#define PCE_FAST_DISABLE_SOFTRESET_LABEL_EO "Malebligi partan restartigon (RUN+SELECT)"
+#define PCE_FAST_DISABLE_SOFTRESET_INFO_0_EO "Kiam RUN kaj SELECT estas premtataj samtempe, malebligi ambaŭ butonojn portempe anstataŭ resartigante."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_EO "Defaŭlta ludregila speco de konektejo 1"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_EO "Elekti se la ludregilo de konektejo 1 devus esti 2- aŭ 6-butona defaŭlte. Ĉi tiu opcio nur aplikiĝas kiam la kerno startas, se vi volas ŝanĝi dum enhavo ruliĝas, uzu la butonon \"Ŝanĝi reĝimon\". NOTO: 6-butonaj ludregiloj povas havi strangajn kondutojn en nekongruaj ludoj."
+#define OPTION_VAL_2_BUTTONS_EO "2-butona"
+#define OPTION_VAL_6_BUTTONS_EO "6-butona "
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_EO "Defaŭlta ludregila speco de konektejo 2"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_EO "Elekti se la ludregilo de konektejo 2 devus esti 2- aŭ 6-butona defaŭlte. Ĉi tiu opcio nur aplikiĝas kiam la kerno startas, se vi volas ŝanĝi dum enhavo ruliĝas, uzu la butonon \"Ŝanĝi reĝimon\". NOTO: 6-butonaj ludregiloj povas havi strangajn kondutojn en nekongruaj ludoj."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_EO "Defaŭlta ludregila speco de konektejo 3"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_INFO_0_EO "Elekti se la ludregilo de konektejo 3 devus esti 2- aŭ 6-butona defaŭlte. Ĉi tiu opcio nur aplikiĝas kiam la kerno startas, se vi volas ŝanĝi dum enhavo ruliĝas, uzu la butonon \"Ŝanĝi reĝimon\". NOTO: 6-butonaj ludregiloj povas havi strangajn kondutojn en nekongruaj ludoj."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_LABEL_EO "Defaŭlta ludregila speco de konektejo 4"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P4_INFO_0_EO "Elekti se la ludregilo de konektejo 4 devus esti 2- aŭ 6-butona defaŭlte. Ĉi tiu opcio nur aplikiĝas kiam la kerno startas, se vi volas ŝanĝi dum enhavo ruliĝas, uzu la butonon \"Ŝanĝi reĝimon\". NOTO: 6-butonaj ludregiloj povas havi strangajn kondutojn en nekongruaj ludoj."
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_EO "Defaŭlta ludregila speco de konektejo 5"
+#define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_EO "Elekti se la ludregilo de konektejo 5 devus esti 2- aŭ 6-butona defaŭlte. Ĉi tiu opcio nur aplikiĝas kiam la kerno startas, se vi volas ŝanĝi dum enhavo ruliĝas, uzu la butonon \"Ŝanĝi reĝimon\". NOTO: 6-butonaj ludregiloj povas havi strangajn kondutojn en nekongruaj ludoj."
+#define PCE_FAST_TURBO_TOGGLING_LABEL_EO "Ŝalti adan aktivigon"
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_EO "Ebligi la fulmoklavojn ŝalti adan aktivigon (butonoj III kaj IV)."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EO "Alternativa fulmoklavo de ada aktivigo"
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EO "Asigni la butonojn L3/R3 de RetroPad kiel fulmoklavoj de ada aktivigo anstataŭ la butonoj III kaj IV. Nur funkcias dum nenio estas asignita al la butonojn L3/R3. Oni povas eviti reasigni la butnojn III kaj IV kiam ŝanĝante al reĝimo de 6-butona regilo per ĉi tio."
+#define PCE_FAST_TURBO_DELAY_LABEL_EO "Prokrasto de ada aktivigo"
+#define PCE_FAST_TURBO_DELAY_INFO_0_EO "Alĝustigi la tempon inter ada aktivigo (je filmeroj)."
+#define PCE_FAST_CDIMAGECACHE_LABEL_EO "Kaŝmemoro de KD-a kopio (bezonas restartigon)"
+#define PCE_FAST_CDIMAGECACHE_INFO_0_EO "Ŝargi la kompletan ekzaktan kopion en memoron ĉe startigo. Povas eble malpliigi ŝargotempojn kontraŭ pliigita startigtempo."
+#define PCE_FAST_CDBIOS_LABEL_EO "KD-a BIOS (bezonas restartigon)"
+#define PCE_FAST_CDBIOS_INFO_0_EO "La plej multo de la ludoj povas ruliĝi en \"System Card 3\". \"Games Express\" estas bezonata por multaj senlicencaj ludoj."
 #define OPTION_VAL_GAMES_EXPRESS_EO NULL
 #define OPTION_VAL_SYSTEM_CARD_1_EO NULL
 #define OPTION_VAL_SYSTEM_CARD_2_EO NULL
 #define OPTION_VAL_SYSTEM_CARD_3_EO NULL
-#define OPTION_VAL_SYSTEM_CARD_2_US_EO NULL
-#define OPTION_VAL_SYSTEM_CARD_3_US_EO NULL
-#define PCE_FAST_CDSPEED_LABEL_EO NULL
-#define PCE_FAST_CDSPEED_LABEL_CAT_EO NULL
-#define PCE_FAST_CDSPEED_INFO_0_EO NULL
+#define OPTION_VAL_SYSTEM_CARD_2_US_EO "System Card 2 (usono)"
+#define OPTION_VAL_SYSTEM_CARD_3_US_EO "System Card 3 (usono)"
+#define PCE_FAST_CDSPEED_LABEL_EO "(KD) KD-a rapido"
+#define PCE_FAST_CDSPEED_LABEL_CAT_EO "KD-a rapido"
+#define PCE_FAST_CDSPEED_INFO_0_EO "Pli altaj valoroj ebligas pli rapidajn ŝargotempojn, sed povas kaŭzi problemojn kun kelkaj ludoj."
 #define OPTION_VAL_1_EO NULL
 #define OPTION_VAL_2_EO NULL
 #define OPTION_VAL_4_EO NULL
 #define OPTION_VAL_8_EO NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_EO NULL
-#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EO NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_0_EO NULL
-#define PCE_FAST_ADPCMVOLUME_INFO_1_EO NULL
-#define PCE_FAST_ADPCMLP_LABEL_EO NULL
-#define PCE_FAST_ADPCMLP_LABEL_CAT_EO NULL
-#define PCE_FAST_ADPCMLP_INFO_0_EO NULL
-#define PCE_FAST_ADPCMLP_INFO_1_EO NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_EO NULL
-#define PCE_FAST_CDDAVOLUME_LABEL_CAT_EO NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_EO NULL
-#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_EO NULL
-#define PCE_FAST_CDIGNOREERRORS_LABEL_EO NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_EO NULL
-#define PCE_FAST_NOSPRITELIMIT_LABEL_EO NULL
-#define PCE_FAST_NOSPRITELIMIT_INFO_0_EO NULL
-#define PCE_FAST_OCMULTIPLIER_LABEL_EO NULL
-#define PCE_FAST_OCMULTIPLIER_INFO_0_EO NULL
+#define PCE_FAST_ADPCMVOLUME_LABEL_EO "(KD) volumeno de ADPCM (%)"
+#define PCE_FAST_ADPCMVOLUME_LABEL_CAT_EO "Volumeno de ADPCM (%)"
+#define PCE_FAST_ADPCMVOLUME_INFO_0_EO "Nur por KD-aj ludoj. Agordi ĉi tiun volumenregilon tro alte povus saturi la sonpecojn."
+#define PCE_FAST_ADPCMVOLUME_INFO_1_EO "Agordi ĉi tiun volumenregilon tro alte povus saturi la sonpecojn."
+#define PCE_FAST_ADPCMLP_LABEL_EO "(KD) Malaltpasa filtrilo de ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_EO "Malaltpasa filtrilo de ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_EO "Nur por KD-aj ludoj. Aplikas malaltpasan filtrilon al ludado de sonpecoj de KD-a ADPCM, malpliigante altoftecan malglatigon. La limo skaliĝos kun la sonpeca ofteco de la ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_EO "Aplikas malaltpasan filtrilon al ludado de sonpecoj de KD-a ADPCM, malpliigante altoftecan malglatigon. La limo skaliĝos kun la sonpeca ofteco de la ADPCM."
+#define PCE_FAST_CDDAVOLUME_LABEL_EO "(KD) Volumeno de CDDA (%)"
+#define PCE_FAST_CDDAVOLUME_LABEL_CAT_EO "Volumeno de CDDA (%)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_EO "(KD) Volumeno de PSG (%)"
+#define PCE_FAST_CDPSGVOLUME_LABEL_CAT_EO "Volumeno de PSG de KD (%)"
+#define PCE_FAST_CDIGNOREERRORS_LABEL_EO "Ignori erarojn EDC/L-EC de KD"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_EO "Ignori erarojn EDC/L-EC. Bezonata por kongrueco kun kelkaj kodumoj."
+#define PCE_FAST_NOSPRITELIMIT_LABEL_EO "Sen limo de \"sprites\""
+#define PCE_FAST_NOSPRITELIMIT_INFO_0_EO "Forigu la limon de 16 \"sprites\" per skanlinio. AVERTO: ĉi tio povas kaŭzi grafikajn missignalojn en kelkaj ludoj."
+#define PCE_FAST_OCMULTIPLIER_LABEL_EO "Obligilo de ĉefprocesora trorapidigo (bezonas restaratigon)"
+#define PCE_FAST_OCMULTIPLIER_INFO_0_EO "Pli altaj valoroj povas malpliigi malrapidigojn en ludoj. AVERTO: povas kaŭzi missignalojn kaj kolapsojn."
 
 struct retro_core_option_v2_category option_cats_eo[] = {
    {
