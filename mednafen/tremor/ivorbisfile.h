@@ -25,7 +25,6 @@ extern "C"
 
 #include "ivorbiscodec.h"
 
-#define CHUNKSIZE 1024
 /* The function prototypes for the callbacks are basically the same as for
  * the C stdio functions fread, fseek, fclose, ftell, but the file is
  * accessed through a host-supplied datasource rather than a FILE *.

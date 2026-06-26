@@ -27,6 +27,8 @@
 #include "os.h"
 #include "misc.h"
 
+#define CHUNKSIZE 1024
+
 #define VORBIS_SEEK_SET 0
 #define VORBIS_SEEK_CUR 1
 #define VORBIS_SEEK_END 2
