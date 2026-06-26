@@ -8,12 +8,12 @@ CORE_EMU_DIR      := $(MEDNAFEN_DIR)/pce_fast
 CDROM_DIR         := $(MEDNAFEN_DIR)/cdrom
 
 INCFLAGS := -I$(CORE_DIR) \
-				-I$(MEDNAFEN_DIR) \
-				-I$(MEDNAFEN_DIR)/include \
-				-I$(MEDNAFEN_DIR)/hw_sound \
-				-I$(MEDNAFEN_DIR)/hw_cpu \
-				-I$(MEDNAFEN_DIR)/hw_misc \
-				-I$(LIBRETRO_COMM_DIR)/include
+	    -I$(MEDNAFEN_DIR) \
+	    -I$(MEDNAFEN_DIR)/include \
+	    -I$(MEDNAFEN_DIR)/hw_sound \
+	    -I$(MEDNAFEN_DIR)/hw_cpu \
+	    -I$(MEDNAFEN_DIR)/hw_misc \
+	    -I$(LIBRETRO_COMM_DIR)/include
 
 LIBCHDR_INCFLAGS = \
 	-I$(DEPS_DIR)/lzma-19.00/include \
@@ -59,9 +59,8 @@ ifneq (,$(findstring msvc2003,$(platform)))
 endif
 
 ifeq ($(HAVE_CDROM), 1)
-	SOURCES_C += \
-					$(LIBRETRO_COMM_DIR)/cdrom/cdrom.c \
-					$(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_cdrom.c
+	SOURCES_C += $(LIBRETRO_COMM_DIR)/cdrom/cdrom.c \
+		     $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation_cdrom.c
 endif
 
 ifneq ($(HAVE_GRIFFIN), 1)
@@ -79,20 +78,8 @@ ifeq ($(NEED_BLIP), 1)
 	SOURCES_C += $(MEDNAFEN_DIR)/sound/Blip_Buffer.c
 endif
 
-ifeq ($(HAVE_HES), 1)
-	SOURCES_CXX += $(CORE_EMU_DIR)/hes.cpp
-endif
-
 ifeq ($(NEED_DEINTERLACER), 1)
 	FLAGS += -DNEED_DEINTERLACER
-endif
-
-ifeq ($(NO_COMPUTED_GOTO), 1)
-	FLAGS += -DNO_COMPUTED_GOTO
-endif
-
-ifeq ($(NEED_STEREO_SOUND), 1)
-	FLAGS += -DWANT_STEREO_SOUND
 endif
 
 ifeq ($(FRONTEND_SUPPORTS_RGB565), 1)
