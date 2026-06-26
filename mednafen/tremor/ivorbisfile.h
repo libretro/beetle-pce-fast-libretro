@@ -11,7 +11,7 @@
  *                                                                  *
  ********************************************************************
 
- function: stdio-based convenience library for opening/seeking/decoding
+ function: callback-based library for opening/seeking/decoding
 
  ********************************************************************/
 
@@ -27,11 +27,11 @@ extern "C"
 
 #define CHUNKSIZE 1024
 /* The function prototypes for the callbacks are basically the same as for
- * the stdio functions fread, fseek, fclose, ftell. 
- * The one difference is that the FILE * arguments have been replaced with
- * a void * - this is to be used as a pointer to whatever internal data these
- * functions might need. In the stdio case, it's just a FILE * cast to a void *
- * 
+ * the C stdio functions fread, fseek, fclose, ftell, but the file is
+ * accessed through a host-supplied datasource rather than a FILE *.
+ * The void * datasource argument is a pointer to whatever internal data
+ * these functions need (for this core, a VFS-backed cdstream).
+ *
  * If you use other functions, check the docs for these functions and return
  * the right values. For seek_func(), you *MUST* return -1 if the stream is
  * unseekable
@@ -50,13 +50,13 @@ typedef struct {
 #define  INITSET   4
 
 typedef struct OggVorbis_File {
-  void            *datasource; /* Pointer to a FILE *, etc. */
+  void            *datasource; /* host datasource handle (cdstream*) */
   int              seekable;
   int64_t      offset;
   int64_t      end;
   ogg_sync_state   oy;
 
-  /* If the FILE handle isn't seekable (eg, a pipe), only the current
+  /* If the datasource isn't seekable (eg, a pipe), only the current
      stream appears */
   int              links;
   int64_t     *offsets;

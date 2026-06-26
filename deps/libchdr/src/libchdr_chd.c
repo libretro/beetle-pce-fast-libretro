@@ -49,6 +49,8 @@
 #include <libchdr/huffman.h>
 #include <zstd.h>
 
+#include <streams/file_stream.h>
+
 #include "LzmaEnc.h"
 #include "LzmaDec.h"
 #if defined(__PS3__) || defined(__PSL1GHT__)
@@ -1737,7 +1739,7 @@ static INLINE void map_extract_old(const uint8_t *base, map_entry *entry, uint32
     chd_open_file - open a CHD file for access
 -------------------------------------------------*/
 
-CHD_EXPORT chd_error chd_open_file(FILE *file, int mode, chd_file *parent, chd_file **chd) {
+CHD_EXPORT chd_error chd_open_file(RFILE *file, int mode, chd_file *parent, chd_file **chd) {
 	core_file *stream = malloc(sizeof(core_file));
 	if (!stream)
 		return CHDERR_OUT_OF_MEMORY;
@@ -3218,13 +3220,16 @@ static void zlib_allocator_free(voidpf opaque)
 }
 
 /*-------------------------------------------------
-	core_stdio_fopen - core_file wrapper over fopen
+	core_stdio_fopen - core_file wrapper over the
+	libretro VFS (filestream)
 -------------------------------------------------*/
 static core_file *core_stdio_fopen(char const *path) {
 	core_file *file = malloc(sizeof(core_file));
 	if (!file)
 		return NULL;
-	if (!(file->argp = fopen(path, "rb"))) {
+	if (!(file->argp = filestream_open(path,
+			RETRO_VFS_FILE_ACCESS_READ,
+			RETRO_VFS_FILE_ACCESS_HINT_NONE))) {
 		free(file);
 		return NULL;
 	}
@@ -3237,56 +3242,37 @@ static core_file *core_stdio_fopen(char const *path) {
 
 /*-------------------------------------------------
 	core_stdio_fsize - core_file function for
-	getting file size with stdio
+	getting file size via the libretro VFS
 -------------------------------------------------*/
 static uint64_t core_stdio_fsize(core_file *file) {
-#if defined USE_LIBRETRO_VFS
-	#define core_stdio_fseek_impl fseek
-	#define core_stdio_ftell_impl ftell
-#elif defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WIN64__)
-	#define core_stdio_fseek_impl _fseeki64
-	#define core_stdio_ftell_impl _ftelli64
-#elif defined(_LARGEFILE_SOURCE) && defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS == 64
-	#define core_stdio_fseek_impl fseeko64
-	#define core_stdio_ftell_impl ftello64
-#elif defined(__PS3__) && !defined(__PSL1GHT__) || defined(__SWITCH__) || defined(__vita__)
-	#define core_stdio_fseek_impl(x,y,z) fseek(x,(off_t)y,z)
-	#define core_stdio_ftell_impl(x) (off_t)ftell(x)
-#else
-	#define core_stdio_fseek_impl fseeko
-	#define core_stdio_ftell_impl ftello
-#endif
-	FILE *fp;
-	uint64_t p, rv;
-	fp = (FILE*)file->argp;
-
-	p = core_stdio_ftell_impl(fp);
-	core_stdio_fseek_impl(fp, 0, SEEK_END);
-	rv = core_stdio_ftell_impl(fp);
-	core_stdio_fseek_impl(fp, p, SEEK_SET);
-	return rv;
+	return (uint64_t)filestream_get_size((RFILE*)file->argp);
 }
 
 /*-------------------------------------------------
-	core_stdio_fread - core_file wrapper over fread
+	core_stdio_fread - core_file wrapper over the
+	libretro VFS read
 -------------------------------------------------*/
 static size_t core_stdio_fread(void *ptr, size_t size, size_t nmemb, core_file *file) {
-	return fread(ptr, size, nmemb, (FILE*)file->argp);
+	int64_t rv = filestream_read((RFILE*)file->argp, ptr, (int64_t)(size * nmemb));
+	if (rv <= 0)
+		return 0;
+	return (size_t)rv / size;
 }
 
 /*-------------------------------------------------
-	core_stdio_fclose - core_file wrapper over fclose
+	core_stdio_fclose - core_file wrapper over the
+	libretro VFS close
 -------------------------------------------------*/
 static int core_stdio_fclose(core_file *file) {
-	int err = fclose((FILE*)file->argp);
+	int err = filestream_close((RFILE*)file->argp);
 	if (err == 0)
 		free(file);
 	return err;
 }
 
 /*-------------------------------------------------
-	core_stdio_fclose_nonowner - don't call fclose because
-		we don't own the underlying file, but do free the
+	core_stdio_fclose_nonowner - don't close because
+		we don't own the underlying stream, but do free the
 		core_file because libchdr did allocate that itself.
 -------------------------------------------------*/
 static int core_stdio_fclose_nonowner(core_file *file) {
@@ -3295,8 +3281,16 @@ static int core_stdio_fclose_nonowner(core_file *file) {
 }
 
 /*-------------------------------------------------
-	core_stdio_fseek - core_file wrapper over fclose
+	core_stdio_fseek - core_file wrapper over the
+	libretro VFS seek
 -------------------------------------------------*/
 static int core_stdio_fseek(core_file* file, int64_t offset, int whence) {
-	return core_stdio_fseek_impl((FILE*)file->argp, offset, whence);
+	int seekpos;
+	switch (whence) {
+		case SEEK_SET: seekpos = RETRO_VFS_SEEK_POSITION_START;   break;
+		case SEEK_CUR: seekpos = RETRO_VFS_SEEK_POSITION_CURRENT; break;
+		case SEEK_END: seekpos = RETRO_VFS_SEEK_POSITION_END;     break;
+		default:       return -1;
+	}
+	return (filestream_seek((RFILE*)file->argp, offset, seekpos) < 0) ? -1 : 0;
 }

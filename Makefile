@@ -247,7 +247,7 @@ else ifneq (,$(filter $(platform), ps3 psl1ght))
 	ifeq ($(platform), psl1ght)
 		FLAGS += -D__PSL1GHT__
 	endif
-	FLAGS += -DARCH_POWERPC_ALTIVEC -D__PS3__ -DUSE_LIBRETRO_VFS
+	FLAGS += -DARCH_POWERPC_ALTIVEC -D__PS3__
 	OLD_GCC := 1
 
 # PSP

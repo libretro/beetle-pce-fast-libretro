@@ -4,9 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <retro_inline.h>
-#ifdef USE_LIBRETRO_VFS
-#include <streams/file_stream_transforms.h>
-#endif
+#include <streams/file_stream.h>
 
 #ifndef ARRAY_LENGTH
 #define ARRAY_LENGTH(x) (sizeof(x)/sizeof(x[0]))
