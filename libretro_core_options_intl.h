@@ -11442,11 +11442,11 @@ struct retro_core_options_v2 options_en = {
 /* RETRO_LANGUAGE_EO */
 
 #define CATEGORY_VIDEO_LABEL_EO NULL
-#define CATEGORY_VIDEO_INFO_0_EO "Konfiguri ekrana stucado, filmera pretarpasado kaj aliaj parametroj de bilda eligo."
+#define CATEGORY_VIDEO_INFO_0_EO "Konfiguri ekranan stucadon, filmeran pretarpasadon kaj aliajn parametrojn de bilda eligo."
 #define CATEGORY_INPUT_LABEL_EO "Enigo"
 #define CATEGORY_INPUT_INFO_0_EO "Konfiguri enigon de \"light gun\", muso kaj NegCon."
 #define CATEGORY_HACKS_LABEL_EO "Imitadaj kodumaĵoj"
-#define CATEGORY_HACKS_INFO_0_EO "Konfiguri parametrojn de procesora trorapidigo kaj imitada precizo influantajn malaltnivela rendimenton kaj kongrueblecon."
+#define CATEGORY_HACKS_INFO_0_EO "Konfiguri parametrojn de procesora trorapidigo kaj imitada precizo influantajn malaltnivelan rendimenton kaj kongrueblecon."
 #define CATEGORY_CHANNEL_VOLUME_LABEL_EO "Altnivelaj agordoj de volumeno de kanaloj"
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_EO "Konfiguri la volumenon de individuaj aparataraj sonkanaloj."
 #define CATEGORY_CD_LABEL_EO "KD de personkomputila motoro"
@@ -27349,7 +27349,7 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_TURBO_DELAY_INFO_0_PT_BR "Ajusta o intervalo entre as ativações do turbo (em quadros)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_PT_BR "Cache de imagem do CD (requer reinício)"
 #define PCE_FAST_CDIMAGECACHE_INFO_0_PT_BR "Carrega a imagem completa na memória ao iniciar. Eventualmente, pode diminuir o tempo de carregamento ao custo de um tempo de inicialização maior."
-#define PCE_FAST_CDBIOS_LABEL_PT_BR "BIOS de CD (requer reinício)"
+#define PCE_FAST_CDBIOS_LABEL_PT_BR "BIOS de CD (Requer Reinicialização)"
 #define PCE_FAST_CDBIOS_INFO_0_PT_BR "A maioria dos jogos podem rodar em \"System Card 3\". \"Games Express\" é necessário para vários jogos não licenciados."
 #define OPTION_VAL_GAMES_EXPRESS_PT_BR NULL
 #define OPTION_VAL_SYSTEM_CARD_1_PT_BR NULL
@@ -27380,7 +27380,7 @@ struct retro_core_options_v2 options_pl = {
 #define PCE_FAST_CDIGNOREERRORS_INFO_0_PT_BR "Ignorar erros de EDC/L-EC. Necessário para compatibilidade com alguns hacks."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_PT_BR "Sem limite de sprites"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_PT_BR "Remove o limite de hardware de 16 sprites por linha de verificação. ATENÇÃO: pode causar falhas gráficas em alguns jogos."
-#define PCE_FAST_OCMULTIPLIER_LABEL_PT_BR "Multiplicador do Overclock de CPU (requer reinício)"
+#define PCE_FAST_OCMULTIPLIER_LABEL_PT_BR "Multiplicador de Overclock da CPU (Requer reinicialização)"
 #define PCE_FAST_OCMULTIPLIER_INFO_0_PT_BR "Valores maiores podem reduzir a lentidão em jogos. ATENÇÃO: podem causar falhas e fechar o jogo."
 
 struct retro_core_option_v2_category option_cats_pt_br[] = {
@@ -37011,7 +37011,7 @@ struct retro_core_options_v2 options_val = {
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_LABEL_VN "Loại tay cầm mặc định cho cổng 5"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P5_INFO_0_VN "Chọn mặc định tay cầm cổng 5 sẽ là 2 hay 6 nút. Tùy chọn này chỉ áp dụng khi core khởi động, nếu muốn chuyển đổi trong lúc nội dung đang chạy, hãy dùng nút “Chuyển chế độ”. LƯU Ý: Tay cầm 6 nút có thể hoạt động bất thường trong các trò chơi không tương thích."
 #define PCE_FAST_TURBO_TOGGLING_LABEL_VN "Bật/tắt tự động nhấn nhanh"
-#define PCE_FAST_TURBO_TOGGLING_INFO_0_VN "Bật phím tắt chuyển đổi chế độ tự động nhấn nhanh (nút III và IV)."
+#define PCE_FAST_TURBO_TOGGLING_INFO_0_VN "Bật phím tắt chuyển đổi chế độ tự động bắn nhanh (nút III và IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_VN "Phím tắt tự động nhấn nhanh thay thế"
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_VN "Gán nút L3/R3 của tay cầm làm phím tắt chuyển đổi tự động nhấn nhanh thay vì nút III và IV. Chỉ hoạt động nếu L3/R3 chưa được gán chức năng khác. Bạn có thể tránh việc phải gán lại nút III và IV khi chuyển sang chế độ tay cầm 6 nút bằng tùy chọn này."
 #define PCE_FAST_TURBO_DELAY_LABEL_VN "Độ trễ tự động nhấn nhanh"
