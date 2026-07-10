@@ -11522,7 +11522,7 @@ struct retro_core_options_v2 options_en = {
 #define PCE_FAST_TURBO_TOGGLING_LABEL_EO "Ŝalti adan aktivigon"
 #define PCE_FAST_TURBO_TOGGLING_INFO_0_EO "Ebligi la fulmoklavojn ŝalti adan aktivigon (butonoj III kaj IV)."
 #define PCE_FAST_TURBO_TOGGLE_HOTKEY_LABEL_EO "Alternativa fulmoklavo de ada aktivigo"
-#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EO "Asigni la butonojn L3/R3 de RetroPad kiel fulmoklavoj de ada aktivigo anstataŭ la butonoj III kaj IV. Nur funkcias dum nenio estas asignita al la butonojn L3/R3. Oni povas eviti reasigni la butnojn III kaj IV kiam ŝanĝante al reĝimo de 6-butona regilo per ĉi tio."
+#define PCE_FAST_TURBO_TOGGLE_HOTKEY_INFO_0_EO "Asigni la butonojn L3/R3 de RetroPad kiel fulmoklavoj de ada aktivigo anstataŭ la butonoj III kaj IV. Nur funkcias dum nenio estas asignita al la butonoj L3/R3. Oni povas eviti reasigni la butonojn III kaj IV kiam ŝanĝante al reĝimo de 6-butona regilo per ĉi tio."
 #define PCE_FAST_TURBO_DELAY_LABEL_EO "Prokrasto de ada aktivigo"
 #define PCE_FAST_TURBO_DELAY_INFO_0_EO "Alĝustigi la tempon inter ada aktivigo (je filmeroj)."
 #define PCE_FAST_CDIMAGECACHE_LABEL_EO "Kaŝmemoro de KD-a kopio (bezonas restartigon)"
