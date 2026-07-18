@@ -1539,16 +1539,27 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
 
    if(!strcasecmp(ext, "m3u"))
    {
-      M3UList file_list;
+      /*
+       * M3UList is 1 MiB (256 x 4096-byte paths). Keeping it on the
+       * stack causes retro_load_game() to overflow tvOS's 1 MiB main
+       * thread stack, even for ordinary HuCard content: the optimizer
+       * inlines this branch into the common load routine. Keep the list
+       * on the heap instead.
+       */
+      M3UList *file_list = calloc(1, sizeof(*file_list));
       unsigned i;
 
-      file_list.n = 0;
-
-      ReadM3U(&file_list, path, 0);
-
-      for(i = 0; i < file_list.n; i++)
+      if (!file_list)
       {
-         CDIF *cdif = CDIF_Open(file_list.paths[i], cdimagecache);
+         log_cb(RETRO_LOG_ERROR, "Unable to allocate M3U track list.\n");
+         return false;
+      }
+
+      ReadM3U(file_list, path, 0);
+
+      for(i = 0; i < file_list->n; i++)
+      {
+         CDIF *cdif = CDIF_Open(file_list->paths[i], cdimagecache);
 
          /* Do not push NULL interfaces into the vector: they would be
           * dereferenced by LoadCD()/PCECD_Drive_SetDisc() and deleted on
@@ -1556,13 +1567,15 @@ static bool MDFNI_LoadCD(const char *path, const char *ext)
          if (!cdif)
          {
             log_cb(RETRO_LOG_ERROR, "Error opening CD referenced by M3U: %s\n",
-                  file_list.paths[i]);
+                  file_list->paths[i]);
             continue;
          }
 
          cdifvec_push(&CDInterfaces, cdif);
          ret = true;
       }
+
+      free(file_list);
    }
    else
    {
