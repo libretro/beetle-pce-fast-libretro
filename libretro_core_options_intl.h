@@ -31764,7 +31764,7 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_ADPCMVOLUME_INFO_0_SV "Endast CD-spel. Ifall du ställer in volymen för högt kan ljudkvaliteten försämras och leda till samplingsklippning."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_SV "Ifall du ställer in volymen för högt kan ljudkvaliten försämras och leda till samplingsklippning."
 #define PCE_FAST_ADPCMLP_LABEL_SV NULL
-#define PCE_FAST_ADPCMLP_LABEL_CAT_SV NULL
+#define PCE_FAST_ADPCMLP_LABEL_CAT_SV "ADPCM Lågpassfilter"
 #define PCE_FAST_ADPCMLP_INFO_0_SV NULL
 #define PCE_FAST_ADPCMLP_INFO_1_SV NULL
 #define PCE_FAST_CDDAVOLUME_LABEL_SV "(CD) CDDA Volym %"
