@@ -35279,16 +35279,16 @@ struct retro_core_options_v2 options_tt = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_UK "Гучність ADPCM %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_UK "Гра CD тільки встановили цей контроль гучності занадто високо може викликати обрізання вибірки."
 #define PCE_FAST_ADPCMVOLUME_INFO_1_UK "Якщо встановити цей контроль гучності занадто високий, це може призвести до відключення зразків."
-#define PCE_FAST_ADPCMLP_LABEL_UK NULL
-#define PCE_FAST_ADPCMLP_LABEL_CAT_UK NULL
-#define PCE_FAST_ADPCMLP_INFO_0_UK NULL
-#define PCE_FAST_ADPCMLP_INFO_1_UK NULL
+#define PCE_FAST_ADPCMLP_LABEL_UK "(CD) Низькочастотний фільтр ADPCM"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_UK "Фільтр нижніх частот ADPCM"
+#define PCE_FAST_ADPCMLP_INFO_0_UK "Тільки для ігор на CD. Застосовує фільтр нижніх частот до відтворення зразків ADPCM з CD, зменшуючи ефекти аліасингу та різкість у високих частотах. Частота зрізу змінюється пропорційно до частоти дискретизації зразків ADPCM."
+#define PCE_FAST_ADPCMLP_INFO_1_UK "Застосовує фільтр нижніх частот до відтворення зразків CD ADPCM, зменшуючи ефекти накладення та різкість у високих частотах."
 #define PCE_FAST_CDDAVOLUME_LABEL_UK "(CD) Гучність CDDA %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_UK "Гучність CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_UK "(CD) Гучність PSG %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_UK "Гучність PSG %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_UK NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_UK NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_UK "CD: Ігнорувати помилки EDC/L-EC"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_UK "Ігнорувати помилки EDC/L-EC. Це необхідно для сумісності з деякими гаками."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_UK "Ліміт спрайтів немає"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_UK "Видалення апаратного обмеження 16-спрайтів по сканеру. УВАГА: Може призвести до зміщення графіки в деяких іграх."
 #define PCE_FAST_OCMULTIPLIER_LABEL_UK "Мультиплікатор процесора (потрібен перезапуск)"
