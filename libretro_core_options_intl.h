@@ -31771,8 +31771,8 @@ struct retro_core_options_v2 options_sr = {
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_SV "Volym för CDDA %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_SV "(CD) PSG Volym %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_SV "Volym för CD PSG %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_SV NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_SV NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_SV "Ignorera CD-fel av typen EDC/L-EC"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_SV "Ignorera EDC/L-EC-fel. Krävs för kompatibilitet med vissa hack."
 #define PCE_FAST_NOSPRITELIMIT_LABEL_SV "Ingen blockfigursgräns"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_SV "Ta bort hårdvarubegränsningen på 16 sprites per skanningslinje. VARNING!: Kan orsaka grafikfel i vissa spel."
 #define PCE_FAST_OCMULTIPLIER_LABEL_SV "CPU-överklockningsmultiplikator (Omstart krävs)"
