@@ -4514,16 +4514,16 @@ struct retro_core_options_v2 options_ca = {
 #define PCE_FAST_ADPCMVOLUME_LABEL_CAT_CHS "ADPCM 音量 %"
 #define PCE_FAST_ADPCMVOLUME_INFO_0_CHS "仅适用于 CD 游戏。音量设置过高可能导致音频削波（失真）。"
 #define PCE_FAST_ADPCMVOLUME_INFO_1_CHS "音量设置过高可能导致音频削波（失真）。"
-#define PCE_FAST_ADPCMLP_LABEL_CHS NULL
-#define PCE_FAST_ADPCMLP_LABEL_CAT_CHS NULL
-#define PCE_FAST_ADPCMLP_INFO_0_CHS NULL
-#define PCE_FAST_ADPCMLP_INFO_1_CHS NULL
+#define PCE_FAST_ADPCMLP_LABEL_CHS "(CD) ADPCM 低通滤波器"
+#define PCE_FAST_ADPCMLP_LABEL_CAT_CHS "ADPCM 低通滤波器"
+#define PCE_FAST_ADPCMLP_INFO_0_CHS "仅适用于 CD 游戏。对 CD 的 ADPCM 采样回放施加一个低通滤波器，以减少高频混叠与刺耳感。截止频率会随 ADPCM 采样率自动缩放。"
+#define PCE_FAST_ADPCMLP_INFO_1_CHS "对 CD 的 ADPCM 采样回放施加一个低通滤波器，以减少高频混叠与刺耳感。"
 #define PCE_FAST_CDDAVOLUME_LABEL_CHS "（CD）CDDA 音量 %"
 #define PCE_FAST_CDDAVOLUME_LABEL_CAT_CHS "CDDA 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CHS "（CD）PSG 音量 %"
 #define PCE_FAST_CDPSGVOLUME_LABEL_CAT_CHS "PSG 音量 %"
-#define PCE_FAST_CDIGNOREERRORS_LABEL_CHS NULL
-#define PCE_FAST_CDIGNOREERRORS_INFO_0_CHS NULL
+#define PCE_FAST_CDIGNOREERRORS_LABEL_CHS "CD 忽略 EDC/L-EC 错误"
+#define PCE_FAST_CDIGNOREERRORS_INFO_0_CHS "忽略 EDC/L-EC 数据校验错误。兼容部分改版/汉化游戏镜像时需要开启此项。"
 #define PCE_FAST_NOSPRITELIMIT_LABEL_CHS "取消精灵数量限制"
 #define PCE_FAST_NOSPRITELIMIT_INFO_0_CHS "取消每扫描线最多 16 个精灵的硬件限制。警告：可能导致部分游戏出现图像异常。"
 #define PCE_FAST_OCMULTIPLIER_LABEL_CHS "CPU 超频倍率（需重启）"
