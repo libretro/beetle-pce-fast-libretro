@@ -903,7 +903,7 @@ struct retro_core_options_v2 options_ar = {
 #define CATEGORY_CHANNEL_VOLUME_INFO_0_AST NULL
 #define CATEGORY_CD_LABEL_AST NULL
 #define CATEGORY_CD_INFO_0_AST "Configura les opciones rellacionaes cola emulación de PC Engine CD."
-#define PCE_FAST_PALETTE_LABEL_AST NULL
+#define PCE_FAST_PALETTE_LABEL_AST "Paleta de colores"
 #define PCE_FAST_PALETTE_INFO_0_AST "El videu compuestu tenta de recrear la salida orixinal de la consola ya pue amosar más detalles en dalgunos xuegos."
 #define OPTION_VAL_RGB_AST NULL
 #define OPTION_VAL_COMPOSITE_AST NULL
@@ -961,8 +961,8 @@ struct retro_core_options_v2 options_ar = {
 #define PCE_FAST_DISABLE_SOFTRESET_INFO_0_AST NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_LABEL_AST NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P1_INFO_0_AST NULL
-#define OPTION_VAL_2_BUTTONS_AST NULL
-#define OPTION_VAL_6_BUTTONS_AST NULL
+#define OPTION_VAL_2_BUTTONS_AST "2 botones"
+#define OPTION_VAL_6_BUTTONS_AST "6 botones"
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_LABEL_AST NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P2_INFO_0_AST NULL
 #define PCE_FAST_DEFAULT_JOYPAD_TYPE_P3_LABEL_AST NULL
